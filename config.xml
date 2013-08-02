@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.jernung.alpha.skritter" version="0.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    
+    <name>Skritter</name>
+    
+    <description>
+	The write way to learn Chinese and Japanese.
+    </description>
+    
+    <author email="mcfarljw@gmail.com" href="http://www.skritter.com">
+	Joshua McFarland
+    </author>
+    
+    <access origin="*" />
+    
+    <content src="index-cordova.html" />
+    
+    <preference name="fullscreen" value="true" />
+    <preference name="webviewbounce" value="true" />
+    
+</widget>
