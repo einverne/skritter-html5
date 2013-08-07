@@ -24,9 +24,6 @@ define([
 	    //components
 	    StudyView.prompt = new PromptView({ el: $('#prompt') });
 	    StudyView.studyBar = new StudyBarView();
-	    
-	    //change the study view based on resizing
-	    window.onresize = this.resize;
 	},
 		
 	template: _.template(templateStudy),
@@ -84,24 +81,16 @@ define([
 	    StudyView.currentItems.sort();
 	    
 	    //StudyView.currentItems = StudyView.currentItems.filterBy('part', ['rune']);
-	    //StudyView.currentItems = StudyView.currentItems.filterBy('id', ['mcfarljwtest1-zh-你-0-rune']);
+	    //StudyView.currentItems = StudyView.currentItems.filterBy('id', ['mcfarljwtest1-zh-处-0-rune']);
 	},
 		
 	next: function() {
 	    StudyView.currentItem = StudyView.currentItems.at(0);
-	    console.log(StudyView.currentItem);
 	    StudyView.currentVocab = StudyView.currentItem.getStudyVocabs();
-	    console.log(StudyView.currentVocab);
 	    console.log('Prompt: '+ StudyView.currentVocab[0].get('writing') + ' (' + StudyView.currentItem.get('style') + ',' +  StudyView.currentItem.get('part') + ')');
 	    console.log('Readiness: ' + StudyView.currentItem.getReadiness());
-	    
 	    //load the new prompt
 	    StudyView.prompt.load(StudyView.currentItem, StudyView.currentVocab);
-	},
-		
-	resize: function() {
-	    Skritter.application.resize();
-	    Skritter.frame.study();
 	}
 	
     });

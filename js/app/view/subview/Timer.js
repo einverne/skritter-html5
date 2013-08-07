@@ -8,6 +8,7 @@
 define([
     'backbone'
 ], function() {
+    var Skritter = window.skritter;
     
     var TimerView = Backbone.View.extend({
 	
@@ -24,13 +25,17 @@ define([
 	    return this;
 	},
 		
+	getDuration: function() {
+	    return TimerView.lapCounter;
+	},
+		
 	setLimit: function(seconds) {
 	    TimerView.limit = seconds;
 	},
 		
 	start: function() {
 	    if (!TimerView.timer)
-		TimerView.timer = setInterval(_.bind(this.update, this), 1000);
+		TimerView.timer = window.setInterval(_.bind(this.update, this), 1000);
 	},
 		
 	stop: function() {
@@ -60,7 +65,7 @@ define([
 	    s = Math.floor(time / 1000);
 	    //ms = time % 1000;
 	    
-	    TimerView.display = m + ':' + zeroPad(s, 2);
+	    TimerView.display = m + ':' + Skritter.fn.zeroPad(s, 2);
 	    this.render();
 	}
 	

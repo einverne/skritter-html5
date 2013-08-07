@@ -12,12 +12,41 @@ define([
    
     var StudyItem = Backbone.Model.extend({
 	
-	getReadiness: function() {
-	    //todo: make more robust and accurate
-	    var since = Skritter.fn.getUnixTime() - this.get('last');
-	    var rtd = this.get('next') - this.get('last');
-	    var r = since / rtd;
-	    return r;
+	initialize: function() {
+	    this.on('change:interval', function(item) {
+		Skritter.storage.setItem('items', item.toJSON());
+	    });
+	},
+	
+	getReadiness: function(deprioritizeLongShots) {
+	    var last = this.get('last');
+	    var next = this.get('next');
+	    var now = Skritter.fn.getUnixTime();
+	    
+	    if (!last && next - now > 600)
+		return 0.2;
+	    
+	    if (!last || next - last === 1)
+		return 90019001;
+    
+	    var seenAgo =  now - last;
+	    var rtd = next - last;
+	    var readiness = seenAgo / rtd;
+	    
+	    if (readiness < 0 && rtd > 1)
+	    {
+		readiness = 0.7;
+	    }
+	    
+	    if (readiness > 0.0 && seenAgo > 9000.0) {
+		//todo
+	    }
+	    
+	    if (deprioritizeLongShots) {
+		//todo
+	    }
+	    
+	    return readiness;
 	},
 	
 	getStudyVocabs: function() {

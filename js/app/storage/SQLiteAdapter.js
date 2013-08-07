@@ -5,7 +5,9 @@
  * Created By: Joshua McFarland
  * 
  */
-define(function() {
+define([
+    'lodash'
+], function() {
     
     var openDatabase = function(databaseName, databaseVersion, callback) {
 	var database = window.openDatabase(databaseName, databaseVersion, databaseName, 52428800);
@@ -43,7 +45,7 @@ define(function() {
 	database.transaction(query, error);
 	
 	function error(error) {
-	    console.log(JSON.stringify(error));
+	    console.error(error);
 	}
 	
 	function query(tx) {
@@ -54,17 +56,175 @@ define(function() {
 	    var results = [];
 	    for (var i=0; i < result.rows.length; i++)
 	    {
-		var item = result.rows.item(i);
-		if (tableName === 'items') {
-		    item.vocabIds = JSON.parse(item.vocabIds);
+		var item = _.cloneDeep(result.rows.item(i));
+		
+		//DECOMPS
+		if (tableName === 'decomps') {
+		    item['Children'] = JSON.parse(item['Children']);
 		}
+		//ITEMS
+		if (tableName === 'items') {
+		    item['vocabIds'] = JSON.parse(item['vocabIds']);
+		    item['vocabListIds'] = JSON.parse(item['vocabListIds']);
+		    item['sectionIds'] = JSON.parse(item['sectionIds']);
+		}
+		//SENTENCES
+		if (tableName === 'sentences') {
+		    item['containedVocabIds'] = item['containedVocabIds'].split(',');
+		    item['definitions'] = JSON.parse(item['definitions']);
+		}
+		//SRSCONFIGS
+		if (tableName === 'srsconfigs') {
+		    item['rightFactors'] = item['rightFactors'].split(',');
+		    item['wrongFactors'] = item['wrongFactors'].split(',');
+		}
+		//STROKES
+		if (tableName === 'strokes') {
+		    item['strokes'] = JSON.parse(item['strokes']);
+		}
+		//VOCABS
+		if (tableName === 'vocabs') {
+		    item['containedVocabIds'] = item['containedVocabIds'].split(',');
+		    item['definitions'] = JSON.parse(item['definitions']);
+		    if (item['topMnemonic'] !== 'undefined') {
+			item['topMnemonic'] = JSON.parse(item['topMnemonic']);
+		    } else {
+			delete item['topMnemonic'];
+		    }
+		}
+		
 		results.push(item);
 	    }
 	    callback(results);
 	}
 	
 	function queryError(error) {
-	    console.log(JSON.stringify(error));
+	    console.error(error);
+	}
+    };
+    
+    var setItem = function(database, tableName, item, callback) {
+	database.transaction(query, error);
+	
+	function error(error) {
+	    console.error(error);
+	}
+	
+	function query(tx) {
+		//DECOMPS
+		if (tableName === 'decomps') {
+		    tx.executeSql("INSERT OR REPLACE INTO decomps (writing,atomic,Children) VALUES (?,?,?)",[
+			item.writing,
+			item.atomic,
+			JSON.stringify(item.Children)
+		    ], querySuccess, queryError);
+		}
+		//ITEMS
+		if (tableName === 'items') {
+		    tx.executeSql("INSERT OR REPLACE INTO items (id,part,vocabIds,style,timeStudied,next,last,interval,vocabListIds,sectionIds,reviews,successes,created,changed,previousSuccess,previousInterval) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[
+			item.id,
+			item.part,
+			JSON.stringify(item.vocabIds),
+			item.style,
+			item.timeStudied,
+			item.next,
+			item.last,
+			item.interval,
+			JSON.stringify(item.vocabListIds),
+			JSON.stringify(item.sectionIds),
+			item.reviews,
+			item.successes,
+			item.created,
+			item.changed,
+			item.previousSuccess,
+			item.previousInterval
+		    ], querySuccess, queryError);
+		}
+		//REVIEWS
+		if (tableName === 'reviews') {
+		    tx.executeSql("INSERT OR REPLACE INTO reviews (itemId,score,bearTime,submitTime,reviewTime,thinkingTime,currentInterval,actualInterval,newInterval,wordGroup,previousInterval,previousSuccess) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[
+			item.itemId,
+			item.score,
+			item.bearTime,
+			item.submitTime,
+			item.reviewTime,
+			item.thinkingTime,
+			item.currentInterval,
+			item.actualInterval,
+			item.newInterval,
+			item.wordGroup,
+			item.previousInterval,
+			item.previousSuccess
+		    ], querySuccess, queryError);
+		}
+		//SRSCONFIGS
+		if (tableName === 'srsconfigs') {
+		    tx.executeSql("INSERT OR REPLACE INTO srsconfigs (part,lang,initialRightInterval,initialWrongInterval,rightFactors,wrongFactors) VALUES (?,?,?,?,?,?)",[
+			item.part,
+			item.lang,
+			item.initialRightInterval,
+			item.initialWrongInterval,
+			item.rightFactors,
+			item.wrongFactors
+		    ], querySuccess, queryError);
+		}
+		//SENTENCES
+		if (tableName === 'sentences') {
+		    tx.executeSql("INSERT OR REPLACE INTO sentences (id,containedVocabIds,definitions,lang,reading,starred,style,toughness,toughnessString,writing) VALUES (?,?,?,?,?,?,?,?,?,?)",[
+			item.id,
+			item.containedVocabIds,
+			JSON.stringify(item.definitions),
+			item.lang,
+			item.reading,
+			item.starred,
+			item.style,
+			item.toughness,
+			item.toughnessString,
+			item.writing
+		    ], querySuccess, queryError);
+		}
+		//STROKES
+		if (tableName === 'strokes') {
+		    tx.executeSql("INSERT OR REPLACE INTO strokes (rune, lang, strokes) VALUES (?,?,?)",[
+			item.rune,
+			item.lang,
+			JSON.stringify(item.strokes)
+		    ], querySuccess, queryError);
+		}
+		//VOCABS
+		if (tableName === 'vocabs') {
+		    tx.executeSql("INSERT OR REPLACE INTO vocabs (id,writing,reading,definitions,customDefinitions,lang,audio,rareKanji,toughness,toughnessString,mnemonic,starred,style,changed,bannedParts,containedVocabIds,heisigDefinition,sentenceId,topMnemonic) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[
+			item.id,
+			item.writing,
+			item.reading,
+			JSON.stringify(item.definitions),
+			JSON.stringify(item.customDefinitions),
+			item.lang,
+			item.audio,
+			item.rareKanji,
+			item.toughness,
+			item.toughnessString,
+			item.mnemonic,
+			item.starred,
+			item.style,
+			item.changed,
+			item.bannedParts,
+			item.containedVocabIds,
+			item.heisigDefinition,
+			item.sentenceId,
+			JSON.stringify(item.topMnemonic)
+		    ], querySuccess, queryError);
+		}
+	    
+	}
+
+	function querySuccess(tx, results) {
+	    callback(results);
+	}
+	function queryError(error) {
+	    counter++;
+	    console.error(error);
+	    callback(error);
 	}
     };
     
@@ -72,7 +232,7 @@ define(function() {
 	database.transaction(query, error);
 	
 	function error(error) {
-	    console.log('ERROR: ' + JSON.stringify(error));
+	    console.error(error);
 	}
 	
 	function query(tx) {
@@ -92,14 +252,14 @@ define(function() {
 		    tx.executeSql("INSERT OR REPLACE INTO items (id,part,vocabIds,style,timeStudied,next,last,interval,vocabListIds,sectionIds,reviews,successes,created,changed,previousSuccess,previousInterval) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[
 			item.id,
 			item.part,
-			item.vocabIds,
+			JSON.stringify(item.vocabIds),
 			item.style,
 			item.timeStudied,
 			item.next,
 			item.last,
 			item.interval,
-			item.vocabListIds,
-			item.sectionIds,
+			JSON.stringify(item.vocabListIds),
+			JSON.stringify(item.sectionIds),
 			item.reviews,
 			item.successes,
 			item.created,
@@ -188,14 +348,13 @@ define(function() {
 	
 	var counter = 0;
 	function querySuccess(tx, results) {
-	    console.log('INSERTED: ' + JSON.stringify(results));
 	    counter++;
 	    if (counter >= items.length)
 		callback();
 	}
 	function queryError(error) {
 	    counter++;
-	    console.log('ERROR: ' + JSON.stringify(error));
+	    console.error(error);
 	    if (counter >= items.length)
 		callback();
 	}
@@ -204,6 +363,7 @@ define(function() {
     return {
 	openDatabase: openDatabase,
 	getItems: getItems,
+	setItem: setItem,
 	setItems: setItems
     };
 });

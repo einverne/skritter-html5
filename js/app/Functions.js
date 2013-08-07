@@ -10,6 +10,14 @@
  */
 define(function() {
 
+    var bytesToSize = function(bytes) {
+	var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+	if (bytes === 0)
+	    return null;
+	var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+	return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    };
+
     var getDistance = function(point1, point2) {
 	var xs = point2.x - point1.x;
 	xs = Math.pow(xs, 2);
@@ -134,6 +142,7 @@ define(function() {
 
 
     return {
+	bytesToSize: bytesToSize,
 	getDistance: getDistance,
 	getDistanceToLineSegment: getDistanceToLineSegment,
 	getDirection: getDirection,

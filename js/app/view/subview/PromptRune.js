@@ -40,12 +40,15 @@ define([
 	
 	handleWritingComplete: function(grade) {
 	    PromptRuneView.canvas.disable();
-	    $(this.$el.selector + ' #rune #canvas-prompt').hammer().one('swipeleft.PromptRuneView', _.bind(this.triggerComplete, this));
-	    $(this.$el.selector + ' #rune #canvas-prompt').hammer().one('tap.PromptRuneView', _.bind(this.triggerComplete, this));
+	    $(this.$el.selector + ' #rune #canvas-area').hammer().one('swipeleft.PromptRuneView', _.bind(this.triggerComplete, this));
+	    $(this.$el.selector + ' #rune #canvas-area').hammer().one('tap.PromptRuneView', _.bind(this.triggerComplete, this));
 	    this.show(grade);
 	},
 		
 	set: function(vocab, position) {
+	    //starts the timer
+	    Skritter.timer.start();
+	    
 	    PromptRuneView.vocab = vocab;
 	    PromptRuneView.position = position;
 	    $(this.$el.selector + ' #rune #writing').html(PromptRuneView.vocab[0].getWritingDisplayAt(PromptRuneView.position));
@@ -66,6 +69,9 @@ define([
 	},
 		
 	show: function(grade) {
+	    //stops the time
+	    Skritter.timer.stop();
+    
 	    //display the grading buttons
 	    PromptRuneView.gradingButtons.setElement($(this.$el.selector + ' #rune #grading-buttons')).render();
 	    PromptRuneView.gradingButtons.select(grade);
@@ -79,6 +85,7 @@ define([
 	},
 		
 	triggerComplete: function() {
+	    console.log('prompt complete');
 	    this.trigger('complete', PromptRuneView.grade);
 	}
 	

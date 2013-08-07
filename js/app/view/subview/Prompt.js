@@ -11,21 +11,24 @@
  */
 define([
     'Scheduler',
+    'model/StudyReview',
     'view/subview/PromptDefn',
     'view/subview/PromptRdng',
     'view/subview/PromptRune',
     'view/subview/PromptTone',
     'backbone'
-], function(Scheduler, PromptDefnView, PromptRdngView, PromptRuneView, PromptToneView) {
+], function(Scheduler, StudyReview, PromptDefnView, PromptRdngView, PromptRuneView, PromptToneView) {
+    var Skritter = window.skritter;
     
     var PromptView = Backbone.View.extend({
 	
 	initialize: function() {
 	    //attributes
-	    PromptView.prompt;
 	    PromptView.item;
-	    PromptView.vocab;
 	    PromptView.position = 0;
+	    PromptView.prompt;
+	    PromptView.submitTime;
+	    PromptView.vocab;
 	    
 	    //components
 	    PromptView.scheduler = new Scheduler();
@@ -61,9 +64,10 @@ define([
 	},
 		
 	handlePositionComplete: function(grade) {
+	    console.log(Skritter.timer.getDuration());
 	    //only change the position if a rune or tone prompt
 	    if (PromptView.item.get('part') === 'rune' || PromptView.item.get('part') === 'tone') {
-		if (PromptView.vocab[0].getCharacterCount() > PromptView.position) {
+		if (PromptView.vocab[0].getCharacterCount() <= PromptView.position + 1) {
 		    this.updateItem(PromptView.item, grade);
 		    this.triggerComplete();
 		} else {
@@ -80,8 +84,15 @@ define([
 	    //sets the prompt item and vocab
 	    PromptView.item = item;
 	    PromptView.vocab = vocab;
+	    //resets the prompt
+	    this.reset();
 	    //renders the prompt once loaded
 	    this.render();
+	},
+		
+	reset: function() {
+	    PromptView.position = 0;
+	    PromptView.submitTime = Skritter.fn.getUnixTime();
 	},
 		
 	triggerComplete: function() {
@@ -89,8 +100,23 @@ define([
 	},
 		
 	updateItem: function(item, grade) {
-	    console.log('updating item');
-	    PromptView.scheduler.update(item, grade);
+	    //update the items values using the scheduler
+	    var updatedItem = PromptView.scheduler.update(item, grade);
+	    //create a review for the item to be sent to the server
+	    /*Skritter.studyReviews.add(new StudyReview({
+		itemId: item.id,
+		score: grade,
+		bearTime: true,
+		submitTime: PromptView.submitTime,
+		reviewTime: Skritter.timer.getDuration,
+		thinkingTime: Skritter.timer.getDuration,
+		currentInterval: item.previous('interval'),
+		actualInterval: Skritter.fn.getUnixTime() - item.previous('last'),
+		newInterval: item.get('interval'),
+		wordGroup: PromptView.vocab.get('writing'),
+		previousInterval: item.get('previousInterval'),
+		previousSuccess: item.get('previousSuccess')
+	    }));*/
 	}
 	
     });

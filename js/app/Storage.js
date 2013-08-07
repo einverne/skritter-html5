@@ -63,6 +63,13 @@ define([
 	});
     };
     
+    Storage.prototype.setItem = function(tableName, item, callback) {
+	this.storage.setItem(this.database, tableName, item, function(event) {
+	    if (typeof callback === 'function')
+		callback(event);
+	});
+    };
+    
     Storage.prototype.setItems = function(tableName, items, callback) {
 	if (items === undefined ||items.length === 0) {
 	    callback(0);

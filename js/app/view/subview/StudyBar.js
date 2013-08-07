@@ -29,7 +29,7 @@ define([
 	},
 		
 	events: {
-	    'click.StudyBar #home': 'home'
+	    'click.StudyBarView #home': 'home'
 	},
 		
 	home: function() {

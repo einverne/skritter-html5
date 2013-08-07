@@ -100,7 +100,10 @@ define([
     };
     
     var loadStorage = function(callback) {
-	if (_.contains(navigator.userAgent, 'Chrome/28.0')) {
+	//prioritizes indexeddb over other storage methods
+	if (_.contains(navigator.userAgent, 'Chrome/28.0') ||
+		_.contains(navigator.userAgent, 'Firefox/22.0') ||
+		_.contains(navigator.userAgent, 'MSIE 10.0')) {
 	    console.log('using indexeddb');
 	    Skritter.storage = new Storage('indexeddb');
 	    Skritter.storage.openDatabase('skritdata', 1, function() {
@@ -109,6 +112,7 @@ define([
 	    return;
 	}
 	
+	//checks if a wrapped mobile app is being used
 	if (window.cordova || window.PhoneGap || window.phonegap) {
 	    console.log('using sqlite');
 	    Skritter.storage = new Storage('sqlite');
@@ -118,6 +122,7 @@ define([
 	    return;
 	}
 	
+	//defaults to flash style loading
 	if (window.localStorage) {
 	    console.log('using localstorage');
 	    Skritter.storage = new Storage('localstorage');

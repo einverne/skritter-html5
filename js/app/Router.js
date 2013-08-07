@@ -11,25 +11,30 @@
 define([
     'view/Home',
     'view/Login',
+    'view/Info',
+    'view/admin/Recog',
     'view/Settings',
     'view/Study',
     'backbone'
-], function(HomeView, LoginView, SettingsView, StudyView) {
+], function(HomeView, LoginView, InfoView, RecogView, SettingsView, StudyView) {
     var Skritter = window.skritter;
     
     var Router = Backbone.Router.extend({
 	
 	initialize: function() {
 	    Router.homeView;
+	    Router.infoView;
 	    Router.loginView;
+	    Router.recogView;
 	    Router.settingsView;
 	    Router.studyView;
 	},
 	
 	routes: {
 	    '': 'home',
+	    'info/:id': 'info',
 	    'login': 'login',
-	    'logout': 'logout',
+	    'recog': 'recog',
 	    'settings': 'settings',
 	    'study': 'study'
 	},
@@ -42,6 +47,18 @@ define([
 	    }
 	},
 		
+	info: function(id) {
+	    if (!id)
+		return;
+	    
+	    if (!Router.infoView) {
+		Router.infoView = new InfoView({el: $(Skritter.settings.get('container')), id: id}).render();
+	    } else {
+		Router.infoView.setVocab(id);
+		Router.infoView.setElement($(Skritter.settings.get('container'))).render();
+	    }
+	},
+		
 	login: function() {
 	    if (!Router.loginView) {
 		Router.loginView = new LoginView({el: $(Skritter.settings.get('container'))}).render();
@@ -50,9 +67,12 @@ define([
 	    }
 	},
 		
-	logout: function() {
-	    Skritter.user.logout();
-	    window.location.hash = '';
+	recog: function() {
+	    if (!Router.recogView) {
+		Router.recogView = new RecogView({el: $(Skritter.settings.get('container'))}).render();
+	    } else {
+		Router.recogView.setElement($(Skritter.settings.get('container'))).render();
+	    }
 	},
 		
 	settings: function() {

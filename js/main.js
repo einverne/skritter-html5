@@ -64,9 +64,21 @@ require([
 ], function(Application, Ready) {
     var Skritter = window.skritter;
     
-    //initializes the application once the dom is ready
-    Ready(function() {
+    function start() {
 	Skritter.application = Application;
 	Skritter.application.initialize();
+    }
+    
+    //initializes the application once the dom is ready or device is ready
+    Ready(function() {
+	if (window.cordova || window.PhoneGap || window.phonegap) {
+	    function deviceReady() {
+		start();
+	    }
+	    document.addEventListener('deviceready', deviceReady, false);
+	} else {
+	    start();
+	}
+
     });
 });

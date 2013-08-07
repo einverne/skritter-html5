@@ -35,7 +35,6 @@ define([
 	    
 	    if (inflated) {
 		var inflatedStudyData = this.getInflatedStudyData();
-		//console.log(inflatedStudyData);
 		bitmap.scaleX = inflatedStudyData.scaleX;
 		bitmap.scaleY = inflatedStudyData.scaleY;
 		bitmapBase.regX = inflatedStudyData.regX;
@@ -134,7 +133,7 @@ define([
 	    {
 		var x = this.get('points')[i].x;
 		var y = this.get('points')[i].y;
-		var press_radius = Skritter.settings.get('canvasBrushSize');
+		var press_radius = 14;
 
 		if (x - press_radius < left)
 		    left = x - press_radius;
@@ -171,7 +170,7 @@ define([
 		    if (!curve || distance > curve) {
 			point = segments[b];
 			curve = distance;
-			direction = getDirection(segments[0], point);
+			direction = Skritter.fn.getDirection(segments[0], point);
 		    }
 		}
 		deviationPoints.push(point);

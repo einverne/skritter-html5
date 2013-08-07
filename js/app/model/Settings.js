@@ -27,10 +27,16 @@ define([
 	    canvasGridColor: '#cccccc',
 	    canvasHeight: null,
 	    canvasMax: 600,
+	    canvasMessageColor: '#ff7700',
+	    canvasMessageFont: '20px Arial',
 	    canvasOverlayColor: 'red',
 	    canvasWidth: null,
 	    container: '#skritter',
-	    version: '0.004'
+	    gradeColor1:'#e68e8e',
+	    gradeColor2:'#d95757',
+	    gradeColor3:'#70da70',
+	    gradeColor4:'#4097d3',
+	    version: '0.0.4'
 	}
 	
     });

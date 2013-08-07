@@ -47,8 +47,8 @@ define([
 	
 	handleWritingComplete: function(grade) {
 	    PromptToneView.canvas.disable();
-	    $(this.$el.selector + ' #tone #canvas-prompt').hammer().one('swipeleft.PromptToneView', _.bind(this.triggerComplete, this));
-	    $(this.$el.selector + ' #tone #canvas-prompt').hammer().one('tap.PromptToneView', _.bind(this.triggerComplete, this));
+	    $(this.$el.selector + ' #tone #canvas-area').hammer().one('swipeleft.PromptToneView', _.bind(this.triggerComplete, this));
+	    $(this.$el.selector + ' #tone #canvas-area').hammer().one('tap.PromptToneView', _.bind(this.triggerComplete, this));
 	    this.show(grade);
 	},
 		

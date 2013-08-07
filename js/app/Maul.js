@@ -7,13 +7,13 @@
  */
 define(function() {
     
-    function Maul(studyData, bitmap, canvasWidth) {
+    function Maul(studyData, bitmap, canvasSize) {
 	studyData = _.clone(studyData);
 	var n = studyData[0];
-	var x = studyData[1] * canvasWidth;
-	var y = studyData[2] * canvasWidth;
-	var width = studyData[3] * canvasWidth;
-	var height = studyData[4] * canvasWidth;
+	var x = studyData[1] * canvasSize;
+	var y = studyData[2] * canvasSize;
+	var width = studyData[3] * canvasSize;
+	var height = studyData[4] * canvasSize;
 	var rotation = -studyData[5];
 	
 	var inflatedStudyData = {

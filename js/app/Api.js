@@ -40,6 +40,7 @@ define([
     };
     
     var getBatch = function(batchId, callback) {
+	var retryCount = 0;
 	var result = [];
 	
 	var getBatchRequest = function(batchId) {
@@ -51,9 +52,16 @@ define([
 		    bearer_token: Skritter.user.get('accessToken')
 		},
 		error: function(error) {
-		    console.error(error);
+		    if (retryCount < 5) {
+			console.log('retrying');
+			retryCount++;
+			getBatchRequest(batchId);
+		    } else {
+			console.error(error);
+		    }
 		},
 		success: function(data) {
+		    retryCount = 0;
 		    var batch = data.Batch;
 		    console.log(batch);
 		    var requests = batch.Requests;

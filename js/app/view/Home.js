@@ -34,7 +34,8 @@ define([
 	},
 		
 	logout: function() {
-	    window.location.hash = 'logout';
+	    Skritter.user.logout();
+	    this.render();
 	},
 		
 	login: function() {

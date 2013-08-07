@@ -80,6 +80,7 @@ define([
 	    localStorage.removeItem('active');
 	    Skritter.storage.clear();
 	    Skritter.application.reload();
+	    window.location.hash = '';
 	}
 	
     });
