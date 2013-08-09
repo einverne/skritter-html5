@@ -132,6 +132,15 @@ define(function() {
 	}
 	return false;
     };
+    
+    var maskText = function(text, mask) {
+	var chars = mask.split('');
+	for (var i in chars) {
+	    var expression = new RegExp(chars[i], 'gi');
+	    text = text.replace(expression, ' _ ');
+	}
+	return text;
+    };
 
     var zeroPad = function(num, size) {
 	var s = num + "";
@@ -155,6 +164,7 @@ define(function() {
 	inArray: inArray,
 	isDefined: isDefined,
 	isNull: isNull,
+	maskText: maskText,
 	zeroPad: zeroPad
     };
 });

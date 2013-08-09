@@ -15,7 +15,6 @@ define([
 		password: password
 	    },
 	    error: function(error) {
-		console.error(error);
 		callback(error);
 	    },
 	    success: function(data) {

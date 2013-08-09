@@ -81,7 +81,7 @@ define([
 	    StudyView.currentItems.sort();
 	    
 	    //StudyView.currentItems = StudyView.currentItems.filterBy('part', ['rune']);
-	    //StudyView.currentItems = StudyView.currentItems.filterBy('id', ['mcfarljwtest1-zh-处-0-rune']);
+	    //StudyView.currentItems = StudyView.currentItems.filterBy('id', ['mcfarljwtest1-zh-品-0-rune']);
 	},
 		
 	next: function() {

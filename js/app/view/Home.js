@@ -30,7 +30,8 @@ define([
 	    'click.HomeView #login': 'login',
 	    'click.HomeView #logout': 'logout',
 	    'click.HomeView #settings': 'settings',
-	    'click.HomeView #study': 'study'
+	    'click.HomeView #study': 'study',
+	    'click.HomeView #sync': 'sync'
 	},
 		
 	logout: function() {
@@ -48,6 +49,13 @@ define([
 	
 	study: function() {
 	    window.location.hash = 'study';
+	},
+		
+	sync: function() {
+	    Skritter.facade.show('SYNCING');
+	    Skritter.manager.sync(function() {
+		Skritter.facade.hide();
+	    });
 	}
 	
     });

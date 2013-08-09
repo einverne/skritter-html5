@@ -86,6 +86,19 @@ define([
 	    CanvasView.stage.removeAllEventListeners();
 	},
 		
+	drawBackground: function(character, alpha) {
+	    if (CanvasView.layerBackground.children.length > 0)
+		return;
+	    
+	    if (alpha) {
+		character.cache(0, 0, CanvasView.width, CanvasView.height);
+		character.alpha = alpha;
+		character.updateCache();
+	    }
+	    CanvasView.layerBackground.addChild(character);
+	    CanvasView.stage.update();
+	},
+		
 	drawGrid: function() {
 	    var grid = new createjs.Shape();
 	    grid.graphics.beginStroke(Skritter.settings.get('canvasGridColor'))
@@ -145,7 +158,6 @@ define([
 			var result = new Recognizer(CanvasView.userCharacter, CanvasView.userStroke, CanvasView.userTargets).recognize();
 			if (result && !CanvasView.userCharacter.containsStroke(result)) {
 			    CanvasView.userFailedAttempts = 0;
-			    this.drawStroke(result);
 			} else {
 			    CanvasView.userFailedAttempts++;
 			    if (CanvasView.userFailedAttempts > 2) {
@@ -158,8 +170,10 @@ define([
 			CanvasView.userStroke.set('visible', true);
 		    }
 		    
-		    if (CanvasView.userStroke)
+		    if (CanvasView.userStroke) {
 			CanvasView.userCharacter.add(CanvasView.userStroke);
+			this.drawStroke(result);
+		    }
 		    
 		    this.redraw();
 		}
@@ -213,9 +227,8 @@ define([
 	},
 		
 	isCharacterComplete: function() {
-	    //console.log('Current Position:');
-	    //console.log(CanvasView.userCharacter.getStrokeCount() + '/' + this.getTargetStrokeCount());
-	    if (CanvasView.userCharacter.getStrokeCount() >= this.getTargetStrokeCount()) {
+	    //console.log('Position: ' + CanvasView.userCharacter.getStrokeCount() + '/' + this.getTargetStrokeCount());
+	    if (CanvasView.userCharacter.getStrokeCount() > this.getTargetStrokeCount()) {
 		return true;
 	    }
 	    return false;

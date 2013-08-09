@@ -32,7 +32,7 @@ define([
 	    Async.apply(loadStorage),
 	    Async.apply(loadManager)
 	], function() {
-	    Skritter.manager.sync(function() {
+	    initialSync(function() {
 		loadRouter();
 		Skritter.facade.hide();
 	    });
@@ -46,14 +46,35 @@ define([
 	loadFrame();
 	loadUser();
 	loadManager(function() {
-	    Skritter.manager.sync(function() {
+	    initialSync(function() {
 		Skritter.facade.hide();
 	    });
 	});
     };
     
-    var resize = function() {
-	loadFrame();
+    
+    var initialSync = function(callback) {
+	//no syncing if the user is not logged in
+	if (!Skritter.user.isLoggedIn()) {
+	    callback();
+	    return;
+	}
+	
+	if (!Skritter.user.get('lastSync') && Skritter.storage.type !== 'localstorage') {
+	    Skritter.facade.show('DOWNLOADING ACCOUNT');
+	    Skritter.manager.syncFull(callback);
+	    return;
+	}
+	
+	if (Skritter.user.get('lastSync') && Skritter.storage.type !== 'localstorage') {
+	    //Skritter.facade.show('SYNCING');
+	    //Skritter.manager.syncIncremental(callback);
+	    callback();
+	    return;
+	}
+	
+	Skritter.facade.show('LOADING ITEMS');
+	Skritter.manager.syncMinimal(callback);
     };
     
     var loadAssets = function(callback) {
@@ -142,8 +163,7 @@ define([
     
     return {
 	initialize: initialize,
-	reload: reload,
-	resize: resize
+	reload: reload
     };
     
 });

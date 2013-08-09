@@ -88,6 +88,7 @@
 /*** PROMPT VIEW ***/
 #prompt {}
 #prompt #top {
+    border-bottom: 2px black solid;
     position: relative;
     text-align: center;
 }
@@ -102,6 +103,10 @@
     font-size: x-large;
 }
 #prompt #definition {
+    padding: 2% 0 0 0;
+    font-size: large;
+}
+#prompt #sentence {
     padding: 2% 0 0 0;
     font-size: large;
 }

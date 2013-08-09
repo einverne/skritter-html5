@@ -55,10 +55,17 @@ define([
 	set: function(vocab, position) {
 	    PromptToneView.vocab = vocab;
 	    PromptToneView.position = position;
+	    
+	    //set the sentence only if one exists
+	    if (Skritter.studySentences.findWhere({id:PromptToneView.vocab[0].get('sentenceId')}).get('writing'));
+		PromptToneView.sentence = Skritter.studySentences.findWhere({id:PromptToneView.vocab[0].get('sentenceId')}).get('writing');
+		
 	    $(this.$el.selector + ' #tone #writing').html(PromptToneView.vocab[0].get('writing'));
 	    $(this.$el.selector + ' #tone #reading').html(PinyinConverter.toTone(PromptToneView.vocab[0].getReadingDisplayAt(PromptToneView.position)));
 	    $(this.$el.selector + ' #tone #definition').html(PromptToneView.vocab[0].get('definitions').en);
+	    $(this.$el.selector + ' #tone #sentence').html(PromptToneView.sentence, PromptToneView.vocab[0].get('writing'));
 	    PromptToneView.canvas.setElement($(this.$el.selector + ' #tone #canvas-area')).render();
+	    PromptToneView.canvas.drawBackground(PromptToneView.vocab[0].getCanvasCharacters(PromptToneView.position)[0].getCharacterContainer(), 0.5);
 	    PromptToneView.canvas.setTargets(PromptToneView.vocab[0].getCanvasTones(PromptToneView.position));
 	    
 	    //events

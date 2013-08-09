@@ -35,7 +35,7 @@ define([
 	study: function() {
 	    var studybar = $('#study-view #studybar').height();
 	    var top = Skritter.settings.get('height') - Skritter.settings.get('canvasWidth') - studybar;
-	    var bottom = Skritter.settings.get('height') - studybar - top;
+	    var bottom = Skritter.settings.get('height') - studybar - top - 2;
 	    var bottomPrompt = Skritter.settings.get('canvasWidth');
 	    
 	    $('#study-view #top').css('height', top+'px');

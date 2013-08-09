@@ -53,7 +53,7 @@ define([
 	    for (var i=1; i <= 4; i++)
 	    {
 		$('#grade'+i).removeClass('selected');
-		$('#grade'+i).show(250);
+		$('#grade'+i).show(200);
 	    }
 	},
 		

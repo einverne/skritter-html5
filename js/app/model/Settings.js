@@ -18,7 +18,7 @@ define([
 	defaults: {
 	    apiClientId: 'mcfarljwapiclient',
 	    apiClientSecret: 'e3872517fed90a820e441531548b8c',
-	    apiDomain: 'cn',
+	    apiDomain: 'com',
 	    height: null,
 	    appWidth: null,
 	    canvasAnimationSpeed: 200,

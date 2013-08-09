@@ -22,6 +22,7 @@ define([
 	    PromptRuneView.grade = 3;
 	    PromptRuneView.gradingButtons = new GradingButtonsView();
 	    PromptRuneView.position;
+	    PromptRuneView.sentence;
 	    PromptRuneView.vocab;
 	},
 	
@@ -51,9 +52,15 @@ define([
 	    
 	    PromptRuneView.vocab = vocab;
 	    PromptRuneView.position = position;
+	    
+	    //set the sentence only if one exists
+	    if (Skritter.studySentences.findWhere({id:PromptRuneView.vocab[0].get('sentenceId')}).get('writing'));
+		PromptRuneView.sentence = Skritter.studySentences.findWhere({id:PromptRuneView.vocab[0].get('sentenceId')}).get('writing');
+		
 	    $(this.$el.selector + ' #rune #writing').html(PromptRuneView.vocab[0].getWritingDisplayAt(PromptRuneView.position));
 	    $(this.$el.selector + ' #rune #reading').html(PinyinConverter.toTone(PromptRuneView.vocab[0].get('reading')));
 	    $(this.$el.selector + ' #rune #definition').html(PromptRuneView.vocab[0].get('definitions').en);
+	    $(this.$el.selector + ' #rune #sentence').html(Skritter.fn.maskText(PromptRuneView.sentence, PromptRuneView.vocab[0].get('writing')));
 	    PromptRuneView.canvas.setElement($(this.$el.selector + ' #rune #canvas-area')).render();
 	    PromptRuneView.canvas.setTargets(PromptRuneView.vocab[0].getCanvasCharacters(PromptRuneView.position));
 	    
@@ -79,6 +86,10 @@ define([
 	    //display the new writing position display
 	    PromptRuneView.position++;
 	    $(this.$el.selector + ' #rune #writing').html(PromptRuneView.vocab[0].getWritingDisplayAt(PromptRuneView.position));
+	    
+	    //show the hidden sentence vocabs only if the last position of the prompt
+	    if (PromptRuneView.position >= PromptRuneView.vocab[0].getCharacterCount())
+		$(this.$el.selector + ' #rune #sentence').html(PromptRuneView.sentence);
 	    
 	    //events
 	    this.listenToOnce(PromptRuneView.gradingButtons, 'selected', this.handleGradeSelected);

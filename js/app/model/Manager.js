@@ -45,16 +45,26 @@ define([
 	
 	
 	sync: function(callback) {
-	    self = this;
 	    //no syncing if the user is not logged in
 	    if (!Skritter.user.isLoggedIn()) {
 		callback();
 		return;
 	    }
-	    
+
+	    //returns items changed since last sync
+	    if (Skritter.user.get('lastSync') && Skritter.storage.type !== 'localstorage') {
+		Skritter.manager.syncIncremental(callback);
+		return;
+	    }
+
+	    //returns next 30 review items
+	    Skritter.manager.syncMinimal(callback);
+	},
+	
+	syncFull: function(callback) {
+	    var self = this;
 	    //handles users initial sync and account download
 	    if (!Skritter.user.get('lastSync') && Skritter.storage.type !== 'localstorage') {
-		Skritter.facade.show('DOWNLOADING ACCOUNT');
 		this.fromServer({
 		    srsconfigs: true
 		}, function(result) {
@@ -67,12 +77,12 @@ define([
 		});
 		return;
 	    }
-	    
+	},
+	
+	syncIncremental: function(callback) {
+	    var self = this;
 	    //handles a partial sync to keep data up to date
 	    if (Skritter.user.get('lastSync') && Skritter.storage.type !== 'localstorage') {
-		callback();
-		return;
-		
 		Skritter.facade.show('SYNCING');
 		this.fromServer({
 		    srsconfigs: true,
@@ -88,9 +98,11 @@ define([
 		});
 		return;
 	    }
-	    
+	},
+	
+	syncMinimal: function(callback) {
+	    var self = this;
 	    //defaults back to flash style loading
-	    Skritter.facade.show('LOADING ITEMS');
 	    this.fromServer({
 		srsconfigs: true,
 		sort: 'next',

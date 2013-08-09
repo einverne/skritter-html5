@@ -19,7 +19,7 @@ define([
 	this.thresholdDistance = Skritter.user.get('thresholds').distance*(Skritter.settings.get('canvasWidth')/Skritter.settings.get('canvasMax'));
 	this.thresholdDirection = Skritter.user.get('thresholds').direction;
 	this.thresholdLength = Skritter.user.get('thresholds').length*(Skritter.settings.get('canvasWidth')/Skritter.settings.get('canvasMax'));
-	this.thresholdOrderStrictness = parseInt(Skritter.user.get('thresholds').orderStrictness);
+	this.thresholdOrderStrictness = parseInt(Skritter.user.get('thresholds').strictness);
     }
     
     //start the recognition process and return a result
@@ -37,6 +37,12 @@ define([
 	    if (scores.direction > this.thresholdDirection)
 		continue;
 	    if (scores.length > this.thresholdLength)
+		continue;
+	    
+	    //compares the current position against the actual item position
+	    var orderOffset = item.position - this.currentPosition;
+	    //checks that the order offset isn't greater than the strictness threshold
+	    if (orderOffset > this.thresholdOrderStrictness)
 		continue;
 	    
 	    var total = 0;
@@ -103,6 +109,7 @@ define([
 		    
 		    //stores all of the recognition results
 		    var scores = {
+			corners: this.compareCorners(param),
 			distance: this.calculateDistance(param),
 			direction: this.calculateDirection(param),
 			length: this.calculateLength(param)
@@ -116,7 +123,11 @@ define([
 	return results;
     };
     
-    //custom recognition functions
+    /*
+     * custom recognition functions
+     */
+    
+    //calculates the distances between the stroke starting points
     Recognizer.prototype.calculateDistance = function(param) {
 	var score;
 	score = Skritter.fn.getDistance(this.stroke.get('corners')[0], param.corners[0]);
@@ -124,6 +135,7 @@ define([
 	return score;
     };
     
+    //calculates the difference in the angle of the starting and ending points
     Recognizer.prototype.calculateDirection = function(param) {
 	var score;
 	score = Math.abs(this.stroke.getDirection() - Skritter.fn.getDirection(param.corners[0], param.corners[param.corners.length-1]));
@@ -131,6 +143,7 @@ define([
 	return score;
     };
     
+    //calculates the difference in the segment lenghts
     Recognizer.prototype.calculateLength = function(param) {
 	var score;
 	score = Math.abs(this.stroke.getLength() - Skritter.fn.getLength(param.corners));
@@ -138,8 +151,12 @@ define([
 	return score;
     };
     
+    //penalizes strokes where the corners don't match up
     Recognizer.prototype.compareCorners = function(param) {
-	
+	var cornerPenalty = 50;
+	if (this.stroke.get('corners').length !== param.corners.length)
+	    return cornerPenalty;
+	return 0;
     };
     
     return Recognizer;

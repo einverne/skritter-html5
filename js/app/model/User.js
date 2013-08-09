@@ -41,7 +41,7 @@ define([
 	    },
 	    refreshToken: null,
 	    thresholds: {
-		distance: 200,
+		distance: 100,
 		direction: 45,
 		length: 200,
 		strictness: 0
@@ -79,8 +79,6 @@ define([
 	logout: function() {
 	    localStorage.removeItem('active');
 	    Skritter.storage.clear();
-	    Skritter.application.reload();
-	    window.location.hash = '';
 	}
 	
     });
