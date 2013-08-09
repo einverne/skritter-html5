@@ -18,18 +18,33 @@ define([
     var PromptRuneView = Backbone.View.extend({
 	
 	initialize: function() {
-	    PromptRuneView.canvas = new CanvasView();
+	    PromptRuneView.canvas;
+	    PromptRuneView.definition;
 	    PromptRuneView.grade = 3;
 	    PromptRuneView.gradingButtons = new GradingButtonsView();
 	    PromptRuneView.position;
+	    PromptRuneView.reading;
 	    PromptRuneView.sentence;
 	    PromptRuneView.vocab;
+	    PromptRuneView.writing;
 	},
 	
 	template: _.template(templateRune),
 	
 	render: function() {
 	    this.$el.html(this.template);
+	    
+	    if (PromptRuneView.writing)
+		$(this.$el.selector + ' #rune #writing').html(PromptRuneView.writing);
+	    if (PromptRuneView.reading)
+		$(this.$el.selector + ' #rune #reading').html(PromptRuneView.reading);
+	    if (PromptRuneView.definition)
+		$(this.$el.selector + ' #rune #definition').html(PromptRuneView.definition);
+	    if (PromptRuneView.canvas)
+		$(this.$el.selector + ' #rune #sentence').html(Skritter.fn.maskText(PromptRuneView.sentence, PromptRuneView.vocab[0].get('writing')));
+	    if (PromptRuneView.canvas)
+		PromptRuneView.canvas.setElement($(this.$el.selector + ' #rune #canvas-area')).render();
+	    
 	    Skritter.frame.study();
 	    return this;
 	},
@@ -53,14 +68,18 @@ define([
 	    PromptRuneView.vocab = vocab;
 	    PromptRuneView.position = position;
 	    
-	    //set the sentence only if one exists
+	    //set prompt variables
+	    PromptRuneView.writing = PromptRuneView.vocab[0].getWritingDisplayAt(PromptRuneView.position);
+	    PromptRuneView.reading = PinyinConverter.toTone(PromptRuneView.vocab[0].get('reading'));
+	    PromptRuneView.definition = PromptRuneView.vocab[0].get('definitions').en;
 	    if (Skritter.studySentences.findWhere({id:PromptRuneView.vocab[0].get('sentenceId')}).get('writing'));
 		PromptRuneView.sentence = Skritter.studySentences.findWhere({id:PromptRuneView.vocab[0].get('sentenceId')}).get('writing');
 		
-	    $(this.$el.selector + ' #rune #writing').html(PromptRuneView.vocab[0].getWritingDisplayAt(PromptRuneView.position));
-	    $(this.$el.selector + ' #rune #reading').html(PinyinConverter.toTone(PromptRuneView.vocab[0].get('reading')));
-	    $(this.$el.selector + ' #rune #definition').html(PromptRuneView.vocab[0].get('definitions').en);
+	    $(this.$el.selector + ' #rune #writing').html(PromptRuneView.writing);
+	    $(this.$el.selector + ' #rune #reading').html(PromptRuneView.reading);
+	    $(this.$el.selector + ' #rune #definition').html(PromptRuneView.definition);
 	    $(this.$el.selector + ' #rune #sentence').html(Skritter.fn.maskText(PromptRuneView.sentence, PromptRuneView.vocab[0].get('writing')));
+	    PromptRuneView.canvas = new CanvasView();
 	    PromptRuneView.canvas.setElement($(this.$el.selector + ' #rune #canvas-area')).render();
 	    PromptRuneView.canvas.setTargets(PromptRuneView.vocab[0].getCanvasCharacters(PromptRuneView.position));
 	    

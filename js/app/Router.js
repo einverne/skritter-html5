@@ -34,6 +34,7 @@ define([
 	    '': 'home',
 	    'info/:id': 'info',
 	    'login': 'login',
+	    'logout': 'logout',
 	    'recog': 'recog',
 	    'settings': 'settings',
 	    'study': 'study'
@@ -65,6 +66,12 @@ define([
 	    } else {
 		Router.loginView.setElement($(Skritter.settings.get('container'))).render();
 	    }
+	},
+		
+	logout: function() {
+	    Skritter.user.logout(function() {
+		window.location.hash = '';
+	    });
 	},
 		
 	recog: function() {

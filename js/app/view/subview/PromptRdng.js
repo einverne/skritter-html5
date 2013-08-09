@@ -20,14 +20,29 @@ define([
 	    PromptRdngView.grade = 3;
 	    PromptRdngView.gradingButtons = new GradingButtonsView();
 	    PromptRdngView.position;
+	    PromptRdngView.question;
 	    PromptRdngView.vocab;
+	    PromptRdngView.writing;
 	},
 	
 	template: _.template(templateRdng),
 	
 	render: function() {
 	    this.$el.html(this.template);
+	    
+	    if (PromptRdngView.question)
+		$(this.$el.selector + ' #rdng #question').text(PromptRdngView.question);
+	    if (PromptRdngView.writing)
+		$(this.$el.selector + ' #rdng #writing').text(PromptRdngView.writing);	
+	    
 	    Skritter.frame.study();
+	    
+	    //events
+	    self = this;
+	    $(this.$el.selector + ' #rdng #bottom').hammer().one('tap.PromptRdngView', function() {
+		self.handlePromptClick();		
+	    });
+	    
 	    return this;
 	},
 	
@@ -46,14 +61,12 @@ define([
 	    this.render();
 	    PromptRdngView.vocab = vocab;
 	    PromptRdngView.position = position;
-	    $(this.$el.selector + ' #rdng #writing').text(PromptRdngView.vocab[0].get('writing'));
-	    $(this.$el.selector + ' #rdng #question').text("What's the pinyin?");
 	    
-	    //events
-	    self = this;
-	    $(this.$el.selector + ' #rdng #bottom').hammer().one('tap.PromptRdngView', function() {
-		self.handlePromptClick();		
-	    });
+	    PromptRdngView.question = PromptRdngView.vocab[0].get('writing');
+	    PromptRdngView.writing = "What's the pinyin?";
+	    
+	    $(this.$el.selector + ' #rdng #writing').text(PromptRdngView.writing);
+	    $(this.$el.selector + ' #rdng #question').text(PromptRdngView.question);
 	},
 		
 	show: function() {

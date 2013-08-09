@@ -34,32 +34,41 @@ define([
 	    PromptView.scheduler = new Scheduler();
 	},
 		
-	render: function() {
+	render: function(next) {
 	    //select the prompt based on the part
-	    switch(PromptView.item.get('part'))
-	    {
-		case 'defn':
-		    PromptView.prompt = new PromptDefnView();
-		    break;
-		case 'rdng':
-		    PromptView.prompt = new PromptRdngView();
-		    break;
-		case 'rune':
-		    PromptView.prompt = new PromptRuneView();
-		    break;
-		case 'tone':
-		    PromptView.prompt = new PromptToneView();
-		    break;
+	    //also checks for existing prompt to continue
+	    if (!PromptView.prompt || next) {
+		console.log('new prompt');
+		switch (PromptView.item.get('part'))
+		{
+		    case 'defn':
+			PromptView.prompt = new PromptDefnView();
+			break;
+		    case 'rdng':
+			PromptView.prompt = new PromptRdngView();
+			break;
+		    case 'rune':
+			PromptView.prompt = new PromptRuneView();
+			break;
+		    case 'tone':
+			PromptView.prompt = new PromptToneView();
+			break;
+		}
+		
+		//load the selected prompt into the dom
+		PromptView.prompt.setElement($(this.$el.selector)).render();
+		
+		//pass the prompt the vocab details to display
+		PromptView.prompt.set(PromptView.vocab, PromptView.position);
+		
+		//wait for the prompt instance to return complete
+		this.listenToOnce(PromptView.prompt, 'complete', this.handlePositionComplete, this);
+	    } else {
+		console.log('existing prompt');
+		//load the selected prompt into the dom
+		PromptView.prompt.setElement($(this.$el.selector)).render();
 	    }
 	    
-	    //load the selected prompt into the dom
-	    PromptView.prompt.setElement($(this.$el.selector)).render();
-	    
-	    //pass the prompt the vocab details to display
-	    PromptView.prompt.set(PromptView.vocab, PromptView.position);
-	    
-	    //wait for the prompt instance to return complete
-	    this.listenToOnce(PromptView.prompt, 'complete', this.handlePositionComplete, this);
 	    return this;
 	},
 		
@@ -72,7 +81,7 @@ define([
 		    this.triggerComplete();
 		} else {
 		    PromptView.position++;
-		    this.render();
+		    this.render(true);
 		}
 	    } else {
 		this.updateItem(PromptView.item, grade);
@@ -87,7 +96,7 @@ define([
 	    //resets the prompt
 	    this.reset();
 	    //renders the prompt once loaded
-	    this.render();
+	    this.render(true);
 	},
 		
 	reset: function() {

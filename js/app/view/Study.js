@@ -41,15 +41,18 @@ define([
 	    if (!StudyView.currentItem) {
 		//loads the first item prompt
 		this.next();
+		//when the prompt is complete get another item
+		this.listenTo(StudyView.prompt, 'complete:prompt', this.next);
 	    } else {
 		//load an existing prompt into the dom
 		StudyView.prompt.render();
 	    }
 	    
-	    //when the prompt is complete get another item
-	    this.listenTo(StudyView.prompt, 'complete:prompt', this.next);
-
 	    return this;
+	},
+		
+	events: {
+	    'click.StudyBarView #studybar #info': 'info'
 	},
 		
 	filter: function() {
@@ -81,7 +84,11 @@ define([
 	    StudyView.currentItems.sort();
 	    
 	    //StudyView.currentItems = StudyView.currentItems.filterBy('part', ['rune']);
-	    //StudyView.currentItems = StudyView.currentItems.filterBy('id', ['mcfarljwtest1-zh-品-0-rune']);
+	    //StudyView.currentItems = StudyView.currentItems.filterBy('id', ['mcfarljwtest1-zh-什么-0-rune']);
+	},
+		
+	info: function() {
+	    window.location.hash = '#info/' + StudyView.currentVocab[0].get('id');
 	},
 		
 	next: function() {

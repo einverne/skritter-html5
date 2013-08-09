@@ -1,6 +1,6 @@
 /*
  * 
- * Module: StudyBar
+ * View: StudyBar
  * 
  * Created By: Joshua McFarland
  * 
@@ -16,7 +16,7 @@ define([
 
 	initialize: function() {
 	    //load the timer in the global namespace
-	    //so that it can be managing by other views
+	    //so that it can be managed by other views
 	    Skritter.timer = new Timer();
 	},
 

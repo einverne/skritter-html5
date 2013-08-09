@@ -39,11 +39,13 @@ define([
 		rune: true,
 		tone: true
 	    },
+	    rawSquigs: false,
 	    refreshToken: null,
 	    thresholds: {
 		distance: 100,
 		direction: 45,
 		length: 200,
+		maxFailedAttempts: 2,
 		strictness: 0
 	    }
 	},
@@ -76,9 +78,12 @@ define([
 	    });
 	},
 		
-	logout: function() {
-	    localStorage.removeItem('active');
-	    Skritter.storage.clear();
+	logout: function(callback) {
+	    Skritter.storage.clear(null, function () {
+		localStorage.removeItem('active');
+		Skritter.application.reload();
+		callback();
+	    });
 	}
 	
     });

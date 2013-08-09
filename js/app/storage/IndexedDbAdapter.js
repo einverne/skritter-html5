@@ -129,6 +129,7 @@ define([
 	    return;
 	}
 	
+	var position = 0;
 	var tableNames = database.objectStoreNames;
 	for (var i=0; i < tableNames.length; i++)
 	{
@@ -140,7 +141,8 @@ define([
 		    callback(event);
 	    };
 	    request.onsuccess = function() {
-		if (i === tableNames.length-1) {
+		position++;
+		if (position === tableNames.length) {
 		    if (typeof callback === 'function')
 			callback();
 		}

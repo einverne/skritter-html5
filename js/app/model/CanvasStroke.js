@@ -20,7 +20,8 @@ define([
 	    rune: null,
 	    studyData: null,
 	    studyParams: [],
-	    visible: false
+	    squigVisible: false,
+	    strokeVisible: false
 	},
 		
 	getBitmap: function() {

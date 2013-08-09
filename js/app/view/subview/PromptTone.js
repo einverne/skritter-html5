@@ -25,17 +25,33 @@ define([
     var PromptToneView = Backbone.View.extend({
 	
 	initialize: function() {
-	    PromptToneView.canvas = new CanvasView();
+	    PromptToneView.canvas;
+	    PromptToneView.defintion;
 	    PromptToneView.grade = 3;
 	    PromptToneView.gradingButtons = new GradingButtonsView();
 	    PromptToneView.position;
+	    PromptToneView.reading;
+	    PromptToneView.sentence;
 	    PromptToneView.vocab;
+	    PromptToneView.writing;
 	},
 	
 	template: _.template(templateTone),
 	
 	render: function() {
 	    this.$el.html(this.template);
+	    
+	    if (PromptToneView.writing)
+		$(this.$el.selector + ' #tone #writing').html(PromptToneView.writing);
+	    if (PromptToneView.reading)
+		$(this.$el.selector + ' #tone #reading').html(PromptToneView.reading);
+	    if (PromptToneView.definition)
+		$(this.$el.selector + ' #tone #definition').html(PromptToneView.definition);
+	    if (PromptToneView.canvas)
+		$(this.$el.selector + ' #tone #sentence').html(Skritter.fn.maskText(PromptToneView.sentence, PromptToneView.vocab[0].get('writing')));
+	    if (PromptToneView.canvas)
+		PromptToneView.canvas.setElement($(this.$el.selector + ' #tone #canvas-area')).render();
+	    
 	    Skritter.frame.study();
 	    return this;
 	},
@@ -56,14 +72,19 @@ define([
 	    PromptToneView.vocab = vocab;
 	    PromptToneView.position = position;
 	    
+	    //set prompt variables
+	    PromptToneView.defintion = PromptToneView.vocab[0].get('definitions').en;
+	    PromptToneView.reading = PinyinConverter.toTone(PromptToneView.vocab[0].getReadingDisplayAt(PromptToneView.position));
+	    PromptToneView.writing = PromptToneView.vocab[0].get('writing');
 	    //set the sentence only if one exists
 	    if (Skritter.studySentences.findWhere({id:PromptToneView.vocab[0].get('sentenceId')}).get('writing'));
 		PromptToneView.sentence = Skritter.studySentences.findWhere({id:PromptToneView.vocab[0].get('sentenceId')}).get('writing');
 		
-	    $(this.$el.selector + ' #tone #writing').html(PromptToneView.vocab[0].get('writing'));
-	    $(this.$el.selector + ' #tone #reading').html(PinyinConverter.toTone(PromptToneView.vocab[0].getReadingDisplayAt(PromptToneView.position)));
-	    $(this.$el.selector + ' #tone #definition').html(PromptToneView.vocab[0].get('definitions').en);
+	    $(this.$el.selector + ' #tone #writing').html(PromptToneView.writing);
+	    $(this.$el.selector + ' #tone #reading').html(PromptToneView.reading);
+	    $(this.$el.selector + ' #tone #definition').html(PromptToneView.defintion);
 	    $(this.$el.selector + ' #tone #sentence').html(PromptToneView.sentence, PromptToneView.vocab[0].get('writing'));
+	    PromptToneView.canvas = new CanvasView();
 	    PromptToneView.canvas.setElement($(this.$el.selector + ' #tone #canvas-area')).render();
 	    PromptToneView.canvas.drawBackground(PromptToneView.vocab[0].getCanvasCharacters(PromptToneView.position)[0].getCharacterContainer(), 0.5);
 	    PromptToneView.canvas.setTargets(PromptToneView.vocab[0].getCanvasTones(PromptToneView.position));

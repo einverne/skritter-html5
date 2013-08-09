@@ -20,14 +20,31 @@ define([
 	    PromptDefnView.grade = 3;
 	    PromptDefnView.gradingButtons = new GradingButtonsView();
 	    PromptDefnView.position;
+	    PromptDefnView.reading;
 	    PromptDefnView.vocab;
+	    PromptDefnView.writing;
 	},
 	
 	template: _.template(templateDefn),
 	
 	render: function() {
 	    this.$el.html(this.template);
+	    
+	    if (PromptDefnView.question)
+		$(this.$el.selector + ' #defn #question').text(PromptDefnView.question);
+	    if (PromptDefnView.reading)
+		$(this.$el.selector + ' #defn #reading').html(PromptDefnView.reading);
+	    if (PromptDefnView.writing)
+		$(this.$el.selector + ' #defn #writing').text(PromptDefnView.writing);		
+	    
 	    Skritter.frame.study();
+	    
+	    //events
+	    self = this;
+	    $(this.$el.selector + ' #defn #bottom').hammer().one('tap.PromptDefnView', function() {
+		self.handlePromptClick();		
+	    });
+	    
 	    return this;
 	},
 	
@@ -46,15 +63,14 @@ define([
 	    this.render();
 	    PromptDefnView.vocab = vocab;
 	    PromptDefnView.position = position;
-	    $(this.$el.selector + ' #defn #writing').text(PromptDefnView.vocab[0].get('writing'));
-	    $(this.$el.selector + ' #defn #reading').html(PinyinConverter.toTone(PromptDefnView.vocab[0].get('reading')));
-	    $(this.$el.selector + ' #defn #question').text("What's the definition?");
 	    
-	    //events
-	    self = this;
-	    $(this.$el.selector + ' #defn #bottom').hammer().one('tap.PromptDefnView', function() {
-		self.handlePromptClick();		
-	    });
+	    PromptDefnView.writing = PromptDefnView.vocab[0].get('writing');
+	    PromptDefnView.reading = PinyinConverter.toTone(PromptDefnView.vocab[0].get('reading'));
+	    PromptDefnView.question = "What's the definition?";
+	    
+	    $(this.$el.selector + ' #defn #writing').text(PromptDefnView.writing);
+	    $(this.$el.selector + ' #defn #reading').html(PromptDefnView.reading);
+	    $(this.$el.selector + ' #defn #question').text(PromptDefnView.question);
 	},
 		
 	show: function() {

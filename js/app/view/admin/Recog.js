@@ -1,6 +1,6 @@
 /*
  * 
- * Module: Recog
+ * View: Recog
  * 
  * Created By: Joshua McFarland
  * 
@@ -16,6 +16,9 @@ define([
 	
 	initialize: function() {
 	    RecogView.canvas = new CanvasView({recognizer: false});
+	    this.listenTo(RecogView.canvas, 'complete:stroke', function(stroke) {
+		RecogView.canvas.drawPoints(stroke.get('corners'));
+	    });
 	},
 	
 	template: _.template(templateRecog),
@@ -27,24 +30,33 @@ define([
 	},
 		
 	events: {
+	    'click.RecogView #clear': 'clear',
 	    'click.RecogView #draw': 'drawBitmap',
 	    'click.RecogView #generate': 'generate'
 	},
 		
+	clear: function() {
+	    RecogView.canvas.clearAll(true);
+	},
+		
 	drawBitmap: function() {
-	    RecogView.canvas.drawRawStroke($('#bitmap-id').val());
+	    this.clear();
+	    if ($('#bitmap-id').val())
+		RecogView.canvas.drawRawStroke($('#bitmap-id').val());
 	},
 		
 	generate: function() {
 	    var stroke = RecogView.canvas.getCurrentStroke();
 	    var param = new StudyParam();
+	    if ($('#bitmap-id').val())
+		param.set('bitmapId', parseInt($('#bitmap-id').val()));
 	    param.set('corners', stroke.get('corners'));
 	    param.set('deviations', stroke.getSegmentedDeviations());
 	    if ($('#contains').val())
 		param.set('contains', $('#contains').val().split(','));
 	    if ($('#feedback').val())
 		param.set('feedback', $('#feedback').val());
-	    console.log(JSON.stringify(param.toJSON()));
+	    console.log(JSON.stringify(param.toJSON()) + ',');
 	}
 	
     });

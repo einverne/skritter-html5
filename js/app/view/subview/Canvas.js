@@ -77,13 +77,27 @@ define([
 		CanvasView.consecutiveFailedAttempts = 0;
 	    }
 	    CanvasView.inputMarker.graphics.clear();
-	    CanvasView.layerBackground.removeAllChildren();
+	    CanvasView.layerInput.removeAllChildren();
+	    CanvasView.layerInput.addChild(CanvasView.inputMarker);
 	    CanvasView.layerHighlight.removeAllChildren();
-	    CanvasView.layerOverlay.removeAllChildren();
 	},
 		
 	disable: function() {
 	    CanvasView.stage.removeAllEventListeners();
+	},
+		
+	displayMessage: function(message, font, color) {
+	    if (!message)
+		return;
+	    CanvasView.layerMessage.removeAllChildren();
+	    font = (font) ? font : Skritter.settings.get('canvasMessageFont');
+	    color = (color) ? color : Skritter.settings.get('canvasMessageColor');
+	    var text = new createjs.Text(message, font, color);
+	    text.x = (CanvasView.width / 2) - (CanvasView.getMeasuredWidth() / 2);
+	    text.y = CanvasView.height * 0.8;
+	    createjs.Tween.get(text).wait(2000).to({ alpha:0 }, 500);
+	    CanvasView.layerMessage.addChild(text);
+	    CanvasView.stage.update();
 	},
 		
 	drawBackground: function(character, alpha) {
@@ -111,6 +125,26 @@ define([
 	    CanvasView.stage.update();
 	},
 		
+	drawPoints: function(points) {
+	    var circle = new createjs.Shape();
+	    for (var i in points)
+	    {	
+		circle.graphics.beginFill(Skritter.settings.get('canvasOverlayColor')).drawCircle(points[i].x, points[i].y, 10);
+	    }
+	    CanvasView.layerOverlay.addChild(circle);
+	    CanvasView.stage.update();
+	},
+		
+	drawPhantomStroke: function(stroke) {
+	    console.log('drawing phantom');
+	    var bitmap = stroke.getBitmapContainer(true);
+	    createjs.Tween.get(bitmap).to({ alpha:0 }, 500, createjs.Ease.sineInOut).call(function() {
+		CanvasView.layerOverlay.removeAllChildren();
+	    });
+	    CanvasView.layerOverlay.addChild(bitmap);
+	    CanvasView.stage.update();
+	},
+		
 	drawRawStroke: function(bitmapId) {
 	    var image = Skritter.assets.getItem('stroke', ''+bitmapId);
 	    var bitmap = new createjs.Bitmap(image.src);
@@ -121,7 +155,6 @@ define([
 	drawStroke: function(stroke) {
 	    var bitmap = stroke.getBitmapContainer(true);
 	    CanvasView.layerInput.addChild(bitmap);
-	    this.handleStrokeComplete();
 	},
 		
 	enable: function() {
@@ -153,26 +186,42 @@ define([
 		if (isOnCanvas(event) && CanvasView.userStroke !== null && Skritter.fn.getLength(points) > 30) {
 		    CanvasView.inputMarker.graphics.endStroke();
 		    CanvasView.userStroke.set('points', points);
+		    this.triggerStrokeComplete();
 		    
 		    if (CanvasView.recognizer) {
 			var result = new Recognizer(CanvasView.userCharacter, CanvasView.userStroke, CanvasView.userTargets).recognize();
 			if (result && !CanvasView.userCharacter.containsStroke(result)) {
+			    //reset the failed attempts on success
 			    CanvasView.userFailedAttempts = 0;
+			    //if there is feedback display it
+			    this.displayMessage(result.feedback);
+			    //set the stroke as visible
+			    CanvasView.userStroke.set('strokeVisible', true);
 			} else {
+			    //increment the failed attempts and check for too many
 			    CanvasView.userFailedAttempts++;
-			    if (CanvasView.userFailedAttempts > 2) {
+			    if (CanvasView.userFailedAttempts > Skritter.user.get('thresholds').maxFailedAttempts) {
 				CanvasView.userGrade = 1;
+				//flash a phantom stroke to show the answer
+				//using the last target as it seems to be the most granular
+				var lastTarget = CanvasView.userTargets[CanvasView.userTargets.length - 1];
+				this.drawPhantomStroke(lastTarget.at(CanvasView.userCharacter.getStrokeCount()));
 			    }
 			    CanvasView.userStroke = null;
 			}
 		    } else {
 			CanvasView.userCharacter = new CanvasCharacter();
-			CanvasView.userStroke.set('visible', true);
+			CanvasView.userStroke.set('squigVisible', true);
 		    }
 		    
+		    //adds the stroke to the character only if it exists
 		    if (CanvasView.userStroke) {
 			CanvasView.userCharacter.add(CanvasView.userStroke);
-			this.drawStroke(result);
+			//we need to draw the stroke if there is a matched result
+			if (CanvasView.recognizer) {
+			    this.drawStroke(result);
+			    this.handleStrokeComplete();
+			}
 		    }
 		    
 		    this.redraw();
@@ -239,11 +288,12 @@ define([
 	},
 		
 	redraw: function() {
-	    CanvasView.inputMarker.graphics.clear();
+	    this.clearAll();
 	    CanvasView.inputMarker.graphics.setStrokeStyle(14, 'round', 'round').beginStroke('orange');
+	    //redraws the squig
 	    for (var a in CanvasView.userCharacter.models) {
 		var stroke = CanvasView.userCharacter.models[a];
-		if (stroke.get('visible')) {
+		if (stroke.get('squigVisible')) {
 		    var points = stroke.get('points');
 		    var prevPoint = points[0];
 		    var prevMidPoint = points[0];
@@ -257,6 +307,15 @@ define([
 		}
 	    }
 	    CanvasView.inputMarker.graphics.endStroke();
+	    
+	    //redraws the strokes
+	    for (var i in CanvasView.userCharacter.models)
+	    {
+		var stroke = CanvasView.userCharacter.models[i];
+		if (stroke.get('strokeVisible')) {
+		    this.drawStroke(stroke);
+		}
+	    }
 	},
 	
 		
@@ -287,7 +346,7 @@ define([
 	},
 		
 	triggerStrokeComplete: function() {
-	    this.trigger('complete:stroke');
+	    this.trigger('complete:stroke', CanvasView.userStroke);
 	}
 	
     });
