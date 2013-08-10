@@ -62,6 +62,21 @@
 #settings-view {
     overflow: visible;
 }
+#settings-view div {
+    padding: 0 10px;
+}
+#settings-view #thresholds {
+    float: left;
+}
+#settings-view #parts {
+    float: left;
+}
+#settings-view #stroke {
+    float: left;
+}
+#settings-view #buttons {
+    clear: both;
+}
 
 
 /*** STUDY VIEW ***/

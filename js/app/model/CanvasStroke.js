@@ -53,6 +53,26 @@ define([
 	    var image = Skritter.assets.getItem('stroke', ''+this.get('bitmapId'));
 	    return { w:image.tag.width, h:image.tag.height };
 	},
+		
+	getContainedStrokeIds: function() {
+	    var ids = [];
+	    
+	    if (!this.has('contains')) {
+		ids.push(this.get('id'));
+		return ids;
+	    }
+	    
+	    var contains = this.get('contains');
+	    var position = this.get('position');
+	    for (var i in contains)
+	    {
+		var contained = contains[i];
+		ids.push(position + '|' + contained);
+		ids.push((position+1) + '|' + contained);
+	    }
+	    
+	    return ids;
+	},
 	
 	getCorners: function() {
 	    if (this.get('points').length === 0)

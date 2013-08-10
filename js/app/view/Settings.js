@@ -41,6 +41,7 @@ define([
 	    $('#thresholdDirection').val(Skritter.user.get('thresholds').direction);
 	    $('#thresholdLength').val(Skritter.user.get('thresholds').length);
 	    $('#thresholdOrderStrictness').val(Skritter.user.get('thresholds').strictness);
+	    $('#rawSquigs').prop('checked', Skritter.user.get('rawSquigs'));
 	    $('#rune').prop('checked', Skritter.user.get('parts').rune);
 	    $('#tone').prop('checked', Skritter.user.get('parts').tone);
 	    $('#defn').prop('checked', Skritter.user.get('parts').defn);
@@ -55,6 +56,7 @@ define([
 		strictness:$('#thresholdOrderStrictness').val()
 	    };
 	    Skritter.user.set('thresholds', thresholds);
+	    Skritter.user.set('rawSquigs', $('#rawSquigs').prop('checked'));
 	    var parts = {
 		defn:$('#defn').prop('checked'),
 		rdng:$('#rdng').prop('checked'),

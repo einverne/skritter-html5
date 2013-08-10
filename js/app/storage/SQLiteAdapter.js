@@ -9,6 +9,16 @@ define([
     'lodash'
 ], function() {
     
+    var tables = [
+	'decomps',
+	'items',
+	'reviews',
+	'sentences',
+	'srsconfigs',
+	'strokes',
+	'vocabs'
+    ];
+    
     var openDatabase = function(databaseName, databaseVersion, callback) {
 	var database = window.openDatabase(databaseName, databaseVersion, databaseName, 52428800);
 	database.transaction(populateDB, errorCB, successCB);
@@ -39,6 +49,42 @@ define([
 	}
 	
 	
+    };
+    
+    var clear = function(database, tableName, callback) {
+	database.transaction(query, error);
+	
+	function error(error) {
+	    console.error(error);
+	}
+	
+	var max = 0;
+	var counter = 0;
+	function query(tx) {
+	    
+	    if (tableName) {
+		max = 1;
+		tx.executeSql("DELETE FROM " + tableName, [], querySuccess, queryError);
+		return;
+	    }
+	    
+	    max = tables.length;
+	    for (var i in tables)
+	    {
+		tx.executeSql("DELETE FROM " + tables[i], [], querySuccess, queryError);
+	    }
+	}
+	
+	function querySuccess(tx, results) {
+	    counter++;
+	    console.log(counter + '/' + max);
+	    if (counter >= max) {
+		callback(results);
+	    }
+	}
+	function queryError(error) {
+	    callback(error);
+	}
     };
     
     var getItems = function(database, tableName, callback) {
@@ -361,6 +407,7 @@ define([
     };
     
     return {
+	clear: clear,
 	openDatabase: openDatabase,
 	getItems: getItems,
 	setItem: setItem,

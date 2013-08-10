@@ -62,11 +62,11 @@ define([
 	    PromptRdngView.vocab = vocab;
 	    PromptRdngView.position = position;
 	    
-	    PromptRdngView.question = PromptRdngView.vocab[0].get('writing');
-	    PromptRdngView.writing = "What's the pinyin?";
+	    PromptRdngView.question = "What's the pinyin?";
+	    PromptRdngView.writing = PromptRdngView.vocab[0].get('writing');
 	    
-	    $(this.$el.selector + ' #rdng #writing').text(PromptRdngView.writing);
 	    $(this.$el.selector + ' #rdng #question').text(PromptRdngView.question);
+	    $(this.$el.selector + ' #rdng #writing').text(PromptRdngView.writing);
 	},
 		
 	show: function() {

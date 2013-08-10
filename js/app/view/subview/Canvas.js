@@ -136,7 +136,6 @@ define([
 	},
 		
 	drawPhantomStroke: function(stroke) {
-	    console.log('drawing phantom');
 	    var bitmap = stroke.getBitmapContainer(true);
 	    createjs.Tween.get(bitmap).to({ alpha:0 }, 500, createjs.Ease.sineInOut).call(function() {
 		CanvasView.layerOverlay.removeAllChildren();
@@ -197,6 +196,11 @@ define([
 			    this.displayMessage(result.feedback);
 			    //set the stroke as visible
 			    CanvasView.userStroke.set('strokeVisible', true);
+			    //keep the squig if raw squigs in enabled
+			    if (Skritter.user.get('rawSquigs')) {
+				CanvasView.userStroke.set('strokeVisible', false);
+				CanvasView.userStroke.set('squigVisible', true);
+			    }
 			} else {
 			    //increment the failed attempts and check for too many
 			    CanvasView.userFailedAttempts++;
@@ -255,7 +259,8 @@ define([
 	handleStrokeComplete: function() {
 	    this.triggerStrokeComplete();
 	    if (this.isCharacterComplete()) {
-		CanvasView.inputMarker.graphics.clear();
+		if (Skritter.user.get('rawSquigs'))
+		    this.showTarget(0.5);
 		if (CanvasView.userGrade === 3) {
 		    this.highlight(CanvasView.layerHighlight, 'green');
 		} else {

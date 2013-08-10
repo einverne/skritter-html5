@@ -123,8 +123,7 @@ define([
     var loadStorage = function(callback) {
 	//prioritizes indexeddb over other storage methods
 	if (_.contains(navigator.userAgent, 'Chrome/28.0') ||
-		_.contains(navigator.userAgent, 'Firefox/22.0') ||
-		_.contains(navigator.userAgent, 'MSIE 10.0')) {
+		_.contains(navigator.userAgent, 'Firefox/22.0')) {
 	    console.log('using indexeddb');
 	    Skritter.storage = new Storage('indexeddb');
 	    Skritter.storage.openDatabase('skritdata', 1, function() {

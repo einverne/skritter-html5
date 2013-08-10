@@ -9,32 +9,23 @@ define([
 	
 	containsStroke: function(stroke) {
 	    var strokeId = stroke.get('id');
-	    var strokeContains = stroke.get('contains');
+	    var strokeContains = stroke.getContainedStrokeIds();
 	    for (var i in this.models)
 	    {
 		var id = this.models[i].get('id');
-		var position = this.models[i].get('position');
+		var contains = this.models[i].getContainedStrokeIds();
 		//directly check for strokes position
-		if (id === strokeId) {
+		if (strokeId === id) {
 		    return true;
 		}
-		//backwards check
-		if (this.models[i].has('contains')) {
-		    var contains = this.models[i].get('contains');
-		    for (var a in contains)
-		    {	
-			var containsId = (parseInt(position)+parseInt(a)) + '|' + contains[a];
-			if (containsId === strokeId)
-			    return true;
-		    }
-		}
-		//forward check
-		if (strokeContains) {
-		    for (var b in strokeContains)
+		//checks for existing contained strokes
+		if (contains) {
+		    for (var i in contains)
 		    {
-			var containsId = (position-b) + '|' + strokeContains[b];
-			if (containsId === id)
+			var contained = contains[i];
+			if (_.contains(strokeContains, contained)) {
 			    return true;
+			}
 		    }
 		}
 	    }

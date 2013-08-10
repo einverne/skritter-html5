@@ -84,11 +84,11 @@ define([
 	    StudyView.currentItems.sort();
 	    
 	    //StudyView.currentItems = StudyView.currentItems.filterBy('part', ['rune']);
-	    //StudyView.currentItems = StudyView.currentItems.filterBy('id', ['mcfarljwtest1-zh-什么-0-rune']);
+	    //StudyView.currentItems = StudyView.currentItems.filterBy('id', ['mcfarljwtest1-zh-品-0-rune']);
 	},
 		
 	info: function() {
-	    window.location.hash = '#info/' + StudyView.currentVocab[0].get('id');
+	    window.location = '#info/' + StudyView.currentVocab[0].get('id');
 	},
 		
 	next: function() {
