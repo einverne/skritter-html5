@@ -116,6 +116,38 @@ define([
 	    });
 	},
 	
+	syncTime: function(callback) {
+	    var today = new Date();
+	    
+	    var requests = [{
+		    path: 'api/v0/progstats',
+		    method: 'GET',
+		    params: {
+			start: today.getFullYear() + '-' + Skritter.fn.zeroPad(today.getMonth()+1, 2) + '-' + Skritter.fn.zeroPad(today.getDate(), 2)
+		    }
+	    }];
+	    
+	    Async.waterfall([
+		function(callback) {
+		    Api.requestBatch(requests, function(result) {
+			callback(null, result);
+		    });
+		},
+		function(result, callback) {
+		    Api.getBatch(result.id, function(result) {
+			callback(null, result);
+		    });
+		}
+	    ], function(error, result) {
+		if (error) {
+		    callback(error);
+		    return;
+		}
+
+		callback(result.ProgressStats[0].timeStudied.all);
+	    });
+	},
+	
 	fromCache: function(callback) {
 	    Async.parallel({
 		Decomps: function(callback) {

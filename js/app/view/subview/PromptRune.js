@@ -19,6 +19,7 @@ define([
 	
 	initialize: function() {
 	    PromptRuneView.canvas;
+	    PromptRuneView.complete = false;
 	    PromptRuneView.definition;
 	    PromptRuneView.grade = 3;
 	    PromptRuneView.gradingButtons = new GradingButtonsView();
@@ -44,6 +45,10 @@ define([
 		$(this.$el.selector + ' #rune #sentence').html(Skritter.fn.maskText(PromptRuneView.sentence, PromptRuneView.vocab[0].get('writing')));
 	    if (PromptRuneView.canvas)
 		PromptRuneView.canvas.setElement($(this.$el.selector + ' #rune #canvas-area')).render();
+	    if (PromptRuneView.complete) {
+		PromptRuneView.canvas.disable();
+		this.toggleGradingButtons();
+	    }
 	    
 	    Skritter.frame.study();
 	    return this;
@@ -56,9 +61,12 @@ define([
 	
 	handleWritingComplete: function(grade) {
 	    PromptRuneView.canvas.disable();
+	    PromptRuneView.complete = true;
+	    PromptRuneView.grade = grade;
 	    $(this.$el.selector + ' #rune #canvas-area').hammer().one('swipeleft.PromptRuneView', _.bind(this.triggerComplete, this));
 	    $(this.$el.selector + ' #rune #canvas-area').hammer().one('tap.PromptRuneView', _.bind(this.triggerComplete, this));
-	    this.show(grade);
+	    this.show();
+	    this.toggleGradingButtons();
 	},
 		
 	set: function(vocab, position) {
@@ -94,13 +102,9 @@ define([
 	    });
 	},
 		
-	show: function(grade) {
+	show: function() {
 	    //stops the time
 	    Skritter.timer.stop();
-    
-	    //display the grading buttons
-	    PromptRuneView.gradingButtons.setElement($(this.$el.selector + ' #rune #grading-buttons')).render();
-	    PromptRuneView.gradingButtons.select(grade);
 	    
 	    //display the new writing position display
 	    PromptRuneView.position++;
@@ -112,6 +116,12 @@ define([
 	    
 	    //events
 	    this.listenToOnce(PromptRuneView.gradingButtons, 'selected', this.handleGradeSelected);
+	},
+		
+	toggleGradingButtons: function() {
+	    //display the grading buttons
+	    PromptRuneView.gradingButtons.setElement($(this.$el.selector + ' #rune #grading-buttons')).render();
+	    PromptRuneView.gradingButtons.select(PromptRuneView.grade);
 	},
 		
 	triggerComplete: function() {

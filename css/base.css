@@ -23,9 +23,6 @@ body {
     -webkit-box-shadow:inset 0px 0px 0px 0px #cae3fc;
     box-shadow:inset 0px 0px 0px 0px #cae3fc;
     background-color:#79bbff;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    border-radius:6px;
     border:1px solid #469df5;
     display: block;
     color:#ffffff;
@@ -33,6 +30,7 @@ body {
     font-size:15px;
     font-weight:bold;
     margin: 10px 0;
+    max-width: 300px;
     padding:6px 24px;
     text-align: center;
     text-decoration:none;

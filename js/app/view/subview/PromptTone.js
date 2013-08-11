@@ -26,6 +26,7 @@ define([
 	
 	initialize: function() {
 	    PromptToneView.canvas;
+	    PromptToneView.complete = false;
 	    PromptToneView.defintion;
 	    PromptToneView.grade = 3;
 	    PromptToneView.gradingButtons = new GradingButtonsView();
@@ -51,21 +52,27 @@ define([
 		$(this.$el.selector + ' #tone #sentence').html(Skritter.fn.maskText(PromptToneView.sentence, PromptToneView.vocab[0].get('writing')));
 	    if (PromptToneView.canvas)
 		PromptToneView.canvas.setElement($(this.$el.selector + ' #tone #canvas-area')).render();
+	    if (PromptToneView.complete) {
+		PromptToneView.canvas.disable();
+		this.toggleGradingButtons();
+	    }
 	    
 	    Skritter.frame.study();
 	    return this;
 	},
 	
-	handleGradeSelected: function(grade) {
-	    PromptToneView.grade = grade;
+	handleGradeSelected: function() {
 	    this.triggerComplete();
 	},
 	
 	handleWritingComplete: function(grade) {
 	    PromptToneView.canvas.disable();
+	    PromptToneView.complete = true;
+	    PromptToneView.grade = grade;
 	    $(this.$el.selector + ' #tone #canvas-area').hammer().one('swipeleft.PromptToneView', _.bind(this.triggerComplete, this));
 	    $(this.$el.selector + ' #tone #canvas-area').hammer().one('tap.PromptToneView', _.bind(this.triggerComplete, this));
-	    this.show(grade);
+	    this.show();
+	    this.toggleGradingButtons();
 	},
 		
 	set: function(vocab, position) {
@@ -98,16 +105,18 @@ define([
 	},
 		
 	show: function(grade) {
-	    //display the grading buttons
-	    PromptToneView.gradingButtons.setElement($(this.$el.selector + ' #tone #grading-buttons')).render();
-	    PromptToneView.gradingButtons.select(grade);
-	    
 	    //display the new reading position display
 	    PromptToneView.position++;
 	    $(this.$el.selector + ' #tone #reading').html(PinyinConverter.toTone(PromptToneView.vocab[0].getReadingDisplayAt(PromptToneView.position)));
 	    
 	    //events
 	    this.listenToOnce(PromptToneView.gradingButtons, 'selected', this.handleGradeSelected);
+	},
+		
+	toggleGradingButtons: function() {
+	    //display the grading buttons
+	    PromptToneView.gradingButtons.setElement($(this.$el.selector + ' #tone #grading-buttons')).render();
+	    PromptToneView.gradingButtons.select(PromptToneView.grade);
 	},
 		
 	triggerComplete: function() {

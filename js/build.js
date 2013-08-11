@@ -1,37 +1,48 @@
 ({
     appDir: "../",
     baseUrl: "./js/app",
-    dir: "../build",
+    dir: "../../build",
     fileExclusionRegExp: /^(r|build)\.js$/,
-    name: "Skritter",
+    name: "Application",
     removeCombined: true,
     paths: {
-	backbone: '../lib/backbone.min',
-	base64: '../lib/base64.min',
-	boxblurFilter: '../lib/filters/boxblur',
-	colorFilter: '../lib/filters/color',
-	createjs: '../lib/createjs.min',
-	filter: '../lib/filters/filter',
-	hammer: '../lib/jquery.hammer.min',
-	jquery: '../lib/jquery.min',
-	modernizr: '../lib/modernizr.min',
-	lodash: '../lib/lodash.compat.min',
-	ready: '../lib/dom.ready.min',
-	text: '../lib/require.text.min'
+	async: '../lib/async',
+	backbone: '../lib/backbone-1.0.0.min',
+	base64: '../lib/base64',
+	'createjs.easel': '../lib/createjs.easeljs-0.6.1.min',
+	'createjs.preload': '../lib/createjs.preloadjs-0.3.1.min',
+	'createjs.sound': '../lib/createjs.soundjs-0.4.1.min',
+	'createjs.tween': '../lib/createjs.tweenjs-0.4.1.min',
+	'createjs.filter': '../lib/filters/filter',
+	'createjs.filter.boxblur': '../lib/filters/boxblur',
+	'createjs.filter.color': '../lib/filters/color',
+	jquery: '../lib/jquery-1.10.2.min',
+	'jquery.hammer': '../lib/jquery.hammerjs-1.0.5.min',
+	lodash: '../lib/lodash.compat-1.3.1.min',
+	lzstring: '../lib/lzstring-1.3.0',
+	modernizr: '../lib/modernizr-2.6.2.min',
+	'require.ready': '../lib/require.domready-2.0.1',
+	'require.text': '../lib/require.text-2.0.9'
     },
     shim: {
 	backbone: {
-	    deps: ['jquery', 'lodash', 'text'],
+	    deps: ['jquery', 'lodash', 'require.text'],
 	    exports: 'Backbone'
 	},
-	boxblurFilter: {
-	    deps: ['filter']
+	'createjs.filter.boxblur': {
+	    deps: ['createjs.filter']
 	},
-	colorFilter: {
-	    deps: ['filter']
+	'createjs.filter.color': {
+	    deps: ['createjs.filter']
 	},
-	hammer: {
+	jquery: {
+	    exports: '$'
+	},
+	'jquery.hammer': {
 	    deps: ['jquery']
+	},
+	lodash: {
+	    exports: '_'
 	}
     }
 })

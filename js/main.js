@@ -13,16 +13,16 @@ require.config({
     
     urlArgs: 'cb=' + Math.random(),
     
-    main: 'Skritter',
+    main: 'Application',
     
     paths: {
 	async: '../lib/async',
 	backbone: '../lib/backbone-1.0.0.min',
 	base64: '../lib/base64',
-	'createjs.easel': '../lib/createjs.easeljs-0.6.1.min',
+	'createjs.easel': '../lib/createjs.easeljs-NEXT.min',
 	'createjs.preload': '../lib/createjs.preloadjs-0.3.1.min',
 	'createjs.sound': '../lib/createjs.soundjs-0.4.1.min',
-	'createjs.tween': '../lib/createjs.tweenjs-0.4.1.min',
+	'createjs.tween': '../lib/createjs.tweenjs-NEXT.min',
 	'createjs.filter': '../lib/filters/filter',
 	'createjs.filter.boxblur': '../lib/filters/boxblur',
 	'createjs.filter.color': '../lib/filters/color',

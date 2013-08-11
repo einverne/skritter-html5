@@ -5,9 +5,9 @@
     width: 100%;
     height: 100%;
     min-width: 320px;
-    max-width: 1280px;
+    max-width: 100%;
     min-height: 320px;
-    max-height: 1280px;
+    max-height: 100%;
     background: #ffffff;
     
     /* Fix from Benjamin Blazke */
@@ -55,6 +55,13 @@
 #facade #icon {
     height: 100px;
     
+}
+
+
+/*** HOME VIEW ***/
+#home-view #navigation {
+    margin: 0 auto;
+    max-width: 300px;
 }
 
 
@@ -126,10 +133,12 @@
     font-size: large;
 }
 #prompt #bottom {
+    background: #eeeeee;
     position: relative;
     text-align: center;  
 }
 #prompt #bottom-prompt {
+    background: #ffffff;
     position: relative;
     margin: 0 auto;
     cursor: pointer;
