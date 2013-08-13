@@ -6,18 +6,23 @@
  * 
  */
 define([
+    'Stopwatch',
     'backbone'
-], function() {
+], function(Stopwatch) {
     var Skritter = window.skritter;
     
     var TimerView = Backbone.View.extend({
 	
 	initialize: function() {
+	    TimerView.stopwatch = new Stopwatch;
 	    TimerView.timer;
-	    TimerView.counter = 0;
+	    
 	    TimerView.display = '0:00';
-	    TimerView.lapCounter = 0;
-	    TimerView.limit = 30;
+	    TimerView.lap = 0;
+	    TimerView.reviewTime = 0;
+	    TimerView.reviewLimit = 30000;
+	    TimerView.thinkingTime = 0;
+	    TimerView.thinkingLimit = 15000;
 	},
 	
 	render: function() {
@@ -25,50 +30,71 @@ define([
 	    return this;
 	},
 		
-	getDuration: function() {
-	    return TimerView.lapCounter;
+	getReviewTime: function() {
+	    var time = new Date().getTime() - TimerView.lap;
+	    if (time >= TimerView.reviewLimit)
+		return TimerView.reviewLimit / 1000;
+	    return time / 1000;
 	},
 		
-	setLimit: function(seconds) {
-	    TimerView.limit = seconds;
+	getThinkingTime: function() {
+	    var time = new Date().getTime() - TimerView.lap;
+	    if (time >= TimerView.thinkingLimit)
+		return TimerView.thinkingLimit / 1000;
+	    return time / 1000;
+	},
+	
+	setReviewLimit: function(milliseconds) {
+	    TimerView.reviewLimit = milliseconds;
 	},
 		
+	setThinkingLimit: function(milliseconds) {
+	    TimerView.thinkingLimit = milliseconds;
+	},
+
 	start: function() {
-	    if (!TimerView.timer)
-		TimerView.timer = window.setInterval(_.bind(this.update, this), 1000);
+	    TimerView.lap = new Date().getTime();
+	    TimerView.timer = window.setInterval(_.bind(this.update, this), 1);
+	    TimerView.stopwatch.start();
 	},
 		
 	stop: function() {
-	    if (TimerView.timer) {
-		clearInterval(TimerView.timer);
-		TimerView.timer = false;
-		TimerView.limit = 30;
-	    }
+	    window.clearInterval(TimerView.timer);
+	    TimerView.stopwatch.stop();
 	},
 		
 	update: function() {
-	    if (TimerView.lapCounter >= TimerView.limit) {
-		TimerView.lapCounter = 0;
-		this.stop();
-		return;
-	    }
-		
-    
-	    TimerView.counter += 1000;
-	    TimerView.lapCounter += 1;
-	    var time = TimerView.counter;
-	    
+	    var time = TimerView.stopwatch.time();
+	    var lap = new Date().getTime() - TimerView.lap;
+	    var h = m = s = ms = 0;
+	    var newDisplay;
+
+	    //split the time out into the proper units
 	    h = Math.floor(time / (Math.pow(60, 2) * 1000));
 	    time = time % (Math.pow(60, 2) * 1000);
 	    m = Math.floor(time / (60 * 1000));
 	    time = time % (60 * 1000);
 	    s = Math.floor(time / 1000);
-	    //ms = time % 1000;
+	    ms = time % 1000;
+
+	    //format things a little differently if we pass the hour mark
+	    if (h > 0) {
+		newDisplay = h + ':' + Skritter.fn.zeroPad(m, 2) + ':' + Skritter.fn.zeroPad(s, 2);
+	    } else {
+		newDisplay = m + ':' + Skritter.fn.zeroPad(s, 2);
+	    }
 	    
-	    TimerView.display = m + ':' + Skritter.fn.zeroPad(s, 2);
-	    this.render();
+	    //only render if the second has changed
+	    if (TimerView.display !== newDisplay) {
+		
+		//stop the timer if it reaches the review limit
+		if (lap >= TimerView.reviewLimit)
+		    this.stop();
+		
+		TimerView.display = newDisplay;
+		this.render();
+	    }
 	}
-	
     });
     
     return TimerView;

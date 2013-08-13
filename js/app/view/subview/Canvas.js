@@ -79,6 +79,7 @@ define([
 	    CanvasView.inputMarker.graphics.clear();
 	    CanvasView.layerInput.removeAllChildren();
 	    CanvasView.layerInput.addChild(CanvasView.inputMarker);
+	    CanvasView.layerOverlay.removeAllChildren();
 	    CanvasView.layerHighlight.removeAllChildren();
 	},
 		

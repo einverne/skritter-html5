@@ -27,7 +27,7 @@ define([
 	    PromptView.item;
 	    PromptView.position = 0;
 	    PromptView.prompt;
-	    PromptView.submitTime;
+	    PromptView.totalTime = 0;
 	    PromptView.vocab;
 	    
 	    //components
@@ -73,7 +73,6 @@ define([
 	},
 		
 	handlePositionComplete: function(grade) {
-	    console.log(Skritter.timer.getDuration());
 	    //only change the position if a rune or tone prompt
 	    if (PromptView.item.get('part') === 'rune' || PromptView.item.get('part') === 'tone') {
 		if (PromptView.vocab[0].getCharacterCount() <= PromptView.position + 1) {
@@ -101,7 +100,7 @@ define([
 		
 	reset: function() {
 	    PromptView.position = 0;
-	    PromptView.submitTime = Skritter.fn.getUnixTime();
+	    PromptView.totalTime = 0;
 	},
 		
 	triggerComplete: function() {
@@ -110,22 +109,7 @@ define([
 		
 	updateItem: function(item, grade) {
 	    //update the items values using the scheduler
-	    var updatedItem = PromptView.scheduler.update(item, grade);
-	    //create a review for the item to be sent to the server
-	    /*Skritter.studyReviews.add(new StudyReview({
-		itemId: item.id,
-		score: grade,
-		bearTime: true,
-		submitTime: PromptView.submitTime,
-		reviewTime: Skritter.timer.getDuration,
-		thinkingTime: Skritter.timer.getDuration,
-		currentInterval: item.previous('interval'),
-		actualInterval: Skritter.fn.getUnixTime() - item.previous('last'),
-		newInterval: item.get('interval'),
-		wordGroup: PromptView.vocab.get('writing'),
-		previousInterval: item.get('previousInterval'),
-		previousSuccess: item.get('previousSuccess')
-	    }));*/
+	    PromptView.scheduler.createReview(item, grade);
 	}
 	
     });

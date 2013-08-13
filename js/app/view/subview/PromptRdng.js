@@ -58,6 +58,10 @@ define([
 	},
 		
 	set: function(vocab, position) {
+	    Skritter.timer.setReviewLimit(30000);
+	    Skritter.timer.setThinkingLimit(15000);
+	    Skritter.timer.start();
+    
 	    this.render();
 	    PromptRdngView.vocab = vocab;
 	    PromptRdngView.position = position;
@@ -70,6 +74,8 @@ define([
 	},
 		
 	show: function() {
+	    Skritter.timer.stop();
+    
 	    $(this.$el.selector + ' #rdng #question').hide();
 	    $(this.$el.selector + ' #rdng #definition').html(PromptRdngView.vocab[0].get('definitions').en);
 	    $(this.$el.selector + ' #rdng #reading').html(PinyinConverter.toTone(PromptRdngView.vocab[0].get('reading')));

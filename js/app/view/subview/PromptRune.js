@@ -70,7 +70,8 @@ define([
 	},
 		
 	set: function(vocab, position) {
-	    //starts the timer
+	    Skritter.timer.setReviewLimit(30000);
+	    Skritter.timer.setThinkingLimit(15000);
 	    Skritter.timer.start();
 	    
 	    PromptRuneView.vocab = vocab;
@@ -103,9 +104,8 @@ define([
 	},
 		
 	show: function() {
-	    //stops the time
 	    Skritter.timer.stop();
-	    
+    
 	    //display the new writing position display
 	    PromptRuneView.position++;
 	    $(this.$el.selector + ' #rune #writing').html(PromptRuneView.vocab[0].getWritingDisplayAt(PromptRuneView.position));

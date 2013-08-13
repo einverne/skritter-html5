@@ -60,6 +60,10 @@ define([
 	},
 		
 	set: function(vocab, position) {
+	    Skritter.timer.setReviewLimit(30000);
+	    Skritter.timer.setThinkingLimit(15000);
+	    Skritter.timer.start();
+    
 	    this.render();
 	    PromptDefnView.vocab = vocab;
 	    PromptDefnView.position = position;
@@ -74,6 +78,8 @@ define([
 	},
 		
 	show: function() {
+	    Skritter.timer.stop();
+	    
 	    $(this.$el.selector + ' #defn #question').hide();
 	    $(this.$el.selector + ' #defn #answer').html(PromptDefnView.vocab[0].get('definitions').en);
 	    PromptDefnView.gradingButtons.setElement($(this.$el.selector + ' #defn #grading-buttons')).render();

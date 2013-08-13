@@ -1,3 +1,13 @@
+@font-face {
+	font-family: kaisho;
+	src: url('css/font/DFPKaiSho-Md.ttf');
+}
+
+@font-face {
+	font-family: simkai;
+	src: url('css/font/simkai.ttf');
+}
+
 html, body {
     width: 100%;
     height: 100%;

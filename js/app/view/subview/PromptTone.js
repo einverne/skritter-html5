@@ -76,6 +76,10 @@ define([
 	},
 		
 	set: function(vocab, position) {
+	    Skritter.timer.setReviewLimit(15000);
+	    Skritter.timer.setThinkingLimit(10000);
+	    Skritter.timer.start();
+    
 	    PromptToneView.vocab = vocab;
 	    PromptToneView.position = position;
 	    
@@ -105,6 +109,8 @@ define([
 	},
 		
 	show: function(grade) {
+	    
+    
 	    //display the new reading position display
 	    PromptToneView.position++;
 	    $(this.$el.selector + ' #tone #reading').html(PinyinConverter.toTone(PromptToneView.vocab[0].getReadingDisplayAt(PromptToneView.position)));
