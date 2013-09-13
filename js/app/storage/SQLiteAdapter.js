@@ -1,105 +1,128 @@
 /*
  * 
- * Module: SQLiteAdapter
+ * Storage: SQLiteAdapter
  * 
  * Created By: Joshua McFarland
  * 
  */
-define([
-    'lodash'
-], function() {
+define(function() {
     
-    var tables = [
-	'decomps',
-	'items',
-	'reviews',
-	'sentences',
-	'srsconfigs',
-	'strokes',
-	'vocabs'
-    ];
+    var tables = {
+	decomps: {
+	    keys: ['writing'],
+	    fields: ['atomic', 'Children']
+	},
+	items: {
+	    keys: ['id'],
+	    fields: ['part', 'vocabIds', 'style', 'timeStudied', 'next', 'last', 'interval', 'vocabListIds', 'sectionIds', 'reviews', 'successes', 'created', 'changed', 'previousSuccess', 'previousInterval']
+	},
+	reviews: {
+	    keys: ['itemId'],
+	    fields: ['score', 'bearTime', 'submitTime', 'reviewTime', 'thinkingTime', 'currentInterval', 'actualInterval', 'newInterval', 'wordGroup', 'previousInterval', 'previousSuccess']
+	},
+	sentences: {
+	    keys: ['id'],
+	    fields: ['containedVocabIds', 'definitions', 'lang', 'reading', 'starred', 'style', 'toughness', 'toughnessString', 'writing']
+	},
+	srsconfigs: {
+	    keys: ['part', 'lang'],
+	    fields: ['initialRightInterval', 'initialWrongInterval', 'rightFactors', 'wrongFactors']
+	},
+	strokes: {
+	    keys: ['rune'],
+	    fields: ['lang', 'strokes']
+	},
+	vocabs: {
+	    keys: ['id'],
+	    fields: ['writing', 'reading', 'definitions', 'customDefinitions', 'lang', 'audio', 'rareKanji', 'toughness', 'toughnessString', 'mnemonic', 'starred', 'style', 'changed', 'bannedParts', 'containedVocabIds', 'heisigDefinition', 'sentenceId', 'topMnemonic']
+	}
+    };
+    
+    var clear = function(database, callback) {
+	
+    };
+    
+    var clearAll = function(database, callback) {
+	database.transaction(queryCB, errorCB);
+	
+	function errorCB(error) {
+	    console.error(error);
+	}
+	
+	function queryCB(tx) {
+	    var counter = 0;
+	    var max = Object.keys(tables).length;
+	    for (var table in tables)
+	    {
+		tx.executeSql("DELETE FROM " + table, [], querySuccessCB, queryErrorCB);
+	    }
+	    
+	    function querySuccessCB(tx, results) {
+		counter++;
+		if (counter >= max) {
+		    callback(results);
+		}
+	    }
+	    function queryErrorCB(error) {
+		console.error(error);
+	    }
+	}
+    };
+    
+    var deleteDatabase = function(databaseName, callback) {
+	//todo: add delete ability
+    };
     
     var openDatabase = function(databaseName, databaseVersion, callback) {
+	console.log(databaseName, databaseVersion);
 	var database = window.openDatabase(databaseName, databaseVersion, databaseName, 52428800);
 	database.transaction(populateDB, errorCB, successCB);
 	
 	function populateDB(tx) {
-	    /*tx.executeSql('DROP TABLE IF EXISTS items');
-	    tx.executeSql('DROP TABLE IF EXISTS vocabs');
-	    tx.executeSql('DROP TABLE IF EXISTS strokes');
-	    tx.executeSql('DROP TABLE IF EXISTS srsconfigs');
-	    tx.executeSql('DROP TABLE IF EXISTS decomps');
-	    tx.executeSql('DROP TABLE IF EXISTS sentences');
-	    tx.executeSql('DROP TABLE IF EXISTS reviews');*/
-	    tx.executeSql('CREATE TABLE IF NOT EXISTS items (id PRIMARY KEY, part, vocabIds, style, timeStudied, next, last, interval, vocabListIds, sectionIds, reviews, successes, created, changed, previousSuccess, previousInterval)');
-	    tx.executeSql('CREATE TABLE IF NOT EXISTS vocabs (id PRIMARY KEY, writing, reading, definitions, customDefinitions, lang, audio, rareKanji, toughness, toughnessString, mnemonic, starred, style, changed, bannedParts, containedVocabIds, heisigDefinition, sentenceId, topMnemonic)');
-	    tx.executeSql('CREATE TABLE IF NOT EXISTS strokes (rune PRIMARY KEY, lang, strokes)');
-	    tx.executeSql('CREATE TABLE IF NOT EXISTS srsconfigs (part, lang, initialRightInterval, initialWrongInterval, rightFactors, wrongFactors, PRIMARY KEY (part, lang))');
-	    tx.executeSql('CREATE TABLE IF NOT EXISTS decomps (writing PRIMARY KEY, atomic, Children)');
-	    tx.executeSql('CREATE TABLE IF NOT EXISTS sentences (id PRIMARY KEY, containedVocabIds, definitions, lang, reading, starred, style, toughness, toughnessString, writing)');
-	    tx.executeSql('CREATE TABLE IF NOT EXISTS reviews (itemId PRIMARY KEY, score, bearTime, submitTime, reviewTime, thinkingTime, currentInterval, actualInterval, newInterval, wordGroup, previousInterval, previousSuccess)');
+	    console.log('populating database');
+	    for (var table in tables)
+	    {
+		var sql = 'CREATE TABLE IF NOT EXISTS';
+		if (tables[table].keys.length === 0) {
+		    sql += ' ' + table + ' (' + tables[table].fields.join(', ');
+		} else if (tables[table].keys.length === 1) {
+		    sql += ' ' + table + ' (' + tables[table].keys[0] + ' PRIMARY KEY, ' + tables[table].fields.join(', ') + ')';
+		} else {
+		    sql += ' ' + table + ' (' + tables[table].keys.join(', ') + ', ' + tables[table].fields.join(', ') + ', PRIMARY KEY (' + tables[table].keys.join(', ') + '))';
+		}
+		tx.executeSql(sql);
+	    }
 	}
-
+	
 	function errorCB(error) {
-	    alert("SQL Error: " + error.code);
+	    console.error(error);
 	}
 
 	function successCB() {
+	    console.log('database loaded');
 	    callback(database);
 	}
-	
-	
     };
     
-    var clear = function(database, tableName, callback) {
-	database.transaction(query, error);
+    var getItem = function(database, tableName, key, callback) {
 	
-	function error(error) {
-	    console.error(error);
-	}
-	
-	var max = 0;
-	var counter = 0;
-	function query(tx) {
-	    
-	    if (tableName) {
-		max = 1;
-		tx.executeSql("DELETE FROM " + tableName, [], querySuccess, queryError);
-		return;
-	    }
-	    
-	    max = tables.length;
-	    for (var i in tables)
-	    {
-		tx.executeSql("DELETE FROM " + tables[i], [], querySuccess, queryError);
-	    }
-	}
-	
-	function querySuccess(tx, results) {
-	    counter++;
-	    console.log(counter + '/' + max);
-	    if (counter >= max) {
-		callback(results);
-	    }
-	}
-	function queryError(error) {
-	    callback(error);
-	}
     };
     
     var getItems = function(database, tableName, callback) {
-	database.transaction(query, error);
+	console.log('table:', tableName);
+	database.transaction(queryCB, errorCB);
 	
-	function error(error) {
+	function errorCB(error) {
 	    console.error(error);
 	}
 	
-	function query(tx) {
-	    tx.executeSql("SELECT * FROM " + tableName, [], querySuccess, queryError);
+	function queryCB(tx) {
+	    tx.executeSql("SELECT * FROM " + tableName, [], querySuccessCB, queryErrorCB);
 	}
 	
-	function querySuccess(tx, result) {
+	function querySuccessCB(tx, result) {
 	    var results = [];
+	    
 	    for (var i=0; i < result.rows.length; i++)
 	    {
 		var item = _.cloneDeep(result.rows.item(i));
@@ -121,8 +144,8 @@ define([
 		}
 		//SRSCONFIGS
 		if (tableName === 'srsconfigs') {
-		    item['rightFactors'] = item['rightFactors'].split(',');
-		    item['wrongFactors'] = item['wrongFactors'].split(',');
+		    item['rightFactors'] = JSON.parse(item['rightFactors']);
+		    item['wrongFactors'] = JSON.parse(item['wrongFactors']);
 		}
 		//STROKES
 		if (tableName === 'strokes') {
@@ -132,10 +155,10 @@ define([
 		if (tableName === 'vocabs') {
 		    item['containedVocabIds'] = item['containedVocabIds'].split(',');
 		    item['definitions'] = JSON.parse(item['definitions']);
-		    if (item['topMnemonic'] !== 'undefined') {
-			item['topMnemonic'] = JSON.parse(item['topMnemonic']);
-		    } else {
+		    if (item['topMnemonic'] === '') {
 			delete item['topMnemonic'];
+		    } else {
+			item['topMnemonic'] = JSON.parse(item['topMnemonic']);
 		    }
 		}
 		
@@ -144,272 +167,92 @@ define([
 	    callback(results);
 	}
 	
-	function queryError(error) {
+	function queryErrorCB(error) {
 	    console.error(error);
 	}
     };
     
     var setItem = function(database, tableName, item, callback) {
-	database.transaction(query, error);
+	database.transaction(queryCB, errorCB);
 	
-	function error(error) {
+	function errorCB(error) {
 	    console.error(error);
 	}
 	
-	function query(tx) {
-		//DECOMPS
-		if (tableName === 'decomps') {
-		    tx.executeSql("INSERT OR REPLACE INTO decomps (writing,atomic,Children) VALUES (?,?,?)",[
-			item.writing,
-			item.atomic,
-			JSON.stringify(item.Children)
-		    ], querySuccess, queryError);
-		}
-		//ITEMS
-		if (tableName === 'items') {
-		    tx.executeSql("INSERT OR REPLACE INTO items (id,part,vocabIds,style,timeStudied,next,last,interval,vocabListIds,sectionIds,reviews,successes,created,changed,previousSuccess,previousInterval) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[
-			item.id,
-			item.part,
-			JSON.stringify(item.vocabIds),
-			item.style,
-			item.timeStudied,
-			item.next,
-			item.last,
-			item.interval,
-			JSON.stringify(item.vocabListIds),
-			JSON.stringify(item.sectionIds),
-			item.reviews,
-			item.successes,
-			item.created,
-			item.changed,
-			item.previousSuccess,
-			item.previousInterval
-		    ], querySuccess, queryError);
-		}
-		//REVIEWS
-		if (tableName === 'reviews') {
-		    tx.executeSql("INSERT OR REPLACE INTO reviews (itemId,score,bearTime,submitTime,reviewTime,thinkingTime,currentInterval,actualInterval,newInterval,wordGroup,previousInterval,previousSuccess) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[
-			item.itemId,
-			item.score,
-			item.bearTime,
-			item.submitTime,
-			item.reviewTime,
-			item.thinkingTime,
-			item.currentInterval,
-			item.actualInterval,
-			item.newInterval,
-			item.wordGroup,
-			item.previousInterval,
-			item.previousSuccess
-		    ], querySuccess, queryError);
-		}
-		//SRSCONFIGS
-		if (tableName === 'srsconfigs') {
-		    tx.executeSql("INSERT OR REPLACE INTO srsconfigs (part,lang,initialRightInterval,initialWrongInterval,rightFactors,wrongFactors) VALUES (?,?,?,?,?,?)",[
-			item.part,
-			item.lang,
-			item.initialRightInterval,
-			item.initialWrongInterval,
-			item.rightFactors,
-			item.wrongFactors
-		    ], querySuccess, queryError);
-		}
-		//SENTENCES
-		if (tableName === 'sentences') {
-		    tx.executeSql("INSERT OR REPLACE INTO sentences (id,containedVocabIds,definitions,lang,reading,starred,style,toughness,toughnessString,writing) VALUES (?,?,?,?,?,?,?,?,?,?)",[
-			item.id,
-			item.containedVocabIds,
-			JSON.stringify(item.definitions),
-			item.lang,
-			item.reading,
-			item.starred,
-			item.style,
-			item.toughness,
-			item.toughnessString,
-			item.writing
-		    ], querySuccess, queryError);
-		}
-		//STROKES
-		if (tableName === 'strokes') {
-		    tx.executeSql("INSERT OR REPLACE INTO strokes (rune, lang, strokes) VALUES (?,?,?)",[
-			item.rune,
-			item.lang,
-			JSON.stringify(item.strokes)
-		    ], querySuccess, queryError);
-		}
-		//VOCABS
-		if (tableName === 'vocabs') {
-		    tx.executeSql("INSERT OR REPLACE INTO vocabs (id,writing,reading,definitions,customDefinitions,lang,audio,rareKanji,toughness,toughnessString,mnemonic,starred,style,changed,bannedParts,containedVocabIds,heisigDefinition,sentenceId,topMnemonic) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[
-			item.id,
-			item.writing,
-			item.reading,
-			JSON.stringify(item.definitions),
-			JSON.stringify(item.customDefinitions),
-			item.lang,
-			item.audio,
-			item.rareKanji,
-			item.toughness,
-			item.toughnessString,
-			item.mnemonic,
-			item.starred,
-			item.style,
-			item.changed,
-			item.bannedParts,
-			item.containedVocabIds,
-			item.heisigDefinition,
-			item.sentenceId,
-			JSON.stringify(item.topMnemonic)
-		    ], querySuccess, queryError);
-		}
-	    
-	}
+	function queryCB(tx) {
+	    var table = tables[tableName];
 
-	function querySuccess(tx, results) {
-	    callback(results);
-	}
-	function queryError(error) {
-	    counter++;
-	    console.error(error);
-	    callback(error);
-	}
-    };
-    
-    var setItems = function(database, tableName, items, callback) {
-	database.transaction(query, error);
-	
-	function error(error) {
-	    console.error(error);
-	}
-	
-	function query(tx) {
-	    for (var i in items)
+	    var valuesLength = table.keys.length + table.fields.length;
+	    var valuesString = '';
+	    for (var i = 1; i <= valuesLength; i++)
 	    {
-		var item = items[i];
-		//DECOMPS
-		if (tableName === 'decomps') {
-		    tx.executeSql("INSERT OR REPLACE INTO decomps (writing,atomic,Children) VALUES (?,?,?)",[
-			item.writing,
-			item.atomic,
-			JSON.stringify(item.Children)
-		    ], querySuccess, queryError);
+		valuesString += '?';
+		if (i !== valuesLength)
+		    valuesString += ',';
+	    }
+
+	    var sql = 'INSERT OR REPLACE INTO';
+	    sql += ' ' + tableName + ' (' + table.keys.join(', ') + ', ' + table.fields.join(', ') + ')' + ' VALUES (' + valuesString + ')';
+
+	    var values = [];
+	    var fields = tables[tableName].keys.concat(tables[tableName].fields);
+	    for (var i in fields)
+	    {
+		var field = fields[i];
+		var value = item[field];
+		if (typeof value === 'undefined') {
+		    value = '';
+		} else if (value.constructor === Array || value.constructor === Object) {
+		    value = JSON.stringify(value);
 		}
-		//ITEMS
-		if (tableName === 'items') {
-		    tx.executeSql("INSERT OR REPLACE INTO items (id,part,vocabIds,style,timeStudied,next,last,interval,vocabListIds,sectionIds,reviews,successes,created,changed,previousSuccess,previousInterval) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[
-			item.id,
-			item.part,
-			JSON.stringify(item.vocabIds),
-			item.style,
-			item.timeStudied,
-			item.next,
-			item.last,
-			item.interval,
-			JSON.stringify(item.vocabListIds),
-			JSON.stringify(item.sectionIds),
-			item.reviews,
-			item.successes,
-			item.created,
-			item.changed,
-			item.previousSuccess,
-			item.previousInterval
-		    ], querySuccess, queryError);
-		}
-		//REVIEWS
-		if (tableName === 'reviews') {
-		    tx.executeSql("INSERT OR REPLACE INTO reviews (itemId,score,bearTime,submitTime,reviewTime,thinkingTime,currentInterval,actualInterval,newInterval,wordGroup,previousInterval,previousSuccess) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[
-			item.itemId,
-			item.score,
-			item.bearTime,
-			item.submitTime,
-			item.reviewTime,
-			item.thinkingTime,
-			item.currentInterval,
-			item.actualInterval,
-			item.newInterval,
-			item.wordGroup,
-			item.previousInterval,
-			item.previousSuccess
-		    ], querySuccess, queryError);
-		}
-		//SRSCONFIGS
-		if (tableName === 'srsconfigs') {
-		    tx.executeSql("INSERT OR REPLACE INTO srsconfigs (part,lang,initialRightInterval,initialWrongInterval,rightFactors,wrongFactors) VALUES (?,?,?,?,?,?)",[
-			item.part,
-			item.lang,
-			item.initialRightInterval,
-			item.initialWrongInterval,
-			item.rightFactors,
-			item.wrongFactors
-		    ], querySuccess, queryError);
-		}
-		//SENTENCES
-		if (tableName === 'sentences') {
-		    tx.executeSql("INSERT OR REPLACE INTO sentences (id,containedVocabIds,definitions,lang,reading,starred,style,toughness,toughnessString,writing) VALUES (?,?,?,?,?,?,?,?,?,?)",[
-			item.id,
-			item.containedVocabIds,
-			JSON.stringify(item.definitions),
-			item.lang,
-			item.reading,
-			item.starred,
-			item.style,
-			item.toughness,
-			item.toughnessString,
-			item.writing
-		    ], querySuccess, queryError);
-		}
-		//STROKES
-		if (tableName === 'strokes') {
-		    tx.executeSql("INSERT OR REPLACE INTO strokes (rune, lang, strokes) VALUES (?,?,?)",[
-			item.rune,
-			item.lang,
-			JSON.stringify(item.strokes)
-		    ], querySuccess, queryError);
-		}
-		//VOCABS
-		if (tableName === 'vocabs') {
-		    tx.executeSql("INSERT OR REPLACE INTO vocabs (id,writing,reading,definitions,customDefinitions,lang,audio,rareKanji,toughness,toughnessString,mnemonic,starred,style,changed,bannedParts,containedVocabIds,heisigDefinition,sentenceId,topMnemonic) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[
-			item.id,
-			item.writing,
-			item.reading,
-			JSON.stringify(item.definitions),
-			JSON.stringify(item.customDefinitions),
-			item.lang,
-			item.audio,
-			item.rareKanji,
-			item.toughness,
-			item.toughnessString,
-			item.mnemonic,
-			item.starred,
-			item.style,
-			item.changed,
-			item.bannedParts,
-			item.containedVocabIds,
-			item.heisigDefinition,
-			item.sentenceId,
-			JSON.stringify(item.topMnemonic)
-		    ], querySuccess, queryError);
-		}
+		values.push(value);
+	    }
+	    tx.executeSql(sql, values, querySuccessCB, queryErrorCB);
+
+	    function querySuccessCB(tx, results) {
+		callback(results);
+	    }
+
+	    function queryErrorCB(error) {
+		console.error(error);
 	    }
 	}
 	
-	var counter = 0;
-	function querySuccess(tx, results) {
-	    counter++;
-	    if (counter >= items.length)
-		callback();
-	}
-	function queryError(error) {
-	    counter++;
+    };
+    
+    var setItems = function(database, tableName, items, callback) {
+	database.transaction(queryCB, errorCB);
+	
+	function errorCB(error) {
 	    console.error(error);
-	    if (counter >= items.length)
-		callback();
+	}
+	
+	function queryCB(tx) {
+	    var counter = 0;
+	    var max = items.length;
+	    for (var i in items)
+	    {
+		var item = items[i];
+		setItem(database, tableName, item, querySuccessCB);
+	    }
+	    
+	    function querySuccessCB(tx, results) {
+		counter++;
+		if (counter >= max) {
+		    callback(counter);
+		}
+	    }
 	}
     };
     
+    
     return {
 	clear: clear,
-	openDatabase: openDatabase,
+	clearAll: clearAll,
+	deleteDatabase: deleteDatabase,
+	getItem: getItem,
 	getItems: getItems,
+	openDatabase: openDatabase,
 	setItem: setItem,
 	setItems: setItems
     };

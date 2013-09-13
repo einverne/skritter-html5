@@ -1,18 +1,22 @@
+/*
+ * 
+ * View: Facade
+ * 
+ * Created By: Joshua McFarland
+ * 
+ */
 define([
-    'require.text!template/facade.html',
+    'require.text!template/facade-view.html',
     'backbone'
-], function(templateLoading) {
+], function(templateFacade) {
     
     var FacadeView = Backbone.View.extend({
 	
 	initialize: function() {
-	  this.hide();
-	  this.render();
+	    this.render();
 	},
-	
-	el: $('#facade'),
-	
-	template: _.template(templateLoading),
+		
+	template: templateFacade,
 	
 	render: function() {
 	    this.$el.html(this.template);
@@ -20,23 +24,20 @@ define([
 	},
 		
 	hide: function() {
-	    $('#facade').hide();
+	    $(this.el).hide();
 	},
 		
-	message: function(message) {
-	    $('#message').text(message);
-	    return message;
-	},
-		
-	show: function(message) {
-	    message = (message) ? message : 'LOADING';
-	    if (message)
-		$('#message').text(message);
-	    $('#icon').css('background',"url('img/logo/logo_skritter.png') no-repeat center");
-	    $('#facade').show();
+	show: function(value) {
+	    if (value) {
+		this.$('#display').html(value);
+	    } else {
+		this.$('#display').hide();
+	    }
+	    $(this.el).show();
 	}
 	
     });
+    
     
     return FacadeView;
 });

@@ -1,10 +1,26 @@
+/*
+ * 
+ * Model: StudySRSConfig
+ * 
+ * Created By: Joshua McFarland
+ * 
+ * Properties
+ * part
+ * lang
+ * initialRightInterval
+ * initialWrongInterval
+ * rightFactors
+ * wrongFactors
+ * 
+ */
 define([
     'backbone'
 ], function() {
-   
-    var StudySRSConfig = Backbone.Model.extend({
+    
+    var StudySRSConfigs = Backbone.Model.extend({
 	
     });
-
-    return StudySRSConfig;
+    
+    
+    return StudySRSConfigs;
 });

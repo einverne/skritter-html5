@@ -1,106 +1,88 @@
 /*
  * 
- * Module: Study
+ * View: Study
  * 
  * Created By: Joshua McFarland
  * 
  */
 define([
-    'view/subview/Prompt',
-    'view/subview/StudyBar',
-    'require.text!template/study.html',
+    'require.text!template/study-view.html',
+    'view/prompt/Prompt',
+    'view/Toolbar',
     'backbone'
-], function(PromptView, StudyBarView, templateStudy) {
-    var Skritter = window.skritter;
-
+], function(templateStudy, PromptView, ToolbarView) {
+    
     var StudyView = Backbone.View.extend({
 	
 	initialize: function() {
-	    //study resources
-	    StudyView.currentItems;
-	    StudyView.currentItem;
-	    StudyView.currentVocab;
-	    
-	    //components
-	    StudyView.prompt = new PromptView({ el: $('#prompt') });
-	    StudyView.studyBar = new StudyBarView();
+	    StudyView.currentItem = null;
+	    StudyView.items;
+	    StudyView.prompt = new PromptView();
+	    StudyView.toolbar = new ToolbarView();
 	},
 		
-	template: _.template(templateStudy),
+	template: templateStudy,
 		
 	render: function() {
 	    this.$el.html(this.template);
 	    
-	    //loads the studybar into the dom
-	    StudyView.studyBar.setElement($('#studybar')).render();
+	    this.applyFilter();
 	    
-	    //filters the study items based on user settings
-	    this.filter();
+	    StudyView.toolbar.setElement(this.$('#toolbar-container')).render();
+	    StudyView.toolbar.addOption('{back}', 'back-button');
+	    StudyView.toolbar.addOption('{timer}', 'timer');
+	    StudyView.toolbar.addOption('{add}', 'add-button');
+	    StudyView.toolbar.addOption('{no-audio}', 'audio-button');
+	    StudyView.toolbar.addOption('{info}', 'info-button');
 	    
-	    //checks to see if an item has been loaded
-	    if (!StudyView.currentItem) {
-		//loads the first item prompt
-		this.next();
-		//when the prompt is complete get another item
-		this.listenTo(StudyView.prompt, 'complete:prompt', this.next);
-	    } else {
-		//load an existing prompt into the dom
+	    //render the time to the toolbar
+	    Skritter.timer.setElement(this.$('#timer')).render();
+	    
+	    //check for an existing prompt then either load it or select the next
+	    StudyView.prompt.setElement(this.$('#prompt-container'));
+	    if (StudyView.prompt.exists()) {
 		StudyView.prompt.render();
+	    } else {
+		this.nextItem();
+		this.listenTo(StudyView.prompt, 'item:complete', this.handleItemComplete);
 	    }
 	    
 	    return this;
 	},
 		
 	events: {
-	    'click.StudyBarView #studybar #info': 'info'
+	    'click.StudyView #back-button': 'back',
+	    'click.StudyView #info-button': 'info'
+	},
+	
+	back: function() {
+	    document.location.hash = '';
 	},
 		
-	filter: function() {
-	    StudyView.currentItems = Skritter.studyItems.clone();
-	    StudyView.currentItems = StudyView.currentItems.filterActive();
-	    
-	    //checks and filters based on the user specific settings
-	    var filter = [];
-	    var parts = Skritter.user.get('parts');
-	    for (var part in parts)
-	    {
-		if (parts[part]) {
-		    filter.push(part);
-		}
-	    }
-	    StudyView.currentItems = StudyView.currentItems.filterBy('part', filter);
-	    
-	    //if there are no items in the selected parts then enable all
-	    if (StudyView.currentItems.length === 0) {
-		Skritter.user.set('parts', {
-		    defn: true,
-		    rdng: true,
-		    rune: true,
-		    tone: true
-		});
-		this.filter();
-	    }
-	    
-	    StudyView.currentItems.sort();
-	    
-	    //StudyView.currentItems = StudyView.currentItems.filterBy('part', ['rune']);
-	    //StudyView.currentItems = StudyView.currentItems.filterBy('id', ['mcfarljwtest1-zh-品-0-rune']);
+	applyFilter: function() {
+	    StudyView.items = Skritter.study.items.getStudy();
+	    //StudyView.items = StudyView.items.filterBy('id', ['mcfarljwtest2-zh-笑死-0-rune']);
 	},
-		
+	
+	handleItemComplete: function() {
+	    this.nextItem();
+	},
+	
 	info: function() {
-	    window.location = '#info/' + StudyView.currentVocab[0].get('id');
+	    document.location = '#info/' + StudyView.currentItem.getVocabs()[0].get('id');
 	},
 		
-	next: function() {
-	    StudyView.currentItem = StudyView.currentItems.at(0);
-	    StudyView.currentVocab = StudyView.currentItem.getStudyVocabs();
-	    console.log('Prompt: '+ StudyView.currentVocab[0].get('writing') + ' (' + StudyView.currentItem.get('style') + ',' +  StudyView.currentItem.get('part') + ')');
-	    console.log('Readiness: ' + StudyView.currentItem.getReadiness());
-	    //load the new prompt
-	    StudyView.prompt.load(StudyView.currentItem, StudyView.currentVocab);
+	nextItem: function() {
+	    StudyView.items.sort();
+	    StudyView.items.getReadyCount();
+	    StudyView.items.getNext(function(item) {
+		StudyView.currentItem = item;
+		StudyView.prompt.setItem(item);
+	    });
 	}
 	
     });
-
+    
+    
     return StudyView;
 });

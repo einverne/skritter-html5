@@ -2,26 +2,14 @@
  * 
  * Module: Scheduler
  * 
- * An in-progress port of the Skritter scheduler.
- * 
- * Description:
- * Takes an item and then adjusts the values based on the grade.
- * For issues the Skritter iOS of Flash code should be compared against.
+ * Created By: Joshua McFarland
  * 
  */
 define([
-   'model/StudyReview' 
-], function(StudyReview) {
-    var Skritter = window.skritter;
+    'model/StudyReview',
+],function(StudyReview) {
 
-    function Scheduler() {
-	this.bearTime;
-	this.grade;
-	this.item;
-	this.newInterval;
-	this.reviewTime;
-	this.thinkingTime;
-    }
+    function Scheduler() {}
 
     Scheduler.prototype.getNewInterval = function(item, grade) {
 	function getInitialInterval(item, score, config) {
@@ -97,7 +85,7 @@ define([
 	    return Math.round(interval * (0.925 + (Math.random() * 0.15)));
 	}
 	
-	var config = Skritter.studySRSConfigs.findWhere({part: item.get('part')});
+	var config = this.config = Skritter.study.srsconfigs.findWhere({part: item.get('part')});
 	var score = parseInt(grade);
 	var reviews = item.get('reviews');
 	var successes = item.get('successes');
@@ -106,7 +94,7 @@ define([
 
 	if (!item.has('last')) {
 	    var new_interval = getBoundInterval(getRandomizedInterval(interval));
-	    //console.log('New Item: '+ new_interval);
+	    //console.log('New Item Interval:', new_interval);
 	    return new_interval;
 	}
 
@@ -114,10 +102,10 @@ define([
 	var scheduled_interval = item.get('next') - item.get('last');
 	var ratio = actual_interval / scheduled_interval;
 	var factor = getFactor(item, score, config);
-	//console.log('Actual: '+actual_interval);
-	//console.log('Scheduled: '+scheduled_interval);
-	//console.log('Ratio: '+ratio);
-	//console.log('Factor: '+factor);
+	//console.log('Actual:', actual_interval);
+	//console.log('Scheduled:', scheduled_interval);
+	//console.log('Ratio:',  ratio);
+	//console.log('Factor:', factor);
 	//adjust the factor
 	if (score > 2) {
 	    factor -= 1;
@@ -139,27 +127,43 @@ define([
 
 	//calculate, randomize and bound new interval
 	var new_interval = getBoundInterval(getRandomizedInterval(actual_interval * factor));
-	//console.log('Old Item: '+new_interval);
+	//console.log('New Interval:', new_interval);
 	return new_interval;
     };
     
-    Scheduler.prototype.createReview = function(item, grade, reviewTime, thinkingTime, bearTime) {
-	//todo: create a review
-	this.bearTime = (bearTime) ? true : false;
-	this.currentTime = Skritter.fn.getUnixTime();
-	this.grade = grade;
-	this.item = item;
-	this.newInterval = this.getNewInterval(item, grade);
-	this.reviewTime = reviewTime;
-	this.thinkingTime = thinkingTime;
+    Scheduler.prototype.update = function(item, vocab, grade, reviewTime, startTime, thinkingTime, bearTime) {
+	bearTime = (bearTime) ? true : false;
+	var currentTime = Skritter.fn.getUnixTime();
+	var actualInterval = startTime - item.get('last');
+	var newInterval = this.getNewInterval(item, grade);
+	
+	var review = new StudyReview();
+	review.set({
+	    itemId: item.get('id'),
+	    score: grade,
+	    bearTime: bearTime,
+	    submitTime: startTime,
+	    reviewTime: reviewTime,
+	    thinkingTime: thinkingTime,
+	    currentInterval: item.get('interval'),
+	    actualInterval: actualInterval,
+	    newInterval: newInterval,
+	    wordGroup: vocab.get('writing'),
+	    previousInterval: item.get('previousInterval'),
+	    previousSuccess: item.get('previousSuccess')
+	});
+	
+	Skritter.study.reviews.add(review);
 	
 	item.set({
-	    last: this.currentTime,
-	    next: this.currentTime + this.newInterval,
-	    interval: this.newInterval,
+	    last: currentTime,
+	    next: currentTime + newInterval,
+	    interval: newInterval,
 	    reviews: item.get('reviews') + 1,
-	    successes: (this.grade > 1) ? item.get('successes') + 1 : item.get('successes')
+	    successes: (grade > 1) ? item.get('successes') + 1 : item.get('successes')
 	});
+	
+	console.log('updated item');
 	
 	return item;
     };

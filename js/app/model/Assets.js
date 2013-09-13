@@ -1,92 +1,68 @@
 /*
  * 
- * Model: Assets
+ * Module: Assets
  * 
  * Created By: Joshua McFarland
- * 
- * Description:
- * Uses PreloadJS to manage asset loading and updates the model based on the queues status.
  * 
  */
 define([
     'backbone',
-    'createjs.preload',
-    'lodash'
+    'createjs.easel',
+    'createjs.preload'
 ], function() {
-    var Skritter = window.skritter;
-
+    
     var Assets = Backbone.Model.extend({
 	
 	initialize: function() {
 	    Assets.queue = new createjs.LoadQueue();
 	    
-	    handleComplete = function() {
+	    var handleComplete = function() {
 		this.triggerComplete();
-		this.set('ready', true);
 	    };
 	    
-	    handleError = function(event) {
-		console.error(event);
-	    };
-	    
-	    handleLoadStart = function() {
-		this.set('ready', false);
+	    var handleError = function(error) {
+		console.error(error);
 	    };
 	    
 	    Assets.queue.addEventListener('complete', _.bind(handleComplete, this));
-	    Assets.queue.addEventListener('error', _.bind(handleError, this));
-	    Assets.queue.addEventListener('loadstart', _.bind(handleLoadStart, this));
-	},
-		
-	defaults: {
-	    ready: true
-	},
-		
-	addItem: function(src, group, name) {
-	    Assets.queue.loadFile({
-		src: src,
-		id: group + '_' + name
-	    }, true);
-	},
-		
-	addManifest: function(manifest) {
-	    Assets.queue.loadManifest(manifest, true);
-	},
-		
-	getItem: function(group, id) {
-	    if (group && id)
-		return Assets.queue.getItem(group + '_' + id);
-	},
-		
-	loadButtons: function() {
-	    var buttons = [
-		'grade1',
-		'grade2', 
-		'grade3', 
-		'grade4',
-		'add',
-		'back',
-		'audio_none',
-		'info'
-	    ];
-	    for (var i in buttons)
-	    {
-		Assets.queue.loadFile({id: 'button_' + buttons[i], src: 'img/button/' + buttons[i] + '.png'});
-	    }
-	},
-		
-	loadStrokes: function() {
-	    for (var i = 0; i <= 387; i++)
-	    {
-		Assets.queue.loadFile({id: 'stroke_' + i, src: 'img/stroke/' + Skritter.fn.zeroPad(i, 4) + '.png'});
-	    }
+	    Assets.queue.addEventListener('error', handleError);
 	},
 	
+	getStroke: function(bitmapId) {
+	    return Assets.queue.getItem('stroke_' + bitmapId);
+	},
+	
+	loadStrokes: function() {
+	    for (var i=0; i <= 387; i++ )
+	    {
+		Assets.queue.loadFile({
+		   id: 'stroke_' + i,
+		   src: 'img/stroke/' + Skritter.fn.pad(i, 0, 4) + '.png'
+		}, false);
+	    }
+	    Assets.queue.load();
+	},
+	
+	loadTextures: function() {
+	    for (var i=0; i <= 3; i++)
+	    {
+		Assets.queue.loadFile({
+		    id:'strokesheet_' + i,
+		    src:'img/texture/stroke/black/strokes-' + i + '.png'
+		}, false);
+		Assets.queue.loadFile({
+		    id:'strokejson_' + i,
+		    src:'img/texture/stroke/black/strokes-' + i + '.json'
+		}, false);
+	    }
+	    Assets.queue.load();
+	},
+		
 	triggerComplete: function() {
-	    this.trigger('complete', Assets.queue);
+	    this.trigger('complete');
 	}
-
+	
     });
-
+    
     return Assets;
 });

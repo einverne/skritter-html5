@@ -1,3 +1,10 @@
+/*
+ * 
+ * Collection: CanvasCharacter
+ * 
+ * Created By: Joshua McFarland
+ * 
+ */
 define([
     'model/CanvasStroke',
     'backbone'
@@ -6,7 +13,7 @@ define([
     var CanvasCharacter = Backbone.Collection.extend({
 	
 	model: CanvasStroke,
-	
+		
 	containsStroke: function(stroke) {
 	    var strokeId = stroke.get('id');
 	    var strokeContains = stroke.getContainedStrokeIds();
@@ -31,16 +38,16 @@ define([
 	    }
 	    return false;
 	},
-	
-	getCharacterContainer: function() {
-	    var container = new createjs.Container();
+		
+	getCharacterBitmap: function() {
+	    var bitmapContainer = new createjs.Container();
 	    for (var i in this.models)
 	    {
-		container.addChild(this.models[i].getBitmapContainer(true));
+		bitmapContainer.addChild(this.models[i].getInflatedBitmap().clone());
 	    }
-	    return container;
+	    return bitmapContainer;
 	},
-	
+		
 	getStrokeCount: function() {
 	    var strokeCount = 0;
 	    for (var i in this.models)
@@ -55,6 +62,7 @@ define([
 	}
 	
     });
+    
     
     return CanvasCharacter;
 });

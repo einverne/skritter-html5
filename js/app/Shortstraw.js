@@ -2,17 +2,18 @@
  * 
  * Module: Shortstraw
  * 
- * Given a number of drawn points as input it returns an array of turning points.
- * 
  */
 
 function Shortstraw(points) {
     var DIAGONAL_INTERVAL = 40; //default 40
     var STRAW_WINDOW = 3; //default 3
     var MEDIAN_THRESHOLD = 0.95; //default 95
-    var LINE_THRESHOLD = 0.92; //default 95
+    var LINE_THRESHOLD = 0.95; //default 95
     var self = this;
-
+    
+    if (!points)
+	return;
+    
     this.distance = function(p1, p2) {
 	var dx = p2.x - p1.x;
 	var dy = p2.y - p1.y;

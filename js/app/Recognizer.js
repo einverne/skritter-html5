@@ -8,41 +8,36 @@
 define([
     'lodash'
 ], function() {
-    var Skritter = window.skritter;
     
     function Recognizer(userCharacter, userStroke, userTargets) {
 	//set the values for recognition
 	this.currentPosition = userCharacter.getStrokeCount() + 1;
 	this.stroke = userStroke;
 	this.targets = userTargets;
+	
 	//set the scaled threshold values
-	this.thresholdDistance = Skritter.user.get('thresholds').distance*(Skritter.settings.get('canvasWidth')/Skritter.settings.get('canvasMax'));
-	this.thresholdDirection = Skritter.user.get('thresholds').direction;
-	this.thresholdLength = Skritter.user.get('thresholds').length*(Skritter.settings.get('canvasWidth')/Skritter.settings.get('canvasMax'));
-	this.thresholdOrderStrictness = parseInt(Skritter.user.get('thresholds').strictness);
+	this.angleThreshold = 45;
+	this.distanceThreshold = 100 * Skritter.settings.getCanvasAspectRatio();
+	this.lengthThreshold = 200 * Skritter.settings.getCanvasAspectRatio();
+	this.orderStrictness = 0;
     }
     
-    //start the recognition process and return a result
     Recognizer.prototype.recognize = function() {
-	var results = this.getResults();
-	//console.log('All Results:');
-	//console.log(results);
+	var results = this.getResultSet();
+	
 	for (var i in results)
 	{
-	    var item = results[i];
-	    var scores = item.scores;
-	    //weed out results that don't need the minimum thresholds
-	    if (scores.distance > this.thresholdDistance)
+	    var result = results[i];
+	    var scores = result.scores;
+	    if (scores.angle > this.angleThreshold)
 		continue;
-	    if (scores.direction > this.thresholdDirection)
+	    if (scores.distance > this.distanceThreshold)
 		continue;
-	    if (scores.length > this.thresholdLength)
+	    if (scores.length > this.lengthThreshold)
 		continue;
 	    
-	    //compares the current position against the actual item position
-	    var orderOffset = item.position - this.currentPosition;
-	    //checks that the order offset isn't greater than the strictness threshold
-	    if (orderOffset > this.thresholdOrderStrictness)
+	    var orderOffset = result.position - this.currentPosition;
+	    if (orderOffset > this.orderStrictness)
 		continue;
 	    
 	    var total = 0;
@@ -50,114 +45,88 @@ define([
 	    {
 		total += scores[s];
 	    }
-	    //calculate total for those who pass
-	    results[i]['scoreTotal'] = total;
-	    //console.log(results[i]);
+	    results[i]['result'] = total;
 	}
-
-	//filter the results based on their scores
-	results = _.filter(results, 'scoreTotal');
-
-	//if there is a best result then return it
+	
+	var results = _.filter(results, 'result');
+	
 	if (results.length > 0) {
-	    var matched = _.first(_.sortBy(results, 'scoreTotal'));
-	    this.stroke.set('id', matched.id);
-	    this.stroke.set('position', matched.position);
-	    this.stroke.set('studyData', matched.studyData);
-	    this.stroke.set('studyParams', matched.studyParams);
+	    var matched = _.first(_.sortBy(results, 'result'));
+	    this.stroke.set('bitmap', matched.bitmap);
 	    this.stroke.set('bitmapId', matched.bitmapId);
 	    this.stroke.set('contains', matched.contains);
+	    this.stroke.set('data', matched.data);
 	    this.stroke.set('feedback', matched.feedback);
+	    this.stroke.set('id', matched.id);
+	    this.stroke.set('params', matched.params);
+	    this.stroke.set('position', matched.position);
+	    this.stroke.set('result', matched.result);
+	    this.stroke.set('scores', matched.scores);
 	    return this.stroke;
 	}
 
 	return false;
     };
     
-    //returns an array will all possible result scores
-    Recognizer.prototype.getResults = function() {
+    Recognizer.prototype.getResultSet = function() {
 	var results = [];
 	for (var a in this.targets)
 	{
 	    var variations = this.targets[a];
 	    for (var b in variations.models)
 	    {
-		var id = variations.at(b).get('id');
+		var bitmap = variations.at(b).get('bitmap');
 		var bitmapId = variations.at(b).get('bitmapId');
+		var data = variations.at(b).get('data');
+		var id = variations.at(b).get('id');
+		var params = variations.at(b).getInflatedParams();
 		var position = variations.at(b).get('position');
 		var variation = variations.at(b).get('variation');
-		var studyData = variations.at(b).get('studyData');
-		var studyParams = variations.at(b).get('studyParams');
-		var inflatedStudyParams = variations.at(b).getInflatedStudyParams();
+		var rune = variations.at(b).get('rune');
 		
-		variations.at(b).getBitmap();
-		
-		for (var c in inflatedStudyParams)
-		{
-		    var item = [];
-		    var param = inflatedStudyParams[c];
+		for (var p in params) {
+		    var result = [];
+		    var param = params[p];
 		    
-		    //passes the static data along with the character
-		    item['id'] = id;
-		    item['position'] = position;
-		    item['variation'] = variation;
-		    item['studyData'] = studyData;
-		    item['studyParams'] = studyParams;
-		    item['bitmapId'] = bitmapId;
-		    item['contains'] = studyParams[c].get('contains');
-		    item['feedback'] = studyParams[c].get('feedback');
-		    
-		    //stores all of the recognition results
 		    var scores = {
-			corners: this.compareCorners(param),
-			distance: this.calculateDistance(param),
-			direction: this.calculateDirection(param),
-			length: this.calculateLength(param)
+			angle: this.checkAngle(param),
+			distance: this.checkDistance(param),
+			length: this.checkLength(param)
 		    };
-		    item['scores'] = scores;
 		    
-		    results.push(item);
+		    result['bitmap'] = bitmap;
+		    result['bitmapId'] = bitmapId;
+		    result['contains'] = param.get('contains');
+		    result['data'] = data;
+		    result['feedback'] = param.get('feedback');
+		    result['id'] = id;
+		    result['params'] = param;
+		    result['position'] = position;
+		    result['variation'] = variation;
+    		    result['rune'] = rune;
+		    result['scores'] = scores;
+		    results.push(result);
 		}
 	    }
 	}
 	return results;
     };
     
-    /*
-     * custom recognition functions
-     */
-    
-    //calculates the distances between the stroke starting points
-    Recognizer.prototype.calculateDistance = function(param) {
-	var score;
-	score = Skritter.fn.getDistance(this.stroke.get('corners')[0], param.corners[0]);
-	//console.log('Distance:'+score);
+    Recognizer.prototype.checkAngle = function(param) {
+	var score = Math.abs(this.stroke.getAngle() - param.getAngle());
 	return score;
     };
     
-    //calculates the difference in the angle of the starting and ending points
-    Recognizer.prototype.calculateDirection = function(param) {
-	var score;
-	score = Math.abs(this.stroke.getDirection() - Skritter.fn.getDirection(param.corners[0], param.corners[param.corners.length-1]));
-	//console.log('Direction:'+score);
+    Recognizer.prototype.checkDistance = function(param) {
+	var score = Skritter.fn.getDistance(this.stroke.get('corners')[0], param.get('corners')[0]);
 	return score;
     };
     
-    //calculates the difference in the segment lenghts
-    Recognizer.prototype.calculateLength = function(param) {
-	var score;
-	score = Math.abs(this.stroke.getLength() - Skritter.fn.getLength(param.corners));
-	//console.log('Length:'+score);
+    Recognizer.prototype.checkLength = function(param) {
+	var score = Math.abs(this.stroke.getLength() - param.getLength());
 	return score;
     };
     
-    //penalizes strokes where the corners don't match up
-    Recognizer.prototype.compareCorners = function(param) {
-	var cornerPenalty = 50;
-	if (this.stroke.get('corners').length !== param.corners.length)
-	    return cornerPenalty;
-	return 0;
-    };
     
     return Recognizer;
 });

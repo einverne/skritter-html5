@@ -6,20 +6,23 @@
  * 
  */
 define([
+    'Params',
     'model/StudyParam',
     'backbone'
-], function(StudyParam) {
-    var Skritter = window.skritter;
+], function(Params, StudyParam) {
     
     var StudyParams = Backbone.Collection.extend({
 	
 	model: StudyParam,
 		
-	cache: function() {
-	    Skritter.storage.setItems('params', this.toJSON());
+	loadAll: function(callback) {
+	    console.log('loading params');
+	    Skritter.study.params.add(Params);
+	    callback(null, Params);
 	}
 	
     });
+    
     
     return StudyParams;
 });

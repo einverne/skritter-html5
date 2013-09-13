@@ -1,42 +1,79 @@
+/*
+ * 
+ * Model: StudyVocab
+ * 
+ * Created By: Joshua McFarland
+ * 
+ * Properties
+ * id
+ * writing
+ * reading
+ * definitions
+ * customDefinition
+ * lang
+ * audio
+ * rareKanji
+ * toughness
+ * toughnessString
+ * mnemonic
+ * starred
+ * style
+ * changed
+ * bannedParts
+ * containedVocabIds
+ * heisigDefinition
+ * sentenceId
+ * topMnemonic
+ * 
+ */
 define([
     'collection/CanvasCharacter',
     'model/CanvasStroke',
     'backbone'
 ], function(CanvasCharacter, CanvasStroke) {
-    var Skritter = window.skritter;
-   
+
     var StudyVocab = Backbone.Model.extend({
 	
-	getCanvasCharacters: function(index) {
+	getCanvasCharacters: function(index, part) {
+	    part = (part) ? part : 'rune';
 	    index = (index) ? index : 0;
 	    var characters = [];
 	    
+	    //loads the selected characters stroke data
 	    var rune = this.getCharacterAt(index);
-	    var variations = Skritter.studyStrokes.findWhere({ rune:rune });
-	    if (!variations)
-		return false;
 	    
-	    variations = variations.get('strokes');
-	    for (var a in variations)
+	    var variations = [];
+	    if (part === 'rune') {
+		variations = Skritter.study.strokes.findWhere({rune: rune}).get('strokes');
+	    } else {
+		var tones = this.getPinyinAt(index).tone.split(',');
+		for (var t in tones)
+		{
+		    var tone = 'tone' + tones[t].replace(' ', '');
+		    variations.push(Skritter.study.strokes.findWhere({rune: tone}).get('strokes'));
+		}
+	    }
+	    
+	    //loops through the possible alternate variations
+	    for (var v in variations)
 	    {
 		var character = new CanvasCharacter();
-		var strokes = variations[a];
+		var strokes = variations[v];
 		var position = 1;
-		for (var b in strokes)
+		for (var s in strokes)
 		{
 		    var stroke = new CanvasStroke();
-		    var bitmapId = parseInt(strokes[b][0]);
-		    var params = Skritter.studyParams.where({ bitmapId:bitmapId });
-		    stroke.set('id', position + '|' + bitmapId);
-		    stroke.set('rune', rune);
-		    stroke.set('variation', parseInt(a));
-		    stroke.set('position', position);
+		    var bitmapId = parseInt(strokes[s][0]);
+		    var params = Skritter.study.params.findWhere({bitmapId: bitmapId});	
+		    stroke.set('bitmap', new createjs.Bitmap(Skritter.assets.getStroke(bitmapId).src));
 		    stroke.set('bitmapId', bitmapId);
-		    stroke.set('studyData', _.clone(strokes[b]));
-		    stroke.set('studyParams', params);
+		    stroke.set('id', position + '|' + bitmapId);
+		    stroke.set('position', position);
+		    stroke.set('rune', rune);
+		    stroke.set('data', strokes[s]);
 		    
-		    //adjusts the position for double strokes
-		    if (params[0].has('contains'))
+		    //adjusts the relative position for double strokes
+		    if (params.has('contains'))
 			position++;
 		    position++;
 		    
@@ -44,56 +81,18 @@ define([
 		}
 		characters.push(character);
 	    }
+	    
 	    return characters;
 	},
 		
-	getCanvasTones: function(index) {
-	    index = (index) ? index : 0;
-	    var characters = [];
-	    
-	    var rune = this.getCharacterAt(index);
-	    //todo: fix this to include multiple pinyin answers
-	    var tones = [];
-	    var tone = this.getPinyinAt(index).tone;
-	    for (var i in tone)
-	    {
-		tones.push('tone' + tone[i]);
-	    }
-	    var variations = Skritter.studyStrokes.findWhere({ rune:tones[0] });
-	    if (!variations)
-		return false;
-	    
-	    variations = variations.get('strokes');
-	    for (var a in variations)
-	    {
-		var character = new CanvasCharacter();
-		var strokes = variations[a];
-		for (var b in strokes)
-		{
-		    var stroke = new CanvasStroke();
-		    var bitmapId = parseInt(strokes[b][0]);
-		    stroke.set('id', (parseInt(b)+1)+'|'+parseInt(bitmapId));
-		    stroke.set('rune', rune);
-		    stroke.set('variation', parseInt(a));
-		    stroke.set('position', parseInt(b)+1);
-		    stroke.set('bitmapId', bitmapId);
-		    stroke.set('studyData', _.clone(strokes[b]));
-		    stroke.set('studyParams', Skritter.studyParams.where({ bitmapId:bitmapId })).clone();
-		    character.add(stroke);
-		}
-		characters.push(character);
-	    }
-	    return characters;
-	},
-	
 	getCharacterAt: function(index) {
 	    return this.get('writing').split('')[index];
 	},
-	
+		
 	getCharacterCount: function() {
 	    return this.get('writing').split('').length;
 	},
-	
+		
 	getPinyinAt: function(index) {
 	    index = (index) ? index : 0;
 	    var syllable = _.clone(this.get('reading'));
@@ -101,19 +100,19 @@ define([
 	    if (this.getCharacterCount() === 1) {
 		var syllable = syllable.replace(/[0-9]+/g, '');
 		var tone = tone.replace(/[a-z]+/g, '');
-		return { syllable:syllable, tone:tone };
+		return {syllable: syllable, tone: tone};
 	    }
 	    var syllable = syllable.split(/\d+/g);
 	    var tone = _.without(tone.split(/[a-z]+/g), '');
-	    return { syllable:syllable[index], tone:tone[index] };
+	    return {syllable: syllable[index], tone: tone[index]};
 	},
-	
-	getWritingDisplayAt: function(index) {
+		
+	getReadingDisplayAt: function(index) {
 	    var element = '';
-	    for (var i=0; i < this.getCharacterCount(); i++)
+	    for (var i = 0; i < this.getCharacterCount(); i++)
 	    {
 		if (index > i) {
-		    element += "<div class='prompt-display'>" + this.getCharacterAt(i) + "</div>";
+		    element += "<div class='prompt-display'>" + this.getPinyinAt(i).syllable + "</div>";
 		} else {
 		    element += "<div class='prompt-hidden'></div>";
 		}
@@ -121,12 +120,17 @@ define([
 	    return element;
 	},
 		
-	getReadingDisplayAt: function(index) {
+	getSentence: function() {
+	    var sentence = Skritter.study.sentences.findWhere({id: this.get('sentenceId')});
+	    return (sentence) ? sentence : null;
+	},
+		
+	getWritingDisplayAt: function(index) {
 	    var element = '';
-	    for (var i=0; i < this.getCharacterCount(); i++)
+	    for (var i = 0; i < this.getCharacterCount(); i++)
 	    {
 		if (index > i) {
-		    element += "<div class='prompt-display'>" + this.getPinyinAt(i).syllable + "</div>";
+		    element += "<div class='prompt-display'>" + this.getCharacterAt(i) + "</div>";
 		} else {
 		    element += "<div class='prompt-hidden'></div>";
 		}
@@ -139,8 +143,9 @@ define([
 		return false;
 	    return true;
 	}
-	
+
     });
+
 
     return StudyVocab;
 });

@@ -1,2 +1,1 @@
-skritter-html5
-==============
+# Skritter HTML5

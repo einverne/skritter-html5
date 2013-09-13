@@ -6,64 +6,82 @@
  * 
  */
 define([
+    'require.text!template/info-view.html',
+    'require.text!template/info-tile.html',
     'PinyinConverter',
-    'view/subview/InfoBar',
-    'require.text!template/info.html',
+    'view/Grid',
+    'view/Toolbar',
     'backbone'
-], function(PinyinConverter, InfoBarView, templateInfo) {
-    var Skritter = window.skritter;
+], function(templateInfo, templateInfoTile, PinyinConverter, GridView, ToolbarView) {
     
     var InfoView = Backbone.View.extend({
 	
 	initialize: function() {
+	    InfoView.grid = new GridView();
+	    InfoView.id = null;
 	    InfoView.sentence;
+	    InfoView.toolbar = new ToolbarView();
 	    InfoView.vocab;
-	    
-	    this.setVocab(this.options.id);
-	    
-	    //components
-	    InfoView.infoBar = new InfoBarView();
+	    this.load(this.options.id);
 	},
-	
-	template: _.template(templateInfo),
 		
+	template: templateInfo,	
+	
 	render: function() {
 	    this.$el.html(this.template);
 	    
-	    //loads the infobar into the dom
-	    InfoView.infoBar.setElement($('#infobar')).render();
+	    InfoView.toolbar.setElement($('#toolbar-container')).render();
+	    InfoView.toolbar.addOption('{ban}', 'ban');
+	    if (InfoView.vocab.get('starred')) {
+		InfoView.toolbar.addOption('{starred}', 'star');
+	    } else {
+		InfoView.toolbar.addOption('{not-starred}', 'star');
+	    }
+	    InfoView.toolbar.addOption('{close}', 'close');
+	    InfoView.grid.setElement($('#grid-container')).render();
+	    InfoView.grid.addTile(templateInfoTile, 'info-tile');
+	    InfoView.grid.update();
 	    
-	    $('#simplified-writing').text(InfoView.vocab.get('writing'));
-	    $('#traditional-writing').text();
-	    $('#reading').text(PinyinConverter.toTone(InfoView.vocab.get('reading')));
-	    $('#definition').text(InfoView.vocab.get('definitions').en);
-	    $('#sentence').text(InfoView.sentence.get('writing'));
+	    this.$('#writing-simp').text(InfoView.vocab.get('writing'));
+	    this.$('#writing-trad').text();
+	    this.$('#reading-definition').text(PinyinConverter.toTone(InfoView.vocab.get('reading')) + ': ' + InfoView.vocab.get('definitions')[Skritter.user.get('sourceLang')]);
+	    if (InfoView.sentence)
+		this.$('#sentence').text(InfoView.sentence.get('writing'));
 	    
 	    var contained = InfoView.vocab.get('containedVocabIds');
 	    if (contained) {
 		for (var i in contained)
 		{
-		    var containedVocab = Skritter.studyVocabs.findWhere({id:contained[i]});
-		    console.log(containedVocab);
+		    var containedVocab = Skritter.study.vocabs.findWhere({id:contained[i]});
 		    var div = "<div class='contained-vocab'>";
 		    div += "<span class='writing'>" + containedVocab.get('writing') + "</span>";
 		    div += "<span class='reading'>" + containedVocab.get('reading') + "</span>";
 		    div += "<span class='definition'>" + containedVocab.get('definitions').en + "</span>";
 		    div += "</div>";
-		    $('#contained').append(div);
+		    this.$('#contained').append(div);
 		}
 	    }
 	    
 	    return this;
 	},
+	
+	events: {
+	    'click.InfoView #close': 'close'
+	},
 		
-	setVocab: function(id) {
-	    InfoView.vocab = Skritter.studyVocabs.findWhere({id: id});
-	    InfoView.sentence = Skritter.studySentences.findWhere({id: InfoView.vocab.get('sentenceId')});
-	    console.log(InfoView.vocab);
+	close: function() {
+	    window.history.back();
+	},
+		
+	load: function(id) {
+	    console.log(id);
+	    InfoView.vocab = Skritter.study.vocabs.findWhere({id: id});
+	    if (InfoView.vocab.get('sentenceId'))
+		InfoView.sentence = Skritter.study.sentences.findWhere({id: InfoView.vocab.get('sentenceId')});
 	}
 	
     });
+    
     
     return InfoView;
 });

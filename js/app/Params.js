@@ -1,6 +1,13 @@
+/*
+ * 
+ * Module: Params
+ * 
+ * Created By: Joshua McFarland
+ * 
+ */
 define(function() {
-
-    var paramsJSON = [
+    
+    var params = [
 	{"bitmapId": 0, "corners": [{"x": 26, "y": 51}, {"x": 356, "y": 12}], "deviations": [{"x": 162, "y": 39}]},
 	{"bitmapId": 1, "corners": [{"x": 19, "y": 46}, {"x": 270, "y": 15}], "deviations": [{"x": 159, "y": 25}]},
 	{"bitmapId": 2, "corners": [{"x": 22, "y": 43}, {"x": 207, "y": 8}], "deviations": [{"x": 83, "y": 29}]},
@@ -397,8 +404,7 @@ define(function() {
 	{"bitmapId": 386, "corners": [{"x": 25, "y": 24}, {"x": 289, "y": 289}], "deviations": [{"x": 112, "y": 177}]},
 	{"bitmapId": 387, "corners": [{"x": 26, "y": 15}, {"x": 56, "y": 55}], "deviations": [{"x": 29, "y": 14}]}
     ];
-
-    return {
-	json: paramsJSON
-    };
+    
+    
+    return params;
 });

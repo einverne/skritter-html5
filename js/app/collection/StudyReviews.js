@@ -4,9 +4,6 @@
  * 
  * Created By: Joshua McFarland
  * 
- * Description:
- * Holds reviews that need to be uploaded to the server via the api.
- * 
  */
 define([
     'model/StudyReview',
@@ -15,9 +12,18 @@ define([
     
     var StudyReviews = Backbone.Collection.extend({
 	
-	model: StudyReview
+	model: StudyReview,
+		
+	loadAll: function(callback) {
+	    Skritter.storage.getItems('reviews', function(reviews) {
+		console.log('loading reviews');
+		Skritter.study.reviews.add(reviews);
+		callback(null, reviews);
+	    });
+	}
 	
     });
+    
     
     return StudyReviews;
 });

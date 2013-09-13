@@ -4,42 +4,68 @@
  * 
  * Created By: Joshua McFarland
  * 
- * Description:
- * Contains all of the application-specific settings not controlled by the user.
- * User specific settings can be found in the StudyUser model.
- * 
  */
 define([
     'backbone'
 ], function() {
-
+    
     var Settings = Backbone.Model.extend({
+	
+	initialize: function() {
+	    this.updateDimensions();
+	    $(window).resize(_.bind(this.updateDimensions, this));
+	},
 	
 	defaults: {
 	    apiClientId: 'mcfarljwapiclient',
+	    apiDomain: 'cn',
+	    apiRoot: 'http://beta.skritter',
 	    apiClientSecret: 'e3872517fed90a820e441531548b8c',
-	    apiDomain: 'com',
-	    height: null,
-	    appWidth: null,
-	    canvasAnimationSpeed: 200,
-	    canvasBackgroundColor: '#ffffff',
-	    canvasBrushSize: 14,
-	    canvasGridColor: '#cccccc',
-	    canvasHeight: null,
-	    canvasMax: 600,
-	    canvasMessageColor: '#ff7700',
-	    canvasMessageFont: '20px Arial',
-	    canvasOverlayColor: 'red',
-	    canvasWidth: null,
-	    container: '#skritter',
-	    gradeColor1:'#e68e8e',
-	    gradeColor2:'#d95757',
-	    gradeColor3:'#70da70',
-	    gradeColor4:'#4097d3',
-	    version: '0.0.4'
+	    appHeight: 0,
+	    appWidth: 0,
+	    canvasSize: 0,
+	    canvasSizeMax: 600,
+	    container: '#skritter-container',
+	    orientation: 'vertical',
+	    version: '0.0.5'
+	},
+		
+	getCanvasAspectRatio: function() {
+	    return this.get('canvasSize') / this.get('canvasSizeMax');
+	},
+		
+	getTextSize: function() {
+	    return Math.round(this.get('canvasSize') * 0.05);
+	},
+		
+	updateDimensions: function() {
+	    var height = $(this.get('container')).height();
+	    var width = $(this.get('container')).width();
+	    //set the fullscreen dimensions
+	    this.set('appHeight', height);
+	    this.set('appWidth', width);
+	    //set the orientation and canvas size
+	    if (width < height) {
+		console.log('vertically oriented');
+		this.set('orientation', 'vertical');
+		if (width > this.get('canvasSizeMax')) {
+		    this.set('canvasSize', this.get('canvasSizeMax'));
+		} else {
+		    this.set('canvasSize', width);
+		}
+	    } else {
+		console.log('horizontally oriented');
+		this.set('orientation', 'horizontal');
+		if (height > this.get('canvasSizeMax')) {
+		    this.set('canvasSize', this.get('canvasSizeMax'));
+		} else {
+		    this.set('canvasSize', height);
+		}
+	    }
 	}
 	
     });
-
+    
+    
     return Settings;
 });

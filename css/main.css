@@ -1,172 +1,63 @@
-/*** GENERAL SETTINGS ***/
-#skritter {
-    position: relative;
-    margin: 0px auto;
-    width: 100%;
+/* GENERAL */
+#skritter-container {
+    color: #ffffff;
     height: 100%;
-    min-width: 320px;
-    max-width: 100%;
-    min-height: 320px;
-    max-height: 100%;
-    background: #ffffff;
     
-    /* Fix from Benjamin Blazke */
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
     -webkit-user-drag: none;
+    -webkit-user-select: none;
 }
 
+/* HOME VIEW */
+#home-view #version {
+    position: absolute;
+    right: 0;
+}
 
-/*** OVERLAY ***/
-#facade {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    width: 100%;
-    overflow: hidden;
-    
-}
-#facade div.mask {
-    position: absolute;
-    padding: 20% 0 0 0;
-    width: 100%;
-    height: 100%;
-    background: rgb(0, 0, 0);
-    background: rgba(0, 0, 0, 0.6);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
-    z-index: 9999;
-}
-#facade #display {
-    position: relative;
-    display: block;
-    max-width: 150px;
+/* PROMPT VIEW */
+#prompt-view #top {
+    font-family: "simkai";
     margin: 0 auto;
-    padding: 5px;
     text-align: center;
+}
+#prompt-view #top #writing {
+    font-size: 64px;
+}
+#prompt-view #top #sentence {
+    font-size: 32px;
+}
+#prompt-view #prompt-area {
     background: #000000;
-    color: #ffffff;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-}
-
-#facade #icon {
-    height: 100px;
-    
-}
-
-
-/*** HOME VIEW ***/
-#home-view #navigation {
     margin: 0 auto;
-    max-width: 300px;
-}
-
-
-/*** SETTINGS VIEW ***/
-#settings-view {
-    overflow: visible;
-}
-#settings-view div {
-    padding: 0 10px;
-}
-#settings-view #thresholds {
-    float: left;
-}
-#settings-view #parts {
-    float: left;
-}
-#settings-view #stroke {
-    float: left;
-}
-#settings-view #buttons {
-    clear: both;
-}
-
-
-/*** STUDY VIEW ***/
-#study-view {
-    overflow: hidden;
-}
-/*** STUDY BAR VIEW ***/
-#studybar {
-    width: 100%;
-    height: 40px;
     position: relative;
-    background: #000000;
-    color: #ffffff;
+    text-align: center;
 }
-#studybar div {
+#prompt-view #writing-area {
+    margin: 0 auto;
+}
+#prompt-view div.prompt-display {
     display: inline-block;
-    text-align: center;
-    height: 100%;
-    padding: 0 2%;
-    cursor: pointer;
+    min-width: 20px;
+    margin: 0 5px;
 }
-#studybar img {height:80%; max-height:40px; margin:5px 0 0 0;}
-
-/*** PROMPT VIEW ***/
-#prompt {}
-#prompt #top {
+#prompt-view div.prompt-hidden {
+    display: inline-block;
+    min-width: 20px;
+    margin: 0 5px;
     border-bottom: 2px black solid;
-    position: relative;
-    text-align: center;
 }
-#prompt #writing {
-    display: inline-block;
-    padding: 5% 0 0 0;
-    font-size: xx-large;
-}
-#prompt #reading {
-    display: inline-block;
-    padding: 0 0 0 5%;
-    font-size: x-large;
-}
-#prompt #definition {
-    padding: 2% 0 0 0;
-    font-size: large;
-}
-#prompt #sentence {
-    padding: 2% 0 0 0;
-    font-size: large;
-}
-#prompt #bottom {
-    background: #eeeeee;
-    position: relative;
-    text-align: center;  
-}
-#prompt #bottom-prompt {
-    background: #ffffff;
-    position: relative;
-    margin: 0 auto;
-    cursor: pointer;
-}
-#prompt #canvas-area {
+
+/* WRITING AREA */
+#writing-area {
     overflow-x: visible;
+    position: relative;
 }
-#prompt #question {
-    padding: 30% 0 0 0;
-    font-size: larger;
-}
-#prompt #answer {
-    padding: 30% 0 0 0;
-    font-size: larger;
-}
-#prompt .prompt-display {
-    display: inline-block;
-    min-width: 20px;
-    margin: 0 5px;
-}
-#prompt .prompt-hidden {
-    display: inline-block;
-    min-width: 20px;
-    margin: 0 5px;
-    border-bottom: 2px black solid;
+#writing-area canvas {
+    position: absolute;
 }
 
-/*** GRADING BUTTONS VIEW **/
+/* GRADING BUTTONS VIEW */
 #grading-buttons {
     position: absolute;
     width: 100%;
@@ -188,49 +79,3 @@
 #grading-buttons #grade2 { background-image: url('../img/button/grade2.png'); }
 #grading-buttons #grade3 { background-image: url('../img/button/grade3.png'); }
 #grading-buttons #grade4 { background-image: url('../img/button/grade4.png'); }
-
-/*** INFO VIEW ***/
-#info-view #content {
-    padding: 10px 0;
-    text-align: center;
-}
-#info-view #simplified-writing {
-    padding: 10px 0;
-    font-size: xx-large;
-}
-#info-view #traditional-writing {
-    padding: 10px 0;
-    font-size: xx-large;
-}
-#info-view #reading {
-    padding: 10px 0;
-    font-size: x-large;
-}
-#info-view #definition {
-    padding: 10px 0;
-    font-size: x-large;
-}
-#info-view #characters {
-    padding: 10px 0;
-    font-size: x-large;
-}
-#info-view #sentence {
-    padding: 10px 0;
-    font-size: x-large;
-}
-/*** STUDY BAR VIEW ***/
-#infobar {
-    width: 100%;
-    height: 40px;
-    position: relative;
-    background: #000000;
-    color: #ffffff;
-}
-#infobar div {
-    display: inline-block;
-    text-align: center;
-    height: 100%;
-    padding: 0 2%;
-    cursor: pointer;
-}
-#infobar img {height:80%; max-height:40px; margin:5px 0 0 0;}

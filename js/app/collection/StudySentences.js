@@ -9,13 +9,21 @@ define([
     'model/StudySentence',
     'backbone'
 ], function(StudySentence) {
-    var Skritter = window.skritter;
     
     var StudySentences = Backbone.Collection.extend({
 	
-	model: StudySentence
+	model: StudySentence,
+		
+	loadAll: function(callback) {
+	    Skritter.storage.getItems('sentences', function(sentences) {
+		console.log('loading sentences');
+		Skritter.study.sentences.add(sentences);
+		callback(null, sentences);
+	    });
+	}
 	
     });
+    
     
     return StudySentences;
 });

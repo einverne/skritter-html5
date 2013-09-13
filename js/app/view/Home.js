@@ -1,63 +1,82 @@
+/*
+ * 
+ * View: Home
+ * 
+ * Created By: Joshua McFarland
+ * 
+ */
 define([
-    'require.text!template/home.html',
+    'require.text!template/home-view.html',
+    'view/Grid',
+    'view/Toolbar',
     'backbone'
-], function(templateHome) {
-    var Skritter = window.skritter;
+], function(templateHome, GridView, ToolbarView) {
     
     var HomeView = Backbone.View.extend({
 	
-	template: _.template(templateHome),
-	
+	initialize: function() {
+	    HomeView.grid = new GridView();
+	    HomeView.toolbar = new ToolbarView();
+	},
+		
+	template: templateHome,
+		
 	render: function() {
-	    this.$el.html(this.template);	
+	    this.$el.html(this.template);
 	    
-	    //change the display based on user login status
+	    HomeView.toolbar.setElement($('#toolbar-container')).render();
+	    HomeView.grid.setElement($('#grid-container')).render();
+	    
 	    if (Skritter.user.isLoggedIn()) {
-		$('#login').toggle();
+		HomeView.toolbar.addOption(Skritter.user.getAvatar(), 'avatar');
+		HomeView.toolbar.addOption(Skritter.user.get('name'), 'username');
+		HomeView.grid.addTile('{study}', 'study-button');
+		HomeView.grid.addTile('{options}', 'options-button');
+		HomeView.grid.addTile('{lists}', 'lists-button');
+		HomeView.grid.addTile('{about}', 'about-button');
+		HomeView.grid.addTile('{logout}', 'logout-button');
 	    } else {
-		$('#study').toggle();
-		$('#settings').toggle();
-		$('#sync').toggle();
-		$('#logout').toggle();
+		HomeView.toolbar.addOption('{logo}', 'logo');
+		HomeView.grid.addTile('{login}', 'login-button');
+		HomeView.grid.addTile('{about}', 'about-button');
 	    }
 	    
-	    $('#version').text(Skritter.settings.get('version'));
-
+	    HomeView.toolbar.addOption(Skritter.settings.get('version'), 'version');
+	    HomeView.grid.update();
+	    
 	    return this;
 	},
 		
 	events: {
-	    'click.HomeView #login': 'login',
-	    'click.HomeView #logout': 'logout',
-	    'click.HomeView #settings': 'settings',
-	    'click.HomeView #study': 'study',
-	    'click.HomeView #sync': 'sync'
-	},
-		
-	logout: function() {
-	    window.location.hash = 'logout';
-	},
-		
-	login: function() {
-	    window.location.hash = 'login';
+	    'click.HomeView #about-button': 'toAbout',
+	    'click.HomeView #login-button': 'toLogin',
+	    'click.HomeView #logout-button': 'toLogout',
+	    'click.HomeView #options-button': 'toOptions',
+	    'click.HomeView #study-button': 'toStudy'
 	},
 	
-	settings: function() {
-	    window.location.hash = 'settings';
+	toAbout: function() {
+	    document.location.hash = 'about';
 	},
 	
-	study: function() {
-	    window.location.hash = 'study';
+	toLogin: function() {
+	    document.location.hash = 'login';
+	},
+	
+	toLogout: function() {
+	    document.location.hash = 'logout';
 	},
 		
-	sync: function() {
-	    Skritter.facade.show('SYNCING');
-	    Skritter.manager.sync(function() {
-		Skritter.facade.hide();
-	    });
+	toOptions: function() {
+	    document.location.hash = 'options';
+	},
+		
+	toStudy: function() {
+	    document.location.hash = 'study';
 	}
 	
     });
+    
     
     return HomeView;
 });

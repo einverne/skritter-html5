@@ -4,20 +4,44 @@
  * 
  * Created By: Joshua McFarland
  * 
- * Description:
- * A useful set of global functions.
- * 
  */
 define(function() {
-
-    var bytesToSize = function(bytes) {
-	var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-	if (bytes === 0)
-	    return null;
-	var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-	return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    
+    var getAngle = function(points) {
+	var point1 = points[0];
+	var point2 = points[points.length-1];
+	var xDiff = point2.x - point1.x;
+	var yDiff = point2.y - point1.y;
+	return (Math.atan2(yDiff, xDiff)) * (180 / Math.PI);
     };
-
+    
+    var getBoundingRectangle = function(points, areaWidth, areaHeight, pointRadius) {
+	var left = areaWidth;
+	var top = 0.0;
+	var right = 0.0;
+	var bottom = areaHeight;
+	
+	for (var i in points)
+	{
+	    var x = points[i].x;
+	    var y = points[i].y;
+	    if (x - pointRadius < left)
+		left = x - pointRadius;
+	    if (y + pointRadius > top)
+		top = y + pointRadius;
+	    if (x + pointRadius > right)
+		right = x + pointRadius;
+	    if (y - pointRadius < bottom)
+		bottom = y - pointRadius;
+	}
+	
+	var width = right - left;
+	var height = top - bottom;
+	var center = {x: width/2, y: height/2};
+	
+	return {x: left, y: bottom, w: width, h: height, c: center};
+    };
+    
     var getDistance = function(point1, point2) {
 	var xs = point2.x - point1.x;
 	xs = Math.pow(xs, 2);
@@ -25,8 +49,8 @@ define(function() {
 	ys = Math.pow(ys, 2);
 	return Math.sqrt(xs + ys);
     };
-
-    var getDistanceToLineSegment = function(start, end, point) {
+    
+    var getLineDeviation = function(start, end, point) {
 	var px = end.x - start.x;
 	var py = end.y - start.y;
 
@@ -46,91 +70,11 @@ define(function() {
 
 	return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     };
-
-    var getDirection = function(point1, point2) {
-	var xDiff = point2.x - point1.x;
-	var yDiff = point2.y - point1.y;
-	return (Math.atan2(yDiff, xDiff)) * (180 / Math.PI);
-    };
-
-    var getLength = function(corners) {
-	var length = 0;
-	for (var i = 0; i < corners.length - 1; i++)
-	{
-	    length += getDistance(corners[i], corners[i + 1]);
-	}
-	return length;
-    };
-
-    var getOrientation = function(corners) {
-	var horizontal, vertical;
-	var direction = getDirection(corners[0], corners[corners.length - 1]);
-	if (Math.abs(direction) >= 90) {
-	    horizontal = 'right-left';
-	} else {
-	    horizontal = 'left-right';
-	}
-	if (direction >= 0) {
-	    vertical = 'top-bottom';
-	} else {
-	    vertical = 'bottom-top';
-	}
-	return {"horizontal": horizontal, "vertical": vertical};
-    };
-
-    var getRandomInt = function(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
-
-    var getRectangle = function(corners, maxWidth, maxHeight, offset) {
-	var left = maxWidth;
-	var top = 0.0;
-	var right = 0.0;
-	var bottom = maxHeight;
-	for (var i in corners)
-	{
-	    var x = corners[i].x;
-	    var y = corners[i].y;
-	    var press_radius = offset;
-
-	    if (x - press_radius < left)
-		left = x - press_radius;
-	    if (y + press_radius > top)
-		top = y + press_radius;
-	    if (x + press_radius > right)
-		right = x + press_radius;
-	    if (y - press_radius < bottom)
-		bottom = y - press_radius;
-	}
-	return {x: left, y: bottom, w: right - left, h: top - bottom};
-    };
-
-    var getRectangleMidPoint = function(rectangle) {
-	return new createjs.Point((rectangle.x + rectangle.w) / 2, (rectangle.y + rectangle.h) / 2);
-    };
-
+    
     var getUnixTime = function(milliseconds) {
 	if (milliseconds)
 	    return (new Date).getTime();
 	return Math.round((new Date).getTime() / 1000);
-    };
-
-    var isDefined = function(variable) {
-	return (typeof variable === 'undefined') ? false : true;
-    };
-
-    var isNull = function(variable) {
-	return (variable === null) ? true : false;
-    };
-
-    var inArray = function(array, column, value) {
-	for (var i = 0; i < array.length; i++)
-	{
-	    if (array[i][column] === value) {
-		return true;
-	    }
-	}
-	return false;
     };
     
     var maskText = function(text, mask) {
@@ -141,30 +85,22 @@ define(function() {
 	}
 	return text;
     };
-
-    var zeroPad = function(num, size) {
-	var s = num + "";
-	while (s.length < size)
-	    s = "0" + s;
-	return s;
+    
+    var pad = function(text, value, size) {
+	var string = text + '';
+	while (string.length < size)
+	    string = value + '' + string;
+	return string;
     };
-
-
+    
+    
     return {
-	bytesToSize: bytesToSize,
+	getAngle: getAngle,
+	getBoundingRectangle: getBoundingRectangle,
 	getDistance: getDistance,
-	getDistanceToLineSegment: getDistanceToLineSegment,
-	getDirection: getDirection,
-	getLength: getLength,
-	getOrientation: getOrientation,
-	getRandomInt: getRandomInt,
-	getRectangle: getRectangle,
-	getRectangleMidPoint: getRectangleMidPoint,
+	getLineDeviation: getLineDeviation,
 	getUnixTime: getUnixTime,
-	inArray: inArray,
-	isDefined: isDefined,
-	isNull: isNull,
-	maskText: maskText,
-	zeroPad: zeroPad
+        maskText: maskText,
+	pad: pad
     };
 });

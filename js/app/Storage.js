@@ -4,42 +4,46 @@
  * 
  * Created By: Joshua McFarland
  * 
- * Description:
- * A generic set of database functions that are meant to interact with the selected adapter.
- * 
  */
 define([
     'storage/IndexedDbAdapter',
-    'storage/LocalStorageAdapter',
-    'storage/SQLiteAdapter'
-], function(IndexedDbAdapter, LocalStorageAdapter, SQLiteAdapter) {
+    'storage/SQLiteAdapter',
+    'lodash'
+], function(IndexedDbAdapter, SQLiteAdapter) {
     
     function Storage(type) {
+	this.database = null;
+	this.name = null;
+	this.storage = null;
+	this.type = type;
+	this.version = 1;
+	
 	switch (type)
 	{
 	    case 'indexeddb':
 		this.storage = IndexedDbAdapter;
 		break;
-	    case 'localstorage':
-		this.storage = LocalStorageAdapter;
-		break;
 	    case 'sqlite':
 		this.storage = SQLiteAdapter;
 		break;
+	    case 'websql':
+		this.storage = IndexedDbAdapter;
+		break;
 	}
-	this.database = null;
-	this.name = null;
-	this.type = type;
-	this.version = 1;
     }
     
-    Storage.prototype.openDatabase = function(databaseName, databaseVersion, callback) {
-	self = this;
-	this.storage.openDatabase(databaseName, databaseVersion, function(event) {
-	    self.database = event;
-	    self.name = databaseName;
-	    self.version = databaseVersion;
-	    callback(event);
+    
+    Storage.prototype.clear = function(tableName, callback) {
+	this.storage.clear(this.database, tableName, function(event) {
+	   if (typeof callback === 'function')
+		callback(event);
+	});
+    };
+    
+    Storage.prototype.clearAll = function(callback) {
+	this.storage.clearAll(this.database, function(event) {
+	    if (typeof callback === 'function')
+		callback(event);
 	});
     };
     
@@ -49,9 +53,18 @@ define([
 		callback(event);
 	});
     };
-    
-    Storage.prototype.clear = function(tableName, callback) {
-	this.storage.clear(this.database, tableName, function(event) {
+
+    Storage.prototype.openDatabase = function(databaseName, databaseVersion, callback) {
+	this.storage.openDatabase(databaseName, databaseVersion, _.bind(function(event) {
+	    this.database = event;
+	    this.name = databaseName;
+	    this.version = databaseVersion;
+	    callback(event);
+	}, this));
+    };
+
+    Storage.prototype.getItem = function(tableName, key, callback) {
+	this.storage.getItem(this.database, tableName, key, function(event) {
 	    if (typeof callback === 'function')
 		callback(event);
 	});
@@ -59,28 +72,39 @@ define([
     
     Storage.prototype.getItems = function(tableName, callback) {
 	this.storage.getItems(this.database, tableName, function(event) {
-	    callback(event);
+	    if (typeof callback === 'function')
+		callback(event);
 	});
     };
     
+    Storage.prototype.getItemsAt = function(tableName, items, callback) {
+	this.storage.getItemsAt(this.database, tableName, items, function(event) {
+	    if (typeof callback === 'function')
+		callback(event);
+	});
+    };
+    
+    Storage.prototype.removeItem = function(tableName, key, callback) {
+	this.storage.removeItem(this.database, tableName, key, function(event) {
+	    if (typeof callback === 'function')
+		callback(event);
+	});
+    };
+
     Storage.prototype.setItem = function(tableName, item, callback) {
 	this.storage.setItem(this.database, tableName, item, function(event) {
 	    if (typeof callback === 'function')
 		callback(event);
 	});
     };
-    
+
     Storage.prototype.setItems = function(tableName, items, callback) {
-	if (items === undefined ||items.length === 0) {
-	    callback(0);
-	    return;
-	}
-	
 	this.storage.setItems(this.database, tableName, items, function(event) {
 	    if (typeof callback === 'function')
 		callback(event);
 	});
     };
+    
     
     return Storage;
 });

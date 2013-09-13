@@ -1,56 +1,77 @@
-@font-face {
-	font-family: kaisho;
-	src: url('css/font/DFPKaiSho-Md.ttf');
-}
-
-@font-face {
-	font-family: simkai;
-	src: url('css/font/simkai.ttf');
-}
-
+/* GENERAL */
 html, body {
-    width: 100%;
+    background: #bababa;
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
-
-
-body {
-    /* Fix for webkit rendering */
-    font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-}
-
-/*** CONTENT ***/
-.content {
-    padding: 2%;
-}
-
-
-/*** BUTTONS ***/
-.blue-button {
-    -moz-box-shadow:inset 0px 0px 0px 0px #cae3fc;
-    -webkit-box-shadow:inset 0px 0px 0px 0px #cae3fc;
-    box-shadow:inset 0px 0px 0px 0px #cae3fc;
-    background-color:#79bbff;
-    border:1px solid #469df5;
-    display: block;
-    color:#ffffff;
-    font-family:arial;
-    font-size:15px;
-    font-weight:bold;
-    margin: 10px 0;
-    max-width: 300px;
-    padding:6px 24px;
-    text-align: center;
-    text-decoration:none;
-    text-shadow:1px 1px 0px #287ace;
+div.clickable {
     cursor: pointer;
 }
-.blue-button:hover {
-    background-color:#4197ee;
+div.hidden {
+    display: none;
 }
-.blue-button:active {
-    position:relative;
-    top:1px;
+
+
+/* FONTS */
+@font-face {
+	font-family: "kaisho";
+	src: url('font/DFPKaiSho-Md.ttf');
+}
+@font-face {
+	font-family: "simkai";
+	src: url('font/simkai.ttf');
+}
+
+
+/* FACADE VIEW */
+#facade-container {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    
+}
+#facade-container #facade-view {
+    position: absolute;
+    padding: 20% 0 0 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.6);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+    z-index: 9999;
+}
+#facade-container #display {
+    position: relative;
+    display: block;
+    max-width: 150px;
+    margin: 0 auto;
+    padding: 5px;
+    text-align: center;
+    background: #000000;
+    color: #ffffff;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+
+/* TOOLBAR VIEW */
+#toolbar-view {
+    background: #000000;
+    height: 40px;
+    margin: 0 0 0 0;
+    width: 100%;
+}
+#toolbar-view div.toolbar-item {
+    float: left;
+    height: 100%;
+    line-height: 2.5;
+    margin: 0 15px 0 0;
+}
+#toolbar-view img {
+    height: 40px;
 }

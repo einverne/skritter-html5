@@ -1,92 +1,126 @@
 /*
  * 
- * Model: StudyUser
+ * Model: User
  * 
  * Created By: Joshua McFarland
  * 
- * Description:
- * Represents a user who can study using the application and also stores user-specific settings.
+ * Authentication Properties
+ * access_token
+ * refresh_token
+ * expires_in
+ * token_type
+ * user_id
+ * 
+ * Public Properties
+ * id
+ * name
+ * created
+ * aboutMe
+ * country
+ * avatar
+ * private
+ * anonymous
+ * 
+ * Settings Properties
+ * addFrequency
+ * addSimplified
+ * addTraditional
+ * allowEmailsFromSkritter
+ * animationSpeed
+ * autoAddComponentCharacters
+ * chineseStudyParts
+ * colorTones
+ * eccentric
+ * email
+ * hideReading
+ * japaneseStudyParts
+ * orderWeight
+ * sourceLang
+ * retentionIndex
+ * reviewSimplified
+ * reviewTraditional
+ * showHeisig
+ * squigs
+ * studyAllListWritings
+ * studyRareWritings
+ * targetLang
+ * timezone
  * 
  */
 define([
     'backbone'
 ], function() {
-    var Skritter = window.skritter;
     
     var User = Backbone.Model.extend({
 	
 	initialize: function() {
-	    _.bindAll(this);
-	    
-	    //loads the active user automatically if one exists
-	    if (localStorage.getItem('active'))
-		this.set(JSON.parse(localStorage.getItem(localStorage.getItem('active'))));
-	    
-	    //save user settings as they are changed
+	    //save user settings when they are changed
 	    this.on('change', this.cache);
 	},
 		
 	defaults: {
-	    id: null,
-	    accessToken: null,
-	    expiresIn: null,
-	    lastActive: null,
 	    lastLogin: null,
 	    lastSync: null,
-	    parts: {
-		defn: true,
-		rdng: true,
-		rune: true,
-		tone: true
-	    },
-	    rawSquigs: false,
-	    refreshToken: null,
-	    thresholds: {
-		distance: 100,
-		direction: 45,
-		length: 200,
-		maxFailedAttempts: 2,
-		strictness: 0
-	    }
+	    orderStrictness: 0
 	},
 		
 	cache: function() {
 	    if (this.isLoggedIn()) {
-		localStorage.setItem(this.get('id'), JSON.stringify(this));
+		localStorage.setItem(this.get('user_id'), JSON.stringify(this));
 	    }
 	},
 		
 	isLoggedIn: function() {
-	    if (this.get('accessToken'))
+	    if (this.has('access_token'))
 		return true;
 	    return false;
 	},
 		
-	login: function(username, password, callback) {
-	    self = this;
-	    Skritter.manager.login(username, password, function(data) {
-		if (data.statusCode === 200) {
-		    localStorage.setItem('active', data.user_id);
-		    self.set({
-			accessToken: data.access_token,
-			expiresIn: data.expires_in,
-			id: data.user_id,
-			refreshToken: data.refresh_token
-		    });
-		}
+	fetch: function(callback) {
+	    if (!this.isLoggedIn()) {
+		callback();
+		return;
+	    }
+	    //get the logged in users settings from the server
+	    Skritter.api.getUser(this.get('user_id'), _.bind(function(data) {
+		this.set(data);
 		callback(data);
-	    });
+	    }, this));
+	},
+		
+	getAvatar: function() {
+	    return "<img src='data:image/png;base64," + this.get('avatar') +"' />";
+	},
+		
+	getStudyParts: function() {
+	    if (this.get('targetLang') === 'zh')
+		return this.get('chineseStudyParts');
+	    return this.get('japaneseStudyParts');
+	},
+		
+	login: function(username, password, callback) {
+	    Skritter.api.authenticateUser(username, password, _.bind(function(auth) {
+		//automatically return if authentication was unsuccessfull
+		if (auth.statusCode !== 200) {
+		    callback(auth);
+		    return;
+		}
+		this.set(auth);
+		this.fetch(function(data) {
+		    localStorage.setItem('activeUser', auth.user_id);
+		    callback(auth, data);
+		});
+	    }, this));
 	},
 		
 	logout: function(callback) {
-	    Skritter.storage.clear(null, function () {
-		localStorage.removeItem('active');
-		Skritter.application.reload();
+	    Skritter.storage.clearAll(function() {
+		localStorage.removeItem('activeUser');
 		callback();
 	    });
 	}
-	
     });
+    
     
     return User;
 });

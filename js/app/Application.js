@@ -6,157 +6,176 @@
  * 
  */
 define([
-    'Frame',
+    'Api',
     'Functions',
     'Router',
+    'Storage',
+    'Test',
     'model/Assets',
     'model/Manager',
     'model/Settings',
     'model/User',
     'view/Facade',
-    'async',
-    'Storage'
-], function(Frame, Functions, Router, Assets, Manager, Settings, User, Facade, Async, Storage) {
-    var Skritter = window.skritter;
+    'view/Timer',
+    'async'
+], function(Api, Functions, Router, Storage, Test, Assets, Manager, Settings, User, FacadeView, TimerView, Async) {
     
-    //main initialization function called when the app is first run
+    //loads all of the inital modules required to load the application
     var initialize = function() {
-	loadFacade().show();
+	//remove: only for testing
+	Skritter.test = Test;
+	
+	console.log('initializing application');
+	loadFacade();
+	loadAsync();
 	loadFunctions();
 	loadSettings();
-	loadFrame();
 	loadUser();
+	loadManager();
+	loadApi();
 	
-	Async.series([
-	    Async.apply(loadAssets),
-	    Async.apply(loadStorage),
-	    Async.apply(loadManager)
+	Skritter.async.series([
+	    Skritter.async.apply(loadAssets),
+	    Skritter.async.apply(loadStorage),
+	    Skritter.async.apply(loadData),
+	    Skritter.async.apply(loadTimer)
 	], function() {
-	    initialSync(function() {
-		loadRouter();
-		Skritter.facade.hide();
-	    });
-	    
+	    loadRouter();
+	    Skritter.facade.hide();
 	});
     };
     
-    var reload = function() {
-	Skritter.facade.show();
+    //partially reloads the application when switching or logging out
+    var reload = function(callback) {
+	console.log('reloading application');
+	Skritter.facade.show('LOADING');
 	loadSettings();
-	loadFrame();
 	loadUser();
-	loadManager(function() {
-	    initialSync(function() {
-		Skritter.facade.hide();
-	    });
+	loadManager();
+	
+	Skritter.async.series([
+	    Skritter.async.apply(loadStorage),
+	    Skritter.async.apply(loadData),
+	    Skritter.async.apply(loadTimer)
+	], function() {
+	    Skritter.facade.hide();
+	    if (typeof callback === 'function')
+		callback();
 	});
     };
     
     
-    var initialSync = function(callback) {
-	//no syncing if the user is not logged in
-	if (!Skritter.user.isLoggedIn()) {
-	    callback();
-	    return;
-	}
-	
-	if (!Skritter.user.get('lastSync') && Skritter.storage.type !== 'localstorage') {
-	    Skritter.facade.show('DOWNLOADING ACCOUNT');
-	    Skritter.manager.syncFull(callback);
-	    return;
-	}
-	
-	if (Skritter.user.get('lastSync') && Skritter.storage.type !== 'localstorage') {
-	    //Skritter.facade.show('SYNCING');
-	    //Skritter.manager.syncIncremental(callback);
-	    callback();
-	    return;
-	}
-	
-	Skritter.facade.show('LOADING ITEMS');
-	Skritter.manager.syncMinimal(callback);
+    //used to connect directly with the Skritter api
+    var loadApi = function() {
+	Skritter.api = new Api();
     };
     
+    //useful set of functions for better handling async callbacks
+    var loadAsync = function() {
+	Skritter.async = Async;
+    };
+    
+    //loads all of the initial assets required by the application
     var loadAssets = function(callback) {
 	Skritter.assets = new Assets();
-	Skritter.assets.once('complete', function() {
-	    callback();
-	});
-	Skritter.assets.loadButtons();
+	Skritter.assets.once('complete', callback);
 	Skritter.assets.loadStrokes();
     };
     
+    //checks and loads the users account data
+    var loadData = function(callback) {
+	console.log('loading data');
+	if (Skritter.user.isLoggedIn()) {
+	    Skritter.async.series([
+		function(callback) {
+		    //during first login the entire account should be downloaded
+		    if (!Skritter.user.get('lastSync')) {
+			Skritter.facade.show('DOWNLOADING ACCOUNT');
+			Skritter.manager.downloadAccount(function() {
+			    Skritter.user.set('lastSync', Skritter.fn.getUnixTime());
+			    callback();
+			});
+		    } else {
+			//todo: add in the initial sync function
+			callback();
+		    }
+		},
+		function(callback) {
+		    //load the base data required for syncing and studying
+		    Skritter.async.series([
+			Skritter.async.apply(Skritter.study.decomps.loadAll),
+			Skritter.async.apply(Skritter.study.items.loadAll),
+			Skritter.async.apply(Skritter.study.params.loadAll),
+			Skritter.async.apply(Skritter.study.reviews.loadAll),
+			Skritter.async.apply(Skritter.study.srsconfigs.loadAll),
+			Skritter.async.apply(Skritter.study.sentences.loadAll),
+			Skritter.async.apply(Skritter.study.strokes.loadAll),
+			Skritter.async.apply(Skritter.study.vocabs.loadAll)
+		    ], function() {	
+			callback();
+		    });
+		}
+	    ], callback);
+	} else {
+	    callback();
+	}
+    };
+    
+    //can be toggled on of off to lock the screen from the user
     var loadFacade = function() {
-	Skritter.facade = new Facade();
-	return Skritter.facade;
+	Skritter.facade = new FacadeView({el: $('#facade-container')});
+	Skritter.facade.show('LOADING');
     };
     
-    var loadFrame = function() {
-	Skritter.frame = Frame.vertical;
-	Skritter.frame.container();
-    };
-    
+    //set of global functions used by the application
     var loadFunctions = function() {
 	Skritter.fn = Functions;
     };
     
-    var loadManager = function(callback) {
+    //loads the framework of study models and handles syncing
+    var loadManager = function() {
 	Skritter.manager = new Manager();
-	Skritter.manager.fromCache(function(result) {
-	    if (!result) {
-		callback();
-		return;
-	    }
-	    Skritter.manager.setStudyData(result);
-	    callback();
-	});
     };
     
+    //handles all of the hashtag routing
     var loadRouter = function() {
 	Router.initialize();
     };
     
+    //application settings that can be directly altered by the user
     var loadSettings = function() {
 	Skritter.settings = new Settings();
     };
     
+    //checks and loads the proper storage method
     var loadStorage = function(callback) {
-	//prioritizes indexeddb over other storage methods
-	if (_.contains(navigator.userAgent, 'Chrome/28.0') ||
-		_.contains(navigator.userAgent, 'Firefox/22.0')) {
-	    console.log('using indexeddb');
-	    Skritter.storage = new Storage('indexeddb');
-	    Skritter.storage.openDatabase('skritdata', 1, function() {
-		callback();
-	    });
-	    return;
-	}
-	
-	//checks if a wrapped mobile app is being used
 	if (window.cordova || window.PhoneGap || window.phonegap) {
 	    console.log('using sqlite');
 	    Skritter.storage = new Storage('sqlite');
-	    Skritter.storage.openDatabase('skritdata', '1.0', function() {
+	} else {
+	    console.log('using indexeddb');
+	    Skritter.storage = new Storage('indexeddb');
+	}
+	if (Skritter.user.isLoggedIn()) {
+	    Skritter.storage.openDatabase('skritdata-' + Skritter.user.get('user_id'), 3, function() {
 		callback();
-	    });
-	    return;
-	}
-	
-	//defaults to flash style loading
-	if (window.localStorage) {
-	    console.log('using localstorage');
-	    Skritter.storage = new Storage('localstorage');
-	    Skritter.storage.database = 'skritdata';
-	    Skritter.storage.name = 'skritdata';
+	    }); 
+	} else {
 	    callback();
-	    return;
 	}
-	
-	alert('Unable to load a storage method!');
     };
     
+    var loadTimer = function(callback) {
+	Skritter.timer = new TimerView();
+	callback();
+    };
+    
+    //gets the active user and loads user-specific settings
     var loadUser = function() {
 	Skritter.user = new User();
+	if (localStorage.getItem('activeUser')) {
+	    Skritter.user.set(JSON.parse(localStorage.getItem(localStorage.getItem('activeUser'))));
+	}
     };
     
     
@@ -164,5 +183,4 @@ define([
 	initialize: initialize,
 	reload: reload
     };
-    
 });
