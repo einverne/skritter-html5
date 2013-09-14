@@ -9,6 +9,7 @@ define([
     'Api',
     'Functions',
     'Router',
+    'SimpTradMap',
     'Storage',
     'Test',
     'model/Assets',
@@ -18,7 +19,7 @@ define([
     'view/Facade',
     'view/Timer',
     'async'
-], function(Api, Functions, Router, Storage, Test, Assets, Manager, Settings, User, FacadeView, TimerView, Async) {
+], function(Api, Functions, Router, SimpTradMap, Storage, Test, Assets, Manager, Settings, User, FacadeView, TimerView, Async) {
     
     //loads all of the inital modules required to load the application
     var initialize = function() {
@@ -30,6 +31,7 @@ define([
 	loadAsync();
 	loadFunctions();
 	loadSettings();
+	loadSimpTradMap();
 	loadUser();
 	loadManager();
 	loadApi();
@@ -147,6 +149,10 @@ define([
 	Skritter.settings = new Settings();
     };
     
+    var loadSimpTradMap = function() {
+	Skritter.map = JSON.parse(SimpTradMap);
+    };
+    
     //checks and loads the proper storage method
     var loadStorage = function(callback) {
 	if (window.cordova || window.PhoneGap || window.phonegap) {
@@ -167,7 +173,24 @@ define([
     
     var loadTimer = function(callback) {
 	Skritter.timer = new TimerView();
-	callback();
+	if (Skritter.user.isLoggedIn()) {
+	    Skritter.async.waterfall([
+		function(callback) {
+		    Skritter.api.getDateInfo(function(result) {
+			callback(null, result);
+		    });
+		},
+		function(result, callback) {
+		    Skritter.api.getProgressStats({
+			start: result.today
+		    }, function(result) {
+			Skritter.timer.setOffset(result[0].timeStudied.day);
+			callback();
+		    });
+		}
+	    ]);
+	}
+	callback(); 
     };
     
     //gets the active user and loads user-specific settings

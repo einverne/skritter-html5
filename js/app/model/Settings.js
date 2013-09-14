@@ -18,7 +18,7 @@ define([
 	
 	defaults: {
 	    apiClientId: 'mcfarljwapiclient',
-	    apiDomain: 'cn',
+	    apiDomain: 'com',
 	    apiRoot: 'http://beta.skritter',
 	    apiClientSecret: 'e3872517fed90a820e441531548b8c',
 	    appHeight: 0,

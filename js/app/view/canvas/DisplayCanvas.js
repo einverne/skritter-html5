@@ -129,17 +129,21 @@ define([
 	    DisplayCanvas.marker.graphics.endStroke();
 	},
 		
-	drawStroke: function(canvasStroke, phantom) {
-	    if (phantom) {
+	drawStroke: function(canvasStroke, phantom, callback) {
+	    if (canvasStroke.get('part') === 'tone' || phantom) {
 		var userBitmap = canvasStroke.getInflatedBitmap();
-		DisplayCanvas.layerBackground.addChild(userBitmap);
-		createjs.Tween.get(userBitmap).to({alpha: 0}, 500).call(function() {
-		    DisplayCanvas.layerInput.removeChild(userBitmap);
-		});
+		DisplayCanvas.layerInput.addChild(userBitmap);
+		if (phantom) {
+		    createjs.Tween.get(userBitmap).to({alpha: 0}, 500).call(function() {
+			DisplayCanvas.layerInput.removeChild(userBitmap);
+		    });
+		} else {
+		    callback();
+		}
 	    } else {
 		var userBitmap = canvasStroke.getUserBitmap();
 		DisplayCanvas.layerInput.addChildAt(userBitmap, 0);
-		createjs.Tween.get(userBitmap).to(canvasStroke.getInflatedBitmap(), 250);
+		createjs.Tween.get(userBitmap).to(canvasStroke.getInflatedBitmap(), 250, createjs.Ease.quadInOut).call(callback);
 	    }
 	},
 		

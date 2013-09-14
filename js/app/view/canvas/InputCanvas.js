@@ -16,8 +16,8 @@ define([
 	    //settings and variables
 	    InputCanvas.size = Skritter.settings.get('canvasSize');
 	    InputCanvas.points = [];
-	    InputCanvas.strokeColor = 'orange';
-	    InputCanvas.strokeSize = 14;
+	    InputCanvas.strokeColor = '#000000';
+	    InputCanvas.strokeSize = 12;
 	    InputCanvas.strokeCapStyle = 'round';
 	    InputCanvas.strokeJointStyle = 'round';
 	    
@@ -73,6 +73,7 @@ define([
 		oldPt = new createjs.Point(stage.mouseX, stage.mouseY);
 		oldMidPt = oldPt;
 		InputCanvas.points.push(oldPt.clone());
+		self.forceRender();
 		stage.addEventListener("stagemousemove", handleMouseMove);
 	    }
 	    function handleMouseMove() {

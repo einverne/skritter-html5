@@ -4,6 +4,20 @@
  * 
  * Created By: Joshua McFarland
  * 
+ * Properties
+ * itemId
+ * score
+ * bearTime
+ * submitTime
+ * reviewTime
+ * thinkingTime
+ * currentInterval
+ * actualInterval
+ * newInterval
+ * wordGroup
+ * previousInterval
+ * previousSuccess
+ * 
  */
 define([
     'backbone'

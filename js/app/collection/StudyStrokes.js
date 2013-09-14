@@ -42,7 +42,18 @@ define([
 	},
 	
 	model: StudyStroke,
-		
+
+	cache: function(callback) {
+	    if (this.length === 0) {
+		callback();
+		return;
+	    }
+	    Skritter.storage.setItems('strokes', this.toJSON(), function() {
+		if (typeof callback === 'function')
+		    callback();
+	    });
+	},
+
 	loadAll: function(callback) {
 	    Skritter.storage.getItems('strokes', function(strokes) {
 		console.log('loading strokes');

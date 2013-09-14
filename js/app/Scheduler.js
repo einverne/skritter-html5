@@ -6,7 +6,7 @@
  * 
  */
 define([
-    'model/StudyReview',
+    'model/StudyReview'
 ],function(StudyReview) {
 
     function Scheduler() {}

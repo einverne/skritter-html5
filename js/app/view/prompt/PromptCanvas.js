@@ -139,7 +139,10 @@ define([
 		if (Skritter.user.get('squigs') && PromptCanvas.rune) {
 		    PromptCanvas.displayCanvas.drawSquig(result);
 		} else {
-		    PromptCanvas.displayCanvas.drawStroke(result);
+		    PromptCanvas.displayCanvas.drawStroke(result, false, _.bind(function() {
+			if (this.isComplete())
+			    PromptCanvas.displayCanvas.glowCharacter(PromptCanvas.userTargets[0], PromptCanvas.gradeColors[PromptCanvas.grade]);
+		    }, this));
 		}
 		
 		if (this.isComplete())
@@ -184,9 +187,6 @@ define([
 		    var stroke = PromptCanvas.userCharacter.models[i];
 		    PromptCanvas.displayCanvas.drawStroke(stroke);
 		}
-		PromptCanvas.displayCanvas.glowCharacter(PromptCanvas.userTargets[0], PromptCanvas.gradeColors[PromptCanvas.grade]);
-	    } else {
-		PromptCanvas.displayCanvas.glowCharacter(PromptCanvas.userTargets[0], PromptCanvas.gradeColors[PromptCanvas.grade]);
 	    }
 	    this.trigger('writing:complete', PromptCanvas.grade);
 	}

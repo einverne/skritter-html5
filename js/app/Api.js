@@ -39,6 +39,23 @@ define([
 	    }
 	});
     };
+    
+    Api.prototype.getDateInfo = function(callback) {
+	$.ajax({
+	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/dateinfo',
+	    type: 'GET',
+	    cache: false,
+	    data: {
+		bearer_token: Skritter.user.get('access_token')
+	    },
+	    error: function(error) {
+		callback(error);
+	    },
+	    success: function(data) {
+		callback(data);
+	    }
+	});
+    };
 
     Api.prototype.requestBatch = function(requests, callback) {
 	$.ajax({
@@ -57,7 +74,7 @@ define([
     
     Api.prototype.getBatch = function(batchId, callback1, callback2) {
 	var retryCount = 0;
-	var result = [];
+	//var result = [];
 	var getBatchRequest = function(batchId) {
 	    $.ajax({
 		url: Skritter.settings.get('apiRoot') + '.'  + Skritter.settings.get('apiDomain') + '/api/v0/batch/' + batchId,
@@ -77,7 +94,7 @@ define([
 		success: function(data) {
 		    retryCount = 0;
 		    var batch = data.Batch;
-		    console.log(batch);
+		    var result = [];
 		    var requests = batch.Requests;
 		    
 		    for (var i in requests)
@@ -86,20 +103,87 @@ define([
 			    return _.isArray(a) ? a.concat(b) : undefined;
 			});
 		    }
-		    
-		    if (typeof callback2 === 'function') {
-			callback2(requests);
-		    }
+		   
+		    callback1(result);
 		    
 		    if (batch.runningRequests > 0 || requests.length > 0) {
 			getBatchRequest(batchId);
 		    } else {
-			callback1(result);
+			callback2();
 		    }
 		}
 	    });
 	};
 	getBatchRequest(batchId);
+    };
+    
+    Api.prototype.getItems = function(ids, callback) {
+	$.ajax({
+	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/items',
+	    type: 'GET',
+	    cache: false,
+	    data: {
+		bearer_token: Skritter.user.get('access_token'),
+		ids: ids.join('|'),
+		include_vocabs: 'true'
+	    },
+	    error: function(error) {
+		callback(error);
+	    },
+	    success: function(data) {
+		callback(data);
+	    }
+	});
+    };
+    
+    Api.prototype.getProgressStats = function(request, callback) {
+	request['bearer_token'] = Skritter.user.get('access_token');
+	$.ajax({
+	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/progstats',
+	    type: 'GET',
+	    cache: false,
+	    data: request,
+	    error: function(error) {
+		callback(error);
+	    },
+	    success: function(data) {
+		callback(data.ProgressStats);
+	    }
+	});
+    };
+    
+    Api.prototype.getSimpTradMap = function(callback) {
+	$.ajax({
+	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/simptradmap',
+	    type: 'GET',
+	    cache: false,
+	    data: {
+		bearer_token: Skritter.user.get('access_token')
+	    },
+	    error: function(error) {
+		callback(error);
+	    },
+	    success: function(data) {
+		callback(data);
+	    }
+	});
+    };
+    
+    Api.prototype.getSRSConfigs = function(callback) {
+	$.ajax({
+	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/srsconfigs',
+	    type: 'GET',
+	    cache: false,
+	    data: {
+		bearer_token: Skritter.user.get('access_token')
+	    },
+	    error: function(error) {
+		callback(error);
+	    },
+	    success: function(data) {
+		callback(data.SRSConfigs);
+	    }
+	});
     };
     
     Api.prototype.getUser = function(userId, callback) {
@@ -116,6 +200,25 @@ define([
 	    },
 	    success: function(data) {
 		callback(data.User);
+	    }
+	});
+    };
+    
+    Api.prototype.getVocabLists = function() {
+	$.ajax({
+	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/vocablists',
+	    type: 'GET',
+	    cache: false,
+	    data: {
+		bearer_token: Skritter.user.get('access_token'),
+		sort: 'official'
+	    },
+	    error: function(error) {
+		callback(error);
+	    },
+	    success: function(data) {
+		console.log(data.VocabLists);
+		//callback(data.User);
 	    }
 	});
     };

@@ -32,7 +32,7 @@ define([
 		HomeView.toolbar.addOption(Skritter.user.get('name'), 'username');
 		HomeView.grid.addTile('{study}', 'study-button');
 		HomeView.grid.addTile('{options}', 'options-button');
-		HomeView.grid.addTile('{lists}', 'lists-button');
+		HomeView.grid.addTile('{lists}', 'list-button');
 		HomeView.grid.addTile('{about}', 'about-button');
 		HomeView.grid.addTile('{logout}', 'logout-button');
 	    } else {
@@ -49,6 +49,7 @@ define([
 		
 	events: {
 	    'click.HomeView #about-button': 'toAbout',
+	    'click.HomeView #list-button': 'toList',
 	    'click.HomeView #login-button': 'toLogin',
 	    'click.HomeView #logout-button': 'toLogout',
 	    'click.HomeView #options-button': 'toOptions',
@@ -57,6 +58,10 @@ define([
 	
 	toAbout: function() {
 	    document.location.hash = 'about';
+	},
+		
+	toList: function() {
+	    document.location.hash = 'list';
 	},
 	
 	toLogin: function() {

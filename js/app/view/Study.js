@@ -29,11 +29,11 @@ define([
 	    this.applyFilter();
 	    
 	    StudyView.toolbar.setElement(this.$('#toolbar-container')).render();
-	    StudyView.toolbar.addOption('{back}', 'back-button');
+	    StudyView.toolbar.addOption('{back}', 'back-button', ['button']);
 	    StudyView.toolbar.addOption('{timer}', 'timer');
-	    StudyView.toolbar.addOption('{add}', 'add-button');
-	    StudyView.toolbar.addOption('{no-audio}', 'audio-button');
-	    StudyView.toolbar.addOption('{info}', 'info-button');
+	    StudyView.toolbar.addOption('{add}', 'add-button', ['button']);
+	    StudyView.toolbar.addOption('{no-audio}', 'audio-button', ['button']);
+	    StudyView.toolbar.addOption('{info}', 'info-button', ['button']);
 	    
 	    //render the time to the toolbar
 	    Skritter.timer.setElement(this.$('#timer')).render();

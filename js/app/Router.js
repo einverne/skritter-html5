@@ -9,13 +9,14 @@ define([
     'view/About',
     'view/Home',
     'view/Info',
+    'view/List',
     'view/Login',
     'view/Logout',
     'view/Options',
     'view/Study',
     'view/admin/ParamBuilder',
     'backbone'
-], function(AboutView, HomeView, InfoView, LoginView, LogoutView, OptionsView, StudyView, ParamBuilderView) {
+], function(AboutView, HomeView, InfoView, ListView, LoginView, LogoutView, OptionsView, StudyView, ParamBuilderView) {
     
     var Router = Backbone.Router.extend({
 	
@@ -23,7 +24,7 @@ define([
 	    Router.aboutView;
 	    Router.homeView;
 	    Router.infoView;
-	    Router.loginView;
+	    Router.listView;
 	    Router.logoutView;
 	    Router.optionsView;
 	    Router.paramBuilderView;
@@ -34,6 +35,8 @@ define([
 	    '': 'homeView',
             'about': 'aboutView',
 	    'info/:id': 'infoView',
+	    'list': 'listView',
+	    'list/sort/:sort': 'listView',
 	    'login': 'loginView',
 	    'logout': 'logoutView',
 	    'options': 'optionsView',
@@ -60,12 +63,21 @@ define([
 	infoView: function(id) {
 	    if (!id)
 		return;
-	    
 	    if (!Router.infoView) {
-		Router.infoView = new InfoView({el: $(Skritter.settings.get('container')), id: id}).render();
+		Router.infoView = new InfoView({el: $(Skritter.settings.get('container'))});
 	    } else {
-		Router.infoView.load(id);
-		Router.infoView.setElement($(Skritter.settings.get('container'))).render();
+		Router.infoView.setElement($(Skritter.settings.get('container')));
+	    }
+	    Router.infoView.load(id);
+	    Router.infoView.render();
+	},
+	
+	listView: function(sort) {
+	    console.log(sort);
+	    if (!Router.listView) {
+		Router.listView = new ListView({el: $(Skritter.settings.get('container'))}).render();
+	    } else {
+		Router.listView.setElement($(Skritter.settings.get('container'))).render();
 	    }
 	},
 		

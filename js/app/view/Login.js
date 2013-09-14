@@ -27,7 +27,7 @@ define([
 	    this.$el.html(this.template);
 	    
 	    LoginView.toolbar.setElement($('#toolbar-container')).render();
-	    LoginView.toolbar.addOption('{back}', 'back-button');
+	    LoginView.toolbar.addOption('{back}', 'back-button', ['button']);
 	    
 	    this.$el.append(templateLoginForm);
 	    

@@ -67,10 +67,11 @@ define([
 		    var params = Skritter.study.params.findWhere({bitmapId: bitmapId});	
 		    stroke.set('bitmap', new createjs.Bitmap(Skritter.assets.getStroke(bitmapId).src));
 		    stroke.set('bitmapId', bitmapId);
+		    stroke.set('data', strokes[s]);
 		    stroke.set('id', position + '|' + bitmapId);
+		    stroke.set('part', part);
 		    stroke.set('position', position);
 		    stroke.set('rune', rune);
-		    stroke.set('data', strokes[s]);
 		    
 		    //adjusts the relative position for double strokes
 		    if (params.has('contains'))

@@ -25,7 +25,7 @@ define([
 	    this.$el.html(this.template);
 	    
 	    AboutView.toolbar.setElement(this.$('#toolbar-container')).render();
-	    AboutView.toolbar.addOption('{back}', 'back-button');
+	    AboutView.toolbar.addOption('{back}', 'back-button', 'button');
 	    
 	    AboutView.grid.setElement(this.$('#grid-container')).render();
 	    

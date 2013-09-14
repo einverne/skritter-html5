@@ -32,89 +32,67 @@ define([
 	    };
 	},
 		
+	cacheAll: function(callback) {
+	    Skritter.async.parallel([
+		function(callback) {
+		    Skritter.study.decomps.cache(function() {
+			callback();
+		    });
+		},
+		function(callback) {
+		    Skritter.study.items.cache(function() {
+			callback();
+		    });
+		},
+		function(callback) {
+		    Skritter.study.reviews.cache(function() {
+			callback();
+		    });
+		},
+		function(callback) {
+		    Skritter.study.srsconfigs.cache(function() {
+			callback();
+		    });
+		},
+		function(callback) {
+		    Skritter.study.sentences.cache(function() {
+			callback();
+		    });
+		},
+		function(callback) {
+		    Skritter.study.strokes.cache(function() {
+			callback();
+		    });
+		},
+		function(callback) {
+		    Skritter.study.vocabs.cache(function() {
+			callback();
+		    });
+		}
+	    ], function() {
+		callback();
+	    });
+	},
+		
 	downloadAccount: function(callback) {
+	    var self = this;
 	    Skritter.storage.clearAll(function() {
 		console.log('starting account download');
-		var requests = [
-		    {
-			path: 'api/v0/items',
-			method: 'GET',
-			cache: false,
-			params: {
-			    sort: 'last',
-			    include_vocabs: 'true',
-			    include_strokes: 'true',
-			    include_sentences: 'true',
-			    include_heisigs: 'true',
-			    include_top_mnemonics: 'true',
-			    include_decomps: 'true'
-			},
-			spawner: true
-		    },
-		    {
-			path: 'api/v0/srsconfigs',
-			method: 'GET',
-			cache: false
-		    }
-		];
-		
-		Skritter.async.waterfall([
+		Skritter.async.series([
 		    function(callback) {
-			Skritter.api.requestBatch(requests, function(result) {
-			    callback(null, result);
+			Skritter.study.srsconfigs.fetch(function() {
+			    callback();
 			});
 		    },
-		    function(result, callback) {
-			Skritter.api.getBatch(result.id, function(result) {
-			    callback(null, result);
-			});
+		    function(callback) {
+			Skritter.study.items.fetch(function() {
+			    callback();
+			}, null);
 		    }
-		], function(error, result) {
-		    if (error) {
-			callback(error);
-			return;
-		    }
-
+		], function() {
 		    Skritter.facade.show('SAVING DATA');
-		    
-		    Skritter.async.parallel({
-			Decomps: function(callback) {
-			    Skritter.storage.setItems('decomps', result.Decomps, function(event) {
-				callback(null, event);
-			    });
-			},
-			Items: function(callback) {
-			    Skritter.storage.setItems('items', result.Items, function(event) {
-				callback(null, event);
-			    });
-			},
-			Sentences: function(callback) {
-			    Skritter.storage.setItems('sentences', result.Sentences, function(event) {
-				callback(null, event);
-			    });
-			},
-			SRSConfigs: function(callback) {
-			    Skritter.storage.setItems('srsconfigs', result.SRSConfigs, function(event) {
-				callback(null, event);
-			    });
-			},
-			Strokes: function(callback) {
-			    Skritter.storage.setItems('strokes', result.Strokes, function(event) {
-				callback(null, event);
-			    });
-			},
-			Vocabs: function(callback) {
-			    Skritter.storage.setItems('vocabs', result.Vocabs, function(event) {
-				callback(null, event);
-			    });
-			}
-		    }, function(error, result) {
-			if (error) {
-			    callback(error);
-			    return;
-			}
-			console.log(result);
-			callback(result);
+		    self.cacheAll(function() {
+			callback();
 		    });
 		});
 	    });
@@ -122,7 +100,6 @@ define([
 	
 	sync: function() {
 	    var requests = [];
-	    
 	    if (Skritter.study.reviews.length > 0) {
 		console.log('submitting reviews');
 		var reviews = Skritter.study.reviews.toJSON();

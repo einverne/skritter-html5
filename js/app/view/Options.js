@@ -30,8 +30,8 @@ define([
 	    this.$el.html(this.template);
 	    
 	    OptionsView.toolbar.setElement(this.$('#toolbar-container')).render();
-	    OptionsView.toolbar.addOption('{back}', 'back-button');
-	    OptionsView.toolbar.addOption('{save}', 'save-button');
+	    OptionsView.toolbar.addOption('{back}', 'back-button', ['button']);
+	    OptionsView.toolbar.addOption('{save}', 'save-button', ['button']);
 	    
 	    OptionsView.grid.setElement(this.$('#grid-container')).render();
 	    OptionsView.grid.addTile(templateParts, 'parts');

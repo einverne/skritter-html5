@@ -113,11 +113,8 @@ define([
 	    }, this));
 	},
 		
-	logout: function(callback) {
-	    Skritter.storage.clearAll(function() {
-		localStorage.removeItem('activeUser');
-		callback();
-	    });
+	logout: function() {
+	    localStorage.removeItem('activeUser');
 	}
     });
     

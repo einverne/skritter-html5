@@ -59,6 +59,7 @@ define([
 	    this.stroke.set('feedback', matched.feedback);
 	    this.stroke.set('id', matched.id);
 	    this.stroke.set('params', matched.params);
+	    this.stroke.set('part', matched.part);
 	    this.stroke.set('position', matched.position);
 	    this.stroke.set('result', matched.result);
 	    this.stroke.set('scores', matched.scores);
@@ -80,6 +81,7 @@ define([
 		var data = variations.at(b).get('data');
 		var id = variations.at(b).get('id');
 		var params = variations.at(b).getInflatedParams();
+		var part = variations.at(b).get('part');
 		var position = variations.at(b).get('position');
 		var variation = variations.at(b).get('variation');
 		var rune = variations.at(b).get('rune');
@@ -101,6 +103,7 @@ define([
 		    result['feedback'] = param.get('feedback');
 		    result['id'] = id;
 		    result['params'] = param;
+		    result['part'] = part;
 		    result['position'] = position;
 		    result['variation'] = variation;
     		    result['rune'] = rune;

@@ -18,11 +18,9 @@ define([
 	
 	initialize: function() {
 	    InfoView.grid = new GridView();
-	    InfoView.id = null;
 	    InfoView.sentence;
 	    InfoView.toolbar = new ToolbarView();
 	    InfoView.vocab;
-	    this.load(this.options.id);
 	},
 		
 	template: templateInfo,	
@@ -31,13 +29,13 @@ define([
 	    this.$el.html(this.template);
 	    
 	    InfoView.toolbar.setElement($('#toolbar-container')).render();
-	    InfoView.toolbar.addOption('{ban}', 'ban');
+	    InfoView.toolbar.addOption('{ban}', 'ban', ['button']);
 	    if (InfoView.vocab.get('starred')) {
-		InfoView.toolbar.addOption('{starred}', 'star');
+		InfoView.toolbar.addOption('{starred}', 'star', ['button']);
 	    } else {
-		InfoView.toolbar.addOption('{not-starred}', 'star');
+		InfoView.toolbar.addOption('{not-starred}', 'star', ['button']);
 	    }
-	    InfoView.toolbar.addOption('{close}', 'close');
+	    InfoView.toolbar.addOption('{close}', 'close', ['button']);
 	    InfoView.grid.setElement($('#grid-container')).render();
 	    InfoView.grid.addTile(templateInfoTile, 'info-tile');
 	    InfoView.grid.update();

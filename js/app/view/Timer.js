@@ -17,6 +17,7 @@ define([
 	    TimerView.timer;
 	    TimerView.display = '0:00';
 	    TimerView.lap = 0;
+	    TimerView.offset = 0;
 	    TimerView.reviewTime = 0;
 	    TimerView.reviewLimit = 30000;
 	    TimerView.thinkingTime = 0;
@@ -49,6 +50,10 @@ define([
 	setThinkingLimit: function(milliseconds) {
 	    TimerView.thinkingLimit = milliseconds;
 	},
+		
+	setOffset: function(time) {
+	    TimerView.offset = time * 1000;
+	},
 
 	start: function() {
 	    TimerView.lap = new Date().getTime();
@@ -64,6 +69,7 @@ define([
 	update: function() {
 	    var time = TimerView.stopwatch.time();
 	    var lap = new Date().getTime() - TimerView.lap;
+	    time += TimerView.offset;
 	    var h = m = s = ms = 0;
 	    var newDisplay;
 
