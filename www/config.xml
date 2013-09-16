@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.inkren.skritter" version="0.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Skritter</name>
+    <description>
+        Learn to write Chinese and Japanese characters.
+    </description>
+    <author email="mcfarljw@gmail.com" href="http://www.skritter.com">
+        Joshua McFarland
+    </author>
+    <feature name="App">
+	<param name="android-package" value="org.apache.cordova.App" />
+    </feature>
+    <feature name="Device">
+	<param name="android-package" value="org.apache.cordova.Device" />
+    </feature>
+    <feature name="Media">
+	<param name="android-package" value="org.apache.cordova.AudioHandler" />
+    </feature>
+    <content src="index-cordova.html" />
+    <access origin="*" />
+    <preference name="fullscreen" value="true" />
+    <preference name="webviewbounce" value="true" />
+</widget>

@@ -1,0 +1,77 @@
+/* GENERAL */
+html, body {
+    background: #bababa;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+div.button {
+    cursor: pointer;
+}
+div.hidden {
+    display: none;
+}
+
+
+/* FONTS */
+@font-face {
+	font-family: "kaisho";
+	src: url('../media/font/DFPKaiSho-Md.ttf');
+}
+@font-face {
+	font-family: "simkai";
+	src: url('../media/font/simkai.ttf');
+}
+
+
+/* FACADE VIEW */
+#facade-container {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    
+}
+#facade-container #facade-view {
+    position: absolute;
+    padding: 20% 0 0 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.6);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+    z-index: 9999;
+}
+#facade-container #display {
+    position: relative;
+    display: block;
+    max-width: 150px;
+    margin: 0 auto;
+    padding: 5px;
+    text-align: center;
+    background: #000000;
+    color: #ffffff;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+
+/* TOOLBAR VIEW */
+#toolbar-view {
+    background: #000000;
+    height: 40px;
+    margin: 0 0 0 0;
+    width: 100%;
+}
+#toolbar-view div.toolbar-item {
+    float: left;
+    height: 100%;
+    line-height: 2.5;
+    margin: 0 15px 0 0;
+}
+#toolbar-view img {
+    height: 40px;
+}
