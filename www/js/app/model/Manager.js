@@ -73,6 +73,16 @@ define([
 		callback();
 	    });
 	},
+	
+	clearAll: function() {
+	    Skritter.study.decomps.reset();
+	    Skritter.study.items.reset();
+	    Skritter.study.reviews.reset();
+	    Skritter.study.srsconfigs.reset();
+	    Skritter.study.sentences.reset();
+	    Skritter.study.strokes.reset();
+	    Skritter.study.vocabs.reset();
+	},
 		
 	downloadAccount: function(callback) {
 	    var self = this;

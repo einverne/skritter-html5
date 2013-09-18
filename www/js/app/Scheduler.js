@@ -136,6 +136,8 @@ define([
 	var currentTime = Skritter.fn.getUnixTime();
 	var actualInterval = startTime - item.get('last');
 	var newInterval = this.getNewInterval(item, grade);
+	var previousInterval = (item.get('previousInterval')) ? item.get('previousInterval') : 0;
+	var previousSuccess = (item.get('previousSuccess')) ? item.get('previousSuccess') : false;
 	
 	var review = new StudyReview();
 	review.set({
@@ -149,8 +151,8 @@ define([
 	    actualInterval: actualInterval,
 	    newInterval: newInterval,
 	    wordGroup: vocab.get('writing'),
-	    previousInterval: item.get('previousInterval'),
-	    previousSuccess: item.get('previousSuccess')
+	    previousInterval: previousInterval,
+	    previousSuccess: previousSuccess
 	});
 	
 	Skritter.study.reviews.add(review);

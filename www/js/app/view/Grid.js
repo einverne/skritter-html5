@@ -25,9 +25,10 @@ define([
 	    return this;
 	},
 		
-	addTile: function(content, id) {
+	addTile: function(content, id, classes) {
+	    classes = (classes) ? classes : [];
 	    var tile = document.createElement('div');
-	    tile.setAttribute('class', 'box');
+	    tile.setAttribute('class', 'box ' + classes);
 	    tile.setAttribute('id', id);
 	    $(tile).html(content);
 	    $(this.$el.selector + ' #grid-view #grid').append(tile);

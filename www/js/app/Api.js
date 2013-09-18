@@ -86,7 +86,10 @@ define([
 		error: function(error) {
 		    if (retryCount < 5) {
 			retryCount++;
-			getBatchRequest(batchId);
+			setTimeout(function() {
+			    console.log('request error');
+			    getBatchRequest(batchId);
+			}, 5000);
 		    } else {
 			console.error(error);
 		    }
@@ -107,7 +110,9 @@ define([
 		    callback1(result);
 		    
 		    if (batch.runningRequests > 0 || requests.length > 0) {
-			getBatchRequest(batchId);
+			setTimeout(function() {
+			    getBatchRequest(batchId);
+			}, 2000);
 		    } else {
 			callback2();
 		    }
@@ -150,6 +155,36 @@ define([
 		callback(data.ProgressStats);
 	    }
 	});
+    };
+    
+    Api.prototype.getReviewErrors = function(offset, callback) {
+	var errors = [];
+	getNext();
+	function getNext(cursor) {
+	    $.ajax({
+		url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/reviews/errors',
+		type: 'GET',
+		cache: false,
+		data: {
+		    bearer_token: Skritter.user.get('access_token'),
+		    cursor: cursor,
+		    offset: offset
+		},
+		error: function(error) {
+		    callback(error);
+		},
+		success: function(data) {
+		    errors = errors.concat(data.ReviewErrors);
+		    if (data.cursor) {
+			setTimeout(function() {
+			    getNext(data.cursor);
+			}, 2000);
+		    } else {
+			callback(errors);
+		    }
+		}
+	    });
+	}
     };
     
     Api.prototype.getSimpTradMap = function(callback) {
@@ -204,21 +239,85 @@ define([
 	});
     };
     
-    Api.prototype.getVocabLists = function() {
+    Api.prototype.getVocabLists = function(sort, callback) {
+	var lists = [];
+	getNext();
+	function getNext(cursor) {
+	    $.ajax({
+		url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/vocablists',
+		type: 'GET',
+		cache: false,
+		data: {
+		    bearer_token: Skritter.user.get('access_token'),
+		    sort: sort,
+		    cursor: cursor
+		},
+		error: function(error) {
+		    callback(error);
+		},
+		success: function(data) {
+		    lists = lists.concat(data.VocabLists);
+		    if (data.cursor) {
+			setTimeout(function() {
+			    getNext(data.cursor);
+			}, 2000);
+		    } else {
+			callback(lists, data.cursor);
+		    }
+		}
+	    });
+	};
+    };
+    
+    Api.prototype.getVocabList = function(id, callback) {
 	$.ajax({
-	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/vocablists',
+	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/vocablists/' + id,
 	    type: 'GET',
 	    cache: false,
 	    data: {
-		bearer_token: Skritter.user.get('access_token'),
-		sort: 'official'
+		bearer_token: Skritter.user.get('access_token')
 	    },
 	    error: function(error) {
+		console.error(error);
 		callback(error);
 	    },
 	    success: function(data) {
-		console.log(data.VocabLists);
-		//callback(data.User);
+		callback(data.VocabList);
+	    }
+	});
+    };
+    
+    Api.prototype.getVocabListSection = function(listId, sectionId, callback) {
+	$.ajax({
+	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/vocablists/' + listId + '/sections/' + sectionId,
+	    type: 'GET',
+	    cache: false,
+	    data: {
+		bearer_token: Skritter.user.get('access_token')
+	    },
+	    error: function(error) {
+		console.error(error);
+		callback(error);
+	    },
+	    success: function(data) {
+		callback(data.VocabListSection);
+	    }
+	});
+    };
+    
+    Api.prototype.postReviews = function(reviews, callback) {
+	$.ajax({
+	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/reviews?bearer_token=' + Skritter.user.get('access_token') + '&date=2013-09-17',
+	    type: 'POST',
+	    cache: false,
+	    data: JSON.stringify(reviews),
+	    error: function(error) {
+		console.error(error);
+		callback(error);
+	    },
+	    success: function(data) {
+		console.log(data);
+		callback(data);
 	    }
 	});
     };

@@ -4,12 +4,12 @@ Skritter HTML5 is a partial port and adaptation of the Skritter application prim
 
 ## Building
 
-The repository is structured like a standard Cordova project. The www directory can be copied directly to web server to test the web-application and can be built using the Cordova command line to test the Android flavor. I have excluded the media files (audio and strokes) from the repository as they are rather bulky. They can be downloaded and copied into the proper folder using the link provided below.
-
 ##Requirements##
 - Cordova 3.0+
 - Media folder
 - Node.js
+
+The repository is structured like a standard Cordova project. The www directory can be copied directly to web server to test the web-application and can be built using the Cordova command line to test the Android flavor. I have excluded the media files (audio and strokes) from the repository as they are rather bulky. They can be downloaded and copied into the proper folder using the link provided below.
 
 ## Links
 

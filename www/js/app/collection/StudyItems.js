@@ -52,7 +52,7 @@ define([
 	    Skritter.async.waterfall([
 		function(callback) {
 		    Skritter.api.requestBatch(requests, function(result) {
-			callback(null, result);
+			    callback(null, result);
 		    });
 		},
 		function(result, callback) {

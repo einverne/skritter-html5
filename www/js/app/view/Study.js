@@ -62,7 +62,7 @@ define([
 		
 	applyFilter: function() {
 	    StudyView.items = Skritter.study.items.getStudy();
-	    //StudyView.items = StudyView.items.filterBy('id', ['mcfarljwtest2-zh-笑死-0-rune']);
+	    //StudyView.items = StudyView.items.filterBy('id', ['mcfarljwtest2-zh-好-0-rune']);
 	},
 		
 	audio: function() {

@@ -53,7 +53,7 @@ define([
 		    var containedVocab = Skritter.study.vocabs.findWhere({id:contained[i]});
 		    var div = "<div class='contained-vocab'>";
 		    div += "<span class='writing'>" + containedVocab.get('writing') + "</span>";
-		    div += "<span class='reading'>" + containedVocab.get('reading') + "</span>";
+		    div += "<span class='reading'>" + PinyinConverter.toTone(containedVocab.get('reading')) + "</span>";
 		    div += "<span class='definition'>" + containedVocab.get('definitions').en + "</span>";
 		    div += "</div>";
 		    this.$('#contained').append(div);

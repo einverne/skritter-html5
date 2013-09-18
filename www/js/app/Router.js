@@ -33,7 +33,9 @@ define([
 	    '': 'homeView',
 	    'info/:id': 'infoView',
 	    'list': 'listView',
-	    'list/sort/:sort': 'listView',
+	    'list/:listId': 'listView',
+	    'list/:listId/section/:sectionId': 'listView',
+	    'list/sort/:sort': 'listViewSort',
 	    'login': 'loginView',
 	    'logout': 'logoutView',
 	    'options': 'optionsView',
@@ -61,13 +63,25 @@ define([
 	    Router.infoView.render();
 	},
 	
-	listView: function(sort) {
-	    console.log(sort);
+	listView: function(listId, sectionId) {
 	    if (!Router.listView) {
-		Router.listView = new ListView({el: $(Skritter.settings.get('container'))}).render();
+		Router.listView = new ListView({el: $(Skritter.settings.get('container'))});
 	    } else {
-		Router.listView.setElement($(Skritter.settings.get('container'))).render();
+		Router.listView.setElement($(Skritter.settings.get('container')));
 	    }
+	    Router.listView.setListId(listId);
+	    Router.listView.setSectionId(sectionId);
+	    Router.listView.render();
+	},
+		
+	listViewSort: function(sort) {
+	    if (!Router.listView) {
+		Router.listView = new ListView({el: $(Skritter.settings.get('container'))});
+	    } else {
+		Router.listView.setElement($(Skritter.settings.get('container')));
+	    }
+	    Router.listView.setSort(sort);
+	    Router.listView.render();
 	},
 		
 	loginView: function() {

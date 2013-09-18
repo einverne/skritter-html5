@@ -42,6 +42,10 @@ define([
 		Skritter.study.reviews.add(reviews);
 		callback(null, reviews);
 	    });
+	},
+		
+	save: function() {
+	    Skritter.api.postReviews(this.toJSON());
 	}
 	
     });
