@@ -13,9 +13,10 @@ define([
     'view/Logout',
     'view/Options',
     'view/Study',
+    'view/Vocab',
     'view/admin/ParamBuilder',
     'backbone'
-], function(HomeView, InfoView, ListView, LoginView, LogoutView, OptionsView, StudyView, ParamBuilderView) {
+], function(HomeView, InfoView, ListView, LoginView, LogoutView, OptionsView, StudyView, VocabView, ParamBuilderView) {
     
     var Router = Backbone.Router.extend({
 	
@@ -27,6 +28,7 @@ define([
 	    Router.optionsView;
 	    Router.paramBuilderView;
 	    Router.studyView;
+	    Router.vocabView;
 	},
 		
 	routes: {
@@ -40,7 +42,10 @@ define([
 	    'logout': 'logoutView',
 	    'options': 'optionsView',
 	    'param-builder': 'paramBuilderView',
-	    'study': 'studyView'
+	    'param-builder/:bitmapId': 'paramBuilderView',
+	    'param-builder/:bitmapId/:paramId': 'paramBuilderView',
+	    'study': 'studyView',
+	    'vocab': 'vocabView'
 	},
 		
 	homeView: function() {
@@ -108,12 +113,14 @@ define([
 	    }
 	},
 		
-	paramBuilderView: function() {
+	paramBuilderView: function(bitmapId, paramId) {
 	    if (!Router.paramBuilderView) {
-		Router.paramBuilderView = new ParamBuilderView({el: $(Skritter.settings.get('container'))}).render();
+		Router.paramBuilderView = new ParamBuilderView({el: $(Skritter.settings.get('container'))});
 	    } else {
-		Router.paramBuilderView.setElement($(Skritter.settings.get('container'))).render();
+		Router.paramBuilderView.setElement($(Skritter.settings.get('container')));
 	    }
+	    Router.paramBuilderView.set(bitmapId, paramId);
+	    Router.paramBuilderView.render();
 	},
 		
 	studyView: function() {
@@ -121,6 +128,14 @@ define([
 		Router.studyView = new StudyView({el: $(Skritter.settings.get('container'))}).render();
 	    } else {
 		Router.studyView.setElement($(Skritter.settings.get('container'))).render();
+	    }
+	},
+		
+	vocabView: function() {
+	    if (!Router.vocabView) {
+		Router.vocabView = new VocabView({el: $(Skritter.settings.get('container'))}).render();
+	    } else {
+		Router.vocabView.setElement($(Skritter.settings.get('container'))).render();
 	    }
 	}
 	

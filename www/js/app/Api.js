@@ -32,6 +32,7 @@ define([
 		password: password
 	    },
 	    error: function(error) {
+		console.error(error);
 		callback(error);
 	    },
 	    success: function(data) {
@@ -49,6 +50,7 @@ define([
 		bearer_token: Skritter.user.get('access_token')
 	    },
 	    error: function(error) {
+		console.error(error);
 		callback(error);
 	    },
 	    success: function(data) {
@@ -133,6 +135,7 @@ define([
 		include_vocabs: 'true'
 	    },
 	    error: function(error) {
+		console.error(error);
 		callback(error);
 	    },
 	    success: function(data) {
@@ -149,6 +152,7 @@ define([
 	    cache: false,
 	    data: request,
 	    error: function(error) {
+		console.error(error);
 		callback(error);
 	    },
 	    success: function(data) {
@@ -171,6 +175,7 @@ define([
 		    offset: offset
 		},
 		error: function(error) {
+		    console.error(error);
 		    callback(error);
 		},
 		success: function(data) {
@@ -180,6 +185,7 @@ define([
 			    getNext(data.cursor);
 			}, 2000);
 		    } else {
+			console.log(errors);
 			callback(errors);
 		    }
 		}
@@ -196,6 +202,7 @@ define([
 		bearer_token: Skritter.user.get('access_token')
 	    },
 	    error: function(error) {
+		console.error(error);
 		callback(error);
 	    },
 	    success: function(data) {
@@ -213,6 +220,7 @@ define([
 		bearer_token: Skritter.user.get('access_token')
 	    },
 	    error: function(error) {
+		console.error(error);
 		callback(error);
 	    },
 	    success: function(data) {
@@ -231,6 +239,7 @@ define([
 		detailed: true
 	    },
 	    error: function(error) {
+		console.error(error);
 		callback(error);
 	    },
 	    success: function(data) {
@@ -253,6 +262,7 @@ define([
 		    cursor: cursor
 		},
 		error: function(error) {
+		    console.error(error);
 		    callback(error);
 		},
 		success: function(data) {
@@ -307,7 +317,7 @@ define([
     
     Api.prototype.postReviews = function(reviews, callback) {
 	$.ajax({
-	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/reviews?bearer_token=' + Skritter.user.get('access_token') + '&date=2013-09-17',
+	    url: Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + '/api/v0/reviews?bearer_token=' + Skritter.user.get('access_token') + '&date=2013-09-24',
 	    type: 'POST',
 	    cache: false,
 	    data: JSON.stringify(reviews),
@@ -316,7 +326,6 @@ define([
 		callback(error);
 	    },
 	    success: function(data) {
-		console.log(data);
 		callback(data);
 	    }
 	});

@@ -156,7 +156,7 @@ define([
 	    Skritter.storage = new Storage('indexeddb');
 	}
 	if (Skritter.user.isLoggedIn()) {
-	    Skritter.storage.openDatabase('skritdata-' + Skritter.user.get('user_id'), 3, function() {
+	    Skritter.storage.openDatabase('skritdata-' + Skritter.user.get('user_id'), 1, function() {
 		callback();
 	    }); 
 	} else {

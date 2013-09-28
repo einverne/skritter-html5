@@ -15,6 +15,29 @@
     right: 0;
 }
 
+/* PARAMBUILDER VIEW */
+#parambuilder-view #bitmap-list {
+    float: left;
+    overflow-y: scroll;
+    width: 400px;
+}
+#parambuilder-view #bitmap-list div.bitmap {
+    font-weight: bold;
+}
+#parambuilder-view #bitmap-list div.param {
+    font-weight: normal;
+    padding: 0 0 0 25px;
+}
+#parambuilder-view #bitmap-list div.param:hover {
+    background: #000000;
+}
+#parambuilder-view #bitmap-options {
+    
+}
+#parambuilder-view #writing-area {
+    float: left;
+}
+
 /* PROMPT VIEW */
 #prompt-view #top {
     font-family: "simkai";
@@ -27,8 +50,10 @@
 #prompt-view #top #sentence {
     font-size: 32px;
 }
+#prompt-view #bottom {}
 #prompt-view #prompt-area {
-    background: #000000;
+    background: #ffffff;
+    color: #000000;
     margin: 0 auto;
     position: relative;
     text-align: center;
@@ -50,7 +75,6 @@
 
 /* WRITING AREA */
 #writing-area {
-    overflow-x: visible;
     position: relative;
 }
 #writing-area canvas {
@@ -79,3 +103,39 @@
 #grading-buttons #grade2 { background-image: url('../media/image/button/grade2.png'); }
 #grading-buttons #grade3 { background-image: url('../media/image/button/grade3.png'); }
 #grading-buttons #grade4 { background-image: url('../media/image/button/grade4.png'); }
+
+/* INFO VIEW */
+#info-view #display-container {
+    height: 100%;
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 10px 0 0 0;
+    width: 100%;
+}
+#info-view #display-container div {
+    border: 1px black solid;
+    padding: 5px;
+}
+#info-view #display-container #writing-simp {
+    float: left;
+    font-family: "simkai";
+    font-size: 96px;
+}
+#info-view #display-container #writing-trad {
+    float: left;
+    font-family: "simkai";
+    font-size: 96px;
+}
+#info-view #display-container #reading-definition {
+    float: left;
+    font-size: x-large;
+}
+#info-view #display-container #contained {
+    float: left;
+    font-size: x-large;
+}
+#info-view #display-container #sentence {
+    clear: both;
+    font-family: "simkai";
+    font-size: x-large;
+}

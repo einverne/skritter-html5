@@ -130,8 +130,8 @@ define([
 	    for (var i in this.models)
 	    {
 		var item = this.models[i];
-		console.log(item.get('id'), item.getReadiness());
-		if (item.isActive() && item.getReadiness() >= 1)
+		//console.log(item.get('id'), item.getReadiness());
+		if (item.isActive() && item.getReadiness(true) >= 1)
 		    count++;
 	    }
 	    return count;

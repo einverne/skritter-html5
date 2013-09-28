@@ -57,10 +57,10 @@ define([
 		    items.createIndex('previousSuccess', 'previousSuccess');
 		    items.createIndex('previousInterval', 'previousInterval');
 		    //reviews table
-		    var reviews = transaction.createObjectStore('reviews', {keyPath: ['itemId']});
+		    var reviews = transaction.createObjectStore('reviews', {keyPath: ['itemId', 'submitTime']});
 		    reviews.createIndex('score', 'score');
 		    reviews.createIndex('bearTime', 'bearTime');
-		    reviews.createIndex('submitTime', 'submitTime');
+		    //reviews.createIndex('submitTime', 'submitTime');
 		    reviews.createIndex('reviewTime', 'reviewTime');
 		    reviews.createIndex('thinkingTime', 'thinkingTime');
 		    reviews.createIndex('currentInterval', 'currentInterval');

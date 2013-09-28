@@ -130,15 +130,22 @@ define([
 	    var canvasSize = Skritter.settings.get('canvasSize');
 	    return Skritter.fn.getBoundingRectangle(this.get('points'), canvasSize, canvasSize, 14);
 	},
+		
+	getRectangleCorners: function() {
+	    var canvasSize = Skritter.settings.get('canvasSize');
+	    return Skritter.fn.getBoundingRectangle(this.get('corners'), canvasSize, canvasSize, 14);
+	},
 	
-	getUserBitmap: function() {
+	getUserBitmap: function(scale) {
 	    var bitmap = this.get('bitmap').clone();
-	    var data = this.getInflatedData();
 	    var rect = this.getRectangle();
 	    bitmap.x = rect.x;
 	    bitmap.y = rect.y;
-	    bitmap.scaleX = data.scaleX;
-	    bitmap.scaleY = data.scaleY;
+	    if (scale) {
+		var data = this.getInflatedData();
+		bitmap.scaleX = data.scaleX;
+		bitmap.scaleY = data.scaleY;
+	    }
 	    return bitmap;
 	}
 	

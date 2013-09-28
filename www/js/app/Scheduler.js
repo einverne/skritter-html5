@@ -5,9 +5,7 @@
  * Created By: Joshua McFarland
  * 
  */
-define([
-    'model/StudyReview'
-],function(StudyReview) {
+define(function() {
 
     function Scheduler() {}
 
@@ -129,45 +127,6 @@ define([
 	var new_interval = getBoundInterval(getRandomizedInterval(actual_interval * factor));
 	//console.log('New Interval:', new_interval);
 	return new_interval;
-    };
-    
-    Scheduler.prototype.update = function(item, vocab, grade, reviewTime, startTime, thinkingTime, bearTime) {
-	bearTime = (bearTime) ? true : false;
-	var currentTime = Skritter.fn.getUnixTime();
-	var actualInterval = startTime - item.get('last');
-	var newInterval = this.getNewInterval(item, grade);
-	var previousInterval = (item.get('previousInterval')) ? item.get('previousInterval') : 0;
-	var previousSuccess = (item.get('previousSuccess')) ? item.get('previousSuccess') : false;
-	
-	var review = new StudyReview();
-	review.set({
-	    itemId: item.get('id'),
-	    score: grade,
-	    bearTime: bearTime,
-	    submitTime: startTime,
-	    reviewTime: reviewTime,
-	    thinkingTime: thinkingTime,
-	    currentInterval: item.get('interval'),
-	    actualInterval: actualInterval,
-	    newInterval: newInterval,
-	    wordGroup: vocab.get('writing'),
-	    previousInterval: previousInterval,
-	    previousSuccess: previousSuccess
-	});
-	
-	Skritter.study.reviews.add(review);
-	
-	item.set({
-	    last: currentTime,
-	    next: currentTime + newInterval,
-	    interval: newInterval,
-	    reviews: item.get('reviews') + 1,
-	    successes: (grade > 1) ? item.get('successes') + 1 : item.get('successes')
-	});
-	
-	console.log('updated item');
-	
-	return item;
     };
     
 

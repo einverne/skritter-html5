@@ -94,6 +94,10 @@ define([
 	    return this.get('writing').split('').length;
 	},
 		
+	getCharacters: function() {
+	    return this.get('writing').split('');
+	},
+		
 	getPinyinAt: function(index) {
 	    index = (index) ? index : 0;
 	    var syllable = _.clone(this.get('reading'));
@@ -143,6 +147,12 @@ define([
 	    if (index >= this.getCharacterCount())
 		return false;
 	    return true;
+	},
+		
+	isSingleCharacter: function() {
+	    if (this.getCharacterCount() === 1)
+		return true;
+	    return false;
 	},
 		
 	play: function() {

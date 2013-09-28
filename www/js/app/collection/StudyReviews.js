@@ -44,8 +44,11 @@ define([
 	    });
 	},
 		
-	save: function() {
-	    Skritter.api.postReviews(this.toJSON());
+	save: function(callback) {
+	    Skritter.api.postReviews(this.toJSON(), function(event) {
+		console.log(event);
+		callback();
+	    });
 	}
 	
     });

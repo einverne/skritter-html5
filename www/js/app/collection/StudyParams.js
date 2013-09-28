@@ -17,8 +17,9 @@ define([
 		
 	loadAll: function(callback) {
 	    console.log('loading params');
-	    Skritter.study.params.add(Params);
-	    callback(null, Params);
+	    var params = Params;
+	    Skritter.study.params.add(params);
+	    callback(null, params);
 	}
 	
     });

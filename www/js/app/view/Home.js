@@ -30,15 +30,16 @@ define([
 	    if (Skritter.user.isLoggedIn()) {
 		HomeView.toolbar.addOption(Skritter.user.getAvatar(), 'avatar');
 		HomeView.toolbar.addOption(Skritter.user.get('name'), 'username');
-		HomeView.grid.addTile('{study}', 'study-button');
-		HomeView.grid.addTile('{options}', 'options-button');
-		HomeView.grid.addTile('{lists}', 'list-button');
-		HomeView.grid.addTile('Last Sync: ' + new Date(Skritter.user.get('lastSync')*1000), 'sync-button');
-		HomeView.grid.addTile('{logout}', 'logout-button');
+		HomeView.toolbar.addOption('Due:' + Skritter.study.items.getReadyCount(), 'items-due');
+		HomeView.grid.addTile('{study}', 'study-button', ['button']);
+		HomeView.grid.addTile('{options}', 'options-button', ['button']);
+		HomeView.grid.addTile('{lists}', 'list-button', ['button']);
+		HomeView.grid.addTile('{vocab}', 'vocab-button', ['button']);
+		HomeView.grid.addTile('Last Sync: ' + new Date(Skritter.user.get('lastSync')*1000), 'sync-button', ['button']);
+		HomeView.grid.addTile('{logout}', 'logout-button', ['button']);
 	    } else {
 		HomeView.toolbar.addOption('{logo}', 'logo');
-		HomeView.grid.addTile('{login}', 'login-button');
-		HomeView.grid.addTile('{about}', 'about-button');
+		HomeView.grid.addTile('{login}', 'login-button', ['button']);
 	    }
 	    
 	    HomeView.toolbar.addOption(Skritter.settings.get('version'), 'version');
@@ -53,7 +54,8 @@ define([
 	    'click.HomeView #logout-button': 'toLogout',
 	    'click.HomeView #options-button': 'toOptions',
 	    'click.HomeView #sync-button': 'sync',
-	    'click.HomeView #study-button': 'toStudy'
+	    'click.HomeView #study-button': 'toStudy',
+	    'click.HomeView #vocab-button': 'toVocab'
 	},
 		
 	sync: function() {
@@ -83,6 +85,10 @@ define([
 		
 	toStudy: function() {
 	    document.location.hash = 'study';
+	},
+		
+	toVocab: function() {
+	    document.location.hash ='vocab';
 	}
 	
     });

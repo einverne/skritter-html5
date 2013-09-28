@@ -28,11 +28,10 @@ define([
 	initialize: function() {
 	    this.on('change', this.cache);
 	},
-	
-	idAttribute: 'itemId',
 		
 	cache: function(callback) {
 	    Skritter.storage.setItem('reviews', this.toJSON(), function() {
+		console.log('review added');
 		if (typeof callback === 'function')
 		    callback();
 	    });

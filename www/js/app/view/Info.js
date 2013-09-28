@@ -7,17 +7,15 @@
  */
 define([
     'require.text!template/info-view.html',
-    'require.text!template/info-tile.html',
+    'require.text!template/info-display.html',
     'PinyinConverter',
-    'view/Grid',
     'view/Toolbar',
     'backbone'
-], function(templateInfo, templateInfoTile, PinyinConverter, GridView, ToolbarView) {
+], function(templateInfo, templateInfoDisplay, PinyinConverter, ToolbarView) {
     
     var InfoView = Backbone.View.extend({
 	
 	initialize: function() {
-	    InfoView.grid = new GridView();
 	    InfoView.sentence;
 	    InfoView.toolbar = new ToolbarView();
 	    InfoView.vocab;
@@ -29,16 +27,19 @@ define([
 	    this.$el.html(this.template);
 	    
 	    InfoView.toolbar.setElement($('#toolbar-container')).render();
-	    InfoView.toolbar.addOption('{ban}', 'ban', ['button']);
-	    if (InfoView.vocab.get('starred')) {
-		InfoView.toolbar.addOption('{starred}', 'star', ['button']);
+	    
+	    if (InfoView.vocab.has('bannedParts')) {
+		InfoView.toolbar.addOption('{banned}', 'ban-button', ['button']);
 	    } else {
-		InfoView.toolbar.addOption('{not-starred}', 'star', ['button']);
+		InfoView.toolbar.addOption('{ban}', 'ban-button', ['button']);
+	    }
+	    if (InfoView.vocab.get('starred')) {
+		InfoView.toolbar.addOption('{starred}', 'star-button', ['button']);
+	    } else {
+		InfoView.toolbar.addOption('{not-starred}', 'star-button', ['button']);
 	    }
 	    InfoView.toolbar.addOption('{close}', 'close', ['button']);
-	    InfoView.grid.setElement($('#grid-container')).render();
-	    InfoView.grid.addTile(templateInfoTile, 'info-tile');
-	    InfoView.grid.update();
+	    this.$('#display-container').html(templateInfoDisplay);
 	    
 	    this.$('#writing-simp').text(InfoView.vocab.get('writing'));
 	    this.$('#writing-trad').text();
@@ -53,7 +54,7 @@ define([
 		    var containedVocab = Skritter.study.vocabs.findWhere({id:contained[i]});
 		    var div = "<div class='contained-vocab'>";
 		    div += "<span class='writing'>" + containedVocab.get('writing') + "</span>";
-		    div += "<span class='reading'>" + PinyinConverter.toTone(containedVocab.get('reading')) + "</span>";
+		    div += "<span class='reading'>" + PinyinConverter.toTone(containedVocab.get('reading')) + ": </span>";
 		    div += "<span class='definition'>" + containedVocab.get('definitions').en + "</span>";
 		    div += "</div>";
 		    this.$('#contained').append(div);
@@ -64,7 +65,13 @@ define([
 	},
 	
 	events: {
-	    'click.InfoView #close': 'close'
+            'click.InfoView #ban-button': 'ban',
+	    'click.InfoView #close': 'close',
+	    'click.InfoView #star-button': 'star'
+	},
+		
+	ban: function() {
+    
 	},
 		
 	close: function() {
@@ -76,6 +83,10 @@ define([
 	    InfoView.vocab = Skritter.study.vocabs.findWhere({id: id});
 	    if (InfoView.vocab.get('sentenceId'))
 		InfoView.sentence = Skritter.study.sentences.findWhere({id: InfoView.vocab.get('sentenceId')});
+	},
+		
+	star: function() {
+	    
 	}
 	
     });

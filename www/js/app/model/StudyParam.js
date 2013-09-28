@@ -13,6 +13,7 @@
  * 
  */
 define([
+    'createjs.easel',
     'backbone'
 ], function() {
     
@@ -21,7 +22,11 @@ define([
 	getAngle: function() {
 	    return Skritter.fn.getAngle(this.get('corners'));
 	},
-		
+	
+	getBitmap: function() {
+	    return new createjs.Bitmap(Skritter.assets.getStroke(this.get('bitmapId')).src);
+	},
+	
 	getLength: function() {
 	    var length = 0;
 	    for (var i = 0; i < this.get('corners').length - 1; i++)

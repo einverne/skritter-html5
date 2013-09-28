@@ -24,8 +24,10 @@
  * 
  */
 define([
+    'Scheduler',
+    'model/StudyReview',
     'backbone'
-], function() {
+], function(Scheduler, StudyReview) {
     
     var StudyItem = Backbone.Model.extend({
 	
@@ -38,6 +40,19 @@ define([
 		if (typeof callback === 'function')
 		    callback();
 	    });
+	},
+	
+	getContained: function() {
+	    var items = [];
+	    var contained = this.getVocabs()[0].get('containedVocabIds');
+	    for (var i in contained)
+	    {
+		var id = Skritter.user.id + '-' + contained[i] + '-' + this.get('part');
+		var item = Skritter.study.items.findWhere({id: id});
+		if (item)
+		    items.push(item);
+	    }
+	    return items;
 	},
 	
 	getReadiness: function(deprioritizeLongShots, singleCharacter) {
@@ -80,7 +95,7 @@ define([
 			readiness = 3.5 - Math.pow(readiness * 0.4, 0.33333);
 		}
 		if (lengthPenalty && readiness > 1) {
-		    readiness = pow(readiness, 1 + lengthPenalty);
+		    readiness = Math.pow(readiness, 1 + lengthPenalty);
 		}
 	    }
 	    
@@ -105,6 +120,44 @@ define([
 	play: function() {
 	    var vocab = this.getVocabs()[0];
 	    vocab.play();
+	},
+		
+	spawnReview: function(grade, reviewTime, startTime, thinkingTime, wordGroup, bearTime) {
+	    bearTime = (bearTime) ? true : false;
+	    var currentTime = Skritter.fn.getUnixTime();
+	    var actualInterval = startTime - this.get('last');
+	    var newInterval = new Scheduler().getNewInterval(this, grade);
+	    var previousInterval = (this.get('previousInterval')) ? this.get('previousInterval') : 0;
+	    var previousSuccess = (this.get('previousSuccess')) ? this.get('previousSuccess') : false;
+	    
+	    var review = new StudyReview();
+	    review.set({
+		itemId: this.get('id'),
+		score: parseInt(grade),
+		bearTime: bearTime,
+		submitTime: startTime,
+		reviewTime: parseFloat(reviewTime),
+		thinkingTime: parseFloat(thinkingTime),
+		currentInterval: this.get('interval'),
+		actualInterval: actualInterval,
+		newInterval: newInterval,
+		wordGroup: wordGroup,
+		previousInterval: previousInterval,
+		previousSuccess: previousSuccess
+	    });
+	    Skritter.study.reviews.add(review);
+	    
+	    this.set({
+		last: currentTime,
+		next: currentTime + newInterval,
+		interval: newInterval,
+		previousInterval: this.get('interval'),
+		previousSuccess: (this.get('grade') > 1) ? true : false,
+		reviews: this.get('reviews') + 1,
+		successes: (grade > 1) ? this.get('successes') + 1 : this.get('successes')
+	    });
+	    
+	    return this;
 	}
 	
     });

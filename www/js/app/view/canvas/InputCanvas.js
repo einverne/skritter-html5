@@ -44,11 +44,19 @@ define([
 	    return this;
 	},
 		
+	bindStage: function() {
+	    //binds easeljs stage to the element
+	    InputCanvas.stage = new createjs.Stage(InputCanvas.canvas);
+	    InputCanvas.stage.autoClear = false;
+	    InputCanvas.stage.enableDOMEvents(true);
+	    createjs.Touch.enable(InputCanvas.stage);
+	},
+		
 	forceRender: function() {
 	    //quick ugly fix for some rendering issues
-	    $(InputCanvas.canvas).css('display', 'block');
-	    setTimeout(function() {
-		$(InputCanvas.canvas).css('display', 'inline-block');
+	    this.$(InputCanvas.canvas).css('display', 'inline-block');
+	    window.setTimeout(function() {
+		this.$(InputCanvas.canvas).css('display', 'block');
 	    }, 0);
 	},
 		
@@ -73,10 +81,10 @@ define([
 		oldPt = new createjs.Point(stage.mouseX, stage.mouseY);
 		oldMidPt = oldPt;
 		InputCanvas.points.push(oldPt.clone());
-		self.forceRender();
 		stage.addEventListener("stagemousemove", handleMouseMove);
 	    }
 	    function handleMouseMove() {
+		console.log(stage.mouseX, stage.mouseY);
 		var point = new createjs.Point(stage.mouseX, stage.mouseY);
 		var midPt = new createjs.Point(oldPt.x + point.x >> 1, oldPt.y + point.y >> 1);
 		InputCanvas.marker.graphics.clear()
@@ -96,6 +104,8 @@ define([
 	    function handleMouseUp(event) {
 		if (isOnCanvas(event)) {
 		    self.triggerMouseUp();
+		} else {
+		    self.clear();
 		}
 		stage.removeEventListener("stagemousemove", handleMouseMove);
 	    }

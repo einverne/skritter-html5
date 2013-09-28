@@ -17,8 +17,8 @@ define(function() {
 	    fields: ['part', 'vocabIds', 'style', 'timeStudied', 'next', 'last', 'interval', 'vocabListIds', 'sectionIds', 'reviews', 'successes', 'created', 'changed', 'previousSuccess', 'previousInterval']
 	},
 	reviews: {
-	    keys: ['itemId'],
-	    fields: ['score', 'bearTime', 'submitTime', 'reviewTime', 'thinkingTime', 'currentInterval', 'actualInterval', 'newInterval', 'wordGroup', 'previousInterval', 'previousSuccess']
+	    keys: ['itemId', 'submitTime'],
+	    fields: ['score', 'bearTime', 'reviewTime', 'thinkingTime', 'currentInterval', 'actualInterval', 'newInterval', 'wordGroup', 'previousInterval', 'previousSuccess']
 	},
 	sentences: {
 	    keys: ['id'],

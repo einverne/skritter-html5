@@ -59,15 +59,17 @@ define([
 		
 	forceRender: function() {
 	    //quick ugly fix for some rendering issues
-	    $(DisplayCanvas.canvas).css('display', 'block');
-	    setTimeout(function() {
-		$(DisplayCanvas.canvas).css('display', 'inline-block');
+	    this.$(DisplayCanvas.canvas).css('display', 'inline-block');
+	    window.setTimeout(function() {
+		this.$(DisplayCanvas.canvas).css('display', 'block');
 	    }, 0);
 	},
 		
 	clear: function() {
 	    DisplayCanvas.layerBackground.removeAllChildren();
 	    DisplayCanvas.layerInput.removeAllChildren();
+	    DisplayCanvas.marker.graphics.clear();
+	    DisplayCanvas.layerInput.addChild(DisplayCanvas.marker);
 	    DisplayCanvas.layerMessage.removeAllChildren();
 	    DisplayCanvas.layerOverlay.removeAllChildren();
 	},
@@ -81,6 +83,16 @@ define([
 		DisplayCanvas.layerMessage.removeChild(text);
 	    });
 	    DisplayCanvas.layerMessage.addChild(text);
+	},
+		
+	drawBitmap: function(bitmap, alpha, colorFilters) {
+	    if (alpha)
+		bitmap.alpha = alpha;
+	    if (colorFilters) {
+		bitmap.filters = colorFilters;
+		bitmap.cache(0, 0, 600, 600);
+	    }
+	    DisplayCanvas.layerBackground.addChild(bitmap);
 	},
 		
 	drawCharacter: function(canvasCharacter, alpha) {
@@ -101,14 +113,17 @@ define([
 	    DisplayCanvas.layerGrid.addChild(grid);
 	},
 	
-	drawPoints: function(points) {
+	drawPoints: function(points, color, alpha) {
 	    if (!points instanceof Array)
 		points = [points];
+	    color = (color) ? color : 'orange';
+	    alpha = (alpha) ? alpha : 1;
 	    for (var i in points)
 	    {
 		var point = points[i];
 		var circle = new createjs.Shape();
-		circle.graphics.beginFill('orange').drawCircle(point.x, point.y, 10);
+		circle.alpha = alpha;
+		circle.graphics.beginFill(color).drawCircle(point.x, point.y, 10);
 		DisplayCanvas.layerOverlay.addChild(circle);
 	    }
 	},
@@ -143,7 +158,7 @@ define([
 		    callback();
 		}
 	    } else {
-		var userBitmap = canvasStroke.getUserBitmap();
+		var userBitmap = canvasStroke.getUserBitmap(false);
 		DisplayCanvas.layerInput.addChildAt(userBitmap, 0);
 		createjs.Tween.get(userBitmap).to(canvasStroke.getInflatedBitmap(), 250, createjs.Ease.quadInOut).call(callback);
 	    }

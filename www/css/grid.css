@@ -1,6 +1,6 @@
 #grid{
-    width: 100%;
     position: relative;
+    width: 100%;
 }
 .box {
     background-color: #c23822;

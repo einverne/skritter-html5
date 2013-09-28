@@ -59,6 +59,7 @@ define([
 	    PromptCanvas.failedAttempts = 0;
 	    PromptCanvas.grade = 3;
 	    PromptCanvas.userCharacter = new CanvasCharacter();
+	    PromptCanvas.displayCanvas.forceRender();
 	},
 		
 	disable: function() {
@@ -94,8 +95,7 @@ define([
 		    PromptCanvas.displayCanvas.drawStroke(stroke);
 		}
 	    }
-	},
-		
+	},	
 		
 	getTargetStrokeCount: function() {
 	    var strokeCount = 0;
@@ -110,6 +110,7 @@ define([
 
 	handleMouseUp: function(points) {
 	    if (points.length !== 0) {
+		console.log('points', points, Skritter.fn.getDistance(points[0], points[points.length - 1]));
 		if (Skritter.fn.getDistance(points[0], points[points.length - 1]) > PromptCanvas.minStrokeDistance) {
 		    if (PromptCanvas.rune) PromptCanvas.displayCanvas.fadeOverlay();
 		    var stroke = new CanvasStroke().set('points', points);

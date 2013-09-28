@@ -23,6 +23,8 @@ define([
 	    Prompt.position = 0;
 	    Prompt.prompt = null;
 	    Prompt.scheduler = new Scheduler();
+	    Prompt.subItems = [];
+	    Prompt.subReviews = [];
 	    Prompt.startTime = 0;
 	    Prompt.reviewTime = 0;
 	    Prompt.thinkingTime = 0;
@@ -72,8 +74,10 @@ define([
 		
 	handlePromptComplete: function(results) {
 	    console.log(results);
+	    Prompt.grade = results.grade;
 	    Prompt.reviewTime += results.reviewTime;
 	    Prompt.thinkingTime += results.thinkingTime;
+	    Prompt.subReviews.push(results);
 	    if (_.contains(['rune', 'tone'], Prompt.item.get('part'))) {
 		if (Prompt.vocab.getCharacterCount() <= Prompt.position + 1) {
 		    this.triggerComplete();
@@ -92,6 +96,8 @@ define([
 	    Prompt.position = 0;
 	    Prompt.prompt = null;
 	    Prompt.reviewTime = 0;
+	    Prompt.subItems = [];
+	    Prompt.subReviews = [];
 	    Prompt.startTime = 0;
 	    Prompt.thinkingTime = 0;
 	    Prompt.vocab = null;
@@ -102,11 +108,39 @@ define([
 	    Prompt.startTime = Skritter.fn.getUnixTime();
 	    Prompt.item = item;
 	    Prompt.vocab = item.getVocabs()[0];
+	    Prompt.subItems = Prompt.item.getContained();
 	    this.render();
 	},
 	
 	triggerComplete: function() {
-	    Prompt.scheduler.update(Prompt.item, Prompt.vocab, Prompt.grade, Prompt.reviewTime, Prompt.startTime, Prompt.thinkingTime, true);
+	    //updates contained items for rune and tone prompts if not a single character prompt
+	    if (!Prompt.vocab.isSingleCharacter(), _.contains(['rune', 'tone'], Prompt.item.get('part'))) {
+		for (var i in Prompt.subItems){
+		    var item = Prompt.subItems[i];
+		    var review = Prompt.subReviews[i];
+		    item.spawnReview(review.grade, review.reviewTime, review.startTime, review.thinkingTime, Prompt.vocab.get('writing'), false);
+		}
+	    }
+	    //calculate the values so we can choose a final item score
+	    var total = 0;
+	    var wrongCount = 0;
+	    for (var i in Prompt.subReviews)
+	    {
+		total += parseInt(Prompt.subReviews[i].grade);
+		if (parseInt(Prompt.subReviews[i].grade) === 1)
+		    wrongCount++;
+	    }
+	    //adjust the grade for multiple character items or get rounded down average
+	    if (Prompt.vocab.getCharacterCount() === 2 && wrongCount === 1) {
+		Prompt.grade = 1;
+	    } else if (wrongCount >= 2) {
+		Prompt.grade = 1;
+	    } else {
+		Prompt.grade = Math.floor(total / Prompt.subReviews.length);
+	    }
+	    //updates the base item regardless of prompt part
+	    Prompt.item.spawnReview(Prompt.grade, Prompt.reviewTime, Prompt.startTime, Prompt.thinkingTime, Prompt.vocab.get('writing'), true);
+	    //triggers the item complete event to the study view
 	    this.trigger('item:complete');
 	},
 		

@@ -30,6 +30,7 @@ define([
 	    
 	    StudyView.toolbar.setElement(this.$('#toolbar-container')).render();
 	    StudyView.toolbar.addOption('{back}', 'back-button', ['button']);
+	    StudyView.toolbar.addOption(Skritter.study.items.getReadyCount(), 'items-due');
 	    StudyView.toolbar.addOption('{timer}', 'timer');
 	    StudyView.toolbar.addOption('{add}', 'add-button', ['button']);
 	    StudyView.toolbar.addOption('{audio}', 'audio-button', ['button']);
@@ -58,11 +59,12 @@ define([
 	
 	back: function() {
 	    document.location.hash = '';
+	    Skritter.timer.stop();
 	},
 		
 	applyFilter: function() {
 	    StudyView.items = Skritter.study.items.getStudy();
-	    //StudyView.items = StudyView.items.filterBy('id', ['mcfarljwtest2-zh-好-0-rune']);
+	    //StudyView.items = StudyView.items.filterBy('id', ['mcfarljwtest2-zh-你-0-rune']);
 	},
 		
 	audio: function() {
@@ -70,11 +72,13 @@ define([
 	},
 	
 	handleItemComplete: function() {
+	    this.updateItemsDue();
 	    this.nextItem();
 	},
 	
 	info: function() {
 	    document.location = '#info/' + StudyView.currentItem.getVocabs()[0].get('id');
+	    Skritter.timer.stop();
 	},
 		
 	nextItem: function() {
@@ -84,6 +88,10 @@ define([
 		StudyView.currentItem = item;
 		StudyView.prompt.setItem(item);
 	    });
+	},
+	
+	updateItemsDue: function() {
+	    this.$('#items-due').html(Skritter.study.items.getReadyCount());
 	}
 	
     });
