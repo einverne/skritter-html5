@@ -10,3 +10,7 @@ www/media/
 *.settings
 build.bat
 run.bat
+
+# OS-Specific Files #
+.DS_Store
+
