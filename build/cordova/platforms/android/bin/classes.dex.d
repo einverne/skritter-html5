@@ -9,5 +9,11 @@ C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\classes\com\inkren\skritter\R$xml.class \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\classes\com\inkren\skritter\R.class \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\classes\com\inkren\skritter\Skritter.class \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\classes\org\apache\cordova\media\AudioHandler.class \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\classes\org\apache\cordova\media\AudioPlayer$1.class \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\classes\org\apache\cordova\media\AudioPlayer$MODE.class \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\classes\org\apache\cordova\media\AudioPlayer$STATE.class \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\classes\org\apache\cordova\media\AudioPlayer.class \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\classes\org\apache\cordova\media\FileHelper.class \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\dexedLibs\acra-4.5.0-4449afb51a8f2917ea2b6eb09e180cc2.jar \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\bin\dexedLibs\cordova-3.1.0-53642fe9ed88b7a167eab052b7364f27.jar \

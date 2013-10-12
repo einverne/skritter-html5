@@ -18,7 +18,8 @@ define([
     'prompt/GradingButtons',
     'prompt/PromptCanvas',
     'require.text!template/prompt-rune.html',
-    'backbone'
+    'backbone',
+    'jquery.hammer'
 ], function(PinyinConverter, Recognizer, CanvasCharacter, CanvasStroke, GradingButtons, Canvas, templateRune) {
     /**
      * @class PromptRune
@@ -55,6 +56,9 @@ define([
         render: function() {
             this.$el.html(templateRune);
             Rune.canvas.setElement(this.$('.prompt-canvas')).render();
+            this.$('#input-canvas').hammer().on('doubletap.Rune', this.handleDoubleTap);
+            this.$('#input-canvas').hammer().on('hold.Rune', this.handleHold);
+            this.$('#input-canvas').hammer().on('swipeleft.Rune', this.handleSwipeLeft);
             return this;
         },
         clear: function() {
@@ -76,7 +80,7 @@ define([
                 //check if a result exists and that it's not a duplicate
                 if (result && !Rune.userCharacter.containsStroke(result)) {
                     //reset the failed attempts counter
-                    Rune.failedAttempts = 1;
+                    Rune.failedAttempts = 0;
                     //add the stroke to the users character
                     Rune.userCharacter.add(result);
                     //choose whether to draw the stroke normally or using raw squigs
@@ -87,7 +91,7 @@ define([
                         Rune.canvas.drawStroke(result, _.bind(this.handleStrokeComplete, this));
                     }
                 } else {
-                    Rune.failedAttempts += 1;
+                    Rune.failedAttempts++;
                     //if failed too many times show a hint
                     if (Rune.failedAttempts > Rune.maxFailedAttempts) {
                         console.log('hinting');
@@ -99,6 +103,7 @@ define([
             
             
         },
+        
         handleCharacterComplete: function() {
             this.showAnswer();
             //checks if we should snap or just glow the result
@@ -115,15 +120,24 @@ define([
             //show the grading buttons and listen for a selection
             this.showGrading();
         },
+        handleDoubleTap: function() {
+            //todo
+        },
         handleGradeSelected: function(selected) {
             Rune.grade = selected;
             Rune.buttons.remove();
             this.next();
         },
+        handleHold: function() {
+            //todo
+        },
         handleStrokeComplete: function() {
             //check if the character has been completed yet or not
             if (Rune.userCharacter.getStrokeCount() > this.getTargetStrokeCount())
                 this.handleCharacterComplete();
+        },
+        handleSwipeLeft: function() {
+            //todo
         },
         getNextStroke: function() {
             //todo: make this handle strokes with alternatives

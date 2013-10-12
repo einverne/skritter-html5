@@ -6,8 +6,16 @@ module.exports = function(grunt) {
     
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        clean: {
+            android: {
+                src: ['../build/cordova/www'],
+                options: {
+                    force: true
+                }
+            }
+        },
         copy: {
-            'android': {
+            android: {
                 files: [
                     {expand: true, cwd: './',  src: [
                             'config.xml',
@@ -32,6 +40,16 @@ module.exports = function(grunt) {
                 src: ['js/app/**/*.js']
             }
         },
+        shell: {// Task
+            'cordova-android': {
+                command: [
+                    'cd ../build/cordova',
+                    'cordova build android',
+                    'cordova run android'
+                ].join('&&')
+            }
+        
+        },
         yuidoc: {
             compile: {
                 name: '<%= pkg.name %>',
@@ -45,12 +63,14 @@ module.exports = function(grunt) {
         }
     });
     
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
+    grunt.loadNpmTasks('grunt-shell');
     
-    grunt.registerTask('android', ['jshint', 'copy:android']);
+    grunt.registerTask('android', ['jshint', 'copy:android', 'shell:cordova-android']);
     grunt.registerTask('docs', ['yuidoc']);
     grunt.registerTask('hint', ['jshint']);
 };

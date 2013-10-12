@@ -21,6 +21,7 @@ C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\index.html \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\js \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\media \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\plugins \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\template \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\css\bootstrap.css \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\css\main.css \
@@ -76,8 +77,6 @@ C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\js\app\view\prompt\PromptCanvas.js \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\js\app\view\prompt\PromptRune.js \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\js\lib\async.js \
-C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\js\lib\backbone-1.0.0.min.js \
-C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\js\lib\backbone-1.0.0.min.map \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\js\lib\backbone-1.1.0.min.js \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\js\lib\backbone-1.1.0.min.map \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\js\lib\base64.js \
@@ -497,6 +496,10 @@ C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\media\image\stroke\0385.png \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\media\image\stroke\0386.png \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\media\image\stroke\0387.png \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\plugins\org.apache.cordova.media \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\plugins\org.apache.cordova.media\www \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\plugins\org.apache.cordova.media\www\Media.js \
+C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\plugins\org.apache.cordova.media\www\MediaError.js \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\template\grading-buttons.html \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\template\home-in.html \
 C:\Users\Joshua\Dropbox\Projects\skritter-html5\build\cordova\platforms\android\assets\www\template\home-out.html \

@@ -77,6 +77,7 @@ define([
         },
         clear: function() {
             Canvas.d.removeAllChildren();
+            Canvas.i.removeAllChildren();
             this.initLayers();
             this.drawGrid();
         },
@@ -146,7 +147,6 @@ define([
             grid.graphics.moveTo(Canvas.size, 0).lineTo(0, Canvas.size);
             grid.graphics.endStroke();
             Canvas.layerGrid.addChild(grid);
-            this.clearFix();
         },
         drawPhantomStroke: function(canvasStroke, callback) {
             var userStroke = canvasStroke.getInflatedBitmap(true);
@@ -180,14 +180,12 @@ define([
         drawStroke: function(canvasStroke, callback) {
             var self = this;
             var strokeBitmap = canvasStroke.getUserBitmap(false);
+            Canvas.layerInput.addChildAt(strokeBitmap, 0);
             createjs.Tween.get(strokeBitmap).to(canvasStroke.getInflatedBitmap(), 250, createjs.Ease.quadInOut).call(function() {
                 self.clearFix();
                 if (typeof callback === 'function')
                     callback();
             });
-            Canvas.layerInput.addChildAt(strokeBitmap, 0);
-            Canvas.d.update();
-            this.clearFix();
         },
         /**
          * Enables touch input and drawing on the canvas. It also handles the immediate ink
@@ -225,7 +223,6 @@ define([
                 oldMidPt.y = midPt.y;
                 points.push(oldPt.clone());
                 stage.update();
-                self.clearFix();
             };
             var up = function up(event) {
                 if (isOnCanvas(event)) {
@@ -233,6 +230,7 @@ define([
                 }
                 stage.removeEventListener('stagemousemove', move);
                 stage.removeEventListener('stagemouseup', up);
+                marker.graphics.clear();
                 stage.clear();
             };
             var isOnCanvas = function(event) {
@@ -273,7 +271,15 @@ define([
          * @method tick
          */
         tick: function() {
+            var clearFix = function() {
+                $('#canvas-container').css('opacity', 0.99);
+                window.setTimeout(function() {
+                    $('#canvas-container').css('opacity', 1);
+                }, 0);
+            };
             Canvas.d.update();
+            if (Skritter.fn.isCordova())
+                clearFix();
         },
         /**
          * Enables the view to fire events when the canvas has been touched.

@@ -76,7 +76,7 @@ define([
                 //check if a result exists and that it's not a duplicate
                 if (result && !Rune.userCharacter.containsStroke(result)) {
                     //reset the failed attempts counter
-                    Rune.failedAttempts = 1;
+                    Rune.failedAttempts = 0;
                     //add the stroke to the users character
                     Rune.userCharacter.add(result);
                     //choose whether to draw the stroke normally or using raw squigs
@@ -87,7 +87,7 @@ define([
                         Rune.canvas.drawStroke(result, _.bind(this.handleStrokeComplete, this));
                     }
                 } else {
-                    Rune.failedAttempts += 1;
+                    Rune.failedAttempts++;
                     //if failed too many times show a hint
                     if (Rune.failedAttempts > Rune.maxFailedAttempts) {
                         console.log('hinting');

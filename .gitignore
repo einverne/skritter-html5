@@ -6,9 +6,8 @@ nbproject/
 platforms/android/bin/
 platforms/android/gen/
 platforms/android/assets/www/
+public_html/media/audio/
 public_html/node_modules/
 
 # Files #
 *.DS_Store
-*.properties
-*.settings
