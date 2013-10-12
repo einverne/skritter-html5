@@ -1,0 +1,9 @@
+# view AndroidManifest.xml #generated:5
+-keep class com.inkren.skritter.Acra { <init>(...); }
+
+# view AndroidManifest.xml #generated:6
+-keep class com.inkren.skritter.Skritter { <init>(...); }
+
+# view res/layout/main.xml #generated:7
+-keep class org.apache.cordova.CordovaWebView { <init>(...); }
+

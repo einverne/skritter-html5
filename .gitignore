@@ -1,16 +1,14 @@
 # Directories #
+build/cordova/www/
+config/
 docs/
 nbproject/
 platforms/android/bin/
 platforms/android/gen/
 platforms/android/assets/www/
-www/media/
+public_html/node_modules/
 
 # Files #
+*.DS_Store
+*.properties
 *.settings
-build.bat
-run.bat
-
-# OS-Specific Files #
-.DS_Store
-

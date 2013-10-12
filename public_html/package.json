@@ -1,0 +1,12 @@
+{
+    "name": "skritter-html5",
+    "description": "Learn to Write Chinese and Japanese Characters",
+    "version": "0.0.5",
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib-copy": "~0.4.1",
+        "grunt-contrib-jshint": "~0.6.4",
+        "grunt-contrib-requirejs": "~0.4.1",
+        "grunt-contrib-yuidoc": "~0.5.0"
+    }
+}

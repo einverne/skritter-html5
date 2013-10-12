@@ -1,0 +1,170 @@
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    padding-top: 60px;
+}
+
+
+/** FONTS **/
+@font-face {
+	font-family: "kaisho";
+	src: url('../media/font/DFPKaiSho-Md.ttf');
+}
+@font-face {
+	font-family: "simkai";
+	src: url('../media/font/simkai.ttf');
+}
+
+/** GENERAL **/
+.chinese-text {
+    font-family: "simkai"
+}
+.japanese-text {
+    font-family: "kaisho"
+}
+.center-text {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.lr-padding {
+    padding: 0 2px;
+}
+
+
+/** PROMPT **/
+.prompt-container {}
+.prompt-top {}
+.prompt-bottom {}
+.prompt-container .prompt-display {
+    display: inline-block;
+    min-width: 20px;
+    margin: 0 5px 0 0;
+}
+.prompt-container .prompt-hidden {
+    display: inline-block;
+    min-width: 20px;
+    margin: 0 5px 0 0;
+    border-bottom: 2px black solid;
+}
+
+
+/** PROMPT CANVAS **/
+#canvas-container {
+    position: relative;
+}
+#display-canvas, #input-canvas {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+#input-canvas {
+    z-index: 5000;
+}
+
+
+/* GRADING BUTTONS */
+#grading-buttons {
+    position: absolute;
+    width: 100%;
+    z-index: 9999;
+}
+#grading-buttons div {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    cursor: pointer;
+    display: inline-block;
+    height: 50px;
+    min-height: 30px;
+    margin: 0 0 5px 0;
+    padding: 15px 5px;
+    text-align:  center;
+    width: 10%;
+}
+#grading-buttons #grade1 { background-image: url('../media/image/button/grade1.png'); }
+#grading-buttons #grade2 { background-image: url('../media/image/button/grade2.png'); }
+#grading-buttons #grade3 { background-image: url('../media/image/button/grade3.png'); }
+#grading-buttons #grade4 { background-image: url('../media/image/button/grade4.png'); }
+
+
+/** FACADE **/
+#facade-container {
+    height: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    
+}
+#facade-container #facade-view {
+    position: absolute;
+    padding: 20% 0 0 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.6);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+    z-index: 9999;
+}
+#facade-container #message-area {
+    position: relative;
+    display: block;
+    max-width: 150px;
+    margin: 0 auto;
+    padding: 5px;
+    text-align: center;
+    background: #000000;
+    color: #ffffff;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+
+/** LOGIN FORM **/
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-signin .error-message {
+    margin: 10px 0;
+}
