@@ -8,13 +8,19 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         clean: {
             'android-build': {
-                src: ['../build/cordova/www'],
+                src: ['../build/cordova/www/'],
                 options: {
                     force: true
                 }
             },
             'android-install': {
-                src: ['../build/cordova'],
+                src: ['../build/'],
+                options: {
+                    force: true
+                }
+            },
+            rmdir: {
+                src: ['../build/'],
                 options: {
                     force: true
                 }
@@ -54,14 +60,16 @@ module.exports = function(grunt) {
         shell: {// Task
             'cordova-android': {
                 command: [
-                    'cd ../build/cordova',
+                    'cd ../build/cordova/',
                     'cordova build android',
                     'cordova run android'
                 ].join('&&')
             },
             'cordova-android-install': {
                 command: [
-                    'cd ../build',
+                    'cd ../',
+                    'mkdir build',
+                    'cd build/',
                     'cordova create cordova com.inkren.skritter Skritter',
                     'cd cordova',
                     'cordova platforms add android',
