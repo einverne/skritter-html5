@@ -1,85 +1,92 @@
 /**
  * @module Skritter
  * @submodule Prompt
- * @param templateCanvas
  * @author Joshua McFarland
  */
 define([
-    'require.text!template/prompt-canvas.html',
     'backbone',
     'createjs.easel',
     'createjs.tween'
-], function(templateCanvas) {
+], function() {
     /**
      * @class PromptCanvas
      */
     var Canvas = Backbone.View.extend({
         initialize: function() {
-            Canvas.d = null;
-            Canvas.i = null;
+            Canvas.canvas = null;
+            Canvas.stage = null;
             Canvas.points = [];
             Canvas.size = Skritter.settings.get('canvasSize');
             Canvas.strokeColor = '#000000';
             Canvas.strokeSize = 12;
             Canvas.strokeCapStyle = 'round';
             Canvas.strokeJointStyle = 'round';
-            createjs.Ticker.addEventListener('tick', this.tick);
+            this.initStage();
         },
         /**
          * @method render
          * @returns {Canvas}
          */
         render: function() {
-            this.$el.html(templateCanvas);
-            //todo: check to see if this really effects anything when hwa is enabled
-            //$("#input-canvas").parents("*").css("overflow", "visible");
+            this.$el.append(Canvas.canvas);
             this.resize();
-            this.initStages();
             this.initLayers();
             this.drawGrid();
             return this;
         },
         /**
+         * Creates several containers used to organize different levels of display.
+         * 
          * @method initLayers
          * @returns {Canvas}
          */
         initLayers: function() {
+            //the bottom layer which contains the eight section grid
             Canvas.layerGrid = new createjs.Container();
             Canvas.layerGrid.name = 'layerGrid';
+            Canvas.stage.addChild(Canvas.layerGrid);
+            //phantoms and hints use this layer
             Canvas.layerBackground = new createjs.Container();
             Canvas.layerBackground.name = 'layerBackground';
-            Canvas.layerInput = new createjs.Container();
-            Canvas.layerInput.name = 'layerInput';
+            Canvas.stage.addChild(Canvas.layerBackground);
+            //contains all of the messages displayed for the user
             Canvas.layerMessage = new createjs.Container();
             Canvas.layerMessage.name = 'layerMessage';
+            Canvas.stage.addChild(Canvas.layerMessage);
+            //not sure why I have this container
             Canvas.layerOverlay = new createjs.Container();
             Canvas.layerOverlay.name = 'layerOverlay';
-            Canvas.d.addChild(Canvas.layerGrid);
-            Canvas.d.addChild(Canvas.layerBackground);
-            Canvas.d.addChild(Canvas.layerInput);
-            Canvas.d.addChild(Canvas.layerMessage);
-            Canvas.d.addChild(Canvas.layerOverlay);
+            Canvas.stage.addChild(Canvas.layerOverlay);
+            //top layer which shows the touch drawing
+            Canvas.layerInput = new createjs.Container();
+            Canvas.layerInput.name = 'layerInput';
+            Canvas.stage.addChild(Canvas.layerInput);
             return this;
         },
         /**
-         * @method initStages
+         * @method initStage
          * @returns {Canvas}
          */
-        initStages: function() {
-            Canvas.d = new createjs.Stage(document.getElementById('display-canvas'));
-            Canvas.d.enableDOMEvents(false);
-            Canvas.d.autoClear = true;
-            Canvas.i = new createjs.Stage(document.getElementById('input-canvas'));
-            Canvas.i.enableDOMEvents(true);
-            createjs.Touch.enable(Canvas.i);
-            Canvas.i.autoClear = false;
+        initStage: function() {
+            Canvas.canvas = document.createElement('canvas');
+	    Canvas.canvas.setAttribute('id', 'prompt-canvas');
+	    Canvas.canvas.setAttribute('width', Canvas.size);
+	    Canvas.canvas.setAttribute('height', Canvas.size);
+	    Canvas.canvas.setAttribute('style', 'background:white');
+            Canvas.stage = new createjs.Stage(Canvas.canvas);
+            Canvas.stage.enableDOMEvents(true);
+            Canvas.stage.autoClear = true;
+            createjs.Touch.enable(Canvas.stage);
+            createjs.Ticker.addEventListener('tick', this.tick);
             return this;
         },
         clear: function() {
-            Canvas.d.removeAllChildren();
-            Canvas.i.removeAllChildren();
-            this.initLayers();
-            this.drawGrid();
+            Canvas.layerBackground.removeAllChildren();
+            Canvas.layerMessage.removeAllChildren();
+            Canvas.layerOverlay.removeAllChildren();
+            Canvas.layerInput.removeAllChildren();
+            Canvas.stage.update();
+            this.clearFix();
         },
         /**
          * An ugly yet needed feature to force certain Cordova wrapped Android devices to clear
@@ -89,9 +96,9 @@ define([
          */
         clearFix: function() {
             if (Skritter.fn.isCordova()) {
-                this.$('#canvas-container').css('opacity', 0.99);
+                this.$('#prompt-canvas').css('opacity', 0.99);
                 window.setTimeout(function() {
-                    this.$('#canvas-container').css('opacity', 1);
+                    this.$('#prompt-canvas').css('opacity', 1);
                 }, 0);
             }
         },
@@ -102,7 +109,7 @@ define([
          * @method disableInput
          */
         disableInput: function() {
-            Canvas.i.removeAllEventListeners();
+            Canvas.stage.removeAllEventListeners();
         },
         /**
          * @method displayMessage
@@ -130,8 +137,8 @@ define([
             var characterBitmap = canvasCharacter.getCharacterBitmap();
             if (alpha)
                 characterBitmap.alpha = alpha;
-            Canvas.layerOverlay.addChild(characterBitmap);
-            Canvas.d.update();
+            Canvas.layerBackground.addChild(characterBitmap);
+            Canvas.stage.update();
         },
         /**
          * The grid that fills the background of the canvas for rune prompts.
@@ -148,15 +155,25 @@ define([
             grid.graphics.endStroke();
             Canvas.layerGrid.addChild(grid);
         },
+        /**
+         * @method drawPhantomStroke
+         * @param {CanvasStroke} canvasStroke
+         * @param {Function} callback
+         */
         drawPhantomStroke: function(canvasStroke, callback) {
             var userStroke = canvasStroke.getInflatedBitmap(true);
-            Canvas.layerInput.addChild(userStroke);
+            Canvas.layerOverlay.addChild(userStroke);
             createjs.Tween.get(userStroke).to({alpha: 0}, 500).call(function() {
-                Canvas.layerInput.removeChild(userStroke);
+                Canvas.layerOverlay.removeChild(userStroke);
                 if (typeof callback === 'function')
                     callback();
             });
         },
+        /**
+         * @method drawSquig
+         * @param {CanvasStroke} canvasStroke
+         * @param {Number} alpha
+         */
         drawSquig: function(canvasStroke, alpha) {
             var marker = new createjs.Shape();
             var stroke = canvasStroke;
@@ -174,8 +191,8 @@ define([
             if (alpha)
                 marker.alpha = alpha;
             marker.graphics.endStroke();
-            Canvas.layerInput.addChild(marker);
-            Canvas.d.update();
+            Canvas.layerBackground.addChild(marker);
+            Canvas.stage.update();
         },
         /**
          * @method drawStroke
@@ -183,11 +200,9 @@ define([
          * @param {Function} callback
          */
         drawStroke: function(canvasStroke, callback) {
-            var self = this;
             var strokeBitmap = canvasStroke.getUserBitmap(false);
-            Canvas.layerInput.addChildAt(strokeBitmap, 0);
+            Canvas.layerBackground.addChildAt(strokeBitmap, 0);
             createjs.Tween.get(strokeBitmap).to(canvasStroke.getInflatedBitmap(), 250, createjs.Ease.quadInOut).call(function() {
-                self.clearFix();
                 if (typeof callback === 'function')
                     callback();
             });
@@ -202,9 +217,9 @@ define([
         enableInput: function() {
             var self = this;
             var oldPt, oldMidPt, points;
-            var stage = Canvas.i;
+            var stage = Canvas.stage;
             var marker = new createjs.Shape();
-            stage.addChild(marker);
+            Canvas.layerInput.addChild(marker);
             var down = function() {
                 points = [];
                 oldPt = new createjs.Point(stage.mouseX, stage.mouseY);
@@ -217,7 +232,7 @@ define([
             var move = function() {
                 var point = new createjs.Point(stage.mouseX, stage.mouseY);
                 var midPt = new createjs.Point(oldPt.x + point.x >> 1, oldPt.y + point.y >> 1);
-                marker.graphics.clear()
+                marker.graphics
                         .setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle)
                         .beginStroke(Canvas.strokeColor)
                         .moveTo(midPt.x, midPt.y)
@@ -236,7 +251,6 @@ define([
                 stage.removeEventListener('stagemousemove', move);
                 stage.removeEventListener('stagemouseup', up);
                 marker.graphics.clear();
-                stage.clear();
             };
             var isOnCanvas = function(event) {
                 var x = event.rawX;
@@ -247,6 +261,17 @@ define([
             stage.addEventListener('stagemousedown', down);
         },
         /**
+         * @method fadeOverlay
+         */
+        fadeOverlay: function() {
+	    if (Canvas.layerOverlay.getNumChildren() > 0) {
+		createjs.Tween.get(Canvas.layerOverlay).to({alpha: 0}, 500).call(function() {
+		    Canvas.layerOverlay.removeAllChildren();
+		    Canvas.layerOverlay.alpha = 1.0;
+		});
+	    }
+	},
+        /**
          * @method glowCharacter
          * @param {CanvasCharacter} character
          * @param {String} color
@@ -256,35 +281,22 @@ define([
 	    bitmap.alpha = 0.4;
 	    bitmap.shadow = new createjs.Shadow(color, 5, 5, 0);
 	    createjs.Tween.get(bitmap, {loop: true}).to({alpha: 0.7}, 1500).wait(1000).to({alpha:0.4}, 1500).wait(1000);
-	    Canvas.layerInput.addChildAt(bitmap, 0);
+	    Canvas.layerBackground.addChildAt(bitmap, 0);
 	},
         /**
          * @method resize
          */
         resize: function() {
-            var container = document.getElementById('canvas-container');
-            var d = document.getElementById('display-canvas');
-            var i = document.getElementById('input-canvas');
-            container.setAttribute('width', Canvas.size);
-            container.setAttribute('height', Canvas.size);
-            d.setAttribute('width', Canvas.size);
-            d.setAttribute('height', Canvas.size);
-            i.setAttribute('width', Canvas.size);
-            i.setAttribute('height', Canvas.size);
+            Canvas.canvas.setAttribute('width', Canvas.size);
+            Canvas.canvas.setAttribute('height', Canvas.size);
+            $('#canvas-container').width(Canvas.size);
+            $('#canvas-container').height(Canvas.size);
         },
         /**
          * @method tick
          */
         tick: function() {
-            var clearFix = function() {
-                $('#canvas-container').css('opacity', 0.99);
-                window.setTimeout(function() {
-                    $('#canvas-container').css('opacity', 1);
-                }, 0);
-            };
-            Canvas.d.update();
-            if (Skritter.fn.isCordova())
-                clearFix();
+            Canvas.stage.update();
         },
         /**
          * Enables the view to fire events when the canvas has been touched.

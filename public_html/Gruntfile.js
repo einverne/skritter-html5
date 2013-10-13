@@ -7,15 +7,21 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            android: {
+            'android-build': {
                 src: ['../build/cordova/www'],
+                options: {
+                    force: true
+                }
+            },
+            'android-install': {
+                src: ['../build/cordova'],
                 options: {
                     force: true
                 }
             }
         },
         copy: {
-            android: {
+            'android-build': {
                 files: [
                     {expand: true, cwd: './',  src: [
                             'config.xml',
@@ -26,6 +32,11 @@ module.exports = function(grunt) {
                             'media/**', 
                             'template/**'
                         ], dest: '../build/cordova/www/'}
+                ]
+            },
+            'android-install': {
+                files: [
+                    {expand: true, cwd: '../cordova/android/',  src: ['**'], dest: '../build/cordova/platforms/android/'}
                 ]
             }
         },
@@ -47,6 +58,16 @@ module.exports = function(grunt) {
                     'cordova build android',
                     'cordova run android'
                 ].join('&&')
+            },
+            'cordova-android-install': {
+                command: [
+                    'cd ../build',
+                    'cordova create cordova com.inkren.skritter Skritter',
+                    'cd cordova',
+                    'cordova platforms add android',
+                    'cordova build android',
+                    'cordova plugin add org.apache.cordova.media'
+                ].join('&&')
             }
         
         },
@@ -57,7 +78,7 @@ module.exports = function(grunt) {
                 version: '<%= pkg.version %>',
                 options: {
                     paths: 'js/app',
-                    outdir: '../docs'
+                    outdir: '../build/docs'
                 }
             }
         }
@@ -70,7 +91,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
     grunt.loadNpmTasks('grunt-shell');
     
-    grunt.registerTask('android', ['jshint', 'copy:android', 'shell:cordova-android']);
+    grunt.registerTask('android-build', ['jshint', 'clean:android-build', 'copy:android-build', 'shell:cordova-android']);
+    grunt.registerTask('android-install', ['clean:android-install', 'shell:cordova-android-install', 'copy:android-install', 'android-build']);
     grunt.registerTask('docs', ['yuidoc']);
     grunt.registerTask('hint', ['jshint']);
 };

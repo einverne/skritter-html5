@@ -41,7 +41,7 @@ define([
             switch (Study.c.item.get('part')) {
                 case 'rune':
                     Study.c.prompt = new PromptRune();
-                    Study.c.prompt.setElement(this.$('.prompt-container')).render();
+                    Study.c.prompt.setElement(this.$('#prompt-container')).render();
                     break;
             }
             Study.c.prompt.set(Study.c.item, Study.c.vocabs).showHidden();

@@ -13,11 +13,15 @@ Skritter HTML5 is a partial port and adaptation of the Skritter application prim
 All of the essential media files are now included in the repository. The audio files can be downloaded and placed in the `public_html/media/audio` directory, but it will greatly slow down building and testing the application. You can find this link for those at the bottom. First you'll need to install the dependencies for gruntjs. Navigate to the public_html directory and run the follow command.
 
 	npm install
-	
-Next you can use grunt commands to check for errors, generate docs, compile one of the various builds. *It's important you don't delete the current cordova wrapper in the build folder because it contains special Android application settings.*
 
-	grunt android //builds the application and attempts to run it on a connected device
-	grunt docs //generates the docs in the root folder
+The first time you build the build the Android version requires running the install command first. It will create a new cordova project and copy over the required. If you have a device it'll go ahead and load the application as well.
+
+	grunt android-install
+	
+After the initial install you can use the `grunt android-build` as it will be much faster. Here are a list of the current commands that are possible.
+
+	grunt android-build //builds the application and attempts to run it on a connected device
+	grunt docs //generates the docs in the build folder
 	grunt hint //checks the application for common errors
 
 ## Troubleshooting

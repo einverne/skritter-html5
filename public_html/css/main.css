@@ -2,11 +2,20 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    padding-top: 60px;
+    padding-top: 50px;
+}
+
+#skritter-container {
+    height: 100%;
+    padding-top: 10px;
 }
 
 
@@ -21,36 +30,81 @@ body {
 }
 
 /** GENERAL **/
-.chinese-text {
-    font-family: "simkai"
-}
-.japanese-text {
-    font-family: "kaisho"
+.chinese-font {
+    font-family: "simkai";
 }
 .center-text {
   padding: 40px 15px;
   text-align: center;
 }
-
+.japanese-font {
+    font-family: "kaisho";
+}
 .lr-padding {
     padding: 0 2px;
 }
 
 
+/** STUDY VIEW **/
+#study-view {
+    margin-top: 5%;
+}
+@media (max-width: 900px) {
+    #study-view {
+        margin-top: 0;
+    }
+}
+
+
 /** PROMPT **/
-.prompt-container {}
-.prompt-top {}
-.prompt-bottom {}
-.prompt-container .prompt-display {
+#prompt-container {
+    margin: 0 auto;
+    max-width: 1170px;
+}
+#prompt-top {
+    float: left;
+    max-width: 45%;
+    min-width: 30%;
+    text-align: center;
+}
+#prompt-top #writing {
+    font-size: 96px;
+}
+#prompt-top #reading {
+    font-size: large;
+}
+#prompt-top #definition {
+    font-size: large;
+}
+#prompt-top #sentence {
+    font-size: large;
+}
+#prompt-bottom {
+    float: right;
+}
+#prompt-container .prompt-display {
     display: inline-block;
     min-width: 20px;
     margin: 0 5px 0 0;
 }
-.prompt-container .prompt-hidden {
+#prompt-container .prompt-hidden {
     display: inline-block;
     min-width: 20px;
     margin: 0 5px 0 0;
     border-bottom: 2px black solid;
+}
+@media (max-width: 767px) {
+    #prompt-top {
+        max-width: 95%;
+        text-align: center;
+    }
+    #prompt-top #writing {
+        font-size: 68px;
+    }
+    #prompt-bottom {
+        bottom: 3px;
+        position: absolute;
+    }
 }
 
 
@@ -58,13 +112,19 @@ body {
 #canvas-container {
     position: relative;
 }
-#display-canvas, #input-canvas {
-    left: 0;
-    position: absolute;
-    top: 0;
+#prompt-canvas {
+    -moz-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
+    -webkit-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
+    box-shadow: 5px 5px 5px rgba(68,68,68,0.6);  
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    z-index: 5000; 
 }
-#input-canvas {
-    z-index: 5000;
+@media (max-width: 767px) {
+    #prompt-canvas {
+        border: none;
+    }
 }
 
 
@@ -72,7 +132,7 @@ body {
 #grading-buttons {
     position: absolute;
     width: 100%;
-    z-index: 9999;
+    bottom: 0;
 }
 #grading-buttons div {
     background-repeat: no-repeat;
@@ -80,12 +140,11 @@ body {
     background-position: center;
     cursor: pointer;
     display: inline-block;
-    height: 50px;
-    min-height: 30px;
+    min-height: 50px;
     margin: 0 0 5px 0;
-    padding: 15px 5px;
+    padding: 15px 12%;
     text-align:  center;
-    width: 10%;
+    width: 14%;
 }
 #grading-buttons #grade1 { background-image: url('../media/image/button/grade1.png'); }
 #grading-buttons #grade2 { background-image: url('../media/image/button/grade2.png'); }

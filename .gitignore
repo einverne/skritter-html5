@@ -1,7 +1,6 @@
 # Directories #
-build/cordova/www/
+build/
 config/
-docs/
 nbproject/
 platforms/android/bin/
 platforms/android/gen/
