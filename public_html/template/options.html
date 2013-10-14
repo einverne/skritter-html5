@@ -1,0 +1,65 @@
+<div id="options-view">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a id="back-button" class="navbar-brand" href="#">Back</a>
+                <a id="save-button" class="navbar-text" href="#">Save</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="study-settings" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Study Settings</h3>
+                    </div>
+                    <div id="parts" class="panel-body">
+                        <h4>Parts</h4>
+                        <div class="btn-group" >
+                            <div class="checkbox">
+                                <label>
+                                    <input id="part-rune" type="checkbox"> Writing
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input id="part-tone" type="checkbox"> Tone
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input id="part-rdng" type="checkbox"> Reading
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input id="part-defn" type="checkbox"> Definition
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="study-settings" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Stroke Order</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>Animation Speed</h4>
+                        <input id="animation-speed" name="animation-speed" type="range" min="1" max="100" value="10">
+                        <h4>Order Strictness</h4>
+                        <input id="order-strictness" name="order-strictness" type="range" min="1" max="100" value="10">
+                        <div id="part-definition" class="checkbox">
+                            <label>
+                                <input id="raw-squigs" type="checkbox"> <h5>Raw Squigs</h5>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

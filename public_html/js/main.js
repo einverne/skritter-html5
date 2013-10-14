@@ -26,6 +26,7 @@ require.config({
         jquery: '../lib/jquery-1.10.2.min',
         'jquery.hammer': '../lib/jquery.hammerjs-1.0.5.min',
         'jquery.indexeddb': '../lib/jquery.indexeddb',
+        leap: '../lib/leap',
         lodash: '../lib/lodash.compat-2.2.1.min',
         'require.text': '../lib/require.text-2.0.10'
     },
@@ -46,6 +47,9 @@ require.config({
         'jquery.indexeddb': {
             deps: ['jquery']
         },
+        leap: {
+            exports: 'Leap'
+        },
         lodash: {
             exports: '_'
         }
@@ -59,7 +63,7 @@ require([
     'component/Facade',
     'component/Timer',
     'bootstrap',
-    'jquery'
+    'jquery',
 ], function(Application, Functions, Async, Facade, Timer) {
     //creates the global skritter namespace
     window.Skritter = (function(Skritter) {

@@ -10,9 +10,10 @@
 define([
     'view/Home',
     'view/Login',
+    'view/Options',
     'view/Study',
     'backbone'
-], function(HomeView, LoginView, StudyView) {
+], function(HomeView, LoginView, OptionsView, StudyView) {
     /**
      * @class Router
      */
@@ -24,6 +25,7 @@ define([
             '': 'homeView',
             'login': 'loginView',
             'logout': 'logout',
+            'options': 'optionsView',
             'study': 'studyView'
         },
         /**
@@ -50,6 +52,16 @@ define([
                 Router.loginView = new LoginView({el: $(Skritter.settings.get('container'))}).render();
             } else {
                 Router.loginView.setElement($(Skritter.settings.get('container'))).render();
+            }
+        },
+        /**
+         * @method optionsView
+         */
+        optionsView: function() {
+            if (!Router.optionsView) {
+                Router.optionsView = new OptionsView({el: $(Skritter.settings.get('container'))}).render();
+            } else {
+                Router.optionsView.setElement($(Skritter.settings.get('container'))).render();
             }
         },
         /**

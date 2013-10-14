@@ -59,6 +59,7 @@ define([
          * @method cache
          */
         cache: function() {
+            console.log('cache');
             if (this.isLoggedIn()) {
                 localStorage.setItem(this.get('user_id'), JSON.stringify(this));
             }
@@ -137,13 +138,23 @@ define([
             return "<img src='data:image/png;base64," + this.get('settings').avatar + "' width='50' height='50' />";
         },
         /**
+         * A quicker way to get a setting from the user settings object.
+         * 
+         * @method getSetting
+         * @param {String} name
+         * @return {Object}
+         */
+         getSetting: function(name) {
+             return this.get('settings')[name];
+         },
+        /**
          * Returns an array of active study parts based on the current language being studied.
          * 
          * @method getStudyParts
          * @returns {Array}
          */
         getStudyParts: function() {
-	    if (this.get('targetLang') === 'zh')
+	    if (this.get('settings').targetLang === 'zh')
 		return this.get('settings').chineseStudyParts;
 	    return this.get('settings').japaneseStudyParts;
 	},
@@ -217,6 +228,22 @@ define([
                     document.location.hash = '';
                 });
             });
+        },
+        /**
+         * A quicker way to set the user settings object.
+         * 
+         * @method setSetting
+         * @param {String} name
+         * @param {String} value
+         * @return {Object}
+         */
+        setSetting: function(name, value) {
+            console.log(name, value);
+            var settings = this.get('settings');
+            settings[name] = value;
+            console.log(settings);
+            this.set('settings', settings);
+            return this.get('settings');
         },
         /**
          * Syncs data with the server by getting changed items and posting reviews. If the account has never synced

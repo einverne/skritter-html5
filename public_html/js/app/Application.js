@@ -35,16 +35,16 @@ define([
      * @param {Function} callback
      */
     var loadAssets = function(callback) {
-	if (Skritter.fn.isCordova()) {
-	    //Skritter.assets = new CordovaAssets();
+        if (Skritter.fn.isCordova()) {
+            //Skritter.assets = new CordovaAssets();
             Skritter.assets = new Assets();
-	} else {
-	    Skritter.assets = new Assets();
-	}
-	Skritter.assets.once('complete', function() {
+        } else {
+            Skritter.assets = new Assets();
+        }
+        Skritter.assets.once('complete', function() {
             callback();
         });
-	Skritter.assets.loadStrokes();
+        Skritter.assets.loadStrokes();
     };
     /**
      * @method loadRouter
@@ -96,7 +96,7 @@ define([
             callback();
         }
     };
-    
+
     /**
      * Initializing the appliation should only happen once when the application is first loaded.
      * 
@@ -129,7 +129,7 @@ define([
             callback();
         });
     };
-    
+
     return {
         initialize: initialize,
         reload: reload

@@ -61,13 +61,19 @@ define([
      * @method deleteDatabase
      * @param {Function} callback Returns once the open database has been successfully deleted
      */
-    IndexedDBAdapter.prototype.deleteDatabase = function(callback) {
-        var promise = $.indexedDB(this.name).deleteDatabase();
+    IndexedDBAdapter.prototype.deleteDatabase = function(callback, databaseName) {
+        var promise;
+        if (databaseName) {
+            promise = $.indexedDB(databaseName).deleteDatabase();
+        } else {
+            promise = $.indexedDB(this.name).deleteDatabase();
+        }
         promise.fail(function(error) {
             console.error(error);
         });
         promise.done(function() {
-            callback();
+            if (typeof callback === 'function')
+                callback();
         });
     };
 
@@ -123,11 +129,17 @@ define([
         });
         promise.fail(function(error) {
             console.error(error);
+            self.deleteDatabase(function() {
+                self.openDatabase(databaseName, function() {
+                    callback();
+                });
+            }, databaseName);           
         });
         promise.done(function(event) {
             self.database = event;
             self.name = event.name;
-            callback(event);
+            if (typeof callback === 'function')
+                callback(event);
         });
     };
 
