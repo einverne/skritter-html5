@@ -5,7 +5,9 @@
 define([
     'backbone'
 ], function() {
-    
+    /**
+     * @class Settings
+     */
     var Settings = Backbone.Model.extend({
         initialize: function() {
             this.resize();

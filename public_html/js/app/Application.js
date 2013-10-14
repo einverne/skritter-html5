@@ -2,8 +2,12 @@
  * @module Skritter
  * @class Application
  * @param Api
+ * @param Functions
  * @param Router
+ * @param Facade
+ * @param Timer
  * @param Assets
+ * @param CordovaAssets
  * @param Settings
  * @param User
  * @param IndexedDBAdapter
@@ -12,13 +16,17 @@
  */
 define([
     'Api',
+    'Functions',
     'Router',
+    'component/Facade',
+    'component/Timer',
     'model/Assets',
+    'model/CordovaAssets',
     'model/Settings',
     'model/User',
     'storage/IndexedDBAdapter',
     'storage/SQLiteAdapter'
-], function(Api, Router, Assets, Settings, User, IndexedDBAdapter, SQLiteAdapter) {
+], function(Api, Functions, Router, Facade, Timer, Assets, CordovaAssets, Settings, User, IndexedDBAdapter, SQLiteAdapter) {
     /**
      * @method loadRouter
      * @param {Function} callback
@@ -31,13 +39,15 @@ define([
         callback();
     };
     /**
+     * Loads the proper assets module depending on the load environment. Returns a
+     * callback one the required assets have preloaded.
+     * 
      * @method loadAssets
      * @param {Function} callback
      */
     var loadAssets = function(callback) {
         if (Skritter.fn.isCordova()) {
-            //Skritter.assets = new CordovaAssets();
-            Skritter.assets = new Assets();
+            Skritter.assets = new CordovaAssets();
         } else {
             Skritter.assets = new Assets();
         }
@@ -45,6 +55,22 @@ define([
             callback();
         });
         Skritter.assets.loadStrokes();
+    };
+    /**
+     * @method loadFacade
+     * @returns {Facade}
+     */
+    var loadFacade = function() {
+        Skritter.facade = new Facade();
+        return Skritter.facade;
+    };
+    /**
+     * @method loadFunctions
+     * @param {Function} callback
+     */
+    var loadFunctions = function(callback) {
+        Skritter.fn = Functions;
+        callback();
     };
     /**
      * @method loadRouter
@@ -63,6 +89,9 @@ define([
         callback();
     };
     /**
+     * Loads the storage adapter based on the current environment the application has been
+     * loaded from.
+     * 
      * @method loadStorage
      * @param {Function} callback
      */
@@ -72,6 +101,14 @@ define([
         } else {
             Skritter.storage = new IndexedDBAdapter();
         }
+        callback();
+    };
+    /**
+     * @method loadTimer
+     * @param {Function} callback
+     */
+    var loadTimer = function(callback) {
+        Skritter.timer = new Timer();
         callback();
     };
     /**
@@ -103,11 +140,14 @@ define([
      * @method initialize
      */
     var initialize = function() {
+        loadFacade().show('loading');
         Skritter.async.series([
+            Skritter.async.apply(loadFunctions),
             Skritter.async.apply(loadAssets),
             Skritter.async.apply(loadSettings),
             Skritter.async.apply(loadStorage),
             Skritter.async.apply(loadApi),
+            Skritter.async.apply(loadTimer),
             Skritter.async.apply(loadUser),
             Skritter.async.apply(loadRouter)
         ], function() {

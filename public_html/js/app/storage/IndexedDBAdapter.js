@@ -60,6 +60,7 @@ define([
     /**
      * @method deleteDatabase
      * @param {Function} callback Returns once the open database has been successfully deleted
+     * @param {String} databaseName
      */
     IndexedDBAdapter.prototype.deleteDatabase = function(callback, databaseName) {
         var promise;

@@ -1,19 +1,21 @@
 /**
  * @module Skritter
  * @submodule View
- * @param AccountView
  * @param HomeView
+ * @param InfoView
  * @param LoginView
+ * @param OptionsView
  * @param StudyView
  * @author Joshua McFarland
  */
 define([
     'view/Home',
+    'view/Info',
     'view/Login',
     'view/Options',
     'view/Study',
     'backbone'
-], function(HomeView, LoginView, OptionsView, StudyView) {
+], function(HomeView, InfoView, LoginView, OptionsView, StudyView) {
     /**
      * @class Router
      */
@@ -23,6 +25,7 @@ define([
          */
         routes: {
             '': 'homeView',
+            'info/:id': 'infoView',
             'login': 'loginView',
             'logout': 'logout',
             'options': 'optionsView',
@@ -37,6 +40,21 @@ define([
             } else {
                 Router.homeView.setElement($(Skritter.settings.get('container'))).render();
             }
+        },
+        /**
+         * @method infoView
+         * @param {Number} id
+         */
+        infoView: function(id) {
+            if (!id)
+                return;
+            if (!Router.infoView) {
+                Router.infoView = new InfoView({el: $(Skritter.settings.get('container'))});
+            } else {
+                Router.infoView.setElement($(Skritter.settings.get('container')));
+            }
+            Router.infoView.load(id);
+            Router.infoView.render();
         },
         /**
          * @method logout

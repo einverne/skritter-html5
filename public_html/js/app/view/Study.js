@@ -31,6 +31,10 @@ define([
             return this;
         },
         
+        events: {
+            'click.Study #info-button': 'showInfo'
+        },
+        
         handlePromptComplete: function() {
             this.next();
         },
@@ -47,7 +51,11 @@ define([
             Study.c.prompt.set(Study.c.item, Study.c.vocabs).showHidden();
             this.listenToOnce(Study.c.prompt, 'complete', this.handlePromptComplete);
         },
-                
+           
+        showInfo: function() {
+            document.location.hash = 'info/' + Study.c.vocabs[0].get('id');
+        },
+        
         resize: function() {
             //todo
         }

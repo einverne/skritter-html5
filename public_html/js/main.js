@@ -58,13 +58,10 @@ require.config({
 
 require([
     'Application',
-    'Functions',
     'async',
-    'component/Facade',
-    'component/Timer',
     'bootstrap',
-    'jquery',
-], function(Application, Functions, Async, Facade, Timer) {
+    'jquery'
+], function(Application, Async) {
     //creates the global skritter namespace
     window.Skritter = (function(Skritter) {
         return Skritter;
@@ -77,11 +74,7 @@ require([
     //initializes the application once the dom is ready or device is ready
     $(document).ready(function() {
         Skritter.async = Async;
-        Skritter.facade = new Facade();
-        Skritter.fn = Functions;
-        Skritter.timer = new Timer();
-        Skritter.facade.show('loading');
-        if (Skritter.fn.isCordova()) {
+        if (window.cordova || window.PhoneGap || window.phonegap) {
             document.addEventListener('deviceready', start, false);
         } else {
             start();

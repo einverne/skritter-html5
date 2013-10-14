@@ -10,8 +10,13 @@
         <link rel='shortcut icon' href='favicon.png'>
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet"> 
-        <!--<script src="http://debug.phonegap.com/target/target-script-min.js#skritter-html5"></script>-->
-        <!--<script src="http://192.168.1.100:9090/target/target-script-min.js#anonymous"></script>-->
+        <script>
+            (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
+            c&&c.apply(this,a);};var b=function(){var c=e.createElement(rr),b=e.getElementsByTagName(rr)[0];
+            c.src="//beacon.errorception.com/"+s+".js";c.async=!0;b.parentNode.insertBefore(c,b);};
+            _.addEventListener?_.addEventListener("load",b,!1):_.attachEvent("onload",b);})
+            (window,document,"script","51e23f206fdb191b3e000110");
+        </script>
     </head>
     <body>
         <div id="facade-container"></div>

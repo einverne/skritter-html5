@@ -1,6 +1,7 @@
 # Directories #
 build/
 config/
+cordova/android/assets/
 nbproject/
 platforms/android/bin/
 platforms/android/gen/

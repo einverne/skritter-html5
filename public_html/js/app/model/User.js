@@ -59,7 +59,6 @@ define([
          * @method cache
          */
         cache: function() {
-            console.log('cache');
             if (this.isLoggedIn()) {
                 localStorage.setItem(this.get('user_id'), JSON.stringify(this));
             }
@@ -336,6 +335,17 @@ define([
                         callback();
                 }
             });
+        },
+        /**
+         * @method unsetSetting
+         * @param {String} name
+         * return {Object}
+         */
+        unsetSetting: function(name) {
+            var settings = this.get('settings');
+            delete settings[name];
+            this.set('settings', settings);
+            return settings;
         }
     });
 
