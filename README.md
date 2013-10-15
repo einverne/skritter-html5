@@ -32,7 +32,7 @@ The application is currently using ACRA and Errorception to automatically report
 
 **The application opens but gets stuck on the loading screen.** This happens when the database is having troubles which could be for a number of reasons. A quick workaround is to make sure you have the latest build, then clear the applications cache and data.
 
-**Grunt isn't building and pushing the application to my device.** I've only tested this on Windows, so I can't speak for any other OS. In theory, if Cordova is properly installed it should work because it has commands for multiple environments. Removing and add the Android platform will delete the customized wrapper, so if you're having troubles open an issue for it with more details. 
+**Grunt isn't building and pushing the application to my device.** I think I've fixed this so it should now work in all environments, so if there is an issue it's probably linked to your gruntjs or cordova install. From my experience and what I've been hearing getting cordova and its dependencies working requires a bit of elbow grease.
 
 ## Links
 

@@ -237,10 +237,8 @@ define([
          * @return {Object}
          */
         setSetting: function(name, value) {
-            console.log(name, value);
             var settings = this.get('settings');
             settings[name] = value;
-            console.log(settings);
             this.set('settings', settings);
             return this.get('settings');
         },

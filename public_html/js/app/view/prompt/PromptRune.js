@@ -15,38 +15,26 @@ define([
     'Recognizer',
     'collection/CanvasCharacter',
     'model/CanvasStroke',
-    'prompt/GradingButtons',
+    'prompt/Prompt',
     'prompt/PromptCanvas',
     'require.text!template/prompt-rune.html',
     'backbone',
     'jquery.hammer'
-], function(PinyinConverter, Recognizer, CanvasCharacter, CanvasStroke, GradingButtons, Canvas, templateRune) {
+], function(PinyinConverter, Recognizer, CanvasCharacter, CanvasStroke, Prompt, Canvas, templateRune) {
     /**
      * @class PromptRune
      */
-    var Rune = Backbone.View.extend({
+    var Rune = Prompt.extend({
         initialize: function() {
+            Prompt.prototype.initialize.call(this);
             Skritter.timer.setReviewLimit(30000);
             Skritter.timer.setThinkingLimit(15000);
-            Rune.buttons = null;
             Rune.canvas = new Canvas();
-            Rune.item = null;
             Rune.failedAttempts = 0;
-            Rune.finished = false;
-            Rune.grade = 3;
-            Rune.gradeColors = {
-                1: '#e68e8e',
-                2: '#d95757',
-                3: '#70da70',
-                4: '#4097d3'
-            };
             Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 25;
-            Rune.position = 1;
-            Rune.results = [];
             Rune.userCharacter = null;
             Rune.userTargets = [];
-            Rune.vocabs = null;
             this.listenTo(Rune.canvas, 'mouseup', this.handleInputRecieved);
         },
         /**
@@ -65,7 +53,7 @@ define([
          * @method clear
          */
         clear: function() {
-            Rune.buttons.remove();
+            Prompt.buttons.remove();
             Rune.canvas.clear();
             Rune.userCharacter = new CanvasCharacter();
         },
@@ -103,14 +91,14 @@ define([
                     //if failed too many times show a hint
                     if (Rune.failedAttempts > Rune.maxFailedAttempts) {
                         console.log('hinting');
-                        Rune.grade = 1;
+                        Prompt.grade = 1;
                         Rune.canvas.drawPhantomStroke(this.getNextStroke());
                     }
                 }
             }
         },
         handleCharacterComplete: function() {
-            Rune.finished = true;
+            Prompt.finished = true;
             this.showAnswer();
             //checks if we should snap or just glow the result
             if (Skritter.user.get('settings').squigs) {
@@ -119,22 +107,22 @@ define([
                     var stroke = Rune.userCharacter.models[i];
                     Rune.canvas.drawStroke(stroke);
                 }
-                Rune.canvas.glowCharacter(Rune.userTargets[0], Rune.gradeColors[Rune.grade]);
+                Rune.canvas.glowCharacter(Rune.userTargets[0], Prompt.gradeColors[Prompt.grade]);
             } else {
-                Rune.canvas.glowCharacter(Rune.userTargets[0], Rune.gradeColors[Rune.grade]);
+                Rune.canvas.glowCharacter(Rune.userTargets[0], Prompt.gradeColors[Prompt.grade]);
             }
             //show the grading buttons and listen for a selection
-            this.showGrading();
+            this.showGrading(Prompt.grade);
         },
         handleDoubleTap: function() {
-            if (!Rune.finished) {
+            if (!Prompt.finished) {
                 Rune.canvas.drawCharacter(Rune.userTargets[0], 0.3);
-                Rune.grade = 1;
+                Prompt.grade = 1;
             }
         },
         handleGradeSelected: function(selected) {
-            Rune.grade = selected;
-            Rune.buttons.remove();
+            Prompt.grade = selected;
+            Prompt.buttons.remove();
             this.next();
         },
         handleHold: function() {
@@ -143,12 +131,15 @@ define([
         },
         handleStrokeComplete: function() {
             //check if the character has been completed yet or not
-            if (Rune.userCharacter.getStrokeCount() > this.getTargetStrokeCount())
+            if (Rune.userCharacter.getStrokeCount() > this.getTargetStrokeCount()) {
                 this.handleCharacterComplete();
+            }
         },
         handleSwipeLeft: function() {
-            if (Rune.finished)
+            if (Prompt.finished) {
+                Prompt.buttons.remove();
                 this.next();
+            }
         },
         getNextStroke: function() {
             //todo: make this handle strokes with alternatives
@@ -168,17 +159,16 @@ define([
             return strokeCount - 1;
         },
         next: function() {
-            console.log('next', Rune.position, Rune.vocabs[0].getCharacterCount());
-            Rune.position++;
+            console.log('next', Prompt.position, Prompt.vocabs[0].getCharacterCount());
+            Prompt.position++;
             //check to see if there are more characters in the prompt
-            if (Rune.position <= Rune.vocabs[0].getCharacterCount()) {
-                Rune.finished = false;
+            if (Prompt.position <= Prompt.vocabs[0].getCharacterCount()) {
+                Prompt.finished = false;
                 //clear the canvas for the new character
                 this.clear();
                 //resets the targets
                 Rune.userTargets = [];
-                //set the new targets based on the position
-                Rune.userTargets = Rune.vocabs[0].getCanvasCharacters(Rune.position - 1, 'rune');
+                //lets go ahead and show the net character in the item
                 this.showHidden();
                 //enable the canvas to begin next prompt
                 Rune.canvas.enableInput();
@@ -186,42 +176,24 @@ define([
                 this.triggerPromptComplete();
             }
         },
-        resize: function() {
-            //todo: add this in to fit prompt exactly to screen
-        },
-        set: function(item, vocabs) {
-            console.log('Prompt', 'RUNE', vocabs[0].get('writing'));
-            Rune.definition = vocabs[0].get('definitions')[Skritter.user.get('settings').sourceLang];
-            Rune.item = item;
-            Rune.reading = vocabs[0].get('reading');
-            Rune.sentence = (vocabs[0].getSentence()) ? vocabs[0].getSentence().get('writing') : null;
-            Rune.vocabs = vocabs;
-            Rune.userCharacter = new CanvasCharacter();
-            Rune.userTargets = vocabs[0].getCanvasCharacters(Rune.position - 1, 'rune');
-            Rune.writing = vocabs[0].get('writing');
-            return this;
-        },
         showAnswer: function() {
             Skritter.timer.stop();
             Rune.canvas.disableInput();
-            this.$('#writing').html(Rune.vocabs[0].getWritingDisplayAt(Rune.position));
-        },
-        showGrading: function() {
-            Rune.buttons = new GradingButtons();
-            Rune.buttons.setElement(this.$('#canvas-container')).render();
-            this.listenToOnce(Rune.buttons, 'selected', this.handleGradeSelected);
+            this.$('#writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
+            console.log(Prompt.position, Prompt.vocabs[0].getCharacterCount());
+            if (Prompt.position >= Prompt.vocabs[0].getCharacterCount())
+                this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence));
         },
         showHidden: function() {
+            console.log('Prompt', 'RUNE', Prompt.vocabs[0].get('writing'));
             Skritter.timer.start();
+            Rune.userCharacter = new CanvasCharacter();
+            Rune.userTargets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'rune');
             Rune.canvas.enableInput();
-            this.$('#writing').html(Rune.vocabs[0].getWritingDisplayAt(Rune.position - 1));
-            this.$('#reading').text(PinyinConverter.toTone(Rune.reading));
-            this.$('#definition').text(Rune.definition);
-            this.$('#sentence').text(Skritter.fn.maskCharacters(Rune.sentence, Rune.writing, ' _ '));
-        },
-        triggerPromptComplete: function() {
-            console.log('prompt complete');
-            this.trigger('complete');
+            this.$('#writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position - 1));
+            this.$('#reading').text(PinyinConverter.toTone(Prompt.reading));
+            this.$('#definition').text(Prompt.definition);
+            this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
         }
     });
 

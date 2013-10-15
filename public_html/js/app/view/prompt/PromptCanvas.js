@@ -202,7 +202,7 @@ define([
         drawStroke: function(canvasStroke, callback) {
             var strokeBitmap = canvasStroke.getUserBitmap(false);
             Canvas.layerBackground.addChildAt(strokeBitmap, 0);
-            createjs.Tween.get(strokeBitmap).to(canvasStroke.getInflatedBitmap(), 250, createjs.Ease.quadInOut).call(function() {
+            createjs.Tween.get(strokeBitmap).to(canvasStroke.getInflatedBitmap(), 500, createjs.Ease.backInOut).call(function() {
                 if (typeof callback === 'function')
                     callback();
             });

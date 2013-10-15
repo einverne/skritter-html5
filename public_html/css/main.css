@@ -92,6 +92,10 @@ body {
     margin: 0 5px 0 0;
     border-bottom: 2px black solid;
 }
+#prompt-text {
+    padding: 30% 0 0 0;
+    text-align: center;
+}
 @media (max-width: 767px) {
     #prompt-top {
         max-width: 95%;
@@ -109,15 +113,14 @@ body {
 
 /** PROMPT CANVAS **/
 #canvas-container {
-    position: relative;
-}
-#prompt-canvas {
     -moz-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
     -webkit-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
     box-shadow: 5px 5px 5px rgba(68,68,68,0.6);  
     border-width: 2px;
     border-style: solid;
     border-color: black;
+    cursor: pointer;
+    position: relative;
     z-index: 5000; 
 }
 @media (max-width: 767px) {

@@ -161,9 +161,17 @@ define([
             var item = filtered.at(0);
             return item;
         },
+        /**
+         * Returns a random active study item.
+         * 
+         * @method getRandom
+         * @returns {StudyItem}
+         */
         getRandom: function() {
             var items = this.filterActive();
-            items = items.filterBy('part', ['rune']);
+            items = items.filterBy('part', Skritter.user.getStudyParts());
+            //items = items.filterBy('part', ['tone']);
+            //items = items.filterBy('id', ['mcfarljwtest1-zh-人民币-0-tone']);
             return items.at(Skritter.fn.getRandomInt(0, items.length-1));
         },
         /**
