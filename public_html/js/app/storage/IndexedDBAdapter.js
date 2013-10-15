@@ -6,7 +6,8 @@
  */
 define([
     'storage/Storage',
-    'jquery.indexeddb'
+    'jquery.indexeddb',
+    'indexeddb.shim'
 ], function(Storage) {
     /**
      * A data adapter for IndexedDB which uses the a jQuery plugin written by nparashuram.

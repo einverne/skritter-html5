@@ -8,19 +8,19 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         clean: {
             'android-build': {
-                src: ['../build/cordova/www/'],
+                src: ['build/cordova/www/'],
                 options: {
                     force: true
                 }
             },
             'android-install': {
-                src: ['../build/cordova/'],
+                src: ['build/cordova/'],
                 options: {
                     force: true
                 }
             },
             'www-build': {
-                src: ['../build/www/'],
+                src: ['build/www/'],
                 options: {
                     force: true
                 }
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         copy: {
             'android-build': {
                 files: [
-                    {expand: true, cwd: './', src: [
+                    {expand: true, cwd: 'public_html/', src: [
                             'config.xml',
                             'index.html',
                             'index-cordova.html',
@@ -37,20 +37,20 @@ module.exports = function(grunt) {
                             'js/**',
                             'media/**',
                             'template/**'
-                        ], dest: '../build/cordova/www/'}
+                        ], dest: 'build/cordova/www/'}
                 ]
             },
             'android-install': {
                 files: [
-                    {expand: true, cwd: '../cordova/android/', src: ['**'], dest: '../build/cordova/platforms/android/'}
+                    {expand: true, cwd: 'cordova/android/', src: ['**'], dest: 'build/cordova/platforms/android/'}
                 ]
             },
             'www-build': {
                 files: [
-                    {expand: true, cwd: './', src: [
+                    {expand: true, cwd: 'public_html/', src: [
                             'js/lib/**',
                             'media/**'
-                        ], dest: '../build/www/'}
+                        ], dest: 'build/www/'}
                 ]
             }
         },
@@ -62,21 +62,21 @@ module.exports = function(grunt) {
                     '-W083': true,
                     '-W099': true
                 },
-                src: ['js/app/**/*.js']
+                src: ['public_html/js/app/**/*.js']
             }
         },
         requirejs: {
             compile: {
                 options: {
-                    appDir: "./",
+                    appDir: "public_html/",
                     baseUrl: "js/app/",
-                    dir: "../build/www/",
-                    fileExclusionRegExp: /^(media|node_modules)$/,
-                    keepBuildDir: true,
+                    dir: "build/www/",
+                    keepBuildDir: false,
+					fileExclusionRegExp: /^(config.xml|index-cordova.html)$/,
                     name: "Application",
                     removeCombined: true,
                     paths: {
-//directories
+                        //directories
                         component: 'view/component',
                         media: '../../media',
                         prompt: 'view/prompt',
@@ -90,10 +90,10 @@ module.exports = function(grunt) {
                         'createjs.preload': '../lib/createjs.preloadjs-0.4.0.min',
                         'createjs.sound': '../lib/createjs.soundjs-0.5.0.min',
                         'createjs.tween': '../lib/createjs.tweenjs-0.5.0.min',
+						'indexeddb.shim': '../lib/indexeddb.shim-0.1.2.min',
                         jquery: '../lib/jquery-1.10.2.min',
                         'jquery.hammer': '../lib/jquery.hammerjs-1.0.5.min',
                         'jquery.indexeddb': '../lib/jquery.indexeddb',
-                        leap: '../lib/leap',
                         lodash: '../lib/lodash.compat-2.2.1.min',
                         'require.text': '../lib/require.text-2.0.10'
                     },
@@ -114,9 +114,6 @@ module.exports = function(grunt) {
                         'jquery.indexeddb': {
                             deps: ['jquery']
                         },
-                        leap: {
-                            exports: 'Leap'
-                        },
                         lodash: {
                             exports: '_'
                         }
@@ -124,17 +121,16 @@ module.exports = function(grunt) {
                 }
             }
         },
-        shell: {// Task
+        shell: {
             'cordova-android': {
                 command: [
-                    'cd ../build/cordova/',
+                    'cd build/cordova/',
                     'cordova build android',
                     'cordova run android'
                 ].join('&&')
             },
             'cordova-android-install': {
                 command: [
-                    'cd ../',
                     'mkdir build',
                     'cd build/',
                     'cordova create cordova com.inkren.skritter Skritter',
@@ -152,8 +148,8 @@ module.exports = function(grunt) {
                 description: '<%= pkg.description %>',
                 version: '<%= pkg.version %>',
                 options: {
-                    paths: 'js/app',
-                    outdir: '../build/docs'
+                    paths: 'public_html/js/app',
+                    outdir: 'build/docs'
                 }
             }
         }
@@ -170,5 +166,5 @@ module.exports = function(grunt) {
     grunt.registerTask('android-install', ['clean:android-install', 'shell:cordova-android-install', 'copy:android-install', 'android-build']);
     grunt.registerTask('docs', ['yuidoc']);
     grunt.registerTask('hint', ['jshint']);
-    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'copy:www-build']);
+    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs']);
 };

@@ -10,7 +10,7 @@ Skritter HTML5 is a partial port and adaptation of the Skritter application prim
 - Node.js
 - (Optional) Audio files
 
-All of the essential media files are now included in the repository. The audio files can be downloaded and placed in the `public_html/media/audio` directory, but it will greatly slow down building and testing the application. You can find this link for those at the bottom. First you'll need to install the dependencies for gruntjs. Navigate to the public_html directory and run the follow command.
+All of the essential media files are now included in the repository. The audio files can be downloaded and placed in the `public_html/media/audio` directory, but it will greatly slow down building and testing the application. You can find this link for those at the bottom. First you'll need to install the dependencies for gruntjs. Navigate to the root directory and run the follow command.
 
 	npm install
 
@@ -23,10 +23,11 @@ After the initial install you can use the `grunt android-build` as it will be mu
 	grunt android-build //builds the application and attempts to run it on a connected device
 	grunt docs //generates the docs in the build folder
 	grunt hint //checks the application for common errors
+	grunt www-build //creates a minified version of the application
 
 ## Troubleshooting
 
-The application is currently using ACRA and Errorception to automatically report Android crashes and JavaScript console errors. If you'd like to further submit an issue please do so using the GitHub issues feature.
+The Android application is currently using ACRA and Errorception to automatically report Android crashes and JavaScript console errors. If you'd like to further submit an issue please do so using the GitHub issues feature.
 
 **The application is running painfully slowly.** Unfortunately devices with old Android versions, slower processors and low ram don't run canvas drawing very smoothly. It's best to be running a device with Android 4+, processor greater than a 1 GHz Cortex-A8 and at least a 1 GB RAM. If this issue only occurs after you've studied for an extend period of time then there is a leech and you can open up an issue with the details.
 

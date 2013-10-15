@@ -3,6 +3,7 @@ build/
 config/
 cordova/android/assets/
 nbproject/
+node_modules/
 platforms/android/bin/
 platforms/android/gen/
 platforms/android/assets/www/

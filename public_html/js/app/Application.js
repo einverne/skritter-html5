@@ -12,6 +12,7 @@
  * @param User
  * @param IndexedDBAdapter
  * @param SQLiteAdapter
+ * @param Async
  * @author Joshua McFarland
  */
 define([
@@ -25,153 +26,183 @@ define([
     'model/Settings',
     'model/User',
     'storage/IndexedDBAdapter',
-    'storage/SQLiteAdapter'
-], function(Api, Functions, Router, Facade, Timer, Assets, CordovaAssets, Settings, User, IndexedDBAdapter, SQLiteAdapter) {
+    'storage/SQLiteAdapter',
+    'async',
+    'bootstrap',
+    'jquery'
+], function(Api, Functions, Router, Facade, Timer, Assets, CordovaAssets, Settings, User, IndexedDBAdapter, SQLiteAdapter, Async) {
     /**
-     * @method loadRouter
-     * @param {Function} callback
+     * Creates the global Skritter namespace when the application first opened.
+     * @param Skritter
      */
-    var loadApi = function(callback) {
-        Skritter.api = new Api(Skritter.settings.get('apiClientId'), Skritter.settings.get('apiClientSecret'));
-        Skritter.api.domain = Skritter.settings.get('apiDomain');
-        Skritter.api.root = Skritter.settings.get('apiRoot');
-        Skritter.api.version = Skritter.settings.get('apiVersion');
-        callback();
-    };
+    window.Skritter = (function(Skritter) {
+        return Skritter;
+    })(window.Skritter || {});
+    
     /**
-     * Loads the proper assets module depending on the load environment. Returns a
-     * callback one the required assets have preloaded.
-     * 
-     * @method loadAssets
-     * @param {Function} callback
+     * @property {Object} application
      */
-    var loadAssets = function(callback) {
-        if (Skritter.fn.isCordova()) {
-            Skritter.assets = new CordovaAssets();
-        } else {
-            Skritter.assets = new Assets();
-        }
-        Skritter.assets.once('complete', function() {
+    var application = {
+        /**
+         * @method loadRouter
+         * @param {Function} callback
+         */
+        loadApi: function(callback) {
+            Skritter.api = new Api(Skritter.settings.get('apiClientId'), Skritter.settings.get('apiClientSecret'));
+            Skritter.api.domain = Skritter.settings.get('apiDomain');
+            Skritter.api.root = Skritter.settings.get('apiRoot');
+            Skritter.api.version = Skritter.settings.get('apiVersion');
             callback();
-        });
-        Skritter.assets.loadStrokes();
-    };
-    /**
-     * @method loadFacade
-     * @returns {Facade}
-     */
-    var loadFacade = function() {
-        Skritter.facade = new Facade();
-        return Skritter.facade;
-    };
-    /**
-     * @method loadFunctions
-     * @param {Function} callback
-     */
-    var loadFunctions = function(callback) {
-        Skritter.fn = Functions;
-        callback();
-    };
-    /**
-     * @method loadRouter
-     * @param {Function} callback
-     */
-    var loadRouter = function(callback) {
-        Router.initialize();
-        callback();
-    };
-    /**
-     * @method loadSettings
-     * @param {Function} callback
-     */
-    var loadSettings = function(callback) {
-        Skritter.settings = new Settings();
-        callback();
-    };
-    /**
-     * Loads the storage adapter based on the current environment the application has been
-     * loaded from.
-     * 
-     * @method loadStorage
-     * @param {Function} callback
-     */
-    var loadStorage = function(callback) {
-        if (Skritter.fn.isCordova()) {
-            Skritter.storage = new SQLiteAdapter();
-        } else {
-            Skritter.storage = new IndexedDBAdapter();
-        }
-        callback();
-    };
-    /**
-     * @method loadTimer
-     * @param {Function} callback
-     */
-    var loadTimer = function(callback) {
-        Skritter.timer = new Timer();
-        callback();
-    };
-    /**
-     * This loads the user, data and also initiates the syncing process. In the future the callbacks should 
-     * probably be cleaned up a bit.
-     * 
-     * @method loadUser
-     * @param {Function} callback
-     */
-    var loadUser = function(callback) {
-        Skritter.user = new User();
-        if (Skritter.user.isLoggedIn()) {
-            Skritter.api.token = Skritter.user.get('access_token');
-            Skritter.storage.openDatabase('skritdata-' + Skritter.user.get('user_id'), function() {
-                Skritter.user.loadAllData(function() {
-                    Skritter.user.sync(function() {
-                        callback();
+        },
+        /**
+         * Loads the async utility into the Skriter namescape for easy usage.
+         * 
+         * @method loadAsync
+         */
+        loadAsync: function() {
+            Skritter.async = Async;
+        },
+        /**
+         * Loads the proper assets module depending on the load environment. Returns a
+         * callback one the required assets have preloaded.
+         * 
+         * @method loadAssets
+         * @param {Function} callback
+         */
+        loadAssets: function(callback) {
+            if (Skritter.fn.isCordova()) {
+                Skritter.assets = new CordovaAssets();
+            } else {
+                Skritter.assets = new Assets();
+            }
+            Skritter.assets.once('complete', function() {
+                callback();
+            });
+            Skritter.assets.loadStrokes();
+        },
+        /**
+         * @method loadFacade
+         * @returns {Facade}
+         */
+        loadFacade: function() {
+            Skritter.facade = new Facade();
+            return Skritter.facade;
+        },
+        /**
+         * @method loadFunctions
+         * @param {Function} callback
+         */
+        loadFunctions: function(callback) {
+            Skritter.fn = Functions;
+            callback();
+        },
+        /**
+         * @method loadRouter
+         * @param {Function} callback
+         */
+        loadRouter: function(callback) {
+            Router.initialize();
+            callback();
+        },
+        /**
+         * @method loadSettings
+         * @param {Function} callback
+         */
+        loadSettings: function(callback) {
+            Skritter.settings = new Settings();
+            callback();
+        },
+        /**
+         * Loads the storage adapter based on the current environment the application has been
+         * loaded from.
+         * 
+         * @method loadStorage
+         * @param {Function} callback
+         */
+        loadStorage: function(callback) {
+            if (Skritter.fn.isCordova()) {
+                Skritter.storage = new SQLiteAdapter();
+            } else {
+                Skritter.storage = new IndexedDBAdapter();
+            }
+            callback();
+        },
+        /**
+         * @method loadTimer
+         * @param {Function} callback
+         */
+        loadTimer: function(callback) {
+            Skritter.timer = new Timer();
+            callback();
+        },
+        /**
+         * This loads the user, data and also initiates the syncing process. In the future the callbacks should 
+         * probably be cleaned up a bit.
+         * 
+         * @method loadUser
+         * @param {Function} callback
+         */
+        loadUser: function(callback) {
+            Skritter.user = new User();
+            if (Skritter.user.isLoggedIn()) {
+                Skritter.api.token = Skritter.user.get('access_token');
+                Skritter.storage.openDatabase('skritdata-' + Skritter.user.get('user_id'), function() {
+                    Skritter.user.loadAllData(function() {
+                        Skritter.user.sync(function() {
+                            callback();
+                        });
                     });
                 });
+            } else {
+                callback();
+            }
+        },
+
+        /**
+         * Initializing the appliation should only happen once when the application is first loaded.
+         * 
+         * @method initialize
+         */
+        initialize: function() {
+            this.loadFacade().show('loading');
+            this.loadAsync();
+            Skritter.async.series([
+                Skritter.async.apply(this.loadFunctions),
+                Skritter.async.apply(this.loadAssets),
+                Skritter.async.apply(this.loadSettings),
+                Skritter.async.apply(this.loadStorage),
+                Skritter.async.apply(this.loadApi),
+                Skritter.async.apply(this.loadTimer),
+                Skritter.async.apply(this.loadUser),
+                Skritter.async.apply(this.loadRouter)
+            ], function() {
+                Skritter.facade.hide();
             });
-        } else {
-            callback();
+        },
+        /**
+         * Reloading is used to initialize the application by only loading data that may have changed.
+         * It skips loading large static assets from the media folder again.
+         * 
+         * @method reload
+         * @param {Function} callback
+         */
+        reload: function(callback) {
+            Skritter.async.series([
+                Skritter.async.apply(this.loadUser)
+            ], function() {
+                Skritter.facade.hide();
+                callback();
+            });
         }
     };
 
-    /**
-     * Initializing the appliation should only happen once when the application is first loaded.
-     * 
-     * @method initialize
-     */
-    var initialize = function() {
-        loadFacade().show('loading');
-        Skritter.async.series([
-            Skritter.async.apply(loadFunctions),
-            Skritter.async.apply(loadAssets),
-            Skritter.async.apply(loadSettings),
-            Skritter.async.apply(loadStorage),
-            Skritter.async.apply(loadApi),
-            Skritter.async.apply(loadTimer),
-            Skritter.async.apply(loadUser),
-            Skritter.async.apply(loadRouter)
-        ], function() {
-            Skritter.facade.hide();
-        });
-    };
-    /**
-     * Reloading is used to initialize the application by only loading data that may have changed.
-     * It skips loading large static assets from the media folder again.
-     * 
-     * @method reload
-     * @param {Function} callback
-     */
-    var reload = function(callback) {
-        Skritter.async.series([
-            Skritter.async.apply(loadUser)
-        ], function() {
-            Skritter.facade.hide();
-            callback();
-        });
-    };
-
-    return {
-        initialize: initialize,
-        reload: reload
-    };
+    //initializes the application once the dom is ready or device is ready
+    $(document).ready(function() {
+        Skritter.application = application;
+        if (window.cordova || window.PhoneGap || window.phonegap) {
+            document.addEventListener('deviceready', Skritter.application.initialize, false);
+        } else {
+            Skritter.application.initialize();
+        }
+    });
 });
