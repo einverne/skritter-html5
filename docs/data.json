@@ -5,8 +5,8 @@
         "version": "0.0.5"
     },
     "files": {
-        "js\\app\\collection\\CanvasCharacter.js": {
-            "name": "js\\app\\collection\\CanvasCharacter.js",
+        "public_html\\js\\app\\collection\\CanvasCharacter.js": {
+            "name": "public_html\\js\\app\\collection\\CanvasCharacter.js",
             "modules": {
                 "Collection": 1
             },
@@ -16,8 +16,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\collection\\StudyDecomps.js": {
-            "name": "js\\app\\collection\\StudyDecomps.js",
+        "public_html\\js\\app\\collection\\StudyDecomps.js": {
+            "name": "public_html\\js\\app\\collection\\StudyDecomps.js",
             "modules": {},
             "classes": {
                 "StudyDecomps": 1
@@ -25,8 +25,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\collection\\StudyItems.js": {
-            "name": "js\\app\\collection\\StudyItems.js",
+        "public_html\\js\\app\\collection\\StudyItems.js": {
+            "name": "public_html\\js\\app\\collection\\StudyItems.js",
             "modules": {},
             "classes": {
                 "StudyItems": 1
@@ -34,8 +34,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\collection\\StudyParams.js": {
-            "name": "js\\app\\collection\\StudyParams.js",
+        "public_html\\js\\app\\collection\\StudyParams.js": {
+            "name": "public_html\\js\\app\\collection\\StudyParams.js",
             "modules": {},
             "classes": {
                 "StudyParams": 1
@@ -43,8 +43,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\collection\\StudyReviews.js": {
-            "name": "js\\app\\collection\\StudyReviews.js",
+        "public_html\\js\\app\\collection\\StudyReviews.js": {
+            "name": "public_html\\js\\app\\collection\\StudyReviews.js",
             "modules": {},
             "classes": {
                 "StudyReviews": 1
@@ -52,15 +52,15 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\collection\\StudySRSConfigs.js": {
-            "name": "js\\app\\collection\\StudySRSConfigs.js",
+        "public_html\\js\\app\\collection\\StudySRSConfigs.js": {
+            "name": "public_html\\js\\app\\collection\\StudySRSConfigs.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\collection\\StudySentences.js": {
-            "name": "js\\app\\collection\\StudySentences.js",
+        "public_html\\js\\app\\collection\\StudySentences.js": {
+            "name": "public_html\\js\\app\\collection\\StudySentences.js",
             "modules": {},
             "classes": {
                 "StudySentences": 1
@@ -68,8 +68,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\collection\\StudyStrokes.js": {
-            "name": "js\\app\\collection\\StudyStrokes.js",
+        "public_html\\js\\app\\collection\\StudyStrokes.js": {
+            "name": "public_html\\js\\app\\collection\\StudyStrokes.js",
             "modules": {},
             "classes": {
                 "StudyStrokes": 1
@@ -77,8 +77,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\collection\\StudyVocabs.js": {
-            "name": "js\\app\\collection\\StudyVocabs.js",
+        "public_html\\js\\app\\collection\\StudyVocabs.js": {
+            "name": "public_html\\js\\app\\collection\\StudyVocabs.js",
             "modules": {},
             "classes": {
                 "StudyVocabs": 1
@@ -86,8 +86,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\Assets.js": {
-            "name": "js\\app\\model\\Assets.js",
+        "public_html\\js\\app\\model\\Assets.js": {
+            "name": "public_html\\js\\app\\model\\Assets.js",
             "modules": {
                 "Model": 1
             },
@@ -97,8 +97,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\CanvasStroke.js": {
-            "name": "js\\app\\model\\CanvasStroke.js",
+        "public_html\\js\\app\\model\\CanvasStroke.js": {
+            "name": "public_html\\js\\app\\model\\CanvasStroke.js",
             "modules": {},
             "classes": {
                 "CanvasStroke": 1
@@ -106,8 +106,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\CordovaAssets.js": {
-            "name": "js\\app\\model\\CordovaAssets.js",
+        "public_html\\js\\app\\model\\CordovaAssets.js": {
+            "name": "public_html\\js\\app\\model\\CordovaAssets.js",
             "modules": {
                 "Skritter": 1
             },
@@ -117,8 +117,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\Settings.js": {
-            "name": "js\\app\\model\\Settings.js",
+        "public_html\\js\\app\\model\\Settings.js": {
+            "name": "public_html\\js\\app\\model\\Settings.js",
             "modules": {},
             "classes": {
                 "Settings": 1
@@ -126,8 +126,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\StudyDecomp.js": {
-            "name": "js\\app\\model\\StudyDecomp.js",
+        "public_html\\js\\app\\model\\StudyDecomp.js": {
+            "name": "public_html\\js\\app\\model\\StudyDecomp.js",
             "modules": {},
             "classes": {
                 "StudyDecomp": 1
@@ -135,8 +135,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\StudyItem.js": {
-            "name": "js\\app\\model\\StudyItem.js",
+        "public_html\\js\\app\\model\\StudyItem.js": {
+            "name": "public_html\\js\\app\\model\\StudyItem.js",
             "modules": {},
             "classes": {
                 "StudyItem": 1
@@ -144,8 +144,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\StudyParam.js": {
-            "name": "js\\app\\model\\StudyParam.js",
+        "public_html\\js\\app\\model\\StudyParam.js": {
+            "name": "public_html\\js\\app\\model\\StudyParam.js",
             "modules": {},
             "classes": {
                 "StudyParam": 1
@@ -153,8 +153,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\StudyReview.js": {
-            "name": "js\\app\\model\\StudyReview.js",
+        "public_html\\js\\app\\model\\StudyReview.js": {
+            "name": "public_html\\js\\app\\model\\StudyReview.js",
             "modules": {},
             "classes": {
                 "StudyReview": 1
@@ -162,8 +162,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\StudySRSConfig.js": {
-            "name": "js\\app\\model\\StudySRSConfig.js",
+        "public_html\\js\\app\\model\\StudySRSConfig.js": {
+            "name": "public_html\\js\\app\\model\\StudySRSConfig.js",
             "modules": {},
             "classes": {
                 "StudySRSConfigs": 1
@@ -171,8 +171,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\StudySentence.js": {
-            "name": "js\\app\\model\\StudySentence.js",
+        "public_html\\js\\app\\model\\StudySentence.js": {
+            "name": "public_html\\js\\app\\model\\StudySentence.js",
             "modules": {},
             "classes": {
                 "StudySentence": 1
@@ -180,8 +180,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\StudyStroke.js": {
-            "name": "js\\app\\model\\StudyStroke.js",
+        "public_html\\js\\app\\model\\StudyStroke.js": {
+            "name": "public_html\\js\\app\\model\\StudyStroke.js",
             "modules": {},
             "classes": {
                 "StudyStroke": 1
@@ -189,8 +189,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\StudyVocab.js": {
-            "name": "js\\app\\model\\StudyVocab.js",
+        "public_html\\js\\app\\model\\StudyVocab.js": {
+            "name": "public_html\\js\\app\\model\\StudyVocab.js",
             "modules": {},
             "classes": {
                 "StudyVocab": 1
@@ -198,8 +198,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\model\\User.js": {
-            "name": "js\\app\\model\\User.js",
+        "public_html\\js\\app\\model\\User.js": {
+            "name": "public_html\\js\\app\\model\\User.js",
             "modules": {},
             "classes": {
                 "User": 1
@@ -207,8 +207,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\storage\\IndexedDBAdapter.js": {
-            "name": "js\\app\\storage\\IndexedDBAdapter.js",
+        "public_html\\js\\app\\storage\\IndexedDBAdapter.js": {
+            "name": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
             "modules": {
                 "Storage": 1
             },
@@ -218,8 +218,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\storage\\SQLiteAdapter.js": {
-            "name": "js\\app\\storage\\SQLiteAdapter.js",
+        "public_html\\js\\app\\storage\\SQLiteAdapter.js": {
+            "name": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
             "modules": {},
             "classes": {
                 "SQLiteAdapter": 1
@@ -227,8 +227,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\storage\\Storage.js": {
-            "name": "js\\app\\storage\\Storage.js",
+        "public_html\\js\\app\\storage\\Storage.js": {
+            "name": "public_html\\js\\app\\storage\\Storage.js",
             "modules": {},
             "classes": {
                 "Storage": 1
@@ -236,8 +236,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\component\\Facade.js": {
-            "name": "js\\app\\view\\component\\Facade.js",
+        "public_html\\js\\app\\view\\component\\Facade.js": {
+            "name": "public_html\\js\\app\\view\\component\\Facade.js",
             "modules": {
                 "Facade": 1
             },
@@ -247,8 +247,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\prompt\\Prompt.js": {
-            "name": "js\\app\\view\\prompt\\Prompt.js",
+        "public_html\\js\\app\\view\\prompt\\Prompt.js": {
+            "name": "public_html\\js\\app\\view\\prompt\\Prompt.js",
             "modules": {},
             "classes": {
                 "Prompt": 1
@@ -256,8 +256,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\prompt\\PromptCanvas.js": {
-            "name": "js\\app\\view\\prompt\\PromptCanvas.js",
+        "public_html\\js\\app\\view\\prompt\\PromptCanvas.js": {
+            "name": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "modules": {
                 "Prompt": 1
             },
@@ -267,8 +267,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\prompt\\PromptDefn.js": {
-            "name": "js\\app\\view\\prompt\\PromptDefn.js",
+        "public_html\\js\\app\\view\\prompt\\PromptDefn.js": {
+            "name": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
             "modules": {},
             "classes": {
                 "PromptDefn": 1
@@ -276,8 +276,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\prompt\\PromptRdng.js": {
-            "name": "js\\app\\view\\prompt\\PromptRdng.js",
+        "public_html\\js\\app\\view\\prompt\\PromptRdng.js": {
+            "name": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
             "modules": {},
             "classes": {
                 "PromptRdng": 1
@@ -285,8 +285,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\prompt\\PromptRune.js": {
-            "name": "js\\app\\view\\prompt\\PromptRune.js",
+        "public_html\\js\\app\\view\\prompt\\PromptRune.js": {
+            "name": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
             "modules": {},
             "classes": {
                 "PromptRune": 1
@@ -294,8 +294,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\prompt\\PromptTone.js": {
-            "name": "js\\app\\view\\prompt\\PromptTone.js",
+        "public_html\\js\\app\\view\\prompt\\PromptTone.js": {
+            "name": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
             "modules": {},
             "classes": {
                 "PromptTone": 1
@@ -303,8 +303,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\Home.js": {
-            "name": "js\\app\\view\\Home.js",
+        "public_html\\js\\app\\view\\Home.js": {
+            "name": "public_html\\js\\app\\view\\Home.js",
             "modules": {
                 "View": 1
             },
@@ -314,8 +314,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\Info.js": {
-            "name": "js\\app\\view\\Info.js",
+        "public_html\\js\\app\\view\\Info.js": {
+            "name": "public_html\\js\\app\\view\\Info.js",
             "modules": {},
             "classes": {
                 "InfoView": 1
@@ -323,8 +323,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\Login.js": {
-            "name": "js\\app\\view\\Login.js",
+        "public_html\\js\\app\\view\\Login.js": {
+            "name": "public_html\\js\\app\\view\\Login.js",
             "modules": {},
             "classes": {
                 "LoginView": 1
@@ -332,8 +332,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\Options.js": {
-            "name": "js\\app\\view\\Options.js",
+        "public_html\\js\\app\\view\\Options.js": {
+            "name": "public_html\\js\\app\\view\\Options.js",
             "modules": {},
             "classes": {
                 "OptionsView": 1
@@ -341,8 +341,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\view\\Study.js": {
-            "name": "js\\app\\view\\Study.js",
+        "public_html\\js\\app\\view\\Study.js": {
+            "name": "public_html\\js\\app\\view\\Study.js",
             "modules": {},
             "classes": {
                 "StudyView": 1
@@ -350,8 +350,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\Api.js": {
-            "name": "js\\app\\Api.js",
+        "public_html\\js\\app\\Api.js": {
+            "name": "public_html\\js\\app\\Api.js",
             "modules": {},
             "classes": {
                 "Api": 1
@@ -359,8 +359,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\Application.js": {
-            "name": "js\\app\\Application.js",
+        "public_html\\js\\app\\Application.js": {
+            "name": "public_html\\js\\app\\Application.js",
             "modules": {},
             "classes": {
                 "Application": 1
@@ -368,8 +368,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\Functions.js": {
-            "name": "js\\app\\Functions.js",
+        "public_html\\js\\app\\Functions.js": {
+            "name": "public_html\\js\\app\\Functions.js",
             "modules": {},
             "classes": {
                 "Functions": 1
@@ -377,8 +377,17 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\PinyinConverter.js": {
-            "name": "js\\app\\PinyinConverter.js",
+        "public_html\\js\\app\\Mauler.js": {
+            "name": "public_html\\js\\app\\Mauler.js",
+            "modules": {},
+            "classes": {
+                "Mauler": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "public_html\\js\\app\\PinyinConverter.js": {
+            "name": "public_html\\js\\app\\PinyinConverter.js",
             "modules": {},
             "classes": {
                 "PinyinConverter": 1
@@ -386,8 +395,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\Recognizer.js": {
-            "name": "js\\app\\Recognizer.js",
+        "public_html\\js\\app\\Recognizer.js": {
+            "name": "public_html\\js\\app\\Recognizer.js",
             "modules": {},
             "classes": {
                 "Recognizer": 1
@@ -395,8 +404,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\Router.js": {
-            "name": "js\\app\\Router.js",
+        "public_html\\js\\app\\Router.js": {
+            "name": "public_html\\js\\app\\Router.js",
             "modules": {},
             "classes": {
                 "Router": 1
@@ -404,8 +413,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\Scheduler.js": {
-            "name": "js\\app\\Scheduler.js",
+        "public_html\\js\\app\\Scheduler.js": {
+            "name": "public_html\\js\\app\\Scheduler.js",
             "modules": {},
             "classes": {
                 "Scheduler": 1
@@ -413,8 +422,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\Shortstraw.js": {
-            "name": "js\\app\\Shortstraw.js",
+        "public_html\\js\\app\\Shortstraw.js": {
+            "name": "public_html\\js\\app\\Shortstraw.js",
             "modules": {},
             "classes": {
                 "Shortstraw": 1
@@ -422,8 +431,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\app\\Stopwatch.js": {
-            "name": "js\\app\\Stopwatch.js",
+        "public_html\\js\\app\\Stopwatch.js": {
+            "name": "public_html\\js\\app\\Stopwatch.js",
             "modules": {},
             "classes": {
                 "Stopwatch": 1
@@ -483,6 +492,7 @@
                 "Api": 1,
                 "Application": 1,
                 "Functions": 1,
+                "Mauler": 1,
                 "PinyinConverter": 1,
                 "Recognizer": 1,
                 "Router": 1,
@@ -493,7 +503,7 @@
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "js\\app\\Stopwatch.js",
+            "file": "public_html\\js\\app\\Stopwatch.js",
             "line": 6,
             "params": [
                 {
@@ -522,7 +532,7 @@
             "namespaces": {},
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\collection\\StudyVocabs.js",
+            "file": "public_html\\js\\app\\collection\\StudyVocabs.js",
             "line": 11,
             "params": [
                 {
@@ -553,7 +563,7 @@
             "namespaces": {},
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 25,
             "author": "Joshua McFarland",
             "params": [
@@ -576,7 +586,7 @@
             "namespaces": {},
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\storage\\Storage.js",
+            "file": "public_html\\js\\app\\storage\\Storage.js",
             "line": 7,
             "params": [
                 {
@@ -598,7 +608,7 @@
             "namespaces": {},
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\view\\component\\Facade.js",
+            "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 9,
             "author": "Joshua McFarland"
         },
@@ -617,7 +627,7 @@
             "namespaces": {},
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\view\\prompt\\PromptTone.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
             "line": 24,
             "author": "Joshua McFarland",
             "params": [
@@ -666,7 +676,7 @@
             "namespaces": {},
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\Router.js",
+            "file": "public_html\\js\\app\\Router.js",
             "line": 19,
             "params": [
                 {
@@ -693,7 +703,7 @@
             "module": "Skritter",
             "submodule": "Collection",
             "namespace": "",
-            "file": "js\\app\\collection\\CanvasCharacter.js",
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
             "line": 11
         },
         "StudyDecomps": {
@@ -707,7 +717,7 @@
             "module": "Skritter",
             "submodule": "Collection",
             "namespace": "",
-            "file": "js\\app\\collection\\StudyDecomps.js",
+            "file": "public_html\\js\\app\\collection\\StudyDecomps.js",
             "line": 11
         },
         "StudyItems": {
@@ -721,7 +731,7 @@
             "module": "Skritter",
             "submodule": "Collection",
             "namespace": "",
-            "file": "js\\app\\collection\\StudyItems.js",
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
             "line": 11
         },
         "StudyParams": {
@@ -735,7 +745,7 @@
             "module": "Skritter",
             "submodule": "Collection",
             "namespace": "",
-            "file": "js\\app\\collection\\StudyParams.js",
+            "file": "public_html\\js\\app\\collection\\StudyParams.js",
             "line": 13
         },
         "StudyReviews": {
@@ -749,7 +759,7 @@
             "module": "Skritter",
             "submodule": "Collection",
             "namespace": "",
-            "file": "js\\app\\collection\\StudyReviews.js",
+            "file": "public_html\\js\\app\\collection\\StudyReviews.js",
             "line": 11
         },
         "StudySRSConfigs": {
@@ -763,7 +773,7 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\StudySRSConfig.js",
+            "file": "public_html\\js\\app\\model\\StudySRSConfig.js",
             "line": 18
         },
         "StudySentences": {
@@ -777,7 +787,7 @@
             "module": "Skritter",
             "submodule": "Collection",
             "namespace": "",
-            "file": "js\\app\\collection\\StudySentences.js",
+            "file": "public_html\\js\\app\\collection\\StudySentences.js",
             "line": 11
         },
         "StudyStrokes": {
@@ -791,7 +801,7 @@
             "module": "Skritter",
             "submodule": "Collection",
             "namespace": "",
-            "file": "js\\app\\collection\\StudyStrokes.js",
+            "file": "public_html\\js\\app\\collection\\StudyStrokes.js",
             "line": 11
         },
         "StudyVocabs": {
@@ -805,7 +815,7 @@
             "module": "Skritter",
             "submodule": "Collection",
             "namespace": "",
-            "file": "js\\app\\collection\\StudyVocabs.js",
+            "file": "public_html\\js\\app\\collection\\StudyVocabs.js",
             "line": 11
         },
         "Assets": {
@@ -819,7 +829,7 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\Assets.js",
+            "file": "public_html\\js\\app\\model\\Assets.js",
             "line": 13,
             "is_constructor": 1
         },
@@ -834,8 +844,8 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\CanvasStroke.js",
-            "line": 22
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 23
         },
         "CordovaAssets": {
             "name": "CordovaAssets",
@@ -847,7 +857,7 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\model\\CordovaAssets.js",
+            "file": "public_html\\js\\app\\model\\CordovaAssets.js",
             "line": 10,
             "description": "Extend and overrides the assets model to provide Cordova specific functionality.",
             "extends": "Assets"
@@ -862,7 +872,7 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\model\\Settings.js",
+            "file": "public_html\\js\\app\\model\\Settings.js",
             "line": 8
         },
         "StudyDecomp": {
@@ -876,7 +886,7 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\StudyDecomp.js",
+            "file": "public_html\\js\\app\\model\\StudyDecomp.js",
             "line": 15
         },
         "StudyItem": {
@@ -890,7 +900,7 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\StudyItem.js",
+            "file": "public_html\\js\\app\\model\\StudyItem.js",
             "line": 32
         },
         "StudyParam": {
@@ -904,7 +914,7 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\StudyParam.js",
+            "file": "public_html\\js\\app\\model\\StudyParam.js",
             "line": 18
         },
         "StudyReview": {
@@ -918,7 +928,7 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\StudyReview.js",
+            "file": "public_html\\js\\app\\model\\StudyReview.js",
             "line": 24
         },
         "StudySentence": {
@@ -932,7 +942,7 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\StudySentence.js",
+            "file": "public_html\\js\\app\\model\\StudySentence.js",
             "line": 22
         },
         "StudyStroke": {
@@ -946,7 +956,7 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\StudyStroke.js",
+            "file": "public_html\\js\\app\\model\\StudyStroke.js",
             "line": 15
         },
         "StudyVocab": {
@@ -960,7 +970,7 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 37
         },
         "User": {
@@ -974,7 +984,7 @@
             "module": "Skritter",
             "submodule": "Model",
             "namespace": "",
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 25
         },
         "IndexedDBAdapter": {
@@ -988,8 +998,8 @@
             "module": "Skritter",
             "submodule": "Storage",
             "namespace": "",
-            "file": "js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 11,
+            "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
+            "line": 12,
             "description": "A data adapter for IndexedDB which uses the a jQuery plugin written by nparashuram.\nIt extends the Storage class to get the generic database structure and version.\nhttps://github.com/axemclion/jquery-indexeddb/",
             "extends": "Storage",
             "is_constructor": 1
@@ -1005,7 +1015,7 @@
             "module": "Skritter",
             "submodule": "Storage",
             "namespace": "",
-            "file": "js\\app\\storage\\SQLiteAdapter.js",
+            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
             "line": 11,
             "extends": "Storage",
             "is_constructor": 1
@@ -1021,7 +1031,7 @@
             "module": "Skritter",
             "submodule": "Storage",
             "namespace": "",
-            "file": "js\\app\\storage\\Storage.js",
+            "file": "public_html\\js\\app\\storage\\Storage.js",
             "line": 7,
             "description": "This is a parent class used to store generic information about the database structure.",
             "is_constructor": 1
@@ -1037,7 +1047,7 @@
             "module": "Skritter",
             "submodule": "Facade",
             "namespace": "",
-            "file": "js\\app\\view\\component\\Facade.js",
+            "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 9
         },
         "Prompt": {
@@ -1050,7 +1060,7 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\view\\prompt\\Prompt.js",
+            "file": "public_html\\js\\app\\view\\prompt\\Prompt.js",
             "line": 10
         },
         "PromptCanvas": {
@@ -1064,7 +1074,7 @@
             "module": "Skritter",
             "submodule": "Prompt",
             "namespace": "",
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 11
         },
         "PromptDefn": {
@@ -1078,7 +1088,7 @@
             "module": "Skritter",
             "submodule": "Prompt",
             "namespace": "",
-            "file": "js\\app\\view\\prompt\\PromptDefn.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
             "line": 13
         },
         "PromptRdng": {
@@ -1092,7 +1102,7 @@
             "module": "Skritter",
             "submodule": "Prompt",
             "namespace": "",
-            "file": "js\\app\\view\\prompt\\PromptRdng.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
             "line": 13
         },
         "PromptRune": {
@@ -1106,7 +1116,7 @@
             "module": "Skritter",
             "submodule": "Prompt",
             "namespace": "",
-            "file": "js\\app\\view\\prompt\\PromptRune.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
             "line": 24
         },
         "PromptTone": {
@@ -1120,7 +1130,7 @@
             "module": "Skritter",
             "submodule": "Prompt",
             "namespace": "",
-            "file": "js\\app\\view\\prompt\\PromptTone.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
             "line": 24
         },
         "HomeView": {
@@ -1134,7 +1144,7 @@
             "module": "Skritter",
             "submodule": "View",
             "namespace": "",
-            "file": "js\\app\\view\\Home.js",
+            "file": "public_html\\js\\app\\view\\Home.js",
             "line": 13
         },
         "InfoView": {
@@ -1148,7 +1158,7 @@
             "module": "Skritter",
             "submodule": "View",
             "namespace": "",
-            "file": "js\\app\\view\\Info.js",
+            "file": "public_html\\js\\app\\view\\Info.js",
             "line": 13
         },
         "LoginView": {
@@ -1162,7 +1172,7 @@
             "module": "Skritter",
             "submodule": "View",
             "namespace": "",
-            "file": "js\\app\\view\\Login.js",
+            "file": "public_html\\js\\app\\view\\Login.js",
             "line": 11
         },
         "OptionsView": {
@@ -1175,7 +1185,7 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\view\\Options.js",
+            "file": "public_html\\js\\app\\view\\Options.js",
             "line": 10
         },
         "StudyView": {
@@ -1189,7 +1199,7 @@
             "module": "Skritter",
             "submodule": "View",
             "namespace": "",
-            "file": "js\\app\\view\\Study.js",
+            "file": "public_html\\js\\app\\view\\Study.js",
             "line": 19
         },
         "Api": {
@@ -1202,7 +1212,7 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 10,
             "params": [
                 {
@@ -1228,7 +1238,7 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\Application.js",
+            "file": "public_html\\js\\app\\Application.js",
             "line": 1
         },
         "Functions": {
@@ -1241,9 +1251,23 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 1,
             "description": "This class module contains numerous helper functions that are used throughout the application.\nAdditional functions used repeatedly shoud also be stored here. They are stored in the global Skritter namespace."
+        },
+        "Mauler": {
+            "name": "Mauler",
+            "shortname": "Mauler",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Skritter",
+            "namespace": "",
+            "file": "public_html\\js\\app\\Mauler.js",
+            "line": 1,
+            "description": "Handles adjustments made when tweening from a user drawn squigs to"
         },
         "PinyinConverter": {
             "name": "PinyinConverter",
@@ -1255,7 +1279,7 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\PinyinConverter.js",
+            "file": "public_html\\js\\app\\PinyinConverter.js",
             "line": 1,
             "description": "This is a utility class used to convert between number and tone mark pinyin notation."
         },
@@ -1269,7 +1293,7 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\Recognizer.js",
+            "file": "public_html\\js\\app\\Recognizer.js",
             "line": 8,
             "params": [
                 {
@@ -1301,7 +1325,7 @@
             "module": "Skritter",
             "submodule": "View",
             "namespace": "",
-            "file": "js\\app\\Router.js",
+            "file": "public_html\\js\\app\\Router.js",
             "line": 19
         },
         "Scheduler": {
@@ -1314,7 +1338,7 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\Scheduler.js",
+            "file": "public_html\\js\\app\\Scheduler.js",
             "line": 6,
             "is_constructor": 1
         },
@@ -1328,7 +1352,7 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\Shortstraw.js",
+            "file": "public_html\\js\\app\\Shortstraw.js",
             "line": 6,
             "params": [
                 {
@@ -1353,13 +1377,13 @@
             "extension_for": [],
             "module": "Skritter",
             "namespace": "",
-            "file": "js\\app\\Stopwatch.js",
+            "file": "public_html\\js\\app\\Stopwatch.js",
             "line": 6
         }
     },
     "classitems": [
         {
-            "file": "js\\app\\collection\\CanvasCharacter.js",
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
             "line": 15,
             "itemtype": "property",
             "name": "model",
@@ -1369,7 +1393,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\CanvasCharacter.js",
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
             "line": 19,
             "itemtype": "method",
             "name": "containsStroke",
@@ -1389,7 +1413,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\CanvasCharacter.js",
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
             "line": 46,
             "itemtype": "method",
             "name": "getCharacterBitmap",
@@ -1402,7 +1426,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\CanvasCharacter.js",
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
             "line": 57,
             "itemtype": "method",
             "name": "getStrokeCount",
@@ -1415,7 +1439,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyDecomps.js",
+            "file": "public_html\\js\\app\\collection\\StudyDecomps.js",
             "line": 15,
             "itemtype": "property",
             "name": "model",
@@ -1425,7 +1449,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyDecomps.js",
+            "file": "public_html\\js\\app\\collection\\StudyDecomps.js",
             "line": 19,
             "itemtype": "method",
             "name": "cache",
@@ -1445,7 +1469,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyDecomps.js",
+            "file": "public_html\\js\\app\\collection\\StudyDecomps.js",
             "line": 34,
             "itemtype": "method",
             "name": "loadAll",
@@ -1465,7 +1489,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
             "line": 15,
             "itemtype": "property",
             "name": "model",
@@ -1475,7 +1499,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
             "line": 20,
             "itemtype": "method",
             "name": "cache",
@@ -1495,7 +1519,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
             "line": 38,
             "itemtype": "method",
             "name": "fetch",
@@ -1520,8 +1544,8 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
-            "line": 86,
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
+            "line": 85,
             "itemtype": "method",
             "name": "loadAll",
             "params": [
@@ -1540,8 +1564,8 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
-            "line": 97,
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
+            "line": 96,
             "itemtype": "method",
             "name": "filterActive",
             "return": {
@@ -1553,8 +1577,8 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
-            "line": 108,
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
+            "line": 107,
             "itemtype": "method",
             "name": "filterBy",
             "params": [
@@ -1578,8 +1602,8 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
-            "line": 120,
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
+            "line": 119,
             "itemtype": "method",
             "name": "getContainedItemIds",
             "return": {
@@ -1591,8 +1615,8 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
-            "line": 141,
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
+            "line": 140,
             "itemtype": "method",
             "name": "getItemsDue",
             "return": {
@@ -1604,8 +1628,8 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
-            "line": 155,
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
+            "line": 154,
             "itemtype": "method",
             "name": "getNext",
             "return": {
@@ -1617,8 +1641,8 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
-            "line": 164,
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
+            "line": 163,
             "description": "Returns a random active study item.",
             "itemtype": "method",
             "name": "getRandom",
@@ -1631,8 +1655,8 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyItems.js",
-            "line": 177,
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
+            "line": 176,
             "itemtype": "method",
             "name": "getStudy",
             "return": {
@@ -1644,7 +1668,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyParams.js",
+            "file": "public_html\\js\\app\\collection\\StudyParams.js",
             "line": 17,
             "itemtype": "property",
             "name": "model",
@@ -1654,7 +1678,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyParams.js",
+            "file": "public_html\\js\\app\\collection\\StudyParams.js",
             "line": 21,
             "async": 1,
             "itemtype": "method",
@@ -1675,7 +1699,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyReviews.js",
+            "file": "public_html\\js\\app\\collection\\StudyReviews.js",
             "line": 15,
             "itemtype": "property",
             "name": "model",
@@ -1685,7 +1709,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyReviews.js",
+            "file": "public_html\\js\\app\\collection\\StudyReviews.js",
             "line": 19,
             "itemtype": "method",
             "name": "cache",
@@ -1705,7 +1729,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyReviews.js",
+            "file": "public_html\\js\\app\\collection\\StudyReviews.js",
             "line": 34,
             "itemtype": "method",
             "name": "getTime",
@@ -1718,7 +1742,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyReviews.js",
+            "file": "public_html\\js\\app\\collection\\StudyReviews.js",
             "line": 47,
             "async": 1,
             "itemtype": "method",
@@ -1739,7 +1763,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyReviews.js",
+            "file": "public_html\\js\\app\\collection\\StudyReviews.js",
             "line": 59,
             "itemtype": "method",
             "name": "save",
@@ -1759,7 +1783,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudySRSConfigs.js",
+            "file": "public_html\\js\\app\\collection\\StudySRSConfigs.js",
             "line": 15,
             "itemtype": "property",
             "name": "model",
@@ -1769,7 +1793,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudySRSConfigs.js",
+            "file": "public_html\\js\\app\\collection\\StudySRSConfigs.js",
             "line": 19,
             "itemtype": "method",
             "name": "cache",
@@ -1789,7 +1813,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudySRSConfigs.js",
+            "file": "public_html\\js\\app\\collection\\StudySRSConfigs.js",
             "line": 34,
             "itemtype": "method",
             "name": "fetch",
@@ -1809,7 +1833,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudySRSConfigs.js",
+            "file": "public_html\\js\\app\\collection\\StudySRSConfigs.js",
             "line": 45,
             "itemtype": "method",
             "name": "loadAll",
@@ -1829,7 +1853,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudySentences.js",
+            "file": "public_html\\js\\app\\collection\\StudySentences.js",
             "line": 15,
             "itemtype": "property",
             "name": "model",
@@ -1839,7 +1863,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudySentences.js",
+            "file": "public_html\\js\\app\\collection\\StudySentences.js",
             "line": 19,
             "itemtype": "method",
             "name": "cache",
@@ -1859,7 +1883,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudySentences.js",
+            "file": "public_html\\js\\app\\collection\\StudySentences.js",
             "line": 34,
             "itemtype": "method",
             "name": "loadAll",
@@ -1879,7 +1903,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyStrokes.js",
+            "file": "public_html\\js\\app\\collection\\StudyStrokes.js",
             "line": 15,
             "itemtype": "method",
             "name": "initialize",
@@ -1888,7 +1912,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyStrokes.js",
+            "file": "public_html\\js\\app\\collection\\StudyStrokes.js",
             "line": 55,
             "itemtype": "property",
             "name": "model",
@@ -1898,7 +1922,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyStrokes.js",
+            "file": "public_html\\js\\app\\collection\\StudyStrokes.js",
             "line": 59,
             "itemtype": "method",
             "name": "cache",
@@ -1918,7 +1942,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyStrokes.js",
+            "file": "public_html\\js\\app\\collection\\StudyStrokes.js",
             "line": 74,
             "itemtype": "method",
             "name": "loadAll",
@@ -1938,7 +1962,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyVocabs.js",
+            "file": "public_html\\js\\app\\collection\\StudyVocabs.js",
             "line": 15,
             "itemtype": "property",
             "name": "model",
@@ -1948,7 +1972,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyVocabs.js",
+            "file": "public_html\\js\\app\\collection\\StudyVocabs.js",
             "line": 19,
             "itemtype": "method",
             "name": "cache",
@@ -1968,7 +1992,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\collection\\StudyVocabs.js",
+            "file": "public_html\\js\\app\\collection\\StudyVocabs.js",
             "line": 34,
             "itemtype": "method",
             "name": "loadAll",
@@ -1988,7 +2012,7 @@
             "submodule": "Collection"
         },
         {
-            "file": "js\\app\\model\\Assets.js",
+            "file": "public_html\\js\\app\\model\\Assets.js",
             "line": 32,
             "description": "Plays an audio file using SoundJS and loads it from the Skritter web server.\nThis might not work on builds not located on the physical server due to\nAccess-Control-Allow-Origin restrictions.",
             "itemtype": "method",
@@ -2009,7 +2033,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\Assets.js",
+            "file": "public_html\\js\\app\\model\\Assets.js",
             "line": 60,
             "itemtype": "method",
             "name": "getStroke",
@@ -2029,7 +2053,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\Assets.js",
+            "file": "public_html\\js\\app\\model\\Assets.js",
             "line": 69,
             "itemtype": "method",
             "name": "loadStrokes",
@@ -2038,7 +2062,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\Assets.js",
+            "file": "public_html\\js\\app\\model\\Assets.js",
             "line": 83,
             "itemtype": "method",
             "name": "triggerComplete",
@@ -2047,8 +2071,8 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\CanvasStroke.js",
-            "line": 31,
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 32,
             "itemtype": "method",
             "name": "getAngle",
             "return": {
@@ -2060,8 +2084,8 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\CanvasStroke.js",
-            "line": 38,
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 39,
             "return": {
                 "description": "",
                 "type": "Array"
@@ -2071,8 +2095,8 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\CanvasStroke.js",
-            "line": 61,
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 62,
             "return": {
                 "description": "",
                 "type": "Number"
@@ -2082,8 +2106,8 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\CanvasStroke.js",
-            "line": 73,
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 74,
             "return": {
                 "description": "",
                 "type": "Unresolved"
@@ -2093,8 +2117,8 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\CanvasStroke.js",
-            "line": 96,
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 97,
             "return": {
                 "description": "",
                 "type": "_L20.Anonym$0.getInflatedData.Anonym$1"
@@ -2104,8 +2128,8 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\CanvasStroke.js",
-            "line": 115,
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 116,
             "itemtype": "method",
             "name": "getInflatedParams",
             "return": {
@@ -2117,8 +2141,8 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\CanvasStroke.js",
-            "line": 147,
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 148,
             "itemtype": "method",
             "name": "getRectangle",
             "return": {
@@ -2130,8 +2154,8 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\CanvasStroke.js",
-            "line": 155,
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 156,
             "return": {
                 "description": "",
                 "type": "@exp;Skritter@pro;fn@call;getBoundingRectangle"
@@ -2141,17 +2165,10 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\CanvasStroke.js",
-            "line": 163,
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 164,
             "itemtype": "method",
             "name": "getUserBitmap",
-            "params": [
-                {
-                    "name": "scale",
-                    "description": "",
-                    "type": "Boolean"
-                }
-            ],
             "return": {
                 "description": "",
                 "type": "Bitmap"
@@ -2161,7 +2178,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\CordovaAssets.js",
+            "file": "public_html\\js\\app\\model\\CordovaAssets.js",
             "line": 17,
             "description": "Uses the media plugin for Cordova to play locally stored audio files.",
             "itemtype": "method",
@@ -2186,7 +2203,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\model\\StudyDecomp.js",
+            "file": "public_html\\js\\app\\model\\StudyDecomp.js",
             "line": 19,
             "itemtype": "property",
             "name": "idAttribute",
@@ -2196,7 +2213,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyItem.js",
+            "file": "public_html\\js\\app\\model\\StudyItem.js",
             "line": 39,
             "itemtype": "method",
             "name": "cache",
@@ -2212,7 +2229,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyItem.js",
+            "file": "public_html\\js\\app\\model\\StudyItem.js",
             "line": 50,
             "itemtype": "method",
             "name": "getContained",
@@ -2225,7 +2242,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyItem.js",
+            "file": "public_html\\js\\app\\model\\StudyItem.js",
             "line": 66,
             "itemtype": "method",
             "name": "getReadiness",
@@ -2250,7 +2267,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyItem.js",
+            "file": "public_html\\js\\app\\model\\StudyItem.js",
             "line": 118,
             "itemtype": "method",
             "name": "getVocabs",
@@ -2263,7 +2280,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyItem.js",
+            "file": "public_html\\js\\app\\model\\StudyItem.js",
             "line": 130,
             "itemtype": "method",
             "name": "isActive",
@@ -2276,7 +2293,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyItem.js",
+            "file": "public_html\\js\\app\\model\\StudyItem.js",
             "line": 139,
             "itemtype": "method",
             "name": "play",
@@ -2289,7 +2306,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyItem.js",
+            "file": "public_html\\js\\app\\model\\StudyItem.js",
             "line": 147,
             "itemtype": "method",
             "name": "spawnReview",
@@ -2334,7 +2351,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyParam.js",
+            "file": "public_html\\js\\app\\model\\StudyParam.js",
             "line": 22,
             "itemtype": "method",
             "name": "getAngle",
@@ -2347,7 +2364,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyParam.js",
+            "file": "public_html\\js\\app\\model\\StudyParam.js",
             "line": 29,
             "itemtype": "method",
             "name": "getBitmap",
@@ -2360,7 +2377,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyParam.js",
+            "file": "public_html\\js\\app\\model\\StudyParam.js",
             "line": 36,
             "itemtype": "method",
             "name": "getLength",
@@ -2373,7 +2390,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyReview.js",
+            "file": "public_html\\js\\app\\model\\StudyReview.js",
             "line": 31,
             "itemtype": "method",
             "name": "cache",
@@ -2389,7 +2406,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyStroke.js",
+            "file": "public_html\\js\\app\\model\\StudyStroke.js",
             "line": 19,
             "itemtype": "property",
             "name": "idAttribute",
@@ -2399,7 +2416,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 43,
             "itemtype": "method",
             "name": "cache",
@@ -2415,7 +2432,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 53,
             "itemtype": "method",
             "name": "getCanvasCharacters",
@@ -2440,7 +2457,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 110,
             "itemtype": "method",
             "name": "getCharacterAt",
@@ -2460,7 +2477,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 118,
             "itemtype": "method",
             "name": "getCharacterCount",
@@ -2473,7 +2490,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 125,
             "itemtype": "method",
             "name": "getCharacters",
@@ -2486,7 +2503,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 132,
             "itemtype": "method",
             "name": "getPinyinAt",
@@ -2506,7 +2523,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 150,
             "itemtype": "method",
             "name": "getReadingDisplayAt",
@@ -2526,7 +2543,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 167,
             "itemtype": "method",
             "name": "getSentence",
@@ -2539,7 +2556,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 175,
             "itemtype": "method",
             "name": "getWritingDisplayAt",
@@ -2559,7 +2576,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 192,
             "itemtype": "method",
             "name": "hasCharacterAt",
@@ -2579,7 +2596,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 202,
             "itemtype": "method",
             "name": "isSingleCharacter",
@@ -2592,7 +2609,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\StudyVocab.js",
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 211,
             "itemtype": "method",
             "name": "play",
@@ -2605,7 +2622,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 45,
             "itemtype": "property",
             "name": "defaults",
@@ -2615,7 +2632,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 58,
             "itemtype": "method",
             "name": "cache",
@@ -2624,7 +2641,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 66,
             "description": "Quickly caches all of the users current loaded data to storage and returns a callback.",
             "itemtype": "method",
@@ -2641,7 +2658,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 113,
             "description": "Gets the current active users properties and settings from the server then saves it.",
             "itemtype": "method",
@@ -2658,7 +2675,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 127,
             "description": "Gets the users current avatar and returns it as an image tag using base64 data.",
             "itemtype": "method",
@@ -2679,7 +2696,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 139,
             "description": "A quicker way to get a setting from the user settings object.",
             "itemtype": "method",
@@ -2700,7 +2717,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 149,
             "description": "Returns an array of active study parts based on the current language being studied.",
             "itemtype": "method",
@@ -2714,7 +2731,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 160,
             "description": "Checks to see if the user is logged in by seeing if a token exists. This might not always work\nin situations where the token as expired.",
             "itemtype": "method",
@@ -2728,7 +2745,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 172,
             "description": "Loads all of the data for the current active user into memory. For small to medium size accounts this is\nfairly quick, but larger accounts might need to do loading in logical chunks.",
             "itemtype": "method",
@@ -2745,7 +2762,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 193,
             "description": "Performs a complete login, stores the authentication data and also fetches the users settings from the server.\nIf the statusCode returned is anything but 200 then it doesn't save, but returns the response message.",
             "itemtype": "method",
@@ -2772,7 +2789,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 216,
             "description": "Automatically logs the user out and returns them to the home screen when called.",
             "itemtype": "method",
@@ -2782,7 +2799,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 231,
             "description": "A quicker way to set the user settings object.",
             "itemtype": "method",
@@ -2808,7 +2825,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 245,
             "description": "Syncs data with the server by getting changed items and posting reviews. If the account has never synced\nthis it initiates an full account download.",
             "itemtype": "method",
@@ -2825,7 +2842,7 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\model\\User.js",
+            "file": "public_html\\js\\app\\model\\User.js",
             "line": 337,
             "itemtype": "method",
             "name": "unsetSetting",
@@ -2841,8 +2858,8 @@
             "submodule": "Model"
         },
         {
-            "file": "js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 25,
+            "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
+            "line": 26,
             "itemtype": "method",
             "name": "clear",
             "params": [
@@ -2862,8 +2879,8 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 60,
+            "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
+            "line": 61,
             "itemtype": "method",
             "name": "deleteDatabase",
             "params": [
@@ -2883,8 +2900,8 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 81,
+            "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
+            "line": 82,
             "itemtype": "method",
             "name": "getItem",
             "params": [
@@ -2909,8 +2926,8 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 97,
+            "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
+            "line": 98,
             "itemtype": "method",
             "name": "getItems",
             "params": [
@@ -2935,8 +2952,8 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 118,
+            "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
+            "line": 119,
             "itemtype": "method",
             "name": "openDatabase",
             "params": [
@@ -2956,8 +2973,8 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 147,
+            "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
+            "line": 148,
             "itemtype": "method",
             "name": "removeItem",
             "params": [
@@ -2982,8 +2999,8 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 163,
+            "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
+            "line": 164,
             "itemtype": "method",
             "name": "setItem",
             "params": [
@@ -3008,8 +3025,8 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 179,
+            "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
+            "line": 180,
             "itemtype": "method",
             "name": "setItems",
             "params": [
@@ -3034,7 +3051,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\SQLiteAdapter.js",
+            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
             "line": 21,
             "itemtype": "method",
             "name": "clear",
@@ -3055,7 +3072,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\SQLiteAdapter.js",
+            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
             "line": 71,
             "itemtype": "method",
             "name": "deleteDatabase",
@@ -3071,7 +3088,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\SQLiteAdapter.js",
+            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
             "line": 91,
             "itemtype": "method",
             "name": "getItem",
@@ -3097,7 +3114,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\SQLiteAdapter.js",
+            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
             "line": 101,
             "itemtype": "method",
             "name": "getItems",
@@ -3123,7 +3140,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\SQLiteAdapter.js",
+            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
             "line": 162,
             "itemtype": "method",
             "name": "openDatabase",
@@ -3144,7 +3161,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\SQLiteAdapter.js",
+            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
             "line": 192,
             "itemtype": "method",
             "name": "removeItem",
@@ -3170,7 +3187,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\SQLiteAdapter.js",
+            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
             "line": 202,
             "itemtype": "method",
             "name": "setItem",
@@ -3196,7 +3213,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\SQLiteAdapter.js",
+            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
             "line": 247,
             "itemtype": "method",
             "name": "setItems",
@@ -3222,7 +3239,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\Storage.js",
+            "file": "public_html\\js\\app\\storage\\Storage.js",
             "line": 228,
             "itemtype": "method",
             "name": "getTable",
@@ -3242,7 +3259,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\Storage.js",
+            "file": "public_html\\js\\app\\storage\\Storage.js",
             "line": 237,
             "itemtype": "method",
             "name": "getTableFieldNames",
@@ -3267,7 +3284,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\Storage.js",
+            "file": "public_html\\js\\app\\storage\\Storage.js",
             "line": 255,
             "itemtype": "method",
             "name": "getTableKeys",
@@ -3287,7 +3304,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\storage\\Storage.js",
+            "file": "public_html\\js\\app\\storage\\Storage.js",
             "line": 264,
             "itemtype": "method",
             "name": "getTableNames",
@@ -3300,7 +3317,7 @@
             "submodule": "Storage"
         },
         {
-            "file": "js\\app\\view\\component\\Facade.js",
+            "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 16,
             "itemtype": "property",
             "name": "el",
@@ -3310,7 +3327,7 @@
             "submodule": "Facade"
         },
         {
-            "file": "js\\app\\view\\component\\Facade.js",
+            "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 20,
             "itemtype": "property",
             "name": "template Contains the template format loaded into the dom",
@@ -3320,7 +3337,7 @@
             "submodule": "Facade"
         },
         {
-            "file": "js\\app\\view\\component\\Facade.js",
+            "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 25,
             "itemtype": "method",
             "name": "render",
@@ -3333,7 +3350,7 @@
             "submodule": "Facade"
         },
         {
-            "file": "js\\app\\view\\component\\Facade.js",
+            "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 34,
             "itemtype": "method",
             "name": "hide",
@@ -3342,7 +3359,7 @@
             "submodule": "Facade"
         },
         {
-            "file": "js\\app\\view\\component\\Facade.js",
+            "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 41,
             "itemtype": "method",
             "name": "show",
@@ -3362,7 +3379,7 @@
             "submodule": "Facade"
         },
         {
-            "file": "js\\app\\view\\component\\Facade.js",
+            "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 52,
             "itemtype": "method",
             "name": "updateStatus",
@@ -3382,7 +3399,7 @@
             "submodule": "Facade"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 26,
             "itemtype": "method",
             "name": "render",
@@ -3395,7 +3412,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 37,
             "description": "Creates several containers used to organize different levels of display.",
             "itemtype": "method",
@@ -3409,7 +3426,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 66,
             "itemtype": "method",
             "name": "initStage",
@@ -3422,7 +3439,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 91,
             "description": "An ugly yet needed feature to force certain Cordova wrapped Android devices to clear\nthe canvas and render.",
             "itemtype": "method",
@@ -3432,7 +3449,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 105,
             "description": "Disables all touch input on the canvas. This is most commonly used when a user has\nalready completed a problem and it needs grading.",
             "itemtype": "method",
@@ -3442,7 +3459,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 114,
             "itemtype": "method",
             "name": "displayMessage",
@@ -3468,7 +3485,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 130,
             "description": "Given a CanvasCharacter this will render the image to the canvas.",
             "params": [
@@ -3488,7 +3505,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 143,
             "description": "The grid that fills the background of the canvas for rune prompts.",
             "itemtype": "method",
@@ -3498,7 +3515,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 158,
             "itemtype": "method",
             "name": "drawPhantomStroke",
@@ -3519,7 +3536,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 172,
             "itemtype": "method",
             "name": "drawSquig",
@@ -3540,7 +3557,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 197,
             "itemtype": "method",
             "name": "drawStroke",
@@ -3561,7 +3578,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 210,
             "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger. It's important that this canvas doesn't use autoClear for\nspeed reasons and Cordova compatibility.",
             "itemtype": "method",
@@ -3571,7 +3588,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 263,
             "itemtype": "method",
             "name": "fadeOverlay",
@@ -3580,7 +3597,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 274,
             "itemtype": "method",
             "name": "glowCharacter",
@@ -3601,7 +3618,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 286,
             "itemtype": "method",
             "name": "resize",
@@ -3610,7 +3627,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 295,
             "itemtype": "method",
             "name": "tick",
@@ -3619,7 +3636,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 301,
             "description": "Enables the view to fire events when the canvas has been touched.",
             "itemtype": "method",
@@ -3636,7 +3653,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptCanvas.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 310,
             "description": "Enables the view to fire events when the canvas touch has been released.",
             "itemtype": "method",
@@ -3653,7 +3670,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptRune.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
             "line": 40,
             "itemtype": "method",
             "name": "render",
@@ -3666,7 +3683,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptRune.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
             "line": 52,
             "itemtype": "method",
             "name": "clear",
@@ -3675,7 +3692,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptRune.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
             "line": 60,
             "itemtype": "method",
             "name": "handleInputRecieved",
@@ -3691,7 +3708,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptTone.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
             "line": 44,
             "itemtype": "method",
             "name": "clear",
@@ -3700,7 +3717,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\prompt\\PromptTone.js",
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
             "line": 84,
             "itemtype": "method",
             "name": "handleInputRecieved",
@@ -3716,7 +3733,7 @@
             "submodule": "Prompt"
         },
         {
-            "file": "js\\app\\view\\Home.js",
+            "file": "public_html\\js\\app\\view\\Home.js",
             "line": 20,
             "itemtype": "method",
             "name": "render",
@@ -3729,7 +3746,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\view\\Home.js",
+            "file": "public_html\\js\\app\\view\\Home.js",
             "line": 33,
             "itemtype": "property",
             "name": "events",
@@ -3739,7 +3756,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\view\\Login.js",
+            "file": "public_html\\js\\app\\view\\Login.js",
             "line": 18,
             "itemtype": "method",
             "name": "render",
@@ -3752,8 +3769,8 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\view\\Login.js",
-            "line": 56,
+            "file": "public_html\\js\\app\\view\\Login.js",
+            "line": 61,
             "itemtype": "method",
             "name": "showErrorMessage",
             "params": [
@@ -3768,7 +3785,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\view\\Options.js",
+            "file": "public_html\\js\\app\\view\\Options.js",
             "line": 14,
             "itemtype": "method",
             "name": "render",
@@ -3776,7 +3793,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\view\\Options.js",
+            "file": "public_html\\js\\app\\view\\Options.js",
             "line": 24,
             "description": "Immediately saves a users selection after they have been toggled.",
             "itemtype": "property",
@@ -3786,7 +3803,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\view\\Options.js",
+            "file": "public_html\\js\\app\\view\\Options.js",
             "line": 32,
             "description": "Loads and sets all of the user settings on the interface of the view.",
             "itemtype": "method",
@@ -3795,7 +3812,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\view\\Options.js",
+            "file": "public_html\\js\\app\\view\\Options.js",
             "line": 47,
             "description": "Saves all the settings to the database.",
             "itemtype": "method",
@@ -3804,7 +3821,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\view\\Study.js",
+            "file": "public_html\\js\\app\\view\\Study.js",
             "line": 26,
             "itemtype": "method",
             "name": "render",
@@ -3817,7 +3834,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\view\\Study.js",
+            "file": "public_html\\js\\app\\view\\Study.js",
             "line": 39,
             "itemtype": "property",
             "name": "events",
@@ -3827,7 +3844,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\view\\Study.js",
+            "file": "public_html\\js\\app\\view\\Study.js",
             "line": 45,
             "itemtype": "method",
             "name": "handlePromptComplete",
@@ -3836,7 +3853,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\view\\Study.js",
+            "file": "public_html\\js\\app\\view\\Study.js",
             "line": 51,
             "itemtype": "method",
             "name": "next",
@@ -3849,7 +3866,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\view\\Study.js",
+            "file": "public_html\\js\\app\\view\\Study.js",
             "line": 81,
             "itemtype": "method",
             "name": "showInfo",
@@ -3858,7 +3875,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\view\\Study.js",
+            "file": "public_html\\js\\app\\view\\Study.js",
             "line": 87,
             "itemtype": "method",
             "name": "resize",
@@ -3867,7 +3884,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 30,
             "itemtype": "method",
             "name": "authenticateUser",
@@ -3892,7 +3909,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 59,
             "itemtype": "method",
             "name": "getDateInfo",
@@ -3907,7 +3924,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 83,
             "itemtype": "method",
             "name": "requestBatch",
@@ -3927,7 +3944,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 105,
             "itemtype": "method",
             "name": "getBatch",
@@ -3952,7 +3969,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 168,
             "itemtype": "method",
             "name": "getItems",
@@ -3972,7 +3989,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 195,
             "itemtype": "method",
             "name": "getProgressStats",
@@ -3992,7 +4009,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 219,
             "itemtype": "method",
             "name": "getReviewErrors",
@@ -4012,7 +4029,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 257,
             "itemtype": "method",
             "name": "getSimpTradMap",
@@ -4027,7 +4044,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 281,
             "itemtype": "method",
             "name": "getSRSConfigs",
@@ -4042,7 +4059,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 305,
             "itemtype": "method",
             "name": "getUser",
@@ -4062,7 +4079,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 331,
             "itemtype": "method",
             "name": "getVocabLists",
@@ -4082,7 +4099,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 368,
             "itemtype": "method",
             "name": "getVocabList",
@@ -4102,7 +4119,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 393,
             "itemtype": "method",
             "name": "getVocalListSection",
@@ -4127,7 +4144,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Api.js",
+            "file": "public_html\\js\\app\\Api.js",
             "line": 419,
             "itemtype": "method",
             "name": "postReviews",
@@ -4152,8 +4169,30 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 30,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 34,
+            "description": "Creates the global Skritter namespace when the application first opened.",
+            "params": [
+                {
+                    "name": "Skritter",
+                    "description": ""
+                }
+            ],
+            "class": "Application",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 42,
+            "itemtype": "property",
+            "name": "application",
+            "type": "Object",
+            "class": "Application",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 46,
             "itemtype": "method",
             "name": "loadRouter",
             "params": [
@@ -4167,8 +4206,17 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 41,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 57,
+            "description": "Loads the async utility into the Skriter namescape for easy usage.",
+            "itemtype": "method",
+            "name": "loadAsync",
+            "class": "Application",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 65,
             "description": "Loads the proper assets module depending on the load environment. Returns a\ncallback one the required assets have preloaded.",
             "itemtype": "method",
             "name": "loadAssets",
@@ -4183,8 +4231,8 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 59,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 83,
             "itemtype": "method",
             "name": "loadFacade",
             "return": {
@@ -4195,8 +4243,8 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 67,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 91,
             "itemtype": "method",
             "name": "loadFunctions",
             "params": [
@@ -4210,8 +4258,8 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 75,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 99,
             "itemtype": "method",
             "name": "loadRouter",
             "params": [
@@ -4225,8 +4273,8 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 83,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 107,
             "itemtype": "method",
             "name": "loadSettings",
             "params": [
@@ -4240,8 +4288,8 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 91,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 115,
             "description": "Loads the storage adapter based on the current environment the application has been\nloaded from.",
             "itemtype": "method",
             "name": "loadStorage",
@@ -4256,8 +4304,8 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 106,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 130,
             "itemtype": "method",
             "name": "loadTimer",
             "params": [
@@ -4271,8 +4319,8 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 114,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 138,
             "description": "This loads the user, data and also initiates the syncing process. In the future the callbacks should \nprobably be cleaned up a bit.",
             "itemtype": "method",
             "name": "loadUser",
@@ -4287,8 +4335,8 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 137,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 161,
             "description": "Initializing the appliation should only happen once when the application is first loaded.",
             "itemtype": "method",
             "name": "initialize",
@@ -4296,8 +4344,8 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Application.js",
-            "line": 157,
+            "file": "public_html\\js\\app\\Application.js",
+            "line": 182,
             "description": "Reloading is used to initialize the application by only loading data that may have changed.\nIt skips loading large static assets from the media folder again.",
             "itemtype": "method",
             "name": "reload",
@@ -4312,7 +4360,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 10,
             "itemtype": "method",
             "name": "bytesToSize",
@@ -4331,7 +4379,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 22,
             "itemtype": "method",
             "name": "getAngle",
@@ -4350,7 +4398,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 35,
             "itemtype": "method",
             "name": "getBoundingRectangle",
@@ -4384,7 +4432,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 69,
             "itemtype": "method",
             "name": "getDistance",
@@ -4408,7 +4456,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 83,
             "itemtype": "method",
             "name": "getLineDeviation",
@@ -4437,7 +4485,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 107,
             "getrandomint": "",
             "params": [
@@ -4460,7 +4508,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 117,
             "itemtype": "method",
             "name": "getUnixTime",
@@ -4479,7 +4527,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 130,
             "itemtype": "method",
             "name": "isCordora",
@@ -4491,7 +4539,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 140,
             "itemtype": "method",
             "name": "maskText",
@@ -4520,7 +4568,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Functions.js",
+            "file": "public_html\\js\\app\\Functions.js",
             "line": 159,
             "itemtype": "method",
             "name": "pad",
@@ -4549,7 +4597,31 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\PinyinConverter.js",
+            "file": "public_html\\js\\app\\Mauler.js",
+            "line": 9,
+            "itemtype": "method",
+            "name": "tweak",
+            "params": [
+                {
+                    "name": "bitmap",
+                    "description": "",
+                    "type": "Bitmap"
+                },
+                {
+                    "name": "bitmapId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Bitmap"
+            },
+            "class": "Mauler",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\PinyinConverter.js",
             "line": 10,
             "description": "The object that contains the direct mapping of pinyin using numbers to tone.",
             "itemtype": "property",
@@ -4559,7 +4631,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\PinyinConverter.js",
+            "file": "public_html\\js\\app\\PinyinConverter.js",
             "line": 95,
             "description": "Uses regex to and loops through the string replacing all of the matching tones with numbers.",
             "itemtype": "method",
@@ -4579,7 +4651,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\PinyinConverter.js",
+            "file": "public_html\\js\\app\\PinyinConverter.js",
             "line": 111,
             "description": "Uses regex to and loops through the string replacing all of the matching numbers with tones.",
             "itemtype": "method",
@@ -4599,7 +4671,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Recognizer.js",
+            "file": "public_html\\js\\app\\Recognizer.js",
             "line": 28,
             "itemtype": "method",
             "name": "recognize",
@@ -4611,7 +4683,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Recognizer.js",
+            "file": "public_html\\js\\app\\Recognizer.js",
             "line": 78,
             "itemtype": "method",
             "name": "getResultSet",
@@ -4623,7 +4695,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Recognizer.js",
+            "file": "public_html\\js\\app\\Recognizer.js",
             "line": 128,
             "itemtype": "method",
             "name": "checkAngle",
@@ -4642,7 +4714,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Recognizer.js",
+            "file": "public_html\\js\\app\\Recognizer.js",
             "line": 138,
             "itemtype": "method",
             "name": "checkDistance",
@@ -4661,7 +4733,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Recognizer.js",
+            "file": "public_html\\js\\app\\Recognizer.js",
             "line": 148,
             "itemtype": "method",
             "name": "checkLength",
@@ -4680,7 +4752,7 @@
             "module": "Skritter"
         },
         {
-            "file": "js\\app\\Router.js",
+            "file": "public_html\\js\\app\\Router.js",
             "line": 23,
             "itemtype": "property",
             "name": "routes",
@@ -4690,7 +4762,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\Router.js",
+            "file": "public_html\\js\\app\\Router.js",
             "line": 34,
             "itemtype": "method",
             "name": "homeView",
@@ -4699,7 +4771,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\Router.js",
+            "file": "public_html\\js\\app\\Router.js",
             "line": 44,
             "itemtype": "method",
             "name": "infoView",
@@ -4715,7 +4787,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\Router.js",
+            "file": "public_html\\js\\app\\Router.js",
             "line": 59,
             "itemtype": "method",
             "name": "logout",
@@ -4724,7 +4796,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\Router.js",
+            "file": "public_html\\js\\app\\Router.js",
             "line": 65,
             "itemtype": "method",
             "name": "loginView",
@@ -4733,7 +4805,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\Router.js",
+            "file": "public_html\\js\\app\\Router.js",
             "line": 75,
             "itemtype": "method",
             "name": "optionsView",
@@ -4742,7 +4814,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\Router.js",
+            "file": "public_html\\js\\app\\Router.js",
             "line": 85,
             "itemtype": "method",
             "name": "studyView",
@@ -4751,7 +4823,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\Router.js",
+            "file": "public_html\\js\\app\\Router.js",
             "line": 97,
             "itemtype": "method",
             "name": "initialize",
@@ -4764,7 +4836,7 @@
             "submodule": "View"
         },
         {
-            "file": "js\\app\\Scheduler.js",
+            "file": "public_html\\js\\app\\Scheduler.js",
             "line": 12,
             "itemtype": "method",
             "name": "getNewInterval",
@@ -4791,263 +4863,271 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\CanvasCharacter.js:19"
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:19"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\CanvasCharacter.js:46"
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:46"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\CanvasCharacter.js:57"
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:57"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyDecomps.js:19"
+            "line": " public_html\\js\\app\\collection\\StudyDecomps.js:19"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyDecomps.js:34"
+            "line": " public_html\\js\\app\\collection\\StudyDecomps.js:34"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyItems.js:20"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:20"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyItems.js:38"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:38"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyItems.js:86"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:85"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyItems.js:97"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:96"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyItems.js:108"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:107"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyItems.js:120"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:119"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyItems.js:141"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:140"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyItems.js:155"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:154"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyItems.js:164"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:163"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyItems.js:177"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:176"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyParams.js:21"
+            "line": " public_html\\js\\app\\collection\\StudyParams.js:21"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyReviews.js:19"
+            "line": " public_html\\js\\app\\collection\\StudyReviews.js:19"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyReviews.js:34"
+            "line": " public_html\\js\\app\\collection\\StudyReviews.js:34"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyReviews.js:47"
+            "line": " public_html\\js\\app\\collection\\StudyReviews.js:47"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyReviews.js:59"
+            "line": " public_html\\js\\app\\collection\\StudyReviews.js:59"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudySRSConfigs.js:19"
+            "line": " public_html\\js\\app\\collection\\StudySRSConfigs.js:19"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudySRSConfigs.js:34"
+            "line": " public_html\\js\\app\\collection\\StudySRSConfigs.js:34"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudySRSConfigs.js:45"
+            "line": " public_html\\js\\app\\collection\\StudySRSConfigs.js:45"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudySentences.js:19"
+            "line": " public_html\\js\\app\\collection\\StudySentences.js:19"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudySentences.js:34"
+            "line": " public_html\\js\\app\\collection\\StudySentences.js:34"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyStrokes.js:59"
+            "line": " public_html\\js\\app\\collection\\StudyStrokes.js:59"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyStrokes.js:74"
+            "line": " public_html\\js\\app\\collection\\StudyStrokes.js:74"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyVocabs.js:19"
+            "line": " public_html\\js\\app\\collection\\StudyVocabs.js:19"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\collection\\StudyVocabs.js:34"
+            "line": " public_html\\js\\app\\collection\\StudyVocabs.js:34"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\model\\CordovaAssets.js:17"
+            "line": " public_html\\js\\app\\model\\CordovaAssets.js:17"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\model\\User.js:127"
+            "line": " public_html\\js\\app\\model\\User.js:127"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\model\\User.js:149"
+            "line": " public_html\\js\\app\\model\\User.js:149"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\model\\User.js:160"
+            "line": " public_html\\js\\app\\model\\User.js:160"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\storage\\Storage.js:228"
+            "line": " public_html\\js\\app\\storage\\Storage.js:228"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\storage\\Storage.js:237"
+            "line": " public_html\\js\\app\\storage\\Storage.js:237"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\storage\\Storage.js:255"
+            "line": " public_html\\js\\app\\storage\\Storage.js:255"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\storage\\Storage.js:264"
+            "line": " public_html\\js\\app\\storage\\Storage.js:264"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\view\\component\\Facade.js:25"
+            "line": " public_html\\js\\app\\view\\component\\Facade.js:25"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\view\\component\\Facade.js:52"
+            "line": " public_html\\js\\app\\view\\component\\Facade.js:52"
         },
         {
             "message": "unknown tag: submobule",
-            "line": " js\\app\\view\\prompt\\Prompt.js:1"
+            "line": " public_html\\js\\app\\view\\prompt\\Prompt.js:1"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\view\\prompt\\PromptCanvas.js:26"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:26"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\view\\prompt\\PromptCanvas.js:37"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:37"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\view\\prompt\\PromptCanvas.js:66"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:66"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\view\\prompt\\PromptRune.js:40"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:40"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\view\\Study.js:51"
+            "line": " public_html\\js\\app\\view\\Study.js:51"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\Application.js:59"
+            "line": " public_html\\js\\app\\Application.js:83"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\Functions.js:10"
+            "line": " public_html\\js\\app\\Functions.js:10"
         },
         {
             "message": "unknown tag: getrandomint",
-            "line": " js\\app\\Functions.js:107"
+            "line": " public_html\\js\\app\\Functions.js:107"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\Functions.js:107"
+            "line": " public_html\\js\\app\\Functions.js:107"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\PinyinConverter.js:95"
+            "line": " public_html\\js\\app\\Mauler.js:9"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\PinyinConverter.js:111"
+            "line": " public_html\\js\\app\\PinyinConverter.js:95"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\Recognizer.js:28"
+            "line": " public_html\\js\\app\\PinyinConverter.js:111"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\Recognizer.js:78"
+            "line": " public_html\\js\\app\\Recognizer.js:28"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\Recognizer.js:128"
+            "line": " public_html\\js\\app\\Recognizer.js:78"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\Recognizer.js:138"
+            "line": " public_html\\js\\app\\Recognizer.js:128"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\Recognizer.js:148"
+            "line": " public_html\\js\\app\\Recognizer.js:138"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\Scheduler.js:12"
+            "line": " public_html\\js\\app\\Recognizer.js:148"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js\\app\\Shortstraw.js:6"
+            "line": " public_html\\js\\app\\Scheduler.js:12"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\Shortstraw.js:6"
         },
         {
             "message": "Missing item type",
-            "line": " js\\app\\model\\CanvasStroke.js:38"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:39"
         },
         {
             "message": "Missing item type",
-            "line": " js\\app\\model\\CanvasStroke.js:61"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:62"
         },
         {
             "message": "Missing item type",
-            "line": " js\\app\\model\\CanvasStroke.js:73"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:74"
         },
         {
             "message": "Missing item type",
-            "line": " js\\app\\model\\CanvasStroke.js:96"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:97"
         },
         {
             "message": "Missing item type",
-            "line": " js\\app\\model\\CanvasStroke.js:155"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:156"
         },
         {
             "message": "Missing item type\nGiven a CanvasCharacter this will render the image to the canvas.",
-            "line": " js\\app\\view\\prompt\\PromptCanvas.js:130"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:130"
+        },
+        {
+            "message": "Missing item type\nCreates the global Skritter namespace when the application first opened.",
+            "line": " public_html\\js\\app\\Application.js:34"
         },
         {
             "message": "Missing item type",
-            "line": " js\\app\\Functions.js:107"
+            "line": " public_html\\js\\app\\Functions.js:107"
         }
     ]
 }

@@ -13,6 +13,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "IndexedDBAdapter",
         "InfoView",
         "LoginView",
+        "Mauler",
         "OptionsView",
         "PinyinConverter",
         "Prompt",
