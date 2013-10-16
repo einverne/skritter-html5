@@ -6,6 +6,7 @@
  */
 requirejs.config({
     baseUrl: 'js/app/',
+    urlArgs: 'cb=' + Math.random(),
     main: 'Application',
     paths: {
         //directories

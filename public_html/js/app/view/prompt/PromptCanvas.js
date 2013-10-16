@@ -200,9 +200,9 @@ define([
          * @param {Function} callback
          */
         drawStroke: function(canvasStroke, callback) {
-            var strokeBitmap = canvasStroke.getUserBitmap(false);
+            var strokeBitmap = canvasStroke.getUserBitmap();
             Canvas.layerBackground.addChildAt(strokeBitmap, 0);
-            createjs.Tween.get(strokeBitmap).to(canvasStroke.getInflatedBitmap(), 500, createjs.Ease.backInOut).call(function() {
+            createjs.Tween.get(strokeBitmap).to(canvasStroke.getInflatedBitmap(), 500, createjs.Ease.backOut).call(function() {
                 if (typeof callback === 'function')
                     callback();
             });

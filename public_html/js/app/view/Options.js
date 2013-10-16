@@ -51,7 +51,6 @@ define([
          */
         save: function() {
             var lang = Skritter.user.get('settings').targetLang;
-            console.log(lang);
             if (lang === 'zh') {
 		lang = 'chineseStudyParts';
 	    } else {
@@ -66,6 +65,7 @@ define([
             Skritter.user.setSetting('animationSpeed', this.$('#animation-speed').val()/100);
             Skritter.user.setSetting('orderStrictness', this.$('#order-strictness').val()/100);
             Skritter.user.setSetting('squigs', this.$('#raw-squigs').prop('checked'));
+            Skritter.user.cache();
         }
     });
     

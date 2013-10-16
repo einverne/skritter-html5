@@ -15,10 +15,11 @@
  * 
  */
 define([
+    'Mauler',
     'Shortstraw',
     'backbone',
     'createjs.easel'
-], function(Shortstraw) {
+], function(Mauler, Shortstraw) {
     /**
      * @class CanvasStroke
      */
@@ -162,20 +163,14 @@ define([
         },
         /**
          * @method getUserBitmap
-         * @param {Boolean} scale
          * @return {Bitmap}
          */
-        getUserBitmap: function(scale) {
-            var bitmap = this.get('bitmap').clone();
+        getUserBitmap: function() {
+            var bitmap = this.getInflatedBitmap();
             var rect = this.getRectangle();
             bitmap.x = rect.x;
             bitmap.y = rect.y;
-            if (scale) {
-                var data = this.getInflatedData();
-                bitmap.scaleX = data.scaleX;
-                bitmap.scaleY = data.scaleY;
-            }
-            return bitmap;
+            return Mauler.tweak(bitmap, this.get('bitmapId'));
         }
 
     });

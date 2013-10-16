@@ -60,7 +60,6 @@ define([
                     spawner: true
                 }
             ];
-
             Skritter.async.waterfall([
                 function(callback) {
                     Skritter.api.requestBatch(requests, function(result) {
@@ -171,7 +170,7 @@ define([
             var items = this.filterActive();
             items = items.filterBy('part', Skritter.user.getStudyParts());
             //items = items.filterBy('part', ['tone']);
-            //items = items.filterBy('id', ['mcfarljwtest1-zh-人民币-0-tone']);
+            //items = items.filterBy('id', ['mcfarljwtest1-zh-处-0-rune']);
             return items.at(Skritter.fn.getRandomInt(0, items.length-1));
         },
         /**

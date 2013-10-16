@@ -26,10 +26,15 @@ define([
         },
         events: {
             'click.Login #back-button': 'goBack',
-            'click.Login #login-button': 'login'
+            'click.Login #login-button': 'login',
+            'keyup.Login #password': 'handleEnter' 
         },
         goBack: function() {
             document.location.hash = '';
+        },
+        handleEnter: function(event) {
+            if (event.keyCode === 13)
+                this.login();
         },
         login: function() {
             var self = this;
