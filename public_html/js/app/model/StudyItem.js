@@ -56,7 +56,7 @@ define([
             var contained = this.getVocabs()[0].get('containedVocabIds');
             for (var i in contained)
             {
-                var id = Skritter.user.id + '-' + contained[i] + '-' + this.get('part');
+                var id = Skritter.user.get('user_id') + '-' + contained[i] + '-' + this.get('part');
                 var item = Skritter.study.items.findWhere({id: id});
                 if (item)
                     items.push(item);

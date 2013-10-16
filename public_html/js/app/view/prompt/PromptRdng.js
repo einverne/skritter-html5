@@ -25,12 +25,16 @@ define([
             return this;
         },
         handleClick: function() {
-            Rdng.finished = true;
+            Prompt.finished = true;
             this.showGrading();
             this.showAnswer();
         },
         handleGradeSelected: function(selected) {
-            Rdng.grade = selected;
+            Prompt.grade = selected;
+            this.triggerPromptComplete();
+        },
+        next: function() {
+            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             this.triggerPromptComplete();
         },
         showAnswer: function() {

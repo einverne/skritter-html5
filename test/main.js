@@ -16,6 +16,7 @@ require.config({
         'createjs.preload': '../lib/createjs.preloadjs-0.4.0.min',
         'createjs.sound': '../lib/createjs.soundjs-0.5.0.min',
         'createjs.tween': '../lib/createjs.tweenjs-0.5.0.min',
+        'indexeddb.shim': '../lib/indexeddb.shim-0.1.2.min',
         jquery: '../lib/jquery-1.10.2.min',
         'jquery.hammer': '../lib/jquery.hammerjs-1.0.5.min',
         'jquery.indexeddb': '../lib/jquery.indexeddb',

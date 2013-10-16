@@ -22,6 +22,7 @@ define([
             TimerView.offset = 0;
             TimerView.reviewTime = 0;
             TimerView.reviewLimit = 30;
+            TimerView.startTime = 0;
             TimerView.thinkingTime = 0;
             TimerView.thinkingLimit = 15;
         },
@@ -60,6 +61,9 @@ define([
                 return TimerView.reviewLimit / 1000;
             return time / 1000;
         },
+        getStartTime: function() {
+            return TimerView.startTime;
+        },
         getThinkingTime: function() {
             var time = TimerView.lapStop - TimerView.lapStart;
             if (time >= TimerView.thinkingLimit)
@@ -88,6 +92,7 @@ define([
             }
             if (TimerView.lap !== TimerView.reviewLimit) {
                 TimerView.timer = window.setInterval(_.bind(this.update, this), 10);
+                TimerView.startTime = Skritter.fn.getUnixTime();
                 TimerView.stopwatch.start();
             }
         },

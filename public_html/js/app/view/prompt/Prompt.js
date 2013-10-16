@@ -1,6 +1,7 @@
 /**
  * @module Skritter
  * @submobule Prompt
+ * @param GradingButtons
  * @author Joshua McFarland
  */
 define([
@@ -22,9 +23,23 @@ define([
                 3: '#70da70',
                 4: '#4097d3'
             };
+            Prompt.gradeColorFilters = {
+                1: new createjs.ColorFilter(0,0,0,1, 230,142,142,1),
+                2: new createjs.ColorFilter(0,0,0,1, 217,87,87,1),
+                3: new createjs.ColorFilter(0,0,0,1, 112,218,112,1),
+                4: new createjs.ColorFilter(0,0,0,1, 112,218,112,1)
+            };
             Prompt.position = 1;
             Prompt.results = [];
             Prompt.vocabs = null;
+        },
+        pushResult: function(grade, reviewTime, startTime, thinkingTime) {
+            Prompt.results.push({
+                grade: grade,
+                reviewTime: reviewTime,
+                startTime: startTime,
+                thinkingTime: thinkingTime
+            });
         },
         set: function(item, vocabs) {
             Prompt.definition = vocabs[0].get('definitions')[Skritter.user.get('settings').sourceLang];

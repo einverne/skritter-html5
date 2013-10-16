@@ -5,7 +5,7 @@
  * @param Recognizer
  * @param CanvasCharacter
  * @param CanvasStroke
- * @param GradingButtons
+ * @param Prompt
  * @param Canvas
  * @param templateTone
  * @author Joshua McFarland
@@ -62,17 +62,8 @@ define([
         handleCharacterComplete: function() {
             Prompt.finished = true;
             this.showAnswer();
-            //checks if we should snap or just glow the result
-            if (Skritter.user.get('settings').squigs) {
-                for (var i in Tone.userCharacter.models)
-                {
-                    var stroke = Tone.userCharacter.models[i];
-                    Tone.canvas.drawStroke(stroke);
-                }
-                Tone.canvas.glowCharacter(Tone.userTargets[0], Prompt.gradeColors[Prompt.grade]);
-            } else {
-                Tone.canvas.glowCharacter(Tone.userTargets[0], Prompt.gradeColors[Prompt.grade]);
-            }
+            //if multiple possible tone answers then display the one drawn
+            Tone.canvas.applyBackgroundGlow(Tone.userCharacter.at(0).getInflatedBitmap(), Prompt.gradeColors[Prompt.grade]);
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);
         },
@@ -121,6 +112,7 @@ define([
         },
         next: function() {
             console.log('next', Prompt.position, Prompt.vocabs[0].getCharacterCount());
+            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             Prompt.position++;
             //check to see if there are more characters in the prompt
             if (Prompt.position <= Prompt.vocabs[0].getCharacterCount()) {
@@ -149,7 +141,7 @@ define([
             Tone.canvas.drawCharacter(Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'rune')[0], 0.3);
             Tone.canvas.enableInput();
             this.$('#writing').html(Prompt.writing);
-            this.$('#reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
+            this.$('#reading').html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1)));
             this.$('#definition').text(Prompt.definition);
             this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
             this.listenToOnce(Tone.canvas, 'mouseup', this.handleInputRecieved);

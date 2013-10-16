@@ -1,6 +1,7 @@
 /**
  * @module Skritter
  * @submodule View
+ * @param StudyReview
  * @param PromptRune
  * @param PromptTone
  * @param PromptDefn
@@ -9,13 +10,15 @@
  * @author Joshua McFarland
  */
 define([
+    'Scheduler',
+    'model/StudyReview',
     'prompt/PromptRune',
     'prompt/PromptTone',
     'prompt/PromptDefn',
     'prompt/PromptRdng',
     'require.text!template/study.html',
     'backbone'
-], function(PromptRune, PromptTone, PromptDefn, PromptRdng, templateStudy) {
+], function(Scheduler, StudyReview, PromptRune, PromptTone, PromptDefn, PromptRdng, templateStudy) {
     /**
      * @class StudyView
      */
@@ -45,7 +48,8 @@ define([
         /**
          * @method handlePromptComplete
          */
-        handlePromptComplete: function() {
+        handlePromptComplete: function(results) {
+            this.updateItems(results);
             this.next();
         },
         /**
@@ -89,6 +93,72 @@ define([
          */
         resize: function() {
             //todo
+        },
+        /**
+         * @method updateItems
+         * @param {Object} results
+         */
+        updateItems: function(results) {
+            var reviews = [];
+            //handles rune and tone reviews that contain multiple items
+            if (results.length > 1) {
+                var contained = Study.c.item.getContained();
+                //loop through the contained items and create reviews for them too
+                for (var i in results) {
+                    var subItem = contained[i];
+                    var result = results[i];
+                    reviews.push({
+                        itemId: subItem.get('id'),
+                        score: parseInt(result.grade),
+                        bearTime: false,
+                        submitTime: result.startTime,
+                        reviewTime: result.reviewTime,
+                        thinkingTime: result.thinkingTime,
+                        currentInterval: subItem.get('interval'),
+                        actualInterval: result.startTime - subItem.get('last'),
+                        newInterval: new Scheduler().getNewInterval(subItem, result.grade),
+                        wordGroup: Study.c.vocabs[0].get('writing') + '_' + results[0].startTime,
+                        previousInterval: subItem.get('previousInterval'),
+                        previousSuccess: subItem.get('previousSuccess')
+                    });                   
+                }
+            }
+            //calculate the total results for the entire item
+            var finalGrade = 0;
+            var total = 0;
+            var totalReviewTime = 0;
+            var totalThinkingTime = 0;
+            var wrongCount = 0;
+            for (i in results) {
+                total += parseInt(results[i].grade);
+                totalReviewTime += results[i].reviewTime;
+                totalThinkingTime += results[i].thinkingTime;
+                if (parseInt(results[i].grade) === 1)
+                    wrongCount++;
+            }
+            //adjust the grade for multiple character items or get rounded down average
+            if (Study.c.vocabs[0].getCharacterCount() === 2 && wrongCount === 1) {
+                finalGrade = 1;
+            } else if (wrongCount >= 2) {
+                finalGrade = 1;
+            } else {
+                finalGrade = Math.floor(total / results.length);
+            }
+            reviews.push(new StudyReview({
+                itemId: Study.c.item.get('id'),
+                score: parseInt(finalGrade),
+                bearTime: true,
+                submitTime: results[0].startTime,
+                reviewTime: totalReviewTime,
+                thinkingTime: totalThinkingTime,
+                currentInterval: Study.c.item.get('interval'),
+                actualInterval: results[0].startTime - Study.c.item.get('last'),
+                newInterval: new Scheduler().getNewInterval(subItem, result.grade),
+                wordGroup: Study.c.vocabs[0].get('writing') + '_' + results[0].startTime,
+                previousInterval: Study.c.item.get('previousInterval'),
+                previousSuccess: Study.c.item.get('previousSuccess')
+            }));
+            console.log(reviews);
         }
     });
 

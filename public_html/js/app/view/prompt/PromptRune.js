@@ -5,7 +5,7 @@
  * @param Recognizer
  * @param CanvasCharacter
  * @param CanvasStroke
- * @param GradingButtons
+ * @param Prompt
  * @param Canvas
  * @param templateRune
  * @author Joshua McFarland
@@ -90,7 +90,6 @@ define([
                     Rune.failedAttempts++;
                     //if failed too many times show a hint
                     if (Rune.failedAttempts > Rune.maxFailedAttempts) {
-                        console.log('hinting');
                         Prompt.grade = 1;
                         Rune.canvas.drawPhantomStroke(this.getNextStroke());
                     }
@@ -98,6 +97,10 @@ define([
             }
         },
         handleCharacterComplete: function() {
+            //catches callbacks firing at the same time with people writing quickly
+            //otherwise it's possible a character can complete twice
+            if (Prompt.finished === true)
+                return;
             Prompt.finished = true;
             this.showAnswer();
             //checks if we should snap or just glow the result
@@ -107,9 +110,9 @@ define([
                     var stroke = Rune.userCharacter.models[i];
                     Rune.canvas.drawStroke(stroke);
                 }
-                Rune.canvas.glowCharacter(Rune.userTargets[0], Prompt.gradeColors[Prompt.grade]);
+                Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterBitmap(), Prompt.gradeColors[Prompt.grade]);
             } else {
-                Rune.canvas.glowCharacter(Rune.userTargets[0], Prompt.gradeColors[Prompt.grade]);
+                Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterBitmap(), Prompt.gradeColors[Prompt.grade]);
             }
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);
@@ -131,7 +134,7 @@ define([
         },
         handleStrokeComplete: function() {
             //check if the character has been completed yet or not
-            if (Rune.userCharacter.getStrokeCount() > this.getTargetStrokeCount()) {
+            if (Rune.userCharacter.getStrokeCount() >= this.getTargetStrokeCount()) {
                 this.handleCharacterComplete();
             }
         },
@@ -156,10 +159,11 @@ define([
                     strokeCount = Rune.userTargets[a].getStrokeCount();
                 }
             }
-            return strokeCount - 1;
+            return strokeCount;
         },
         next: function() {
             console.log('next', Prompt.position, Prompt.vocabs[0].getCharacterCount());
+            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             Prompt.position++;
             //check to see if there are more characters in the prompt
             if (Prompt.position <= Prompt.vocabs[0].getCharacterCount()) {
@@ -180,7 +184,6 @@ define([
             Skritter.timer.stop();
             Rune.canvas.disableInput();
             this.$('#writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            console.log(Prompt.position, Prompt.vocabs[0].getCharacterCount());
             if (Prompt.position >= Prompt.vocabs[0].getCharacterCount())
                 this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence));
         },

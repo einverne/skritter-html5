@@ -80,6 +80,25 @@ define([
             createjs.Ticker.addEventListener('tick', this.tick);
             return this;
         },
+        /**
+         * @method applyBackgroundColorFilter
+         * @param {ColorFilter} filter
+         */
+        applyBackgroundColorFilter: function(filter) {
+            Canvas.layerBackground.filters = [filter];
+            Canvas.layerBackground.cache(0, 0, Canvas.size, Canvas.size);
+        },
+        /**
+         * @method applyBackgroundGlow
+         * @param {CanvasCharacter} bitmap
+         * @param {String} color
+         */
+        applyBackgroundGlow: function(bitmap, color) {
+	    bitmap.alpha = 0.4;
+	    bitmap.shadow = new createjs.Shadow(color, 5, 5, 0);
+            Canvas.layerBackground.addChildAt(bitmap, 0);
+	    createjs.Tween.get(bitmap, {loop: true}).to({alpha: 0.7}, 1500).wait(1000).to({alpha:0.4}, 1500).wait(1000);
+	},
         clear: function() {
             Canvas.layerBackground.removeAllChildren();
             Canvas.layerMessage.removeAllChildren();
@@ -270,18 +289,6 @@ define([
 		    Canvas.layerOverlay.alpha = 1.0;
 		});
 	    }
-	},
-        /**
-         * @method glowCharacter
-         * @param {CanvasCharacter} character
-         * @param {String} color
-         */
-        glowCharacter: function(character, color) {
-	    var bitmap = character.getCharacterBitmap();
-	    bitmap.alpha = 0.4;
-	    bitmap.shadow = new createjs.Shadow(color, 5, 5, 0);
-	    createjs.Tween.get(bitmap, {loop: true}).to({alpha: 0.7}, 1500).wait(1000).to({alpha:0.4}, 1500).wait(1000);
-	    Canvas.layerBackground.addChildAt(bitmap, 0);
 	},
         /**
          * @method resize
