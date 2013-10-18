@@ -31,7 +31,7 @@ define([
         },
         handleGradeSelected: function(selected) {
             Prompt.grade = selected;
-            this.triggerPromptComplete();
+            this.next();
         },
         next: function() {
             this.pushResult(Prompt.item.get('id'), Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());

@@ -167,6 +167,9 @@ define([
             Prompt.position++;
             //check to see if there are more characters in the prompt
             if (Prompt.position <= Prompt.vocabs[0].getCharacterCount()) {
+                //reset the item for a new character
+                Rune.failedAttempts = 0;
+                Prompt.grade = 3;
                 Prompt.finished = false;
                 //clear the canvas for the new character
                 this.clear();

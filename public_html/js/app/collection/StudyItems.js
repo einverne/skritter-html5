@@ -168,9 +168,9 @@ define([
          */
         getRandom: function() {
             var items = this.filterActive();
-            items = items.filterBy('part', Skritter.user.getStudyParts());
+            //items = items.filterBy('part', Skritter.user.getStudyParts());
             //items = items.filterBy('part', ['rune']);
-            items = items.filterBy('id', ['mcfarljwtest1-zh-工人-0-rune']);
+            //items = items.filterBy('id', ['mcfarljwtest1-zh-工人-0-rune']);
             return items.at(Skritter.fn.getRandomInt(0, items.length-1));
         },
         /**

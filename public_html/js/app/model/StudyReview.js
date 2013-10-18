@@ -27,6 +27,7 @@ define([
     var StudyReview = Backbone.Model.extend({
         initialize: function() {
             this.on('change', this.cache);
+            this.cache();
         },
         /**
          * @method cache
@@ -34,7 +35,6 @@ define([
          */
         cache: function(callback) {
             Skritter.storage.setItem('reviews', this.toJSON(), function() {
-                console.log('review added');
                 if (typeof callback === 'function')
                     callback();
             });

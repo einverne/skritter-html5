@@ -1,6 +1,7 @@
 /**
  * @module Skritter
  * @submodule View
+ * @param Scheduler
  * @param StudyReview
  * @param PromptRune
  * @param PromptTone
@@ -36,7 +37,7 @@ define([
             this.$('#items-due').text(Skritter.study.items.getItemsDue());
             Skritter.timer.setElement(this.$('#timer')).render();
             this.next();
-            
+
             return this;
         },
         /**
@@ -77,14 +78,13 @@ define([
                     Study.c.prompt.setElement(this.$('#prompt-container')).render();
                     break;
             }
-            
             Study.c.prompt.set(Study.c.item, Study.c.vocabs).showHidden();
             this.listenToOnce(Study.c.prompt, 'complete', this.handlePromptComplete);
             return Study.c;
         },
         /**
          * @method showInfo
-         */ 
+         */
         showInfo: function() {
             document.location.hash = 'info/' + Study.c.vocabs[0].get('id');
         },
@@ -99,15 +99,18 @@ define([
          * @param {Object} results
          */
         updateItems: function(results) {
+            console.log(results);
             var reviews = [];
             //handles rune and tone reviews that contain multiple items
             if (results.length > 1) {
                 var contained = Study.c.item.getContained();
+                var subReview;
                 //loop through the contained items and create reviews for them too
                 for (var i in results) {
                     var subItem = contained[i];
                     var result = results[i];
-                    reviews.push({
+                    //first we need to update the reviews
+                    subReview = new StudyReview({
                         itemId: subItem.get('id'),
                         score: parseInt(result.grade),
                         bearTime: false,
@@ -116,11 +119,22 @@ define([
                         thinkingTime: result.thinkingTime,
                         currentInterval: subItem.get('interval'),
                         actualInterval: result.startTime - subItem.get('last'),
-                        newInterval: new Scheduler().getNewInterval(subItem, result.grade),
+                        newInterval: new Scheduler().getInterval(subItem, result.grade),
                         wordGroup: Study.c.vocabs[0].get('writing') + '_' + results[0].startTime,
                         previousInterval: subItem.get('previousInterval'),
                         previousSuccess: subItem.get('previousSuccess')
-                    });                   
+                    });
+                    //next we need to update the item
+                    subItem.set({
+                        last: result.startTime,
+                        next: result.startTime + subReview.get('newInterval'),
+                        interval: subReview.get('newInterval'),
+                        previousInterval: subItem.get('interval'),
+                        previousSuccess: (subItem.get('grade') > 1) ? true : false,
+                        reviews: subItem.get('reviews') + 1,
+                        successes: (result.grade > 1) ? subItem.get('successes') + 1 : subItem.get('successes')
+                    });
+                    reviews.push(subReview);
                 }
             }
             //calculate the total results for the entire item
@@ -144,7 +158,7 @@ define([
             } else {
                 finalGrade = Math.floor(total / results.length);
             }
-            reviews.push(new StudyReview({
+            var review = new StudyReview({
                 itemId: Study.c.item.get('id'),
                 score: parseInt(finalGrade),
                 bearTime: true,
@@ -153,12 +167,23 @@ define([
                 thinkingTime: totalThinkingTime,
                 currentInterval: Study.c.item.get('interval'),
                 actualInterval: results[0].startTime - Study.c.item.get('last'),
-                newInterval: new Scheduler().getNewInterval(subItem, result.grade),
+                newInterval: new Scheduler().getInterval(Study.c.item, finalGrade),
                 wordGroup: Study.c.vocabs[0].get('writing') + '_' + results[0].startTime,
                 previousInterval: Study.c.item.get('previousInterval'),
                 previousSuccess: Study.c.item.get('previousSuccess')
-            }));
+            });
+            Study.c.item.set({
+                last: results[0].startTime,
+                next: results[0].startTime + review.get('newInterval'),
+                interval: review.get('newInterval'),
+                previousInterval: Study.c.item.get('interval'),
+                previousSuccess: (Study.c.item.get('grade') > 1) ? true : false,
+                reviews: Study.c.item.get('reviews') + 1,
+                successes: (results[0].grade > 1) ? Study.c.item.get('successes') + 1 : Study.c.item.get('successes')
+            });
+            reviews.push(review);
             console.log(reviews);
+            Skritter.study.reviews.add(reviews);
         }
     });
 

@@ -41,7 +41,6 @@ define([
          * @param {Function} callback
          */
         cache: function(callback) {
-            this.set('modified', Skritter.fn.getUnixTime());
             Skritter.storage.setItem('items', this.toJSON(), function() {
                 if (typeof callback === 'function')
                     callback();
