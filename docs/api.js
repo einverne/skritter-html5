@@ -24,7 +24,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "PromptTone",
         "Recognizer",
         "Router",
-        "SQLiteAdapter",
         "Scheduler",
         "Settings",
         "Shortstraw",
@@ -46,10 +45,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "StudyView",
         "StudyVocab",
         "StudyVocabs",
+        "Timer",
         "User"
     ],
     "modules": [
         "Collection",
+        "Component",
         "Facade",
         "Model",
         "Prompt",
@@ -61,6 +62,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Collection",
             "name": "Collection"
+        },
+        {
+            "displayName": "Component",
+            "name": "Component"
         },
         {
             "displayName": "Facade",

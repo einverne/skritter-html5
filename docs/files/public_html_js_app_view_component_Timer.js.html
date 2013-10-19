@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\app\view\Home.js - skritter-html5</title>
+    <title>public_html\js\app\view\component\Timer.js - skritter-html5</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -65,6 +65,8 @@
             
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
             
+                <li><a href="../classes/Mauler.html">Mauler</a></li>
+            
                 <li><a href="../classes/OptionsView.html">OptionsView</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
@@ -90,8 +92,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
             
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
@@ -129,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -136,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -184,51 +188,216 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\app\view\Home.js</h1>
+                        <h1 class="file-heading">File: public_html\js\app\view\component\Timer.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
  * @module Skritter
- * @submodule View
- * @param templateHomeIn
- * @param templateHomeOut
+ * @submodule Component
+ * @param Stopwatch
  * @author Joshua McFarland
  */
 define([
-    &#x27;require.text!template/home-in.html&#x27;,
-    &#x27;require.text!template/home-out.html&#x27;,
+    &#x27;Stopwatch&#x27;,
     &#x27;backbone&#x27;
-], function(templateHomeIn, templateHomeOut) {
+], function(Stopwatch) {
     /**
-     * @class HomeView
+     * @class Timer
      */
-    var Home = Backbone.View.extend({
+    var TimerView = Backbone.View.extend({
         initialize: function() {
-
+            TimerView.stopwatch = new Stopwatch();
+            TimerView.time = 1;
+            TimerView.timer = null;
+            TimerView.display = &#x27;0:00&#x27;;
+            TimerView.lap = null;
+            TimerView.lapStart = 0;
+            TimerView.lapStop = 0;
+            TimerView.offset = 0;
+            TimerView.reviewTime = 0;
+            TimerView.reviewLimit = 30;
+            TimerView.startTime = 0;
+            TimerView.thinkingTime = 0;
+            TimerView.thinkingLimit = 15;
         },
         /**
          * @method render
-         * @return {HomeView}
+         * @return {Timer}
          */
         render: function() {
-            if (Skritter.user.isLoggedIn()) {
-                this.$el.html(templateHomeIn);
+            //get the current time and apply the offset
+            var time = TimerView.stopwatch.time();
+            time += TimerView.offset + 1000;
+
+            //break the time into units for display
+            var h = 0;
+            var m = 0;
+            var s = 0;
+            var ms = 0;
+            h = Math.floor(time / (Math.pow(60, 2) * 1000));
+            time = time % (Math.pow(60, 2) * 1000);
+            m = Math.floor(time / (60 * 1000));
+            time = time % (60 * 1000);
+            s = Math.floor(time / 1000);
+            ms = time % 1000;
+
+            //change the display for hours if needed
+            if (h &gt; 0) {
+                this.$el.html(h + &#x27;:&#x27; + Skritter.fn.pad(m, 0, 2) + &#x27;:&#x27; + Skritter.fn.pad(s, 0, 2));
             } else {
-                this.$el.html(templateHomeOut);
+                this.$el.html(m + &#x27;:&#x27; + Skritter.fn.pad(s, 0, 2));
             }
-            this.$(&#x27;#application-name&#x27;).text(&#x27;Skritter&#x27;);
+
             return this;
         },
         /**
-         * @property {Object} events
+         * Returns the current time displayed on the timer.
+         * 
+         * @method getTime
+         * @return {Number}
          */
-        events: {
+        getTime: function() {
+            return TimerView.stopwatch.time();
+        },
+        /**
+         * Returns the review time for the current lap.
+         * 
+         * @method getReviewTime
+         * @return {Number}
+         */
+        getReviewTime: function() {
+            var time = TimerView.lapStop - TimerView.lapStart;
+            if (time &gt;= TimerView.reviewLimit)
+                return TimerView.reviewLimit / 1000;
+            return time / 1000;
+        },
+        /**
+         * Returns the time that the current lap was started at.
+         * 
+         * @method getStartTime
+         * @return {Number}
+         */
+        getStartTime: function() {
+            return TimerView.startTime;
+        },
+        /**
+         * Returns the thinking time for the current lap.
+         * 
+         * @method getThinkingTime
+         * @return {Number}
+         */
+        getThinkingTime: function() {
+            var time = TimerView.lapStop - TimerView.lapStart;
+            if (time &gt;= TimerView.thinkingLimit)
+                return TimerView.thinkingLimit / 1000;
+            return time / 1000;
+        },
+        /**
+         * Stops the timer but maintains the current lap. This is useful if the user opens the info tab or
+         * if they leave the study page.
+         * 
+         * @method pause
+         */
+        pause: function() {
+            window.clearInterval(TimerView.timer);
+            TimerView.lapStop = new Date().getTime();
+            TimerView.stopwatch.stop();
+        },
+        /**
+         * Sets the review limit for the current lap.
+         * 
+         * @method setReviewLimit
+         * @param {Number} milliseconds
+         */
+        setReviewLimit: function(milliseconds) {
+            TimerView.reviewLimit = milliseconds;
+        },
+        /**
+         * Sets the thinking limit for the current lap.
+         * 
+         * @method setThinkingLimit
+         * @param {number} milliseconds
+         */
+        setThinkingLimit: function(milliseconds) {
+            TimerView.thinkingLimit = milliseconds;
+        },
+        /**
+         * Directly set the offset for the timer. This is a bit redundant and probably won&#x27;t be directly needed.
+         * 
+         * @method setOffset
+         * @param {Number} offsetBy
+         */
+        setOffset: function(offsetBy) {
+            TimerView.offset = offsetBy * 1000;
+        },
+        /**
+         * Starts the timer if the lap limit hasn&#x27;t been reached yet.
+         * 
+         * @method start
+         */
+        start: function() {
+            //console.log(&#x27;START&#x27;, TimerView.lap);
+            if (!TimerView.lap) {
+                TimerView.lap = 1000;
+                TimerView.lapStart = new Date().getTime();
+            }
+            if (TimerView.lap !== TimerView.reviewLimit) {
+                TimerView.timer = window.setInterval(_.bind(this.update, this), 10);
+                TimerView.startTime = Skritter.fn.getUnixTime();
+                TimerView.stopwatch.start();
+            }
+        },
+        /**
+         * Stops the timer from running and resets the current lap.
+         * 
+         * @method stop
+         */
+        stop: function() {
+            TimerView.lap = null;
+            TimerView.lapStop = new Date().getTime();
+            window.clearInterval(TimerView.timer);
+            TimerView.stopwatch.stop();
+        },
+        /**
+         * Updates the offset based on the gathered total study time for the day.
+         * 
+         * @method sync
+         * @param {Boolean} includeServer
+         */
+        sync: function(includeServer) {
+            TimerView.offset = Skritter.study.reviews.getTime();
+            if (includeServer) {
+                Skritter.api.getProgressStats({
+                    start: Skritter.settings.get(&#x27;date&#x27;)
+                }, function(data) {
+                    TimerView.offset += data[0].timeStudied.day * 1000;
+                });
+            }
+        },
+        /**
+         * Bound to setInterval when the timer is running, but only allows render to be called
+         * if a full second has passed.
+         * 
+         * @method update
+         */
+        update: function() {
+            var time = TimerView.stopwatch.time();
+            var seconds = Math.floor(time / 1000);
+            //only check and update things when a full second has elapsed
+            if (TimerView.time !== seconds) {
+                TimerView.time = seconds;
+                if (TimerView.lap &gt;= TimerView.reviewLimit) {
+                    this.pause();
+                } else {
+                    TimerView.lap += 1000;
+                }
+                this.render();
+            }
         }
     });
 
-
-    return Home;
+    return TimerView;
 });
     </pre>
 </div>

@@ -93,8 +93,6 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
-            
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
@@ -131,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -138,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -197,7 +199,7 @@
  * @param Recognizer
  * @param CanvasCharacter
  * @param CanvasStroke
- * @param GradingButtons
+ * @param Prompt
  * @param Canvas
  * @param templateTone
  * @author Joshua McFarland
@@ -254,17 +256,8 @@ define([
         handleCharacterComplete: function() {
             Prompt.finished = true;
             this.showAnswer();
-            //checks if we should snap or just glow the result
-            if (Skritter.user.get(&#x27;settings&#x27;).squigs) {
-                for (var i in Tone.userCharacter.models)
-                {
-                    var stroke = Tone.userCharacter.models[i];
-                    Tone.canvas.drawStroke(stroke);
-                }
-                Tone.canvas.glowCharacter(Tone.userTargets[0], Prompt.gradeColors[Prompt.grade]);
-            } else {
-                Tone.canvas.glowCharacter(Tone.userTargets[0], Prompt.gradeColors[Prompt.grade]);
-            }
+            //if multiple possible tone answers then display the one drawn
+            Tone.canvas.applyBackgroundGlow(Tone.userCharacter.at(0).getInflatedBitmap(), Prompt.gradeColors[Prompt.grade]);
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);
         },
@@ -313,9 +306,12 @@ define([
         },
         next: function() {
             console.log(&#x27;next&#x27;, Prompt.position, Prompt.vocabs[0].getCharacterCount());
+            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             Prompt.position++;
             //check to see if there are more characters in the prompt
             if (Prompt.position &lt;= Prompt.vocabs[0].getCharacterCount()) {
+                //reset the item for a new character
+                Prompt.grade = 3;
                 Prompt.finished = false;
                 //clear the canvas for the new character
                 this.clear();
@@ -341,8 +337,9 @@ define([
             Tone.canvas.drawCharacter(Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, &#x27;rune&#x27;)[0], 0.3);
             Tone.canvas.enableInput();
             this.$(&#x27;#writing&#x27;).html(Prompt.writing);
-            this.$(&#x27;#reading&#x27;).html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
+            this.$(&#x27;#reading&#x27;).html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1)));
             this.$(&#x27;#definition&#x27;).text(Prompt.definition);
+            this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, &#x27; _ &#x27;));
             this.listenToOnce(Tone.canvas, &#x27;mouseup&#x27;, this.handleInputRecieved);
         }

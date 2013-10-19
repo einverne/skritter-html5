@@ -93,8 +93,6 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
-            
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
@@ -131,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -138,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -383,36 +385,6 @@ define(function() {
                 vocabs.createIndex(&#x27;heisigDefinition&#x27;, &#x27;heisigDefinition&#x27;);
                 vocabs.createIndex(&#x27;sentenceId&#x27;, &#x27;sentenceId&#x27;);
                 vocabs.createIndex(&#x27;topMnemonic&#x27;, &#x27;topMnemonic&#x27;);
-            }
-        };
-        this.schemaSQLite = {
-            decomps: {
-                keys: [&#x27;writing&#x27;],
-                fields: [&#x27;atomic&#x27;, &#x27;Children&#x27;]
-            },
-            items: {
-                keys: [&#x27;id&#x27;],
-                fields: [&#x27;part&#x27;, &#x27;vocabIds&#x27;, &#x27;style&#x27;, &#x27;timeStudied&#x27;, &#x27;next&#x27;, &#x27;last&#x27;, &#x27;interval&#x27;, &#x27;vocabListIds&#x27;, &#x27;sectionIds&#x27;, &#x27;reviews&#x27;, &#x27;successes&#x27;, &#x27;created&#x27;, &#x27;changed&#x27;, &#x27;previousSuccess&#x27;, &#x27;previousInterval&#x27;]
-            },
-            reviews: {
-                keys: [&#x27;itemId&#x27;, &#x27;submitTime&#x27;],
-                fields: [&#x27;score&#x27;, &#x27;bearTime&#x27;, &#x27;reviewTime&#x27;, &#x27;thinkingTime&#x27;, &#x27;currentInterval&#x27;, &#x27;actualInterval&#x27;, &#x27;newInterval&#x27;, &#x27;wordGroup&#x27;, &#x27;previousInterval&#x27;, &#x27;previousSuccess&#x27;]
-            },
-            sentences: {
-                keys: [&#x27;id&#x27;],
-                fields: [&#x27;containedVocabIds&#x27;, &#x27;definitions&#x27;, &#x27;lang&#x27;, &#x27;reading&#x27;, &#x27;starred&#x27;, &#x27;style&#x27;, &#x27;toughness&#x27;, &#x27;toughnessString&#x27;, &#x27;writing&#x27;]
-            },
-            srsconfigs: {
-                keys: [&#x27;part&#x27;, &#x27;lang&#x27;],
-                fields: [&#x27;initialRightInterval&#x27;, &#x27;initialWrongInterval&#x27;, &#x27;rightFactors&#x27;, &#x27;wrongFactors&#x27;]
-            },
-            strokes: {
-                keys: [&#x27;rune&#x27;],
-                fields: [&#x27;lang&#x27;, &#x27;strokes&#x27;]
-            },
-            vocabs: {
-                keys: [&#x27;id&#x27;],
-                fields: [&#x27;writing&#x27;, &#x27;reading&#x27;, &#x27;definitions&#x27;, &#x27;customDefinitions&#x27;, &#x27;lang&#x27;, &#x27;audio&#x27;, &#x27;rareKanji&#x27;, &#x27;toughness&#x27;, &#x27;toughnessString&#x27;, &#x27;mnemonic&#x27;, &#x27;starred&#x27;, &#x27;style&#x27;, &#x27;changed&#x27;, &#x27;bannedParts&#x27;, &#x27;containedVocabIds&#x27;, &#x27;heisigDefinition&#x27;, &#x27;sentenceId&#x27;, &#x27;topMnemonic&#x27;]
             }
         };
     }

@@ -93,8 +93,6 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
-            
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
@@ -131,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -138,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -212,8 +214,8 @@ define([
 	
 	//set the scaled threshold values
 	this.angleThreshold = 30;
-	this.distanceThreshold = 150; //todo: add in this value
-	this.lengthThreshold = 250; //todo: add in this value
+	this.distanceThreshold = 150 * (Skritter.settings.get(&#x27;canvasSize&#x27;) / 600);
+	this.lengthThreshold = 250 * (Skritter.settings.get(&#x27;canvasSize&#x27;) / 600);
 	this.orderStrictness = 0;
     }
     
@@ -294,6 +296,7 @@ define([
 		    
 		    var scores = {
 			angle: this.checkAngle(param),
+                        corners: this.checkCorners(param),
 			distance: this.checkDistance(param),
 			length: this.checkLength(param)
 		    };
@@ -325,6 +328,16 @@ define([
     Recognizer.prototype.checkAngle = function(param) {
 	var score = Math.abs(this.stroke.getAngle() - param.getAngle());
 	return score;
+    };
+    
+    /**
+     * @method checkCorners
+     * @param {StudyParam} param
+     * @returns {Number}
+     */
+    Recognizer.prototype.checkCorners = function(param) {
+        var cornerPenalty = 50;
+        return Math.abs(param.get(&#x27;corners&#x27;).length - this.stroke.get(&#x27;corners&#x27;).length) * cornerPenalty;
     };
     
     /**

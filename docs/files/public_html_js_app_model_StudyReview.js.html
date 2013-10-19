@@ -93,8 +93,6 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
-            
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
@@ -131,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -138,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -219,6 +221,7 @@ define([
     var StudyReview = Backbone.Model.extend({
         initialize: function() {
             this.on(&#x27;change&#x27;, this.cache);
+            this.cache();
         },
         /**
          * @method cache
@@ -226,7 +229,6 @@ define([
          */
         cache: function(callback) {
             Skritter.storage.setItem(&#x27;reviews&#x27;, this.toJSON(), function() {
-                console.log(&#x27;review added&#x27;);
                 if (typeof callback === &#x27;function&#x27;)
                     callback();
             });

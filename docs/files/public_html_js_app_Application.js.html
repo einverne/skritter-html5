@@ -93,8 +93,6 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
-            
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
@@ -131,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -138,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -203,7 +205,6 @@
  * @param Settings
  * @param User
  * @param IndexedDBAdapter
- * @param SQLiteAdapter
  * @param Async
  * @author Joshua McFarland
  */
@@ -218,11 +219,10 @@ define([
     &#x27;model/Settings&#x27;,
     &#x27;model/User&#x27;,
     &#x27;storage/IndexedDBAdapter&#x27;,
-    &#x27;storage/SQLiteAdapter&#x27;,
     &#x27;async&#x27;,
     &#x27;bootstrap&#x27;,
     &#x27;jquery&#x27;
-], function(Api, Functions, Router, Facade, Timer, Assets, CordovaAssets, Settings, User, IndexedDBAdapter, SQLiteAdapter, Async) {
+], function(Api, Functions, Router, Facade, Timer, Assets, CordovaAssets, Settings, User, IndexedDBAdapter, Async) {
     /**
      * Creates the global Skritter namespace when the application first opened.
      * @param Skritter
@@ -262,11 +262,7 @@ define([
          * @param {Function} callback
          */
         loadAssets: function(callback) {
-            if (Skritter.fn.isCordova()) {
-                Skritter.assets = new CordovaAssets();
-            } else {
-                Skritter.assets = new Assets();
-            }
+            Skritter.assets = new Assets();
             Skritter.assets.once(&#x27;complete&#x27;, function() {
                 callback();
             });
@@ -312,19 +308,18 @@ define([
          * @param {Function} callback
          */
         loadStorage: function(callback) {
-            if (Skritter.fn.isCordova()) {
-                Skritter.storage = new SQLiteAdapter();
-            } else {
-                Skritter.storage = new IndexedDBAdapter();
-            }
+            Skritter.storage = new IndexedDBAdapter();
             callback();
         },
         /**
+         * Loads the timer and attempts to pull the current study time for the day from the server.
+         * 
          * @method loadTimer
          * @param {Function} callback
          */
         loadTimer: function(callback) {
             Skritter.timer = new Timer();
+            Skritter.timer.sync(true);
             callback();
         },
         /**
@@ -364,8 +359,8 @@ define([
                 Skritter.async.apply(this.loadSettings),
                 Skritter.async.apply(this.loadStorage),
                 Skritter.async.apply(this.loadApi),
-                Skritter.async.apply(this.loadTimer),
                 Skritter.async.apply(this.loadUser),
+                Skritter.async.apply(this.loadTimer),
                 Skritter.async.apply(this.loadRouter)
             ], function() {
                 Skritter.facade.hide();
@@ -391,11 +386,7 @@ define([
     //initializes the application once the dom is ready or device is ready
     $(document).ready(function() {
         Skritter.application = application;
-        if (window.cordova || window.PhoneGap || window.phonegap) {
-            document.addEventListener(&#x27;deviceready&#x27;, Skritter.application.initialize, false);
-        } else {
-            Skritter.application.initialize();
-        }
+        Skritter.application.initialize();
     });
 });
     </pre>

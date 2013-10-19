@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\app\view\Login.js - skritter-html5</title>
+    <title>Component - skritter-html5</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -65,6 +65,8 @@
             
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
             
+                <li><a href="../classes/Mauler.html">Mauler</a></li>
+            
                 <li><a href="../classes/OptionsView.html">OptionsView</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
@@ -90,8 +92,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
             
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
@@ -129,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -136,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -184,81 +188,49 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\app\view\Login.js</h1>
+                        <h1>Component Module</h1>
+<div class="box clearfix meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
- * @module Skritter
- * @submodule View
- * @param templateLogin
- * @author Joshua McFarland
- */
-define([
-    &#x27;require.text!template/login.html&#x27;,
-    &#x27;backbone&#x27;
-], function(templateLogin) {
-    /**
-     * @class LoginView
-     */
-    var Login = Backbone.View.extend({
-        initialize: function() {
+    
 
-        },
-        /**
-         * @method render
-         * @return {LoginView}
-         */
-        render: function() {
-            this.$el.html(templateLogin);
-            this.$(&#x27;#login-view&#x27;).show(Skritter.settings.get(&#x27;transitionSpeed&#x27;));
-            return this;
-        },
-        events: {
-            &#x27;click.Login #back-button&#x27;: &#x27;goBack&#x27;,
-            &#x27;click.Login #login-button&#x27;: &#x27;login&#x27;
-        },
-        goBack: function() {
-            document.location.hash = &#x27;&#x27;;
-        },
-        login: function() {
-            var self = this;
-            var username = this.$(&#x27;#username&#x27;).val();
-            var password = this.$(&#x27;#password&#x27;).val();
+    
+        <div class="foundat">
+            Defined in: <a href="../files/public_html_js_app_view_component_Timer.js.html#l11"><code>public_html\js\app\view\component\Timer.js:11</code></a>
+        </div>
+    
+
+    
+</div>
+
+
+
+<div class="box intro">
+    
+</div>
+
+
+
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+        
+            <p>This module provides the following classes:</p>
+
+            <ul class="module-classes">
             
-            if (!username || username === &#x27;&#x27; || !password || password === &#x27;&#x27;) {
-                self.showErrorMessage(&#x27;Username and password cannot be blank&#x27;);
-                return;
-            }
-            Skritter.facade.show(&#x27;logging in&#x27;);
-            Skritter.user.login(username, password, function(response) {
-                if (response.statusCode !== 200) {
-                    Skritter.facade.hide();
-                    self.showErrorMessage(response.message);
-                } else {
-                    Skritter.application.reload(function() {
-                        Skritter.facade.hide();
-                        document.location.hash = &#x27;&#x27;;
-                    });
-                }
-            });
-        },
-        /**
-         * @method showErrorMessage
-         * @param {String} text
-         */
-        showErrorMessage: function(text) {
-            this.$(&#x27;.error-message&#x27;).html(&quot;&lt;div class=&#x27;alert alert-warning&#x27;&gt;&quot; +
-                    &quot;&lt;button type=&#x27;button&#x27; class=&#x27;close&#x27; data-dismiss=&#x27;alert&#x27;&gt;&amp;times;&lt;/button&gt;&quot; +
-                    text +
-                    &quot;&lt;/div&gt;&quot;);
-        }
-    });
+                <li class="module-class">
+                    <a href="../classes/Timer.html">
+                        Timer
+                    </a>
+                </li>
+            
+            </ul>
+        
+    </div>
 
-
-    return Login;
-});
-    </pre>
+    <div class="yui3-u-1-2">
+        
+    </div>
 </div>
 
                     </div>

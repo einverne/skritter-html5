@@ -93,8 +93,6 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
-            
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
@@ -131,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -138,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -361,8 +363,8 @@ define([
         getRandom: function() {
             var items = this.filterActive();
             items = items.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
-            //items = items.filterBy(&#x27;part&#x27;, [&#x27;tone&#x27;]);
-            //items = items.filterBy(&#x27;id&#x27;, [&#x27;mcfarljwtest1-zh-处-0-rune&#x27;]);
+            //items = items.filterBy(&#x27;part&#x27;, [&#x27;rune&#x27;]);
+            //items = items.filterBy(&#x27;id&#x27;, [&#x27;mcfarljwtest1-zh-工人-0-rune&#x27;]);
             return items.at(Skritter.fn.getRandomInt(0, items.length-1));
         },
         /**
@@ -372,7 +374,7 @@ define([
         getStudy: function() {
             var items = this.filterActive();
             //return items.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
-            return items.filterBy(&#x27;id&#x27;, [&#x27;mcfarljwtest1-zh-现代-0-rune&#x27;]);
+            return items.filterBy(&#x27;id&#x27;, [&#x27;mcfarljwtest1-zh-工人-0-rune&#x27;]);
             //return items.filterBy(&#x27;parts&#x27;, [&#x27;rune&#x27;]);
         }
     });

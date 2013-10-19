@@ -93,8 +93,6 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
-            
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
@@ -131,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -138,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -193,6 +195,7 @@
 /**
  * @module Skritter
  * @submobule Prompt
+ * @param GradingButtons
  * @author Joshua McFarland
  */
 define([
@@ -214,9 +217,23 @@ define([
                 3: &#x27;#70da70&#x27;,
                 4: &#x27;#4097d3&#x27;
             };
+            Prompt.gradeColorFilters = {
+                1: new createjs.ColorFilter(0,0,0,1, 230,142,142,1),
+                2: new createjs.ColorFilter(0,0,0,1, 217,87,87,1),
+                3: new createjs.ColorFilter(0,0,0,1, 112,218,112,1),
+                4: new createjs.ColorFilter(0,0,0,1, 112,218,112,1)
+            };
             Prompt.position = 1;
             Prompt.results = [];
             Prompt.vocabs = null;
+        },
+        pushResult: function(grade, reviewTime, startTime, thinkingTime) {
+            Prompt.results.push({
+                grade: grade,
+                reviewTime: reviewTime,
+                startTime: startTime,
+                thinkingTime: thinkingTime
+            });
         },
         set: function(item, vocabs) {
             Prompt.definition = vocabs[0].get(&#x27;definitions&#x27;)[Skritter.user.get(&#x27;settings&#x27;).sourceLang];

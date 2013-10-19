@@ -93,8 +93,6 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
-            
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
@@ -131,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -138,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -196,138 +198,116 @@
  */
 define(function() {
     /**
+     * A group of functions that can be used for scheduling items.
+     * 
      * @class Scheduler
-     * @constructor
      */
-    function Scheduler() {}
-    
+    function Scheduler() {
+        this.config = Skritter.study.srsconfigs;
+    }
+
     /**
-     * @method getNewInterval
+     * Returns a calculated interval based on the grade and other details about the item.
+     * 
+     * @method getInterval
      * @param {StudyItem} item
      * @param {Number} grade
      * @returns {Number}
      */
-    Scheduler.prototype.getNewInterval = function(item, grade) {
-	function getInitialInterval(item, score, config) {
-	    var interval;
-	    var initialRight = config.get(&#x27;initialRightInterval&#x27;);
-	    var initialWrong = config.get(&#x27;initialWrongInterval&#x27;);
+    Scheduler.prototype.getInterval = function(item, grade) {
+        console.log(&#x27;SCHEDULING&#x27;, item, grade);
+        var config = this.config.findWhere({lang: Skritter.user.getSetting(&#x27;targetLang&#x27;), part: item.get(&#x27;part&#x27;)});
+        var newInterval;
+        var getRandomizedInterval = function(interval) {
+            return Math.round(interval * (0.925 + (Math.random() * 0.15)));
+        };
 
-	    if (!item.has(&#x27;last&#x27;)) {
-		switch (score)
-		{
-		    case 1:
-			interval = initialWrong;
-			break;
-		    case 2:
-			interval = initialRight / 5;
-			break;
-		    case 3:
-			interval = initialRight;
-			break;
-		    case 4:
-			interval = initialRight * 4;
-			break;
-		}
-		return interval;
-	    }
+        //return new items with randomized default config values
+        if (!item.has(&#x27;last&#x27;)) {
+            switch (grade) {
+                case 1:
+                    newInterval = config.get(&#x27;initialWrongInterval&#x27;);
+                    break;
+                case 2:
+                    newInterval = config.get(&#x27;initialRightInterval&#x27;) / 5;
+                    break;
+                case 3:
+                    newInterval = config.get(&#x27;initialRightInterval&#x27;);
+                    break;
+                case 4:
+                    newInterval = config.get(&#x27;initialRightInterval&#x27; * 4);
+                    break;
+            }
+            return getRandomizedInterval(newInterval);
+        }
 
-	    switch (score)
-	    {
-		case 2:
-		    interval = 0.9;
-		    break;
-		case 4:
-		    interval = 3.5;
-		    break;
-	    }
+        //set values for further calculations
+        var actualInterval = Skritter.fn.getUnixTime() - item.get(&#x27;last&#x27;);
+        var factor;
+        var pctRight = item.get(&#x27;successes&#x27;) / item.get(&#x27;reviews&#x27;);
+        var scheduledInterval = item.get(&#x27;next&#x27;) - item.get(&#x27;last&#x27;);
 
-	    return interval;
-	}
-	
-	function getFactor(item, score, config) {
-	    var factorsList = (score === 1) ? config.get(&#x27;wrongFactors&#x27;) : config.get(&#x27;rightFactors&#x27;);
-	    var divisions = [2, 1200, 18000, 691200];
-	    var index;
-	    for (var i in divisions)
-	    {
-		if (item.get(&#x27;interval&#x27;) &gt; divisions[i]) {
-		    index = i;
-		}
-	    }
-	    return factorsList[index];
-	}
-	
-	function getBoundInterval(interval, score) {
-	    if (score === 1) {
-		if (interval &gt; 604800) {
-		    interval = 604800;
-		} else if (interval &lt; 30) {
-		    interval = 30;
-		}
-	    } else {
-		if (interval &gt; 315569260) {
-		    interval = 315569260;
-		} else if (score === 2 &amp;&amp; interval &lt; 300) {
-		    interval = 300;
-		} else if (interval &lt; 30) {
-		    interval = 30;
-		}
-	    }
-	    return interval;
-	}
-	
-	function getRandomizedInterval(interval) {
-	    return Math.round(interval * (0.925 + (Math.random() * 0.15)));
-	}
-	
-	var config = this.config = Skritter.study.srsconfigs.findWhere({part: item.get(&#x27;part&#x27;)});
-	var score = parseInt(grade, 10);
-	var reviews = item.get(&#x27;reviews&#x27;);
-	var successes = item.get(&#x27;successes&#x27;);
-	var interval = getInitialInterval(item, score, config);
-	var current_time = Skritter.fn.getUnixTime();
-        var new_interval;
+        //get the factor 
+        if (grade === 2) {
+            factor = 0.9;
+        } else if (grade === 4) {
+            factor = 3.5;
+        } else {
+            var factorsList = (grade === 1) ? config.get(&#x27;wrongFactors&#x27;) : config.get(&#x27;rightFactors&#x27;);
+            var divisions = [2, 1200, 18000, 691200];
+            var index;
+            for (var i in divisions)
+            {
+                if (item.get(&#x27;interval&#x27;) &gt; divisions[i]) {
+                    index = i;
+                }
+            }
+            factor = factorsList[index];
+        }
 
-	if (!item.has(&#x27;last&#x27;)) {
-	    new_interval = getBoundInterval(getRandomizedInterval(interval));
-	    //console.log(&#x27;New Item Interval:&#x27;, new_interval);
-	    return new_interval;
-	}
+        //adjust the factor based on readiness
+        if (grade &gt; 2) {
+            factor -= 1;
+            factor *= actualInterval / scheduledInterval;
+            factor += 1;
+        }
 
-	var actual_interval = current_time - item.get(&#x27;last&#x27;);
-	var scheduled_interval = item.get(&#x27;next&#x27;) - item.get(&#x27;last&#x27;);
-	var ratio = actual_interval / scheduled_interval;
-	var factor = getFactor(item, score, config);
-	//console.log(&#x27;Actual:&#x27;, actual_interval);
-	//console.log(&#x27;Scheduled:&#x27;, scheduled_interval);
-	//console.log(&#x27;Ratio:&#x27;,  ratio);
-	//console.log(&#x27;Factor:&#x27;, factor);
-	//adjust the factor
-	if (score &gt; 2) {
-	    factor -= 1;
-	    factor *= ratio;
-	    factor += 1;
-	}
+        //accelerate new items that appear to be known
+        if (item.get(&#x27;successes&#x27;) === item.get(&#x27;reviews&#x27;) &amp;&amp; item.get(&#x27;reviews&#x27;) &lt; 5) {
+            factor *= 1.5;
+        }
 
-	//accelerate new known items
-	if (successes === reviews &amp;&amp; reviews &lt; 5) {
-	    factor *= 1.5;
-	}
+        //decelerate hard items consistently marked wrong
+        if (item.get(&#x27;reviews&#x27;) &gt; 8) {
+            if (pctRight &lt; 0.5)
+                factor *= Math.pow(pctRight, 0.7);
+        }
 
-	//decelerate hard items
-	if (reviews &gt; 8) {
-	    var pct_right = successes / reviews;
-	    if (pct_right &lt; 0.5)
-		factor *= Math.pow(pct_right, 0.7);
-	}
+        console.log(&#x27;FACTOR&#x27;, factor);
 
-	//calculate, randomize and bound new interval
-	new_interval = getBoundInterval(getRandomizedInterval(actual_interval * factor));
-	//console.log(&#x27;New Interval:&#x27;, new_interval);
-	return new_interval;
+        //multiple by the factor and randomize the interval
+        newInterval = getRandomizedInterval(item.get(&#x27;interval&#x27;) * factor);
+
+        //bound the interval
+        if (grade === 1) {
+            if (newInterval &gt; 604800) {
+                newInterval = 604800;
+            } else if (newInterval &lt; 30) {
+                newInterval = 30;
+            }
+        } else {
+            if (newInterval &gt; 315569260) {
+                newInterval = 315569260;
+            } else if (grade === 2 &amp;&amp; newInterval &lt; 300) {
+                newInterval = 300;
+            } else if (newInterval &lt; 30) {
+                newInterval = 30;
+            }
+        }
+        console.log(newInterval);
+        return newInterval;
     };
-    
+
 
     return Scheduler;
 });

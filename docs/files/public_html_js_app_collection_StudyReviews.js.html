@@ -93,8 +93,6 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
-            
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
@@ -131,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -138,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -211,7 +213,6 @@ define([
         /**
          * @method cache
          * @param {Function} callback
-         * @returns {undefined}
          */
         cache: function(callback) {
             if (this.length === 0) {
@@ -224,23 +225,23 @@ define([
             });
         },
         /**
+         * Returns the total time of all local reviews thats haven&#x27;t been submitted in milliseconds.
+         * 
          * @method getTime
-         * @returns {Number} The total time of all reviews
+         * @returns {Number} Time in milliseconds
          */
         getTime: function() {
             var time = 0;
             for (var i in this.models) {
                 var review = this.models[i];
                 if (review.get(&#x27;bearTime&#x27;))
-                    time += review.get(&#x27;reviewTime&#x27;);
+                    time += parseInt(review.get(&#x27;reviewTime&#x27;), 10);
             }
-            return time;
+            return time * 1000;
         },
         /**
-         * @async
          * @method loadAll
          * @param {Function} callback
-         * @returns {undefined}
          */
         loadAll: function(callback) {
             Skritter.storage.getItems(&#x27;reviews&#x27;, function(reviews) {
@@ -251,7 +252,6 @@ define([
         /**
          * @method save
          * @param {Function} callback
-         * @returns {undefined}
          */
         save: function(callback) {
             Skritter.api.postReviews(this.toJSON(), function(event) {

@@ -93,8 +93,6 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/SQLiteAdapter.html">SQLiteAdapter</a></li>
-            
                 <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
@@ -131,6 +129,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
                 <li><a href="../classes/User.html">User</a></li>
             
             </ul>
@@ -138,6 +138,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
             
                 <li><a href="../modules/Facade.html">Facade</a></li>
             
@@ -197,7 +199,7 @@
  * @param Recognizer
  * @param CanvasCharacter
  * @param CanvasStroke
- * @param GradingButtons
+ * @param Prompt
  * @param Canvas
  * @param templateRune
  * @author Joshua McFarland
@@ -250,6 +252,8 @@ define([
             Rune.userCharacter = new CanvasCharacter();
         },
         /**
+         * Handles the points returned when the user is finished with a stroke.
+         * 
          * @method handleInputRecieved
          * @param {Array} points
          */
@@ -282,7 +286,6 @@ define([
                     Rune.failedAttempts++;
                     //if failed too many times show a hint
                     if (Rune.failedAttempts &gt; Rune.maxFailedAttempts) {
-                        console.log(&#x27;hinting&#x27;);
                         Prompt.grade = 1;
                         Rune.canvas.drawPhantomStroke(this.getNextStroke());
                     }
@@ -290,6 +293,10 @@ define([
             }
         },
         handleCharacterComplete: function() {
+            //catches callbacks firing at the same time with people writing quickly
+            //otherwise it&#x27;s possible a character can complete twice
+            if (Prompt.finished === true)
+                return;
             Prompt.finished = true;
             this.showAnswer();
             //checks if we should snap or just glow the result
@@ -299,9 +306,9 @@ define([
                     var stroke = Rune.userCharacter.models[i];
                     Rune.canvas.drawStroke(stroke);
                 }
-                Rune.canvas.glowCharacter(Rune.userTargets[0], Prompt.gradeColors[Prompt.grade]);
+                Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterBitmap(), Prompt.gradeColors[Prompt.grade]);
             } else {
-                Rune.canvas.glowCharacter(Rune.userTargets[0], Prompt.gradeColors[Prompt.grade]);
+                Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterBitmap(), Prompt.gradeColors[Prompt.grade]);
             }
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);
@@ -323,7 +330,7 @@ define([
         },
         handleStrokeComplete: function() {
             //check if the character has been completed yet or not
-            if (Rune.userCharacter.getStrokeCount() &gt; this.getTargetStrokeCount()) {
+            if (Rune.userCharacter.getStrokeCount() &gt;= this.getTargetStrokeCount()) {
                 this.handleCharacterComplete();
             }
         },
@@ -333,13 +340,28 @@ define([
                 this.next();
             }
         },
+        /**
+         * Returns the next stroke in the character based on the order it should be written.
+         * 
+         * @method getNextStroke
+         * @returns {CanvasStroke}
+         */
         getNextStroke: function() {
-            //todo: make this handle strokes with alternatives
-            //right now it&#x27;s just using the first target
-            var target = Rune.userTargets[0];
-            var stroke = target.at(Rune.userCharacter.length);
-            return stroke;
+            for (var i in Rune.userTargets) {
+                var target = Rune.userTargets[i];
+                for (var s in target.models) {
+                    var stroke = target.models[s];
+                    if (!Rune.userCharacter.containsStroke(stroke))
+                        return stroke;
+                }
+            }
         },
+        /**
+         * Returns the stroke highest possible stroke count out of all of the targets.
+         * 
+         * @method getTargetStrokeCount
+         * @returns {Number}
+         */
         getTargetStrokeCount: function() {
             var strokeCount = 0;
             for (var a in Rune.userTargets)
@@ -348,13 +370,17 @@ define([
                     strokeCount = Rune.userTargets[a].getStrokeCount();
                 }
             }
-            return strokeCount - 1;
+            return strokeCount;
         },
         next: function() {
             console.log(&#x27;next&#x27;, Prompt.position, Prompt.vocabs[0].getCharacterCount());
+            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             Prompt.position++;
             //check to see if there are more characters in the prompt
             if (Prompt.position &lt;= Prompt.vocabs[0].getCharacterCount()) {
+                //reset the item for a new character
+                Rune.failedAttempts = 0;
+                Prompt.grade = 3;
                 Prompt.finished = false;
                 //clear the canvas for the new character
                 this.clear();
@@ -372,7 +398,6 @@ define([
             Skritter.timer.stop();
             Rune.canvas.disableInput();
             this.$(&#x27;#writing&#x27;).html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            console.log(Prompt.position, Prompt.vocabs[0].getCharacterCount());
             if (Prompt.position &gt;= Prompt.vocabs[0].getCharacterCount())
                 this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence));
         },
@@ -385,6 +410,7 @@ define([
             this.$(&#x27;#writing&#x27;).html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position - 1));
             this.$(&#x27;#reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));
             this.$(&#x27;#definition&#x27;).text(Prompt.definition);
+            this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, &#x27; _ &#x27;));
         }
     });

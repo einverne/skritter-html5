@@ -26,6 +26,8 @@ require.text!template/login.html
 js/app/view/Login.js
 require.text!template/options.html
 js/app/view/Options.js
+js/app/Scheduler.js
+js/app/model/StudyReview.js
 js/app/Recognizer.js
 js/app/Mauler.js
 js/app/Shortstraw.js
@@ -59,8 +61,6 @@ js/app/model/CordovaAssets.js
 js/app/model/Settings.js
 js/app/model/StudyDecomp.js
 js/app/collection/StudyDecomps.js
-js/app/Scheduler.js
-js/app/model/StudyReview.js
 js/app/model/StudyItem.js
 js/app/collection/StudyItems.js
 js/app/Params.js
@@ -80,7 +80,6 @@ js/app/storage/Storage.js
 js/lib/jquery.indexeddb.js
 js/lib/indexeddb.shim-0.1.2.min.js
 js/app/storage/IndexedDBAdapter.js
-js/app/storage/SQLiteAdapter.js
 js/lib/async.js
 js/lib/bootstrap-3.0.0.min.js
 js/app/Application.js

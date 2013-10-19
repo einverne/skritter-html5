@@ -218,15 +218,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "public_html\\js\\app\\storage\\SQLiteAdapter.js": {
-            "name": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
-            "modules": {},
-            "classes": {
-                "SQLiteAdapter": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "public_html\\js\\app\\storage\\Storage.js": {
             "name": "public_html\\js\\app\\storage\\Storage.js",
             "modules": {},
@@ -243,6 +234,17 @@
             },
             "classes": {
                 "Facade": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "public_html\\js\\app\\view\\component\\Timer.js": {
+            "name": "public_html\\js\\app\\view\\component\\Timer.js",
+            "modules": {
+                "Component": 1
+            },
+            "classes": {
+                "Timer": 1
             },
             "fors": {},
             "namespaces": {}
@@ -449,6 +451,7 @@
                 "Model": 1,
                 "Storage": 1,
                 "Facade": 1,
+                "Component": 1,
                 "Prompt": 1,
                 "View": 1
             },
@@ -475,9 +478,9 @@
                 "StudyVocab": 1,
                 "User": 1,
                 "IndexedDBAdapter": 1,
-                "SQLiteAdapter": 1,
                 "Storage": 1,
                 "Facade": 1,
+                "Timer": 1,
                 "Prompt": 1,
                 "PromptCanvas": 1,
                 "PromptDefn": 1,
@@ -568,6 +571,10 @@
             "author": "Joshua McFarland",
             "params": [
                 {
+                    "name": "Mauler",
+                    "description": ""
+                },
+                {
                     "name": "Shortstraw",
                     "description": ""
                 }
@@ -578,7 +585,6 @@
             "submodules": {},
             "classes": {
                 "IndexedDBAdapter": 1,
-                "SQLiteAdapter": 1,
                 "Storage": 1
             },
             "fors": {},
@@ -610,6 +616,27 @@
             "namespace": "",
             "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 9,
+            "author": "Joshua McFarland"
+        },
+        "Component": {
+            "name": "Component",
+            "submodules": {},
+            "classes": {
+                "Timer": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "Skritter",
+            "namespace": "",
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 11,
+            "params": [
+                {
+                    "name": "Stopwatch",
+                    "description": ""
+                }
+            ],
             "author": "Joshua McFarland"
         },
         "Prompt": {
@@ -648,7 +675,7 @@
                     "description": ""
                 },
                 {
-                    "name": "GradingButtons",
+                    "name": "Prompt",
                     "description": ""
                 },
                 {
@@ -845,7 +872,7 @@
             "submodule": "Model",
             "namespace": "",
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 23
+            "line": 24
         },
         "CordovaAssets": {
             "name": "CordovaAssets",
@@ -1004,22 +1031,6 @@
             "extends": "Storage",
             "is_constructor": 1
         },
-        "SQLiteAdapter": {
-            "name": "SQLiteAdapter",
-            "shortname": "SQLiteAdapter",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "Skritter",
-            "submodule": "Storage",
-            "namespace": "",
-            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
-            "line": 11,
-            "extends": "Storage",
-            "is_constructor": 1
-        },
         "Storage": {
             "name": "Storage",
             "shortname": "Storage",
@@ -1050,6 +1061,20 @@
             "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 9
         },
+        "Timer": {
+            "name": "Timer",
+            "shortname": "Timer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Skritter",
+            "submodule": "Component",
+            "namespace": "",
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 11
+        },
         "Prompt": {
             "name": "Prompt",
             "shortname": "Prompt",
@@ -1061,7 +1086,7 @@
             "module": "Skritter",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\prompt\\Prompt.js",
-            "line": 10
+            "line": 11
         },
         "PromptCanvas": {
             "name": "PromptCanvas",
@@ -1200,7 +1225,7 @@
             "submodule": "View",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 19
+            "line": 23
         },
         "Api": {
             "name": "Api",
@@ -1340,7 +1365,7 @@
             "namespace": "",
             "file": "public_html\\js\\app\\Scheduler.js",
             "line": 6,
-            "is_constructor": 1
+            "description": "A group of functions that can be used for scheduling items."
         },
         "Shortstraw": {
             "name": "Shortstraw",
@@ -1720,21 +1745,18 @@
                     "type": "Function"
                 }
             ],
-            "return": {
-                "description": "",
-                "type": "Undefined"
-            },
             "class": "StudyReviews",
             "module": "Skritter",
             "submodule": "Collection"
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyReviews.js",
-            "line": 34,
+            "line": 33,
+            "description": "Returns the total time of all local reviews thats haven't been submitted in milliseconds.",
             "itemtype": "method",
             "name": "getTime",
             "return": {
-                "description": "The total time of all reviews",
+                "description": "Time in milliseconds",
                 "type": "Number"
             },
             "class": "StudyReviews",
@@ -1743,8 +1765,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyReviews.js",
-            "line": 47,
-            "async": 1,
+            "line": 48,
             "itemtype": "method",
             "name": "loadAll",
             "params": [
@@ -1754,17 +1775,13 @@
                     "type": "Function"
                 }
             ],
-            "return": {
-                "description": "",
-                "type": "Undefined"
-            },
             "class": "StudyReviews",
             "module": "Skritter",
             "submodule": "Collection"
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyReviews.js",
-            "line": 59,
+            "line": 58,
             "itemtype": "method",
             "name": "save",
             "params": [
@@ -1774,10 +1791,6 @@
                     "type": "Function"
                 }
             ],
-            "return": {
-                "description": "",
-                "type": "Undefined"
-            },
             "class": "StudyReviews",
             "module": "Skritter",
             "submodule": "Collection"
@@ -2072,7 +2085,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 32,
+            "line": 33,
             "itemtype": "method",
             "name": "getAngle",
             "return": {
@@ -2085,7 +2098,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 39,
+            "line": 40,
             "return": {
                 "description": "",
                 "type": "Array"
@@ -2096,7 +2109,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 62,
+            "line": 63,
             "return": {
                 "description": "",
                 "type": "Number"
@@ -2107,7 +2120,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 74,
+            "line": 75,
             "return": {
                 "description": "",
                 "type": "Unresolved"
@@ -2118,7 +2131,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 97,
+            "line": 98,
             "return": {
                 "description": "",
                 "type": "_L20.Anonym$0.getInflatedData.Anonym$1"
@@ -2129,7 +2142,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 116,
+            "line": 117,
             "itemtype": "method",
             "name": "getInflatedParams",
             "return": {
@@ -2142,7 +2155,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 148,
+            "line": 149,
             "itemtype": "method",
             "name": "getRectangle",
             "return": {
@@ -2155,7 +2168,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 156,
+            "line": 157,
             "return": {
                 "description": "",
                 "type": "@exp;Skritter@pro;fn@call;getBoundingRectangle"
@@ -2166,7 +2179,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 164,
+            "line": 165,
             "itemtype": "method",
             "name": "getUserBitmap",
             "return": {
@@ -2230,7 +2243,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyItem.js",
-            "line": 50,
+            "line": 49,
             "itemtype": "method",
             "name": "getContained",
             "return": {
@@ -2243,7 +2256,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyItem.js",
-            "line": 66,
+            "line": 65,
             "itemtype": "method",
             "name": "getReadiness",
             "params": [
@@ -2268,7 +2281,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyItem.js",
-            "line": 118,
+            "line": 117,
             "itemtype": "method",
             "name": "getVocabs",
             "return": {
@@ -2281,7 +2294,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyItem.js",
-            "line": 130,
+            "line": 129,
             "itemtype": "method",
             "name": "isActive",
             "return": {
@@ -2294,7 +2307,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyItem.js",
-            "line": 139,
+            "line": 138,
             "itemtype": "method",
             "name": "play",
             "return": {
@@ -2307,7 +2320,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyItem.js",
-            "line": 147,
+            "line": 146,
             "itemtype": "method",
             "name": "spawnReview",
             "params": [
@@ -2391,7 +2404,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyReview.js",
-            "line": 31,
+            "line": 32,
             "itemtype": "method",
             "name": "cache",
             "params": [
@@ -3051,196 +3064,8 @@
             "submodule": "Storage"
         },
         {
-            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
-            "line": 21,
-            "itemtype": "method",
-            "name": "clear",
-            "params": [
-                {
-                    "name": "callback",
-                    "description": "Returns once the table or tables have been cleared",
-                    "type": "Function"
-                },
-                {
-                    "name": "tableName",
-                    "description": "An options parameter to clear a specific table",
-                    "type": "String"
-                }
-            ],
-            "class": "SQLiteAdapter",
-            "module": "Skritter",
-            "submodule": "Storage"
-        },
-        {
-            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
-            "line": 71,
-            "itemtype": "method",
-            "name": "deleteDatabase",
-            "params": [
-                {
-                    "name": "callback",
-                    "description": "Returns once the open database has been successfully deleted",
-                    "type": "Function"
-                }
-            ],
-            "class": "SQLiteAdapter",
-            "module": "Skritter",
-            "submodule": "Storage"
-        },
-        {
-            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
-            "line": 91,
-            "itemtype": "method",
-            "name": "getItem",
-            "params": [
-                {
-                    "name": "tableName",
-                    "description": "The name of the table",
-                    "type": "String"
-                },
-                {
-                    "name": "key",
-                    "description": "The primary key or keys",
-                    "type": "String"
-                },
-                {
-                    "name": "callback",
-                    "description": "Returns a single row as an object",
-                    "type": "Function"
-                }
-            ],
-            "class": "SQLiteAdapter",
-            "module": "Skritter",
-            "submodule": "Storage"
-        },
-        {
-            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
-            "line": 101,
-            "itemtype": "method",
-            "name": "getItems",
-            "params": [
-                {
-                    "name": "tableName",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "callback",
-                    "description": "",
-                    "type": "Function"
-                },
-                {
-                    "name": "keys",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "class": "SQLiteAdapter",
-            "module": "Skritter",
-            "submodule": "Storage"
-        },
-        {
-            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
-            "line": 162,
-            "itemtype": "method",
-            "name": "openDatabase",
-            "params": [
-                {
-                    "name": "databaseName",
-                    "description": "The name of the database",
-                    "type": "String"
-                },
-                {
-                    "name": "callback",
-                    "description": "Returns the successfully created database object",
-                    "type": "Function"
-                }
-            ],
-            "class": "SQLiteAdapter",
-            "module": "Skritter",
-            "submodule": "Storage"
-        },
-        {
-            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
-            "line": 192,
-            "itemtype": "method",
-            "name": "removeItem",
-            "params": [
-                {
-                    "name": "tableName",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "key",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "callback",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "class": "SQLiteAdapter",
-            "module": "Skritter",
-            "submodule": "Storage"
-        },
-        {
-            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
-            "line": 202,
-            "itemtype": "method",
-            "name": "setItem",
-            "params": [
-                {
-                    "name": "tableName",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "item",
-                    "description": "An object to be saved or updated",
-                    "type": "Object"
-                },
-                {
-                    "name": "callback",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "class": "SQLiteAdapter",
-            "module": "Skritter",
-            "submodule": "Storage"
-        },
-        {
-            "file": "public_html\\js\\app\\storage\\SQLiteAdapter.js",
-            "line": 247,
-            "itemtype": "method",
-            "name": "setItems",
-            "params": [
-                {
-                    "name": "tableName",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "items",
-                    "description": "An array of item objects",
-                    "type": "Array"
-                },
-                {
-                    "name": "callback",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "class": "SQLiteAdapter",
-            "module": "Skritter",
-            "submodule": "Storage"
-        },
-        {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 228,
+            "line": 198,
             "itemtype": "method",
             "name": "getTable",
             "params": [
@@ -3260,7 +3085,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 237,
+            "line": 207,
             "itemtype": "method",
             "name": "getTableFieldNames",
             "params": [
@@ -3285,7 +3110,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 255,
+            "line": 225,
             "itemtype": "method",
             "name": "getTableKeys",
             "params": [
@@ -3305,7 +3130,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 264,
+            "line": 234,
             "itemtype": "method",
             "name": "getTableNames",
             "return": {
@@ -3399,6 +3224,183 @@
             "submodule": "Facade"
         },
         {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 30,
+            "itemtype": "method",
+            "name": "render",
+            "return": {
+                "description": "",
+                "type": "Timer"
+            },
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 60,
+            "description": "Returns the current time displayed on the timer.",
+            "itemtype": "method",
+            "name": "getTime",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 69,
+            "description": "Returns the review time for the current lap.",
+            "itemtype": "method",
+            "name": "getReviewTime",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 81,
+            "description": "Returns the time that the current lap was started at.",
+            "itemtype": "method",
+            "name": "getStartTime",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 90,
+            "description": "Returns the thinking time for the current lap.",
+            "itemtype": "method",
+            "name": "getThinkingTime",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 102,
+            "description": "Stops the timer but maintains the current lap. This is useful if the user opens the info tab or\nif they leave the study page.",
+            "itemtype": "method",
+            "name": "pause",
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 113,
+            "description": "Sets the review limit for the current lap.",
+            "itemtype": "method",
+            "name": "setReviewLimit",
+            "params": [
+                {
+                    "name": "milliseconds",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 122,
+            "description": "Sets the thinking limit for the current lap.",
+            "itemtype": "method",
+            "name": "setThinkingLimit",
+            "params": [
+                {
+                    "name": "milliseconds",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 131,
+            "description": "Directly set the offset for the timer. This is a bit redundant and probably won't be directly needed.",
+            "itemtype": "method",
+            "name": "setOffset",
+            "params": [
+                {
+                    "name": "offsetBy",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 140,
+            "description": "Starts the timer if the lap limit hasn't been reached yet.",
+            "itemtype": "method",
+            "name": "start",
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 157,
+            "description": "Stops the timer from running and resets the current lap.",
+            "itemtype": "method",
+            "name": "stop",
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 168,
+            "description": "Updates the offset based on the gathered total study time for the day.",
+            "itemtype": "method",
+            "name": "sync",
+            "params": [
+                {
+                    "name": "includeServer",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 184,
+            "description": "Bound to setInterval when the timer is running, but only allows render to be called\nif a full second has passed.",
+            "itemtype": "method",
+            "name": "update",
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 26,
             "itemtype": "method",
@@ -3440,17 +3442,44 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 91,
-            "description": "An ugly yet needed feature to force certain Cordova wrapped Android devices to clear\nthe canvas and render.",
+            "line": 83,
             "itemtype": "method",
-            "name": "clearFix",
+            "name": "applyBackgroundColorFilter",
+            "params": [
+                {
+                    "name": "filter",
+                    "description": "",
+                    "type": "ColorFilter"
+                }
+            ],
             "class": "PromptCanvas",
             "module": "Skritter",
             "submodule": "Prompt"
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 105,
+            "line": 91,
+            "itemtype": "method",
+            "name": "applyBackgroundGlow",
+            "params": [
+                {
+                    "name": "bitmap",
+                    "description": "",
+                    "type": "CanvasCharacter"
+                },
+                {
+                    "name": "color",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "PromptCanvas",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
+            "line": 110,
             "description": "Disables all touch input on the canvas. This is most commonly used when a user has\nalready completed a problem and it needs grading.",
             "itemtype": "method",
             "name": "disableInput",
@@ -3460,7 +3489,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 114,
+            "line": 119,
             "itemtype": "method",
             "name": "displayMessage",
             "params": [
@@ -3486,7 +3515,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 130,
+            "line": 135,
             "description": "Given a CanvasCharacter this will render the image to the canvas.",
             "params": [
                 {
@@ -3506,7 +3535,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 143,
+            "line": 148,
             "description": "The grid that fills the background of the canvas for rune prompts.",
             "itemtype": "method",
             "name": "drawGrid",
@@ -3516,7 +3545,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 158,
+            "line": 163,
             "itemtype": "method",
             "name": "drawPhantomStroke",
             "params": [
@@ -3537,7 +3566,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 172,
+            "line": 177,
             "itemtype": "method",
             "name": "drawSquig",
             "params": [
@@ -3558,7 +3587,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 197,
+            "line": 202,
             "itemtype": "method",
             "name": "drawStroke",
             "params": [
@@ -3579,7 +3608,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 210,
+            "line": 215,
             "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger. It's important that this canvas doesn't use autoClear for\nspeed reasons and Cordova compatibility.",
             "itemtype": "method",
             "name": "enableInput",
@@ -3589,7 +3618,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 263,
+            "line": 268,
             "itemtype": "method",
             "name": "fadeOverlay",
             "class": "PromptCanvas",
@@ -3598,28 +3627,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 274,
-            "itemtype": "method",
-            "name": "glowCharacter",
-            "params": [
-                {
-                    "name": "character",
-                    "description": "",
-                    "type": "CanvasCharacter"
-                },
-                {
-                    "name": "color",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 286,
+            "line": 279,
             "itemtype": "method",
             "name": "resize",
             "class": "PromptCanvas",
@@ -3628,7 +3636,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 295,
+            "line": 288,
             "itemtype": "method",
             "name": "tick",
             "class": "PromptCanvas",
@@ -3637,7 +3645,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 301,
+            "line": 294,
             "description": "Enables the view to fire events when the canvas has been touched.",
             "itemtype": "method",
             "name": "triggerMouseDown",
@@ -3654,7 +3662,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 310,
+            "line": 303,
             "description": "Enables the view to fire events when the canvas touch has been released.",
             "itemtype": "method",
             "name": "triggerMouseUp",
@@ -3694,6 +3702,7 @@
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
             "line": 60,
+            "description": "Handles the points returned when the user is finished with a stroke.",
             "itemtype": "method",
             "name": "handleInputRecieved",
             "params": [
@@ -3703,6 +3712,34 @@
                     "type": "Array"
                 }
             ],
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 149,
+            "description": "Returns the next stroke in the character based on the order it should be written.",
+            "itemtype": "method",
+            "name": "getNextStroke",
+            "return": {
+                "description": "",
+                "type": "CanvasStroke"
+            },
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 165,
+            "description": "Returns the stroke highest possible stroke count out of all of the targets.",
+            "itemtype": "method",
+            "name": "getTargetStrokeCount",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "class": "PromptRune",
             "module": "Skritter",
             "submodule": "Prompt"
@@ -3718,7 +3755,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 84,
+            "line": 75,
             "itemtype": "method",
             "name": "handleInputRecieved",
             "params": [
@@ -3822,7 +3859,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 26,
+            "line": 30,
             "itemtype": "method",
             "name": "render",
             "return": {
@@ -3835,7 +3872,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 39,
+            "line": 43,
             "itemtype": "property",
             "name": "events",
             "type": "Object",
@@ -3845,7 +3882,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 45,
+            "line": 49,
             "itemtype": "method",
             "name": "handlePromptComplete",
             "class": "StudyView",
@@ -3854,7 +3891,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 51,
+            "line": 56,
             "itemtype": "method",
             "name": "next",
             "return": {
@@ -3867,7 +3904,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 81,
+            "line": 85,
             "itemtype": "method",
             "name": "showInfo",
             "class": "StudyView",
@@ -3876,9 +3913,25 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 87,
+            "line": 91,
             "itemtype": "method",
             "name": "resize",
+            "class": "StudyView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Study.js",
+            "line": 97,
+            "itemtype": "method",
+            "name": "updateItems",
+            "params": [
+                {
+                    "name": "results",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
             "class": "StudyView",
             "module": "Skritter",
             "submodule": "View"
@@ -4170,7 +4223,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 34,
+            "line": 32,
             "description": "Creates the global Skritter namespace when the application first opened.",
             "params": [
                 {
@@ -4183,7 +4236,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 42,
+            "line": 40,
             "itemtype": "property",
             "name": "application",
             "type": "Object",
@@ -4192,7 +4245,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 46,
+            "line": 44,
             "itemtype": "method",
             "name": "loadRouter",
             "params": [
@@ -4207,7 +4260,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 57,
+            "line": 55,
             "description": "Loads the async utility into the Skriter namescape for easy usage.",
             "itemtype": "method",
             "name": "loadAsync",
@@ -4216,7 +4269,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 65,
+            "line": 63,
             "description": "Loads the proper assets module depending on the load environment. Returns a\ncallback one the required assets have preloaded.",
             "itemtype": "method",
             "name": "loadAssets",
@@ -4232,7 +4285,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 83,
+            "line": 77,
             "itemtype": "method",
             "name": "loadFacade",
             "return": {
@@ -4244,7 +4297,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 91,
+            "line": 85,
             "itemtype": "method",
             "name": "loadFunctions",
             "params": [
@@ -4259,7 +4312,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 99,
+            "line": 93,
             "itemtype": "method",
             "name": "loadRouter",
             "params": [
@@ -4274,7 +4327,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 107,
+            "line": 101,
             "itemtype": "method",
             "name": "loadSettings",
             "params": [
@@ -4289,7 +4342,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 115,
+            "line": 109,
             "description": "Loads the storage adapter based on the current environment the application has been\nloaded from.",
             "itemtype": "method",
             "name": "loadStorage",
@@ -4305,7 +4358,8 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 130,
+            "line": 120,
+            "description": "Loads the timer and attempts to pull the current study time for the day from the server.",
             "itemtype": "method",
             "name": "loadTimer",
             "params": [
@@ -4320,7 +4374,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 138,
+            "line": 131,
             "description": "This loads the user, data and also initiates the syncing process. In the future the callbacks should \nprobably be cleaned up a bit.",
             "itemtype": "method",
             "name": "loadUser",
@@ -4336,7 +4390,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 161,
+            "line": 154,
             "description": "Initializing the appliation should only happen once when the application is first loaded.",
             "itemtype": "method",
             "name": "initialize",
@@ -4345,7 +4399,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 182,
+            "line": 175,
             "description": "Reloading is used to initialize the application by only loading data that may have changed.\nIt skips loading large static assets from the media folder again.",
             "itemtype": "method",
             "name": "reload",
@@ -4530,18 +4584,6 @@
             "file": "public_html\\js\\app\\Functions.js",
             "line": 130,
             "itemtype": "method",
-            "name": "isCordora",
-            "return": {
-                "description": "Returns true if the application is using Cordova or PhoneGap",
-                "type": "Boolean"
-            },
-            "class": "Functions",
-            "module": "Skritter"
-        },
-        {
-            "file": "public_html\\js\\app\\Functions.js",
-            "line": 140,
-            "itemtype": "method",
             "name": "maskText",
             "params": [
                 {
@@ -4569,7 +4611,7 @@
         },
         {
             "file": "public_html\\js\\app\\Functions.js",
-            "line": 159,
+            "line": 149,
             "itemtype": "method",
             "name": "pad",
             "params": [
@@ -4696,7 +4738,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 128,
+            "line": 129,
             "itemtype": "method",
             "name": "checkAngle",
             "params": [
@@ -4715,7 +4757,26 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 138,
+            "line": 139,
+            "itemtype": "method",
+            "name": "checkCorners",
+            "params": [
+                {
+                    "name": "param",
+                    "description": "",
+                    "type": "StudyParam"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Recognizer",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\Recognizer.js",
+            "line": 149,
             "itemtype": "method",
             "name": "checkDistance",
             "params": [
@@ -4734,7 +4795,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 148,
+            "line": 159,
             "itemtype": "method",
             "name": "checkLength",
             "params": [
@@ -4837,9 +4898,10 @@
         },
         {
             "file": "public_html\\js\\app\\Scheduler.js",
-            "line": 12,
+            "line": 15,
+            "description": "Returns a calculated interval based on the grade and other details about the item.",
             "itemtype": "method",
-            "name": "getNewInterval",
+            "name": "getInterval",
             "params": [
                 {
                     "name": "item",
@@ -4927,19 +4989,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyReviews.js:19"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyReviews.js:34"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyReviews.js:47"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyReviews.js:59"
+            "line": " public_html\\js\\app\\collection\\StudyReviews.js:33"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -4995,19 +5045,19 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:228"
+            "line": " public_html\\js\\app\\storage\\Storage.js:198"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:237"
+            "line": " public_html\\js\\app\\storage\\Storage.js:207"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:255"
+            "line": " public_html\\js\\app\\storage\\Storage.js:225"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:264"
+            "line": " public_html\\js\\app\\storage\\Storage.js:234"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5039,11 +5089,19 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\Study.js:51"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:149"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Application.js:83"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:165"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\Study.js:56"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\Application.js:77"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5079,19 +5137,23 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:128"
+            "line": " public_html\\js\\app\\Recognizer.js:129"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:138"
+            "line": " public_html\\js\\app\\Recognizer.js:139"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:148"
+            "line": " public_html\\js\\app\\Recognizer.js:149"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Scheduler.js:12"
+            "line": " public_html\\js\\app\\Recognizer.js:159"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\Scheduler.js:15"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5099,31 +5161,31 @@
         },
         {
             "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:39"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:40"
         },
         {
             "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:62"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:63"
         },
         {
             "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:74"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:75"
         },
         {
             "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:97"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:98"
         },
         {
             "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:156"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:157"
         },
         {
             "message": "Missing item type\nGiven a CanvasCharacter this will render the image to the canvas.",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:130"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:135"
         },
         {
             "message": "Missing item type\nCreates the global Skritter namespace when the application first opened.",
-            "line": " public_html\\js\\app\\Application.js:34"
+            "line": " public_html\\js\\app\\Application.js:32"
         },
         {
             "message": "Missing item type",

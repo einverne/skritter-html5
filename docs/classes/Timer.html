@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>StudyItems - skritter-html5</title>
+    <title>Timer - skritter-html5</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -188,7 +188,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>StudyItems Class</h1>
+                        <h1>Timer Class</h1>
 <div class="box meta">
     
 
@@ -196,13 +196,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/public_html_js_app_collection_StudyItems.js.html#l11"><code>public_html\js\app\collection\StudyItems.js:11</code></a>
+            Defined in: <a href="../files/public_html_js_app_view_component_Timer.js.html#l11"><code>public_html\js\app\view\component\Timer.js:11</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Collection.html">Collection</a><br>
+            Module: <a href="../modules/Component.html">Component</a><br>
             Parent Module: <a href="../modules/Skritter.html">Skritter</a>
         
     
@@ -226,8 +226,6 @@
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-        
         
         
     </ul>
@@ -243,70 +241,91 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_cache">cache</a>
+                                <a href="#method_getReviewTime">getReviewTime</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_fetch">fetch</a>
+                                <a href="#method_getStartTime">getStartTime</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_filterActive">filterActive</a>
+                                <a href="#method_getThinkingTime">getThinkingTime</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_filterBy">filterBy</a>
+                                <a href="#method_getTime">getTime</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getContainedItemIds">getContainedItemIds</a>
+                                <a href="#method_pause">pause</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getItemsDue">getItemsDue</a>
+                                <a href="#method_render">render</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getNext">getNext</a>
+                                <a href="#method_setOffset">setOffset</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getRandom">getRandom</a>
+                                <a href="#method_setReviewLimit">setReviewLimit</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getStudy">getStudy</a>
+                                <a href="#method_setThinkingLimit">setThinkingLimit</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_loadAll">loadAll</a>
+                                <a href="#method_start">start</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_stop">stop</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_sync">sync</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_update">update</a>
 
                                 
                                 
@@ -316,21 +335,6 @@
                 </div>
             
 
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property">
-                                <a href="#property_model">model</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
             
 
             
@@ -343,507 +347,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_cache" class="method item">
-    <h3 class="name"><code>cache</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>callback</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Undefined</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l20"><code>public_html\js\app\collection\StudyItems.js:20</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">callback</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Undefined</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_fetch" class="method item">
-    <h3 class="name"><code>fetch</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>offset</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>callback</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Array</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l38"><code>public_html\js\app\collection\StudyItems.js:38</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">offset</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">callback</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Array</span>:
-                    
-                    <p>Returns an array of objects</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_filterActive" class="method item">
-    <h3 class="name"><code>filterActive</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\StudyItems.html" class="crosslink">StudyItems</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l96"><code>public_html\js\app\collection\StudyItems.js:96</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\StudyItems.html" class="crosslink">StudyItems</a></span>:
-                    
-                    <p>A new collection of active StudyItems</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_filterBy" class="method item">
-    <h3 class="name"><code>filterBy</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>attribute</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\StudyItems.html" class="crosslink">StudyItems</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l107"><code>public_html\js\app\collection\StudyItems.js:107</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">attribute</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\StudyItems.html" class="crosslink">StudyItems</a></span>:
-                    
-                    <p>A new collection of filtered StudyItems</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getContainedItemIds" class="method item">
-    <h3 class="name"><code>getContainedItemIds</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Array</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l119"><code>public_html\js\app\collection\StudyItems.js:119</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Array</span>:
-                    
-                    <p>An array of contained item ids</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getItemsDue" class="method item">
-    <h3 class="name"><code>getItemsDue</code></h3>
+                    <div id="method_getReviewTime" class="method item">
+    <h3 class="name"><code>getReviewTime</code></h3>
 
     
         <span class="paren">()</span>
@@ -878,7 +383,7 @@
             
         
         
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l140"><code>public_html\js\app\collection\StudyItems.js:140</code></a>
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l69"><code>public_html\js\app\view\component\Timer.js:69</code></a>
         
         </p>
 
@@ -889,7 +394,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the review time for the current lap.</p>
+
     </div>
 
     
@@ -903,8 +409,6 @@
                     
                         <span class="type">Number</span>:
                     
-                    <p>The number of active items ready to be studied</p>
-
                 
             </div>
         </div>
@@ -914,8 +418,8 @@
 </div>
 
                 
-                    <div id="method_getNext" class="method item">
-    <h3 class="name"><code>getNext</code></h3>
+                    <div id="method_getStartTime" class="method item">
+    <h3 class="name"><code>getStartTime</code></h3>
 
     
         <span class="paren">()</span>
@@ -923,7 +427,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\StudyItem.html" class="crosslink">StudyItem</a></span>
+            <span class="type">Number</span>
         </span>
     
 
@@ -950,7 +454,7 @@
             
         
         
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l154"><code>public_html\js\app\collection\StudyItems.js:154</code></a>
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l81"><code>public_html\js\app\view\component\Timer.js:81</code></a>
         
         </p>
 
@@ -961,7 +465,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the time that the current lap was started at.</p>
+
     </div>
 
     
@@ -973,10 +478,8 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\StudyItem.html" class="crosslink">StudyItem</a></span>:
+                        <span class="type">Number</span>:
                     
-                    <p>The next item to be studied</p>
-
                 
             </div>
         </div>
@@ -986,8 +489,8 @@
 </div>
 
                 
-                    <div id="method_getRandom" class="method item">
-    <h3 class="name"><code>getRandom</code></h3>
+                    <div id="method_getThinkingTime" class="method item">
+    <h3 class="name"><code>getThinkingTime</code></h3>
 
     
         <span class="paren">()</span>
@@ -995,7 +498,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\StudyItem.html" class="crosslink">StudyItem</a></span>
+            <span class="type">Number</span>
         </span>
     
 
@@ -1022,7 +525,7 @@
             
         
         
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l163"><code>public_html\js\app\collection\StudyItems.js:163</code></a>
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l90"><code>public_html\js\app\view\component\Timer.js:90</code></a>
         
         </p>
 
@@ -1033,7 +536,7 @@
     </div>
 
     <div class="description">
-        <p>Returns a random active study item.</p>
+        <p>Returns the thinking time for the current lap.</p>
 
     </div>
 
@@ -1046,7 +549,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\StudyItem.html" class="crosslink">StudyItem</a></span>:
+                        <span class="type">Number</span>:
                     
                 
             </div>
@@ -1057,8 +560,8 @@
 </div>
 
                 
-                    <div id="method_getStudy" class="method item">
-    <h3 class="name"><code>getStudy</code></h3>
+                    <div id="method_getTime" class="method item">
+    <h3 class="name"><code>getTime</code></h3>
 
     
         <span class="paren">()</span>
@@ -1066,7 +569,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\StudyItems.html" class="crosslink">StudyItems</a></span>
+            <span class="type">Number</span>
         </span>
     
 
@@ -1093,7 +596,134 @@
             
         
         
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l176"><code>public_html\js\app\collection\StudyItems.js:176</code></a>
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l60"><code>public_html\js\app\view\component\Timer.js:60</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the current time displayed on the timer.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_pause" class="method item">
+    <h3 class="name"><code>pause</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l102"><code>public_html\js\app\view\component\Timer.js:102</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Stops the timer but maintains the current lap. This is useful if the user opens the info tab or
+if they leave the study page.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_render" class="method item">
+    <h3 class="name"><code>render</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l30"><code>public_html\js\app\view\component\Timer.js:30</code></a>
         
         </p>
 
@@ -1116,10 +746,8 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\StudyItems.html" class="crosslink">StudyItems</a></span>:
+                        <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>:
                     
-                    <p>A new collection of StudyItems filter by parts being studied</p>
-
                 
             </div>
         </div>
@@ -1129,8 +757,8 @@
 </div>
 
                 
-                    <div id="method_loadAll" class="method item">
-    <h3 class="name"><code>loadAll</code></h3>
+                    <div id="method_setOffset" class="method item">
+    <h3 class="name"><code>setOffset</code></h3>
 
     
         <div class="args">
@@ -1138,7 +766,7 @@
             
                 <li class="arg">
                     
-                        <code>callback</code>
+                        <code>offsetBy</code>
                     
                 </li>
             
@@ -1147,10 +775,6 @@
     
 
     
-        <span class="returns-inline">
-            <span class="type">Undefined</span>
-        </span>
-    
 
     
 
@@ -1175,7 +799,7 @@
             
         
         
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l85"><code>public_html\js\app\collection\StudyItems.js:85</code></a>
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l131"><code>public_html\js\app\view\component\Timer.js:131</code></a>
         
         </p>
 
@@ -1186,7 +810,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Directly set the offset for the timer. This is a bit redundant and probably won&#39;t be directly needed.</p>
+
     </div>
 
     
@@ -1197,8 +822,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">callback</code>
-                        <span class="type">Callback</span>
+                        <code class="param-name">offsetBy</code>
+                        <span class="type">Number</span>
                     
 
                     
@@ -1215,34 +840,33 @@
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Undefined</span>:
-                    
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-            </div>
-        
+                    <div id="method_setReviewLimit" class="method item">
+    <h3 class="name"><code>setReviewLimit</code></h3>
 
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>milliseconds</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
 
-                
-                    <div id="property_model" class="property item">
-    <h3 class="name"><code>model</code></h3>
-    <span class="type"><a href="..\classes\StudyItem.html" class="crosslink">StudyItem</a></span>
+    
+
+    
+
+    
 
     
 
@@ -1263,9 +887,10 @@
             
         
         
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l15"><code>public_html\js\app\collection\StudyItems.js:15</code></a>
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l113"><code>public_html\js\app\view\component\Timer.js:113</code></a>
         
         </p>
+
 
         
 
@@ -1273,7 +898,373 @@
     </div>
 
     <div class="description">
+        <p>Sets the review limit for the current lap.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">milliseconds</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_setThinkingLimit" class="method item">
+    <h3 class="name"><code>setThinkingLimit</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>milliseconds</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l122"><code>public_html\js\app\view\component\Timer.js:122</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets the thinking limit for the current lap.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">milliseconds</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_start" class="method item">
+    <h3 class="name"><code>start</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l140"><code>public_html\js\app\view\component\Timer.js:140</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Starts the timer if the lap limit hasn&#39;t been reached yet.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_stop" class="method item">
+    <h3 class="name"><code>stop</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l157"><code>public_html\js\app\view\component\Timer.js:157</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Stops the timer from running and resets the current lap.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_sync" class="method item">
+    <h3 class="name"><code>sync</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>includeServer</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l168"><code>public_html\js\app\view\component\Timer.js:168</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Updates the offset based on the gathered total study time for the day.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">includeServer</code>
+                        <span class="type">Boolean</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_update" class="method item">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_component_Timer.js.html#l184"><code>public_html\js\app\view\component\Timer.js:184</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Bound to setInterval when the timer is running, but only allows render to be called
+if a full second has passed.</p>
+
     </div>
 
     
@@ -1285,6 +1276,8 @@
 
                 
             </div>
+        
+
         
 
         
