@@ -58,6 +58,8 @@ define([
             Rune.userCharacter = new CanvasCharacter();
         },
         /**
+         * Handles the points returned when the user is finished with a stroke.
+         * 
          * @method handleInputRecieved
          * @param {Array} points
          */
@@ -144,13 +146,28 @@ define([
                 this.next();
             }
         },
+        /**
+         * Returns the next stroke in the character based on the order it should be written.
+         * 
+         * @method getNextStroke
+         * @returns {CanvasStroke}
+         */
         getNextStroke: function() {
-            //todo: make this handle strokes with alternatives
-            //right now it's just using the first target
-            var target = Rune.userTargets[0];
-            var stroke = target.at(Rune.userCharacter.length);
-            return stroke;
+            for (var i in Rune.userTargets) {
+                var target = Rune.userTargets[i];
+                for (var s in target.models) {
+                    var stroke = target.models[s];
+                    if (!Rune.userCharacter.containsStroke(stroke))
+                        return stroke;
+                }
+            }
         },
+        /**
+         * Returns the stroke highest possible stroke count out of all of the targets.
+         * 
+         * @method getTargetStrokeCount
+         * @returns {Number}
+         */
         getTargetStrokeCount: function() {
             var strokeCount = 0;
             for (var a in Rune.userTargets)
@@ -199,6 +216,7 @@ define([
             this.$('#writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position - 1));
             this.$('#reading').text(PinyinConverter.toTone(Prompt.reading));
             this.$('#definition').text(Prompt.definition);
+            this.$('#style').text(Prompt.vocabs[0].get('style'));
             this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
         }
     });

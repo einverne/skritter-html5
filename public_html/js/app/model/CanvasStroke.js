@@ -1,6 +1,7 @@
 /**
  * @module Skritter
  * @submodule Model
+ * @param Mauler
  * @param Shortstraw
  * @author Joshua McFarland
  * 

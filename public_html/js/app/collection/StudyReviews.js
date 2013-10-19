@@ -19,7 +19,6 @@ define([
         /**
          * @method cache
          * @param {Function} callback
-         * @returns {undefined}
          */
         cache: function(callback) {
             if (this.length === 0) {
@@ -32,23 +31,23 @@ define([
             });
         },
         /**
+         * Returns the total time of all local reviews thats haven't been submitted in milliseconds.
+         * 
          * @method getTime
-         * @returns {Number} The total time of all reviews
+         * @returns {Number} Time in milliseconds
          */
         getTime: function() {
             var time = 0;
             for (var i in this.models) {
                 var review = this.models[i];
                 if (review.get('bearTime'))
-                    time += review.get('reviewTime');
+                    time += parseInt(review.get('reviewTime'));
             }
-            return time;
+            return time * 1000;
         },
         /**
-         * @async
          * @method loadAll
          * @param {Function} callback
-         * @returns {undefined}
          */
         loadAll: function(callback) {
             Skritter.storage.getItems('reviews', function(reviews) {
@@ -59,7 +58,6 @@ define([
         /**
          * @method save
          * @param {Function} callback
-         * @returns {undefined}
          */
         save: function(callback) {
             Skritter.api.postReviews(this.toJSON(), function(event) {

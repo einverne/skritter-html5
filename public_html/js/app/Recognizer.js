@@ -20,8 +20,8 @@ define([
 	
 	//set the scaled threshold values
 	this.angleThreshold = 30;
-	this.distanceThreshold = 150; //todo: add in this value
-	this.lengthThreshold = 250; //todo: add in this value
+	this.distanceThreshold = 150 * (Skritter.settings.get('canvasSize') / 600);
+	this.lengthThreshold = 250 * (Skritter.settings.get('canvasSize') / 600);
 	this.orderStrictness = 0;
     }
     
@@ -102,6 +102,7 @@ define([
 		    
 		    var scores = {
 			angle: this.checkAngle(param),
+                        corners: this.checkCorners(param),
 			distance: this.checkDistance(param),
 			length: this.checkLength(param)
 		    };
@@ -133,6 +134,16 @@ define([
     Recognizer.prototype.checkAngle = function(param) {
 	var score = Math.abs(this.stroke.getAngle() - param.getAngle());
 	return score;
+    };
+    
+    /**
+     * @method checkCorners
+     * @param {StudyParam} param
+     * @returns {Number}
+     */
+    Recognizer.prototype.checkCorners = function(param) {
+        var cornerPenalty = 50;
+        return Math.abs(param.get('corners').length - this.stroke.get('corners').length) * cornerPenalty;
     };
     
     /**

@@ -128,11 +128,14 @@ define([
             callback();
         },
         /**
+         * Loads the timer and attempts to pull the current study time for the day from the server.
+         * 
          * @method loadTimer
          * @param {Function} callback
          */
         loadTimer: function(callback) {
             Skritter.timer = new Timer();
+            Skritter.timer.sync(true);
             callback();
         },
         /**
@@ -172,8 +175,8 @@ define([
                 Skritter.async.apply(this.loadSettings),
                 Skritter.async.apply(this.loadStorage),
                 Skritter.async.apply(this.loadApi),
-                Skritter.async.apply(this.loadTimer),
                 Skritter.async.apply(this.loadUser),
+                Skritter.async.apply(this.loadTimer),
                 Skritter.async.apply(this.loadRouter)
             ], function() {
                 Skritter.facade.hide();

@@ -1,15 +1,16 @@
-/*
- * 
- * View: Timer
- * 
- * Created By: Joshua McFarland
- * 
+/**
+ * @module Skritter
+ * @submodule Component
+ * @param Stopwatch
+ * @author Joshua McFarland
  */
 define([
     'Stopwatch',
     'backbone'
 ], function(Stopwatch) {
-
+    /**
+     * @class Timer
+     */
     var TimerView = Backbone.View.extend({
         initialize: function() {
             TimerView.stopwatch = new Stopwatch();
@@ -26,6 +27,10 @@ define([
             TimerView.thinkingTime = 0;
             TimerView.thinkingLimit = 15;
         },
+        /**
+         * @method render
+         * @return {Timer}
+         */
         render: function() {
             //get the current time and apply the offset
             var time = TimerView.stopwatch.time();
@@ -52,38 +57,91 @@ define([
 
             return this;
         },
+        /**
+         * Returns the current time displayed on the timer.
+         * 
+         * @method getTime
+         * @return {Number}
+         */
         getTime: function() {
             return TimerView.stopwatch.time();
         },
+        /**
+         * Returns the review time for the current lap.
+         * 
+         * @method getReviewTime
+         * @return {Number}
+         */
         getReviewTime: function() {
             var time = TimerView.lapStop - TimerView.lapStart;
             if (time >= TimerView.reviewLimit)
                 return TimerView.reviewLimit / 1000;
             return time / 1000;
         },
+        /**
+         * Returns the time that the current lap was started at.
+         * 
+         * @method getStartTime
+         * @return {Number}
+         */
         getStartTime: function() {
             return TimerView.startTime;
         },
+        /**
+         * Returns the thinking time for the current lap.
+         * 
+         * @method getThinkingTime
+         * @return {Number}
+         */
         getThinkingTime: function() {
             var time = TimerView.lapStop - TimerView.lapStart;
             if (time >= TimerView.thinkingLimit)
                 return TimerView.thinkingLimit / 1000;
             return time / 1000;
         },
+        /**
+         * Stops the timer but maintains the current lap. This is useful if the user opens the info tab or
+         * if they leave the study page.
+         * 
+         * @method pause
+         */
         pause: function() {
             window.clearInterval(TimerView.timer);
             TimerView.lapStop = new Date().getTime();
             TimerView.stopwatch.stop();
         },
+        /**
+         * Sets the review limit for the current lap.
+         * 
+         * @method setReviewLimit
+         * @param {Number} milliseconds
+         */
         setReviewLimit: function(milliseconds) {
             TimerView.reviewLimit = milliseconds;
         },
+        /**
+         * Sets the thinking limit for the current lap.
+         * 
+         * @method setThinkingLimit
+         * @param {number} milliseconds
+         */
         setThinkingLimit: function(milliseconds) {
             TimerView.thinkingLimit = milliseconds;
         },
-        setOffset: function(time) {
-            TimerView.offset = time * 1000;
+        /**
+         * Directly set the offset for the timer. This is a bit redundant and probably won't be directly needed.
+         * 
+         * @method setOffset
+         * @param {Number} offsetBy
+         */
+        setOffset: function(offsetBy) {
+            TimerView.offset = offsetBy * 1000;
         },
+        /**
+         * Starts the timer if the lap limit hasn't been reached yet.
+         * 
+         * @method start
+         */
         start: function() {
             //console.log('START', TimerView.lap);
             if (!TimerView.lap) {
@@ -96,12 +154,39 @@ define([
                 TimerView.stopwatch.start();
             }
         },
+        /**
+         * Stops the timer from running and resets the current lap.
+         * 
+         * @method stop
+         */
         stop: function() {
             TimerView.lap = null;
             TimerView.lapStop = new Date().getTime();
             window.clearInterval(TimerView.timer);
             TimerView.stopwatch.stop();
         },
+        /**
+         * Updates the offset based on the gathered total study time for the day.
+         * 
+         * @method sync
+         * @param {Boolean} includeServer
+         */
+        sync: function(includeServer) {
+            TimerView.offset = Skritter.study.reviews.getTime();
+            if (includeServer) {
+                Skritter.api.getProgressStats({
+                    start: Skritter.settings.get('date')
+                }, function(data) {
+                    TimerView.offset += data[0].timeStudied.day * 1000;
+                });
+            }
+        },
+        /**
+         * Bound to setInterval when the timer is running, but only allows render to be called
+         * if a full second has passed.
+         * 
+         * @method update
+         */
         update: function() {
             var time = TimerView.stopwatch.time();
             var seconds = Math.floor(time / 1000);

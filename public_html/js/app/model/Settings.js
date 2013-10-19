@@ -11,6 +11,7 @@ define([
     var Settings = Backbone.Model.extend({
         initialize: function() {
             this.resize();
+            this.updateDate();
             $(window).resize(_.bind(this.resize, this));
         },
         defaults: {
@@ -21,6 +22,7 @@ define([
             apiVersion: 0,
             appHeight: 0,
             appWidth: 0,
+            date: null,
             canvasMaxSize: 600,
             canvasSize: 600,
             container: '#skritter-container',
@@ -37,6 +39,10 @@ define([
                 this.set('canvasSize', this.get('appWidth'));
             }
             
+        },
+        updateDate: function() {
+            var date = new Date();
+            this.set('date', date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay());
         }
     });
     

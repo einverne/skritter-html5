@@ -48,6 +48,7 @@ define([
             console.log('Prompt', 'RDNG', Prompt.vocabs[0].get('writing'));
             Skritter.timer.start();
             this.$('#writing').text(Prompt.writing);
+            this.$('#style').text(Prompt.vocabs[0].get('style'));
             this.$('#reading').text("What's the reading?");
             this.$('#prompt-tip').text("(Click to show answer)");
             this.$('#canvas-container').hammer().one('click.Rdng', _.bind(this.handleClick, this));
