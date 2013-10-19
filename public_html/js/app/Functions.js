@@ -128,16 +128,6 @@ define(function() {
     };
 
     /**
-     * @method isCordora
-     * @return {Boolean} Returns true if the application is using Cordova or PhoneGap
-     */
-    var isCordova = function() {
-        if (window.cordova || window.PhoneGap || window.phonegap)
-            return true;
-        return false;
-    };
-
-    /**
      * @method maskText
      * @param {String} text The text to be masked
      * @param {String} value The value in the text to mask
@@ -180,7 +170,6 @@ define(function() {
         getLineDeviation: getLineDeviation,
         getRandomInt: getRandomInt,
         getUnixTime: getUnixTime,
-        isCordova: isCordova,
         maskCharacters: maskCharacters,
         pad: pad
     };

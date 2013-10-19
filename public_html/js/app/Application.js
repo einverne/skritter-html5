@@ -11,7 +11,6 @@
  * @param Settings
  * @param User
  * @param IndexedDBAdapter
- * @param SQLiteAdapter
  * @param Async
  * @author Joshua McFarland
  */
@@ -26,11 +25,10 @@ define([
     'model/Settings',
     'model/User',
     'storage/IndexedDBAdapter',
-    'storage/SQLiteAdapter',
     'async',
     'bootstrap',
     'jquery'
-], function(Api, Functions, Router, Facade, Timer, Assets, CordovaAssets, Settings, User, IndexedDBAdapter, SQLiteAdapter, Async) {
+], function(Api, Functions, Router, Facade, Timer, Assets, CordovaAssets, Settings, User, IndexedDBAdapter, Async) {
     /**
      * Creates the global Skritter namespace when the application first opened.
      * @param Skritter
@@ -70,11 +68,7 @@ define([
          * @param {Function} callback
          */
         loadAssets: function(callback) {
-            if (Skritter.fn.isCordova()) {
-                Skritter.assets = new CordovaAssets();
-            } else {
-                Skritter.assets = new Assets();
-            }
+            Skritter.assets = new Assets();
             Skritter.assets.once('complete', function() {
                 callback();
             });
@@ -120,11 +114,7 @@ define([
          * @param {Function} callback
          */
         loadStorage: function(callback) {
-            if (Skritter.fn.isCordova()) {
-                Skritter.storage = new SQLiteAdapter();
-            } else {
-                Skritter.storage = new IndexedDBAdapter();
-            }
+            Skritter.storage = new IndexedDBAdapter();
             callback();
         },
         /**
@@ -202,10 +192,6 @@ define([
     //initializes the application once the dom is ready or device is ready
     $(document).ready(function() {
         Skritter.application = application;
-        if (window.cordova || window.PhoneGap || window.phonegap) {
-            document.addEventListener('deviceready', Skritter.application.initialize, false);
-        } else {
-            Skritter.application.initialize();
-        }
+        Skritter.application.initialize();
     });
 });

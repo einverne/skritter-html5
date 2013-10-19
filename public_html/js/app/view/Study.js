@@ -106,13 +106,13 @@ define([
                 var contained = Study.c.item.getContained();
                 var subReview;
                 //loop through the contained items and create reviews for them too
-                for (var i in results) {
-                    var subItem = contained[i];
-                    var result = results[i];
+                for (var a in results) {
+                    var subItem = contained[a];
+                    var result = results[a];
                     //first we need to update the reviews
                     subReview = new StudyReview({
                         itemId: subItem.get('id'),
-                        score: parseInt(result.grade),
+                        score: parseInt(result.grade, 10),
                         bearTime: false,
                         submitTime: result.startTime,
                         reviewTime: result.reviewTime,
@@ -143,11 +143,11 @@ define([
             var totalReviewTime = 0;
             var totalThinkingTime = 0;
             var wrongCount = 0;
-            for (i in results) {
-                total += parseInt(results[i].grade);
+            for (var i in results) {
+                total += parseInt(results[i].grade, 10);
                 totalReviewTime += results[i].reviewTime;
                 totalThinkingTime += results[i].thinkingTime;
-                if (parseInt(results[i].grade) === 1)
+                if (parseInt(results[i].grade, 10) === 1)
                     wrongCount++;
             }
             //adjust the grade for multiple character items or get rounded down average
@@ -160,7 +160,7 @@ define([
             }
             var review = new StudyReview({
                 itemId: Study.c.item.get('id'),
-                score: parseInt(finalGrade),
+                score: parseInt(finalGrade, 10),
                 bearTime: true,
                 submitTime: results[0].startTime,
                 reviewTime: totalReviewTime,

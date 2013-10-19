@@ -73,22 +73,6 @@ define([
                 expect(timeSeconds).toBeLessThan(timeMilliseconds);
             });
         });
-        describe('isCordova', function() {
-            it('should return true if cordova, phonegap or PhoneGap are loaded', function() {
-                window.cordova = {};
-                expect(Functions.isCordova()).toBeTruthy();
-                delete window.cordova;
-                window.phonegap = {};
-                expect(Functions.isCordova()).toBeTruthy();
-                delete window.phonegap;
-                window.PhoneGap = {};
-                expect(Functions.isCordova()).toBeTruthy();
-                delete window.PhoneGap;
-            });
-            it('should be false if cordova, phonegap or PhoneGap are not loaded', function() {
-                expect(Functions.isCordova()).toBeFalsy();
-            });
-        });
         describe('maskText', function() {
             var masked = Functions.maskCharacters(1234512345, 12, 9);
             it('should be a string', function() {

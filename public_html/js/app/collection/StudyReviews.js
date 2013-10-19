@@ -41,7 +41,7 @@ define([
             for (var i in this.models) {
                 var review = this.models[i];
                 if (review.get('bearTime'))
-                    time += parseInt(review.get('reviewTime'));
+                    time += parseInt(review.get('reviewTime'), 10);
             }
             return time * 1000;
         },

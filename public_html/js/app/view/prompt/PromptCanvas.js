@@ -108,20 +108,6 @@ define([
             this.clearFix();
         },
         /**
-         * An ugly yet needed feature to force certain Cordova wrapped Android devices to clear
-         * the canvas and render.
-         * 
-         * @method clearFix
-         */
-        clearFix: function() {
-            if (Skritter.fn.isCordova()) {
-                this.$('#prompt-canvas').css('opacity', 0.99);
-                window.setTimeout(function() {
-                    this.$('#prompt-canvas').css('opacity', 1);
-                }, 0);
-            }
-        },
-        /**
          * Disables all touch input on the canvas. This is most commonly used when a user has
          * already completed a problem and it needs grading.
          * 

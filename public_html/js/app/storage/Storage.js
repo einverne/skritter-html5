@@ -193,36 +193,6 @@ define(function() {
                 vocabs.createIndex('topMnemonic', 'topMnemonic');
             }
         };
-        this.schemaSQLite = {
-            decomps: {
-                keys: ['writing'],
-                fields: ['atomic', 'Children']
-            },
-            items: {
-                keys: ['id'],
-                fields: ['part', 'vocabIds', 'style', 'timeStudied', 'next', 'last', 'interval', 'vocabListIds', 'sectionIds', 'reviews', 'successes', 'created', 'changed', 'previousSuccess', 'previousInterval']
-            },
-            reviews: {
-                keys: ['itemId', 'submitTime'],
-                fields: ['score', 'bearTime', 'reviewTime', 'thinkingTime', 'currentInterval', 'actualInterval', 'newInterval', 'wordGroup', 'previousInterval', 'previousSuccess']
-            },
-            sentences: {
-                keys: ['id'],
-                fields: ['containedVocabIds', 'definitions', 'lang', 'reading', 'starred', 'style', 'toughness', 'toughnessString', 'writing']
-            },
-            srsconfigs: {
-                keys: ['part', 'lang'],
-                fields: ['initialRightInterval', 'initialWrongInterval', 'rightFactors', 'wrongFactors']
-            },
-            strokes: {
-                keys: ['rune'],
-                fields: ['lang', 'strokes']
-            },
-            vocabs: {
-                keys: ['id'],
-                fields: ['writing', 'reading', 'definitions', 'customDefinitions', 'lang', 'audio', 'rareKanji', 'toughness', 'toughnessString', 'mnemonic', 'starred', 'style', 'changed', 'bannedParts', 'containedVocabIds', 'heisigDefinition', 'sentenceId', 'topMnemonic']
-            }
-        };
     }
 
     /**

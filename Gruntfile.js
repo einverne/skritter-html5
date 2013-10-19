@@ -7,18 +7,6 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            'android-build': {
-                src: ['build/cordova/www/'],
-                options: {
-                    force: true
-                }
-            },
-            'android-install': {
-                src: ['build/cordova/'],
-                options: {
-                    force: true
-                }
-            },
             'www-build': {
                 src: ['build/www/'],
                 options: {
@@ -27,24 +15,6 @@ module.exports = function(grunt) {
             }
         },
         copy: {
-            'android-build': {
-                files: [
-                    {expand: true, cwd: 'public_html/', src: [
-                            'config.xml',
-                            'index.html',
-                            'index-cordova.html',
-                            'css/**',
-                            'js/**',
-                            'media/**',
-                            'template/**'
-                        ], dest: 'build/cordova/www/'}
-                ]
-            },
-            'android-install': {
-                files: [
-                    {expand: true, cwd: 'cordova/android/', src: ['**'], dest: 'build/cordova/platforms/android/'}
-                ]
-            },
             'www-build': {
                 files: [
                     {expand: true, cwd: 'public_html/', src: [
@@ -121,27 +91,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-        shell: {
-            'cordova-android': {
-                command: [
-                    'cd build/cordova/',
-                    'cordova build android',
-                    'cordova run android'
-                ].join('&&')
-            },
-            'cordova-android-install': {
-                command: [
-                    'mkdir build',
-                    'cd build/',
-                    'cordova create cordova com.inkren.skritter Skritter',
-                    'cd cordova',
-                    'cordova platforms add android',
-                    'cordova build android',
-                    'cordova plugin add org.apache.cordova.media'
-                ].join('&&')
-            }
-
-        },
+        shell: {},
         yuidoc: {
             compile: {
                 name: '<%= pkg.name %>',
@@ -150,6 +100,15 @@ module.exports = function(grunt) {
                 options: {
                     paths: 'public_html/js/app',
                     outdir: 'build/docs'
+                }
+            },
+            'compile-www': {
+                name: '<%= pkg.name %>',
+                description: '<%= pkg.description %>',
+                version: '<%= pkg.version %>',
+                options: {
+                    paths: 'public_html/js/app',
+                    outdir: 'build/www/docs'
                 }
             }
         }
@@ -162,9 +121,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
     grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask('android-build', ['jshint', 'clean:android-build', 'copy:android-build', 'shell:cordova-android']);
-    grunt.registerTask('android-install', ['clean:android-install', 'shell:cordova-android-install', 'copy:android-install', 'android-build']);
     grunt.registerTask('docs', ['yuidoc']);
     grunt.registerTask('hint', ['jshint']);
-    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs']);
+    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'yuidoc:compile-www']);
 };
