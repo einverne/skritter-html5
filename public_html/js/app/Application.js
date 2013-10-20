@@ -125,7 +125,9 @@ define([
          */
         loadTimer: function(callback) {
             Skritter.timer = new Timer();
-            Skritter.timer.sync(true);
+            if (Skritter.user.isLoggedIn()) {
+                Skritter.timer.sync(true);
+            }
             callback();
         },
         /**

@@ -143,9 +143,9 @@ define([
          * @param {String} name
          * @return {Object}
          */
-         getSetting: function(name) {
-             return this.get('settings')[name];
-         },
+        getSetting: function(name) {
+            return this.get('settings')[name];
+        },
         /**
          * Returns an array of active study parts based on the current language being studied.
          * 
@@ -153,10 +153,10 @@ define([
          * @returns {Array}
          */
         getStudyParts: function() {
-	    if (this.get('settings').targetLang === 'zh')
-		return this.get('settings').chineseStudyParts;
-	    return this.get('settings').japaneseStudyParts;
-	},
+            if (this.get('settings').targetLang === 'zh')
+                return this.get('settings').chineseStudyParts;
+            return this.get('settings').japaneseStudyParts;
+        },
         /**
          * Checks to see if the user is logged in by seeing if a token exists. This might not always work
          * in situations where the token as expired.
@@ -177,7 +177,7 @@ define([
          * @param {Function} callback
          */
         loadAllData: function(callback) {
-            Skritter.async.parallel([
+            Skritter.async.series([
                 Skritter.async.apply(Skritter.study.decomps.loadAll),
                 Skritter.async.apply(Skritter.study.items.loadAll),
                 Skritter.async.apply(Skritter.study.params.loadAll),
@@ -228,6 +228,15 @@ define([
                 });
             });
         },
+        resetAllData: function() {
+            Skritter.study.decomps.reset();
+            Skritter.study.items.reset();
+            Skritter.study.reviews.reset();
+            Skritter.study.srsconfigs.reset();
+            Skritter.study.sentences.reset();
+            Skritter.study.strokes.reset();
+            Skritter.study.vocabs.reset();
+        },
         /**
          * A quicker way to set the user settings object.
          * 
@@ -248,12 +257,57 @@ define([
          * 
          * @method sync
          * @param {Function} callback
+         * @param {Boolean} forceAccountDownload
          */
-        sync: function(callback) {
+        sync: function(callback, forceAccountDownload) {
             var accountDownload;
             var requests;
             var size = 0;
-            if (this.get('lastSync')) {
+
+            var process = function(requests) {
+                Skritter.async.waterfall([
+                    function(callback) {
+                        Skritter.study.srsconfigs.fetch(function() {
+                            callback();
+                        });
+                    },
+                    function(callback) {
+                        Skritter.api.requestBatch(requests, function(result) {
+                            callback(null, result);
+                        });
+                    },
+                    function(result, callback) {
+                        Skritter.api.getBatch(result.id, function(result) {
+                            size += result.responseSize;
+                            if (accountDownload)
+                                Skritter.facade.show('initial download <br />' + Skritter.fn.bytesToSize(size));
+                            Skritter.study.decomps.add(result.Decomps);
+                            Skritter.study.items.add(result.Items);
+                            Skritter.study.srsconfigs.add(result.SRSConfigs);
+                            Skritter.study.sentences.add(result.Sentences);
+                            Skritter.study.strokes.add(result.Strokes);
+                            Skritter.study.vocabs.add(result.Vocabs);
+                        }, function() {
+                            callback();
+                        });
+                    },
+                    function(callback) {
+                        Skritter.user.cacheAllData(function() {
+                            callback();
+                        });
+                    }
+                ], function() {
+                    Skritter.user.set('lastSync', Skritter.fn.getUnixTime());
+                    if (accountDownload) {
+                        Skritter.facade.hide();
+                        if (typeof callback === 'function')
+                            callback();
+                    }
+                });
+            };
+
+            if (this.get('lastSync') && !forceAccountDownload) {
+                //incremental sync from the last time a successful sync was performed
                 callback();
                 requests = [
                     {
@@ -273,8 +327,12 @@ define([
                         spawner: true
                     }
                 ];
+                process(requests);
             } else {
+                //downloads the entire user account from the beginning of time
+                //resets the collections and clears the database first
                 Skritter.facade.show('initial download <br />');
+                this.resetAllData();
                 accountDownload = true;
                 requests = [
                     {
@@ -293,46 +351,11 @@ define([
                         spawner: true
                     }
                 ];
+
+                Skritter.storage.clear(function() {
+                    process(requests);
+                });
             }
-            Skritter.async.waterfall([
-                function(callback) {
-                    Skritter.study.srsconfigs.fetch(function() {
-                        callback();
-                    });
-                },
-                function(callback) {
-                    Skritter.api.requestBatch(requests, function(result) {
-                        callback(null, result);
-                    });
-                },
-                function(result, callback) {
-                    Skritter.api.getBatch(result.id, function(result) {
-                        size += result.responseSize;
-                        if (accountDownload)
-                            Skritter.facade.show('initial download <br />' + Skritter.fn.bytesToSize(size));
-                        Skritter.study.decomps.add(result.Decomps);
-                        Skritter.study.items.add(result.Items);
-                        Skritter.study.srsconfigs.add(result.SRSConfigs);
-                        Skritter.study.sentences.add(result.Sentences);
-                        Skritter.study.strokes.add(result.Strokes);
-                        Skritter.study.vocabs.add(result.Vocabs);
-                    }, function() {
-                        callback();
-                    });
-                },
-                function(callback) {
-                    Skritter.user.cacheAllData(function() {
-                        callback();
-                    });
-                }
-            ], function() {
-                Skritter.user.set('lastSync', Skritter.fn.getUnixTime());
-                if (accountDownload) {
-                    Skritter.facade.hide();
-                    if (typeof callback === 'function')
-                        callback();
-                }
-            });
         },
         /**
          * @method unsetSetting

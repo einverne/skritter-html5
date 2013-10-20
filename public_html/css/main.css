@@ -128,6 +128,12 @@ body {
         border: none;
     }
 }
+@media (max-width: 605px) {
+    #canvas-container {
+        box-shadow: none;  
+        border-width: 0px;
+    }
+}
 
 
 /* GRADING BUTTONS */

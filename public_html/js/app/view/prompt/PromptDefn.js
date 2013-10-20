@@ -34,7 +34,7 @@ define([
             this.next();
         },
         next: function() {
-            this.pushResult(Prompt.item.get('id'), Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
+            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             this.triggerPromptComplete();
         },
         showAnswer: function() {

@@ -10,8 +10,8 @@ define([
      */
     var Settings = Backbone.Model.extend({
         initialize: function() {
+            this.refreshDate();
             this.resize();
-            this.updateDate();
             $(window).resize(_.bind(this.resize, this));
         },
         defaults: {
@@ -31,18 +31,30 @@ define([
             version: '0.0.5'
         },
         resize: function() {
-            this.set('appWidth', $(window).width());
-            this.set('appHeight', $(window).height());
+            //sets the max boundaries of the application
+            this.set('appWidth', $('#skritter-container').width());
+            this.set('appHeight', $('#skritter-container').height());
+            //sets the orientation of the application area
+            if (this.get('appWidth') > this.get('appHeight')) {
+                this.set('orientation', 'horizontal');
+            } else {
+                this.set('orientation', 'vertical');
+            }
+            //sets max dimensions of the canvas element
             if (this.get('appWidth') > this.get('canvasMaxSize')) {
                 this.set('canvasSize', this.get('canvasMaxSize'));
             } else {
                 this.set('canvasSize', this.get('appWidth'));
             }
-            
+            this.triggerResize();
         },
-        updateDate: function() {
+        refreshDate: function() {
             var date = new Date();
-            this.set('date', date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay());
+            this.set('date', date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate());
+        },
+        triggerResize: function() {
+            var newSizes = {width:this.get('appWidth'), height:this.get('appHeight'), canvas:this.get('canvasSize')};
+            this.trigger('resize', newSizes);
         }
     });
     

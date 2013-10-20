@@ -152,13 +152,34 @@ define([
      * @param {Function} callback
      */
     IndexedDBAdapter.prototype.removeItem = function(tableName, key, callback) {
-        var promise = $.indexedDB(this.name).objectStore(tableName, true).remove(key);
+        var promise = $.indexedDB(this.name).objectStore(tableName, true).delete(key);
         promise.fail(function(error) {
-            console.error(error);
+            console.error(key, error);
         });
         promise.done(function(event) {
             callback(event);
         });
+    };
+    
+    /**
+     * @method removeItems
+     * @param {String} tableName
+     * @param {Array} items
+     * @param {Function} callback
+     */
+    IndexedDBAdapter.prototype.removeItems = function(tableName, items, callback) {
+        var events = [];
+        var position = 0;
+        for (var i in items) {
+            var item = items[i];
+            this.removeItem(tableName, item, function(event) {
+                position++;
+                events.push(event);
+                if (position >= items.length) {
+                    callback(events);
+                }
+            });
+        }
     };
 
     /**

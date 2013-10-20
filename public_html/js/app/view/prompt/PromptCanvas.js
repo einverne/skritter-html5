@@ -22,6 +22,7 @@ define([
             Canvas.strokeCapStyle = 'round';
             Canvas.strokeJointStyle = 'round';
             this.initStage();
+            this.listenTo(Skritter.settings, 'resize', this.resize);
         },
         /**
          * @method render
@@ -29,7 +30,6 @@ define([
          */
         render: function() {
             this.$el.append(Canvas.canvas);
-            this.resize();
             this.initLayers();
             this.drawGrid();
             return this;
@@ -69,10 +69,10 @@ define([
          */
         initStage: function() {
             Canvas.canvas = document.createElement('canvas');
-	    Canvas.canvas.setAttribute('id', 'prompt-canvas');
-	    Canvas.canvas.setAttribute('width', Canvas.size);
-	    Canvas.canvas.setAttribute('height', Canvas.size);
-	    Canvas.canvas.setAttribute('style', 'background:white');
+            Canvas.canvas.setAttribute('id', 'prompt-canvas');
+            Canvas.canvas.setAttribute('width', Canvas.size);
+            Canvas.canvas.setAttribute('height', Canvas.size);
+            Canvas.canvas.setAttribute('style', 'background:white');
             Canvas.stage = new createjs.Stage(Canvas.canvas);
             Canvas.stage.enableDOMEvents(true);
             Canvas.stage.autoClear = true;
@@ -94,18 +94,17 @@ define([
          * @param {String} color
          */
         applyBackgroundGlow: function(bitmap, color) {
-	    bitmap.alpha = 0.4;
-	    bitmap.shadow = new createjs.Shadow(color, 5, 5, 0);
+            bitmap.alpha = 0.4;
+            bitmap.shadow = new createjs.Shadow(color, 5, 5, 0);
             Canvas.layerBackground.addChildAt(bitmap, 0);
-	    createjs.Tween.get(bitmap, {loop: true}).to({alpha: 0.7}, 1500).wait(1000).to({alpha:0.4}, 1500).wait(1000);
-	},
+            createjs.Tween.get(bitmap, {loop: true}).to({alpha: 0.7}, 1500).wait(1000).to({alpha: 0.4}, 1500).wait(1000);
+        },
         clear: function() {
             Canvas.layerBackground.removeAllChildren();
             Canvas.layerMessage.removeAllChildren();
             Canvas.layerOverlay.removeAllChildren();
             Canvas.layerInput.removeAllChildren();
             Canvas.stage.update();
-            this.clearFix();
         },
         /**
          * Disables all touch input on the canvas. This is most commonly used when a user has
@@ -123,15 +122,15 @@ define([
          * @param {String} font
          */
         displayMessage: function(message, color, font) {
-	    Canvas.layerMessage.removeAllChildren();
-	    var text = new createjs.Text(message, font, color);
-	    text.x = (Canvas.size / 2) - (text.getMeasuredWidth() / 2);
-	    text.y = Canvas.size * 0.9;
-	    createjs.Tween.get(text).wait(2000).to({ alpha:0 }, 500).call(function() {
-		Canvas.layerMessage.removeChild(text);
-	    });
-	    Canvas.layerMessage.addChild(text);
-	},
+            Canvas.layerMessage.removeAllChildren();
+            var text = new createjs.Text(message, font, color);
+            text.x = (Canvas.size / 2) - (text.getMeasuredWidth() / 2);
+            text.y = Canvas.size * 0.9;
+            createjs.Tween.get(text).wait(2000).to({alpha: 0}, 500).call(function() {
+                Canvas.layerMessage.removeChild(text);
+            });
+            Canvas.layerMessage.addChild(text);
+        },
         /**
          * Given a CanvasCharacter this will render the image to the canvas.
          * 
@@ -151,6 +150,7 @@ define([
          * @method drawGrid
          */
         drawGrid: function() {
+            Canvas.layerGrid.removeAllChildren();
             var grid = new createjs.Shape();
             grid.graphics.beginStroke('grey').setStrokeStyle(1, Canvas.strokeCapStyle, Canvas.strokeJointStyle);
             grid.graphics.moveTo(Canvas.size / 2, 0).lineTo(Canvas.size / 2, Canvas.size);
@@ -269,21 +269,24 @@ define([
          * @method fadeOverlay
          */
         fadeOverlay: function() {
-	    if (Canvas.layerOverlay.getNumChildren() > 0) {
-		createjs.Tween.get(Canvas.layerOverlay).to({alpha: 0}, 500).call(function() {
-		    Canvas.layerOverlay.removeAllChildren();
-		    Canvas.layerOverlay.alpha = 1.0;
-		});
-	    }
-	},
+            if (Canvas.layerOverlay.getNumChildren() > 0) {
+                createjs.Tween.get(Canvas.layerOverlay).to({alpha: 0}, 500).call(function() {
+                    Canvas.layerOverlay.removeAllChildren();
+                    Canvas.layerOverlay.alpha = 1.0;
+                });
+            }
+        },
         /**
          * @method resize
+         * @param {Object} event
          */
-        resize: function() {
+        resize: function(event) {
+            Canvas.size = event.canvas;
             Canvas.canvas.setAttribute('width', Canvas.size);
             Canvas.canvas.setAttribute('height', Canvas.size);
             $('#canvas-container').width(Canvas.size);
             $('#canvas-container').height(Canvas.size);
+            this.drawGrid();
         },
         /**
          * @method tick

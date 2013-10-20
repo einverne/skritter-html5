@@ -8,6 +8,10 @@ define([
     'lodash'
 ], function() {
     /**
+     * Directly interfaces the official Skritter API with the application.
+     * For documentation regarding the API user the following link:
+     * http://beta.skritter.com/api/v0/docs
+     * 
      * @class Api
      * @param {String} clientId description
      * @param {String} clientSecret description
@@ -28,6 +32,8 @@ define([
     }
 
     /**
+     * Returns the authenticated user and the token required for future calls to the API.
+     * 
      * @method authenticateUser
      * @param {String} username
      * @param {String} password
@@ -57,6 +63,9 @@ define([
     };
 
     /**
+     * Returns the official date information of the account from the server. This is the safest way
+     * to check the current time associated with the account.
+     * 
      * @method getDateInfo
      * @param {Function} callback
      */
@@ -81,6 +90,9 @@ define([
     };
 
     /**
+     * Requests a specific batch from the server and returns the request id. Use the
+     * getBatch function to get the requested data from the server.
+     * 
      * @method requestBatch
      * @param {Array} requests
      * @param {Function} callback
@@ -103,6 +115,9 @@ define([
     };
 
     /**
+     * Returns an object with merged results based on a batch request. This is mainly used for
+     * account downloads and for larger account can take a few minutes.
+     * 
      * @method getBatch
      * @param {Number} batchId
      * @param {Function} callback1
@@ -126,18 +141,18 @@ define([
                 var batch = data.Batch;
                 var result = [];
                 var requests = batch.Requests;
-                
+
                 for (var i in requests) {
                     _.merge(result, requests[i].response, function(a, b) {
                         return _.isArray(a) ? a.concat(b) : undefined;
                     });
-                }                
-                
+                }
+
                 var responseSize = 0;
                 for (var r in requests) {
                     responseSize += requests[r].responseSize;
                 }
-                
+
                 result.responseSize = responseSize;
                 callback1(result);
 
@@ -166,6 +181,8 @@ define([
     };
 
     /**
+     * Returns an array of items and information relating to them.
+     * 
      * @method getItems
      * @param {Array} ids description
      * @param {Function} callback description
@@ -193,6 +210,10 @@ define([
     };
 
     /**
+     * Returns specific progress stats that can be used for various things such as an actual
+     * progress page or study time for the day from the server. To read more about the request parameters
+     * check the API documentation.
+     * 
      * @method getProgressStats
      * @param {Object} request
      * @param {Function} callback
@@ -217,6 +238,9 @@ define([
     };
 
     /**
+     * Returns an array of review post errors from the server. If the offset is null then
+     * it'll return all of the review errors.
+     * 
      * @method getReviewErrors
      * @param {Number} offset
      * @param {Function} callback
@@ -224,37 +248,43 @@ define([
     Api.prototype.getReviewErrors = function(offset, callback) {
         var self = this;
         var errors = [];
-        getNext();
-        function getNext(cursor) {
-            $.ajax({
-                url: self = this + '.' + self.domain + '/api/v' + self.version + '/reviews/errors',
+        var getNext = function(cursor) {
+            var promise = $.ajax({
+                url: self.root + '.' + self.domain + '/api/v' + self.version + '/reviews/errors',
                 type: 'GET',
                 cache: false,
                 data: {
                     bearer_token: self.token,
                     cursor: cursor,
                     offset: offset
-                },
-                error: function(error) {
-                    console.error(error);
-                    callback(error);
-                },
-                success: function(data) {
-                    errors = errors.concat(data.ReviewErrors);
-                    if (data.cursor) {
-                        setTimeout(function() {
-                            getNext(data.cursor);
-                        }, 2000);
-                    } else {
-                        console.log(errors);
-                        callback(errors);
-                    }
                 }
             });
-        }
+
+            promise.done(function(data) {
+                errors = errors.concat(data.ReviewErrors);
+                if (data.cursor) {
+                    setTimeout(function() {
+                        getNext(data.cursor);
+                    }, 2000);
+                } else {
+                    console.log(errors);
+                    callback(errors);
+                }
+            });
+
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        };
+
+        getNext();
     };
 
     /**
+     * Returns an object containing character mappings from simplified to traditional Chinese.
+     * Right now this is locally packaged with the application as it's not often updated.
+     * 
      * @method getSimpTradMap
      * @param {Function} callback
      */
@@ -279,6 +309,9 @@ define([
     };
 
     /**
+     * Returns the SRSConfig values for the current active user. These should be updated
+     * somewhat frequently to keep SRS calculations accurate.
+     * 
      * @method getSRSConfigs
      * @param {Function} callback
      */
@@ -303,6 +336,9 @@ define([
     };
 
     /**
+     * Returns basic informatiom about a user or detailed information if its a request
+     * for the current active user.
+     * 
      * @method getUser
      * @param {Number} userId description
      * @param {Function} callback description
@@ -329,6 +365,9 @@ define([
     };
 
     /**
+     * Returns a high level list of lists available sorted by type. For longer sort groups
+     * it might be nessesary to use pagination.
+     * 
      * @method getVocabLists
      * @param {String} sort
      * @param {Function} callback
@@ -336,9 +375,8 @@ define([
     Api.prototype.getVocabLists = function(sort, callback) {
         var self = this;
         var lists = [];
-        getNext();
-        function getNext(cursor) {
-            $.ajax({
+        var getNext = function(cursor) {
+            var promise = $.ajax({
                 url: self.root + '.' + self.domain + '/api/v' + self.version + '/vocablists',
                 type: 'GET',
                 cache: false,
@@ -346,26 +384,32 @@ define([
                     bearer_token: self.token,
                     sort: sort,
                     cursor: cursor
-                },
-                error: function(error) {
-                    console.error(error);
-                    callback(error);
-                },
-                success: function(data) {
-                    lists = lists.concat(data.VocabLists);
-                    if (data.cursor) {
-                        setTimeout(function() {
-                            getNext(data.cursor);
-                        }, 2000);
-                    } else {
-                        callback(lists, data.cursor);
-                    }
                 }
             });
-        }
+
+            promise.done(function(data) {
+                lists = lists.concat(data.VocabLists);
+                if (data.cursor) {
+                    setTimeout(function() {
+                        getNext(data.cursor);
+                    }, 2000);
+                } else {
+                    callback(lists, data.cursor);
+                }
+            });
+
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        };
+
+        getNext();
     };
 
     /**
+     * Returns a single vocablist with section ids for further querying.
+     * 
      * @method getVocabList
      * @param {Number} id
      * @param {Function} callback
@@ -391,7 +435,9 @@ define([
     };
 
     /**
-     * @method getVocalListSection
+     * Returns an array of rows in s single list section.
+     * 
+     * @method getVocabListSection
      * @param {String} listId
      * @param {String} sectionId
      * @param {Function} callback
@@ -417,27 +463,40 @@ define([
     };
 
     /**
+     * Posts batches of reviews in groups of 500 and then returns an array of the posted objects.
+     * 
      * @method postReviews
      * @param {Array} reviews
      * @param {Date} date
      * @param {Function} callback
      */
     Api.prototype.postReviews = function(reviews, date, callback) {
-        var promise = $.ajax({
-            url: this.root + '.' + this.domain + '/api/v' + this.version + '/reviews?bearer_token=' + this.token + '&date=' + date,
-            type: 'POST',
-            cache: false,
-            data: JSON.stringify(reviews)
-        });
+        var self = this;
+        var postedReviews = [];
+        var postNext = function(batch) {
+            var promise = $.ajax({
+                url: self.root + '.' + self.domain + '/api/v' + self.version + '/reviews?bearer_token=' + self.token + '&date=' + date,
+                type: 'POST',
+                cache: false,
+                data: JSON.stringify(batch)
+            });
 
-        promise.done(function(data) {
-            callback(data);
-        });
+            promise.done(function(data) {
+                postedReviews = postedReviews.concat(batch);
+                if (reviews.length > 0) {
+                    postNext(reviews.splice(0, 499));
+                } else {
+                    callback(postedReviews, data);
+                }
+            });
 
-        promise.fail(function(error) {
-            console.error(error);
-            callback(error);
-        });
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        };
+        
+        postNext(reviews.splice(0, 499));
     };
 
 

@@ -35,6 +35,50 @@ module.exports = function(grunt) {
                 src: ['public_html/js/app/**/*.js']
             }
         },
+        manifest: {
+            generate: {
+                options: {
+                    basePath: "public_html/",
+                    cache: ["index.html"],
+                    network: ["*"],
+                    preferOnline: false,
+                    verbose: false,
+                    timestamp: true
+                },
+                src: [
+                    "**/*.png",
+                    "css/**/*.js",
+                    "js/**/*.js",
+                    "media/**/*.eot",
+                    "media/**/*.svg",
+                    "media/**/*.ttf",
+                    "media/**/*.woff",
+                    "template/**/*.html"
+                ],
+                dest: "public_html/skritter.appcache"
+            },
+            'generate-www': {
+                    options: {
+                        basePath: "build/www/",
+                        cache: ["index.html"],
+                        network: ["*"],
+                        preferOnline: false,
+                        verbose: false,
+                        timestamp: true
+                    },
+                    src: [
+                        "**/*.png",
+                        "css/**/*.js",
+                        "js/**/*.js",
+                        "media/**/*.eot",
+                        "media/**/*.svg",
+                        "media/**/*.ttf",
+                        "media/**/*.woff",
+                        "template/**/*.html"
+                    ],
+                    dest: "build/www/skritter.appcache"
+            }
+        },
         requirejs: {
             compile: {
                 options: {
@@ -42,7 +86,7 @@ module.exports = function(grunt) {
                     baseUrl: "js/app/",
                     dir: "build/www/",
                     keepBuildDir: false,
-					fileExclusionRegExp: /^(config.xml|index-cordova.html)$/,
+                    fileExclusionRegExp: /^(config.xml|index-cordova.html)$/,
                     name: "Application",
                     removeCombined: true,
                     paths: {
@@ -60,7 +104,7 @@ module.exports = function(grunt) {
                         'createjs.preload': '../lib/createjs.preloadjs-0.4.0.min',
                         'createjs.sound': '../lib/createjs.soundjs-0.5.0.min',
                         'createjs.tween': '../lib/createjs.tweenjs-0.5.0.min',
-						'indexeddb.shim': '../lib/indexeddb.shim-0.1.2.min',
+                        'indexeddb.shim': '../lib/indexeddb.shim-0.1.2.min',
                         jquery: '../lib/jquery-1.10.2.min',
                         'jquery.hammer': '../lib/jquery.hammerjs-1.0.5.min',
                         'jquery.indexeddb': '../lib/jquery.indexeddb',
@@ -119,9 +163,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
+    grunt.loadNpmTasks('grunt-manifest');
     grunt.loadNpmTasks('grunt-shell');
 
     grunt.registerTask('docs', ['yuidoc']);
     grunt.registerTask('hint', ['jshint']);
-    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'yuidoc:compile-www']);
+    grunt.registerTask('cache-manifest', ['manifest']);
+    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'manifest:generate-www', 'yuidoc:compile-www']);
 };

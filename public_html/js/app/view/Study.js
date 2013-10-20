@@ -26,6 +26,7 @@ define([
     var Study = Backbone.View.extend({
         initialize: function() {
             Study.c = {prompt: null, item: null, vocabs: null};
+            Study.scheduler = new Scheduler();
         },
         /**
          * @method render
@@ -33,10 +34,10 @@ define([
          */
         render: function() {
             this.$el.html(templateStudy);
-            this.resize();
-            this.$('#items-due').text(Skritter.study.items.getItemsDue());
+            this.$('#items-due').text(Skritter.study.items.getItemsDue().length);
             Skritter.timer.setElement(this.$('#timer')).render();
             this.next();
+            this.resize();
 
             return this;
         },
@@ -48,9 +49,11 @@ define([
         },
         /**
          * @method handlePromptComplete
+         * @param {Object} results
          */
         handlePromptComplete: function(results) {
             this.updateItems(results);
+            Skritter.study.items.sort();
             this.next();
         },
         /**
@@ -58,7 +61,14 @@ define([
          * @returns {Object}
          */
         next: function() {
-            Study.c.item = Skritter.study.items.getRandom();
+            var items = Skritter.study.items.filterActive();
+            for (var i in items.models) {
+                var _item = items.models[i];
+                var _vocabs = items.models[i].getVocabs();
+                console.log(_vocabs[0].get('writing'), _item.get('part'), _item.getReadiness());
+            }
+            //Study.c.item = Skritter.study.items.getRandom();
+            Study.c.item = Skritter.study.items.getNext();
             Study.c.vocabs = Study.c.item.getVocabs();
             switch (Study.c.item.get('part')) {
                 case 'rune':
@@ -92,14 +102,19 @@ define([
          * @method resize
          */
         resize: function() {
-            //todo
+            //var top = {width: this.$('#prompt-top').width(), height: this.$('#prompt-top').height()};
+            var bottom = {width: this.$('#prompt-bottom').width(), height: this.$('#prompt-bottom').height()};
+            if (Skritter.settings.get('orientation') === 'vertical') {
+                console.log(Skritter.settings.get('appHeight'), bottom.height);
+                this.$('#prompt-top').height(Skritter.settings.get('appHeight') - bottom.height);
+            }
         },
         /**
          * @method updateItems
          * @param {Object} results
          */
         updateItems: function(results) {
-            console.log(results);
+            console.log('RESULTS', results);
             var reviews = [];
             //handles rune and tone reviews that contain multiple items
             if (results.length > 1) {
@@ -119,18 +134,19 @@ define([
                         thinkingTime: result.thinkingTime,
                         currentInterval: subItem.get('interval'),
                         actualInterval: result.startTime - subItem.get('last'),
-                        newInterval: new Scheduler().getInterval(subItem, result.grade),
+                        newInterval: Study.scheduler.getInterval(subItem, result.grade),
                         wordGroup: Study.c.vocabs[0].get('writing') + '_' + results[0].startTime,
                         previousInterval: subItem.get('previousInterval'),
                         previousSuccess: subItem.get('previousSuccess')
                     });
                     //next we need to update the item
                     subItem.set({
+                        changed: result.startTime,
                         last: result.startTime,
                         next: result.startTime + subReview.get('newInterval'),
                         interval: subReview.get('newInterval'),
                         previousInterval: subItem.get('interval'),
-                        previousSuccess: (subItem.get('grade') > 1) ? true : false,
+                        previousSuccess: (result.grade > 1) ? true : false,
                         reviews: subItem.get('reviews') + 1,
                         successes: (result.grade > 1) ? subItem.get('successes') + 1 : subItem.get('successes')
                     });
@@ -167,22 +183,22 @@ define([
                 thinkingTime: totalThinkingTime,
                 currentInterval: Study.c.item.get('interval'),
                 actualInterval: results[0].startTime - Study.c.item.get('last'),
-                newInterval: new Scheduler().getInterval(Study.c.item, finalGrade),
+                newInterval: Study.scheduler.getInterval(Study.c.item, finalGrade),
                 wordGroup: Study.c.vocabs[0].get('writing') + '_' + results[0].startTime,
                 previousInterval: Study.c.item.get('previousInterval'),
                 previousSuccess: Study.c.item.get('previousSuccess')
             });
             Study.c.item.set({
+                changed: results[0].startTime,
                 last: results[0].startTime,
                 next: results[0].startTime + review.get('newInterval'),
                 interval: review.get('newInterval'),
                 previousInterval: Study.c.item.get('interval'),
-                previousSuccess: (Study.c.item.get('grade') > 1) ? true : false,
+                previousSuccess: (results[0].grade > 1) ? true : false,
                 reviews: Study.c.item.get('reviews') + 1,
                 successes: (results[0].grade > 1) ? Study.c.item.get('successes') + 1 : Study.c.item.get('successes')
             });
             reviews.push(review);
-            console.log(reviews);
             Skritter.study.reviews.add(reviews);
         }
     });

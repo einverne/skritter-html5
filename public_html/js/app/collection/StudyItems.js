@@ -139,24 +139,28 @@ define([
         },
         /**
          * @method getItemsDue
-         * @returns {Number} The number of active items ready to be studied
+         * @returns {Number} An array of the items with a readiness considered due
          */
         getItemsDue: function() {
-            var count = 0;
+            var itemsDue = [];
             for (var i in this.models) {
                 var item = this.models[i];
                 //console.log(item.get('id'), item.getReadiness());
                 if (item.isActive() && item.getReadiness(true) >= 1)
-                    count++;
+                    itemsDue.push(item);
             }
-            return count;
+            return itemsDue;
         },
         /**
+         * Returns the item at the top of the sorted collection only including
+         * items that are actively being studied.
+         * 
          * @method getNext
          * @returns {StudyItem} The next item to be studied
          */
         getNext: function() {
-            var filtered = this.getStudy();
+            var filtered = this.filterActive();
+            filtered = filtered.filterBy('part', Skritter.user.getStudyParts());
             var item = filtered.at(0);
             return item;
         },
@@ -168,20 +172,10 @@ define([
          */
         getRandom: function() {
             var items = this.filterActive();
-            items = items.filterBy('part', Skritter.user.getStudyParts());
+            //items = items.filterBy('part', Skritter.user.getStudyParts());
             //items = items.filterBy('part', ['rune']);
-            //items = items.filterBy('id', ['mcfarljwtest1-zh-工人-0-rune']);
+            items = items.filterBy('id', ['mcfarljwtest1-zh-工人-0-rune']);
             return items.at(Skritter.fn.getRandomInt(0, items.length-1));
-        },
-        /**
-         * @method getStudy
-         * @returns {StudyItems} A new collection of StudyItems filter by parts being studied
-         */
-        getStudy: function() {
-            var items = this.filterActive();
-            //return items.filterBy('part', Skritter.user.getStudyParts());
-            return items.filterBy('id', ['mcfarljwtest1-zh-工人-0-rune']);
-            //return items.filterBy('parts', ['rune']);
         }
     });
 

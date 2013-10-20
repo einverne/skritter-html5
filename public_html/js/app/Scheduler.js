@@ -21,7 +21,7 @@ define(function() {
      * @returns {Number}
      */
     Scheduler.prototype.getInterval = function(item, grade) {
-        console.log('SCHEDULING', item, grade);
+        //console.log('SCHEDULING', item, grade);
         var config = this.config.findWhere({lang: Skritter.user.getSetting('targetLang'), part: item.get('part')});
         var newInterval;
         var getRandomizedInterval = function(interval) {
@@ -89,7 +89,7 @@ define(function() {
                 factor *= Math.pow(pctRight, 0.7);
         }
 
-        console.log('FACTOR', factor);
+        //console.log('FACTOR', factor);
 
         //multiple by the factor and randomize the interval
         newInterval = getRandomizedInterval(item.get('interval') * factor);
@@ -110,7 +110,7 @@ define(function() {
                 newInterval = 30;
             }
         }
-        console.log(newInterval);
+        //console.log(newInterval);
         return newInterval;
     };
 

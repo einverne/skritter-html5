@@ -60,9 +60,21 @@ define([
          * @param {Function} callback
          */
         save: function(callback) {
-            Skritter.api.postReviews(this.toJSON(), function(event) {
-                console.log(event);
+            if (this.length === 0) {
                 callback();
+                return;
+            }
+            var reviewModels = [];
+            var reviewKeys = [];
+            Skritter.api.postReviews(this.toJSON(), Skritter.settings.get('date'), function(reviews) {
+                for (var i in reviews) {
+                    reviewModels.push(Skritter.study.reviews.findWhere({itemId:reviews[i].itemId, submitTime:reviews[i].submitTime}));
+                    reviewKeys.push([reviews[i].itemId, reviews[i].submitTime]);
+                }
+                Skritter.storage.removeItems('reviews', reviewKeys, function() {
+                    Skritter.study.reviews.remove(reviewModels, {silent: true});
+                    callback();
+                });
             });
         }
 

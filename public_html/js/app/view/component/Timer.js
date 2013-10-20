@@ -143,7 +143,6 @@ define([
          * @method start
          */
         start: function() {
-            //console.log('START', TimerView.lap);
             if (!TimerView.lap) {
                 TimerView.lap = 1000;
                 TimerView.lapStart = new Date().getTime();
