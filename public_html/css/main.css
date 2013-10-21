@@ -138,9 +138,10 @@ body {
 
 /* GRADING BUTTONS */
 #grading-buttons {
+    bottom: 0;
     position: absolute;
     width: 100%;
-    bottom: 0;
+    z-index: 6000;
 }
 #grading-buttons div {
     background-repeat: no-repeat;

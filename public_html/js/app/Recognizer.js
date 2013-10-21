@@ -3,8 +3,9 @@
  * @author Joshua McFarland
  */
 define([
+    'model/StudyParam',
     'lodash'
-], function() {
+], function(StudyParam) {
     /**
      * @class Recognizer
      * @param {CanvasCharacter} userCharacter
@@ -96,6 +97,17 @@ define([
 		var variation = variations.at(b).get('variation');
 		var rune = variations.at(b).get('rune');
 		
+                //todo: update this backwards check to use the new params concept
+                //right now it's just a hack to manually inject params backwards
+                var reverseCorners = _.cloneDeep(params[0].get('corners')).reverse();
+                var reverseDeviations = _.cloneDeep(params[0].get('deviations')).reverse();
+                params.push(new StudyParam({
+                    bitmapId: bitmapId,
+                    corners: reverseCorners,
+                    deviations: reverseDeviations,
+                    feedback: 'backwards'
+                }));
+                
 		for (var p in params) {
 		    var result = [];
 		    var param = params[p];
@@ -106,7 +118,7 @@ define([
 			distance: this.checkDistance(param),
 			length: this.checkLength(param)
 		    };
-		    
+                    
 		    result.bitmap = bitmap;
 		    result.bitmapId = bitmapId;
 		    result.contains = param.get('contains');

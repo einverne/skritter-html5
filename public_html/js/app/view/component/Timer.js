@@ -41,8 +41,8 @@ define([
             var m = 0;
             var s = 0;
             var ms = 0;
-            h = Math.floor(time / (Math.pow(60, 2) * 1000));
-            time = time % (Math.pow(60, 2) * 1000);
+            h = Math.floor(time / (3600 * 1000));
+            time = time % (3600 * 1000);
             m = Math.floor(time / (60 * 1000));
             time = time % (60 * 1000);
             s = Math.floor(time / 1000);

@@ -22,7 +22,7 @@ define(function() {
         this.distance = function(p1, p2) {
             var dx = p2.x - p1.x;
             var dy = p2.y - p1.y;
-            return Math.pow((Math.pow(dx, 2) + Math.pow(dy, 2)), 1 / 2);
+            return Math.pow((dx * dx) + (dy * dy), 1 / 2);
         };
 
         this.pathDistance = function(points, a, b) {

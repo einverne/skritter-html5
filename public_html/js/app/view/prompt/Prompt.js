@@ -55,7 +55,6 @@ define([
             this.$('#canvas-container').height(Skritter.settings.get('canvasSize'));
         },
         showGrading: function(selected) {
-            Prompt.buttons = new GradingButtons();
             Prompt.buttons.setElement(this.$('#canvas-container')).render();
             if (selected)
                 Prompt.buttons.select(selected);

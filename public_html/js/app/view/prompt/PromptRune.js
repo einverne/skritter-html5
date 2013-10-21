@@ -86,6 +86,10 @@ define([
                         Rune.canvas.drawSquig(result);
                         this.handleStrokeComplete();
                     } else {
+                        //display feedback if it exists
+                        if (result.get('feedback')) {
+                            Rune.canvas.displayMessage(result.get('feedback'), 'orange', '24px Arial', 10, 10);
+                        }
                         Rune.canvas.drawStroke(result, _.bind(this.handleStrokeComplete, this));
                     }
                 } else {

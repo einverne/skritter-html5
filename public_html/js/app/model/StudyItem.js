@@ -67,7 +67,8 @@ define([
          * @return {Number}
          */
         getReadiness: function() {
-            var readiness = Skritter.fn.getUnixTime() - this.get('last');
+            //todo: make this more robust
+            var readiness = (Skritter.fn.getUnixTime() - this.get('last')) / (this.get('next') - this.get('last'));
             return readiness;
         },
         /**

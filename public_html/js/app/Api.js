@@ -181,32 +181,43 @@ define([
     };
 
     /**
-     * Returns an array of items and information relating to them.
+     * Returns an array of items based on requested ids. This is useful for syncing specific items that may
+     * have errors or other issues.
      * 
      * @method getItems
      * @param {Array} ids description
      * @param {Function} callback description
      */
     Api.prototype.getItems = function(ids, callback) {
-        var promise = $.ajax({
-            url: this.root + '.' + this.domain + '/api/v' + this.version + '/items',
-            type: 'GET',
-            cache: false,
-            data: {
-                bearer_token: this.token,
-                ids: ids.join('|'),
-                include_vocabs: 'true'
-            }
-        });
+        var self = this;
+        var items = [];
+        var getNext = function(batch) {
+            var promise = $.ajax({
+                url: self.root + '.' + self.domain + '/api/v' + self.version + '/items',
+                type: 'GET',
+                cache: false,
+                data: {
+                    bearer_token: self.token,
+                    ids: batch.join('|')
+                }
+            });
 
-        promise.done(function(data) {
-            callback(data);
-        });
+            promise.done(function(data) {
+                items = items.concat(data.Items);
+                if (ids.length > 0) {
+                    getNext(ids.splice(0, 99));
+                } else {
+                    callback(items);
+                }
+            });
 
-        promise.fail(function(error) {
-            console.error(error);
-            callback(error);
-        });
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        };
+        
+        getNext(ids.splice(0, 99));
     };
 
     /**
@@ -267,7 +278,6 @@ define([
                         getNext(data.cursor);
                     }, 2000);
                 } else {
-                    console.log(errors);
                     callback(errors);
                 }
             });

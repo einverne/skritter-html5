@@ -74,9 +74,9 @@ define(function() {
      */
     var getDistance = function(point1, point2) {
         var xs = point2.x - point1.x;
-        xs = Math.pow(xs, 2);
+        xs = xs * xs;
         var ys = point2.y - point1.y;
-        ys = Math.pow(ys, 2);
+        ys = ys * ys;
         return Math.sqrt(xs + ys);
     };
 
@@ -90,7 +90,7 @@ define(function() {
     var getLineDeviation = function(start, end, point) {
         var px = end.x - start.x;
         var py = end.y - start.y;
-        var segment = Math.pow(px, 2) + Math.pow(py, 2);
+        var segment = (px * px) + (py * py);
         var z = ((point.x - start.x) * px + (point.y - start.y) * py) / parseFloat(segment);
         if (z > 1) {
             z = 1;
@@ -101,7 +101,7 @@ define(function() {
         var y = start.y + z * py;
         var dx = x - point.x;
         var dy = y - point.y;
-        return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+        return Math.sqrt((dx * dx) + (dy * dy));
     };
     
     /**

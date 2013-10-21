@@ -116,16 +116,29 @@ define([
             Canvas.stage.removeAllEventListeners();
         },
         /**
+         * Draws text to the canvas on the message layer. If a position isn't specified then
+         * it defaults to the bottom center of the canvas.
+         * 
          * @method displayMessage
          * @param {String} message
          * @param {String} color
          * @param {String} font
+         * @param {Number} x
+         * @param {Number} y
          */
-        displayMessage: function(message, color, font) {
+        displayMessage: function(message, color, font, x, y) {
             Canvas.layerMessage.removeAllChildren();
             var text = new createjs.Text(message, font, color);
-            text.x = (Canvas.size / 2) - (text.getMeasuredWidth() / 2);
-            text.y = Canvas.size * 0.9;
+            if (x) {
+                text.x = x;
+            } else {
+                text.x = (Canvas.size / 2) - (text.getMeasuredWidth() / 2);
+            }
+            if (y) {
+                text.y = y;
+            } else {
+                text.y = Canvas.size * 0.9;
+            }
             createjs.Tween.get(text).wait(2000).to({alpha: 0}, 500).call(function() {
                 Canvas.layerMessage.removeChild(text);
             });

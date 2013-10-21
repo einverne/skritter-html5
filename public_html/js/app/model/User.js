@@ -49,6 +49,7 @@ define([
             access_token: null,
             expires_in: null,
             lastLogin: null,
+            lastReviewFix: null,
             lastSync: null,
             refresh_token: null,
             settings: null,
@@ -111,6 +112,26 @@ define([
             });
         },
         /**
+         * @method checkReviewErrors
+         * @param {Function} callback
+         * @param {Boolean} fixErrors
+         */
+        checkReviewErrors: function(callback, fixErrors) {
+            Skritter.api.getReviewErrors(this.get('lastReviewFix'), _.bind(function(errors) {
+                if (errors.length > 0) {
+                    if (fixErrors) {
+                        this.fixReviewErrors(errors, function(items) {
+                            callback(errors, items);
+                        });
+                    } else {
+                        callback(errors);
+                    }
+                } else {
+                    callback(errors);
+                }
+            }, this));
+        },
+        /**
          * Gets the current active users properties and settings from the server then saves it.
          * 
          * @method fetch
@@ -123,6 +144,19 @@ define([
                     callback(data);
                 }, this));
             }
+        },
+        fixReviewErrors: function(errors, callback) {
+            var errorIds = [];
+            for (var i in errors) {
+                errorIds.push(errors[i].itemId);
+            }
+            Skritter.facade.show('fixing ' + errors.length + ' sync issues');
+            Skritter.api.getItems(_.uniq(errorIds), _.bind(function(items) {
+                var updated = Skritter.study.items.set(items, {add: false, remove: false});
+                this.set('lastReviewFix', parseInt(errors[errors.length -1].created + 1), 10);
+                callback(updated);
+                Skritter.facade.hide();
+            }, this));
         },
         /**
          * Gets the users current avatar and returns it as an image tag using base64 data.

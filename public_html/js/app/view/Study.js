@@ -67,9 +67,15 @@ define([
                 var _vocabs = items.models[i].getVocabs();
                 console.log(_vocabs[0].get('writing'), _item.get('part'), _item.getReadiness());
             }
-            //Study.c.item = Skritter.study.items.getRandom();
+            //gets the next item that should be studied and loads it
             Study.c.item = Skritter.study.items.getNext();
             Study.c.vocabs = Study.c.item.getVocabs();
+            //integrity check to make sure something loaded
+            if (!Study.c.item || !Study.c.vocabs[0]) {
+                alert("Something didn't quite load properly!");
+                console.log('Prompt Load Failed', Study.c);
+                return;
+            }
             switch (Study.c.item.get('part')) {
                 case 'rune':
                     Study.c.prompt = new PromptRune();
