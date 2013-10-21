@@ -167,7 +167,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-shell');
 
     grunt.registerTask('docs', ['yuidoc']);
-    grunt.registerTask('hint', ['jshint']);
-    grunt.registerTask('cache-manifest', ['manifest']);
+	grunt.registerTask('cache-manifest', ['manifest']);
+    grunt.registerTask('hint', ['jshint']);    
     grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'manifest:generate-www', 'yuidoc:compile-www']);
 };
