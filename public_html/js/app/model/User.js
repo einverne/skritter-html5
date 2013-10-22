@@ -1,6 +1,7 @@
 /**
  * @module Skritter
  * @submodule Model
+ * @param Log
  * @param StudyDecomps
  * @param StudyItems
  * @param StudyParams
@@ -12,6 +13,7 @@
  * @author Joshua McFarland
  */
 define([
+    'collection/Log',
     'collection/StudyDecomps',
     'collection/StudyItems',
     'collection/StudyParams',
@@ -21,12 +23,13 @@ define([
     'collection/StudyStrokes',
     'collection/StudyVocabs',
     'backbone'
-], function(StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
+], function(Log, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
     /**
      * @class User
      */
     var User = Backbone.Model.extend({
         initialize: function() {
+            Skritter.log = new Log();
             Skritter.study = {
                 decomps: new StudyDecomps(),
                 items: new StudyItems(),
@@ -72,6 +75,11 @@ define([
          */
         cacheAllData: function(callback) {
             Skritter.async.parallel([
+                /*function(callback) {
+                    Skritter.log.cache(function() {
+                        callback();
+                    });
+                },*/
                 function(callback) {
                     Skritter.study.decomps.cache(function() {
                         callback();
@@ -211,7 +219,8 @@ define([
          * @param {Function} callback
          */
         loadAllData: function(callback) {
-            Skritter.async.series([
+            Skritter.async.parallel([
+                //Skritter.async.apply(Skritter.log.loadAll),
                 Skritter.async.apply(Skritter.study.decomps.loadAll),
                 Skritter.async.apply(Skritter.study.items.loadAll),
                 Skritter.async.apply(Skritter.study.params.loadAll),
@@ -263,6 +272,7 @@ define([
             });
         },
         resetAllData: function() {
+            Skritter.log.reset();
             Skritter.study.decomps.reset();
             Skritter.study.items.reset();
             Skritter.study.reviews.reset();

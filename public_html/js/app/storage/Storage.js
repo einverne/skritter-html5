@@ -43,6 +43,14 @@ define(function() {
                         previousInterval: 'number'
                     }
                 },
+                log: {
+                    keys: ['id'],
+                    fields: {
+                        userId: 'string',
+                        timestamp: 'number',
+                        data: 'object'
+                    }
+                },
                 reviews: {
                     keys: ['itemId'],
                     fields: {
@@ -118,7 +126,7 @@ define(function() {
         this.schemaIndexedDB = {
             1: function(transaction) {
                 //decomps table
-                var decomps = transaction.createObjectStore('decomps', {keyPath: ['writing']});
+                var decomps = transaction.createObjectStore('decomps', {keyPath: 'writing'});
                 decomps.createIndex('atomic', 'atomic');
                 decomps.createIndex('Children', 'Children');
                 //items table
@@ -138,6 +146,11 @@ define(function() {
                 items.createIndex('changed', 'changed');
                 items.createIndex('previousSuccess', 'previousSuccess');
                 items.createIndex('previousInterval', 'previousInterval');
+                //log table
+                var log = transaction.createObjectStore('log', {keyPath: 'id', autoIncrement: true});
+                log.createIndex('userId', 'userId');
+                log.createIndex('timestamp', 'timestamp');
+                log.createIndex('data', 'data');
                 //reviews table
                 var reviews = transaction.createObjectStore('reviews', {keyPath: ['itemId', 'submitTime']});
                 reviews.createIndex('score', 'score');
@@ -151,7 +164,7 @@ define(function() {
                 reviews.createIndex('previousInterval', 'previousInterval');
                 reviews.createIndex('previousSuccess', 'previousSuccess');
                 //sentences table
-                var sentences = transaction.createObjectStore('sentences', {keyPath: ['id']});
+                var sentences = transaction.createObjectStore('sentences', {keyPath: 'id'});
                 sentences.createIndex('containedVocabIds', 'containedVocabIds');
                 sentences.createIndex('definitions', 'definitions');
                 sentences.createIndex('lang', 'lang');

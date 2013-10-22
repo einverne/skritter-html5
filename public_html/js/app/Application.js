@@ -7,7 +7,6 @@
  * @param Facade
  * @param Timer
  * @param Assets
- * @param CordovaAssets
  * @param Settings
  * @param User
  * @param IndexedDBAdapter
@@ -21,14 +20,13 @@ define([
     'component/Facade',
     'component/Timer',
     'model/Assets',
-    'model/CordovaAssets',
     'model/Settings',
     'model/User',
     'storage/IndexedDBAdapter',
     'async',
     'bootstrap',
     'jquery'
-], function(Api, Functions, Router, Facade, Timer, Assets, CordovaAssets, Settings, User, IndexedDBAdapter, Async) {
+], function(Api, Functions, Router, Facade, Timer, Assets, Settings, User, IndexedDBAdapter, Async) {
     /**
      * Creates the global Skritter namespace when the application first opened.
      * @param Skritter
