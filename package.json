@@ -1,0 +1,17 @@
+{
+    "name": "Skritter HTML5",
+    "main": "index.html",
+    "version": "0.0.5",
+    "window": {
+        "toolbar": true,
+        "width": 1010,
+        "height": 660,
+        "position": "center",
+        "min_width": 1010,
+        "min_height": 660
+    },
+    "webkit": {
+        "plugin": true
+    },
+    "nodejs": false
+}

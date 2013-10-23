@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public_html\js\app\Stopwatch.js - skritter-html5</title>
+    <title>Log - skritter-html5</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -188,48 +192,354 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: public_html\js\app\Stopwatch.js</h1>
-
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
- * @module Skritter
- * @author Joshua McFarland
- */
-define(function() {
-    /**
-     * @class Stopwatch
-     */
-    var Stopwatch = function() {
-	var startAt = 0;
-	var lapTime = 0;
-
-	var now = function() {
-            var date = new Date();
-	    return date.getTime();
-	};
-
-	this.start = function() {
-	    startAt = startAt ? startAt : now();
-	};
-
-	this.stop = function() {
-	    lapTime = startAt ? lapTime + now() - startAt : lapTime;
-	    startAt = 0;
-	};
-
-	this.reset = function() {
-	    lapTime = startAt = 0;
-	};
-
-	this.time = function() {
-	    return lapTime + (startAt ? now() - startAt : 0);
-	};
-    };
+                        <h1>Log Class</h1>
+<div class="box meta">
     
-    return Stopwatch;
-});
-    </pre>
+
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="../files/public_html_js_app_collection_Log.js.html#l11"><code>public_html\js\app\collection\Log.js:11</code></a>
+        </div>
+    
+
+    
+        
+            Module: <a href="../modules/Collection.html">Collection</a><br>
+            Parent Module: <a href="../modules/Skritter.html">Skritter</a>
+        
+    
+
+    
+</div>
+
+
+
+<div class="box intro">
+    
+</div>
+
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_cache">cache</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_loadAll">loadAll</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property_model">model</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_cache" class="method item">
+    <h3 class="name"><code>cache</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_collection_Log.js.html#l19"><code>public_html\js\app\collection\Log.js:19</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type">Callback</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_loadAll" class="method item">
+    <h3 class="name"><code>loadAll</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Undefined</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_collection_Log.js.html#l33"><code>public_html\js\app\collection\Log.js:33</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type">Callback</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Undefined</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_model" class="property item">
+    <h3 class="name"><code>model</code></h3>
+    <span class="type"><a href="..\classes\Log.html" class="crosslink">Log</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_collection_Log.js.html#l15"><code>public_html\js\app\collection\Log.js:15</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+    </div>
 </div>
 
                     </div>

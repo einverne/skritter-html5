@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -212,7 +216,10 @@
 
 
 <div class="box intro">
-    
+    <p>Directly interfaces the official Skritter API with the application.
+For documentation regarding the API user the following link:
+<a href="http://beta.skritter.com/api/v0/docs">http://beta.skritter.com/api/v0/docs</a></p>
+
 </div>
 
 
@@ -430,7 +437,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getVocalListSection">getVocalListSection</a>
+                                <a href="#method_getVocabListSection">getVocabListSection</a>
 
                                 
                                 
@@ -520,7 +527,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l30"><code>public_html\js\app\Api.js:30</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l34"><code>public_html\js\app\Api.js:34</code></a>
         
         </p>
 
@@ -531,7 +538,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the authenticated user and the token required for future calls to the API.</p>
+
     </div>
 
     
@@ -649,7 +657,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l105"><code>public_html\js\app\Api.js:105</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l117"><code>public_html\js\app\Api.js:117</code></a>
         
         </p>
 
@@ -660,7 +668,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns an object with merged results based on a batch request. This is mainly used for
+account downloads and for larger account can take a few minutes.</p>
+
     </div>
 
     
@@ -766,7 +776,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l59"><code>public_html\js\app\Api.js:59</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l65"><code>public_html\js\app\Api.js:65</code></a>
         
         </p>
 
@@ -777,7 +787,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the official date information of the account from the server. This is the safest way
+to check the current time associated with the account.</p>
+
     </div>
 
     
@@ -859,7 +871,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l168"><code>public_html\js\app\Api.js:168</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l183"><code>public_html\js\app\Api.js:183</code></a>
         
         </p>
 
@@ -870,7 +882,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns an array of items based on requested ids. This is useful for syncing specific items that may
+have errors or other issues.</p>
+
     </div>
 
     
@@ -969,7 +983,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l195"><code>public_html\js\app\Api.js:195</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l223"><code>public_html\js\app\Api.js:223</code></a>
         
         </p>
 
@@ -980,7 +994,10 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns specific progress stats that can be used for various things such as an actual
+progress page or study time for the day from the server. To read more about the request parameters
+check the API documentation.</p>
+
     </div>
 
     
@@ -1077,7 +1094,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l219"><code>public_html\js\app\Api.js:219</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l251"><code>public_html\js\app\Api.js:251</code></a>
         
         </p>
 
@@ -1088,7 +1105,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns an array of review post errors from the server. If the offset is null then
+it&#39;ll return all of the review errors.</p>
+
     </div>
 
     
@@ -1179,7 +1198,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l257"><code>public_html\js\app\Api.js:257</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l294"><code>public_html\js\app\Api.js:294</code></a>
         
         </p>
 
@@ -1190,7 +1209,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns an object containing character mappings from simplified to traditional Chinese.
+Right now this is locally packaged with the application as it&#39;s not often updated.</p>
+
     </div>
 
     
@@ -1266,7 +1287,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l281"><code>public_html\js\app\Api.js:281</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l321"><code>public_html\js\app\Api.js:321</code></a>
         
         </p>
 
@@ -1277,7 +1298,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the SRSConfig values for the current active user. These should be updated
+somewhat frequently to keep SRS calculations accurate.</p>
+
     </div>
 
     
@@ -1359,7 +1382,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l305"><code>public_html\js\app\Api.js:305</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l348"><code>public_html\js\app\Api.js:348</code></a>
         
         </p>
 
@@ -1370,7 +1393,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns basic informatiom about a user or detailed information if its a request
+for the current active user.</p>
+
     </div>
 
     
@@ -1469,7 +1494,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l368"><code>public_html\js\app\Api.js:368</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l420"><code>public_html\js\app\Api.js:420</code></a>
         
         </p>
 
@@ -1480,7 +1505,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a single vocablist with section ids for further querying.</p>
+
     </div>
 
     
@@ -1577,7 +1603,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l331"><code>public_html\js\app\Api.js:331</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l377"><code>public_html\js\app\Api.js:377</code></a>
         
         </p>
 
@@ -1588,7 +1614,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a high level list of lists available sorted by type. For longer sort groups
+it might be nessesary to use pagination.</p>
+
     </div>
 
     
@@ -1637,8 +1665,8 @@
 </div>
 
                 
-                    <div id="method_getVocalListSection" class="method item">
-    <h3 class="name"><code>getVocalListSection</code></h3>
+                    <div id="method_getVocabListSection" class="method item">
+    <h3 class="name"><code>getVocabListSection</code></h3>
 
     
         <div class="args">
@@ -1691,7 +1719,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l393"><code>public_html\js\app\Api.js:393</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l447"><code>public_html\js\app\Api.js:447</code></a>
         
         </p>
 
@@ -1702,7 +1730,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns an array of rows in s single list section.</p>
+
     </div>
 
     
@@ -1820,7 +1849,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l419"><code>public_html\js\app\Api.js:419</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l475"><code>public_html\js\app\Api.js:475</code></a>
         
         </p>
 
@@ -1831,7 +1860,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Posts batches of reviews in groups of 500 and then returns an array of the posted objects.</p>
+
     </div>
 
     
@@ -1943,7 +1973,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l83"><code>public_html\js\app\Api.js:83</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l92"><code>public_html\js\app\Api.js:92</code></a>
         
         </p>
 
@@ -1954,7 +1984,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Requests a specific batch from the server and returns the request id. Use the
+getBatch function to get the requested data from the server.</p>
+
     </div>
 
     

@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -333,24 +337,28 @@ define([
         },
         /**
          * @method getItemsDue
-         * @returns {Number} The number of active items ready to be studied
+         * @returns {Number} An array of the items with a readiness considered due
          */
         getItemsDue: function() {
-            var count = 0;
+            var itemsDue = [];
             for (var i in this.models) {
                 var item = this.models[i];
                 //console.log(item.get(&#x27;id&#x27;), item.getReadiness());
                 if (item.isActive() &amp;&amp; item.getReadiness(true) &gt;= 1)
-                    count++;
+                    itemsDue.push(item);
             }
-            return count;
+            return itemsDue;
         },
         /**
+         * Returns the item at the top of the sorted collection only including
+         * items that are actively being studied.
+         * 
          * @method getNext
          * @returns {StudyItem} The next item to be studied
          */
         getNext: function() {
-            var filtered = this.getStudy();
+            var filtered = this.filterActive();
+            filtered = filtered.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
             var item = filtered.at(0);
             return item;
         },
@@ -362,20 +370,10 @@ define([
          */
         getRandom: function() {
             var items = this.filterActive();
-            items = items.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
+            //items = items.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
             //items = items.filterBy(&#x27;part&#x27;, [&#x27;rune&#x27;]);
-            //items = items.filterBy(&#x27;id&#x27;, [&#x27;mcfarljwtest1-zh-工人-0-rune&#x27;]);
+            items = items.filterBy(&#x27;id&#x27;, [&#x27;mcfarljwtest1-zh-工人-0-rune&#x27;]);
             return items.at(Skritter.fn.getRandomInt(0, items.length-1));
-        },
-        /**
-         * @method getStudy
-         * @returns {StudyItems} A new collection of StudyItems filter by parts being studied
-         */
-        getStudy: function() {
-            var items = this.filterActive();
-            //return items.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
-            return items.filterBy(&#x27;id&#x27;, [&#x27;mcfarljwtest1-zh-工人-0-rune&#x27;]);
-            //return items.filterBy(&#x27;parts&#x27;, [&#x27;rune&#x27;]);
         }
     });
 

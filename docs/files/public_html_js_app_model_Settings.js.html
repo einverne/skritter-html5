@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -204,8 +208,8 @@ define([
      */
     var Settings = Backbone.Model.extend({
         initialize: function() {
+            this.refreshDate();
             this.resize();
-            this.updateDate();
             $(window).resize(_.bind(this.resize, this));
         },
         defaults: {
@@ -225,18 +229,30 @@ define([
             version: &#x27;0.0.5&#x27;
         },
         resize: function() {
-            this.set(&#x27;appWidth&#x27;, $(window).width());
-            this.set(&#x27;appHeight&#x27;, $(window).height());
+            //sets the max boundaries of the application
+            this.set(&#x27;appWidth&#x27;, $(&#x27;#skritter-container&#x27;).width());
+            this.set(&#x27;appHeight&#x27;, $(&#x27;#skritter-container&#x27;).height());
+            //sets the orientation of the application area
+            if (this.get(&#x27;appWidth&#x27;) &gt; this.get(&#x27;appHeight&#x27;)) {
+                this.set(&#x27;orientation&#x27;, &#x27;horizontal&#x27;);
+            } else {
+                this.set(&#x27;orientation&#x27;, &#x27;vertical&#x27;);
+            }
+            //sets max dimensions of the canvas element
             if (this.get(&#x27;appWidth&#x27;) &gt; this.get(&#x27;canvasMaxSize&#x27;)) {
                 this.set(&#x27;canvasSize&#x27;, this.get(&#x27;canvasMaxSize&#x27;));
             } else {
                 this.set(&#x27;canvasSize&#x27;, this.get(&#x27;appWidth&#x27;));
             }
-            
+            this.triggerResize();
         },
-        updateDate: function() {
+        refreshDate: function() {
             var date = new Date();
-            this.set(&#x27;date&#x27;, date.getFullYear() + &#x27;-&#x27; + date.getMonth() + &#x27;-&#x27; + date.getDay());
+            this.set(&#x27;date&#x27;, date.getFullYear() + &#x27;-&#x27; + date.getMonth() + &#x27;-&#x27; + date.getDate());
+        },
+        triggerResize: function() {
+            var newSizes = {width:this.get(&#x27;appWidth&#x27;), height:this.get(&#x27;appHeight&#x27;), canvas:this.get(&#x27;canvasSize&#x27;)};
+            this.trigger(&#x27;resize&#x27;, newSizes);
         }
     });
     

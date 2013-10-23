@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -254,9 +258,25 @@ define([
          * @param {Function} callback
          */
         save: function(callback) {
-            Skritter.api.postReviews(this.toJSON(), function(event) {
-                console.log(event);
+            if (this.length === 0) {
                 callback();
+                return;
+            }
+            var reviewModels = [];
+            var reviewKeys = [];
+            Skritter.api.postReviews(this.toJSON(), Skritter.settings.get(&#x27;date&#x27;), function(reviews) {
+                if (reviews.responseText) {
+                    callback();
+                    return;
+                }
+                for (var i in reviews) {
+                    reviewModels.push(Skritter.study.reviews.findWhere({itemId:reviews[i].itemId, submitTime:reviews[i].submitTime}));
+                    reviewKeys.push([reviews[i].itemId, reviews[i].submitTime]);
+                }
+                Skritter.storage.removeItems(&#x27;reviews&#x27;, reviewKeys, function() {
+                    Skritter.study.reviews.remove(reviewModels, {silent: true});
+                    callback();
+                });
             });
         }
 

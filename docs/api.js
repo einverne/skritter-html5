@@ -6,12 +6,13 @@ YUI.add("yuidoc-meta", function(Y) {
         "Assets",
         "CanvasCharacter",
         "CanvasStroke",
-        "CordovaAssets",
         "Facade",
         "Functions",
         "HomeView",
         "IndexedDBAdapter",
         "InfoView",
+        "Log",
+        "LogItem",
         "LoginView",
         "Mauler",
         "OptionsView",
@@ -27,7 +28,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Scheduler",
         "Settings",
         "Shortstraw",
-        "Stopwatch",
         "Storage",
         "StudyDecomp",
         "StudyDecomps",
@@ -46,7 +46,9 @@ YUI.add("yuidoc-meta", function(Y) {
         "StudyVocab",
         "StudyVocabs",
         "Timer",
-        "User"
+        "User",
+        "Vocab",
+        "Words"
     ],
     "modules": [
         "Collection",

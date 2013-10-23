@@ -16,6 +16,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "public_html\\js\\app\\collection\\Log.js": {
+            "name": "public_html\\js\\app\\collection\\Log.js",
+            "modules": {},
+            "classes": {
+                "Log": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "public_html\\js\\app\\collection\\StudyDecomps.js": {
             "name": "public_html\\js\\app\\collection\\StudyDecomps.js",
             "modules": {},
@@ -106,20 +115,20 @@
             "fors": {},
             "namespaces": {}
         },
-        "public_html\\js\\app\\model\\CordovaAssets.js": {
-            "name": "public_html\\js\\app\\model\\CordovaAssets.js",
-            "modules": {
-                "Skritter": 1
-            },
+        "public_html\\js\\app\\model\\LogItem.js": {
+            "name": "public_html\\js\\app\\model\\LogItem.js",
+            "modules": {},
             "classes": {
-                "CordovaAssets": 1
+                "LogItem": 1
             },
             "fors": {},
             "namespaces": {}
         },
         "public_html\\js\\app\\model\\Settings.js": {
             "name": "public_html\\js\\app\\model\\Settings.js",
-            "modules": {},
+            "modules": {
+                "Skritter": 1
+            },
             "classes": {
                 "Settings": 1
             },
@@ -249,6 +258,17 @@
             "fors": {},
             "namespaces": {}
         },
+        "public_html\\js\\app\\view\\component\\Words.js": {
+            "name": "public_html\\js\\app\\view\\component\\Words.js",
+            "modules": {
+                "View": 1
+            },
+            "classes": {
+                "Words": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "public_html\\js\\app\\view\\prompt\\Prompt.js": {
             "name": "public_html\\js\\app\\view\\prompt\\Prompt.js",
             "modules": {},
@@ -307,9 +327,7 @@
         },
         "public_html\\js\\app\\view\\Home.js": {
             "name": "public_html\\js\\app\\view\\Home.js",
-            "modules": {
-                "View": 1
-            },
+            "modules": {},
             "classes": {
                 "HomeView": 1
             },
@@ -348,6 +366,15 @@
             "modules": {},
             "classes": {
                 "StudyView": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "public_html\\js\\app\\view\\Vocab.js": {
+            "name": "public_html\\js\\app\\view\\Vocab.js",
+            "modules": {},
+            "classes": {
+                "Vocab": 1
             },
             "fors": {},
             "namespaces": {}
@@ -432,15 +459,6 @@
             },
             "fors": {},
             "namespaces": {}
-        },
-        "public_html\\js\\app\\Stopwatch.js": {
-            "name": "public_html\\js\\app\\Stopwatch.js",
-            "modules": {},
-            "classes": {
-                "Stopwatch": 1
-            },
-            "fors": {},
-            "namespaces": {}
         }
     },
     "modules": {
@@ -452,11 +470,12 @@
                 "Storage": 1,
                 "Facade": 1,
                 "Component": 1,
-                "Prompt": 1,
-                "View": 1
+                "View": 1,
+                "Prompt": 1
             },
             "classes": {
                 "CanvasCharacter": 1,
+                "Log": 1,
                 "StudyDecomps": 1,
                 "StudyItems": 1,
                 "StudyParams": 1,
@@ -467,7 +486,7 @@
                 "StudyVocabs": 1,
                 "Assets": 1,
                 "CanvasStroke": 1,
-                "CordovaAssets": 1,
+                "LogItem": 1,
                 "Settings": 1,
                 "StudyDecomp": 1,
                 "StudyItem": 1,
@@ -481,6 +500,7 @@
                 "Storage": 1,
                 "Facade": 1,
                 "Timer": 1,
+                "Words": 1,
                 "Prompt": 1,
                 "PromptCanvas": 1,
                 "PromptDefn": 1,
@@ -492,6 +512,7 @@
                 "LoginView": 1,
                 "OptionsView": 1,
                 "StudyView": 1,
+                "Vocab": 1,
                 "Api": 1,
                 "Application": 1,
                 "Functions": 1,
@@ -500,28 +521,28 @@
                 "Recognizer": 1,
                 "Router": 1,
                 "Scheduler": 1,
-                "Shortstraw": 1,
-                "Stopwatch": 1
+                "Shortstraw": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "public_html\\js\\app\\Stopwatch.js",
+            "file": "public_html\\js\\app\\Shortstraw.js",
             "line": 6,
+            "author": "Joshua McFarland",
+            "submobule": "Prompt",
             "params": [
                 {
-                    "name": "Assets",
+                    "name": "GradingButtons",
                     "description": ""
                 }
-            ],
-            "author": "Joshua McFarland",
-            "submobule": "Prompt"
+            ]
         },
         "Collection": {
             "name": "Collection",
             "submodules": {},
             "classes": {
                 "CanvasCharacter": 1,
+                "Log": 1,
                 "StudyDecomps": 1,
                 "StudyItems": 1,
                 "StudyParams": 1,
@@ -552,6 +573,7 @@
                 "StudySRSConfigs": 1,
                 "Assets": 1,
                 "CanvasStroke": 1,
+                "LogItem": 1,
                 "StudyDecomp": 1,
                 "StudyItem": 1,
                 "StudyParam": 1,
@@ -567,7 +589,7 @@
             "module": "Skritter",
             "namespace": "",
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 25,
+            "line": 27,
             "author": "Joshua McFarland",
             "params": [
                 {
@@ -630,10 +652,31 @@
             "module": "Skritter",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 11,
+            "line": 39,
+            "author": "Joshua McFarland"
+        },
+        "View": {
+            "name": "View",
+            "submodules": {},
+            "classes": {
+                "Words": 1,
+                "HomeView": 1,
+                "InfoView": 1,
+                "LoginView": 1,
+                "StudyView": 1,
+                "Vocab": 1,
+                "Router": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "Skritter",
+            "namespace": "",
+            "file": "public_html\\js\\app\\Router.js",
+            "line": 21,
             "params": [
                 {
-                    "name": "Stopwatch",
+                    "name": "templateVocabWords",
                     "description": ""
                 }
             ],
@@ -687,35 +730,6 @@
                     "description": ""
                 }
             ]
-        },
-        "View": {
-            "name": "View",
-            "submodules": {},
-            "classes": {
-                "HomeView": 1,
-                "InfoView": 1,
-                "LoginView": 1,
-                "StudyView": 1,
-                "Router": 1
-            },
-            "fors": {},
-            "is_submodule": 1,
-            "namespaces": {},
-            "module": "Skritter",
-            "namespace": "",
-            "file": "public_html\\js\\app\\Router.js",
-            "line": 19,
-            "params": [
-                {
-                    "name": "templateHomeIn",
-                    "description": ""
-                },
-                {
-                    "name": "templateHomeOut",
-                    "description": ""
-                }
-            ],
-            "author": "Joshua McFarland"
         }
     },
     "classes": {
@@ -731,6 +745,20 @@
             "submodule": "Collection",
             "namespace": "",
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
+            "line": 11
+        },
+        "Log": {
+            "name": "Log",
+            "shortname": "Log",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Skritter",
+            "submodule": "Collection",
+            "namespace": "",
+            "file": "public_html\\js\\app\\collection\\Log.js",
             "line": 11
         },
         "StudyDecomps": {
@@ -874,20 +902,19 @@
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
             "line": 24
         },
-        "CordovaAssets": {
-            "name": "CordovaAssets",
-            "shortname": "CordovaAssets",
+        "LogItem": {
+            "name": "LogItem",
+            "shortname": "LogItem",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
             "module": "Skritter",
+            "submodule": "Model",
             "namespace": "",
-            "file": "public_html\\js\\app\\model\\CordovaAssets.js",
-            "line": 10,
-            "description": "Extend and overrides the assets model to provide Cordova specific functionality.",
-            "extends": "Assets"
+            "file": "public_html\\js\\app\\model\\LogItem.js",
+            "line": 9
         },
         "Settings": {
             "name": "Settings",
@@ -1012,7 +1039,7 @@
             "submodule": "Model",
             "namespace": "",
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 25
+            "line": 27
         },
         "IndexedDBAdapter": {
             "name": "IndexedDBAdapter",
@@ -1073,6 +1100,20 @@
             "submodule": "Component",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 39
+        },
+        "Words": {
+            "name": "Words",
+            "shortname": "Words",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Skritter",
+            "submodule": "View",
+            "namespace": "",
+            "file": "public_html\\js\\app\\view\\component\\Words.js",
             "line": 11
         },
         "Prompt": {
@@ -1227,6 +1268,20 @@
             "file": "public_html\\js\\app\\view\\Study.js",
             "line": 23
         },
+        "Vocab": {
+            "name": "Vocab",
+            "shortname": "Vocab",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Skritter",
+            "submodule": "View",
+            "namespace": "",
+            "file": "public_html\\js\\app\\view\\Vocab.js",
+            "line": 13
+        },
         "Api": {
             "name": "Api",
             "shortname": "Api",
@@ -1239,6 +1294,7 @@
             "namespace": "",
             "file": "public_html\\js\\app\\Api.js",
             "line": 10,
+            "description": "Directly interfaces the official Skritter API with the application.\nFor documentation regarding the API user the following link:\nhttp://beta.skritter.com/api/v0/docs",
             "params": [
                 {
                     "name": "clientId",
@@ -1319,7 +1375,7 @@
             "module": "Skritter",
             "namespace": "",
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 8,
+            "line": 9,
             "params": [
                 {
                     "name": "userCharacter",
@@ -1351,7 +1407,7 @@
             "submodule": "View",
             "namespace": "",
             "file": "public_html\\js\\app\\Router.js",
-            "line": 19
+            "line": 21
         },
         "Scheduler": {
             "name": "Scheduler",
@@ -1391,19 +1447,6 @@
                 "type": "Array"
             },
             "is_constructor": 1
-        },
-        "Stopwatch": {
-            "name": "Stopwatch",
-            "shortname": "Stopwatch",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "Skritter",
-            "namespace": "",
-            "file": "public_html\\js\\app\\Stopwatch.js",
-            "line": 6
         }
     },
     "classitems": [
@@ -1460,6 +1503,52 @@
                 "type": "Number"
             },
             "class": "CanvasCharacter",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\Log.js",
+            "line": 15,
+            "itemtype": "property",
+            "name": "model",
+            "type": "Log",
+            "class": "Log",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\Log.js",
+            "line": 19,
+            "itemtype": "method",
+            "name": "cache",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Callback"
+                }
+            ],
+            "class": "Log",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\Log.js",
+            "line": 33,
+            "itemtype": "method",
+            "name": "loadAll",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Callback"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": "Log",
             "module": "Skritter",
             "submodule": "Collection"
         },
@@ -1645,7 +1734,7 @@
             "itemtype": "method",
             "name": "getItemsDue",
             "return": {
-                "description": "The number of active items ready to be studied",
+                "description": "An array of the items with a readiness considered due",
                 "type": "Number"
             },
             "class": "StudyItems",
@@ -1655,6 +1744,7 @@
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
             "line": 154,
+            "description": "Returns the item at the top of the sorted collection only including\nitems that are actively being studied.",
             "itemtype": "method",
             "name": "getNext",
             "return": {
@@ -1667,26 +1757,13 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 163,
+            "line": 167,
             "description": "Returns a random active study item.",
             "itemtype": "method",
             "name": "getRandom",
             "return": {
                 "description": "",
                 "type": "StudyItem"
-            },
-            "class": "StudyItems",
-            "module": "Skritter",
-            "submodule": "Collection"
-        },
-        {
-            "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 176,
-            "itemtype": "method",
-            "name": "getStudy",
-            "return": {
-                "description": "A new collection of StudyItems filter by parts being studied",
-                "type": "StudyItems"
             },
             "class": "StudyItems",
             "module": "Skritter",
@@ -2132,9 +2209,11 @@
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
             "line": 98,
+            "itemtype": "method",
+            "name": "getInflatedData",
             "return": {
                 "description": "",
-                "type": "_L20.Anonym$0.getInflatedData.Anonym$1"
+                "type": "Object"
             },
             "class": "CanvasStroke",
             "module": "Skritter",
@@ -2191,31 +2270,6 @@
             "submodule": "Model"
         },
         {
-            "file": "public_html\\js\\app\\model\\CordovaAssets.js",
-            "line": 17,
-            "description": "Uses the media plugin for Cordova to play locally stored audio files.",
-            "itemtype": "method",
-            "name": "getAudio",
-            "params": [
-                {
-                    "name": "audioId",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "callback",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Media"
-            },
-            "class": "CordovaAssets",
-            "module": "Skritter"
-        },
-        {
             "file": "public_html\\js\\app\\model\\StudyDecomp.js",
             "line": 19,
             "itemtype": "property",
@@ -2259,18 +2313,6 @@
             "line": 65,
             "itemtype": "method",
             "name": "getReadiness",
-            "params": [
-                {
-                    "name": "deprioritizeLongShots",
-                    "description": "",
-                    "type": "Boolean"
-                },
-                {
-                    "name": "singleCharacter",
-                    "description": "",
-                    "type": "Boolean"
-                }
-            ],
             "return": {
                 "description": "",
                 "type": "Number"
@@ -2281,7 +2323,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyItem.js",
-            "line": 117,
+            "line": 74,
             "itemtype": "method",
             "name": "getVocabs",
             "return": {
@@ -2294,7 +2336,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyItem.js",
-            "line": 129,
+            "line": 86,
             "itemtype": "method",
             "name": "isActive",
             "return": {
@@ -2307,7 +2349,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyItem.js",
-            "line": 138,
+            "line": 95,
             "itemtype": "method",
             "name": "play",
             "return": {
@@ -2320,7 +2362,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyItem.js",
-            "line": 146,
+            "line": 103,
             "itemtype": "method",
             "name": "spawnReview",
             "params": [
@@ -2471,7 +2513,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 110,
+            "line": 112,
             "itemtype": "method",
             "name": "getCharacterAt",
             "params": [
@@ -2491,7 +2533,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 118,
+            "line": 120,
             "itemtype": "method",
             "name": "getCharacterCount",
             "return": {
@@ -2504,7 +2546,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 125,
+            "line": 127,
             "itemtype": "method",
             "name": "getCharacters",
             "return": {
@@ -2517,7 +2559,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 132,
+            "line": 134,
             "itemtype": "method",
             "name": "getPinyinAt",
             "params": [
@@ -2537,7 +2579,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 150,
+            "line": 152,
             "itemtype": "method",
             "name": "getReadingDisplayAt",
             "params": [
@@ -2557,7 +2599,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 167,
+            "line": 169,
             "itemtype": "method",
             "name": "getSentence",
             "return": {
@@ -2570,7 +2612,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 175,
+            "line": 177,
             "itemtype": "method",
             "name": "getWritingDisplayAt",
             "params": [
@@ -2590,7 +2632,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 192,
+            "line": 194,
             "itemtype": "method",
             "name": "hasCharacterAt",
             "params": [
@@ -2610,7 +2652,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 202,
+            "line": 204,
             "itemtype": "method",
             "name": "isSingleCharacter",
             "return": {
@@ -2623,7 +2665,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 211,
+            "line": 213,
             "itemtype": "method",
             "name": "play",
             "return": {
@@ -2636,7 +2678,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 45,
+            "line": 48,
             "itemtype": "property",
             "name": "defaults",
             "type": "Object",
@@ -2646,7 +2688,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 58,
+            "line": 63,
             "itemtype": "method",
             "name": "cache",
             "class": "User",
@@ -2655,7 +2697,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 66,
+            "line": 71,
             "description": "Quickly caches all of the users current loaded data to storage and returns a callback.",
             "itemtype": "method",
             "name": "cacheAllData",
@@ -2672,7 +2714,28 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 113,
+            "line": 123,
+            "itemtype": "method",
+            "name": "checkReviewErrors",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "fixErrors",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "User",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\User.js",
+            "line": 144,
             "description": "Gets the current active users properties and settings from the server then saves it.",
             "itemtype": "method",
             "name": "fetch",
@@ -2689,7 +2752,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 127,
+            "line": 171,
             "description": "Gets the users current avatar and returns it as an image tag using base64 data.",
             "itemtype": "method",
             "name": "getAvatar",
@@ -2710,7 +2773,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 139,
+            "line": 183,
             "description": "A quicker way to get a setting from the user settings object.",
             "itemtype": "method",
             "name": "getSetting",
@@ -2731,7 +2794,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 149,
+            "line": 193,
             "description": "Returns an array of active study parts based on the current language being studied.",
             "itemtype": "method",
             "name": "getStudyParts",
@@ -2745,7 +2808,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 160,
+            "line": 204,
             "description": "Checks to see if the user is logged in by seeing if a token exists. This might not always work\nin situations where the token as expired.",
             "itemtype": "method",
             "name": "isLoggedIn",
@@ -2759,7 +2822,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 172,
+            "line": 216,
             "description": "Loads all of the data for the current active user into memory. For small to medium size accounts this is\nfairly quick, but larger accounts might need to do loading in logical chunks.",
             "itemtype": "method",
             "name": "loadAllData",
@@ -2776,8 +2839,8 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 193,
-            "description": "Performs a complete login, stores the authentication data and also fetches the users settings from the server.\nIf the statusCode returned is anything but 200 then it doesn't save, but returns the response message.",
+            "line": 238,
+            "description": "Performs a complete login, stores the authentication data and also fetches the users settings from the server.\nIf the statusCode returned is anything but 200 then it doesn't save, but returns the response message. It also creates or\nopens the database for the user.",
             "itemtype": "method",
             "name": "login",
             "params": [
@@ -2803,7 +2866,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 216,
+            "line": 264,
             "description": "Automatically logs the user out and returns them to the home screen when called.",
             "itemtype": "method",
             "name": "logout",
@@ -2813,7 +2876,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 231,
+            "line": 289,
             "description": "A quicker way to set the user settings object.",
             "itemtype": "method",
             "name": "setSetting",
@@ -2839,7 +2902,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 245,
+            "line": 303,
             "description": "Syncs data with the server by getting changed items and posting reviews. If the account has never synced\nthis it initiates an full account download.",
             "itemtype": "method",
             "name": "sync",
@@ -2848,6 +2911,11 @@
                     "name": "callback",
                     "description": "",
                     "type": "Function"
+                },
+                {
+                    "name": "forceAccountDownload",
+                    "description": "",
+                    "type": "Boolean"
                 }
             ],
             "class": "User",
@@ -2856,7 +2924,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 337,
+            "line": 417,
             "itemtype": "method",
             "name": "unsetSetting",
             "params": [
@@ -3015,6 +3083,32 @@
             "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
             "line": 164,
             "itemtype": "method",
+            "name": "removeItems",
+            "params": [
+                {
+                    "name": "tableName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "items",
+                    "description": "",
+                    "type": "Array"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "IndexedDBAdapter",
+            "module": "Skritter",
+            "submodule": "Storage"
+        },
+        {
+            "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
+            "line": 185,
+            "itemtype": "method",
             "name": "setItem",
             "params": [
                 {
@@ -3039,7 +3133,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 180,
+            "line": 201,
             "itemtype": "method",
             "name": "setItems",
             "params": [
@@ -3065,7 +3159,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 198,
+            "line": 211,
             "itemtype": "method",
             "name": "getTable",
             "params": [
@@ -3085,7 +3179,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 207,
+            "line": 220,
             "itemtype": "method",
             "name": "getTableFieldNames",
             "params": [
@@ -3110,7 +3204,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 225,
+            "line": 238,
             "itemtype": "method",
             "name": "getTableKeys",
             "params": [
@@ -3130,7 +3224,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 234,
+            "line": 247,
             "itemtype": "method",
             "name": "getTableNames",
             "return": {
@@ -3225,7 +3319,15 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 30,
+            "line": 9,
+            "description": "Used to start, stop and calculate accurate durations of time     .",
+            "class": "Timer",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Timer.js",
+            "line": 58,
             "itemtype": "method",
             "name": "render",
             "return": {
@@ -3238,7 +3340,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 60,
+            "line": 88,
             "description": "Returns the current time displayed on the timer.",
             "itemtype": "method",
             "name": "getTime",
@@ -3252,7 +3354,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 69,
+            "line": 97,
             "description": "Returns the review time for the current lap.",
             "itemtype": "method",
             "name": "getReviewTime",
@@ -3266,7 +3368,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 81,
+            "line": 109,
             "description": "Returns the time that the current lap was started at.",
             "itemtype": "method",
             "name": "getStartTime",
@@ -3280,7 +3382,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 90,
+            "line": 118,
             "description": "Returns the thinking time for the current lap.",
             "itemtype": "method",
             "name": "getThinkingTime",
@@ -3294,7 +3396,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 102,
+            "line": 130,
             "description": "Stops the timer but maintains the current lap. This is useful if the user opens the info tab or\nif they leave the study page.",
             "itemtype": "method",
             "name": "pause",
@@ -3304,7 +3406,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 113,
+            "line": 141,
             "description": "Sets the review limit for the current lap.",
             "itemtype": "method",
             "name": "setReviewLimit",
@@ -3321,7 +3423,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 122,
+            "line": 150,
             "description": "Sets the thinking limit for the current lap.",
             "itemtype": "method",
             "name": "setThinkingLimit",
@@ -3338,7 +3440,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 131,
+            "line": 159,
             "description": "Directly set the offset for the timer. This is a bit redundant and probably won't be directly needed.",
             "itemtype": "method",
             "name": "setOffset",
@@ -3355,7 +3457,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 140,
+            "line": 168,
             "description": "Starts the timer if the lap limit hasn't been reached yet.",
             "itemtype": "method",
             "name": "start",
@@ -3365,7 +3467,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 157,
+            "line": 184,
             "description": "Stops the timer from running and resets the current lap.",
             "itemtype": "method",
             "name": "stop",
@@ -3375,7 +3477,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 168,
+            "line": 195,
             "description": "Updates the offset based on the gathered total study time for the day.",
             "itemtype": "method",
             "name": "sync",
@@ -3392,7 +3494,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
-            "line": 184,
+            "line": 211,
             "description": "Bound to setInterval when the timer is running, but only allows render to be called\nif a full second has passed.",
             "itemtype": "method",
             "name": "update",
@@ -3402,7 +3504,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 26,
+            "line": 27,
             "itemtype": "method",
             "name": "render",
             "return": {
@@ -3479,7 +3581,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 110,
+            "line": 109,
             "description": "Disables all touch input on the canvas. This is most commonly used when a user has\nalready completed a problem and it needs grading.",
             "itemtype": "method",
             "name": "disableInput",
@@ -3489,7 +3591,8 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 119,
+            "line": 118,
+            "description": "Draws text to the canvas on the message layer. If a position isn't specified then\nit defaults to the bottom center of the canvas.",
             "itemtype": "method",
             "name": "displayMessage",
             "params": [
@@ -3507,6 +3610,16 @@
                     "name": "font",
                     "description": "",
                     "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
                 }
             ],
             "class": "PromptCanvas",
@@ -3515,7 +3628,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 135,
+            "line": 147,
             "description": "Given a CanvasCharacter this will render the image to the canvas.",
             "params": [
                 {
@@ -3535,7 +3648,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 148,
+            "line": 160,
             "description": "The grid that fills the background of the canvas for rune prompts.",
             "itemtype": "method",
             "name": "drawGrid",
@@ -3545,7 +3658,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 163,
+            "line": 176,
             "itemtype": "method",
             "name": "drawPhantomStroke",
             "params": [
@@ -3566,7 +3679,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 177,
+            "line": 190,
             "itemtype": "method",
             "name": "drawSquig",
             "params": [
@@ -3587,7 +3700,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 202,
+            "line": 215,
             "itemtype": "method",
             "name": "drawStroke",
             "params": [
@@ -3608,7 +3721,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 215,
+            "line": 228,
             "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger. It's important that this canvas doesn't use autoClear for\nspeed reasons and Cordova compatibility.",
             "itemtype": "method",
             "name": "enableInput",
@@ -3618,7 +3731,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 268,
+            "line": 281,
             "itemtype": "method",
             "name": "fadeOverlay",
             "class": "PromptCanvas",
@@ -3627,16 +3740,23 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 279,
+            "line": 292,
             "itemtype": "method",
             "name": "resize",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
             "class": "PromptCanvas",
             "module": "Skritter",
             "submodule": "Prompt"
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 288,
+            "line": 304,
             "itemtype": "method",
             "name": "tick",
             "class": "PromptCanvas",
@@ -3645,7 +3765,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 294,
+            "line": 310,
             "description": "Enables the view to fire events when the canvas has been touched.",
             "itemtype": "method",
             "name": "triggerMouseDown",
@@ -3662,7 +3782,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 303,
+            "line": 319,
             "description": "Enables the view to fire events when the canvas touch has been released.",
             "itemtype": "method",
             "name": "triggerMouseUp",
@@ -3718,7 +3838,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 149,
+            "line": 153,
             "description": "Returns the next stroke in the character based on the order it should be written.",
             "itemtype": "method",
             "name": "getNextStroke",
@@ -3732,7 +3852,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 165,
+            "line": 169,
             "description": "Returns the stroke highest possible stroke count out of all of the targets.",
             "itemtype": "method",
             "name": "getTargetStrokeCount",
@@ -3859,7 +3979,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 30,
+            "line": 31,
             "itemtype": "method",
             "name": "render",
             "return": {
@@ -3885,13 +4005,20 @@
             "line": 49,
             "itemtype": "method",
             "name": "handlePromptComplete",
+            "params": [
+                {
+                    "name": "results",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
             "class": "StudyView",
             "module": "Skritter",
             "submodule": "View"
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 56,
+            "line": 58,
             "itemtype": "method",
             "name": "next",
             "return": {
@@ -3904,7 +4031,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 85,
+            "line": 102,
             "itemtype": "method",
             "name": "showInfo",
             "class": "StudyView",
@@ -3913,7 +4040,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 91,
+            "line": 108,
             "itemtype": "method",
             "name": "resize",
             "class": "StudyView",
@@ -3922,7 +4049,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 97,
+            "line": 119,
             "itemtype": "method",
             "name": "updateItems",
             "params": [
@@ -3938,7 +4065,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 30,
+            "line": 34,
+            "description": "Returns the authenticated user and the token required for future calls to the API.",
             "itemtype": "method",
             "name": "authenticateUser",
             "params": [
@@ -3963,7 +4091,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 59,
+            "line": 65,
+            "description": "Returns the official date information of the account from the server. This is the safest way\nto check the current time associated with the account.",
             "itemtype": "method",
             "name": "getDateInfo",
             "params": [
@@ -3978,7 +4107,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 83,
+            "line": 92,
+            "description": "Requests a specific batch from the server and returns the request id. Use the\ngetBatch function to get the requested data from the server.",
             "itemtype": "method",
             "name": "requestBatch",
             "params": [
@@ -3998,7 +4128,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 105,
+            "line": 117,
+            "description": "Returns an object with merged results based on a batch request. This is mainly used for\naccount downloads and for larger account can take a few minutes.",
             "itemtype": "method",
             "name": "getBatch",
             "params": [
@@ -4023,7 +4154,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 168,
+            "line": 183,
+            "description": "Returns an array of items based on requested ids. This is useful for syncing specific items that may\nhave errors or other issues.",
             "itemtype": "method",
             "name": "getItems",
             "params": [
@@ -4043,7 +4175,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 195,
+            "line": 223,
+            "description": "Returns specific progress stats that can be used for various things such as an actual\nprogress page or study time for the day from the server. To read more about the request parameters\ncheck the API documentation.",
             "itemtype": "method",
             "name": "getProgressStats",
             "params": [
@@ -4063,7 +4196,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 219,
+            "line": 251,
+            "description": "Returns an array of review post errors from the server. If the offset is null then\nit'll return all of the review errors.",
             "itemtype": "method",
             "name": "getReviewErrors",
             "params": [
@@ -4083,7 +4217,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 257,
+            "line": 294,
+            "description": "Returns an object containing character mappings from simplified to traditional Chinese.\nRight now this is locally packaged with the application as it's not often updated.",
             "itemtype": "method",
             "name": "getSimpTradMap",
             "params": [
@@ -4098,7 +4233,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 281,
+            "line": 321,
+            "description": "Returns the SRSConfig values for the current active user. These should be updated\nsomewhat frequently to keep SRS calculations accurate.",
             "itemtype": "method",
             "name": "getSRSConfigs",
             "params": [
@@ -4113,7 +4249,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 305,
+            "line": 348,
+            "description": "Returns basic informatiom about a user or detailed information if its a request\nfor the current active user.",
             "itemtype": "method",
             "name": "getUser",
             "params": [
@@ -4133,7 +4270,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 331,
+            "line": 377,
+            "description": "Returns a high level list of lists available sorted by type. For longer sort groups\nit might be nessesary to use pagination.",
             "itemtype": "method",
             "name": "getVocabLists",
             "params": [
@@ -4153,7 +4291,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 368,
+            "line": 420,
+            "description": "Returns a single vocablist with section ids for further querying.",
             "itemtype": "method",
             "name": "getVocabList",
             "params": [
@@ -4173,9 +4312,10 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 393,
+            "line": 447,
+            "description": "Returns an array of rows in s single list section.",
             "itemtype": "method",
-            "name": "getVocalListSection",
+            "name": "getVocabListSection",
             "params": [
                 {
                     "name": "listId",
@@ -4198,7 +4338,8 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 419,
+            "line": 475,
+            "description": "Posts batches of reviews in groups of 500 and then returns an array of the posted objects.",
             "itemtype": "method",
             "name": "postReviews",
             "params": [
@@ -4223,7 +4364,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 32,
+            "line": 30,
             "description": "Creates the global Skritter namespace when the application first opened.",
             "params": [
                 {
@@ -4236,7 +4377,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 40,
+            "line": 38,
             "itemtype": "property",
             "name": "application",
             "type": "Object",
@@ -4245,7 +4386,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 44,
+            "line": 42,
             "itemtype": "method",
             "name": "loadRouter",
             "params": [
@@ -4260,7 +4401,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 55,
+            "line": 53,
             "description": "Loads the async utility into the Skriter namescape for easy usage.",
             "itemtype": "method",
             "name": "loadAsync",
@@ -4269,7 +4410,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 63,
+            "line": 61,
             "description": "Loads the proper assets module depending on the load environment. Returns a\ncallback one the required assets have preloaded.",
             "itemtype": "method",
             "name": "loadAssets",
@@ -4285,7 +4426,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 77,
+            "line": 75,
             "itemtype": "method",
             "name": "loadFacade",
             "return": {
@@ -4297,7 +4438,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 85,
+            "line": 83,
             "itemtype": "method",
             "name": "loadFunctions",
             "params": [
@@ -4312,7 +4453,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 93,
+            "line": 91,
             "itemtype": "method",
             "name": "loadRouter",
             "params": [
@@ -4327,7 +4468,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 101,
+            "line": 99,
             "itemtype": "method",
             "name": "loadSettings",
             "params": [
@@ -4342,7 +4483,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 109,
+            "line": 107,
             "description": "Loads the storage adapter based on the current environment the application has been\nloaded from.",
             "itemtype": "method",
             "name": "loadStorage",
@@ -4358,7 +4499,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 120,
+            "line": 118,
             "description": "Loads the timer and attempts to pull the current study time for the day from the server.",
             "itemtype": "method",
             "name": "loadTimer",
@@ -4714,7 +4855,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 28,
+            "line": 29,
             "itemtype": "method",
             "name": "recognize",
             "return": {
@@ -4726,7 +4867,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 78,
+            "line": 80,
             "itemtype": "method",
             "name": "getResultSet",
             "return": {
@@ -4738,7 +4879,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 129,
+            "line": 144,
             "itemtype": "method",
             "name": "checkAngle",
             "params": [
@@ -4757,7 +4898,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 139,
+            "line": 154,
             "itemtype": "method",
             "name": "checkCorners",
             "params": [
@@ -4776,7 +4917,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 149,
+            "line": 164,
             "itemtype": "method",
             "name": "checkDistance",
             "params": [
@@ -4795,7 +4936,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 159,
+            "line": 174,
             "itemtype": "method",
             "name": "checkLength",
             "params": [
@@ -4814,7 +4955,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 23,
+            "line": 25,
             "itemtype": "property",
             "name": "routes",
             "type": "Object",
@@ -4824,7 +4965,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 34,
+            "line": 37,
             "itemtype": "method",
             "name": "homeView",
             "class": "Router",
@@ -4833,7 +4974,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 44,
+            "line": 47,
             "itemtype": "method",
             "name": "infoView",
             "params": [
@@ -4849,7 +4990,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 59,
+            "line": 62,
             "itemtype": "method",
             "name": "logout",
             "class": "Router",
@@ -4858,7 +4999,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 65,
+            "line": 68,
             "itemtype": "method",
             "name": "loginView",
             "class": "Router",
@@ -4867,7 +5008,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 75,
+            "line": 78,
             "itemtype": "method",
             "name": "optionsView",
             "class": "Router",
@@ -4876,7 +5017,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 85,
+            "line": 88,
             "itemtype": "method",
             "name": "studyView",
             "class": "Router",
@@ -4885,7 +5026,16 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 97,
+            "line": 98,
+            "itemtype": "method",
+            "name": "vocabView",
+            "class": "Router",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\Router.js",
+            "line": 110,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -4937,6 +5087,10 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\Log.js:33"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
             "line": " public_html\\js\\app\\collection\\StudyDecomps.js:19"
         },
         {
@@ -4977,11 +5131,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:163"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:176"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:167"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5029,35 +5179,31 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\CordovaAssets.js:17"
+            "line": " public_html\\js\\app\\model\\User.js:171"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:127"
+            "line": " public_html\\js\\app\\model\\User.js:193"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:149"
+            "line": " public_html\\js\\app\\model\\User.js:204"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:160"
+            "line": " public_html\\js\\app\\storage\\Storage.js:211"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:198"
+            "line": " public_html\\js\\app\\storage\\Storage.js:220"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:207"
+            "line": " public_html\\js\\app\\storage\\Storage.js:238"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:225"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:234"
+            "line": " public_html\\js\\app\\storage\\Storage.js:247"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5073,7 +5219,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:26"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:27"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5089,19 +5235,19 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:149"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:153"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:165"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:169"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\Study.js:56"
+            "line": " public_html\\js\\app\\view\\Study.js:58"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Application.js:77"
+            "line": " public_html\\js\\app\\Application.js:75"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5129,27 +5275,27 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:28"
+            "line": " public_html\\js\\app\\Recognizer.js:29"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:78"
+            "line": " public_html\\js\\app\\Recognizer.js:80"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:129"
+            "line": " public_html\\js\\app\\Recognizer.js:144"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:139"
+            "line": " public_html\\js\\app\\Recognizer.js:154"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:149"
+            "line": " public_html\\js\\app\\Recognizer.js:164"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:159"
+            "line": " public_html\\js\\app\\Recognizer.js:174"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5173,19 +5319,19 @@
         },
         {
             "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:98"
-        },
-        {
-            "message": "Missing item type",
             "line": " public_html\\js\\app\\model\\CanvasStroke.js:157"
         },
         {
+            "message": "Missing item type\nUsed to start, stop and calculate accurate durations of time     .",
+            "line": " public_html\\js\\app\\view\\component\\Timer.js:9"
+        },
+        {
             "message": "Missing item type\nGiven a CanvasCharacter this will render the image to the canvas.",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:135"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:147"
         },
         {
             "message": "Missing item type\nCreates the global Skritter namespace when the application first opened.",
-            "line": " public_html\\js\\app\\Application.js:32"
+            "line": " public_html\\js\\app\\Application.js:30"
         },
         {
             "message": "Missing item type",

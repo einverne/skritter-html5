@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -216,6 +220,7 @@ define([
             Canvas.strokeCapStyle = &#x27;round&#x27;;
             Canvas.strokeJointStyle = &#x27;round&#x27;;
             this.initStage();
+            this.listenTo(Skritter.settings, &#x27;resize&#x27;, this.resize);
         },
         /**
          * @method render
@@ -223,7 +228,6 @@ define([
          */
         render: function() {
             this.$el.append(Canvas.canvas);
-            this.resize();
             this.initLayers();
             this.drawGrid();
             return this;
@@ -263,10 +267,10 @@ define([
          */
         initStage: function() {
             Canvas.canvas = document.createElement(&#x27;canvas&#x27;);
-	    Canvas.canvas.setAttribute(&#x27;id&#x27;, &#x27;prompt-canvas&#x27;);
-	    Canvas.canvas.setAttribute(&#x27;width&#x27;, Canvas.size);
-	    Canvas.canvas.setAttribute(&#x27;height&#x27;, Canvas.size);
-	    Canvas.canvas.setAttribute(&#x27;style&#x27;, &#x27;background:white&#x27;);
+            Canvas.canvas.setAttribute(&#x27;id&#x27;, &#x27;prompt-canvas&#x27;);
+            Canvas.canvas.setAttribute(&#x27;width&#x27;, Canvas.size);
+            Canvas.canvas.setAttribute(&#x27;height&#x27;, Canvas.size);
+            Canvas.canvas.setAttribute(&#x27;style&#x27;, &#x27;background:white&#x27;);
             Canvas.stage = new createjs.Stage(Canvas.canvas);
             Canvas.stage.enableDOMEvents(true);
             Canvas.stage.autoClear = true;
@@ -288,18 +292,17 @@ define([
          * @param {String} color
          */
         applyBackgroundGlow: function(bitmap, color) {
-	    bitmap.alpha = 0.4;
-	    bitmap.shadow = new createjs.Shadow(color, 5, 5, 0);
+            bitmap.alpha = 0.4;
+            bitmap.shadow = new createjs.Shadow(color, 5, 5, 0);
             Canvas.layerBackground.addChildAt(bitmap, 0);
-	    createjs.Tween.get(bitmap, {loop: true}).to({alpha: 0.7}, 1500).wait(1000).to({alpha:0.4}, 1500).wait(1000);
-	},
+            createjs.Tween.get(bitmap, {loop: true}).to({alpha: 0.7}, 1500).wait(1000).to({alpha: 0.4}, 1500).wait(1000);
+        },
         clear: function() {
             Canvas.layerBackground.removeAllChildren();
             Canvas.layerMessage.removeAllChildren();
             Canvas.layerOverlay.removeAllChildren();
             Canvas.layerInput.removeAllChildren();
             Canvas.stage.update();
-            this.clearFix();
         },
         /**
          * Disables all touch input on the canvas. This is most commonly used when a user has
@@ -311,21 +314,34 @@ define([
             Canvas.stage.removeAllEventListeners();
         },
         /**
+         * Draws text to the canvas on the message layer. If a position isn&#x27;t specified then
+         * it defaults to the bottom center of the canvas.
+         * 
          * @method displayMessage
          * @param {String} message
          * @param {String} color
          * @param {String} font
+         * @param {Number} x
+         * @param {Number} y
          */
-        displayMessage: function(message, color, font) {
-	    Canvas.layerMessage.removeAllChildren();
-	    var text = new createjs.Text(message, font, color);
-	    text.x = (Canvas.size / 2) - (text.getMeasuredWidth() / 2);
-	    text.y = Canvas.size * 0.9;
-	    createjs.Tween.get(text).wait(2000).to({ alpha:0 }, 500).call(function() {
-		Canvas.layerMessage.removeChild(text);
-	    });
-	    Canvas.layerMessage.addChild(text);
-	},
+        displayMessage: function(message, color, font, x, y) {
+            Canvas.layerMessage.removeAllChildren();
+            var text = new createjs.Text(message, font, color);
+            if (x) {
+                text.x = x;
+            } else {
+                text.x = (Canvas.size / 2) - (text.getMeasuredWidth() / 2);
+            }
+            if (y) {
+                text.y = y;
+            } else {
+                text.y = Canvas.size * 0.9;
+            }
+            createjs.Tween.get(text).wait(2000).to({alpha: 0}, 500).call(function() {
+                Canvas.layerMessage.removeChild(text);
+            });
+            Canvas.layerMessage.addChild(text);
+        },
         /**
          * Given a CanvasCharacter this will render the image to the canvas.
          * 
@@ -345,6 +361,7 @@ define([
          * @method drawGrid
          */
         drawGrid: function() {
+            Canvas.layerGrid.removeAllChildren();
             var grid = new createjs.Shape();
             grid.graphics.beginStroke(&#x27;grey&#x27;).setStrokeStyle(1, Canvas.strokeCapStyle, Canvas.strokeJointStyle);
             grid.graphics.moveTo(Canvas.size / 2, 0).lineTo(Canvas.size / 2, Canvas.size);
@@ -463,21 +480,24 @@ define([
          * @method fadeOverlay
          */
         fadeOverlay: function() {
-	    if (Canvas.layerOverlay.getNumChildren() &gt; 0) {
-		createjs.Tween.get(Canvas.layerOverlay).to({alpha: 0}, 500).call(function() {
-		    Canvas.layerOverlay.removeAllChildren();
-		    Canvas.layerOverlay.alpha = 1.0;
-		});
-	    }
-	},
+            if (Canvas.layerOverlay.getNumChildren() &gt; 0) {
+                createjs.Tween.get(Canvas.layerOverlay).to({alpha: 0}, 500).call(function() {
+                    Canvas.layerOverlay.removeAllChildren();
+                    Canvas.layerOverlay.alpha = 1.0;
+                });
+            }
+        },
         /**
          * @method resize
+         * @param {Object} event
          */
-        resize: function() {
+        resize: function(event) {
+            Canvas.size = event.canvas;
             Canvas.canvas.setAttribute(&#x27;width&#x27;, Canvas.size);
             Canvas.canvas.setAttribute(&#x27;height&#x27;, Canvas.size);
             $(&#x27;#canvas-container&#x27;).width(Canvas.size);
             $(&#x27;#canvas-container&#x27;).height(Canvas.size);
+            this.drawGrid();
         },
         /**
          * @method tick

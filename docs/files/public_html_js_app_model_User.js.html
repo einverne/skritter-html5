@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -195,6 +199,7 @@
 /**
  * @module Skritter
  * @submodule Model
+ * @param Log
  * @param StudyDecomps
  * @param StudyItems
  * @param StudyParams
@@ -206,6 +211,7 @@
  * @author Joshua McFarland
  */
 define([
+    &#x27;collection/Log&#x27;,
     &#x27;collection/StudyDecomps&#x27;,
     &#x27;collection/StudyItems&#x27;,
     &#x27;collection/StudyParams&#x27;,
@@ -215,12 +221,13 @@ define([
     &#x27;collection/StudyStrokes&#x27;,
     &#x27;collection/StudyVocabs&#x27;,
     &#x27;backbone&#x27;
-], function(StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
+], function(Log, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
     /**
      * @class User
      */
     var User = Backbone.Model.extend({
         initialize: function() {
+            Skritter.log = new Log();
             Skritter.study = {
                 decomps: new StudyDecomps(),
                 items: new StudyItems(),
@@ -242,7 +249,9 @@ define([
         defaults: {
             access_token: null,
             expires_in: null,
+            isSyncing: false,
             lastLogin: null,
+            lastReviewFix: null,
             lastSync: null,
             refresh_token: null,
             settings: null,
@@ -265,6 +274,11 @@ define([
          */
         cacheAllData: function(callback) {
             Skritter.async.parallel([
+                /*function(callback) {
+                    Skritter.log.cache(function() {
+                        callback();
+                    });
+                },*/
                 function(callback) {
                     Skritter.study.decomps.cache(function() {
                         callback();
@@ -305,6 +319,27 @@ define([
             });
         },
         /**
+         * @method checkReviewErrors
+         * @param {Function} callback
+         * @param {Boolean} fixErrors
+         */
+        checkReviewErrors: function(callback, fixErrors) {
+            Skritter.api.getReviewErrors(this.get(&#x27;lastReviewFix&#x27;), _.bind(function(errors) {
+                if (errors.length &gt; 0) {
+                    console.log(&#x27;Review Errors&#x27;, errors);
+                    if (fixErrors) {
+                        this.fixReviewErrors(errors, function(items) {
+                            callback(errors, items);
+                        });
+                    } else {
+                        callback(errors);
+                    }
+                } else {
+                    callback(errors);
+                }
+            }, this));
+        },
+        /**
          * Gets the current active users properties and settings from the server then saves it.
          * 
          * @method fetch
@@ -317,6 +352,19 @@ define([
                     callback(data);
                 }, this));
             }
+        },
+        fixReviewErrors: function(errors, callback) {
+            var errorIds = [];
+            for (var i in errors) {
+                errorIds.push(errors[i].itemId);
+            }
+            Skritter.facade.show(&#x27;fixing &#x27; + errors.length + &#x27; sync issues&#x27;);
+            Skritter.api.getItems(_.uniq(errorIds), _.bind(function(items) {
+                var updated = Skritter.study.items.set(items, {add: false, remove: false});
+                this.set(&#x27;lastReviewFix&#x27;, parseInt(errors[errors.length -1].created + 1, 10));
+                callback(updated);
+                Skritter.facade.hide();
+            }, this));
         },
         /**
          * Gets the users current avatar and returns it as an image tag using base64 data.
@@ -337,9 +385,9 @@ define([
          * @param {String} name
          * @return {Object}
          */
-         getSetting: function(name) {
-             return this.get(&#x27;settings&#x27;)[name];
-         },
+        getSetting: function(name) {
+            return this.get(&#x27;settings&#x27;)[name];
+        },
         /**
          * Returns an array of active study parts based on the current language being studied.
          * 
@@ -347,10 +395,10 @@ define([
          * @returns {Array}
          */
         getStudyParts: function() {
-	    if (this.get(&#x27;settings&#x27;).targetLang === &#x27;zh&#x27;)
-		return this.get(&#x27;settings&#x27;).chineseStudyParts;
-	    return this.get(&#x27;settings&#x27;).japaneseStudyParts;
-	},
+            if (this.get(&#x27;settings&#x27;).targetLang === &#x27;zh&#x27;)
+                return this.get(&#x27;settings&#x27;).chineseStudyParts;
+            return this.get(&#x27;settings&#x27;).japaneseStudyParts;
+        },
         /**
          * Checks to see if the user is logged in by seeing if a token exists. This might not always work
          * in situations where the token as expired.
@@ -372,6 +420,7 @@ define([
          */
         loadAllData: function(callback) {
             Skritter.async.parallel([
+                //Skritter.async.apply(Skritter.log.loadAll),
                 Skritter.async.apply(Skritter.study.decomps.loadAll),
                 Skritter.async.apply(Skritter.study.items.loadAll),
                 Skritter.async.apply(Skritter.study.params.loadAll),
@@ -386,7 +435,8 @@ define([
         },
         /**
          * Performs a complete login, stores the authentication data and also fetches the users settings from the server.
-         * If the statusCode returned is anything but 200 then it doesn&#x27;t save, but returns the response message.
+         * If the statusCode returned is anything but 200 then it doesn&#x27;t save, but returns the response message. It also creates or
+         * opens the database for the user.
          * 
          * @method login
          * @param {String} username
@@ -400,7 +450,9 @@ define([
                     Skritter.api.token = response.access_token;
                     this.set(response);
                     this.fetch(function() {
-                        callback(response);
+                        Skritter.storage.openDatabase(&#x27;skritdata-&#x27; + Skritter.user.get(&#x27;user_id&#x27;), function() {
+                            callback(response);
+                        });
                     });
                 } else {
                     callback(response);
@@ -422,6 +474,16 @@ define([
                 });
             });
         },
+        resetAllData: function() {
+            Skritter.log.reset();
+            Skritter.study.decomps.reset();
+            Skritter.study.items.reset();
+            Skritter.study.reviews.reset();
+            Skritter.study.srsconfigs.reset();
+            Skritter.study.sentences.reset();
+            Skritter.study.strokes.reset();
+            Skritter.study.vocabs.reset();
+        },
         /**
          * A quicker way to set the user settings object.
          * 
@@ -442,12 +504,65 @@ define([
          * 
          * @method sync
          * @param {Function} callback
+         * @param {Boolean} forceAccountDownload
          */
-        sync: function(callback) {
+        sync: function(callback, forceAccountDownload) {
+            if (this.get(&#x27;isSyncing&#x27;) &amp;&amp; !forceAccountDownload) {
+                callback();
+                return;
+            }
+            this.set(&#x27;isSyncing&#x27;, true);
+            var self = this;
             var accountDownload;
             var requests;
             var size = 0;
-            if (this.get(&#x27;lastSync&#x27;)) {
+
+            var process = function(requests) {
+                Skritter.async.waterfall([
+                    function(callback) {
+                        Skritter.study.srsconfigs.fetch(function() {
+                            callback();
+                        });
+                    },
+                    function(callback) {
+                        Skritter.api.requestBatch(requests, function(result) {
+                            callback(null, result);
+                        });
+                    },
+                    function(result, callback) {
+                        Skritter.api.getBatch(result.id, function(result) {
+                            size += result.responseSize;
+                            if (accountDownload)
+                                Skritter.facade.show(&#x27;initial download &lt;br /&gt;&#x27; + Skritter.fn.bytesToSize(size));
+                            Skritter.study.decomps.add(result.Decomps);
+                            Skritter.study.items.add(result.Items);
+                            Skritter.study.srsconfigs.add(result.SRSConfigs);
+                            Skritter.study.sentences.add(result.Sentences);
+                            Skritter.study.strokes.add(result.Strokes);
+                            Skritter.study.vocabs.add(result.Vocabs);
+                        }, function() {
+                            callback();
+                        });
+                    },
+                    function(callback) {
+                        Skritter.user.cacheAllData(function() {
+                            callback();
+                        });
+                    }
+                ], function() {
+                    Skritter.user.set(&#x27;lastSync&#x27;, Skritter.fn.getUnixTime());
+                    if (accountDownload) {
+                        Skritter.facade.hide();
+                        self.set(&#x27;isSyncing&#x27;, false);
+                        self.set(&#x27;lastReviewFix&#x27;, Skritter.fn.getUnixTime());
+                        if (typeof callback === &#x27;function&#x27;)
+                            callback();
+                    }
+                });
+            };
+
+            if (this.get(&#x27;lastSync&#x27;) &amp;&amp; !forceAccountDownload) {
+                //incremental sync from the last time a successful sync was performed
                 callback();
                 requests = [
                     {
@@ -467,8 +582,12 @@ define([
                         spawner: true
                     }
                 ];
+                process(requests);
             } else {
+                //downloads the entire user account from the beginning of time
+                //resets the collections and clears the database first
                 Skritter.facade.show(&#x27;initial download &lt;br /&gt;&#x27;);
+                this.resetAllData();
                 accountDownload = true;
                 requests = [
                     {
@@ -487,46 +606,11 @@ define([
                         spawner: true
                     }
                 ];
+
+                Skritter.storage.clear(function() {
+                    process(requests);
+                });
             }
-            Skritter.async.waterfall([
-                function(callback) {
-                    Skritter.study.srsconfigs.fetch(function() {
-                        callback();
-                    });
-                },
-                function(callback) {
-                    Skritter.api.requestBatch(requests, function(result) {
-                        callback(null, result);
-                    });
-                },
-                function(result, callback) {
-                    Skritter.api.getBatch(result.id, function(result) {
-                        size += result.responseSize;
-                        if (accountDownload)
-                            Skritter.facade.show(&#x27;initial download &lt;br /&gt;&#x27; + Skritter.fn.bytesToSize(size));
-                        Skritter.study.decomps.add(result.Decomps);
-                        Skritter.study.items.add(result.Items);
-                        Skritter.study.srsconfigs.add(result.SRSConfigs);
-                        Skritter.study.sentences.add(result.Sentences);
-                        Skritter.study.strokes.add(result.Strokes);
-                        Skritter.study.vocabs.add(result.Vocabs);
-                    }, function() {
-                        callback();
-                    });
-                },
-                function(callback) {
-                    Skritter.user.cacheAllData(function() {
-                        callback();
-                    });
-                }
-            ], function() {
-                Skritter.user.set(&#x27;lastSync&#x27;, Skritter.fn.getUnixTime());
-                if (accountDownload) {
-                    Skritter.facade.hide();
-                    if (typeof callback === &#x27;function&#x27;)
-                        callback();
-                }
-            });
         },
         /**
          * @method unsetSetting

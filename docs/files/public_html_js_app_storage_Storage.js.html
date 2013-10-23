@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -237,6 +241,14 @@ define(function() {
                         previousInterval: &#x27;number&#x27;
                     }
                 },
+                log: {
+                    keys: [&#x27;id&#x27;],
+                    fields: {
+                        userId: &#x27;string&#x27;,
+                        timestamp: &#x27;number&#x27;,
+                        data: &#x27;object&#x27;
+                    }
+                },
                 reviews: {
                     keys: [&#x27;itemId&#x27;],
                     fields: {
@@ -312,7 +324,7 @@ define(function() {
         this.schemaIndexedDB = {
             1: function(transaction) {
                 //decomps table
-                var decomps = transaction.createObjectStore(&#x27;decomps&#x27;, {keyPath: [&#x27;writing&#x27;]});
+                var decomps = transaction.createObjectStore(&#x27;decomps&#x27;, {keyPath: &#x27;writing&#x27;});
                 decomps.createIndex(&#x27;atomic&#x27;, &#x27;atomic&#x27;);
                 decomps.createIndex(&#x27;Children&#x27;, &#x27;Children&#x27;);
                 //items table
@@ -332,6 +344,11 @@ define(function() {
                 items.createIndex(&#x27;changed&#x27;, &#x27;changed&#x27;);
                 items.createIndex(&#x27;previousSuccess&#x27;, &#x27;previousSuccess&#x27;);
                 items.createIndex(&#x27;previousInterval&#x27;, &#x27;previousInterval&#x27;);
+                //log table
+                var log = transaction.createObjectStore(&#x27;log&#x27;, {keyPath: &#x27;id&#x27;, autoIncrement: true});
+                log.createIndex(&#x27;userId&#x27;, &#x27;userId&#x27;);
+                log.createIndex(&#x27;timestamp&#x27;, &#x27;timestamp&#x27;);
+                log.createIndex(&#x27;data&#x27;, &#x27;data&#x27;);
                 //reviews table
                 var reviews = transaction.createObjectStore(&#x27;reviews&#x27;, {keyPath: [&#x27;itemId&#x27;, &#x27;submitTime&#x27;]});
                 reviews.createIndex(&#x27;score&#x27;, &#x27;score&#x27;);
@@ -345,7 +362,7 @@ define(function() {
                 reviews.createIndex(&#x27;previousInterval&#x27;, &#x27;previousInterval&#x27;);
                 reviews.createIndex(&#x27;previousSuccess&#x27;, &#x27;previousSuccess&#x27;);
                 //sentences table
-                var sentences = transaction.createObjectStore(&#x27;sentences&#x27;, {keyPath: [&#x27;id&#x27;]});
+                var sentences = transaction.createObjectStore(&#x27;sentences&#x27;, {keyPath: &#x27;id&#x27;});
                 sentences.createIndex(&#x27;containedVocabIds&#x27;, &#x27;containedVocabIds&#x27;);
                 sentences.createIndex(&#x27;definitions&#x27;, &#x27;definitions&#x27;);
                 sentences.createIndex(&#x27;lang&#x27;, &#x27;lang&#x27;);

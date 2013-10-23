@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -293,13 +297,6 @@
                         
                             <li class="index-item method">
                                 <a href="#method_getRandom">getRandom</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_getStudy">getStudy</a>
 
                                 
                                 
@@ -903,7 +900,7 @@
                     
                         <span class="type">Number</span>:
                     
-                    <p>The number of active items ready to be studied</p>
+                    <p>An array of the items with a readiness considered due</p>
 
                 
             </div>
@@ -961,7 +958,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the item at the top of the sorted collection only including
+items that are actively being studied.</p>
+
     </div>
 
     
@@ -1022,7 +1021,7 @@
             
         
         
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l163"><code>public_html\js\app\collection\StudyItems.js:163</code></a>
+        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l167"><code>public_html\js\app\collection\StudyItems.js:167</code></a>
         
         </p>
 
@@ -1048,78 +1047,6 @@
                     
                         <span class="type"><a href="..\classes\StudyItem.html" class="crosslink">StudyItem</a></span>:
                     
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getStudy" class="method item">
-    <h3 class="name"><code>getStudy</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\StudyItems.html" class="crosslink">StudyItems</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_collection_StudyItems.js.html#l176"><code>public_html\js\app\collection\StudyItems.js:176</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\StudyItems.html" class="crosslink">StudyItems</a></span>:
-                    
-                    <p>A new collection of StudyItems filter by parts being studied</p>
-
                 
             </div>
         </div>

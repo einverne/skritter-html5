@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public_html\js\app\model\CordovaAssets.js - skritter-html5</title>
+    <title>public_html\js\app\model\LogItem.js - skritter-html5</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -188,50 +192,32 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: public_html\js\app\model\CordovaAssets.js</h1>
+                        <h1 class="file-heading">File: public_html\js\app\model\LogItem.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
  * @module Skritter
- * @param Assets
+ * @submodule Model
  * @author Joshua McFarland
  */
 define([
-    &#x27;model/Assets&#x27;,
     &#x27;backbone&#x27;
-], function(Assets) {
+], function() {
     /**
-     * Extend and overrides the assets model to provide Cordova specific functionality.
-     * 
-     * @class CordovaAssets
-     * @extends Assets
+     * @class LogItem
      */
-    var CordovaAssets = Assets.extend({
-       /**
-        * Uses the media plugin for Cordova to play locally stored audio files.
-        * 
-        * @method getAudio
-        * @param {String} audioId
-        * @param {Function} callback
-        * @returns {Media}
-        */ 
-        getAudio: function(audioId, callback) {
-            var successCB = function() {
-                if (typeof callback === &#x27;function&#x27;)
-                    callback();
-            };
-            var errorCB = function(error) {
-		console.error(error);
-	    };
-	    var audio = new Media(&#x27;/android_asset/www/media/audio/&#x27; + Skritter.user.getSetting(&#x27;targetLang&#x27;) + &#x27;/&#x27; + audioId, successCB, errorCB);
-	    audio.play();
-	    return audio;
-	}
+    var LogItem = Backbone.Model.extend({
+        
+        defaults: {
+            userId: null,
+            timestamp: new Date().getTime()
+        }
+        
     });
     
     
-    return CordovaAssets;
+    return LogItem;
 });
     </pre>
 </div>

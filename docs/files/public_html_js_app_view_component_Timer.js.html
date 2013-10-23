@@ -51,8 +51,6 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/CordovaAssets.html">CordovaAssets</a></li>
-            
                 <li><a href="../classes/Facade.html">Facade</a></li>
             
                 <li><a href="../classes/Functions.html">Functions</a></li>
@@ -63,7 +61,11 @@
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
             
+                <li><a href="../classes/Log.html">Log</a></li>
+            
                 <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
@@ -92,8 +94,6 @@
                 <li><a href="../classes/Settings.html">Settings</a></li>
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
-            
-                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
@@ -132,6 +132,10 @@
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocab.html">Vocab</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
             
             </ul>
 
@@ -195,13 +199,41 @@
 /**
  * @module Skritter
  * @submodule Component
- * @param Stopwatch
  * @author Joshua McFarland
  */
 define([
-    &#x27;Stopwatch&#x27;,
     &#x27;backbone&#x27;
-], function(Stopwatch) {
+], function() {
+    /**
+     * Used to start, stop and calculate accurate durations of time     .
+     */
+    var Stopwatch = function() {
+	var startAt = 0;
+	var lapTime = 0;
+
+	var now = function() {
+            var date = new Date();
+	    return date.getTime();
+	};
+
+	this.start = function() {
+	    startAt = startAt ? startAt : now();
+	};
+
+	this.stop = function() {
+	    lapTime = startAt ? lapTime + now() - startAt : lapTime;
+	    startAt = 0;
+	};
+
+	this.reset = function() {
+	    lapTime = startAt = 0;
+	};
+
+	this.time = function() {
+	    return lapTime + (startAt ? now() - startAt : 0);
+	};
+    };
+    
     /**
      * @class Timer
      */
@@ -235,8 +267,8 @@ define([
             var m = 0;
             var s = 0;
             var ms = 0;
-            h = Math.floor(time / (Math.pow(60, 2) * 1000));
-            time = time % (Math.pow(60, 2) * 1000);
+            h = Math.floor(time / (3600 * 1000));
+            time = time % (3600 * 1000);
             m = Math.floor(time / (60 * 1000));
             time = time % (60 * 1000);
             s = Math.floor(time / 1000);
@@ -337,7 +369,6 @@ define([
          * @method start
          */
         start: function() {
-            //console.log(&#x27;START&#x27;, TimerView.lap);
             if (!TimerView.lap) {
                 TimerView.lap = 1000;
                 TimerView.lapStart = new Date().getTime();
