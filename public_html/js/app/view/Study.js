@@ -38,7 +38,6 @@ define([
             Skritter.timer.setElement(this.$('#timer')).render();
             this.next();
             this.resize();
-
             return this;
         },
         /**
@@ -69,13 +68,14 @@ define([
             }
             //gets the next item that should be studied and loads it
             Study.c.item = Skritter.study.items.getNext();
-            Study.c.vocabs = Study.c.item.getVocabs();
             //integrity check to make sure something loaded
-            if (!Study.c.item || !Study.c.vocabs[0]) {
+            if (!Study.c.item) {
                 alert("Something didn't quite load properly!");
                 console.log('Prompt Load Failed', Study.c);
-                return;
+                window.location.hash = '';
             }
+            //load the vocabs if there are no problems
+            Study.c.vocabs = Study.c.item.getVocabs();
             switch (Study.c.item.get('part')) {
                 case 'rune':
                     Study.c.prompt = new PromptRune();
@@ -94,6 +94,7 @@ define([
                     Study.c.prompt.setElement(this.$('#prompt-container')).render();
                     break;
             }
+            console.log('CURRENT', Study.c);
             Study.c.prompt.set(Study.c.item, Study.c.vocabs).showHidden();
             this.listenToOnce(Study.c.prompt, 'complete', this.handlePromptComplete);
             return Study.c;
@@ -142,8 +143,8 @@ define([
                         actualInterval: result.startTime - subItem.get('last'),
                         newInterval: Study.scheduler.getInterval(subItem, result.grade),
                         wordGroup: Study.c.vocabs[0].get('writing') + '_' + results[0].startTime,
-                        previousInterval: subItem.get('previousInterval'),
-                        previousSuccess: subItem.get('previousSuccess')
+                        previousInterval: (subItem.get('previousInterval')) ? subItem.get('previousInterval') : 0,
+                        previousSuccess: (subItem.get('previousSuccess')) ? subItem.get('previousSuccess') : false
                     });
                     //next we need to update the item
                     subItem.set({
@@ -191,8 +192,8 @@ define([
                 actualInterval: results[0].startTime - Study.c.item.get('last'),
                 newInterval: Study.scheduler.getInterval(Study.c.item, finalGrade),
                 wordGroup: Study.c.vocabs[0].get('writing') + '_' + results[0].startTime,
-                previousInterval: Study.c.item.get('previousInterval'),
-                previousSuccess: Study.c.item.get('previousSuccess')
+                previousInterval: (Study.c.item.get('previousInterval')) ? Study.c.item.get('previousInterval') : 0,
+                previousSuccess: (Study.c.item.get('previousSuccess')) ? Study.c.item.get('previousSuccess') : false
             });
             Study.c.item.set({
                 changed: results[0].startTime,

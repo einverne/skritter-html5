@@ -79,7 +79,7 @@ define([
         getInflatedBitmap: function() {
             var bitmap = this.get('bitmap').clone();
             var data = this.getInflatedData();
-
+            
             var ms = bitmap.getMatrix();
             var sx = data.w / bitmap.image.width;
             var sy = data.h / bitmap.image.height;
@@ -96,11 +96,11 @@ define([
             return bitmap;
         },
         /**
-         * 
-         * @return {_L20.Anonym$0.getInflatedData.Anonym$1}
+         * @method getInflatedData
+         * @return {Object}
          */
         getInflatedData: function() {
-            var bitmap = this.get('bitmap');
+            var image = this.get('image');
             var canvasSize = Skritter.settings.get('canvasSize');
             var data = this.get('data');
             return {
@@ -109,8 +109,8 @@ define([
                 y: data[2] * canvasSize,
                 w: data[3] * canvasSize,
                 h: data[4] * canvasSize,
-                scaleX: (data[3] * canvasSize) / bitmap.image.width,
-                scaleY: (data[4] * canvasSize) / bitmap.image.height,
+                scaleX: (data[3] * canvasSize) / image.tag.width,
+                scaleY: (data[4] * canvasSize) / image.tag.height,
                 rot: -data[5]
             };
         },

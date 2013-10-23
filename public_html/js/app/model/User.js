@@ -51,6 +51,7 @@ define([
         defaults: {
             access_token: null,
             expires_in: null,
+            isSyncing: false,
             lastLogin: null,
             lastReviewFix: null,
             lastSync: null,
@@ -127,6 +128,7 @@ define([
         checkReviewErrors: function(callback, fixErrors) {
             Skritter.api.getReviewErrors(this.get('lastReviewFix'), _.bind(function(errors) {
                 if (errors.length > 0) {
+                    console.log('Review Errors', errors);
                     if (fixErrors) {
                         this.fixReviewErrors(errors, function(items) {
                             callback(errors, items);
@@ -235,7 +237,8 @@ define([
         },
         /**
          * Performs a complete login, stores the authentication data and also fetches the users settings from the server.
-         * If the statusCode returned is anything but 200 then it doesn't save, but returns the response message.
+         * If the statusCode returned is anything but 200 then it doesn't save, but returns the response message. It also creates or
+         * opens the database for the user.
          * 
          * @method login
          * @param {String} username
@@ -249,7 +252,9 @@ define([
                     Skritter.api.token = response.access_token;
                     this.set(response);
                     this.fetch(function() {
-                        callback(response);
+                        Skritter.storage.openDatabase('skritdata-' + Skritter.user.get('user_id'), function() {
+                            callback(response);
+                        });
                     });
                 } else {
                     callback(response);
@@ -304,6 +309,12 @@ define([
          * @param {Boolean} forceAccountDownload
          */
         sync: function(callback, forceAccountDownload) {
+            if (this.get('isSyncing') && !forceAccountDownload) {
+                callback();
+                return;
+            }
+            this.set('isSyncing', true);
+            var self = this;
             var accountDownload;
             var requests;
             var size = 0;
@@ -344,6 +355,8 @@ define([
                     Skritter.user.set('lastSync', Skritter.fn.getUnixTime());
                     if (accountDownload) {
                         Skritter.facade.hide();
+                        self.set('isSyncing', false);
+                        self.set('lastReviewFix', Skritter.fn.getUnixTime());
                         if (typeof callback === 'function')
                             callback();
                     }

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Tue Oct 22 2013 08:27:06 GMT+0800 (China Standard Time)
+# Time: Wed Oct 23 2013 14:51:26 GMT+0800 (China Standard Time)
 
 CACHE:
 index.html
@@ -409,7 +409,6 @@ js/app/Recognizer.js
 js/app/Router.js
 js/app/Scheduler.js
 js/app/Shortstraw.js
-js/app/Stopwatch.js
 js/app/collection/CanvasCharacter.js
 js/app/collection/Log.js
 js/app/collection/StudyDecomps.js
@@ -440,8 +439,10 @@ js/app/view/Info.js
 js/app/view/Login.js
 js/app/view/Options.js
 js/app/view/Study.js
+js/app/view/Vocab.js
 js/app/view/component/Facade.js
 js/app/view/component/Timer.js
+js/app/view/component/Words.js
 js/app/view/prompt/GradingButtons.js
 js/app/view/prompt/Prompt.js
 js/app/view/prompt/PromptCanvas.js
@@ -482,6 +483,8 @@ template/prompt-rdng.html
 template/prompt-rune.html
 template/prompt-tone.html
 template/study.html
+template/vocab-words.html
+template/vocab.html
 
 NETWORK:
 *

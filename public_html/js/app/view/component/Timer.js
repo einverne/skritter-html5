@@ -1,13 +1,41 @@
 /**
  * @module Skritter
  * @submodule Component
- * @param Stopwatch
  * @author Joshua McFarland
  */
 define([
-    'Stopwatch',
     'backbone'
-], function(Stopwatch) {
+], function() {
+    /**
+     * Used to start, stop and calculate accurate durations of time     .
+     */
+    var Stopwatch = function() {
+	var startAt = 0;
+	var lapTime = 0;
+
+	var now = function() {
+            var date = new Date();
+	    return date.getTime();
+	};
+
+	this.start = function() {
+	    startAt = startAt ? startAt : now();
+	};
+
+	this.stop = function() {
+	    lapTime = startAt ? lapTime + now() - startAt : lapTime;
+	    startAt = 0;
+	};
+
+	this.reset = function() {
+	    lapTime = startAt = 0;
+	};
+
+	this.time = function() {
+	    return lapTime + (startAt ? now() - startAt : 0);
+	};
+    };
+    
     /**
      * @class Timer
      */

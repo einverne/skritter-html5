@@ -60,7 +60,7 @@ define([
             part = (part) ? part : 'rune';
             index = (index) ? index : 0;
             var characters = [];
-
+            
             //loads the selected characters stroke data
             var rune = this.getCharacterAt(index);
 
@@ -87,10 +87,12 @@ define([
                     var stroke = new CanvasStroke();
                     var bitmapId = parseInt(strokes[s][0], 10);
                     var params = Skritter.study.params.findWhere({bitmapId: bitmapId});
-                    stroke.set('bitmap', new createjs.Bitmap(Skritter.assets.getStroke(bitmapId).src));
+                    var image = Skritter.assets.getStroke(bitmapId);
+                    stroke.set('bitmap', new createjs.Bitmap(image.src));
                     stroke.set('bitmapId', bitmapId);
                     stroke.set('data', strokes[s]);
                     stroke.set('id', position + '|' + bitmapId);
+                    stroke.set('image', image);
                     stroke.set('part', part);
                     stroke.set('position', position);
                     stroke.set('rune', rune);

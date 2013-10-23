@@ -1,7 +1,7 @@
 /**
  * @module Skritter
  * @submodule Collection
- * @param Log
+ * @param LogItem
  * @author Joshua McFarland
  */
 define([

@@ -65,6 +65,7 @@ define([
 	    this.stroke.set('data', matched.data);
 	    this.stroke.set('feedback', matched.feedback);
 	    this.stroke.set('id', matched.id);
+            this.stroke.set('image', matched.image);
 	    this.stroke.set('params', matched.params);
 	    this.stroke.set('part', matched.part);
 	    this.stroke.set('position', matched.position);
@@ -91,6 +92,7 @@ define([
 		var bitmapId = variations.at(b).get('bitmapId');
 		var data = variations.at(b).get('data');
 		var id = variations.at(b).get('id');
+                var image = variations.at(b).get('image');
 		var params = variations.at(b).getInflatedParams();
 		var part = variations.at(b).get('part');
 		var position = variations.at(b).get('position');
@@ -125,6 +127,7 @@ define([
 		    result.data = data;
 		    result.feedback = param.get('feedback');
 		    result.id = id;
+                    result.image = image;
 		    result.param = param;
 		    result.part = part;
 		    result.position = position;

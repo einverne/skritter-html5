@@ -2,6 +2,17 @@
 
 Skritter HTML5 is a partial port and adaptation of the Skritter application primary written in JavaScript while adhering to HTML5 standards. It aims to match the functionality of the current Flash and iOS versions. The code tries to maintain flexibility in the sense it can be deployed as a browser or store application without needing to alter the code-base.
 
+## Testing
+
+**Desktop**
+* Chrome 29+
+* Firefox 23+
+* IE 10+
+
+**Mobile**
+* Chrome 29+
+* Firefox 24+
+
 ## Building
 
 All of the essential media files are now included in the repository. The audio files can be downloaded and placed in the `public_html/media/audio` directory.
@@ -33,5 +44,5 @@ After the initial install you can either run the project directly from the `publ
 
 ## Links
 
-API Documentation: http://beta.skritter.com/api/v0/docs
-Media: http://skritter.joshmcfarland.net/media.zip
+* API Documentation: http://beta.skritter.com/api/v0/docs
+* Media: http://skritter.joshmcfarland.net/media.zip

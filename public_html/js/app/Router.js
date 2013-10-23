@@ -6,6 +6,7 @@
  * @param LoginView
  * @param OptionsView
  * @param StudyView
+ * @param VocabView
  * @author Joshua McFarland
  */
 define([
@@ -14,8 +15,9 @@ define([
     'view/Login',
     'view/Options',
     'view/Study',
+    'view/Vocab',
     'backbone'
-], function(HomeView, InfoView, LoginView, OptionsView, StudyView) {
+], function(HomeView, InfoView, LoginView, OptionsView, StudyView, VocabView) {
     /**
      * @class Router
      */
@@ -29,7 +31,8 @@ define([
             'login': 'loginView',
             'logout': 'logout',
             'options': 'optionsView',
-            'study': 'studyView'
+            'study': 'studyView',
+            'vocab': 'vocabView'
         },
         /**
          * @method homeView
@@ -90,6 +93,16 @@ define([
                 Router.studyView = new StudyView({el: $(Skritter.settings.get('container'))}).render();
             } else {
                 Router.studyView.setElement($(Skritter.settings.get('container'))).render();
+            }
+        },
+        /**
+         * @method vocabView
+         */
+        vocabView: function() {
+            if (!Router.vocabView) {
+                Router.vocabView = new VocabView({el: $(Skritter.settings.get('container'))}).render();
+            } else {
+                Router.vocabView.setElement($(Skritter.settings.get('container'))).render();
             }
         }
     });

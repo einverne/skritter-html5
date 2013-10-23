@@ -12,8 +12,8 @@ define([
     var LogItem = Backbone.Model.extend({
         
         defaults: {
-            userId: Skritter.user.get('user_id'),
-            timestamp: Skritter.fn.getUnixTime()
+            userId: null,
+            timestamp: new Date().getTime()
         }
         
     });

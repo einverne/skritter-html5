@@ -67,6 +67,10 @@ define([
             var reviewModels = [];
             var reviewKeys = [];
             Skritter.api.postReviews(this.toJSON(), Skritter.settings.get('date'), function(reviews) {
+                if (reviews.responseText) {
+                    callback();
+                    return;
+                }
                 for (var i in reviews) {
                     reviewModels.push(Skritter.study.reviews.findWhere({itemId:reviews[i].itemId, submitTime:reviews[i].submitTime}));
                     reviewKeys.push([reviews[i].itemId, reviews[i].submitTime]);
