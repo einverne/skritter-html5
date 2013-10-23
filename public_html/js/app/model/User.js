@@ -163,7 +163,7 @@ define([
             Skritter.facade.show('fixing ' + errors.length + ' sync issues');
             Skritter.api.getItems(_.uniq(errorIds), _.bind(function(items) {
                 var updated = Skritter.study.items.set(items, {add: false, remove: false});
-                this.set('lastReviewFix', parseInt(errors[errors.length -1].created + 1), 10);
+                this.set('lastReviewFix', parseInt(errors[errors.length -1].created + 1, 10));
                 callback(updated);
                 Skritter.facade.hide();
             }, this));
