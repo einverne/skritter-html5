@@ -43,6 +43,9 @@ define([
             this.$('#definition').text(Prompt.definition);
             this.$('#sentence').text(Prompt.sentence);
             this.$('#prompt-tip').hide();
+            //play the audio file when answer is shown
+            if (Prompt.vocabs[0].has('audio'))
+                Prompt.vocabs[0].play();
         },
         showHidden: function() {
             console.log('Prompt', 'RDNG', Prompt.vocabs[0].get('writing'));

@@ -95,6 +95,12 @@ define([
                     Study.c.prompt.setElement(this.$('#prompt-container')).render();
                     break;
             }
+            //toggle the audio button display
+            if (Study.c.vocabs[0].has('audio')) {
+                this.$('#audio-button').text('{audio}');
+            } else {
+                this.$('#audio-button').text('{no-audio}');
+            }
             Study.c.prompt.set(Study.c.item, Study.c.vocabs).showHidden();
             this.listenToOnce(Study.c.prompt, 'complete', this.handlePromptComplete);
             return Study.c;
