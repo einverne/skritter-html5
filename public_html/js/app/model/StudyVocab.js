@@ -132,6 +132,13 @@ define([
             return this.get('writing').split('');
         },
         /**
+         * @method getItems
+         * @returns {Object}
+         */
+        getItems: function() {
+            return Skritter.study.items.filterBy('id', this.get('id'), true);
+        },
+        /**
          * @method getPinyinAt
          * @param {Number} index
          * @return {Object}

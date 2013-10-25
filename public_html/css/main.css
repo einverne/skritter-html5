@@ -236,3 +236,29 @@ body {
 .form-signin .error-message {
     margin: 10px 0;
 }
+
+
+/** VOCAB **/
+#entries .entry {
+    clear: both;
+    cursor: pointer;
+    min-height: 40px;
+}
+#entries .entry:hover {
+    background: #bababa;
+}
+#entries .entry div {
+    float: left;
+}
+#entries .entry #writing {
+    font-size: xx-large;
+    padding-right: 10px;
+}
+#entries .entry #reading {
+    font-size: large;
+    font-weight: bold;
+    padding-right: 10px;
+}
+#entries .entry #definition {
+    font-size: large;
+}

@@ -14,10 +14,18 @@ define([
      * @class InfoView
      */
     var Info = Backbone.View.extend({
+        /**
+         * @method initialize
+         */
         initialize: function() {
+            Info.items = null;
             Info.vocab = null;
             Info.sentence = null;
         },
+        /**
+         * @method render
+         * @returns {Info}
+         */
         render: function() {
             if (!Skritter.user.isLoggedIn()) {
                 document.location.hash = '';
@@ -43,8 +51,7 @@ define([
             
             //loop through the contained characters and display information about them
             var contained = _.uniq(Info.vocab.get('containedVocabIds'));
-            console.log(contained);
-	    if (contained) {
+	    if (contained.length > 0) {
                 this.$('#contained-panel .panel-body').html('');
 		for (var i in contained)
 		{
@@ -56,23 +63,49 @@ define([
 		    div += "</div>";
 		    this.$('#contained-panel .panel-body').append(div);
 		}
-	    }
+	    } else {
+                this.$('#contained-panel').hide();
+            }
+            
+            //load the items associated with the vocab and get the stats
+            for (var ii in Info.items.models) {
+                var item = Info.items.models[ii];
+                var part = item.get('part');
+                this.$('#stat-' + part + ' .spart').text(part);
+                this.$('#stat-' + part + ' .snext').text(item.get('next') - Skritter.fn.getUnixTime());
+                this.$('#stat-' + part + ' .slast').text(Skritter.fn.getUnixTime() - item.get('last'));
+                this.$('#stat-' + part + ' .sspent').text(item.get('timeStudied'));
+            }
             
             return this;
         },
+        /**
+         * @property {Oject} events
+         */
         events: {
             'click.Info #ban-button': 'toggleBanned',
 	    'click.Info #close-button': 'goBack',
 	    'click.Info #star-button': 'toggleStarred'
 	},
+        /**
+         * @method goBack
+         */
         goBack: function() {
             window.history.back();
         },
+        /**
+         * @method load
+         * @param {String} id
+         */
         load: function(id) {
+            Info.items = Skritter.study.items.filterBy('id', id, true);
             Info.vocab = Skritter.study.vocabs.findWhere({id: id});
 	    if (Info.vocab.get('sentenceId'))
 		Info.sentence = Skritter.study.sentences.findWhere({id: Info.vocab.get('sentenceId')});
         },
+        /**
+         * @method toggleBanned
+         */
         toggleBanned: function() {
             if (Info.vocab.has('bannedParts')) {
 		Info.vocab.unset('bannedParts');
@@ -82,6 +115,9 @@ define([
 		this.$('#ban-button').text('{banned}');
 	    }
         },
+        /**
+         * @method toggleStarred
+         */
         toggleStarred: function() {
             if (Info.vocab.get('starred')) {
 		Info.vocab.set('starred', false);

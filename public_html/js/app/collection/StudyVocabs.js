@@ -32,6 +32,14 @@ define([
             });
         },
         /**
+         * @method comparator
+         * @param {StudyVocab} item
+         * @returns {StudyVocab}
+         */
+        comparator: function(item) {
+            return item.get('reading');
+        },
+        /**
          * @method loadAll
          * @param {Function} callback
          * @returns {undefined}

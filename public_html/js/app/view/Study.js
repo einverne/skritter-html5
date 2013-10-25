@@ -94,7 +94,6 @@ define([
                     Study.c.prompt.setElement(this.$('#prompt-container')).render();
                     break;
             }
-            console.log('CURRENT', Study.c);
             Study.c.prompt.set(Study.c.item, Study.c.vocabs).showHidden();
             this.listenToOnce(Study.c.prompt, 'complete', this.handlePromptComplete);
             return Study.c;

@@ -32,6 +32,11 @@ define([
                     callback();
             });
         },
+        /**
+         * @method comparator
+         * @param {StudyItem} item
+         * @returns {StudyItem}
+         */
         comparator: function(item) {
             return -item.getReadiness();
         },
@@ -108,10 +113,14 @@ define([
          * @method filterBy
          * @param {String} attribute
          * @param {String} value
+         * @param {Boolean} containsSubstring
          * @returns {StudyItems} A new collection of filtered StudyItems
          */
-        filterBy: function(attribute, value) {
+        filterBy: function(attribute, value, containsSubstring) {
             var filtered = this.filter(function(items) {
+                if (containsSubstring) {
+                    return (items.get(attribute).indexOf(value) > -1) ? true : false;
+                }
                 return _.contains(value, items.get(attribute));
             });
             return new StudyItems(filtered);
