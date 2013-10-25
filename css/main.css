@@ -54,15 +54,27 @@ body {
     text-align: center;
 }
 #prompt-top #writing {
+    float: left;
     font-size: 96px;
 }
+#prompt-top #style {
+    float: right;
+    font-size: medium;
+    line-height: 4;
+}
 #prompt-top #reading {
+    clear: right;
+    float: right;
     font-size: large;
 }
 #prompt-top #definition {
+    clear: both;
+    float: left;
     font-size: large;
 }
 #prompt-top #sentence {
+    clear: both;
+    float: left;
     font-size: large;
 }
 #prompt-bottom {
@@ -210,4 +222,27 @@ body {
 }
 .form-signin .error-message {
     margin: 10px 0;
+}
+#entries .entry {
+    clear: both;
+    cursor: pointer;
+    min-height: 40px;
+}
+#entries .entry:hover {
+    background: #bababa;
+}
+#entries .entry div {
+    float: left;
+}
+#entries .entry #writing {
+    font-size: xx-large;
+    padding-right: 10px;
+}
+#entries .entry #reading {
+    font-size: large;
+    font-weight: bold;
+    padding-right: 10px;
+}
+#entries .entry #definition {
+    font-size: large;
 }

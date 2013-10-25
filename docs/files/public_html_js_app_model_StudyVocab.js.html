@@ -133,7 +133,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/Vocab.html">Vocab</a></li>
+                <li><a href="../classes/VocabView.html">VocabView</a></li>
             
                 <li><a href="../classes/Words.html">Words</a></li>
             
@@ -285,12 +285,10 @@ define([
                     var stroke = new CanvasStroke();
                     var bitmapId = parseInt(strokes[s][0], 10);
                     var params = Skritter.study.params.findWhere({bitmapId: bitmapId});
-                    var image = Skritter.assets.getStroke(bitmapId);
-                    stroke.set(&#x27;bitmap&#x27;, new createjs.Bitmap(image.src));
                     stroke.set(&#x27;bitmapId&#x27;, bitmapId);
                     stroke.set(&#x27;data&#x27;, strokes[s]);
                     stroke.set(&#x27;id&#x27;, position + &#x27;|&#x27; + bitmapId);
-                    stroke.set(&#x27;image&#x27;, image);
+                    stroke.set(&#x27;image&#x27;, Skritter.assets.getStroke(bitmapId));
                     stroke.set(&#x27;part&#x27;, part);
                     stroke.set(&#x27;position&#x27;, position);
                     stroke.set(&#x27;rune&#x27;, rune);
@@ -330,6 +328,13 @@ define([
             return this.get(&#x27;writing&#x27;).split(&#x27;&#x27;);
         },
         /**
+         * @method getItems
+         * @returns {Object}
+         */
+        getItems: function() {
+            return Skritter.study.items.filterBy(&#x27;id&#x27;, this.get(&#x27;id&#x27;), true);
+        },
+        /**
          * @method getPinyinAt
          * @param {Number} index
          * @return {Object}
@@ -357,7 +362,7 @@ define([
             for (var i = 0; i &lt; this.getCharacterCount(); i++)
             {
                 if (index &gt; i) {
-                    element += &quot;&lt;div class=&#x27;prompt-display&#x27;&gt;&quot; + this.getPinyinAt(i).syllable + &quot;&lt;/div&gt;&quot;;
+                    element += &quot;&lt;div class=&#x27;prompt-display&#x27;&gt;&quot; + this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone + &quot;&lt;/div&gt;&quot;;
                 } else {
                     element += &quot;&lt;div class=&#x27;prompt-hidden&#x27;&gt;&lt;/div&gt;&quot;;
                 }

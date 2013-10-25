@@ -133,7 +133,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/Vocab.html">Vocab</a></li>
+                <li><a href="../classes/VocabView.html">VocabView</a></li>
             
                 <li><a href="../classes/Words.html">Words</a></li>
             
@@ -332,7 +332,10 @@ define([
         showAnswer: function() {
             Skritter.timer.stop();
             Tone.canvas.disableInput();
-            this.$(&#x27;#reading&#x27;).html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
+            this.$(&#x27;#reading&#x27;).html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position)));
+            //play the audio file if last prompt is finished
+            if (Prompt.vocabs[0].has(&#x27;audio&#x27;) &amp;&amp; Prompt.position === Prompt.vocabs[0].getCharacterCount())
+                Prompt.vocabs[0].play();
         },
         showHidden: function() {
             Skritter.timer.start();

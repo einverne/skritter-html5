@@ -47,7 +47,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "StudyVocabs",
         "Timer",
         "User",
-        "Vocab",
+        "VocabView",
         "Words"
     ],
     "modules": [

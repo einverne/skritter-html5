@@ -133,7 +133,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/Vocab.html">Vocab</a></li>
+                <li><a href="../classes/VocabView.html">VocabView</a></li>
             
                 <li><a href="../classes/Words.html">Words</a></li>
             
@@ -213,6 +213,7 @@ define([
          * @constructor
          */
 	initialize: function() {
+            Assets.audioPlayer = new Audio();
 	    Assets.queue = new createjs.LoadQueue();
 	    
 	    var handleComplete = function() {
@@ -233,27 +234,17 @@ define([
          * Access-Control-Allow-Origin restrictions.
          * 
          * @method getAudio
-         * @param {String} audioUrl
+         * @param {String} audioId
          * @return {Object}
          */
-        getAudio: function(audioUrl) {
-	    var audio;
-	    if (createjs.Sound.idHash[audioUrl]) {
-		audio = createjs.Sound.play(audioUrl);
-		return audio;
-	    }
-	    if (!createjs.Sound.hasEventListener(&#x27;fileload&#x27;)) {
-		createjs.Sound.addEventListener(&#x27;fileload&#x27;, handleLoad);
-	    }
-            console.log(Skritter.settings.get(&#x27;apiRoot&#x27;) + &#x27;.&#x27; + Skritter.settings.get(&#x27;apiDomain&#x27;) + audioUrl);
-	    createjs.Sound.registerSound(Skritter.settings.get(&#x27;apiRoot&#x27;) + &#x27;.&#x27; + Skritter.settings.get(&#x27;apiDomain&#x27;) + audioUrl, 5);
-	    function handleLoad(event) {
-		window.setTimeout(function() {
-		    createjs.Sound.play(event.id);
-		}, 500);
-	    }
-	    return audio;
-	},
+        getAudio: function(audioId) {
+            if (Assets.audioPlayer.paused) {
+                Assets.audioPlayer.src = Skritter.settings.get(&#x27;apiRoot&#x27;) + &#x27;.&#x27; + Skritter.settings.get(&#x27;apiDomain&#x27;) + &#x27;/sounds?file=&#x27; + audioId;
+                Assets.audioPlayer.play();
+            }
+            
+            return Assets.audioPlayer;
+        },
 	
         /**
          * @method getStroke

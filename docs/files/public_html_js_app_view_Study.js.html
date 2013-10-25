@@ -133,7 +133,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/Vocab.html">Vocab</a></li>
+                <li><a href="../classes/VocabView.html">VocabView</a></li>
             
                 <li><a href="../classes/Words.html">Words</a></li>
             
@@ -242,7 +242,8 @@ define([
          * @property {Object} events
          */
         events: {
-            &#x27;click.Study #info-button&#x27;: &#x27;showInfo&#x27;
+            &#x27;click.Study #info-button&#x27;: &#x27;showInfo&#x27;,
+            &#x27;click.Study #audio-button&#x27;: &#x27;playAudio&#x27;
         },
         /**
          * @method handlePromptComplete
@@ -292,10 +293,19 @@ define([
                     Study.c.prompt.setElement(this.$(&#x27;#prompt-container&#x27;)).render();
                     break;
             }
-            console.log(&#x27;CURRENT&#x27;, Study.c);
+            //toggle the audio button display
+            if (Study.c.vocabs[0].has(&#x27;audio&#x27;)) {
+                this.$(&#x27;#audio-button&#x27;).text(&#x27;{audio}&#x27;);
+            } else {
+                this.$(&#x27;#audio-button&#x27;).text(&#x27;{no-audio}&#x27;);
+            }
             Study.c.prompt.set(Study.c.item, Study.c.vocabs).showHidden();
             this.listenToOnce(Study.c.prompt, &#x27;complete&#x27;, this.handlePromptComplete);
             return Study.c;
+        },
+        playAudio: function() {
+            Study.c.vocabs[0].play();
+            return true;
         },
         /**
          * @method showInfo
@@ -307,7 +317,6 @@ define([
          * @method resize
          */
         resize: function() {
-            //var top = {width: this.$(&#x27;#prompt-top&#x27;).width(), height: this.$(&#x27;#prompt-top&#x27;).height()};
             var bottom = {width: this.$(&#x27;#prompt-bottom&#x27;).width(), height: this.$(&#x27;#prompt-bottom&#x27;).height()};
             if (Skritter.settings.get(&#x27;orientation&#x27;) === &#x27;vertical&#x27;) {
                 console.log(Skritter.settings.get(&#x27;appHeight&#x27;), bottom.height);

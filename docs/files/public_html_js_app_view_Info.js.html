@@ -133,7 +133,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/Vocab.html">Vocab</a></li>
+                <li><a href="../classes/VocabView.html">VocabView</a></li>
             
                 <li><a href="../classes/Words.html">Words</a></li>
             
@@ -212,10 +212,18 @@ define([
      * @class InfoView
      */
     var Info = Backbone.View.extend({
+        /**
+         * @method initialize
+         */
         initialize: function() {
+            Info.items = null;
             Info.vocab = null;
             Info.sentence = null;
         },
+        /**
+         * @method render
+         * @returns {Info}
+         */
         render: function() {
             if (!Skritter.user.isLoggedIn()) {
                 document.location.hash = &#x27;&#x27;;
@@ -241,8 +249,7 @@ define([
             
             //loop through the contained characters and display information about them
             var contained = _.uniq(Info.vocab.get(&#x27;containedVocabIds&#x27;));
-            console.log(contained);
-	    if (contained) {
+	    if (contained.length &gt; 0) {
                 this.$(&#x27;#contained-panel .panel-body&#x27;).html(&#x27;&#x27;);
 		for (var i in contained)
 		{
@@ -254,23 +261,49 @@ define([
 		    div += &quot;&lt;/div&gt;&quot;;
 		    this.$(&#x27;#contained-panel .panel-body&#x27;).append(div);
 		}
-	    }
+	    } else {
+                this.$(&#x27;#contained-panel&#x27;).hide();
+            }
+            
+            //load the items associated with the vocab and get the stats
+            for (var ii in Info.items.models) {
+                var item = Info.items.models[ii];
+                var part = item.get(&#x27;part&#x27;);
+                this.$(&#x27;#stat-&#x27; + part + &#x27; .spart&#x27;).text(part);
+                this.$(&#x27;#stat-&#x27; + part + &#x27; .snext&#x27;).text(item.get(&#x27;next&#x27;) - Skritter.fn.getUnixTime());
+                this.$(&#x27;#stat-&#x27; + part + &#x27; .slast&#x27;).text(Skritter.fn.getUnixTime() - item.get(&#x27;last&#x27;));
+                this.$(&#x27;#stat-&#x27; + part + &#x27; .sspent&#x27;).text(item.get(&#x27;timeStudied&#x27;));
+            }
             
             return this;
         },
+        /**
+         * @property {Oject} events
+         */
         events: {
             &#x27;click.Info #ban-button&#x27;: &#x27;toggleBanned&#x27;,
 	    &#x27;click.Info #close-button&#x27;: &#x27;goBack&#x27;,
 	    &#x27;click.Info #star-button&#x27;: &#x27;toggleStarred&#x27;
 	},
+        /**
+         * @method goBack
+         */
         goBack: function() {
             window.history.back();
         },
+        /**
+         * @method load
+         * @param {String} id
+         */
         load: function(id) {
+            Info.items = Skritter.study.items.filterBy(&#x27;id&#x27;, id, true);
             Info.vocab = Skritter.study.vocabs.findWhere({id: id});
 	    if (Info.vocab.get(&#x27;sentenceId&#x27;))
 		Info.sentence = Skritter.study.sentences.findWhere({id: Info.vocab.get(&#x27;sentenceId&#x27;)});
         },
+        /**
+         * @method toggleBanned
+         */
         toggleBanned: function() {
             if (Info.vocab.has(&#x27;bannedParts&#x27;)) {
 		Info.vocab.unset(&#x27;bannedParts&#x27;);
@@ -280,6 +313,9 @@ define([
 		this.$(&#x27;#ban-button&#x27;).text(&#x27;{banned}&#x27;);
 	    }
         },
+        /**
+         * @method toggleStarred
+         */
         toggleStarred: function() {
             if (Info.vocab.get(&#x27;starred&#x27;)) {
 		Info.vocab.set(&#x27;starred&#x27;, false);

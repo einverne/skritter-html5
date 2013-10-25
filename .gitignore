@@ -1,5 +1,7 @@
 # Directories #
 build/
 config/
+media/audio/
 nbproject/
 node_modules/
+public_html/

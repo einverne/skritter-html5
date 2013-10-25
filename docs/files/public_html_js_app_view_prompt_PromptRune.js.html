@@ -133,7 +133,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/Vocab.html">Vocab</a></li>
+                <li><a href="../classes/VocabView.html">VocabView</a></li>
             
                 <li><a href="../classes/Words.html">Words</a></li>
             
@@ -313,6 +313,7 @@ define([
                 {
                     var stroke = Rune.userCharacter.models[i];
                     Rune.canvas.drawStroke(stroke);
+                    Rune.canvas.setInputAlpha(0.5);
                 }
                 Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterBitmap(), Prompt.gradeColors[Prompt.grade]);
             } else {
@@ -392,6 +393,7 @@ define([
                 Prompt.finished = false;
                 //clear the canvas for the new character
                 this.clear();
+                Rune.canvas.setInputAlpha(1);
                 //resets the targets
                 Rune.userTargets = [];
                 //lets go ahead and show the net character in the item
@@ -412,6 +414,9 @@ define([
         showHidden: function() {
             console.log(&#x27;Prompt&#x27;, &#x27;RUNE&#x27;, Prompt.vocabs[0].get(&#x27;writing&#x27;));
             Skritter.timer.start();
+            //play the audio file if the first character
+            if (Prompt.vocabs[0].has(&#x27;audio&#x27;) &amp;&amp; Prompt.position === 1)
+                Prompt.vocabs[0].play();
             Rune.userCharacter = new CanvasCharacter();
             Rune.userTargets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, &#x27;rune&#x27;);
             Rune.canvas.enableInput();

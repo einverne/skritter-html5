@@ -133,7 +133,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/Vocab.html">Vocab</a></li>
+                <li><a href="../classes/VocabView.html">VocabView</a></li>
             
                 <li><a href="../classes/Words.html">Words</a></li>
             
@@ -241,6 +241,9 @@ define([
             this.$(&#x27;#definition&#x27;).text(Prompt.definition);
             this.$(&#x27;#sentence&#x27;).text(Prompt.sentence);
             this.$(&#x27;#prompt-tip&#x27;).hide();
+            //play the audio file when answer is shown
+            if (Prompt.vocabs[0].has(&#x27;audio&#x27;))
+                Prompt.vocabs[0].play();
         },
         showHidden: function() {
             console.log(&#x27;Prompt&#x27;, &#x27;RDNG&#x27;, Prompt.vocabs[0].get(&#x27;writing&#x27;));

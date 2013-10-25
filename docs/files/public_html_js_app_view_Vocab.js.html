@@ -133,7 +133,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/Vocab.html">Vocab</a></li>
+                <li><a href="../classes/VocabView.html">VocabView</a></li>
             
                 <li><a href="../classes/Words.html">Words</a></li>
             
@@ -199,25 +199,62 @@
 /**
  * @module Skritter
  * @submodule View
+ * @param PinyinConverter
  * @param VocabWords
  * @param templateVocab
  * @author Joshua McFarland
  */
 define([
+    &#x27;PinyinConverter&#x27;,
     &#x27;component/Words&#x27;,
     &#x27;require.text!template/vocab.html&#x27;,
     &#x27;backbone&#x27;
-], function(VocabWords, templateVocab) {
+], function(PinyinConverter, VocabWords, templateVocab) {
     /**
-     * @class Vocab
+     * @class VocabView
      */
     var Vocab = Backbone.View.extend({
+        /**
+         * @method render
+         * @returns {Vocab}
+         */
         render: function() {
             this.$el.html(templateVocab);
             new VocabWords().setElement(this.$(&#x27;#vocab-display&#x27;)).render();
+            this.loadEntries();
             return this;
+        },
+        /**
+         * @property {Object} events
+         */
+        events: {
+            &#x27;click.Vocab .entry&#x27;: &#x27;toInfo&#x27;
+        },
+        /**
+         * @method loadEntries
+         */
+        loadEntries: function() {
+            this.$(&#x27;#entries&#x27;).html(&#x27;&#x27;);
+            var lang = Skritter.user.getSetting(&#x27;sourceLang&#x27;);
+            for (var i in Skritter.study.vocabs.models) {
+                var vocab = Skritter.study.vocabs.models[i];
+                
+                var div = &quot;&lt;div id=&#x27;&quot; + vocab.get(&#x27;id&#x27;) + &quot;&#x27; class=&#x27;entry&#x27;&gt;&quot; + 
+                        &quot;&lt;div id=&#x27;writing&#x27;&gt;&quot; + vocab.get(&#x27;writing&#x27;) + &quot;&lt;/div&gt;&quot; +
+                        &quot;&lt;div id=&#x27;reading&#x27;&gt;&quot; + PinyinConverter.toTone(vocab.get(&#x27;reading&#x27;)) + &quot;&lt;/div&gt;&quot; +
+                        &quot;&lt;div id=&#x27;definition&#x27;&gt;&quot; + vocab.get(&#x27;definitions&#x27;)[lang] + &quot;&lt;/div&gt;&quot; +
+                        &quot;&lt;/div&gt;&quot;;
+                
+                this.$(&#x27;#entries&#x27;).append(div);
+            }
+        },
+        /**
+         * @method toInfo
+         * @param {Object} event
+         */
+        toInfo: function(event) {
+            window.location.hash = &#x27;info/&#x27; + event.currentTarget.id;
         }
-        
     });
     
     

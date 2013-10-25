@@ -374,7 +374,7 @@
             "name": "public_html\\js\\app\\view\\Vocab.js",
             "modules": {},
             "classes": {
-                "Vocab": 1
+                "VocabView": 1
             },
             "fors": {},
             "namespaces": {}
@@ -512,7 +512,7 @@
                 "LoginView": 1,
                 "OptionsView": 1,
                 "StudyView": 1,
-                "Vocab": 1,
+                "VocabView": 1,
                 "Api": 1,
                 "Application": 1,
                 "Functions": 1,
@@ -664,7 +664,7 @@
                 "InfoView": 1,
                 "LoginView": 1,
                 "StudyView": 1,
-                "Vocab": 1,
+                "VocabView": 1,
                 "Router": 1
             },
             "fors": {},
@@ -1268,9 +1268,9 @@
             "file": "public_html\\js\\app\\view\\Study.js",
             "line": 23
         },
-        "Vocab": {
-            "name": "Vocab",
-            "shortname": "Vocab",
+        "VocabView": {
+            "name": "VocabView",
+            "shortname": "VocabView",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -1280,7 +1280,7 @@
             "submodule": "View",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\Vocab.js",
-            "line": 13
+            "line": 15
         },
         "Api": {
             "name": "Api",
@@ -1634,7 +1634,27 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 38,
+            "line": 35,
+            "itemtype": "method",
+            "name": "comparator",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "",
+                    "type": "StudyItem"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "StudyItem"
+            },
+            "class": "StudyItems",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
+            "line": 43,
             "itemtype": "method",
             "name": "fetch",
             "params": [
@@ -1659,7 +1679,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 85,
+            "line": 90,
             "itemtype": "method",
             "name": "loadAll",
             "params": [
@@ -1679,7 +1699,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 96,
+            "line": 101,
             "itemtype": "method",
             "name": "filterActive",
             "return": {
@@ -1692,7 +1712,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 107,
+            "line": 112,
             "itemtype": "method",
             "name": "filterBy",
             "params": [
@@ -1705,6 +1725,11 @@
                     "name": "value",
                     "description": "",
                     "type": "String"
+                },
+                {
+                    "name": "containsSubstring",
+                    "description": "",
+                    "type": "Boolean"
                 }
             ],
             "return": {
@@ -1717,7 +1742,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 119,
+            "line": 128,
             "itemtype": "method",
             "name": "getContainedItemIds",
             "return": {
@@ -1730,7 +1755,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 140,
+            "line": 149,
             "itemtype": "method",
             "name": "getItemsDue",
             "return": {
@@ -1743,7 +1768,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 154,
+            "line": 163,
             "description": "Returns the item at the top of the sorted collection only including\nitems that are actively being studied.",
             "itemtype": "method",
             "name": "getNext",
@@ -1757,7 +1782,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 167,
+            "line": 176,
             "description": "Returns a random active study item.",
             "itemtype": "method",
             "name": "getRandom",
@@ -2085,6 +2110,26 @@
             "file": "public_html\\js\\app\\collection\\StudyVocabs.js",
             "line": 34,
             "itemtype": "method",
+            "name": "comparator",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "",
+                    "type": "StudyVocab"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "StudyVocab"
+            },
+            "class": "StudyVocabs",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\StudyVocabs.js",
+            "line": 42,
+            "itemtype": "method",
             "name": "loadAll",
             "params": [
                 {
@@ -2103,13 +2148,13 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 32,
+            "line": 33,
             "description": "Plays an audio file using SoundJS and loads it from the Skritter web server.\nThis might not work on builds not located on the physical server due to\nAccess-Control-Allow-Origin restrictions.",
             "itemtype": "method",
             "name": "getAudio",
             "params": [
                 {
-                    "name": "audioUrl",
+                    "name": "audioId",
                     "description": "",
                     "type": "String"
                 }
@@ -2124,7 +2169,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 60,
+            "line": 51,
             "itemtype": "method",
             "name": "getStroke",
             "params": [
@@ -2144,7 +2189,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 69,
+            "line": 60,
             "itemtype": "method",
             "name": "loadStrokes",
             "class": "Assets",
@@ -2153,7 +2198,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 83,
+            "line": 74,
             "itemtype": "method",
             "name": "triggerComplete",
             "class": "Assets",
@@ -2176,6 +2221,21 @@
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
             "line": 40,
+            "itemtype": "method",
+            "name": "getBitmap",
+            "return": {
+                "description": "",
+                "type": "Bitmap"
+            },
+            "class": "CanvasStroke",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 47,
+            "itemtype": "method",
+            "name": "getContainedStrokeIds",
             "return": {
                 "description": "",
                 "type": "Array"
@@ -2186,7 +2246,9 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 63,
+            "line": 70,
+            "itemtype": "method",
+            "name": "getLength",
             "return": {
                 "description": "",
                 "type": "Number"
@@ -2197,7 +2259,9 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 75,
+            "line": 82,
+            "itemtype": "method",
+            "name": "getInflatedBitmap",
             "return": {
                 "description": "",
                 "type": "Unresolved"
@@ -2208,7 +2272,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 98,
+            "line": 105,
             "itemtype": "method",
             "name": "getInflatedData",
             "return": {
@@ -2221,7 +2285,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 117,
+            "line": 124,
             "itemtype": "method",
             "name": "getInflatedParams",
             "return": {
@@ -2234,7 +2298,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 149,
+            "line": 156,
             "itemtype": "method",
             "name": "getRectangle",
             "return": {
@@ -2247,7 +2311,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 157,
+            "line": 164,
             "return": {
                 "description": "",
                 "type": "@exp;Skritter@pro;fn@call;getBoundingRectangle"
@@ -2258,7 +2322,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 165,
+            "line": 172,
             "itemtype": "method",
             "name": "getUserBitmap",
             "return": {
@@ -2513,7 +2577,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 112,
+            "line": 110,
             "itemtype": "method",
             "name": "getCharacterAt",
             "params": [
@@ -2533,7 +2597,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 120,
+            "line": 118,
             "itemtype": "method",
             "name": "getCharacterCount",
             "return": {
@@ -2546,7 +2610,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 127,
+            "line": 125,
             "itemtype": "method",
             "name": "getCharacters",
             "return": {
@@ -2559,7 +2623,20 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 134,
+            "line": 132,
+            "itemtype": "method",
+            "name": "getItems",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "StudyVocab",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
+            "line": 139,
             "itemtype": "method",
             "name": "getPinyinAt",
             "params": [
@@ -2579,7 +2656,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 152,
+            "line": 157,
             "itemtype": "method",
             "name": "getReadingDisplayAt",
             "params": [
@@ -2599,7 +2676,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 169,
+            "line": 174,
             "itemtype": "method",
             "name": "getSentence",
             "return": {
@@ -2612,7 +2689,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 177,
+            "line": 182,
             "itemtype": "method",
             "name": "getWritingDisplayAt",
             "params": [
@@ -2632,7 +2709,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 194,
+            "line": 199,
             "itemtype": "method",
             "name": "hasCharacterAt",
             "params": [
@@ -2652,7 +2729,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 204,
+            "line": 209,
             "itemtype": "method",
             "name": "isSingleCharacter",
             "return": {
@@ -2665,7 +2742,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 213,
+            "line": 218,
             "itemtype": "method",
             "name": "play",
             "return": {
@@ -3756,7 +3833,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 304,
+            "line": 310,
             "itemtype": "method",
             "name": "tick",
             "class": "PromptCanvas",
@@ -3765,7 +3842,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 310,
+            "line": 316,
             "description": "Enables the view to fire events when the canvas has been touched.",
             "itemtype": "method",
             "name": "triggerMouseDown",
@@ -3782,7 +3859,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 319,
+            "line": 325,
             "description": "Enables the view to fire events when the canvas touch has been released.",
             "itemtype": "method",
             "name": "triggerMouseUp",
@@ -3838,7 +3915,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 153,
+            "line": 154,
             "description": "Returns the next stroke in the character based on the order it should be written.",
             "itemtype": "method",
             "name": "getNextStroke",
@@ -3852,7 +3929,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 169,
+            "line": 170,
             "description": "Returns the stroke highest possible stroke count out of all of the targets.",
             "itemtype": "method",
             "name": "getTargetStrokeCount",
@@ -3909,6 +3986,81 @@
             "name": "events",
             "type": "Object",
             "class": "HomeView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Info.js",
+            "line": 17,
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "InfoView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Info.js",
+            "line": 25,
+            "itemtype": "method",
+            "name": "render",
+            "return": {
+                "description": "",
+                "type": "Info"
+            },
+            "class": "InfoView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Info.js",
+            "line": 82,
+            "itemtype": "property",
+            "name": "events",
+            "type": "Oject",
+            "class": "InfoView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Info.js",
+            "line": 90,
+            "itemtype": "method",
+            "name": "goBack",
+            "class": "InfoView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Info.js",
+            "line": 96,
+            "itemtype": "method",
+            "name": "load",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "InfoView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Info.js",
+            "line": 106,
+            "itemtype": "method",
+            "name": "toggleBanned",
+            "class": "InfoView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Info.js",
+            "line": 118,
+            "itemtype": "method",
+            "name": "toggleStarred",
+            "class": "InfoView",
             "module": "Skritter",
             "submodule": "View"
         },
@@ -4002,7 +4154,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 49,
+            "line": 50,
             "itemtype": "method",
             "name": "handlePromptComplete",
             "params": [
@@ -4018,7 +4170,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 58,
+            "line": 59,
             "itemtype": "method",
             "name": "next",
             "return": {
@@ -4031,7 +4183,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 102,
+            "line": 112,
             "itemtype": "method",
             "name": "showInfo",
             "class": "StudyView",
@@ -4040,7 +4192,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 108,
+            "line": 118,
             "itemtype": "method",
             "name": "resize",
             "class": "StudyView",
@@ -4049,7 +4201,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 119,
+            "line": 128,
             "itemtype": "method",
             "name": "updateItems",
             "params": [
@@ -4060,6 +4212,54 @@
                 }
             ],
             "class": "StudyView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Vocab.js",
+            "line": 19,
+            "itemtype": "method",
+            "name": "render",
+            "return": {
+                "description": "",
+                "type": "Vocab"
+            },
+            "class": "VocabView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Vocab.js",
+            "line": 29,
+            "itemtype": "property",
+            "name": "events",
+            "type": "Object",
+            "class": "VocabView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Vocab.js",
+            "line": 35,
+            "itemtype": "method",
+            "name": "loadEntries",
+            "class": "VocabView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Vocab.js",
+            "line": 53,
+            "itemtype": "method",
+            "name": "toInfo",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "VocabView",
             "module": "Skritter",
             "submodule": "View"
         },
@@ -5103,35 +5303,39 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:38"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:35"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:85"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:43"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:96"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:90"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:107"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:101"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:119"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:112"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:140"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:128"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:154"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:149"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:167"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:163"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:176"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5176,6 +5380,18 @@
         {
             "message": "replacing incorrect tag: returns with return",
             "line": " public_html\\js\\app\\collection\\StudyVocabs.js:34"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\StudyVocabs.js:42"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:40"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\model\\StudyVocab.js:132"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5235,15 +5451,23 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:153"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:154"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:169"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:170"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\Study.js:58"
+            "line": " public_html\\js\\app\\view\\Info.js:25"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\Study.js:59"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\Vocab.js:19"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5307,19 +5531,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:40"
-        },
-        {
-            "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:63"
-        },
-        {
-            "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:75"
-        },
-        {
-            "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:157"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:164"
         },
         {
             "message": "Missing item type\nUsed to start, stop and calculate accurate durations of time     .",
