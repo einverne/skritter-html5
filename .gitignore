@@ -1,0 +1,5 @@
+# Directories #
+build/
+config/
+nbproject/
+node_modules/
