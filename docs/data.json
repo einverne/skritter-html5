@@ -2003,7 +2003,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyStrokes.js",
-            "line": 55,
+            "line": 21,
             "itemtype": "property",
             "name": "model",
             "type": "StudyStroke",
@@ -2013,7 +2013,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyStrokes.js",
-            "line": 59,
+            "line": 25,
             "itemtype": "method",
             "name": "cache",
             "params": [
@@ -2033,7 +2033,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyStrokes.js",
-            "line": 74,
+            "line": 40,
             "itemtype": "method",
             "name": "loadAll",
             "params": [
@@ -2876,7 +2876,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 289,
+            "line": 290,
             "description": "A quicker way to set the user settings object.",
             "itemtype": "method",
             "name": "setSetting",
@@ -2902,7 +2902,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 303,
+            "line": 304,
             "description": "Syncs data with the server by getting changed items and posting reviews. If the account has never synced\nthis it initiates an full account download.",
             "itemtype": "method",
             "name": "sync",
@@ -2924,7 +2924,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 417,
+            "line": 418,
             "itemtype": "method",
             "name": "unsetSetting",
             "params": [
@@ -5163,11 +5163,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyStrokes.js:59"
+            "line": " public_html\\js\\app\\collection\\StudyStrokes.js:25"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyStrokes.js:74"
+            "line": " public_html\\js\\app\\collection\\StudyStrokes.js:40"
         },
         {
             "message": "replacing incorrect tag: returns with return",

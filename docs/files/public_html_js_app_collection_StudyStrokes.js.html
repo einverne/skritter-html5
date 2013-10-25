@@ -214,6 +214,39 @@ define([
          * @method initialize
          */
         initialize: function() {
+            this.loadTones();
+        },
+        /**
+         * @property {StudyStroke} model
+         */
+        model: StudyStroke,
+        /**
+         * @method cache
+         * @param {Function} callback
+         * @returns {undefined}
+         */
+        cache: function(callback) {
+            if (this.length === 0) {
+                callback();
+                return;
+            }
+            Skritter.storage.setItems(&#x27;strokes&#x27;, this.toJSON(), function() {
+                if (typeof callback === &#x27;function&#x27;)
+                    callback();
+            });
+        },
+        /**
+         * @method loadAll
+         * @param {Function} callback
+         * @returns {undefined}
+         */
+        loadAll: function(callback) {
+            Skritter.storage.getItems(&#x27;strokes&#x27;, function(strokes) {
+                Skritter.study.strokes.add(strokes);
+                callback(null, strokes);
+            });
+        },
+        loadTones: function() {
             this.add(new StudyStroke().set({
                 lang: &#x27;zh&#x27;,
                 rune: &#x27;tone1&#x27;,
@@ -249,36 +282,6 @@ define([
                     [387, 0.40, 0.40, 0.20, 0.20, 0.0]
                 ]
             }));
-        },
-        /**
-         * @property {StudyStroke} model
-         */
-        model: StudyStroke,
-        /**
-         * @method cache
-         * @param {Function} callback
-         * @returns {undefined}
-         */
-        cache: function(callback) {
-            if (this.length === 0) {
-                callback();
-                return;
-            }
-            Skritter.storage.setItems(&#x27;strokes&#x27;, this.toJSON(), function() {
-                if (typeof callback === &#x27;function&#x27;)
-                    callback();
-            });
-        },
-        /**
-         * @method loadAll
-         * @param {Function} callback
-         * @returns {undefined}
-         */
-        loadAll: function(callback) {
-            Skritter.storage.getItems(&#x27;strokes&#x27;, function(strokes) {
-                Skritter.study.strokes.add(strokes);
-                callback(null, strokes);
-            });
         }
 
     });
