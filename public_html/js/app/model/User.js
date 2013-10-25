@@ -284,6 +284,7 @@ define([
             Skritter.study.srsconfigs.reset();
             Skritter.study.sentences.reset();
             Skritter.study.strokes.reset();
+            Skritter.study.strokes.loadTones();
             Skritter.study.vocabs.reset();
         },
         /**
