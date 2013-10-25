@@ -6,6 +6,7 @@ html, body {
 }
 
 body {
+    -webkit-backface-visibility: hidden;        /* prevent crazy background pixelation */
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
@@ -67,15 +68,27 @@ body {
     text-align: center;
 }
 #prompt-top #writing {
+    float: left;
     font-size: 96px;
 }
+#prompt-top #style {
+    float: right;
+    font-size: medium;
+    line-height: 4;
+}
 #prompt-top #reading {
+    clear: right;
+    float: right;
     font-size: large;
 }
 #prompt-top #definition {
+    clear: both;
+    float: left;
     font-size: large;
 }
 #prompt-top #sentence {
+    clear: both;
+    float: left;
     font-size: large;
 }
 #prompt-bottom {

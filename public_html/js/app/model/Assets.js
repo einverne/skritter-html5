@@ -35,27 +35,33 @@ define([
          * Access-Control-Allow-Origin restrictions.
          * 
          * @method getAudio
-         * @param {String} audioUrl
+         * @param {String} audioId
          * @return {Object}
          */
-        getAudio: function(audioUrl) {
-	    var audio;
-	    if (createjs.Sound.idHash[audioUrl]) {
-		audio = createjs.Sound.play(audioUrl);
-		return audio;
-	    }
-	    if (!createjs.Sound.hasEventListener('fileload')) {
-		createjs.Sound.addEventListener('fileload', handleLoad);
-	    }
-            console.log(Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + audioUrl);
-	    createjs.Sound.registerSound(Skritter.settings.get('apiRoot') + '.' + Skritter.settings.get('apiDomain') + audioUrl, 5);
-	    function handleLoad(event) {
-		window.setTimeout(function() {
-		    createjs.Sound.play(event.id);
-		}, 500);
-	    }
-	    return audio;
-	},
+        getAudio: function(audioId) {
+            //set the base path for the audio files
+            var basePath = 'media/audio/' + Skritter.user.getSetting('targetLang') + '/';
+            
+            //attempt to play audio that has already been loaded
+            var audio = createjs.Sound.play(basePath + audioId);
+            
+            //listen for when new audio has finished loading
+            var handleLoad = function() {
+                //without a timeout of at least a second the audio gets cut
+                setTimeout(function() {
+                    createjs.Sound.play(audioId);
+                }, 1000);
+
+            };
+            
+            //handle audio preloading and where it's loaded from
+            if (audio.playState === 'playFailed') {
+                createjs.Sound.addEventListener("fileload", handleLoad);
+                createjs.Sound.registerSound(audioId, audioId, 1, null, basePath);
+            }
+            
+            return audio;
+        },
 	
         /**
          * @method getStroke

@@ -115,6 +115,7 @@ define([
                 {
                     var stroke = Rune.userCharacter.models[i];
                     Rune.canvas.drawStroke(stroke);
+                    Rune.canvas.setInputAlpha(0.5);
                 }
                 Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterBitmap(), Prompt.gradeColors[Prompt.grade]);
             } else {
@@ -194,6 +195,7 @@ define([
                 Prompt.finished = false;
                 //clear the canvas for the new character
                 this.clear();
+                Rune.canvas.setInputAlpha(1);
                 //resets the targets
                 Rune.userTargets = [];
                 //lets go ahead and show the net character in the item

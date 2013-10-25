@@ -87,12 +87,10 @@ define([
                     var stroke = new CanvasStroke();
                     var bitmapId = parseInt(strokes[s][0], 10);
                     var params = Skritter.study.params.findWhere({bitmapId: bitmapId});
-                    var image = Skritter.assets.getStroke(bitmapId);
-                    stroke.set('bitmap', new createjs.Bitmap(image.src));
                     stroke.set('bitmapId', bitmapId);
                     stroke.set('data', strokes[s]);
                     stroke.set('id', position + '|' + bitmapId);
-                    stroke.set('image', image);
+                    stroke.set('image', Skritter.assets.getStroke(bitmapId));
                     stroke.set('part', part);
                     stroke.set('position', position);
                     stroke.set('rune', rune);
@@ -166,7 +164,7 @@ define([
             for (var i = 0; i < this.getCharacterCount(); i++)
             {
                 if (index > i) {
-                    element += "<div class='prompt-display'>" + this.getPinyinAt(i).syllable + "</div>";
+                    element += "<div class='prompt-display'>" + this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone + "</div>";
                 } else {
                     element += "<div class='prompt-hidden'></div>";
                 }

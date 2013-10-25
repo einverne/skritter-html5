@@ -38,7 +38,14 @@ define([
             return Skritter.fn.getAngle(this.get('points'));
         },
         /**
-         * 
+         * @method getBitmap
+         * @returns {Bitmap}
+         */
+        getBitmap: function() {
+            return new createjs.Bitmap(this.get('image').src);
+        },
+        /**
+         * @method getContainedStrokeIds
          * @return {Array}
          */
         getContainedStrokeIds: function() {
@@ -61,7 +68,7 @@ define([
             return ids;
         },
         /**
-         * 
+         * @method getLength
          * @return {Number}
          */
         getLength: function() {
@@ -73,14 +80,14 @@ define([
             return length;
         },
         /**
-         * 
+         * @method getInflatedBitmap
          * @return {unresolved}
          */
         getInflatedBitmap: function() {
-            var bitmap = this.get('bitmap').clone();
-            var data = this.getInflatedData();
-            
+            var bitmap = new createjs.Bitmap(this.get('image').src);
+            var data = this.getInflatedData();         
             var ms = bitmap.getMatrix();
+            
             var sx = data.w / bitmap.image.width;
             var sy = data.h / bitmap.image.height;
             ms.scale(sx, sy);
@@ -89,7 +96,7 @@ define([
             var t = ms.decompose();
 
             bitmap.setTransform(t.x, t.y, t.scaleX, t.scaleY, t.rotation, t.skewX, t.skewY);
-            var bounds = bitmap.getTransformedBounds();
+            var bounds = bitmap.getTransformedBounds();            
             bitmap.x += bounds.width / 2 + data.x;
             bitmap.y += bounds.height / 2 + data.y;
 

@@ -209,7 +209,7 @@ define([
             if (alpha)
                 marker.alpha = alpha;
             marker.graphics.endStroke();
-            Canvas.layerBackground.addChild(marker);
+            Canvas.layerInput.addChild(marker);
             Canvas.stage.update();
         },
         /**
@@ -300,6 +300,12 @@ define([
             $('#canvas-container').width(Canvas.size);
             $('#canvas-container').height(Canvas.size);
             this.drawGrid();
+        },
+        setBackgroundAlpha: function(alpha) {
+            Canvas.layerBackground.alpha = alpha;
+        },
+        setInputAlpha: function(alpha) {
+            Canvas.layerInput.alpha = alpha;
         },
         /**
          * @method tick

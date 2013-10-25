@@ -134,7 +134,7 @@ define([
         showAnswer: function() {
             Skritter.timer.stop();
             Tone.canvas.disableInput();
-            this.$('#reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
+            this.$('#reading').html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position)));
         },
         showHidden: function() {
             Skritter.timer.start();

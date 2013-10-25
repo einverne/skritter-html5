@@ -44,7 +44,8 @@ define([
          * @property {Object} events
          */
         events: {
-            'click.Study #info-button': 'showInfo'
+            'click.Study #info-button': 'showInfo',
+            'click.Study #audio-button': 'playAudio'
         },
         /**
          * @method handlePromptComplete
@@ -98,6 +99,10 @@ define([
             this.listenToOnce(Study.c.prompt, 'complete', this.handlePromptComplete);
             return Study.c;
         },
+        playAudio: function() {
+            Study.c.vocabs[0].play();
+            return true;
+        },
         /**
          * @method showInfo
          */
@@ -108,7 +113,6 @@ define([
          * @method resize
          */
         resize: function() {
-            //var top = {width: this.$('#prompt-top').width(), height: this.$('#prompt-top').height()};
             var bottom = {width: this.$('#prompt-bottom').width(), height: this.$('#prompt-bottom').height()};
             if (Skritter.settings.get('orientation') === 'vertical') {
                 console.log(Skritter.settings.get('appHeight'), bottom.height);
