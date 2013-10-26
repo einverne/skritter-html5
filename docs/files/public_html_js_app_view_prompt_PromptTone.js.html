@@ -97,6 +97,8 @@
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
+                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
+            
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
                 <li><a href="../classes/StudyDecomps.html">StudyDecomps</a></li>
@@ -261,7 +263,7 @@ define([
             Prompt.finished = true;
             this.showAnswer();
             //if multiple possible tone answers then display the one drawn
-            Tone.canvas.applyBackgroundGlow(Tone.userCharacter.at(0).getInflatedBitmap(), Prompt.gradeColors[Prompt.grade]);
+            Tone.canvas.applyBackgroundGlow(Tone.userCharacter.at(0).getInflatedSprite(), Prompt.gradeColors[Prompt.grade]);
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);
         },

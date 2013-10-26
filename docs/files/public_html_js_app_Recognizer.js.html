@@ -97,6 +97,8 @@
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
+                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
+            
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
                 <li><a href="../classes/StudyDecomps.html">StudyDecomps</a></li>
@@ -257,18 +259,17 @@ define([
 	
 	if (results.length &gt; 0) {
 	    var matched = _.first(_.sortBy(results, &#x27;result&#x27;));
-	    this.stroke.set(&#x27;bitmap&#x27;, matched.bitmap);
 	    this.stroke.set(&#x27;bitmapId&#x27;, matched.bitmapId);
 	    this.stroke.set(&#x27;contains&#x27;, matched.contains);
 	    this.stroke.set(&#x27;data&#x27;, matched.data);
 	    this.stroke.set(&#x27;feedback&#x27;, matched.feedback);
 	    this.stroke.set(&#x27;id&#x27;, matched.id);
-            this.stroke.set(&#x27;image&#x27;, matched.image);
 	    this.stroke.set(&#x27;params&#x27;, matched.params);
 	    this.stroke.set(&#x27;part&#x27;, matched.part);
 	    this.stroke.set(&#x27;position&#x27;, matched.position);
 	    this.stroke.set(&#x27;result&#x27;, matched.result);
 	    this.stroke.set(&#x27;scores&#x27;, matched.scores);
+            this.stroke.set(&#x27;sprite&#x27;, matched.sprite);
 	    return this.stroke;
 	}
 
@@ -286,16 +287,15 @@ define([
 	    var variations = this.targets[a];
 	    for (var b in variations.models)
 	    {
-		var bitmap = variations.at(b).get(&#x27;bitmap&#x27;);
 		var bitmapId = variations.at(b).get(&#x27;bitmapId&#x27;);
 		var data = variations.at(b).get(&#x27;data&#x27;);
 		var id = variations.at(b).get(&#x27;id&#x27;);
-                var image = variations.at(b).get(&#x27;image&#x27;);
 		var params = variations.at(b).getInflatedParams();
 		var part = variations.at(b).get(&#x27;part&#x27;);
 		var position = variations.at(b).get(&#x27;position&#x27;);
 		var variation = variations.at(b).get(&#x27;variation&#x27;);
 		var rune = variations.at(b).get(&#x27;rune&#x27;);
+                var sprite = variations.at(b).get(&#x27;sprite&#x27;);
 		
                 //todo: update this backwards check to use the new params concept
                 //right now it&#x27;s just a hack to manually inject params backwards
@@ -319,19 +319,18 @@ define([
 			length: this.checkLength(param)
 		    };
                     
-		    result.bitmap = bitmap;
 		    result.bitmapId = bitmapId;
 		    result.contains = param.get(&#x27;contains&#x27;);
 		    result.data = data;
 		    result.feedback = param.get(&#x27;feedback&#x27;);
 		    result.id = id;
-                    result.image = image;
 		    result.param = param;
 		    result.part = part;
 		    result.position = position;
 		    result.variation = variation;
     		    result.rune = rune;
 		    result.scores = scores;
+                    result.sprite = sprite;
 		    results.push(result);
 		}
 	    }

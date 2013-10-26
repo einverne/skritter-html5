@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>public_html\js\app\StrokeMap.js - skritter-html5</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="skritter-html5"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.5</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Api.html">Api</a></li>
+            
+                <li><a href="../classes/Application.html">Application</a></li>
+            
+                <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
+            
+                <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
+            
+                <li><a href="../classes/Facade.html">Facade</a></li>
+            
+                <li><a href="../classes/Functions.html">Functions</a></li>
+            
+                <li><a href="../classes/HomeView.html">HomeView</a></li>
+            
+                <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
+            
+                <li><a href="../classes/InfoView.html">InfoView</a></li>
+            
+                <li><a href="../classes/Log.html">Log</a></li>
+            
+                <li><a href="../classes/LoginView.html">LoginView</a></li>
+            
+                <li><a href="../classes/LogItem.html">LogItem</a></li>
+            
+                <li><a href="../classes/Mauler.html">Mauler</a></li>
+            
+                <li><a href="../classes/OptionsView.html">OptionsView</a></li>
+            
+                <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
+            
+                <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
+            
+                <li><a href="../classes/PromptDefn.html">PromptDefn</a></li>
+            
+                <li><a href="../classes/PromptRdng.html">PromptRdng</a></li>
+            
+                <li><a href="../classes/PromptRune.html">PromptRune</a></li>
+            
+                <li><a href="../classes/PromptTone.html">PromptTone</a></li>
+            
+                <li><a href="../classes/Recognizer.html">Recognizer</a></li>
+            
+                <li><a href="../classes/Router.html">Router</a></li>
+            
+                <li><a href="../classes/Scheduler.html">Scheduler</a></li>
+            
+                <li><a href="../classes/Settings.html">Settings</a></li>
+            
+                <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
+            
+                <li><a href="../classes/Storage.html">Storage</a></li>
+            
+                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
+            
+                <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
+            
+                <li><a href="../classes/StudyDecomps.html">StudyDecomps</a></li>
+            
+                <li><a href="../classes/StudyItem.html">StudyItem</a></li>
+            
+                <li><a href="../classes/StudyItems.html">StudyItems</a></li>
+            
+                <li><a href="../classes/StudyParam.html">StudyParam</a></li>
+            
+                <li><a href="../classes/StudyParams.html">StudyParams</a></li>
+            
+                <li><a href="../classes/StudyReview.html">StudyReview</a></li>
+            
+                <li><a href="../classes/StudyReviews.html">StudyReviews</a></li>
+            
+                <li><a href="../classes/StudySentence.html">StudySentence</a></li>
+            
+                <li><a href="../classes/StudySentences.html">StudySentences</a></li>
+            
+                <li><a href="../classes/StudySRSConfigs.html">StudySRSConfigs</a></li>
+            
+                <li><a href="../classes/StudyStroke.html">StudyStroke</a></li>
+            
+                <li><a href="../classes/StudyStrokes.html">StudyStrokes</a></li>
+            
+                <li><a href="../classes/StudyView.html">StudyView</a></li>
+            
+                <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
+            
+                <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/VocabView.html">VocabView</a></li>
+            
+                <li><a href="../classes/Words.html">Words</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
+            
+                <li><a href="../modules/Facade.html">Facade</a></li>
+            
+                <li><a href="../modules/Model.html">Model</a></li>
+            
+                <li><a href="../modules/Prompt.html">Prompt</a></li>
+            
+                <li><a href="../modules/Skritter.html">Skritter</a></li>
+            
+                <li><a href="../modules/Storage.html">Storage</a></li>
+            
+                <li><a href="../modules/View.html">View</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: public_html\js\app\StrokeMap.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module Skritter
+ * @author Joshua McFarland
+ */
+define(function() {
+    /**
+     * Returns an object that creates a spritesheet and its related mappings
+     * to access character strokes.
+     * 
+     * @class StrokeMap
+     * @returns {Object}
+     */
+    var strokeMap = {
+        &quot;images&quot;: [&quot;media/image/stroke/strokes.png&quot;],
+        &quot;frames&quot;: [
+            [844, 103, 407, 71],
+            [840, 2112, 297, 58],
+            [324, 1619, 53, 323],
+            [1896, 6060, 149, 293],
+            [1605, 7426, 106, 193],
+            [2, 4744, 230, 298],
+            [373, 6397, 179, 238],
+            [1581, 5558, 110, 217],
+            [1302, 7888, 101, 151],
+            [1100, 5504, 202, 233],
+            [1693, 5702, 203, 180],
+            [181, 6775, 172, 192],
+            [1209, 6880, 159, 165],
+            [1145, 1977, 46, 288],
+            [764, 1029, 75, 89],
+            [355, 6842, 171, 138],
+            [980, 8089, 128, 93],
+            [352, 294, 71, 66],
+            [286, 3024, 275, 200],
+            [838, 3163, 270, 163],
+            [379, 1626, 306, 137],
+            [1693, 6091, 201, 119],
+            [1223, 6475, 168, 70],
+            [883, 5501, 215, 83],
+            [783, 385, 58, 285],
+            [486, 7467, 142, 225],
+            [1672, 431, 355, 329],
+            [353, 2169, 294, 248],
+            [1122, 2947, 282, 237],
+            [2, 3847, 263, 175],
+            [838, 2767, 282, 315],
+            [1672, 2142, 285, 310],
+            [1693, 4757, 220, 253],
+            [1671, 2818, 283, 305],
+            [511, 4369, 246, 198],
+            [1966, 1906, 39, 231],
+            [2, 5240, 221, 234],
+            [1235, 4753, 226, 217],
+            [1065, 6080, 176, 135],
+            [670, 2075, 168, 215],
+            [2, 7234, 164, 203],
+            [880, 5916, 183, 170],
+            [1045, 6914, 157, 186],
+            [168, 7592, 145, 140],
+            [916, 5303, 218, 196],
+            [339, 7266, 155, 165],
+            [306, 2349, 43, 197],
+            [1671, 3125, 281, 173],
+            [691, 5202, 223, 115],
+            [1482, 2105, 188, 114],
+            [686, 1983, 150, 90],
+            [1475, 7528, 119, 93],
+            [1617, 7829, 109, 112],
+            [1652, 7112, 133, 123],
+            [1552, 1192, 118, 89],
+            [1915, 5250, 131, 95],
+            [866, 7699, 111, 399],
+            [1179, 758, 58, 241],
+            [510, 7872, 102, 269],
+            [340, 772, 77, 163],
+            [783, 282, 59, 101],
+            [979, 7699, 100, 388],
+            [817, 7363, 122, 325],
+            [1901, 3694, 145, 295],
+            [1385, 6745, 159, 234],
+            [1560, 7977, 113, 213],
+            [1549, 6575, 130, 188],
+            [1483, 7206, 132, 182],
+            [1222, 384, 37, 138],
+            [1571, 1011, 99, 179],
+            [419, 727, 343, 373],
+            [351, 2419, 293, 304],
+            [649, 2292, 188, 338],
+            [504, 7160, 155, 179],
+            [1546, 6765, 133, 250],
+            [2, 1073, 335, 308],
+            [1226, 1311, 310, 243],
+            [418, 1152, 324, 170],
+            [338, 2725, 283, 133],
+            [1137, 2514, 35, 246],
+            [1672, 2047, 286, 93],
+            [498, 4569, 237, 130],
+            [442, 5750, 213, 100],
+            [1675, 8110, 113, 80],
+            [1385, 6575, 162, 168],
+            [315, 7729, 133, 141],
+            [1528, 7623, 115, 204],
+            [1232, 8044, 114, 144],
+            [657, 5821, 190, 87],
+            [999, 4498, 234, 407],
+            [1985, 1373, 52, 425],
+            [1681, 6749, 141, 361],
+            [776, 6338, 98, 250],
+            [352, 621, 65, 149],
+            [2, 7439, 164, 201],
+            [1325, 3930, 243, 286],
+            [267, 3694, 263, 280],
+            [1672, 1031, 313, 224],
+            [2, 5044, 230, 194],
+            [1814, 3991, 231, 184],
+            [1570, 3959, 242, 151],
+            [1610, 665, 60, 344],
+            [2, 6766, 177, 233],
+            [728, 6590, 147, 231],
+            [1451, 8013, 107, 167],
+            [728, 7691, 136, 168],
+            [630, 7551, 113, 138],
+            [219, 6110, 186, 152],
+            [1459, 2834, 209, 180],
+            [2, 6229, 186, 146],
+            [1344, 7094, 137, 183],
+            [710, 6823, 165, 167],
+            [697, 4896, 224, 53],
+            [1137, 2267, 39, 245],
+            [339, 7116, 163, 148],
+            [1747, 7298, 122, 104],
+            [147, 7734, 132, 136],
+            [1195, 596, 62, 107],
+            [1513, 7852, 102, 123],
+            [225, 5457, 215, 428],
+            [877, 6330, 173, 289],
+            [2, 4212, 247, 212],
+            [1954, 3179, 91, 344],
+            [1582, 5183, 109, 373],
+            [1168, 1142, 56, 197],
+            [614, 7870, 108, 262],
+            [1184, 7667, 102, 229],
+            [1956, 2969, 90, 208],
+            [340, 1005, 76, 161],
+            [1071, 7509, 104, 187],
+            [752, 1120, 87, 123],
+            [1966, 1800, 79, 104],
+            [286, 2860, 277, 162],
+            [2, 4426, 247, 123],
+            [1101, 3567, 262, 129],
+            [320, 1944, 45, 205],
+            [190, 6264, 182, 95],
+            [1193, 2072, 287, 412],
+            [2, 2122, 302, 395],
+            [1406, 3016, 263, 397],
+            [1671, 2454, 284, 362],
+            [1766, 4471, 235, 284],
+            [1284, 6063, 197, 410],
+            [1508, 5777, 183, 406],
+            [448, 5378, 216, 370],
+            [1204, 7047, 138, 359],
+            [306, 2151, 45, 196],
+            [854, 7068, 155, 293],
+            [1259, 615, 349, 314],
+            [1672, 762, 349, 267],
+            [2, 1541, 320, 279],
+            [1673, 195, 367, 234],
+            [1239, 931, 330, 242],
+            [1221, 1556, 308, 202],
+            [1074, 3930, 249, 134],
+            [1178, 2486, 284, 227],
+            [565, 3004, 271, 206],
+            [296, 2548, 42, 138],
+            [1328, 3762, 250, 166],
+            [2, 4551, 245, 191],
+            [759, 4388, 238, 251],
+            [251, 4488, 245, 218],
+            [498, 4701, 233, 178],
+            [1074, 3782, 250, 146],
+            [1284, 5917, 199, 82],
+            [1054, 6217, 174, 148],
+            [737, 4641, 233, 253],
+            [697, 4951, 223, 249],
+            [2007, 2030, 38, 118],
+            [2, 2519, 292, 292],
+            [813, 3623, 259, 368],
+            [666, 5566, 213, 253],
+            [528, 6939, 166, 219],
+            [1083, 5822, 199, 256],
+            [1693, 5884, 201, 205],
+            [877, 6621, 166, 296],
+            [687, 1728, 151, 253],
+            [1288, 7667, 122, 219],
+            [408, 5910, 186, 252],
+            [1168, 1418, 51, 147],
+            [1052, 6367, 169, 176],
+            [1531, 1619, 139, 225],
+            [394, 7872, 114, 275],
+            [1645, 7621, 109, 183],
+            [181, 6969, 171, 128],
+            [782, 5910, 96, 131],
+            [877, 6919, 156, 147],
+            [1348, 8041, 101, 130],
+            [168, 7444, 145, 146],
+            [1900, 5627, 146, 140],
+            [296, 2688, 40, 75],
+            [1871, 7298, 121, 166],
+            [184, 6529, 177, 244],
+            [1045, 6678, 162, 234],
+            [715, 1531, 123, 195],
+            [589, 7694, 137, 174],
+            [421, 542, 344, 183],
+            [267, 3976, 259, 173],
+            [407, 6164, 183, 231],
+            [1184, 7898, 116, 144],
+            [1455, 5027, 219, 154],
+            [1195, 438, 23, 61],
+            [547, 3426, 264, 398],
+            [1465, 4664, 226, 361],
+            [840, 1432, 307, 325],
+            [2, 294, 348, 251],
+            [426, 282, 355, 258],
+            [532, 3826, 259, 213],
+            [1235, 4556, 228, 195],
+            [1682, 6294, 193, 123],
+            [496, 7341, 146, 124],
+            [696, 7086, 155, 201],
+            [1957, 2690, 84, 277],
+            [782, 6043, 93, 293],
+            [1915, 4948, 131, 170],
+            [1110, 8047, 120, 134],
+            [1877, 6355, 169, 376],
+            [1617, 7237, 128, 187],
+            [843, 685, 334, 379],
+            [1287, 4218, 240, 336],
+            [1672, 1257, 311, 358],
+            [1813, 4177, 233, 292],
+            [1261, 299, 374, 314],
+            [442, 5852, 190, 56],
+            [352, 448, 67, 171],
+            [1261, 2, 410, 295],
+            [844, 176, 376, 260],
+            [379, 1765, 305, 257],
+            [2, 1383, 321, 156],
+            [2, 4024, 258, 186],
+            [1482, 2262, 187, 226],
+            [466, 4881, 229, 203],
+            [841, 1066, 325, 364],
+            [834, 3328, 265, 293],
+            [1379, 3415, 262, 235],
+            [1081, 7698, 101, 347],
+            [840, 2172, 295, 380],
+            [262, 4151, 247, 335],
+            [2, 5878, 215, 349],
+            [1148, 5152, 218, 350],
+            [123, 7873, 141, 308],
+            [2, 6430, 180, 334],
+            [1898, 5769, 148, 289],
+            [1902, 5347, 143, 278],
+            [877, 6088, 175, 240],
+            [234, 4874, 230, 225],
+            [1344, 7279, 129, 351],
+            [1693, 5262, 207, 185],
+            [1672, 1617, 309, 181],
+            [1226, 1175, 324, 134],
+            [1643, 3597, 256, 360],
+            [1464, 2490, 205, 342],
+            [744, 1245, 94, 284],
+            [339, 7433, 145, 294],
+            [941, 7502, 128, 195],
+            [1538, 1428, 132, 189],
+            [1529, 4279, 235, 383],
+            [554, 6401, 172, 352],
+            [219, 5887, 187, 221],
+            [1368, 5401, 211, 335],
+            [881, 5586, 202, 190],
+            [1110, 3186, 267, 379],
+            [923, 4907, 223, 394],
+            [1221, 6547, 162, 331],
+            [1824, 7081, 133, 215],
+            [426, 2, 416, 278],
+            [395, 1406, 318, 218],
+            [2, 2, 422, 290],
+            [2, 5476, 215, 400],
+            [466, 5086, 223, 240],
+            [840, 1759, 303, 351],
+            [646, 2632, 190, 370],
+            [173, 7099, 164, 343],
+            [724, 7870, 127, 261],
+            [1915, 4757, 131, 189],
+            [2, 3151, 273, 378],
+            [1304, 5738, 202, 177],
+            [661, 7289, 154, 260],
+            [1507, 1846, 163, 257],
+            [1483, 6185, 197, 388],
+            [1675, 7943, 120, 165],
+            [1412, 7632, 114, 218],
+            [1637, 329, 33, 186],
+            [1637, 517, 32, 146],
+            [1011, 7102, 135, 188],
+            [1174, 2715, 283, 230],
+            [1475, 7390, 128, 136],
+            [1570, 4112, 241, 165],
+            [1043, 4066, 242, 230],
+            [1148, 4907, 82, 135],
+            [1876, 6733, 169, 346],
+            [1952, 3525, 94, 167],
+            [1232, 4972, 221, 178],
+            [1987, 1031, 53, 236],
+            [1672, 1800, 292, 245],
+            [1222, 176, 37, 206],
+            [1512, 7017, 138, 187],
+            [2007, 1906, 39, 122],
+            [1693, 5449, 205, 160],
+            [666, 5459, 215, 105],
+            [596, 5910, 184, 129],
+            [266, 7872, 126, 293],
+            [394, 8149, 138, 39],
+            [592, 6165, 182, 133],
+            [1195, 524, 64, 70],
+            [881, 5778, 200, 136],
+            [2, 547, 348, 168],
+            [596, 6041, 184, 122],
+            [1043, 4298, 240, 198],
+            [839, 2554, 283, 211],
+            [448, 5328, 217, 48],
+            [340, 937, 77, 66],
+            [2, 7873, 119, 312],
+            [1365, 3652, 252, 108],
+            [1074, 3698, 252, 82],
+            [537, 6755, 171, 182],
+            [418, 1102, 332, 48],
+            [2, 2813, 282, 336],
+            [2, 717, 336, 268],
+            [1199, 1760, 306, 310],
+            [1957, 2460, 89, 77],
+            [793, 3993, 248, 393],
+            [1482, 2221, 188, 39],
+            [2, 3531, 263, 314],
+            [528, 4041, 248, 326],
+            [1671, 3300, 279, 295],
+            [277, 3226, 268, 266],
+            [1693, 5012, 220, 248],
+            [363, 6637, 172, 203],
+            [1011, 7292, 134, 208],
+            [1145, 1793, 47, 182],
+            [764, 754, 75, 161],
+            [1960, 2139, 38, 109],
+            [2, 6377, 181, 51],
+            [2, 7642, 143, 229],
+            [2, 7001, 169, 231],
+            [234, 5101, 222, 207],
+            [1368, 5183, 212, 216],
+            [190, 6361, 181, 166],
+            [1177, 7509, 126, 156],
+            [354, 6982, 165, 132],
+            [1147, 7408, 129, 99],
+            [486, 7694, 101, 176],
+            [1959, 2250, 87, 119],
+            [534, 8143, 128, 39],
+            [1149, 1693, 48, 98],
+            [1370, 6981, 140, 111],
+            [1405, 7888, 106, 123],
+            [764, 917, 75, 110],
+            [1959, 2371, 86, 87],
+            [1179, 705, 74, 51],
+            [1682, 6212, 196, 80],
+            [691, 5319, 217, 138],
+            [843, 438, 350, 245],
+            [2, 1822, 316, 298],
+            [664, 8134, 102, 36],
+            [1673, 2, 368, 191],
+            [277, 3494, 264, 198],
+            [249, 4708, 233, 164],
+            [563, 3212, 269, 212],
+            [367, 2024, 301, 143],
+            [225, 5310, 221, 145],
+            [844, 2, 415, 99],
+            [2, 987, 336, 84],
+            [767, 672, 74, 80],
+            [1637, 299, 34, 28],
+            [1957, 2539, 88, 28],
+            [1915, 5120, 131, 128],
+            [853, 8100, 125, 82],
+            [1957, 2569, 85, 119],
+            [1149, 1567, 51, 124],
+            [352, 362, 70, 84],
+            [1179, 1001, 58, 139],
+            [1985, 1269, 53, 102],
+            [1085, 5739, 201, 81],
+            [1052, 6545, 167, 131],
+            [696, 6992, 156, 92],
+            [339, 1168, 54, 449],
+            [1790, 8110, 100, 73],
+            [1552, 1283, 117, 143],
+            [1713, 7426, 101, 180],
+            [1168, 1341, 52, 75],
+            [395, 1324, 320, 80],
+            [838, 3084, 272, 77],
+            [592, 6300, 182, 99],
+            [1693, 5611, 205, 89],
+            [1284, 6001, 198, 60],
+            [1682, 6419, 192, 328]
+        ],
+        &quot;animations&quot;: {
+            &quot;s0&quot;: [0],
+            &quot;s1&quot;: [1],
+            &quot;s10&quot;: [2],
+            &quot;s100&quot;: [3],
+            &quot;s101&quot;: [4],
+            &quot;s102&quot;: [5],
+            &quot;s103&quot;: [6],
+            &quot;s104&quot;: [7],
+            &quot;s105&quot;: [8],
+            &quot;s106&quot;: [9],
+            &quot;s107&quot;: [10],
+            &quot;s108&quot;: [11],
+            &quot;s109&quot;: [12],
+            &quot;s11&quot;: [13],
+            &quot;s110&quot;: [14],
+            &quot;s111&quot;: [15],
+            &quot;s112&quot;: [16],
+            &quot;s113&quot;: [17],
+            &quot;s114&quot;: [18],
+            &quot;s115&quot;: [19],
+            &quot;s116&quot;: [20],
+            &quot;s117&quot;: [21],
+            &quot;s118&quot;: [22],
+            &quot;s119&quot;: [23],
+            &quot;s12&quot;: [24],
+            &quot;s120&quot;: [25],
+            &quot;s121&quot;: [26],
+            &quot;s122&quot;: [27],
+            &quot;s123&quot;: [28],
+            &quot;s124&quot;: [29],
+            &quot;s125&quot;: [30],
+            &quot;s126&quot;: [31],
+            &quot;s127&quot;: [32],
+            &quot;s128&quot;: [33],
+            &quot;s129&quot;: [34],
+            &quot;s13&quot;: [35],
+            &quot;s130&quot;: [36],
+            &quot;s131&quot;: [37],
+            &quot;s132&quot;: [38],
+            &quot;s133&quot;: [39],
+            &quot;s134&quot;: [40],
+            &quot;s135&quot;: [41],
+            &quot;s136&quot;: [42],
+            &quot;s137&quot;: [43],
+            &quot;s138&quot;: [44],
+            &quot;s139&quot;: [45],
+            &quot;s14&quot;: [46],
+            &quot;s140&quot;: [47],
+            &quot;s141&quot;: [48],
+            &quot;s142&quot;: [49],
+            &quot;s143&quot;: [50],
+            &quot;s144&quot;: [51],
+            &quot;s145&quot;: [52],
+            &quot;s146&quot;: [53],
+            &quot;s147&quot;: [54],
+            &quot;s148&quot;: [55],
+            &quot;s149&quot;: [56],
+            &quot;s15&quot;: [57],
+            &quot;s150&quot;: [58],
+            &quot;s151&quot;: [59],
+            &quot;s152&quot;: [60],
+            &quot;s153&quot;: [61],
+            &quot;s154&quot;: [62],
+            &quot;s155&quot;: [63],
+            &quot;s156&quot;: [64],
+            &quot;s157&quot;: [65],
+            &quot;s158&quot;: [66],
+            &quot;s159&quot;: [67],
+            &quot;s16&quot;: [68],
+            &quot;s160&quot;: [69],
+            &quot;s161&quot;: [70],
+            &quot;s162&quot;: [71],
+            &quot;s163&quot;: [72],
+            &quot;s164&quot;: [73],
+            &quot;s165&quot;: [74],
+            &quot;s166&quot;: [75],
+            &quot;s167&quot;: [76],
+            &quot;s168&quot;: [77],
+            &quot;s169&quot;: [78],
+            &quot;s17&quot;: [79],
+            &quot;s170&quot;: [80],
+            &quot;s171&quot;: [81],
+            &quot;s172&quot;: [82],
+            &quot;s173&quot;: [83],
+            &quot;s174&quot;: [84],
+            &quot;s175&quot;: [85],
+            &quot;s176&quot;: [86],
+            &quot;s177&quot;: [87],
+            &quot;s178&quot;: [88],
+            &quot;s179&quot;: [89],
+            &quot;s18&quot;: [90],
+            &quot;s180&quot;: [91],
+            &quot;s181&quot;: [92],
+            &quot;s182&quot;: [93],
+            &quot;s183&quot;: [94],
+            &quot;s184&quot;: [95],
+            &quot;s185&quot;: [96],
+            &quot;s186&quot;: [97],
+            &quot;s187&quot;: [98],
+            &quot;s188&quot;: [99],
+            &quot;s189&quot;: [100],
+            &quot;s19&quot;: [101],
+            &quot;s190&quot;: [102],
+            &quot;s191&quot;: [103],
+            &quot;s192&quot;: [104],
+            &quot;s193&quot;: [105],
+            &quot;s194&quot;: [106],
+            &quot;s195&quot;: [107],
+            &quot;s196&quot;: [108],
+            &quot;s197&quot;: [109],
+            &quot;s198&quot;: [110],
+            &quot;s199&quot;: [111],
+            &quot;s2&quot;: [112],
+            &quot;s20&quot;: [113],
+            &quot;s200&quot;: [114],
+            &quot;s201&quot;: [115],
+            &quot;s202&quot;: [116],
+            &quot;s203&quot;: [117],
+            &quot;s204&quot;: [118],
+            &quot;s205&quot;: [119],
+            &quot;s206&quot;: [120],
+            &quot;s207&quot;: [121],
+            &quot;s208&quot;: [122],
+            &quot;s209&quot;: [123],
+            &quot;s21&quot;: [124],
+            &quot;s210&quot;: [125],
+            &quot;s211&quot;: [126],
+            &quot;s212&quot;: [127],
+            &quot;s213&quot;: [128],
+            &quot;s214&quot;: [129],
+            &quot;s215&quot;: [130],
+            &quot;s216&quot;: [131],
+            &quot;s217&quot;: [132],
+            &quot;s218&quot;: [133],
+            &quot;s219&quot;: [134],
+            &quot;s22&quot;: [135],
+            &quot;s220&quot;: [136],
+            &quot;s221&quot;: [137],
+            &quot;s222&quot;: [138],
+            &quot;s223&quot;: [139],
+            &quot;s224&quot;: [140],
+            &quot;s225&quot;: [141],
+            &quot;s226&quot;: [142],
+            &quot;s227&quot;: [143],
+            &quot;s228&quot;: [144],
+            &quot;s229&quot;: [145],
+            &quot;s23&quot;: [146],
+            &quot;s230&quot;: [147],
+            &quot;s231&quot;: [148],
+            &quot;s232&quot;: [149],
+            &quot;s233&quot;: [150],
+            &quot;s234&quot;: [151],
+            &quot;s235&quot;: [152],
+            &quot;s236&quot;: [153],
+            &quot;s237&quot;: [154],
+            &quot;s238&quot;: [155],
+            &quot;s239&quot;: [156],
+            &quot;s24&quot;: [157],
+            &quot;s240&quot;: [158],
+            &quot;s241&quot;: [159],
+            &quot;s242&quot;: [160],
+            &quot;s243&quot;: [161],
+            &quot;s244&quot;: [162],
+            &quot;s245&quot;: [163],
+            &quot;s246&quot;: [164],
+            &quot;s247&quot;: [165],
+            &quot;s248&quot;: [166],
+            &quot;s249&quot;: [167],
+            &quot;s25&quot;: [168],
+            &quot;s250&quot;: [169],
+            &quot;s251&quot;: [170],
+            &quot;s252&quot;: [171],
+            &quot;s253&quot;: [172],
+            &quot;s254&quot;: [173],
+            &quot;s255&quot;: [174],
+            &quot;s256&quot;: [175],
+            &quot;s257&quot;: [176],
+            &quot;s258&quot;: [177],
+            &quot;s259&quot;: [178],
+            &quot;s26&quot;: [179],
+            &quot;s260&quot;: [180],
+            &quot;s261&quot;: [181],
+            &quot;s262&quot;: [182],
+            &quot;s263&quot;: [183],
+            &quot;s264&quot;: [184],
+            &quot;s265&quot;: [185],
+            &quot;s266&quot;: [186],
+            &quot;s267&quot;: [187],
+            &quot;s268&quot;: [188],
+            &quot;s269&quot;: [189],
+            &quot;s27&quot;: [190],
+            &quot;s270&quot;: [191],
+            &quot;s271&quot;: [192],
+            &quot;s272&quot;: [193],
+            &quot;s273&quot;: [194],
+            &quot;s274&quot;: [195],
+            &quot;s275&quot;: [196],
+            &quot;s276&quot;: [197],
+            &quot;s277&quot;: [198],
+            &quot;s278&quot;: [199],
+            &quot;s279&quot;: [200],
+            &quot;s28&quot;: [201],
+            &quot;s280&quot;: [202],
+            &quot;s281&quot;: [203],
+            &quot;s282&quot;: [204],
+            &quot;s283&quot;: [205],
+            &quot;s284&quot;: [206],
+            &quot;s285&quot;: [207],
+            &quot;s286&quot;: [208],
+            &quot;s287&quot;: [209],
+            &quot;s288&quot;: [210],
+            &quot;s289&quot;: [211],
+            &quot;s29&quot;: [212],
+            &quot;s290&quot;: [213],
+            &quot;s291&quot;: [214],
+            &quot;s292&quot;: [215],
+            &quot;s293&quot;: [216],
+            &quot;s294&quot;: [217],
+            &quot;s295&quot;: [218],
+            &quot;s296&quot;: [219],
+            &quot;s297&quot;: [220],
+            &quot;s298&quot;: [221],
+            &quot;s299&quot;: [222],
+            &quot;s3&quot;: [223],
+            &quot;s30&quot;: [224],
+            &quot;s300&quot;: [225],
+            &quot;s301&quot;: [226],
+            &quot;s302&quot;: [227],
+            &quot;s303&quot;: [228],
+            &quot;s304&quot;: [229],
+            &quot;s305&quot;: [230],
+            &quot;s306&quot;: [231],
+            &quot;s307&quot;: [232],
+            &quot;s308&quot;: [233],
+            &quot;s309&quot;: [234],
+            &quot;s31&quot;: [235],
+            &quot;s310&quot;: [236],
+            &quot;s311&quot;: [237],
+            &quot;s312&quot;: [238],
+            &quot;s313&quot;: [239],
+            &quot;s314&quot;: [240],
+            &quot;s315&quot;: [241],
+            &quot;s316&quot;: [242],
+            &quot;s317&quot;: [243],
+            &quot;s318&quot;: [244],
+            &quot;s319&quot;: [245],
+            &quot;s32&quot;: [246],
+            &quot;s320&quot;: [247],
+            &quot;s321&quot;: [248],
+            &quot;s322&quot;: [249],
+            &quot;s323&quot;: [250],
+            &quot;s324&quot;: [251],
+            &quot;s325&quot;: [252],
+            &quot;s326&quot;: [253],
+            &quot;s327&quot;: [254],
+            &quot;s328&quot;: [255],
+            &quot;s329&quot;: [256],
+            &quot;s33&quot;: [257],
+            &quot;s330&quot;: [258],
+            &quot;s331&quot;: [259],
+            &quot;s332&quot;: [260],
+            &quot;s333&quot;: [261],
+            &quot;s334&quot;: [262],
+            &quot;s335&quot;: [263],
+            &quot;s336&quot;: [264],
+            &quot;s337&quot;: [265],
+            &quot;s338&quot;: [266],
+            &quot;s339&quot;: [267],
+            &quot;s34&quot;: [268],
+            &quot;s340&quot;: [269],
+            &quot;s341&quot;: [270],
+            &quot;s342&quot;: [271],
+            &quot;s343&quot;: [272],
+            &quot;s344&quot;: [273],
+            &quot;s345&quot;: [274],
+            &quot;s346&quot;: [275],
+            &quot;s347&quot;: [276],
+            &quot;s348&quot;: [277],
+            &quot;s349&quot;: [278],
+            &quot;s35&quot;: [279],
+            &quot;s350&quot;: [280],
+            &quot;s351&quot;: [281],
+            &quot;s352&quot;: [282],
+            &quot;s353&quot;: [283],
+            &quot;s354&quot;: [284],
+            &quot;s355&quot;: [285],
+            &quot;s356&quot;: [286],
+            &quot;s357&quot;: [287],
+            &quot;s358&quot;: [288],
+            &quot;s359&quot;: [289],
+            &quot;s36&quot;: [290],
+            &quot;s360&quot;: [291],
+            &quot;s361&quot;: [292],
+            &quot;s362&quot;: [293],
+            &quot;s363&quot;: [294],
+            &quot;s364&quot;: [295],
+            &quot;s365&quot;: [296],
+            &quot;s366&quot;: [297],
+            &quot;s367&quot;: [298],
+            &quot;s368&quot;: [299],
+            &quot;s369&quot;: [300],
+            &quot;s37&quot;: [301],
+            &quot;s370&quot;: [302],
+            &quot;s371&quot;: [303],
+            &quot;s372&quot;: [304],
+            &quot;s373&quot;: [305],
+            &quot;s374&quot;: [306],
+            &quot;s375&quot;: [307],
+            &quot;s376&quot;: [308],
+            &quot;s377&quot;: [309],
+            &quot;s378&quot;: [310],
+            &quot;s379&quot;: [311],
+            &quot;s38&quot;: [312],
+            &quot;s380&quot;: [313],
+            &quot;s381&quot;: [314],
+            &quot;s382&quot;: [315],
+            &quot;s383&quot;: [316],
+            &quot;s384&quot;: [317],
+            &quot;s385&quot;: [318],
+            &quot;s386&quot;: [319],
+            &quot;s387&quot;: [320],
+            &quot;s39&quot;: [321],
+            &quot;s4&quot;: [322],
+            &quot;s40&quot;: [323],
+            &quot;s41&quot;: [324],
+            &quot;s42&quot;: [325],
+            &quot;s43&quot;: [326],
+            &quot;s44&quot;: [327],
+            &quot;s45&quot;: [328],
+            &quot;s46&quot;: [329],
+            &quot;s47&quot;: [330],
+            &quot;s48&quot;: [331],
+            &quot;s49&quot;: [332],
+            &quot;s5&quot;: [333],
+            &quot;s50&quot;: [334],
+            &quot;s51&quot;: [335],
+            &quot;s52&quot;: [336],
+            &quot;s53&quot;: [337],
+            &quot;s54&quot;: [338],
+            &quot;s55&quot;: [339],
+            &quot;s56&quot;: [340],
+            &quot;s57&quot;: [341],
+            &quot;s58&quot;: [342],
+            &quot;s59&quot;: [343],
+            &quot;s6&quot;: [344],
+            &quot;s60&quot;: [345],
+            &quot;s61&quot;: [346],
+            &quot;s62&quot;: [347],
+            &quot;s63&quot;: [348],
+            &quot;s64&quot;: [349],
+            &quot;s65&quot;: [350],
+            &quot;s66&quot;: [351],
+            &quot;s67&quot;: [352],
+            &quot;s68&quot;: [353],
+            &quot;s69&quot;: [354],
+            &quot;s7&quot;: [355],
+            &quot;s70&quot;: [356],
+            &quot;s71&quot;: [357],
+            &quot;s72&quot;: [358],
+            &quot;s73&quot;: [359],
+            &quot;s74&quot;: [360],
+            &quot;s75&quot;: [361],
+            &quot;s76&quot;: [362],
+            &quot;s77&quot;: [363],
+            &quot;s78&quot;: [364],
+            &quot;s79&quot;: [365],
+            &quot;s8&quot;: [366],
+            &quot;s80&quot;: [367],
+            &quot;s81&quot;: [368],
+            &quot;s82&quot;: [369],
+            &quot;s83&quot;: [370],
+            &quot;s84&quot;: [371],
+            &quot;s85&quot;: [372],
+            &quot;s86&quot;: [373],
+            &quot;s87&quot;: [374],
+            &quot;s88&quot;: [375],
+            &quot;s89&quot;: [376],
+            &quot;s9&quot;: [377],
+            &quot;s90&quot;: [378],
+            &quot;s91&quot;: [379],
+            &quot;s92&quot;: [380],
+            &quot;s93&quot;: [381],
+            &quot;s94&quot;: [382],
+            &quot;s95&quot;: [383],
+            &quot;s96&quot;: [384],
+            &quot;s97&quot;: [385],
+            &quot;s98&quot;: [386],
+            &quot;s99&quot;: [387]
+        },
+        &quot;texturepacker&quot;: [
+            &quot;SmartUpdateHash: $TexturePacker:SmartUpdate:7f0947c22cf57daec9897b7d171e256d:1/1$&quot;,
+            &quot;Created with TexturePacker (http://www.texturepacker.com) for EaselJS&quot;
+        ]
+    };
+    
+    
+    return strokeMap;
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

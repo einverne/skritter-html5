@@ -459,6 +459,15 @@
             },
             "fors": {},
             "namespaces": {}
+        },
+        "public_html\\js\\app\\StrokeMap.js": {
+            "name": "public_html\\js\\app\\StrokeMap.js",
+            "modules": {},
+            "classes": {
+                "StrokeMap": 1
+            },
+            "fors": {},
+            "namespaces": {}
         }
     },
     "modules": {
@@ -521,12 +530,13 @@
                 "Recognizer": 1,
                 "Router": 1,
                 "Scheduler": 1,
-                "Shortstraw": 1
+                "Shortstraw": 1,
+                "StrokeMap": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "public_html\\js\\app\\Shortstraw.js",
+            "file": "public_html\\js\\app\\StrokeMap.js",
             "line": 6,
             "author": "Joshua McFarland",
             "submobule": "Prompt",
@@ -590,17 +600,13 @@
             "namespace": "",
             "file": "public_html\\js\\app\\model\\User.js",
             "line": 27,
-            "author": "Joshua McFarland",
             "params": [
                 {
-                    "name": "Mauler",
-                    "description": ""
-                },
-                {
-                    "name": "Shortstraw",
+                    "name": "StrokeMap",
                     "description": ""
                 }
-            ]
+            ],
+            "author": "Joshua McFarland"
         },
         "Storage": {
             "name": "Storage",
@@ -885,7 +891,7 @@
             "submodule": "Model",
             "namespace": "",
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 13,
+            "line": 12,
             "is_constructor": 1
         },
         "CanvasStroke": {
@@ -1447,6 +1453,24 @@
                 "type": "Array"
             },
             "is_constructor": 1
+        },
+        "StrokeMap": {
+            "name": "StrokeMap",
+            "shortname": "StrokeMap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Skritter",
+            "namespace": "",
+            "file": "public_html\\js\\app\\StrokeMap.js",
+            "line": 6,
+            "description": "Returns an object that creates a spritesheet and its related mappings\nto access character strokes.",
+            "return": {
+                "description": "",
+                "type": "Object"
+            }
         }
     },
     "classitems": [
@@ -1484,9 +1508,9 @@
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
             "line": 46,
             "itemtype": "method",
-            "name": "getCharacterBitmap",
+            "name": "getCharacterSprite",
             "return": {
-                "description": "A container of bitmaps contained in the character",
+                "description": "A container of sprites contained in the character",
                 "type": "Container"
             },
             "class": "CanvasCharacter",
@@ -2148,8 +2172,17 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 33,
-            "description": "Plays an audio file using SoundJS and loads it from the Skritter web server.\nThis might not work on builds not located on the physical server due to\nAccess-Control-Allow-Origin restrictions.",
+            "line": 17,
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "Assets",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\Assets.js",
+            "line": 25,
+            "description": "Plays an audio file using the native HTML5 audio element.",
             "itemtype": "method",
             "name": "getAudio",
             "params": [
@@ -2169,7 +2202,8 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 51,
+            "line": 39,
+            "description": "Returns a stroke in the form of a sprite from the preloaded spritesheet.",
             "itemtype": "method",
             "name": "getStroke",
             "params": [
@@ -2181,7 +2215,7 @@
             ],
             "return": {
                 "description": "",
-                "type": "Bitmap"
+                "type": "Sprite"
             },
             "class": "Assets",
             "module": "Skritter",
@@ -2189,18 +2223,17 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 60,
+            "line": 49,
+            "description": "Loads the strokes as a spritesheet and returns a callback once they have been preloaded.",
             "itemtype": "method",
             "name": "loadStrokes",
-            "class": "Assets",
-            "module": "Skritter",
-            "submodule": "Model"
-        },
-        {
-            "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 74,
-            "itemtype": "method",
-            "name": "triggerComplete",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
             "class": "Assets",
             "module": "Skritter",
             "submodule": "Model"
@@ -2222,19 +2255,6 @@
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
             "line": 40,
             "itemtype": "method",
-            "name": "getBitmap",
-            "return": {
-                "description": "",
-                "type": "Bitmap"
-            },
-            "class": "CanvasStroke",
-            "module": "Skritter",
-            "submodule": "Model"
-        },
-        {
-            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 47,
-            "itemtype": "method",
             "name": "getContainedStrokeIds",
             "return": {
                 "description": "",
@@ -2246,7 +2266,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 70,
+            "line": 63,
             "itemtype": "method",
             "name": "getLength",
             "return": {
@@ -2259,9 +2279,9 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 82,
+            "line": 75,
             "itemtype": "method",
-            "name": "getInflatedBitmap",
+            "name": "getInflatedSprite",
             "return": {
                 "description": "",
                 "type": "Unresolved"
@@ -2272,7 +2292,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 105,
+            "line": 99,
             "itemtype": "method",
             "name": "getInflatedData",
             "return": {
@@ -2285,7 +2305,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 124,
+            "line": 118,
             "itemtype": "method",
             "name": "getInflatedParams",
             "return": {
@@ -2298,7 +2318,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 156,
+            "line": 150,
             "itemtype": "method",
             "name": "getRectangle",
             "return": {
@@ -2311,7 +2331,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 164,
+            "line": 158,
             "return": {
                 "description": "",
                 "type": "@exp;Skritter@pro;fn@call;getBoundingRectangle"
@@ -2322,9 +2342,22 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 172,
+            "line": 166,
             "itemtype": "method",
-            "name": "getUserBitmap",
+            "name": "getSprite",
+            "return": {
+                "description": "",
+                "type": "Bitmap"
+            },
+            "class": "CanvasStroke",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 173,
+            "itemtype": "method",
+            "name": "getUserSprite",
             "return": {
                 "description": "",
                 "type": "Bitmap"
@@ -2577,7 +2610,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 110,
+            "line": 112,
             "itemtype": "method",
             "name": "getCharacterAt",
             "params": [
@@ -2597,7 +2630,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 118,
+            "line": 120,
             "itemtype": "method",
             "name": "getCharacterCount",
             "return": {
@@ -2610,7 +2643,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 125,
+            "line": 127,
             "itemtype": "method",
             "name": "getCharacters",
             "return": {
@@ -2623,7 +2656,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 132,
+            "line": 134,
             "itemtype": "method",
             "name": "getItems",
             "return": {
@@ -2636,7 +2669,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 139,
+            "line": 141,
             "itemtype": "method",
             "name": "getPinyinAt",
             "params": [
@@ -2656,7 +2689,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 157,
+            "line": 161,
             "itemtype": "method",
             "name": "getReadingDisplayAt",
             "params": [
@@ -2676,7 +2709,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 174,
+            "line": 182,
             "itemtype": "method",
             "name": "getSentence",
             "return": {
@@ -2689,7 +2722,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 182,
+            "line": 190,
             "itemtype": "method",
             "name": "getWritingDisplayAt",
             "params": [
@@ -2709,7 +2742,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 199,
+            "line": 207,
             "itemtype": "method",
             "name": "hasCharacterAt",
             "params": [
@@ -2729,7 +2762,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 209,
+            "line": 217,
             "itemtype": "method",
             "name": "isSingleCharacter",
             "return": {
@@ -2742,7 +2775,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 218,
+            "line": 226,
             "itemtype": "method",
             "name": "play",
             "return": {
@@ -3642,9 +3675,9 @@
             "name": "applyBackgroundGlow",
             "params": [
                 {
-                    "name": "bitmap",
+                    "name": "sprite",
                     "description": "",
-                    "type": "CanvasCharacter"
+                    "type": "Sprite"
                 },
                 {
                     "name": "color",
@@ -4626,7 +4659,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 75,
+            "line": 76,
             "itemtype": "method",
             "name": "loadFacade",
             "return": {
@@ -4638,7 +4671,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 83,
+            "line": 84,
             "itemtype": "method",
             "name": "loadFunctions",
             "params": [
@@ -4653,7 +4686,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 91,
+            "line": 92,
             "itemtype": "method",
             "name": "loadRouter",
             "params": [
@@ -4668,7 +4701,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 99,
+            "line": 100,
             "itemtype": "method",
             "name": "loadSettings",
             "params": [
@@ -4683,7 +4716,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 107,
+            "line": 108,
             "description": "Loads the storage adapter based on the current environment the application has been\nloaded from.",
             "itemtype": "method",
             "name": "loadStorage",
@@ -4699,7 +4732,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 118,
+            "line": 119,
             "description": "Loads the timer and attempts to pull the current study time for the day from the server.",
             "itemtype": "method",
             "name": "loadTimer",
@@ -4715,7 +4748,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 131,
+            "line": 132,
             "description": "This loads the user, data and also initiates the syncing process. In the future the callbacks should \nprobably be cleaned up a bit.",
             "itemtype": "method",
             "name": "loadUser",
@@ -4731,7 +4764,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 154,
+            "line": 155,
             "description": "Initializing the appliation should only happen once when the application is first loaded.",
             "itemtype": "method",
             "name": "initialize",
@@ -4740,7 +4773,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 175,
+            "line": 176,
             "description": "Reloading is used to initialize the application by only loading data that may have changed.\nIt skips loading large static assets from the media folder again.",
             "itemtype": "method",
             "name": "reload",
@@ -5067,7 +5100,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 80,
+            "line": 79,
             "itemtype": "method",
             "name": "getResultSet",
             "return": {
@@ -5079,7 +5112,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 144,
+            "line": 141,
             "itemtype": "method",
             "name": "checkAngle",
             "params": [
@@ -5098,7 +5131,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 154,
+            "line": 151,
             "itemtype": "method",
             "name": "checkCorners",
             "params": [
@@ -5117,7 +5150,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 164,
+            "line": 161,
             "itemtype": "method",
             "name": "checkDistance",
             "params": [
@@ -5136,7 +5169,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 174,
+            "line": 171,
             "itemtype": "method",
             "name": "checkLength",
             "params": [
@@ -5387,11 +5420,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:40"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:166"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\StudyVocab.js:132"
+            "line": " public_html\\js\\app\\model\\StudyVocab.js:134"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5471,7 +5504,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Application.js:75"
+            "line": " public_html\\js\\app\\Application.js:76"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5503,23 +5536,23 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:80"
+            "line": " public_html\\js\\app\\Recognizer.js:79"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:144"
+            "line": " public_html\\js\\app\\Recognizer.js:141"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:154"
+            "line": " public_html\\js\\app\\Recognizer.js:151"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:164"
+            "line": " public_html\\js\\app\\Recognizer.js:161"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:174"
+            "line": " public_html\\js\\app\\Recognizer.js:171"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5530,8 +5563,12 @@
             "line": " public_html\\js\\app\\Shortstraw.js:6"
         },
         {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\StrokeMap.js:6"
+        },
+        {
             "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:164"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:158"
         },
         {
             "message": "Missing item type\nUsed to start, stop and calculate accurate durations of time     .",

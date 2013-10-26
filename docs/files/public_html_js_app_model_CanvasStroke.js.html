@@ -97,6 +97,8 @@
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
+                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
+            
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
                 <li><a href="../classes/StudyDecomps.html">StudyDecomps</a></li>
@@ -236,13 +238,6 @@ define([
             return Skritter.fn.getAngle(this.get(&#x27;points&#x27;));
         },
         /**
-         * @method getBitmap
-         * @returns {Bitmap}
-         */
-        getBitmap: function() {
-            return new createjs.Bitmap(this.get(&#x27;image&#x27;).src);
-        },
-        /**
          * @method getContainedStrokeIds
          * @return {Array}
          */
@@ -278,34 +273,35 @@ define([
             return length;
         },
         /**
-         * @method getInflatedBitmap
+         * @method getInflatedSprite
          * @return {unresolved}
          */
-        getInflatedBitmap: function() {
-            var bitmap = new createjs.Bitmap(this.get(&#x27;image&#x27;).src);
+        getInflatedSprite: function() {
+            var sprite = this.get(&#x27;sprite&#x27;).clone();
+            var spriteBounds = sprite.getBounds();
             var data = this.getInflatedData();         
-            var ms = bitmap.getMatrix();
+            var ms = sprite.getMatrix();
             
-            var sx = data.w / bitmap.image.width;
-            var sy = data.h / bitmap.image.height;
+            var sx = data.w / spriteBounds.width;
+            var sy = data.h / spriteBounds.height;
             ms.scale(sx, sy);
             ms.translate(-data.w / 2, -data.h / 2);
             ms.rotate(data.rot * Math.PI / 180);
             var t = ms.decompose();
 
-            bitmap.setTransform(t.x, t.y, t.scaleX, t.scaleY, t.rotation, t.skewX, t.skewY);
-            var bounds = bitmap.getTransformedBounds();            
-            bitmap.x += bounds.width / 2 + data.x;
-            bitmap.y += bounds.height / 2 + data.y;
+            sprite.setTransform(t.x, t.y, t.scaleX, t.scaleY, t.rotation, t.skewX, t.skewY);
+            var bounds = sprite.getTransformedBounds();            
+            sprite.x += bounds.width / 2 + data.x;
+            sprite.y += bounds.height / 2 + data.y;
 
-            return bitmap;
+            return sprite;
         },
         /**
          * @method getInflatedData
          * @return {Object}
          */
         getInflatedData: function() {
-            var image = this.get(&#x27;image&#x27;);
+            var bounds = this.get(&#x27;sprite&#x27;).getBounds();
             var canvasSize = Skritter.settings.get(&#x27;canvasSize&#x27;);
             var data = this.get(&#x27;data&#x27;);
             return {
@@ -314,8 +310,8 @@ define([
                 y: data[2] * canvasSize,
                 w: data[3] * canvasSize,
                 h: data[4] * canvasSize,
-                scaleX: (data[3] * canvasSize) / image.tag.width,
-                scaleY: (data[4] * canvasSize) / image.tag.height,
+                scaleX: (data[3] * canvasSize) / bounds.width,
+                scaleY: (data[4] * canvasSize) / bounds.height,
                 rot: -data[5]
             };
         },
@@ -368,15 +364,22 @@ define([
             return Skritter.fn.getBoundingRectangle(this.get(&#x27;corners&#x27;), canvasSize, canvasSize, 14);
         },
         /**
-         * @method getUserBitmap
+         * @method getSprite
+         * @returns {Bitmap}
+         */
+        getSprite: function() {
+            return this.get(&#x27;sprite&#x27;);
+        },
+        /**
+         * @method getUserSprite
          * @return {Bitmap}
          */
-        getUserBitmap: function() {
-            var bitmap = this.getInflatedBitmap();
+        getUserSprite: function() {
+            var sprite = this.getInflatedSprite();
             var rect = this.getRectangle();
-            bitmap.x = rect.x;
-            bitmap.y = rect.y;
-            return Mauler.tweak(bitmap, this.get(&#x27;bitmapId&#x27;));
+            sprite.x = rect.x;
+            sprite.y = rect.y;
+            return Mauler.tweak(sprite, this.get(&#x27;bitmapId&#x27;));
         }
 
     });

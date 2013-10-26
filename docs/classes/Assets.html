@@ -97,6 +97,8 @@
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
+                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
+            
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
                 <li><a href="../classes/StudyDecomps.html">StudyDecomps</a></li>
@@ -200,7 +202,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/public_html_js_app_model_Assets.js.html#l13"><code>public_html\js\app\model\Assets.js:13</code></a>
+            Defined in: <a href="../files/public_html_js_app_model_Assets.js.html#l12"><code>public_html\js\app\model\Assets.js:12</code></a>
         </div>
     
 
@@ -255,7 +257,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_Assets.js.html#l13"><code>public_html\js\app\model\Assets.js:13</code></a>
+        <a href="../files/public_html_js_app_model_Assets.js.html#l12"><code>public_html\js\app\model\Assets.js:12</code></a>
         
         </p>
 
@@ -316,14 +318,14 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_loadStrokes">loadStrokes</a>
+                                <a href="#method_initialize">initialize</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_triggerComplete">triggerComplete</a>
+                                <a href="#method_loadStrokes">loadStrokes</a>
 
                                 
                                 
@@ -391,7 +393,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_Assets.js.html#l33"><code>public_html\js\app\model\Assets.js:33</code></a>
+        <a href="../files/public_html_js_app_model_Assets.js.html#l25"><code>public_html\js\app\model\Assets.js:25</code></a>
         
         </p>
 
@@ -402,9 +404,7 @@
     </div>
 
     <div class="description">
-        <p>Plays an audio file using SoundJS and loads it from the Skritter web server.
-This might not work on builds not located on the physical server due to
-Access-Control-Allow-Origin restrictions.</p>
+        <p>Plays an audio file using the native HTML5 audio element.</p>
 
     </div>
 
@@ -470,7 +470,7 @@ Access-Control-Allow-Origin restrictions.</p>
 
     
         <span class="returns-inline">
-            <span class="type">Bitmap</span>
+            <span class="type">Sprite</span>
         </span>
     
 
@@ -497,7 +497,7 @@ Access-Control-Allow-Origin restrictions.</p>
             
         
         
-        <a href="../files/public_html_js_app_model_Assets.js.html#l51"><code>public_html\js\app\model\Assets.js:51</code></a>
+        <a href="../files/public_html_js_app_model_Assets.js.html#l39"><code>public_html\js\app\model\Assets.js:39</code></a>
         
         </p>
 
@@ -508,7 +508,8 @@ Access-Control-Allow-Origin restrictions.</p>
     </div>
 
     <div class="description">
-        
+        <p>Returns a stroke in the form of a sprite from the preloaded spritesheet.</p>
+
     </div>
 
     
@@ -543,7 +544,7 @@ Access-Control-Allow-Origin restrictions.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Bitmap</span>:
+                        <span class="type">Sprite</span>:
                     
                 
             </div>
@@ -554,8 +555,8 @@ Access-Control-Allow-Origin restrictions.</p>
 </div>
 
                 
-                    <div id="method_loadStrokes" class="method item">
-    <h3 class="name"><code>loadStrokes</code></h3>
+                    <div id="method_initialize" class="method item">
+    <h3 class="name"><code>initialize</code></h3>
 
     
         <span class="paren">()</span>
@@ -586,7 +587,7 @@ Access-Control-Allow-Origin restrictions.</p>
             
         
         
-        <a href="../files/public_html_js_app_model_Assets.js.html#l60"><code>public_html\js\app\model\Assets.js:60</code></a>
+        <a href="../files/public_html_js_app_model_Assets.js.html#l17"><code>public_html\js\app\model\Assets.js:17</code></a>
         
         </p>
 
@@ -608,11 +609,21 @@ Access-Control-Allow-Origin restrictions.</p>
 </div>
 
                 
-                    <div id="method_triggerComplete" class="method item">
-    <h3 class="name"><code>triggerComplete</code></h3>
+                    <div id="method_loadStrokes" class="method item">
+    <h3 class="name"><code>loadStrokes</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -640,7 +651,7 @@ Access-Control-Allow-Origin restrictions.</p>
             
         
         
-        <a href="../files/public_html_js_app_model_Assets.js.html#l74"><code>public_html\js\app\model\Assets.js:74</code></a>
+        <a href="../files/public_html_js_app_model_Assets.js.html#l49"><code>public_html\js\app\model\Assets.js:49</code></a>
         
         </p>
 
@@ -651,9 +662,33 @@ Access-Control-Allow-Origin restrictions.</p>
     </div>
 
     <div class="description">
-        
+        <p>Loads the strokes as a spritesheet and returns a callback once they have been preloaded.</p>
+
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     

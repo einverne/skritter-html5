@@ -58,8 +58,8 @@ js/app/view/Vocab.js
 js/app/Router.js
 js/app/view/component/Facade.js
 js/app/view/component/Timer.js
+js/app/StrokeMap.js
 js/lib/createjs.preloadjs-0.4.0.min.js
-js/lib/createjs.soundjs-0.5.0.min.js
 js/app/model/Assets.js
 js/app/model/Settings.js
 js/app/model/LogItem.js

@@ -29,6 +29,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Settings",
         "Shortstraw",
         "Storage",
+        "StrokeMap",
         "StudyDecomp",
         "StudyDecomps",
         "StudyItem",

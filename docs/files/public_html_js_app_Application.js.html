@@ -97,6 +97,8 @@
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
             
+                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
+            
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
                 <li><a href="../classes/StudyDecomps.html">StudyDecomps</a></li>
@@ -265,10 +267,11 @@ define([
          */
         loadAssets: function(callback) {
             Skritter.assets = new Assets();
-            Skritter.assets.once(&#x27;complete&#x27;, function() {
+            Skritter.async.parallel([
+               Skritter.async.apply(Skritter.assets.loadStrokes) 
+            ], function() {
                 callback();
             });
-            Skritter.assets.loadStrokes();
         },
         /**
          * @method loadFacade
