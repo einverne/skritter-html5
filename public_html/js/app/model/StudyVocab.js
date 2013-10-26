@@ -87,13 +87,15 @@ define([
                     var stroke = new CanvasStroke();
                     var bitmapId = parseInt(strokes[s][0], 10);
                     var params = Skritter.study.params.findWhere({bitmapId: bitmapId});
-                    stroke.set('bitmapId', bitmapId);
-                    stroke.set('data', strokes[s]);
-                    stroke.set('id', position + '|' + bitmapId);
-                    stroke.set('image', Skritter.assets.getStroke(bitmapId));
-                    stroke.set('part', part);
-                    stroke.set('position', position);
-                    stroke.set('rune', rune);
+                    stroke.set({
+                       bitmapId: bitmapId,
+                       data: strokes[s],
+                       id: position + '|' + bitmapId,
+                       part: part,
+                       position: position,
+                       rune: rune,
+                       sprite: Skritter.assets.getStroke(bitmapId)
+                    });
 
                     //adjusts the relative position for double strokes
                     if (params.has('contains'))
@@ -143,13 +145,15 @@ define([
          */
         getPinyinAt: function(index) {
             index = (index) ? index : 0;
-            var syllable = _.clone(this.get('reading'));
-            var tone = _.clone(this.get('reading'));
+            var reading = _.clone(this.get('reading'));
+            var syllable = _.clone(reading);
+            var tone = _.clone(reading);
             if (this.getCharacterCount() === 1) {
                 syllable = syllable.replace(/[0-9]+/g, '');
                 tone = tone.replace(/[a-z]+/g, '');
-                return {syllable: syllable, tone: tone};
+                return {syllable: syllable, tone: tone, reading: reading};
             }
+            reading = reading.split(',');
             syllable = syllable.split(/\d+/g);
             tone = _.without(tone.split(/[a-z]+/g), '');
             return {syllable: syllable[index], tone: tone[index]};
@@ -164,7 +168,11 @@ define([
             for (var i = 0; i < this.getCharacterCount(); i++)
             {
                 if (index > i) {
-                    element += "<div class='prompt-display'>" + this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone + "</div>";
+                    if (this.getPinyinAt(i).reading) {
+                       element += "<div class='prompt-display'>" + this.getPinyinAt(i).reading + "</div>";
+                    } else {
+                       element += "<div class='prompt-display'>" + this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone + "</div>"; 
+                    }
                 } else {
                     element += "<div class='prompt-hidden'></div>";
                 }

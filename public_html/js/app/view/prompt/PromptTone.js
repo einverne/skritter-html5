@@ -63,7 +63,7 @@ define([
             Prompt.finished = true;
             this.showAnswer();
             //if multiple possible tone answers then display the one drawn
-            Tone.canvas.applyBackgroundGlow(Tone.userCharacter.at(0).getInflatedBitmap(), Prompt.gradeColors[Prompt.grade]);
+            Tone.canvas.applyBackgroundGlow(Tone.userCharacter.at(0).getInflatedSprite(), Prompt.gradeColors[Prompt.grade]);
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);
         },

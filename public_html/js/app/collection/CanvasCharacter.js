@@ -44,15 +44,15 @@ define([
             return false;
         },
         /**
-         * @method getCharacterBitmap
-         * @returns {Container} A container of bitmaps contained in the character
+         * @method getCharacterSprite
+         * @returns {Container} A container of sprites contained in the character
          */
-        getCharacterBitmap: function() {
-            var bitmapContainer = new createjs.Container();
+        getCharacterSprite: function() {
+            var spriteContainer = new createjs.Container();
             for (var i in this.models) {
-                bitmapContainer.addChild(this.models[i].getInflatedBitmap().clone());
+                spriteContainer.addChild(this.models[i].getInflatedSprite().clone());
             }
-            return bitmapContainer;
+            return spriteContainer;
         },
         /**
          * @method getStrokeCount

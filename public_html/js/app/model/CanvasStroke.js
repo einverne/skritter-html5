@@ -38,13 +38,6 @@ define([
             return Skritter.fn.getAngle(this.get('points'));
         },
         /**
-         * @method getBitmap
-         * @returns {Bitmap}
-         */
-        getBitmap: function() {
-            return new createjs.Bitmap(this.get('image').src);
-        },
-        /**
          * @method getContainedStrokeIds
          * @return {Array}
          */
@@ -80,34 +73,35 @@ define([
             return length;
         },
         /**
-         * @method getInflatedBitmap
+         * @method getInflatedSprite
          * @return {unresolved}
          */
-        getInflatedBitmap: function() {
-            var bitmap = new createjs.Bitmap(this.get('image').src);
+        getInflatedSprite: function() {
+            var sprite = this.get('sprite').clone();
+            var spriteBounds = sprite.getBounds();
             var data = this.getInflatedData();         
-            var ms = bitmap.getMatrix();
+            var ms = sprite.getMatrix();
             
-            var sx = data.w / bitmap.image.width;
-            var sy = data.h / bitmap.image.height;
+            var sx = data.w / spriteBounds.width;
+            var sy = data.h / spriteBounds.height;
             ms.scale(sx, sy);
             ms.translate(-data.w / 2, -data.h / 2);
             ms.rotate(data.rot * Math.PI / 180);
             var t = ms.decompose();
 
-            bitmap.setTransform(t.x, t.y, t.scaleX, t.scaleY, t.rotation, t.skewX, t.skewY);
-            var bounds = bitmap.getTransformedBounds();            
-            bitmap.x += bounds.width / 2 + data.x;
-            bitmap.y += bounds.height / 2 + data.y;
+            sprite.setTransform(t.x, t.y, t.scaleX, t.scaleY, t.rotation, t.skewX, t.skewY);
+            var bounds = sprite.getTransformedBounds();            
+            sprite.x += bounds.width / 2 + data.x;
+            sprite.y += bounds.height / 2 + data.y;
 
-            return bitmap;
+            return sprite;
         },
         /**
          * @method getInflatedData
          * @return {Object}
          */
         getInflatedData: function() {
-            var image = this.get('image');
+            var bounds = this.get('sprite').getBounds();
             var canvasSize = Skritter.settings.get('canvasSize');
             var data = this.get('data');
             return {
@@ -116,8 +110,8 @@ define([
                 y: data[2] * canvasSize,
                 w: data[3] * canvasSize,
                 h: data[4] * canvasSize,
-                scaleX: (data[3] * canvasSize) / image.tag.width,
-                scaleY: (data[4] * canvasSize) / image.tag.height,
+                scaleX: (data[3] * canvasSize) / bounds.width,
+                scaleY: (data[4] * canvasSize) / bounds.height,
                 rot: -data[5]
             };
         },
@@ -170,15 +164,22 @@ define([
             return Skritter.fn.getBoundingRectangle(this.get('corners'), canvasSize, canvasSize, 14);
         },
         /**
-         * @method getUserBitmap
+         * @method getSprite
+         * @returns {Bitmap}
+         */
+        getSprite: function() {
+            return this.get('sprite');
+        },
+        /**
+         * @method getUserSprite
          * @return {Bitmap}
          */
-        getUserBitmap: function() {
-            var bitmap = this.getInflatedBitmap();
+        getUserSprite: function() {
+            var sprite = this.getInflatedSprite();
             var rect = this.getRectangle();
-            bitmap.x = rect.x;
-            bitmap.y = rect.y;
-            return Mauler.tweak(bitmap, this.get('bitmapId'));
+            sprite.x = rect.x;
+            sprite.y = rect.y;
+            return Mauler.tweak(sprite, this.get('bitmapId'));
         }
 
     });

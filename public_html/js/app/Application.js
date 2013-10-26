@@ -67,10 +67,11 @@ define([
          */
         loadAssets: function(callback) {
             Skritter.assets = new Assets();
-            Skritter.assets.once('complete', function() {
+            Skritter.async.parallel([
+               Skritter.async.apply(Skritter.assets.loadStrokes) 
+            ], function() {
                 callback();
             });
-            Skritter.assets.loadStrokes();
         },
         /**
          * @method loadFacade

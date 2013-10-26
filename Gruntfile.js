@@ -86,7 +86,7 @@ module.exports = function(grunt) {
                     baseUrl: "js/app/",
                     dir: "build/www/",
                     keepBuildDir: false,
-                    fileExclusionRegExp: /^(config.xml|index-cordova.html)$/,
+                    fileExclusionRegExp: /\.mp3$/,
                     name: "Application",
                     removeCombined: true,
                     paths: {

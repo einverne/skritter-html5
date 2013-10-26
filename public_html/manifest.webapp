@@ -1,14 +1,16 @@
 {
   "name": "Skritter",
   "description": "Learn to Write Chinese and Japanese Characters",
-  "launch_path": "index.html",
+  "launch_path": "/index.html",
+  "origin": "app://skritter.com",
   "icons": {
-    "128": "icon-128x128.png",
-    "196": "icon-192x192.png"
+    "128": "/icon-128x128.png",
+    "196": "/icon-192x192.png"
   },
   "developer": {
     "name": "Joshua McFarland",
     "url": "http://www.skritter.com"
   },
+  "installs_allowed_from": ["*"],
   "default_locale": "en"
 }

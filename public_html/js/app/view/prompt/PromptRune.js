@@ -117,9 +117,9 @@ define([
                     Rune.canvas.drawStroke(stroke);
                     Rune.canvas.setInputAlpha(0.5);
                 }
-                Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterBitmap(), Prompt.gradeColors[Prompt.grade]);
+                Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterSprite(), Prompt.gradeColors[Prompt.grade]);
             } else {
-                Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterBitmap(), Prompt.gradeColors[Prompt.grade]);
+                Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterSprite(), Prompt.gradeColors[Prompt.grade]);
             }
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);

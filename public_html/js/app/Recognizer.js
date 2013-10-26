@@ -59,18 +59,17 @@ define([
 	
 	if (results.length > 0) {
 	    var matched = _.first(_.sortBy(results, 'result'));
-	    this.stroke.set('bitmap', matched.bitmap);
 	    this.stroke.set('bitmapId', matched.bitmapId);
 	    this.stroke.set('contains', matched.contains);
 	    this.stroke.set('data', matched.data);
 	    this.stroke.set('feedback', matched.feedback);
 	    this.stroke.set('id', matched.id);
-            this.stroke.set('image', matched.image);
 	    this.stroke.set('params', matched.params);
 	    this.stroke.set('part', matched.part);
 	    this.stroke.set('position', matched.position);
 	    this.stroke.set('result', matched.result);
 	    this.stroke.set('scores', matched.scores);
+            this.stroke.set('sprite', matched.sprite);
 	    return this.stroke;
 	}
 
@@ -88,16 +87,15 @@ define([
 	    var variations = this.targets[a];
 	    for (var b in variations.models)
 	    {
-		var bitmap = variations.at(b).get('bitmap');
 		var bitmapId = variations.at(b).get('bitmapId');
 		var data = variations.at(b).get('data');
 		var id = variations.at(b).get('id');
-                var image = variations.at(b).get('image');
 		var params = variations.at(b).getInflatedParams();
 		var part = variations.at(b).get('part');
 		var position = variations.at(b).get('position');
 		var variation = variations.at(b).get('variation');
 		var rune = variations.at(b).get('rune');
+                var sprite = variations.at(b).get('sprite');
 		
                 //todo: update this backwards check to use the new params concept
                 //right now it's just a hack to manually inject params backwards
@@ -121,19 +119,18 @@ define([
 			length: this.checkLength(param)
 		    };
                     
-		    result.bitmap = bitmap;
 		    result.bitmapId = bitmapId;
 		    result.contains = param.get('contains');
 		    result.data = data;
 		    result.feedback = param.get('feedback');
 		    result.id = id;
-                    result.image = image;
 		    result.param = param;
 		    result.part = part;
 		    result.position = position;
 		    result.variation = variation;
     		    result.rune = rune;
 		    result.scores = scores;
+                    result.sprite = sprite;
 		    results.push(result);
 		}
 	    }

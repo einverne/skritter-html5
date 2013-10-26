@@ -90,14 +90,14 @@ define([
         },
         /**
          * @method applyBackgroundGlow
-         * @param {CanvasCharacter} bitmap
+         * @param {Sprite} sprite
          * @param {String} color
          */
-        applyBackgroundGlow: function(bitmap, color) {
-            bitmap.alpha = 0.4;
-            bitmap.shadow = new createjs.Shadow(color, 5, 5, 0);
-            Canvas.layerBackground.addChildAt(bitmap, 0);
-            createjs.Tween.get(bitmap, {loop: true}).to({alpha: 0.7}, 1500).wait(1000).to({alpha: 0.4}, 1500).wait(1000);
+        applyBackgroundGlow: function(sprite, color) {
+            sprite.alpha = 0.4;
+            sprite.shadow = new createjs.Shadow(color, 5, 5, 0);
+            Canvas.layerBackground.addChildAt(sprite, 0);
+            createjs.Tween.get(sprite, {loop: true}).to({alpha: 0.7}, 1500).wait(1000).to({alpha: 0.4}, 1500).wait(1000);
         },
         clear: function() {
             Canvas.layerBackground.removeAllChildren();
@@ -151,10 +151,10 @@ define([
          * @param {Number} alpha
          */
         drawCharacter: function(canvasCharacter, alpha) {
-            var characterBitmap = canvasCharacter.getCharacterBitmap();
+            var characterSprite = canvasCharacter.getCharacterSprite();
             if (alpha)
-                characterBitmap.alpha = alpha;
-            Canvas.layerBackground.addChild(characterBitmap);
+                characterSprite.alpha = alpha;
+            Canvas.layerBackground.addChild(characterSprite);
             Canvas.stage.update();
         },
         /**
@@ -179,7 +179,7 @@ define([
          * @param {Function} callback
          */
         drawPhantomStroke: function(canvasStroke, callback) {
-            var userStroke = canvasStroke.getInflatedBitmap(true);
+            var userStroke = canvasStroke.getInflatedSprite(true);
             Canvas.layerOverlay.addChild(userStroke);
             createjs.Tween.get(userStroke).to({alpha: 0}, 500).call(function() {
                 Canvas.layerOverlay.removeChild(userStroke);
@@ -218,9 +218,9 @@ define([
          * @param {Function} callback
          */
         drawStroke: function(canvasStroke, callback) {
-            var strokeBitmap = canvasStroke.getUserBitmap();
-            Canvas.layerBackground.addChildAt(strokeBitmap, 0);
-            createjs.Tween.get(strokeBitmap).to(canvasStroke.getInflatedBitmap(), 500, createjs.Ease.backOut).call(function() {
+            var strokeSprite = canvasStroke.getUserSprite();
+            Canvas.layerBackground.addChildAt(strokeSprite, 0);
+            createjs.Tween.get(strokeSprite).to(canvasStroke.getInflatedSprite(), 500, createjs.Ease.backOut).call(function() {
                 if (typeof callback === 'function')
                     callback();
             });
