@@ -138,7 +138,7 @@ module.exports = function(grunt) {
         shell: {},
         yuidoc: {
             compile: {
-                name: '<%= pkg.name %>',
+                name: '<%= pkg.name %>: Documentation',
                 description: '<%= pkg.description %>',
                 version: '<%= pkg.version %>',
                 options: {
@@ -148,7 +148,7 @@ module.exports = function(grunt) {
                 }
             },
             'compile-www': {
-                name: '<%= pkg.name %>',
+                name: '<%= pkg.name %>: Documentation',
                 description: '<%= pkg.description %>',
                 version: '<%= pkg.version %>',
                 options: {

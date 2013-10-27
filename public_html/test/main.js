@@ -1,5 +1,6 @@
-require.config({
-    baseUrl: "../public_html/js/app",
+requirejs.config({
+    baseUrl: "../js/app",
+    main: 'Application',
     urlArgs: 'cb=' + Math.random(),
     paths: {
         //directories
@@ -23,9 +24,9 @@ require.config({
         lodash: '../lib/lodash.compat-2.2.1.min',
         'require.text': '../lib/require.text-2.0.10',
         //jasmine
-        jasmine: '../../../test/lib/jasmine',
-        'jasmine-html': '../../../test/lib/jasmine-html',
-        spec: '../../../test/spec/'
+        jasmine: '../../test/lib/jasmine',
+        'jasmine-html': '../../test/lib/jasmine-html',
+        spec: '../../test/spec/'
     },
     shim: {
         backbone: {
@@ -60,7 +61,7 @@ require.config({
 
 window.store = "SkritterStore";
 
-require(['lodash', 'jquery', 'jasmine-html'], function (_, $, jasmine) {
+requirejs(['Application', 'lodash', 'jquery', 'jasmine-html'], function (Application, _, $, jasmine) {
 
     var jasmineEnv = jasmine.getEnv();
     jasmineEnv.updateInterval = 1000;
@@ -77,11 +78,6 @@ require(['lodash', 'jquery', 'jasmine-html'], function (_, $, jasmine) {
     specs.push('spec/Functions');
     specs.push('spec/PinyinConverter');
     specs.push('spec/Storage');
-    if (window.cordova || window.PhoneGap || window.phonegap) {
-        specs.push('spec/SqlLiteAdapter');
-    } else {
-        specs.push('spec/IndexedDbAdapter');
-    }
     
     $(document).ready(function () {
         require(specs, function () {

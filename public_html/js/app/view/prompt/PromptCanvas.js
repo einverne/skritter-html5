@@ -310,13 +310,14 @@ define([
                     var x = finger.tipPosition[0] + 150;
                     var y = Math.abs(finger.tipPosition[1] - 400);
                     var z = finger.tipPosition[2];
+                    var speed;
                     //checks to make sure the pointer is within screen bounds
                     if (x >= 0 && x <= 300 && y >= 0 && y <= 250 && z > 20) {
                         x = (x * canvasSize) / 300;
                         y = (y * canvasSize) / 250;
                         moveCursor(x, y);
                         if (oldPt)
-                            var speed = Skritter.fn.getDistance({x: x, y: y}, oldPt);
+                            speed = Skritter.fn.getDistance({x: x, y: y}, oldPt);
                         oldPt = new createjs.Point(x, y);
                         //checks the speed to see if a stroke is happening
                         if (speed > 10) {

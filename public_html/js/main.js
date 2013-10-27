@@ -6,8 +6,8 @@
  */
 requirejs.config({
     baseUrl: 'js/app/',
-    urlArgs: 'cb=' + Math.random(),
     main: 'Application',
+    urlArgs: 'cb=' + Math.random(),
     paths: {
         //directories
         component: 'view/component',
