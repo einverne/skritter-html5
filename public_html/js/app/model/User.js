@@ -50,6 +50,7 @@ define([
          */
         defaults: {
             access_token: null,
+            audio: true,
             expires_in: null,
             isSyncing: false,
             lastLogin: null,

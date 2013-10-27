@@ -115,6 +115,9 @@ define([
         disableInput: function() {
             Canvas.stage.removeAllEventListeners();
         },
+        disableLeap: function() {
+            
+        },
         /**
          * Draws text to the canvas on the message layer. If a position isn't specified then
          * it defaults to the bottom center of the canvas.
@@ -277,6 +280,64 @@ define([
                     return true;
             };
             stage.addEventListener('stagemousedown', down);
+        },
+        /**
+         * Experimental feature using the Leap Motion controller to draw strokes instead of other
+         * traditional input devices.
+         * 
+         * @method enableLeap
+         */
+        enableLeap: function() {
+            var self = this;
+            var oldPt;
+            var points = [];
+            var canvasSize = Skritter.settings.get('canvasSize');
+            var cursor = new createjs.Shape();
+            cursor.graphics.clear().beginFill('black').drawCircle(-30, -30, 15);
+            Canvas.layerInput.addChild(cursor);
+            
+            var moveCursor = function(x, y) {
+                cursor.x = x;
+                cursor.y = y;
+                Canvas.stage.update();
+            };
+            
+            var waitingCounter = 0;
+            
+            Leap.loop({enableGestures: false}, function(frame) {
+                if (frame.pointables.length > 0) {
+                    var finger = frame.pointables[0];
+                    var x = finger.tipPosition[0] + 150;
+                    var y = Math.abs(finger.tipPosition[1] - 400);
+                    var z = finger.tipPosition[2];
+                    //checks to make sure the pointer is within screen bounds
+                    if (x >= 0 && x <= 300 && y >= 0 && y <= 250 && z > 20) {
+                        x = (x * canvasSize) / 300;
+                        y = (y * canvasSize) / 250;
+                        moveCursor(x, y);
+                        if (oldPt)
+                            var speed = Skritter.fn.getDistance({x: x, y: y}, oldPt);
+                        oldPt = new createjs.Point(x, y);
+                        //checks the speed to see if a stroke is happening
+                        if (speed > 10) {
+                            waitingCounter = 0;
+                            points.push(new createjs.Point(x, y));
+                        } else {
+                            //not drawing fast enough or stroke finished
+                            if (waitingCounter > 50) {
+                                if (points.length > 5) {
+                                    console.log(points);
+                                    self.triggerMouseUp(points);
+                                }
+                                points = [];
+                            }
+                            waitingCounter++;
+                        }
+                    } else {
+                        moveCursor(-30, -30);
+                    }
+                }
+            });
         },
         /**
          * @method fadeOverlay

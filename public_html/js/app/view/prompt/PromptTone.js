@@ -136,7 +136,7 @@ define([
             Tone.canvas.disableInput();
             this.$('#reading').html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position)));
             //play the audio file if last prompt is finished
-            if (Prompt.vocabs[0].has('audio') && Prompt.position === Prompt.vocabs[0].getCharacterCount())
+            if (Prompt.vocabs[0].has('audio') && Prompt.position === Prompt.vocabs[0].getCharacterCount() && Skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
         },
         showHidden: function() {

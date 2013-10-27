@@ -217,11 +217,12 @@ define([
             console.log('Prompt', 'RUNE', Prompt.vocabs[0].get('writing'));
             Skritter.timer.start();
             //play the audio file if the first character
-            if (Prompt.vocabs[0].has('audio') && Prompt.position === 1)
+            if (Prompt.vocabs[0].has('audio') && Prompt.position === 1 && Skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
             Rune.userCharacter = new CanvasCharacter();
             Rune.userTargets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'rune');
             Rune.canvas.enableInput();
+            Rune.canvas.enableLeap();
             this.$('#writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position - 1));
             this.$('#reading').text(PinyinConverter.toTone(Prompt.reading));
             this.$('#definition').text(Prompt.definition);

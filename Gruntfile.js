@@ -143,7 +143,8 @@ module.exports = function(grunt) {
                 version: '<%= pkg.version %>',
                 options: {
                     paths: 'public_html/js/app',
-                    outdir: 'build/docs'
+                    outdir: 'build/docs',
+					themedir: 'yuidoc'
                 }
             },
             'compile-www': {
@@ -152,7 +153,8 @@ module.exports = function(grunt) {
                 version: '<%= pkg.version %>',
                 options: {
                     paths: 'public_html/js/app',
-                    outdir: 'build/www/docs'
+                    outdir: 'build/www/docs',
+					themedir: 'yuidoc'
                 }
             }
         }

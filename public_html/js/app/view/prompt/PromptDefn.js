@@ -44,7 +44,7 @@ define([
             this.$('#sentence').text(Prompt.sentence);
             this.$('#prompt-tip').hide();
             //play the audio file when answer is shown
-            if (Prompt.vocabs[0].has('audio'))
+            if (Prompt.vocabs[0].has('audio') && Skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
         },
         
