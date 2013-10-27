@@ -42,7 +42,7 @@ define([
 	    this.$('#part-rdng').prop('checked', _.contains(parts, 'rdng'));
 	    this.$('#raw-squigs').prop('checked', Skritter.user.getSetting('squigs'));
             this.$('#animation-speed').attr('value', Skritter.user.getSetting('animationSpeed')*100);
-	    this.$('#order-strictness').attr('value', Skritter.user.getSetting('orderStrictness')*100);
+	    this.$('#order-strictness').attr('value', Skritter.user.getSetting('orderWeight')*100);
         },
         /**
          * Saves all the settings to the database.
@@ -63,7 +63,7 @@ define([
 	    if (this.$('#part-tone').prop('checked')) parts.push('tone');
             Skritter.user.setSetting(lang, parts);
             Skritter.user.setSetting('animationSpeed', this.$('#animation-speed').val()/100);
-            Skritter.user.setSetting('orderStrictness', this.$('#order-strictness').val()/100);
+            Skritter.user.setSetting('orderWeight', this.$('#order-strictness').val()/100);
             Skritter.user.setSetting('squigs', this.$('#raw-squigs').prop('checked'));
             Skritter.user.cache();
         }

@@ -220,7 +220,7 @@ define([
         drawStroke: function(canvasStroke, callback) {
             var strokeSprite = canvasStroke.getUserSprite();
             Canvas.layerBackground.addChildAt(strokeSprite, 0);
-            createjs.Tween.get(strokeSprite).to(canvasStroke.getInflatedSprite(), 500, createjs.Ease.backOut).call(function() {
+            createjs.Tween.get(strokeSprite).to(canvasStroke.getInflatedSprite(), Skritter.user.getAnimationSpeed(), createjs.Ease.backOut).call(function() {
                 if (typeof callback === 'function')
                     callback();
             });

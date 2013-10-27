@@ -18,12 +18,11 @@ define([
 	this.currentPosition = userCharacter.getStrokeCount() + 1;
 	this.stroke = userStroke;
 	this.targets = userTargets;
-	
 	//set the scaled threshold values
 	this.angleThreshold = 30;
 	this.distanceThreshold = 150 * (Skritter.settings.get('canvasSize') / 600);
-	this.lengthThreshold = 250 * (Skritter.settings.get('canvasSize') / 600);
-	this.orderStrictness = 0;
+	this.lengthThreshold = 300 * (Skritter.settings.get('canvasSize') / 600);
+	this.orderStrictness = Skritter.user.getOrderStrictness();
     }
     
     /**

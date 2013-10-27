@@ -169,6 +169,17 @@ define([
             }, this));
         },
         /**
+         * Adapts the stored values for animation speed into a format the application can use and
+         * then returns it.
+         * 
+         * @method getAnimationSpeed
+         * @returns {Number}
+         */
+        getAnimationSpeed: function() {
+            var speed = this.getSetting('animationSpeed');
+            return Math.ceil(Math.abs(1000 - (speed * 1000)));
+        },
+        /**
          * Gets the users current avatar and returns it as an image tag using base64 data.
          * 
          * @method getAvatar
@@ -179,6 +190,17 @@ define([
             if (fullsize)
                 return "<img src='data:image/png;base64," + this.get('settings').avatar + "' />";
             return "<img src='data:image/png;base64," + this.get('settings').avatar + "' width='50' height='50' />";
+        },
+        /**
+         * Adapts the stored values for weight into a format the application can use and
+         * then returns it.
+         * 
+         * @method getOrderStrictness
+         * @returns {Number}
+         */
+        getOrderStrictness: function() {
+            var strictness = Skritter.user.getSetting('orderWeight');
+            return (strictness === 1) ? 0 : (Math.abs(4 - Math.ceil(strictness * 5)));
         },
         /**
          * A quicker way to get a setting from the user settings object.
