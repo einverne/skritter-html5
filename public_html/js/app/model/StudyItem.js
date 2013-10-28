@@ -47,6 +47,13 @@ define([
             });
         },
         /**
+         * @method getCharacterCount
+         * @returns {Number}
+         */
+        getCharacterCount: function() {
+            return this.getVocabs()[0].getCharacterCount();
+        },
+        /**
          * @method getContained
          * @return {Array}
          */

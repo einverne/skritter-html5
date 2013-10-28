@@ -99,13 +99,25 @@ define([
             });
         },
         /**
+         * Returns a collection of items that are considered to be active for studying. Items that
+         * are considered active must have the part enabled, contained vocabs and not be banned.
+         * 
          * @method filterActive
-         * @returns {StudyItems} A new collection of active StudyItems
+         * @returns {StudyItems}
          */
         filterActive: function() {
-            var filtered = this.filter(function(items) {
-                if (items.get('vocabIds').length > 0)
-                    return true;
+            //filter items based on the user parts study settings
+            var filtered = this.filterBy('part', Skritter.user.getStudyParts());
+            var filtered = filtered.filter(function(item) {
+                //must contain vocabIds otherwise it's just a placeholder
+                var contained = item.get('vocabIds');
+                if (contained.length > 0) {
+                    var vocab = item.getVocabs()[0];
+                    //active items shouldn't be banned
+                    if (!vocab.has('bannedParts'))
+                        return true;
+                }
+                
             });
             return new StudyItems(filtered);
         },
@@ -137,7 +149,7 @@ define([
                 for (var b in vocabs) {
                     var contained = vocabs[b].get('containedVocabIds');
                     for (var c in contained) {
-                        var id = Skritter.user.get('id') + '-' + contained[c] + '-' + item.get('part');
+                        var id = Skritter.user.get('user_id') + '-' + contained[c] + '-' + item.get('part');
                         if (!_.contains(items, id)) {
                             items.push(id);
                         }
@@ -147,18 +159,47 @@ define([
             return items;
         },
         /**
+         * Returns items that are actively being studied and have a readiness value
+         * greater than or equal to 1.
+         * 
          * @method getItemsDue
-         * @returns {Number} An array of the items with a readiness considered due
+         * @returns {Array}
          */
-        getItemsDue: function() {
-            var itemsDue = [];
-            for (var i in this.models) {
-                var item = this.models[i];
-                //console.log(item.get('id'), item.getReadiness());
-                if (item.isActive() && item.getReadiness(true) >= 1)
-                    itemsDue.push(item);
+        getDue: function() {
+            var due = [];
+            var filtered = this.filterActive();
+            for (var i in filtered.models) {
+                var item = filtered.models[i];
+                if (item.getReadiness() >= 1)
+                    due.push(item);
             }
-            return itemsDue;
+            return due;
+        },
+        /**
+         * Returns the number of items that are currently due. Optionally it can include contained items for
+         * those rune and tone items. Returning the contained items is probably a better representation of
+         * the actual amount of work that needs to be done.
+         * 
+         * @method getDueCount
+         * @param {Boolean} includeContained
+         * @returns {Number}
+         */
+        getDueCount: function(includeContained) {
+            var items = this.getDue();
+            if (includeContained) {
+                var count = 0;
+                for (var i in items) {
+                    var item = items[i];
+                    var part = item.get('part');
+                    if (part === 'rune' || part === 'tone') {
+                        count += item.getCharacterCount();
+                    } else {
+                        count++;
+                    }
+                }
+                return count;
+            }
+            return items.length;
         },
         /**
          * Returns the item at the top of the sorted collection only including
@@ -183,7 +224,7 @@ define([
             var items = this.filterActive();
             //items = items.filterBy('part', Skritter.user.getStudyParts());
             //items = items.filterBy('part', ['rune']);
-            items = items.filterBy('id', ['mcfarljwtest1-zh-工人-0-rune']);
+            //items = items.filterBy('id', ['mcfarljwtest1-zh-工人-0-rune']);
             return items.at(Skritter.fn.getRandomInt(0, items.length-1));
         }
     });

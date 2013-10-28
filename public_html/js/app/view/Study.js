@@ -34,7 +34,7 @@ define([
          */
         render: function() {
             this.$el.html(templateStudy);
-            this.$('#items-due').text(Skritter.study.items.getItemsDue().length);
+            this.updateDue();
             Skritter.timer.setElement(this.$('#timer')).render();
             this.next();
             this.resize();
@@ -53,6 +53,7 @@ define([
          */
         handlePromptComplete: function(results) {
             this.updateItems(results);
+            this.updateDue();
             Skritter.study.items.sort();
             this.next();
         },
@@ -124,6 +125,12 @@ define([
                 console.log(Skritter.settings.get('appHeight'), bottom.height);
                 this.$('#prompt-top').height(Skritter.settings.get('appHeight') - bottom.height);
             }
+        },
+        /**
+         * @method updateDue
+         */
+        updateDue: function() {
+            this.$('#items-due').text(Skritter.study.items.getDueCount(true));
         },
         /**
          * @method updateItems

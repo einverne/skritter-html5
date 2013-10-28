@@ -31,6 +31,36 @@ define([
             });
         },
         /**
+         * Returns a filter array of reviews based if the attribute is equal to
+         * the specified value.
+         * 
+         * @method filterBy
+         * @param {String} attribute
+         * @param {String} value
+         * @returns {StudyReviews} A new collection of filtered StudyReviews
+         */
+        filterBy: function(attribute, value) {
+            var filtered = this.filter(function(reviews) {
+                if (reviews.get(attribute) === value)
+                    return true;
+            });
+            return new StudyReviews(filtered);
+        },
+        /**
+         * Returns a count of the current number of reviews and can optionally return
+         * the number of contained reviews.
+         * 
+         * @method getCount
+         * @param {Boolean} includeContained
+         * @returns {Number}
+         */
+        getCount: function(includeContained) {
+            if (includeContained) {
+                return this.length;
+            }
+            return this.filterBy('bearTime', true).length;
+        },
+        /**
          * Returns the total time of all local reviews thats haven't been submitted in milliseconds.
          * 
          * @method getTime
@@ -38,11 +68,9 @@ define([
          */
         getTime: function() {
             var time = 0;
-            for (var i in this.models) {
-                var review = this.models[i];
-                if (review.get('bearTime'))
-                    time += parseInt(review.get('reviewTime'), 10);
-            }
+            var filtered = this.filterBy('bearTime', true);
+            for (var i in filtered.models)
+                time += parseInt(filtered.models[i].get('reviewTime'), 10);
             return time * 1000;
         },
         /**
