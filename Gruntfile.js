@@ -24,6 +24,18 @@ module.exports = function(grunt) {
                 ]
             }
         },
+        includereplace: {
+            dist: {
+                options: {
+                    globals: {
+                        version: '<%= pkg.version %>'
+                    }
+                },
+                files: [
+                    {src: 'Application.js', dest: 'build/www/js/app/', expand: true, cwd: 'build/www/js/app/'}
+                ]
+            }
+        },
         jshint: {
             ignore_warning: {
                 options: {
@@ -58,25 +70,25 @@ module.exports = function(grunt) {
                 dest: "public_html/skritter.appcache"
             },
             'generate-www': {
-                    options: {
-                        basePath: "build/www/",
-                        cache: ["index.html"],
-                        network: ["*"],
-                        preferOnline: false,
-                        verbose: false,
-                        timestamp: true
-                    },
-                    src: [
-                        "**/*.png",
-                        "css/**/*.js",
-                        "js/**/*.js",
-                        "media/**/*.eot",
-                        "media/**/*.svg",
-                        "media/**/*.ttf",
-                        "media/**/*.woff",
-                        "template/**/*.html"
-                    ],
-                    dest: "build/www/skritter.appcache"
+                options: {
+                    basePath: "build/www/",
+                    cache: ["index.html"],
+                    network: ["*"],
+                    preferOnline: false,
+                    verbose: false,
+                    timestamp: true
+                },
+                src: [
+                    "**/*.png",
+                    "css/**/*.js",
+                    "js/**/*.js",
+                    "media/**/*.eot",
+                    "media/**/*.svg",
+                    "media/**/*.ttf",
+                    "media/**/*.woff",
+                    "template/**/*.html"
+                ],
+                dest: "build/www/skritter.appcache"
             }
         },
         requirejs: {
@@ -138,23 +150,23 @@ module.exports = function(grunt) {
         shell: {},
         yuidoc: {
             compile: {
-                name: '<%= pkg.name %>: Documentation',
+                name: '<%= pkg.appName %>: Documentation',
                 description: '<%= pkg.description %>',
                 version: '<%= pkg.version %>',
                 options: {
                     paths: 'public_html/js/app',
                     outdir: 'build/docs',
-					themedir: 'yuidoc'
+                    themedir: 'yuidoc'
                 }
             },
             'compile-www': {
-                name: '<%= pkg.name %>: Documentation',
+                name: '<%= pkg.appName %>: Documentation',
                 description: '<%= pkg.description %>',
                 version: '<%= pkg.version %>',
                 options: {
                     paths: 'public_html/js/app',
                     outdir: 'build/www/docs',
-					themedir: 'yuidoc'
+                    themedir: 'yuidoc'
                 }
             }
         }
@@ -165,11 +177,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
+    grunt.loadNpmTasks('grunt-include-replace');
     grunt.loadNpmTasks('grunt-manifest');
     grunt.loadNpmTasks('grunt-shell');
 
     grunt.registerTask('docs', ['yuidoc']);
-	grunt.registerTask('cache-manifest', ['manifest']);
-    grunt.registerTask('hint', ['jshint']);    
-    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'manifest:generate-www', 'yuidoc:compile-www']);
+    grunt.registerTask('cache-manifest', ['manifest']);
+    grunt.registerTask('hint', ['jshint']);
+    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'includereplace', 'manifest:generate-www', 'yuidoc:compile-www']);
 };

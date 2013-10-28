@@ -28,7 +28,7 @@ define([
             container: '#skritter-container',
             orientation: 'vertical',
             transitionSpeed: 200,
-            version: '0.0.5'
+            version: '@@version'
         },
         resize: function() {
             //sets the max boundaries of the application
