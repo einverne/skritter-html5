@@ -16,7 +16,7 @@ define([
         initialize: function() {
             LeapController.controller = new Leap.Controller();
             LeapController.canvasSize = Skritter.settings.get('canvasSize');
-            LeapController.oldPt;
+            LeapController.oldPt = {};
             LeapController.points = [];
             LeapController.waitingCounter = 0;
         },
