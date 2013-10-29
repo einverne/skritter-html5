@@ -57,6 +57,21 @@ define([
             });
 
         });
+        describe('getPressurizedStrokeSize', function() {
+            var output = null;
+            var p1 = {x: 0, y: 0};
+            var p2 = {x: 10, y: 10};
+            var p3 = {x: 50, y: 50};
+            it('should return 18 if strokeSize is not defined', function() {
+                output = Functions.getPressurizedStrokeSize(p1, p1);
+                expect(output).toEqual(18);
+            });
+            it('should return 75% the strokeSize with a distance greater than 35', function() {
+                var strokeSize = 15;
+                output = Functions.getPressurizedStrokeSize(p2, p3, strokeSize);
+                expect(output).toEqual(strokeSize * 0.75);
+            });
+        });
         describe('getUnixTime', function() {
             var timeMilliseconds = Functions.getUnixTime(true);
             var timeSeconds = Functions.getUnixTime(false);

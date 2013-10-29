@@ -106,25 +106,26 @@ define(function() {
     
     /**
      * @method getPressurizedStrokeSize
+     * @param {Number} strokeSize
      * @param {Point} point1
      * @param {Point} point2
      * @returns {Number}
      */
-    var getPressurizedStrokeSize = function(point1, point2) {
-        var strokeSize = 18;
+    var getPressurizedStrokeSize = function(point1, point2, strokeSize) {
+        strokeSize = (strokeSize) ? strokeSize : 18;
         var speed = getDistance(point1, point2);
         if (speed < 15) {
-           strokeSize *= 0.95; 
+           strokeSize *= 1.00; 
         } else if (speed < 20) {
-           strokeSize *= 0.90; 
+           strokeSize *= 0.95; 
         } else if (speed < 25) {
-           strokeSize *= 0.85; 
+           strokeSize *= 0.90; 
         } else if (speed < 30) {
-           strokeSize *= 0.80; 
+           strokeSize *= 0.85; 
         } else if (speed < 35) {
-           strokeSize *= 0.75; 
+           strokeSize *= 0.80; 
         } else {
-           strokeSize *= 0.70; 
+           strokeSize *= 0.75; 
         }
         return strokeSize;
     };

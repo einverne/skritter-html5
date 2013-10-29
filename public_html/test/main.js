@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: "../js/app",
+    baseUrl: "../js/app/",
     main: 'Application',
     urlArgs: 'cb=' + Math.random(),
     paths: {
@@ -68,7 +68,7 @@ requirejs.onError = function (error) {
     }
 };
 
-requirejs(['Application', 'lodash', 'jquery', 'jasmine-html'], function (Application, _, $, jasmine) {
+requirejs(['Application', 'jasmine-html'], function () {
 
     var jasmineEnv = jasmine.getEnv();
     jasmineEnv.updateInterval = 1000;
@@ -84,10 +84,9 @@ requirejs(['Application', 'lodash', 'jquery', 'jasmine-html'], function (Applica
     var specs = [];
     specs.push('spec/Functions');
     specs.push('spec/PinyinConverter');
-    specs.push('spec/Storage');
     
-    $(document).ready(function () {
-        require(specs, function () {
+    $(document).ready(function() {
+        requirejs(specs, function() {
             jasmineEnv.execute();
         });
     });
