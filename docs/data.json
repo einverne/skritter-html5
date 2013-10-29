@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.48"
+        "version": "0.0.49"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -5190,6 +5190,11 @@
             "name": "getPressurizedStrokeSize",
             "params": [
                 {
+                    "name": "strokeSize",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
                     "name": "point1",
                     "description": "",
                     "type": "Point"
@@ -5209,7 +5214,7 @@
         },
         {
             "file": "public_html\\js\\app\\Functions.js",
-            "line": 132,
+            "line": 133,
             "getrandomint": "",
             "params": [
                 {
@@ -5232,7 +5237,7 @@
         },
         {
             "file": "public_html\\js\\app\\Functions.js",
-            "line": 142,
+            "line": 143,
             "itemtype": "method",
             "name": "getUnixTime",
             "params": [
@@ -5251,7 +5256,7 @@
         },
         {
             "file": "public_html\\js\\app\\Functions.js",
-            "line": 155,
+            "line": 156,
             "itemtype": "method",
             "name": "maskText",
             "params": [
@@ -5280,7 +5285,7 @@
         },
         {
             "file": "public_html\\js\\app\\Functions.js",
-            "line": 174,
+            "line": 175,
             "itemtype": "method",
             "name": "pad",
             "params": [
@@ -5835,11 +5840,11 @@
         },
         {
             "message": "unknown tag: getrandomint",
-            "line": " public_html\\js\\app\\Functions.js:132"
+            "line": " public_html\\js\\app\\Functions.js:133"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Functions.js:132"
+            "line": " public_html\\js\\app\\Functions.js:133"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5907,7 +5912,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " public_html\\js\\app\\Functions.js:132"
+            "line": " public_html\\js\\app\\Functions.js:133"
         }
     ]
 }
