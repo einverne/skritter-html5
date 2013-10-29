@@ -62,12 +62,6 @@ define([
          * @returns {Object}
          */
         next: function() {
-            var items = Skritter.study.items.filterActive();
-            for (var i in items.models) {
-                var _item = items.models[i];
-                var _vocabs = items.models[i].getVocabs();
-                console.log(_vocabs[0].get('writing'), _item.get('part'), _item.getReadiness());
-            }
             //gets the next item that should be studied and loads it
             Study.c.item = Skritter.study.items.getNext();
             //integrity check to make sure something loaded

@@ -70,7 +70,7 @@ define([
             //check that a minimum distance is met
             if (Skritter.fn.getDistance(points[0], points[points.length - 1]) > Rune.minStrokeDistance) {
                 //fade any hints that were previously visible
-                Rune.canvas.fadeOverlay();
+                Rune.canvas.fadeBackground();
                 //create the stroke from the points to analyze
                 var stroke = new CanvasStroke().set('points', points);
                 //recognize a stroke based on user input and targets

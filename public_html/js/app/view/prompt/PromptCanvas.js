@@ -35,6 +35,12 @@ define([
             this.$el.append(Canvas.canvas);
             this.initLayers();
             this.drawGrid();
+            
+            //ISSUE #18: drawing a dummy sprite fixes the delayed tween problem in Chrome
+            var dummySprite = Skritter.assets.getStroke(0);
+            dummySprite.alpha = 0.0001;
+            Canvas.stage.addChildAt(dummySprite, 0);
+            
             return this;
         },
         /**
@@ -56,7 +62,7 @@ define([
             Canvas.layerMessage = new createjs.Container();
             Canvas.layerMessage.name = 'layerMessage';
             Canvas.stage.addChild(Canvas.layerMessage);
-            //not sure why I have this container
+            //contains the actual user written strokes
             Canvas.layerOverlay = new createjs.Container();
             Canvas.layerOverlay.name = 'layerOverlay';
             Canvas.stage.addChild(Canvas.layerOverlay);
@@ -162,10 +168,12 @@ define([
          * @param {Number} alpha
          */
         drawCharacter: function(canvasCharacter, alpha) {
-            var characterSprite = canvasCharacter.getCharacterSprite();
-            if (alpha)
-                characterSprite.alpha = alpha;
-            Canvas.layerBackground.addChild(characterSprite);
+            if (Canvas.layerBackground.getNumChildren() === 0) {
+                var characterSprite = canvasCharacter.getCharacterSprite();
+                if (alpha)
+                    characterSprite.alpha = alpha;
+                Canvas.layerBackground.addChild(characterSprite);
+            }
             Canvas.stage.update();
         },
         /**
@@ -183,6 +191,7 @@ define([
             grid.graphics.moveTo(Canvas.size, 0).lineTo(0, Canvas.size);
             grid.graphics.endStroke();
             Canvas.layerGrid.addChild(grid);
+            Canvas.stage.update();
         },
         /**
          * @method drawPhantomStroke
@@ -191,9 +200,9 @@ define([
          */
         drawPhantomStroke: function(canvasStroke, callback) {
             var userStroke = canvasStroke.getInflatedSprite(true);
-            Canvas.layerOverlay.addChild(userStroke);
+            Canvas.layerBackground.addChild(userStroke);
             createjs.Tween.get(userStroke).to({alpha: 0}, 500).call(function() {
-                Canvas.layerOverlay.removeChild(userStroke);
+                Canvas.layerBackground.removeChild(userStroke);
                 if (typeof callback === 'function')
                     callback();
             });
@@ -230,8 +239,9 @@ define([
          */
         drawStroke: function(canvasStroke, callback) {
             var strokeSprite = canvasStroke.getUserSprite();
-            Canvas.layerBackground.addChildAt(strokeSprite, 0);
-            createjs.Tween.get(strokeSprite).to(canvasStroke.getInflatedSprite(), Skritter.user.getAnimationSpeed(), createjs.Ease.backOut).call(function() {
+            var inflatedSprite = canvasStroke.getInflatedSprite();
+            Canvas.layerOverlay.addChildAt(strokeSprite, 0);
+            createjs.Tween.get(strokeSprite).to(inflatedSprite, Skritter.user.getAnimationSpeed(), createjs.Ease.backOut).call(function() {
                 if (typeof callback === 'function')
                     callback();
             });
@@ -312,11 +322,22 @@ define([
             Canvas.leap.enable({enableGestures: true});
         },
         /**
+         * @method fadeBackground
+         */
+        fadeBackground: function() {
+            if (Canvas.layerBackground.getNumChildren() > 0) {
+                createjs.Tween.get(Canvas.layerBackground).to({alpha: 0}, 750).call(function() {
+                    Canvas.layerBackground.removeAllChildren();
+                    Canvas.layerBackground.alpha = 1.0;
+                });
+            }
+        },
+        /**
          * @method fadeOverlay
          */
         fadeOverlay: function() {
             if (Canvas.layerOverlay.getNumChildren() > 0) {
-                createjs.Tween.get(Canvas.layerOverlay).to({alpha: 0}, 500).call(function() {
+                createjs.Tween.get(Canvas.layerOverlay).to({alpha: 0}, 750).call(function() {
                     Canvas.layerOverlay.removeAllChildren();
                     Canvas.layerOverlay.alpha = 1.0;
                 });

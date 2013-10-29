@@ -61,6 +61,13 @@ requirejs.config({
 
 window.store = "SkritterStore";
 
+requirejs.onError = function (error) {
+    console.log('RequireJS Error', error);
+    if (error.requireType === 'timeout') {
+        console.log('modules: ' + error.requireModules);
+    }
+};
+
 requirejs(['Application', 'lodash', 'jquery', 'jasmine-html'], function (Application, _, $, jasmine) {
 
     var jasmineEnv = jasmine.getEnv();
