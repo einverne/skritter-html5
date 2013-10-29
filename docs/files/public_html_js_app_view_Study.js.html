@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.47</em>
+            <em>API Docs for: 0.0.48</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -264,12 +264,6 @@ define([
          * @returns {Object}
          */
         next: function() {
-            var items = Skritter.study.items.filterActive();
-            for (var i in items.models) {
-                var _item = items.models[i];
-                var _vocabs = items.models[i].getVocabs();
-                console.log(_vocabs[0].get(&#x27;writing&#x27;), _item.get(&#x27;part&#x27;), _item.getReadiness());
-            }
             //gets the next item that should be studied and loads it
             Study.c.item = Skritter.study.items.getNext();
             //integrity check to make sure something loaded

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.47</em>
+            <em>API Docs for: 0.0.48</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -272,7 +272,7 @@ define([
             //check that a minimum distance is met
             if (Skritter.fn.getDistance(points[0], points[points.length - 1]) &gt; Rune.minStrokeDistance) {
                 //fade any hints that were previously visible
-                Rune.canvas.fadeOverlay();
+                Rune.canvas.fadeBackground();
                 //create the stroke from the points to analyze
                 var stroke = new CanvasStroke().set(&#x27;points&#x27;, points);
                 //recognize a stroke based on user input and targets
