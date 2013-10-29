@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public_html\js\app\collection\StudyItems.js - skritter-html5</title>
+    <title>public_html\js\app\collection\StudyItems.js - Skritter HTML5: Documentation</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -15,11 +15,11 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="../assets/css/logo.png" title="skritter-html5"></h1>
+                <h1><img src="../assets/css/logo.png" title="Skritter HTML5: Documentation"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.5</em>
+            <em>API Docs for: 0.0.47</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,8 @@
                 <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
+            
+                <li><a href="../classes/LeapController.html">LeapController</a></li>
             
                 <li><a href="../classes/Log.html">Log</a></li>
             
@@ -299,13 +301,25 @@ define([
             });
         },
         /**
+         * Returns a collection of items that are considered to be active for studying. Items that
+         * are considered active must have the part enabled, contained vocabs and not be banned.
+         * 
          * @method filterActive
-         * @returns {StudyItems} A new collection of active StudyItems
+         * @returns {StudyItems}
          */
         filterActive: function() {
-            var filtered = this.filter(function(items) {
-                if (items.get(&#x27;vocabIds&#x27;).length &gt; 0)
-                    return true;
+            //filter items based on the user parts study settings
+            var filtered = this.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
+            filtered = filtered.filter(function(item) {
+                //must contain vocabIds otherwise it&#x27;s just a placeholder
+                var contained = item.get(&#x27;vocabIds&#x27;);
+                if (contained.length &gt; 0) {
+                    var vocab = item.getVocabs()[0];
+                    //active items shouldn&#x27;t be banned
+                    if (!vocab.has(&#x27;bannedParts&#x27;))
+                        return true;
+                }
+                
             });
             return new StudyItems(filtered);
         },
@@ -337,7 +351,7 @@ define([
                 for (var b in vocabs) {
                     var contained = vocabs[b].get(&#x27;containedVocabIds&#x27;);
                     for (var c in contained) {
-                        var id = Skritter.user.get(&#x27;id&#x27;) + &#x27;-&#x27; + contained[c] + &#x27;-&#x27; + item.get(&#x27;part&#x27;);
+                        var id = Skritter.user.get(&#x27;user_id&#x27;) + &#x27;-&#x27; + contained[c] + &#x27;-&#x27; + item.get(&#x27;part&#x27;);
                         if (!_.contains(items, id)) {
                             items.push(id);
                         }
@@ -347,18 +361,47 @@ define([
             return items;
         },
         /**
+         * Returns items that are actively being studied and have a readiness value
+         * greater than or equal to 1.
+         * 
          * @method getItemsDue
-         * @returns {Number} An array of the items with a readiness considered due
+         * @returns {Array}
          */
-        getItemsDue: function() {
-            var itemsDue = [];
-            for (var i in this.models) {
-                var item = this.models[i];
-                //console.log(item.get(&#x27;id&#x27;), item.getReadiness());
-                if (item.isActive() &amp;&amp; item.getReadiness(true) &gt;= 1)
-                    itemsDue.push(item);
+        getDue: function() {
+            var due = [];
+            var filtered = this.filterActive();
+            for (var i in filtered.models) {
+                var item = filtered.models[i];
+                if (item.getReadiness() &gt;= 1)
+                    due.push(item);
             }
-            return itemsDue;
+            return due;
+        },
+        /**
+         * Returns the number of items that are currently due. Optionally it can include contained items for
+         * those rune and tone items. Returning the contained items is probably a better representation of
+         * the actual amount of work that needs to be done.
+         * 
+         * @method getDueCount
+         * @param {Boolean} includeContained
+         * @returns {Number}
+         */
+        getDueCount: function(includeContained) {
+            var items = this.getDue();
+            if (includeContained) {
+                var count = 0;
+                for (var i in items) {
+                    var item = items[i];
+                    var part = item.get(&#x27;part&#x27;);
+                    if (part === &#x27;rune&#x27; || part === &#x27;tone&#x27;) {
+                        count += item.getCharacterCount();
+                    } else {
+                        count++;
+                    }
+                }
+                return count;
+            }
+            return items.length;
         },
         /**
          * Returns the item at the top of the sorted collection only including
@@ -383,7 +426,7 @@ define([
             var items = this.filterActive();
             //items = items.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
             //items = items.filterBy(&#x27;part&#x27;, [&#x27;rune&#x27;]);
-            items = items.filterBy(&#x27;id&#x27;, [&#x27;mcfarljwtest1-zh-工人-0-rune&#x27;]);
+            //items = items.filterBy(&#x27;id&#x27;, [&#x27;mcfarljwtest1-zh-工人-0-rune&#x27;]);
             return items.at(Skritter.fn.getRandomInt(0, items.length-1));
         }
     });

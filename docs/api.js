@@ -11,6 +11,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "HomeView",
         "IndexedDBAdapter",
         "InfoView",
+        "LeapController",
         "Log",
         "LogItem",
         "LoginView",

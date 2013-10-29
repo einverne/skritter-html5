@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public_html\js\app\view\prompt\PromptCanvas.js - skritter-html5</title>
+    <title>public_html\js\app\view\prompt\PromptCanvas.js - Skritter HTML5: Documentation</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -15,11 +15,11 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="../assets/css/logo.png" title="skritter-html5"></h1>
+                <h1><img src="../assets/css/logo.png" title="Skritter HTML5: Documentation"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.5</em>
+            <em>API Docs for: 0.0.47</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,8 @@
                 <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
+            
+                <li><a href="../classes/LeapController.html">LeapController</a></li>
             
                 <li><a href="../classes/Log.html">Log</a></li>
             
@@ -201,19 +203,22 @@
 /**
  * @module Skritter
  * @submodule Prompt
+ * @param LeapController
  * @author Joshua McFarland
  */
 define([
+    &#x27;model/LeapController&#x27;,
     &#x27;backbone&#x27;,
     &#x27;createjs.easel&#x27;,
     &#x27;createjs.tween&#x27;
-], function() {
+], function(LeapController) {
     /**
      * @class PromptCanvas
      */
     var Canvas = Backbone.View.extend({
         initialize: function() {
             Canvas.canvas = null;
+            Canvas.leap = new LeapController();
             Canvas.stage = null;
             Canvas.points = [];
             Canvas.size = Skritter.settings.get(&#x27;canvasSize&#x27;);
@@ -314,6 +319,14 @@ define([
          */
         disableInput: function() {
             Canvas.stage.removeAllEventListeners();
+        },
+        /**
+         * @method disableLeap
+         */
+        disableLeap: function() {
+            this.stopListening(Canvas.leap);
+            Canvas.leap.disable();
+            Canvas.layerInput.removeAllChildren();
         },
         /**
          * Draws text to the canvas on the message layer. If a position isn&#x27;t specified then
@@ -420,7 +433,7 @@ define([
         drawStroke: function(canvasStroke, callback) {
             var strokeSprite = canvasStroke.getUserSprite();
             Canvas.layerBackground.addChildAt(strokeSprite, 0);
-            createjs.Tween.get(strokeSprite).to(canvasStroke.getInflatedSprite(), 500, createjs.Ease.backOut).call(function() {
+            createjs.Tween.get(strokeSprite).to(canvasStroke.getInflatedSprite(), Skritter.user.getAnimationSpeed(), createjs.Ease.backOut).call(function() {
                 if (typeof callback === &#x27;function&#x27;)
                     callback();
             });
@@ -450,8 +463,9 @@ define([
             var move = function() {
                 var point = new createjs.Point(stage.mouseX, stage.mouseY);
                 var midPt = new createjs.Point(oldPt.x + point.x &gt;&gt; 1, oldPt.y + point.y &gt;&gt; 1);
+                //Canvas.strokeSize
                 marker.graphics
-                        .setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                        .setStrokeStyle(Skritter.fn.getPressurizedStrokeSize(point, oldPt), Canvas.strokeCapStyle, Canvas.strokeJointStyle)
                         .beginStroke(Canvas.strokeColor)
                         .moveTo(midPt.x, midPt.y)
                         .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
@@ -477,6 +491,27 @@ define([
                     return true;
             };
             stage.addEventListener(&#x27;stagemousedown&#x27;, down);
+        },
+        /**
+         * Experimental feature using the Leap Motion controller to draw strokes instead of other
+         * traditional input devices.
+         * 
+         * @method enableLeap
+         */
+        enableLeap: function() {
+            var cursor = new createjs.Shape();
+            cursor.graphics.clear().beginFill(&#x27;orange&#x27;).drawCircle(-30, -30, 15);
+            Canvas.layerInput.addChild(cursor);
+            
+            var moveCursor = function(point) {
+                cursor.x = point.x;
+                cursor.y = point.y;
+                Canvas.stage.update();
+            };
+            
+            this.listenTo(Canvas.leap, &#x27;move&#x27;, moveCursor);
+            this.listenTo(Canvas.leap, &#x27;gestureComplete&#x27;, this.triggerMouseUp);
+            Canvas.leap.enable({enableGestures: true});
         },
         /**
          * @method fadeOverlay

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public_html\js\app\model\User.js - skritter-html5</title>
+    <title>public_html\js\app\model\User.js - Skritter HTML5: Documentation</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -15,11 +15,11 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="../assets/css/logo.png" title="skritter-html5"></h1>
+                <h1><img src="../assets/css/logo.png" title="Skritter HTML5: Documentation"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.5</em>
+            <em>API Docs for: 0.0.47</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,8 @@
                 <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
             
                 <li><a href="../classes/InfoView.html">InfoView</a></li>
+            
+                <li><a href="../classes/LeapController.html">LeapController</a></li>
             
                 <li><a href="../classes/Log.html">Log</a></li>
             
@@ -250,6 +252,7 @@ define([
          */
         defaults: {
             access_token: null,
+            audio: true,
             expires_in: null,
             isSyncing: false,
             lastLogin: null,
@@ -369,6 +372,17 @@ define([
             }, this));
         },
         /**
+         * Adapts the stored values for animation speed into a format the application can use and
+         * then returns it.
+         * 
+         * @method getAnimationSpeed
+         * @returns {Number}
+         */
+        getAnimationSpeed: function() {
+            var speed = this.getSetting(&#x27;animationSpeed&#x27;);
+            return Math.ceil(Math.abs(1000 - (speed * 1000)));
+        },
+        /**
          * Gets the users current avatar and returns it as an image tag using base64 data.
          * 
          * @method getAvatar
@@ -379,6 +393,17 @@ define([
             if (fullsize)
                 return &quot;&lt;img src=&#x27;data:image/png;base64,&quot; + this.get(&#x27;settings&#x27;).avatar + &quot;&#x27; /&gt;&quot;;
             return &quot;&lt;img src=&#x27;data:image/png;base64,&quot; + this.get(&#x27;settings&#x27;).avatar + &quot;&#x27; width=&#x27;50&#x27; height=&#x27;50&#x27; /&gt;&quot;;
+        },
+        /**
+         * Adapts the stored values for weight into a format the application can use and
+         * then returns it.
+         * 
+         * @method getOrderStrictness
+         * @returns {Number}
+         */
+        getOrderStrictness: function() {
+            var strictness = Skritter.user.getSetting(&#x27;orderWeight&#x27;);
+            return (strictness === 1) ? 0 : (Math.abs(4 - Math.ceil(strictness * 5)));
         },
         /**
          * A quicker way to get a setting from the user settings object.
