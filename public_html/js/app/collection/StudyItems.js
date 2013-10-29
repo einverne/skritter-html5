@@ -108,7 +108,7 @@ define([
         filterActive: function() {
             //filter items based on the user parts study settings
             var filtered = this.filterBy('part', Skritter.user.getStudyParts());
-            var filtered = filtered.filter(function(item) {
+            filtered = filtered.filter(function(item) {
                 //must contain vocabIds otherwise it's just a placeholder
                 var contained = item.get('vocabIds');
                 if (contained.length > 0) {

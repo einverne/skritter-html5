@@ -105,6 +105,31 @@ define(function() {
     };
     
     /**
+     * @method getPressurizedStrokeSize
+     * @param {Point} point1
+     * @param {Point} point2
+     * @returns {Number}
+     */
+    var getPressurizedStrokeSize = function(point1, point2) {
+        var strokeSize = 18;
+        var speed = getDistance(point1, point2);
+        if (speed < 15) {
+           strokeSize *= 0.95; 
+        } else if (speed < 20) {
+           strokeSize *= 0.90; 
+        } else if (speed < 25) {
+           strokeSize *= 0.85; 
+        } else if (speed < 30) {
+           strokeSize *= 0.80; 
+        } else if (speed < 35) {
+           strokeSize *= 0.75; 
+        } else {
+           strokeSize *= 0.70; 
+        }
+        return strokeSize;
+    };
+    
+    /**
      * @getRandomInt
      * @param {Number} min
      * @param {Number} max
@@ -168,6 +193,7 @@ define(function() {
         getBoundingRectangle: getBoundingRectangle,
         getDistance: getDistance,
         getLineDeviation: getLineDeviation,
+        getPressurizedStrokeSize: getPressurizedStrokeSize,
         getRandomInt: getRandomInt,
         getUnixTime: getUnixTime,
         maskCharacters: maskCharacters,

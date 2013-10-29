@@ -1,19 +1,22 @@
 /**
  * @module Skritter
  * @submodule Prompt
+ * @param LeapController
  * @author Joshua McFarland
  */
 define([
+    'model/LeapController',
     'backbone',
     'createjs.easel',
     'createjs.tween'
-], function() {
+], function(LeapController) {
     /**
      * @class PromptCanvas
      */
     var Canvas = Backbone.View.extend({
         initialize: function() {
             Canvas.canvas = null;
+            Canvas.leap = new LeapController();
             Canvas.stage = null;
             Canvas.points = [];
             Canvas.size = Skritter.settings.get('canvasSize');
@@ -115,8 +118,13 @@ define([
         disableInput: function() {
             Canvas.stage.removeAllEventListeners();
         },
+        /**
+         * @method disableLeap
+         */
         disableLeap: function() {
-            
+            this.stopListening(Canvas.leap);
+            Canvas.leap.disable();
+            Canvas.layerInput.removeAllChildren();
         },
         /**
          * Draws text to the canvas on the message layer. If a position isn't specified then
@@ -253,8 +261,9 @@ define([
             var move = function() {
                 var point = new createjs.Point(stage.mouseX, stage.mouseY);
                 var midPt = new createjs.Point(oldPt.x + point.x >> 1, oldPt.y + point.y >> 1);
+                //Canvas.strokeSize
                 marker.graphics
-                        .setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                        .setStrokeStyle(Skritter.fn.getPressurizedStrokeSize(point, oldPt), Canvas.strokeCapStyle, Canvas.strokeJointStyle)
                         .beginStroke(Canvas.strokeColor)
                         .moveTo(midPt.x, midPt.y)
                         .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
@@ -288,57 +297,19 @@ define([
          * @method enableLeap
          */
         enableLeap: function() {
-            var self = this;
-            var oldPt;
-            var points = [];
-            var canvasSize = Skritter.settings.get('canvasSize');
             var cursor = new createjs.Shape();
-            cursor.graphics.clear().beginFill('black').drawCircle(-30, -30, 15);
+            cursor.graphics.clear().beginFill('orange').drawCircle(-30, -30, 15);
             Canvas.layerInput.addChild(cursor);
             
-            var moveCursor = function(x, y) {
-                cursor.x = x;
-                cursor.y = y;
+            var moveCursor = function(point) {
+                cursor.x = point.x;
+                cursor.y = point.y;
                 Canvas.stage.update();
             };
             
-            var waitingCounter = 0;
-            
-            Leap.loop({enableGestures: false}, function(frame) {
-                if (frame.pointables.length > 0) {
-                    var finger = frame.pointables[0];
-                    var x = finger.tipPosition[0] + 150;
-                    var y = Math.abs(finger.tipPosition[1] - 400);
-                    var z = finger.tipPosition[2];
-                    var speed;
-                    //checks to make sure the pointer is within screen bounds
-                    if (x >= 0 && x <= 300 && y >= 0 && y <= 250 && z > 20) {
-                        x = (x * canvasSize) / 300;
-                        y = (y * canvasSize) / 250;
-                        moveCursor(x, y);
-                        if (oldPt)
-                            speed = Skritter.fn.getDistance({x: x, y: y}, oldPt);
-                        oldPt = new createjs.Point(x, y);
-                        //checks the speed to see if a stroke is happening
-                        if (speed > 10) {
-                            waitingCounter = 0;
-                            points.push(new createjs.Point(x, y));
-                        } else {
-                            //not drawing fast enough or stroke finished
-                            if (waitingCounter > 50) {
-                                if (points.length > 5) {
-                                    console.log(points);
-                                    self.triggerMouseUp(points);
-                                }
-                                points = [];
-                            }
-                            waitingCounter++;
-                        }
-                    } else {
-                        moveCursor(-30, -30);
-                    }
-                }
-            });
+            this.listenTo(Canvas.leap, 'move', moveCursor);
+            this.listenTo(Canvas.leap, 'gestureComplete', this.triggerMouseUp);
+            Canvas.leap.enable({enableGestures: true});
         },
         /**
          * @method fadeOverlay

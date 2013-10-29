@@ -1,6 +1,5 @@
 /**
  * This is the main load file which contains all of the RequireJS paths.
- * It also detects if Cordova is present to handle document ready slightly differently.
  * 
  * @author Joshua McFarland
  */
