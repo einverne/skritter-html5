@@ -125,14 +125,6 @@ define([
             Canvas.stage.removeAllEventListeners();
         },
         /**
-         * @method disableLeap
-         */
-        disableLeap: function() {
-            this.stopListening(Canvas.leap);
-            Canvas.leap.disable();
-            Canvas.layerInput.removeAllChildren();
-        },
-        /**
          * Draws text to the canvas on the message layer. If a position isn't specified then
          * it defaults to the bottom center of the canvas.
          * 
@@ -299,27 +291,6 @@ define([
                     return true;
             };
             stage.addEventListener('stagemousedown', down);
-        },
-        /**
-         * Experimental feature using the Leap Motion controller to draw strokes instead of other
-         * traditional input devices.
-         * 
-         * @method enableLeap
-         */
-        enableLeap: function() {
-            var cursor = new createjs.Shape();
-            cursor.graphics.clear().beginFill('orange').drawCircle(-30, -30, 15);
-            Canvas.layerInput.addChild(cursor);
-            
-            var moveCursor = function(point) {
-                cursor.x = point.x;
-                cursor.y = point.y;
-                Canvas.stage.update();
-            };
-            
-            this.listenTo(Canvas.leap, 'move', moveCursor);
-            this.listenTo(Canvas.leap, 'gestureComplete', this.triggerMouseUp);
-            Canvas.leap.enable({enableGestures: true});
         },
         /**
          * @method fadeBackground

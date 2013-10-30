@@ -53,7 +53,7 @@ define([
                 var z = finger.tipPosition[2];
                 var speed;
                 //checks to make sure the pointer is within screen bounds
-                if (x >= 0 && x <= 300 && y >= 0 && y <= 250) {
+                if (x >= 0 && x <= 300 && y >= 0 && y <= 250 && z > -75) {
                     x = (x * LeapController.canvasSize) / 300;
                     y = (y * LeapController.canvasSize) / 250;
                     this.triggerMove(new createjs.Point(x, y));
@@ -68,7 +68,7 @@ define([
                         //not drawing fast enough or stroke finished
                         if (LeapController.waitingCounter > 30) {
                             if (LeapController.points.length >= 5) {
-                                this.triggerGestureComplete(LeapController.points);
+                                this.triggerStrokeComplete(LeapController.points);
                             }
                             LeapController.points = [];
                         }
@@ -83,8 +83,8 @@ define([
          * @method triggerGestureComplete
          * @param {Array} points
          */
-        triggerGestureComplete: function(points) {
-            this.trigger('gestureComplete', points);
+        triggerStrokeComplete: function(points) {
+            this.trigger('strokeComplete', points);
         },
         /**
          * @method triggerMove

@@ -360,7 +360,8 @@ define([
                             size += result.responseSize;
                             if (accountDownload)
                                 Skritter.facade.show('initial download <br />' + Skritter.fn.bytesToSize(size));
-                            Skritter.study.decomps.add(result.Decomps);
+                            //ISSUE #20: decomps is returning a null value in the resulting array
+                            Skritter.study.decomps.add(_.compact(result.Decomps));
                             Skritter.study.items.add(result.Items);
                             Skritter.study.srsconfigs.add(result.SRSConfigs);
                             Skritter.study.sentences.add(result.Sentences);
