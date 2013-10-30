@@ -162,8 +162,10 @@ define([
         drawCharacter: function(canvasCharacter, alpha) {
             if (Canvas.layerBackground.getNumChildren() === 0) {
                 var characterSprite = canvasCharacter.getCharacterSprite();
-                if (alpha)
-                    characterSprite.alpha = alpha;
+                if (alpha) {
+                    characterSprite.filters = [new createjs.ColorFilter(0, 0, 0, alpha, 0, 0, 0, 0)];
+                    characterSprite.cache(0, 0, Canvas.size, Canvas.size);
+                }
                 Canvas.layerBackground.addChild(characterSprite);
             }
             Canvas.stage.update();
@@ -192,6 +194,8 @@ define([
          */
         drawPhantomStroke: function(canvasStroke, callback) {
             var userStroke = canvasStroke.getInflatedSprite(true);
+            userStroke.filters = [new createjs.ColorFilter(0, 0, 0, 1, 135, 206, 250, 0)];
+            userStroke.cache(0, 0, Canvas.size, Canvas.size);
             Canvas.layerBackground.addChild(userStroke);
             createjs.Tween.get(userStroke).to({alpha: 0}, 500).call(function() {
                 Canvas.layerBackground.removeChild(userStroke);

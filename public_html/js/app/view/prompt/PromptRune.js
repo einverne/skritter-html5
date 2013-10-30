@@ -158,13 +158,12 @@ define([
          * @returns {CanvasStroke}
          */
         getNextStroke: function() {
-            for (var i in Rune.userTargets) {
-                var target = Rune.userTargets[i];
-                for (var s in target.models) {
-                    var stroke = target.models[s];
-                    if (!Rune.userCharacter.containsStroke(stroke))
+            //ISSUE #26: needs to properly get the position and check for contained strokes
+            var position = Rune.userCharacter.getStrokeCount() + 1;
+            for (var a in Rune.userTargets) {
+                var stroke = Rune.userTargets[a].findWhere({position: position});
+                if (stroke && !Rune.userCharacter.containsStroke(stroke))
                         return stroke;
-                }
             }
         },
         /**

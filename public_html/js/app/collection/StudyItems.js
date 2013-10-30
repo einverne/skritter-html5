@@ -236,7 +236,7 @@ define([
         getNext: function() {
             var filtered = this.filterActive();
             //TESTING: uncomment and adjust to filter and focus on specific items
-            //filtered = filtered.filterBy('id', 'mcfarljwtest1-ja-男の人-0-rune');
+            //filtered = filtered.filterBy('id', 'mcfarljwtest1-zh-嗯-0-rune');
             filtered = filtered.filterBy('part', Skritter.user.getStudyParts());
             var item = filtered.at(0);
             return item;

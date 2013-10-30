@@ -116,7 +116,6 @@ define([
         resize: function() {
             var bottom = {width: this.$('#prompt-bottom').width(), height: this.$('#prompt-bottom').height()};
             if (Skritter.settings.get('orientation') === 'vertical') {
-                console.log(Skritter.settings.get('appHeight'), bottom.height);
                 this.$('#prompt-top').height(Skritter.settings.get('appHeight') - bottom.height);
             }
         },
