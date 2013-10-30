@@ -88,6 +88,14 @@ define([
                 expect(timeSeconds).toBeLessThan(timeMilliseconds);
             });
         });
+        describe('isKana', function() {
+            it('should return false if not a kana character', function() {
+                expect(Skritter.fn.isKana('男')).toBeFalsy();
+            });
+            it('should return true if giving a kana character', function() {
+                expect(Skritter.fn.isKana('の')).toBeTruthy();
+            });
+        });
         describe('maskText', function() {
             var masked = Functions.maskCharacters(1234512345, 12, 9);
             it('should be a string', function() {

@@ -127,7 +127,89 @@ define([
             version: this.version,
             upgrade: function(transaction) {
             },
-            schema: this.schemaIndexedDB
+            schema: {
+                1: function(transaction) {
+                    //decomps table
+                    var decomps = transaction.createObjectStore('decomps', {keyPath: 'writing'});
+                    decomps.createIndex('atomic', 'atomic');
+                    decomps.createIndex('Children', 'Children');
+                    //items table
+                    var items = transaction.createObjectStore('items', {keyPath: 'id'});
+                    items.createIndex('part', 'part');
+                    items.createIndex('vocabIds', 'vocabIds');
+                    items.createIndex('style', 'style');
+                    items.createIndex('timeStudied', 'timeStudied');
+                    items.createIndex('next', 'next');
+                    items.createIndex('last', 'last');
+                    items.createIndex('interval', 'interval');
+                    items.createIndex('vocabListIds', 'vocabListIds');
+                    items.createIndex('sectionIds', 'sectionIds');
+                    items.createIndex('reviews', 'reviews');
+                    items.createIndex('successes', 'successes');
+                    items.createIndex('created', 'created');
+                    items.createIndex('changed', 'changed');
+                    items.createIndex('previousSuccess', 'previousSuccess');
+                    items.createIndex('previousInterval', 'previousInterval');
+                    //log table
+                    var log = transaction.createObjectStore('log', {keyPath: 'id', autoIncrement: true});
+                    log.createIndex('userId', 'userId');
+                    log.createIndex('timestamp', 'timestamp');
+                    log.createIndex('data', 'data');
+                    //reviews table
+                    var reviews = transaction.createObjectStore('reviews', {keyPath: ['itemId', 'submitTime']});
+                    reviews.createIndex('score', 'score');
+                    reviews.createIndex('bearTime', 'bearTime');
+                    reviews.createIndex('reviewTime', 'reviewTime');
+                    reviews.createIndex('thinkingTime', 'thinkingTime');
+                    reviews.createIndex('currentInterval', 'currentInterval');
+                    reviews.createIndex('actualInterval', 'actualInterval');
+                    reviews.createIndex('newInterval', 'newInterval');
+                    reviews.createIndex('wordGroup', 'wordGroup');
+                    reviews.createIndex('previousInterval', 'previousInterval');
+                    reviews.createIndex('previousSuccess', 'previousSuccess');
+                    //sentences table
+                    var sentences = transaction.createObjectStore('sentences', {keyPath: 'id'});
+                    sentences.createIndex('containedVocabIds', 'containedVocabIds');
+                    sentences.createIndex('definitions', 'definitions');
+                    sentences.createIndex('lang', 'lang');
+                    sentences.createIndex('reading', 'reading');
+                    sentences.createIndex('starred', 'starred');
+                    sentences.createIndex('style', 'style');
+                    sentences.createIndex('toughness', 'toughness');
+                    sentences.createIndex('toughnessString', 'toughnessString');
+                    sentences.createIndex('writing', 'writing');
+                    //strokes table
+                    var strokes = transaction.createObjectStore('strokes', {keyPath: 'rune'});
+                    strokes.createIndex('lang', 'lang');
+                    strokes.createIndex('strokes', 'strokes');
+                    //srsconfigs table
+                    var srsconfigs = transaction.createObjectStore('srsconfigs', {keyPath: ['part', 'lang']});
+                    srsconfigs.createIndex('initialRightInterval', 'initialRightInterval');
+                    srsconfigs.createIndex('initialWrongInterval', 'initialWrongInterval');
+                    srsconfigs.createIndex('rightFactors', 'rightFactors');
+                    srsconfigs.createIndex('wrongFactors', 'wrongFactors');
+                    //vocabs table
+                    var vocabs = transaction.createObjectStore('vocabs', {keyPath: 'id'});
+                    vocabs.createIndex('writing', 'writing');
+                    vocabs.createIndex('reading', 'reading');
+                    vocabs.createIndex('definitions', 'definitions');
+                    vocabs.createIndex('customDefinitions', 'customDefinitions');
+                    vocabs.createIndex('lang', 'lang');
+                    vocabs.createIndex('audio', 'audio');
+                    vocabs.createIndex('rareKanji', 'rareKanji');
+                    vocabs.createIndex('toughness', 'toughness');
+                    vocabs.createIndex('toughnessString', 'toughnessString');
+                    vocabs.createIndex('mnemonic', 'mnemonic');
+                    vocabs.createIndex('starred', 'starred');
+                    vocabs.createIndex('style', 'style');
+                    vocabs.createIndex('changed', 'changed');
+                    vocabs.createIndex('bannedParts', 'bannedParts');
+                    vocabs.createIndex('containedVocabIds', 'containedVocabIds');
+                    vocabs.createIndex('heisigDefinition', 'heisigDefinition');
+                    vocabs.createIndex('sentenceId', 'sentenceId');
+                    vocabs.createIndex('topMnemonic', 'topMnemonic');
+                }
+            }
         });
         promise.fail(function(error) {
             console.error(error);
@@ -135,7 +217,7 @@ define([
                 self.openDatabase(databaseName, function() {
                     callback();
                 });
-            }, databaseName);           
+            }, databaseName);
         });
         promise.done(function(event) {
             self.database = event;
@@ -160,7 +242,7 @@ define([
             callback(event);
         });
     };
-    
+
     /**
      * @method removeItems
      * @param {String} tableName

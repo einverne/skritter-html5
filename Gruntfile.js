@@ -119,7 +119,7 @@ module.exports = function(grunt) {
                         'indexeddb.shim': '../lib/indexeddb.shim-0.1.2.min',
                         jquery: '../lib/jquery-1.10.2.min',
                         'jquery.hammer': '../lib/jquery.hammerjs-1.0.5.min',
-                        'jquery.indexeddb': '../lib/jquery.indexeddb',
+                        'jquery.indexeddb': '../lib/jquery.indexeddb.min',
                         lodash: '../lib/lodash.compat-2.2.1.min',
                         'require.text': '../lib/require.text-2.0.10'
                     },

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Sat Oct 26 2013 21:07:28 GMT+0800 (China Standard Time)
+# Time: Wed Oct 30 2013 17:30:20 GMT+0800 (China Standard Time)
 
 CACHE:
 index.html
@@ -35,6 +35,7 @@ js/app/collection/StudyStrokes.js
 js/app/collection/StudyVocabs.js
 js/app/model/Assets.js
 js/app/model/CanvasStroke.js
+js/app/model/LeapController.js
 js/app/model/LogItem.js
 js/app/model/Settings.js
 js/app/model/StudyDecomp.js
@@ -54,6 +55,8 @@ js/app/view/Login.js
 js/app/view/Options.js
 js/app/view/Study.js
 js/app/view/Vocab.js
+js/app/view/admin/RecogCanvas.js
+js/app/view/admin/RecogEditor.js
 js/app/view/component/Facade.js
 js/app/view/component/Timer.js
 js/app/view/component/Words.js
@@ -75,7 +78,8 @@ js/lib/createjs.tweenjs-0.5.0.min.js
 js/lib/indexeddb.shim-0.1.2.min.js
 js/lib/jquery-1.10.2.min.js
 js/lib/jquery.hammerjs-1.0.5.min.js
-js/lib/jquery.indexeddb.js
+js/lib/jquery.indexeddb.min.js
+js/lib/leap.min.js
 js/lib/lodash.compat-2.2.1.min.js
 js/lib/require-2.1.9.min.js
 js/lib/require.text-2.0.10.js
@@ -86,6 +90,7 @@ media/font/DFPKaiSho-Md.ttf
 media/font/glyphicons-halflings-regular.ttf
 media/font/simkai.ttf
 media/font/glyphicons-halflings-regular.woff
+template/admin-recog-editor.html
 template/grading-buttons.html
 template/home-in.html
 template/home-out.html
