@@ -108,6 +108,15 @@ define([
         filterActive: function() {
             //filter items based on the user parts study settings
             var filtered = this.filterBy('part', Skritter.user.getStudyParts());
+            //ISSUE #22: loads simplified and traditional chinese based on user settings
+            if (Skritter.user.getSetting('targetLang') === 'zh') {
+                var style = ['both'];
+                if (Skritter.user.getSetting('reviewSimplified'))
+                    style.push('simp');
+                if (Skritter.user.getSetting('reviewTraditional'))
+                    style.push('trad');
+                filtered = filtered.filterBy('style', style);
+            }
             filtered = filtered.filter(function(item) {
                 //must contain vocabIds otherwise it's just a placeholder
                 var contained = item.get('vocabIds');
@@ -157,6 +166,22 @@ define([
                 }
             }
             return items;
+        },
+        /**
+         * Returns a unique set of vocabs that are contained in all of the items.
+         * 
+         * @method getContainedVocabs
+         * @returns {Array}
+         */
+        getContainedVocabs: function() {
+            var containedVocabs = [];
+            for (var a in this.models) {
+                var vocabs = this.models[a].getVocabs();
+                for (var b in vocabs) {
+                    containedVocabs.push(vocabs[b]);
+                }
+            }
+            return _.uniq(containedVocabs);
         },
         /**
          * Returns items that are actively being studied and have a readiness value
@@ -210,6 +235,8 @@ define([
          */
         getNext: function() {
             var filtered = this.filterActive();
+            //TESTING: uncomment and adjust to filter and focus on specific items
+            //filtered = filtered.filterBy('id', 'mcfarljwtest1-ja-男の人-0-rune');
             filtered = filtered.filterBy('part', Skritter.user.getStudyParts());
             var item = filtered.at(0);
             return item;

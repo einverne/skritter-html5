@@ -1,6 +1,6 @@
 /**
  * @module Skritter
- * @submodule Facade
+ * @submodule Component
  * @author Joshua McFarland
  */
 define([
@@ -18,7 +18,7 @@ define([
          */
         el: $('#facade-container'),
         /**
-         * @property {String} template Contains the template format loaded into the dom
+         * @property {String} template
          */
         template: "<div id='facade-view'><div id='message-area'></div></div>",
         

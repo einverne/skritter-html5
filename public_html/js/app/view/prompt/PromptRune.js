@@ -185,8 +185,13 @@ define([
         },
         next: function() {
             console.log('next', Prompt.position, Prompt.vocabs[0].getCharacterCount());
-            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             Prompt.position++;
+            //ISSUE #27: skips kana characters in the vocabs writing string
+            if (Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1))) {
+                    this.next();
+                    return;
+                }
+            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             //check to see if there are more characters in the prompt
             if (Prompt.position <= Prompt.vocabs[0].getCharacterCount()) {
                 //reset the item for a new character
@@ -210,7 +215,7 @@ define([
             Skritter.timer.stop();
             Rune.canvas.disableInput();
             this.$('#writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            if (Prompt.position >= Prompt.vocabs[0].getCharacterCount())
+            if (Prompt.sentence && Prompt.position >= Prompt.vocabs[0].getCharacterCount())
                 this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence));
         },
         showHidden: function() {
@@ -226,7 +231,8 @@ define([
             this.$('#reading').text(PinyinConverter.toTone(Prompt.reading));
             this.$('#definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
-            this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
+            if (Prompt.sentence)
+                this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
         }
     });
 

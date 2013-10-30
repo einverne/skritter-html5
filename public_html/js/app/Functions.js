@@ -154,6 +154,29 @@ define(function() {
     };
 
     /**
+     * @method isKana
+     * @param {String} character
+     * @returns {undefined}
+     */
+    var isKana = function(character) {
+        var i = 0;
+        var p = document.createElement('p');
+        //hiragana entity code range
+        for (i=12353; i <= 12436; i++) {
+            p.innerHTML = '&#'+i;
+            if (p.innerHTML === character)
+                return true;
+        }
+        //katakana entity code range
+        for (i=12449; i <= 12539; i++) {
+            p.innerHTML = '&#'+i;
+            if (p.innerHTML === character)
+                return true;
+        }
+        return false;
+    };
+
+    /**
      * @method maskText
      * @param {String} text The text to be masked
      * @param {String} value The value in the text to mask
@@ -197,6 +220,7 @@ define(function() {
         getPressurizedStrokeSize: getPressurizedStrokeSize,
         getRandomInt: getRandomInt,
         getUnixTime: getUnixTime,
+        isKana: isKana,
         maskCharacters: maskCharacters,
         pad: pad
     };

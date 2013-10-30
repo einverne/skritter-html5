@@ -38,8 +38,10 @@ define([
         loadEntries: function() {
             this.$('#entries').html('');
             var lang = Skritter.user.getSetting('sourceLang');
-            for (var i in Skritter.study.vocabs.models) {
-                var vocab = Skritter.study.vocabs.models[i];
+            var items = Skritter.study.items.filterActive();
+            var vocabs = items.getContainedVocabs();
+            for (var i in vocabs) {
+                var vocab = vocabs[i];
                 
                 var div = "<div id='" + vocab.get('id') + "' class='entry'>" + 
                         "<div id='writing'>" + vocab.get('writing') + "</div>" +

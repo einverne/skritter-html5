@@ -47,6 +47,15 @@ define([
             return new createjs.Sprite(Assets.strokes, 's' + bitmapId);
         },
         /**
+         * Returns the current instance of the stroke spritesheet.
+         * 
+         * @method getStrokeSpriteSheet
+         * @returns {SpriteSheet}
+         */
+        getStrokeSpriteSheet: function() {
+            return Assets.strokes;
+        },
+        /**
          * Loads the strokes as a spritesheet and returns a callback once they have been preloaded.
          * 
          * @method loadStrokes

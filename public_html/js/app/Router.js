@@ -16,8 +16,9 @@ define([
     'view/Options',
     'view/Study',
     'view/Vocab',
+    'view/admin/RecogEditor',
     'backbone'
-], function(HomeView, InfoView, LoginView, OptionsView, StudyView, VocabView) {
+], function(HomeView, InfoView, LoginView, OptionsView, StudyView, VocabView, RecogEditor) {
     /**
      * @class Router
      */
@@ -31,6 +32,7 @@ define([
             'login': 'loginView',
             'logout': 'logout',
             'options': 'optionsView',
+            'recog/editor': 'recogEditorView',
             'study': 'studyView',
             'vocab': 'vocabView'
         },
@@ -83,6 +85,16 @@ define([
                 Router.optionsView = new OptionsView({el: $(Skritter.settings.get('container'))}).render();
             } else {
                 Router.optionsView.setElement($(Skritter.settings.get('container'))).render();
+            }
+        },
+        /**
+         * @method recogEditorView
+         */
+        recogEditorView: function() {
+            if (!Router.recogEditorView) {
+                Router.recogEditorView = new RecogEditor({el: $(Skritter.settings.get('container'))}).render();
+            } else {
+                Router.recogEditorView.setElement($(Skritter.settings.get('container'))).render();
             }
         },
         /**

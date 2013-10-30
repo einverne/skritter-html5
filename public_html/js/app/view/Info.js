@@ -85,7 +85,8 @@ define([
         events: {
             'click.Info #ban-button': 'toggleBanned',
 	    'click.Info #close-button': 'goBack',
-	    'click.Info #star-button': 'toggleStarred'
+	    'click.Info #star-button': 'toggleStarred',
+            'click.Info #audio-button': 'playAudio'
 	},
         /**
          * @method goBack
@@ -102,6 +103,12 @@ define([
             Info.vocab = Skritter.study.vocabs.findWhere({id: id});
 	    if (Info.vocab.get('sentenceId'))
 		Info.sentence = Skritter.study.sentences.findWhere({id: Info.vocab.get('sentenceId')});
+        },
+        /**
+         * @method playAudio
+         */
+        playAudio: function() {
+            Info.vocab.play();
         },
         /**
          * @method toggleBanned
