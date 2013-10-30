@@ -60,6 +60,9 @@ require.text!template/vocab-words.html
 js/app/view/component/Words.js
 require.text!template/vocab.html
 js/app/view/Vocab.js
+js/app/view/admin/RecogCanvas.js
+require.text!template/admin-recog-editor.html
+js/app/view/admin/RecogEditor.js
 js/app/Router.js
 js/app/view/component/Facade.js
 js/app/view/component/Timer.js

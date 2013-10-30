@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.50</em>
+            <em>API Docs for: 0.0.51</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,6 +87,8 @@
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
             
+                <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
+            
                 <li><a href="../classes/Recognizer.html">Recognizer</a></li>
             
                 <li><a href="../classes/Router.html">Router</a></li>
@@ -148,8 +150,6 @@
                 <li><a href="../modules/Collection.html">Collection</a></li>
             
                 <li><a href="../modules/Component.html">Component</a></li>
-            
-                <li><a href="../modules/Facade.html">Facade</a></li>
             
                 <li><a href="../modules/Model.html">Model</a></li>
             
@@ -287,7 +287,8 @@ define([
         events: {
             &#x27;click.Info #ban-button&#x27;: &#x27;toggleBanned&#x27;,
 	    &#x27;click.Info #close-button&#x27;: &#x27;goBack&#x27;,
-	    &#x27;click.Info #star-button&#x27;: &#x27;toggleStarred&#x27;
+	    &#x27;click.Info #star-button&#x27;: &#x27;toggleStarred&#x27;,
+            &#x27;click.Info #audio-button&#x27;: &#x27;playAudio&#x27;
 	},
         /**
          * @method goBack
@@ -304,6 +305,12 @@ define([
             Info.vocab = Skritter.study.vocabs.findWhere({id: id});
 	    if (Info.vocab.get(&#x27;sentenceId&#x27;))
 		Info.sentence = Skritter.study.sentences.findWhere({id: Info.vocab.get(&#x27;sentenceId&#x27;)});
+        },
+        /**
+         * @method playAudio
+         */
+        playAudio: function() {
+            Info.vocab.play();
         },
         /**
          * @method toggleBanned

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public_html\js\app\view\prompt\PromptDefn.js - Skritter HTML5: Documentation</title>
+    <title>public_html\js\app\view\admin\RecogEditor.js - Skritter HTML5: Documentation</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -196,73 +196,62 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: public_html\js\app\view\prompt\PromptDefn.js</h1>
+                        <h1 class="file-heading">File: public_html\js\app\view\admin\RecogEditor.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
  * @module Skritter
- * @submodule Prompt
+ * @param RecogCanvas
+ * @param templateRecogEditor
  * @author Joshua McFarland
  */
 define([
-    &#x27;PinyinConverter&#x27;,
-    &#x27;prompt/Prompt&#x27;,
-    &#x27;require.text!template/prompt-defn.html&#x27;,
-    &#x27;backbone&#x27;,
-    &#x27;jquery.hammer&#x27;
-], function(PinyinConverter, Prompt, templateDefn) {
+    &#x27;view/admin/RecogCanvas&#x27;,
+    &#x27;require.text!template/admin-recog-editor.html&#x27;,
+    &#x27;backbone&#x27;
+], function(RecogCanvas, templateRecogEditor) {
     /**
-     * @class PromptDefn
+     * @class RecogEditor
      */
-    var Defn = Prompt.extend({
+    var Editor = Backbone.View.extend({
         initialize: function() {
-            Prompt.prototype.initialize.call(this);
-            Skritter.timer.setReviewLimit(30000);
-            Skritter.timer.setThinkingLimit(15000);
+            Editor.canvas = new RecogCanvas();
+            Editor.strokes = Skritter.assets.getStrokeSpriteSheet();
         },
         render: function() {
-            this.$el.html(templateDefn);
+            this.$el.html(templateRecogEditor);
+            this.populateStrokeList();
+            Editor.canvas.setElement(this.$(&#x27;#canvas-container&#x27;)).render();
             this.resize();
             return this;
         },
-        handleClick: function() {
-            Prompt.finished = true;
-            this.showGrading();
-            this.showAnswer();
+        load: function(strokeId, paramId) {
+            
         },
-        handleGradeSelected: function(selected) {
-            Prompt.grade = selected;
-            this.next();
+        populateParamList: function(strokeId) {
+            
         },
-        next: function() {
-            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
-            this.triggerPromptComplete();
+        populateStrokeList: function() {
+            var strokeIds = Editor.strokes.getAnimations();
+            for (var i in strokeIds) {
+                strokeIds[i] = Skritter.fn.pad(strokeIds[i].replace(&#x27;s&#x27;, &#x27;&#x27;), 0, 4);
+            }
+            strokeIds.sort();
+            for (i in strokeIds) {
+                this.$(&#x27;#stroke-list .panel-body&#x27;).append(&quot;&lt;div id=&#x27;stroke-&quot; + strokeIds[i].replace(/0/g, &#x27;&#x27;) + &quot;&#x27;&gt;&quot; + strokeIds[i] + &quot;&lt;/div&gt;&quot;);
+            }
+            
         },
-        showAnswer: function() {
-            Skritter.timer.stop();
-            this.$(&#x27;#reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));
-            this.$(&#x27;#definition&#x27;).text(Prompt.definition);
-            this.$(&#x27;#sentence&#x27;).text(Prompt.sentence);
-            this.$(&#x27;#prompt-tip&#x27;).hide();
-            //play the audio file when answer is shown
-            if (Prompt.vocabs[0].has(&#x27;audio&#x27;) &amp;&amp; Skritter.user.get(&#x27;audio&#x27;))
-                Prompt.vocabs[0].play();
-        },
-        
-        showHidden: function() {
-            console.log(&#x27;Prompt&#x27;, &#x27;DEFN&#x27;, Prompt.vocabs[0].get(&#x27;writing&#x27;));
-            Skritter.timer.start();
-            this.$(&#x27;#writing&#x27;).text(Prompt.writing);
-            this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
-            this.$(&#x27;#definition&#x27;).text(&quot;What&#x27;s the definition?&quot;);
-            this.$(&#x27;#prompt-tip&#x27;).text(&quot;(Click to show answer)&quot;);
-            this.$(&#x27;#canvas-container&#x27;).hammer().one(&#x27;click.Defn&#x27;, _.bind(this.handleClick, this));
+        resize: function() {
+            this.$(&#x27;#canvas-container&#x27;).width(Skritter.settings.get(&#x27;canvasSize&#x27;));
+            this.$(&#x27;#stroke-list .panel-body&#x27;).height(this.$el.height() - 100);
+            this.$(&#x27;#param-list .panel-body&#x27;).height(this.$el.height() - 100);
         }
     });
-
-
-    return Defn;
+    
+    
+    return Editor;
 });
     </pre>
 </div>

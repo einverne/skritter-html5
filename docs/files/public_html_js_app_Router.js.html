@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.50</em>
+            <em>API Docs for: 0.0.51</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,6 +87,8 @@
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
             
+                <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
+            
                 <li><a href="../classes/Recognizer.html">Recognizer</a></li>
             
                 <li><a href="../classes/Router.html">Router</a></li>
@@ -148,8 +150,6 @@
                 <li><a href="../modules/Collection.html">Collection</a></li>
             
                 <li><a href="../modules/Component.html">Component</a></li>
-            
-                <li><a href="../modules/Facade.html">Facade</a></li>
             
                 <li><a href="../modules/Model.html">Model</a></li>
             
@@ -218,8 +218,9 @@ define([
     &#x27;view/Options&#x27;,
     &#x27;view/Study&#x27;,
     &#x27;view/Vocab&#x27;,
+    &#x27;view/admin/RecogEditor&#x27;,
     &#x27;backbone&#x27;
-], function(HomeView, InfoView, LoginView, OptionsView, StudyView, VocabView) {
+], function(HomeView, InfoView, LoginView, OptionsView, StudyView, VocabView, RecogEditor) {
     /**
      * @class Router
      */
@@ -233,6 +234,7 @@ define([
             &#x27;login&#x27;: &#x27;loginView&#x27;,
             &#x27;logout&#x27;: &#x27;logout&#x27;,
             &#x27;options&#x27;: &#x27;optionsView&#x27;,
+            &#x27;recog/editor&#x27;: &#x27;recogEditorView&#x27;,
             &#x27;study&#x27;: &#x27;studyView&#x27;,
             &#x27;vocab&#x27;: &#x27;vocabView&#x27;
         },
@@ -285,6 +287,16 @@ define([
                 Router.optionsView = new OptionsView({el: $(Skritter.settings.get(&#x27;container&#x27;))}).render();
             } else {
                 Router.optionsView.setElement($(Skritter.settings.get(&#x27;container&#x27;))).render();
+            }
+        },
+        /**
+         * @method recogEditorView
+         */
+        recogEditorView: function() {
+            if (!Router.recogEditorView) {
+                Router.recogEditorView = new RecogEditor({el: $(Skritter.settings.get(&#x27;container&#x27;))}).render();
+            } else {
+                Router.recogEditorView.setElement($(Skritter.settings.get(&#x27;container&#x27;))).render();
             }
         },
         /**

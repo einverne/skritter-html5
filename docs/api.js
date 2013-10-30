@@ -24,6 +24,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "PromptRdng",
         "PromptRune",
         "PromptTone",
+        "RecogEditor",
         "Recognizer",
         "Router",
         "Scheduler",
@@ -55,7 +56,6 @@ YUI.add("yuidoc-meta", function(Y) {
     "modules": [
         "Collection",
         "Component",
-        "Facade",
         "Model",
         "Prompt",
         "Skritter",
@@ -70,10 +70,6 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Component",
             "name": "Component"
-        },
-        {
-            "displayName": "Facade",
-            "name": "Facade"
         },
         {
             "displayName": "Model",

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public_html\js\app\view\prompt\PromptDefn.js - Skritter HTML5: Documentation</title>
+    <title>RecogEditor - Skritter HTML5: Documentation</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -196,75 +196,66 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: public_html\js\app\view\prompt\PromptDefn.js</h1>
+                        <h1>RecogEditor Class</h1>
+<div class="box meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
- * @module Skritter
- * @submodule Prompt
- * @author Joshua McFarland
- */
-define([
-    &#x27;PinyinConverter&#x27;,
-    &#x27;prompt/Prompt&#x27;,
-    &#x27;require.text!template/prompt-defn.html&#x27;,
-    &#x27;backbone&#x27;,
-    &#x27;jquery.hammer&#x27;
-], function(PinyinConverter, Prompt, templateDefn) {
-    /**
-     * @class PromptDefn
-     */
-    var Defn = Prompt.extend({
-        initialize: function() {
-            Prompt.prototype.initialize.call(this);
-            Skritter.timer.setReviewLimit(30000);
-            Skritter.timer.setThinkingLimit(15000);
-        },
-        render: function() {
-            this.$el.html(templateDefn);
-            this.resize();
-            return this;
-        },
-        handleClick: function() {
-            Prompt.finished = true;
-            this.showGrading();
-            this.showAnswer();
-        },
-        handleGradeSelected: function(selected) {
-            Prompt.grade = selected;
-            this.next();
-        },
-        next: function() {
-            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
-            this.triggerPromptComplete();
-        },
-        showAnswer: function() {
-            Skritter.timer.stop();
-            this.$(&#x27;#reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));
-            this.$(&#x27;#definition&#x27;).text(Prompt.definition);
-            this.$(&#x27;#sentence&#x27;).text(Prompt.sentence);
-            this.$(&#x27;#prompt-tip&#x27;).hide();
-            //play the audio file when answer is shown
-            if (Prompt.vocabs[0].has(&#x27;audio&#x27;) &amp;&amp; Skritter.user.get(&#x27;audio&#x27;))
-                Prompt.vocabs[0].play();
-        },
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="../files/public_html_js_app_view_admin_RecogEditor.js.html#l12"><code>public_html\js\app\view\admin\RecogEditor.js:12</code></a>
+        </div>
+    
+
+    
         
-        showHidden: function() {
-            console.log(&#x27;Prompt&#x27;, &#x27;DEFN&#x27;, Prompt.vocabs[0].get(&#x27;writing&#x27;));
-            Skritter.timer.start();
-            this.$(&#x27;#writing&#x27;).text(Prompt.writing);
-            this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
-            this.$(&#x27;#definition&#x27;).text(&quot;What&#x27;s the definition?&quot;);
-            this.$(&#x27;#prompt-tip&#x27;).text(&quot;(Click to show answer)&quot;);
-            this.$(&#x27;#canvas-container&#x27;).hammer().one(&#x27;click.Defn&#x27;, _.bind(this.handleClick, this));
-        }
-    });
+            Module: <a href="../modules/Skritter.html">Skritter</a>
+        
+    
+
+    
+</div>
 
 
-    return Defn;
-});
-    </pre>
+
+<div class="box intro">
+    
+</div>
+
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+
+        
+
+        
+
+        
+    </div>
 </div>
 
                     </div>

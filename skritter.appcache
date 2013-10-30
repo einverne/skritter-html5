@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Wed Oct 30 2013 10:24:46 GMT+0800 (China Standard Time)
+# Time: Wed Oct 30 2013 15:33:49 GMT+0800 (China Standard Time)
 
 CACHE:
 index.html
@@ -23,6 +23,7 @@ media/font/DFPKaiSho-Md.ttf
 media/font/glyphicons-halflings-regular.ttf
 media/font/simkai.ttf
 media/font/glyphicons-halflings-regular.woff
+template/admin-recog-editor.html
 template/grading-buttons.html
 template/home-in.html
 template/home-out.html

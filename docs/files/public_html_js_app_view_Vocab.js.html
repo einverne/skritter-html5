@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.50</em>
+            <em>API Docs for: 0.0.51</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,6 +87,8 @@
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
             
+                <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
+            
                 <li><a href="../classes/Recognizer.html">Recognizer</a></li>
             
                 <li><a href="../classes/Router.html">Router</a></li>
@@ -148,8 +150,6 @@
                 <li><a href="../modules/Collection.html">Collection</a></li>
             
                 <li><a href="../modules/Component.html">Component</a></li>
-            
-                <li><a href="../modules/Facade.html">Facade</a></li>
             
                 <li><a href="../modules/Model.html">Model</a></li>
             
@@ -240,8 +240,10 @@ define([
         loadEntries: function() {
             this.$(&#x27;#entries&#x27;).html(&#x27;&#x27;);
             var lang = Skritter.user.getSetting(&#x27;sourceLang&#x27;);
-            for (var i in Skritter.study.vocabs.models) {
-                var vocab = Skritter.study.vocabs.models[i];
+            var items = Skritter.study.items.filterActive();
+            var vocabs = items.getContainedVocabs();
+            for (var i in vocabs) {
+                var vocab = vocabs[i];
                 
                 var div = &quot;&lt;div id=&#x27;&quot; + vocab.get(&#x27;id&#x27;) + &quot;&#x27; class=&#x27;entry&#x27;&gt;&quot; + 
                         &quot;&lt;div id=&#x27;writing&#x27;&gt;&quot; + vocab.get(&#x27;writing&#x27;) + &quot;&lt;/div&gt;&quot; +

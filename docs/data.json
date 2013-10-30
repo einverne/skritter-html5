@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.50"
+        "version": "0.0.51"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -245,10 +245,26 @@
             "fors": {},
             "namespaces": {}
         },
+        "public_html\\js\\app\\view\\admin\\RecogCanvas.js": {
+            "name": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "public_html\\js\\app\\view\\admin\\RecogEditor.js": {
+            "name": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "modules": {},
+            "classes": {
+                "RecogEditor": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "public_html\\js\\app\\view\\component\\Facade.js": {
             "name": "public_html\\js\\app\\view\\component\\Facade.js",
             "modules": {
-                "Facade": 1
+                "Component": 1
             },
             "classes": {
                 "Facade": 1
@@ -258,9 +274,7 @@
         },
         "public_html\\js\\app\\view\\component\\Timer.js": {
             "name": "public_html\\js\\app\\view\\component\\Timer.js",
-            "modules": {
-                "Component": 1
-            },
+            "modules": {},
             "classes": {
                 "Timer": 1
             },
@@ -486,7 +500,6 @@
                 "Collection": 1,
                 "Model": 1,
                 "Storage": 1,
-                "Facade": 1,
                 "Component": 1,
                 "View": 1,
                 "Prompt": 1
@@ -517,6 +530,7 @@
                 "User": 1,
                 "IndexedDBAdapter": 1,
                 "Storage": 1,
+                "RecogEditor": 1,
                 "Facade": 1,
                 "Timer": 1,
                 "Words": 1,
@@ -549,13 +563,13 @@
             "file": "public_html\\js\\app\\StrokeMap.js",
             "line": 6,
             "author": "Joshua McFarland",
-            "submobule": "Prompt",
             "params": [
                 {
-                    "name": "GradingButtons",
+                    "name": "PromptCanvas",
                     "description": ""
                 }
-            ]
+            ],
+            "submobule": "Prompt"
         },
         "Collection": {
             "name": "Collection",
@@ -642,25 +656,11 @@
             "author": "Joshua McFarland",
             "description": "A data adapter for IndexedDB which uses the a jQuery plugin written by nparashuram.\nIt extends the Storage class to get the generic database structure and version.\nhttps://github.com/axemclion/jquery-indexeddb/"
         },
-        "Facade": {
-            "name": "Facade",
-            "submodules": {},
-            "classes": {
-                "Facade": 1
-            },
-            "fors": {},
-            "is_submodule": 1,
-            "namespaces": {},
-            "module": "Skritter",
-            "namespace": "",
-            "file": "public_html\\js\\app\\view\\component\\Facade.js",
-            "line": 9,
-            "author": "Joshua McFarland"
-        },
         "Component": {
             "name": "Component",
             "submodules": {},
             "classes": {
+                "Facade": 1,
                 "Timer": 1
             },
             "fors": {},
@@ -690,7 +690,7 @@
             "module": "Skritter",
             "namespace": "",
             "file": "public_html\\js\\app\\Router.js",
-            "line": 21,
+            "line": 22,
             "params": [
                 {
                     "name": "templateVocabWords",
@@ -1081,6 +1081,19 @@
             "description": "This is a parent class used to store generic information about the database structure.",
             "is_constructor": 1
         },
+        "RecogEditor": {
+            "name": "RecogEditor",
+            "shortname": "RecogEditor",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Skritter",
+            "namespace": "",
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 12
+        },
         "Facade": {
             "name": "Facade",
             "shortname": "Facade",
@@ -1090,7 +1103,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "Skritter",
-            "submodule": "Facade",
+            "submodule": "Component",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 9
@@ -1414,7 +1427,7 @@
             "submodule": "View",
             "namespace": "",
             "file": "public_html\\js\\app\\Router.js",
-            "line": 21
+            "line": 22
         },
         "Scheduler": {
             "name": "Scheduler",
@@ -1738,7 +1751,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 124,
+            "line": 133,
             "itemtype": "method",
             "name": "filterBy",
             "params": [
@@ -1768,7 +1781,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 140,
+            "line": 149,
             "itemtype": "method",
             "name": "getContainedItemIds",
             "return": {
@@ -1781,7 +1794,21 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 161,
+            "line": 170,
+            "description": "Returns a unique set of vocabs that are contained in all of the items.",
+            "itemtype": "method",
+            "name": "getContainedVocabs",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "StudyItems",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\StudyItems.js",
+            "line": 186,
             "description": "Returns items that are actively being studied and have a readiness value\ngreater than or equal to 1.",
             "itemtype": "method",
             "name": "getItemsDue",
@@ -1795,7 +1822,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 178,
+            "line": 203,
             "description": "Returns the number of items that are currently due. Optionally it can include contained items for\nthose rune and tone items. Returning the contained items is probably a better representation of\nthe actual amount of work that needs to be done.",
             "itemtype": "method",
             "name": "getDueCount",
@@ -1816,7 +1843,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 204,
+            "line": 229,
             "description": "Returns the item at the top of the sorted collection only including\nitems that are actively being studied.",
             "itemtype": "method",
             "name": "getNext",
@@ -1830,7 +1857,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 217,
+            "line": 244,
             "description": "Returns a random active study item.",
             "itemtype": "method",
             "name": "getRandom",
@@ -2295,6 +2322,20 @@
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
             "line": 49,
+            "description": "Returns the current instance of the stroke spritesheet.",
+            "itemtype": "method",
+            "name": "getStrokeSpriteSheet",
+            "return": {
+                "description": "",
+                "type": "SpriteSheet"
+            },
+            "class": "Assets",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\Assets.js",
+            "line": 58,
             "description": "Loads the strokes as a spritesheet and returns a callback once they have been preloaded.",
             "itemtype": "method",
             "name": "loadStrokes",
@@ -3540,6 +3581,13 @@
             "submodule": "Storage"
         },
         {
+            "file": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
+            "line": 9,
+            "description": "RecogCanvas",
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
             "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 16,
             "itemtype": "property",
@@ -3547,17 +3595,17 @@
             "type": "Element",
             "class": "Facade",
             "module": "Skritter",
-            "submodule": "Facade"
+            "submodule": "Component"
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Facade.js",
             "line": 20,
             "itemtype": "property",
-            "name": "template Contains the template format loaded into the dom",
+            "name": "template",
             "type": "String",
             "class": "Facade",
             "module": "Skritter",
-            "submodule": "Facade"
+            "submodule": "Component"
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Facade.js",
@@ -3570,7 +3618,7 @@
             },
             "class": "Facade",
             "module": "Skritter",
-            "submodule": "Facade"
+            "submodule": "Component"
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Facade.js",
@@ -3579,7 +3627,7 @@
             "name": "hide",
             "class": "Facade",
             "module": "Skritter",
-            "submodule": "Facade"
+            "submodule": "Component"
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Facade.js",
@@ -3599,7 +3647,7 @@
             },
             "class": "Facade",
             "module": "Skritter",
-            "submodule": "Facade"
+            "submodule": "Component"
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Facade.js",
@@ -3619,7 +3667,7 @@
             },
             "class": "Facade",
             "module": "Skritter",
-            "submodule": "Facade"
+            "submodule": "Component"
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Timer.js",
@@ -4259,7 +4307,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Info.js",
-            "line": 90,
+            "line": 91,
             "itemtype": "method",
             "name": "goBack",
             "class": "InfoView",
@@ -4268,7 +4316,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Info.js",
-            "line": 96,
+            "line": 97,
             "itemtype": "method",
             "name": "load",
             "params": [
@@ -4284,7 +4332,16 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Info.js",
-            "line": 106,
+            "line": 107,
+            "itemtype": "method",
+            "name": "playAudio",
+            "class": "InfoView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Info.js",
+            "line": 113,
             "itemtype": "method",
             "name": "toggleBanned",
             "class": "InfoView",
@@ -4293,7 +4350,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Info.js",
-            "line": 118,
+            "line": 125,
             "itemtype": "method",
             "name": "toggleStarred",
             "class": "InfoView",
@@ -4534,7 +4591,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Vocab.js",
-            "line": 53,
+            "line": 55,
             "itemtype": "method",
             "name": "toInfo",
             "params": [
@@ -5239,6 +5296,25 @@
             "file": "public_html\\js\\app\\Functions.js",
             "line": 156,
             "itemtype": "method",
+            "name": "isKana",
+            "params": [
+                {
+                    "name": "character",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": "Functions",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\Functions.js",
+            "line": 179,
+            "itemtype": "method",
             "name": "maskText",
             "params": [
                 {
@@ -5266,7 +5342,7 @@
         },
         {
             "file": "public_html\\js\\app\\Functions.js",
-            "line": 175,
+            "line": 198,
             "itemtype": "method",
             "name": "pad",
             "params": [
@@ -5469,7 +5545,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 25,
+            "line": 26,
             "itemtype": "property",
             "name": "routes",
             "type": "Object",
@@ -5479,7 +5555,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 37,
+            "line": 39,
             "itemtype": "method",
             "name": "homeView",
             "class": "Router",
@@ -5488,7 +5564,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 47,
+            "line": 49,
             "itemtype": "method",
             "name": "infoView",
             "params": [
@@ -5504,7 +5580,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 62,
+            "line": 64,
             "itemtype": "method",
             "name": "logout",
             "class": "Router",
@@ -5513,7 +5589,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 68,
+            "line": 70,
             "itemtype": "method",
             "name": "loginView",
             "class": "Router",
@@ -5522,7 +5598,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 78,
+            "line": 80,
             "itemtype": "method",
             "name": "optionsView",
             "class": "Router",
@@ -5531,7 +5607,16 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 88,
+            "line": 90,
+            "itemtype": "method",
+            "name": "recogEditorView",
+            "class": "Router",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\Router.js",
+            "line": 100,
             "itemtype": "method",
             "name": "studyView",
             "class": "Router",
@@ -5540,7 +5625,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 98,
+            "line": 110,
             "itemtype": "method",
             "name": "vocabView",
             "class": "Router",
@@ -5549,7 +5634,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 110,
+            "line": 122,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -5633,27 +5718,31 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:124"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:133"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:140"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:149"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:161"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:170"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:178"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:186"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:204"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:203"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:217"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:229"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:244"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5710,6 +5799,10 @@
         {
             "message": "replacing incorrect tag: returns with return",
             "line": " public_html\\js\\app\\collection\\StudyVocabs.js:42"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\model\\Assets.js:49"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5829,6 +5922,10 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\Functions.js:156"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
             "line": " public_html\\js\\app\\Mauler.js:9"
         },
         {
@@ -5878,6 +5975,10 @@
         {
             "message": "Missing item type",
             "line": " public_html\\js\\app\\model\\CanvasStroke.js:158"
+        },
+        {
+            "message": "Missing item type\nRecogCanvas",
+            "line": " public_html\\js\\app\\view\\admin\\RecogCanvas.js:9"
         },
         {
             "message": "Missing item type\nUsed to start, stop and calculate accurate durations of time     .",

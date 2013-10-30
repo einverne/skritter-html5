@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.50</em>
+            <em>API Docs for: 0.0.51</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,6 +87,8 @@
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
             
+                <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
+            
                 <li><a href="../classes/Recognizer.html">Recognizer</a></li>
             
                 <li><a href="../classes/Router.html">Router</a></li>
@@ -148,8 +150,6 @@
                 <li><a href="../modules/Collection.html">Collection</a></li>
             
                 <li><a href="../modules/Component.html">Component</a></li>
-            
-                <li><a href="../modules/Facade.html">Facade</a></li>
             
                 <li><a href="../modules/Model.html">Model</a></li>
             
@@ -310,6 +310,15 @@ define([
         filterActive: function() {
             //filter items based on the user parts study settings
             var filtered = this.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
+            //ISSUE #22: loads simplified and traditional chinese based on user settings
+            if (Skritter.user.getSetting(&#x27;targetLang&#x27;) === &#x27;zh&#x27;) {
+                var style = [&#x27;both&#x27;];
+                if (Skritter.user.getSetting(&#x27;reviewSimplified&#x27;))
+                    style.push(&#x27;simp&#x27;);
+                if (Skritter.user.getSetting(&#x27;reviewTraditional&#x27;))
+                    style.push(&#x27;trad&#x27;);
+                filtered = filtered.filterBy(&#x27;style&#x27;, style);
+            }
             filtered = filtered.filter(function(item) {
                 //must contain vocabIds otherwise it&#x27;s just a placeholder
                 var contained = item.get(&#x27;vocabIds&#x27;);
@@ -359,6 +368,22 @@ define([
                 }
             }
             return items;
+        },
+        /**
+         * Returns a unique set of vocabs that are contained in all of the items.
+         * 
+         * @method getContainedVocabs
+         * @returns {Array}
+         */
+        getContainedVocabs: function() {
+            var containedVocabs = [];
+            for (var a in this.models) {
+                var vocabs = this.models[a].getVocabs();
+                for (var b in vocabs) {
+                    containedVocabs.push(vocabs[b]);
+                }
+            }
+            return _.uniq(containedVocabs);
         },
         /**
          * Returns items that are actively being studied and have a readiness value
@@ -412,6 +437,8 @@ define([
          */
         getNext: function() {
             var filtered = this.filterActive();
+            //TESTING: uncomment and adjust to filter and focus on specific items
+            //filtered = filtered.filterBy(&#x27;id&#x27;, &#x27;mcfarljwtest1-ja-男の人-0-rune&#x27;);
             filtered = filtered.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
             var item = filtered.at(0);
             return item;

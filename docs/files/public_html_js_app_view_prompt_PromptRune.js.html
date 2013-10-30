@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.50</em>
+            <em>API Docs for: 0.0.51</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,6 +87,8 @@
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
             
+                <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
+            
                 <li><a href="../classes/Recognizer.html">Recognizer</a></li>
             
                 <li><a href="../classes/Router.html">Router</a></li>
@@ -148,8 +150,6 @@
                 <li><a href="../modules/Collection.html">Collection</a></li>
             
                 <li><a href="../modules/Component.html">Component</a></li>
-            
-                <li><a href="../modules/Facade.html">Facade</a></li>
             
                 <li><a href="../modules/Model.html">Model</a></li>
             
@@ -387,8 +387,13 @@ define([
         },
         next: function() {
             console.log(&#x27;next&#x27;, Prompt.position, Prompt.vocabs[0].getCharacterCount());
-            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             Prompt.position++;
+            //ISSUE #27: skips kana characters in the vocabs writing string
+            if (Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1))) {
+                    this.next();
+                    return;
+                }
+            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             //check to see if there are more characters in the prompt
             if (Prompt.position &lt;= Prompt.vocabs[0].getCharacterCount()) {
                 //reset the item for a new character
@@ -412,7 +417,7 @@ define([
             Skritter.timer.stop();
             Rune.canvas.disableInput();
             this.$(&#x27;#writing&#x27;).html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            if (Prompt.position &gt;= Prompt.vocabs[0].getCharacterCount())
+            if (Prompt.sentence &amp;&amp; Prompt.position &gt;= Prompt.vocabs[0].getCharacterCount())
                 this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence));
         },
         showHidden: function() {
@@ -428,7 +433,8 @@ define([
             this.$(&#x27;#reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));
             this.$(&#x27;#definition&#x27;).text(Prompt.definition);
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
-            this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, &#x27; _ &#x27;));
+            if (Prompt.sentence)
+                this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, &#x27; _ &#x27;));
         }
     });
 
