@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.49</em>
+            <em>API Docs for: 0.0.50</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -255,7 +255,7 @@ define([
                 var z = finger.tipPosition[2];
                 var speed;
                 //checks to make sure the pointer is within screen bounds
-                if (x &gt;= 0 &amp;&amp; x &lt;= 300 &amp;&amp; y &gt;= 0 &amp;&amp; y &lt;= 250) {
+                if (x &gt;= 0 &amp;&amp; x &lt;= 300 &amp;&amp; y &gt;= 0 &amp;&amp; y &lt;= 250 &amp;&amp; z &gt; -75) {
                     x = (x * LeapController.canvasSize) / 300;
                     y = (y * LeapController.canvasSize) / 250;
                     this.triggerMove(new createjs.Point(x, y));
@@ -270,7 +270,7 @@ define([
                         //not drawing fast enough or stroke finished
                         if (LeapController.waitingCounter &gt; 30) {
                             if (LeapController.points.length &gt;= 5) {
-                                this.triggerGestureComplete(LeapController.points);
+                                this.triggerStrokeComplete(LeapController.points);
                             }
                             LeapController.points = [];
                         }
@@ -285,8 +285,8 @@ define([
          * @method triggerGestureComplete
          * @param {Array} points
          */
-        triggerGestureComplete: function(points) {
-            this.trigger(&#x27;gestureComplete&#x27;, points);
+        triggerStrokeComplete: function(points) {
+            this.trigger(&#x27;strokeComplete&#x27;, points);
         },
         /**
          * @method triggerMove

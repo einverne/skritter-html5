@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.49</em>
+            <em>API Docs for: 0.0.50</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -562,7 +562,8 @@ define([
                             size += result.responseSize;
                             if (accountDownload)
                                 Skritter.facade.show(&#x27;initial download &lt;br /&gt;&#x27; + Skritter.fn.bytesToSize(size));
-                            Skritter.study.decomps.add(result.Decomps);
+                            //ISSUE #20: decomps is returning a null value in the resulting array
+                            Skritter.study.decomps.add(_.compact(result.Decomps));
                             Skritter.study.items.add(result.Items);
                             Skritter.study.srsconfigs.add(result.SRSConfigs);
                             Skritter.study.sentences.add(result.Sentences);

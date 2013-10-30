@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.49"
+        "version": "0.0.50"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -3228,7 +3228,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 441,
+            "line": 442,
             "itemtype": "method",
             "name": "unsetSetting",
             "params": [
@@ -3896,15 +3896,6 @@
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
             "line": 127,
-            "itemtype": "method",
-            "name": "disableLeap",
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 135,
             "description": "Draws text to the canvas on the message layer. If a position isn't specified then\nit defaults to the bottom center of the canvas.",
             "itemtype": "method",
             "name": "displayMessage",
@@ -3941,7 +3932,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 164,
+            "line": 156,
             "description": "Given a CanvasCharacter this will render the image to the canvas.",
             "params": [
                 {
@@ -3961,7 +3952,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 179,
+            "line": 171,
             "description": "The grid that fills the background of the canvas for rune prompts.",
             "itemtype": "method",
             "name": "drawGrid",
@@ -3971,7 +3962,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 196,
+            "line": 188,
             "itemtype": "method",
             "name": "drawPhantomStroke",
             "params": [
@@ -3992,7 +3983,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 210,
+            "line": 202,
             "itemtype": "method",
             "name": "drawSquig",
             "params": [
@@ -4013,7 +4004,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 235,
+            "line": 227,
             "itemtype": "method",
             "name": "drawStroke",
             "params": [
@@ -4034,7 +4025,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 249,
+            "line": 241,
             "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger. It's important that this canvas doesn't use autoClear for\nspeed reasons and Cordova compatibility.",
             "itemtype": "method",
             "name": "enableInput",
@@ -4044,17 +4035,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 303,
-            "description": "Experimental feature using the Leap Motion controller to draw strokes instead of other\ntraditional input devices.",
-            "itemtype": "method",
-            "name": "enableLeap",
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 324,
+            "line": 295,
             "itemtype": "method",
             "name": "fadeBackground",
             "class": "PromptCanvas",
@@ -4063,7 +4044,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 335,
+            "line": 306,
             "itemtype": "method",
             "name": "fadeOverlay",
             "class": "PromptCanvas",
@@ -4072,7 +4053,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 346,
+            "line": 317,
             "itemtype": "method",
             "name": "resize",
             "params": [
@@ -4088,7 +4069,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 364,
+            "line": 335,
             "itemtype": "method",
             "name": "tick",
             "class": "PromptCanvas",
@@ -4097,7 +4078,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 370,
+            "line": 341,
             "description": "Enables the view to fire events when the canvas has been touched.",
             "itemtype": "method",
             "name": "triggerMouseDown",
@@ -4114,7 +4095,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 379,
+            "line": 350,
             "description": "Enables the view to fire events when the canvas touch has been released.",
             "itemtype": "method",
             "name": "triggerMouseUp",
@@ -5904,7 +5885,7 @@
         },
         {
             "message": "Missing item type\nGiven a CanvasCharacter this will render the image to the canvas.",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:164"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:156"
         },
         {
             "message": "Missing item type\nCreates the global Skritter namespace when the application first opened.",
