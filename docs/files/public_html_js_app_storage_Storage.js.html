@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.51</em>
+            <em>API Docs for: 0.0.53</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -323,89 +323,6 @@ define(function() {
                     }
                 }
 
-            }
-        };
-        this.schemaIndexedDB = {
-            1: function(transaction) {
-                //decomps table
-                var decomps = transaction.createObjectStore(&#x27;decomps&#x27;, {keyPath: &#x27;writing&#x27;});
-                decomps.createIndex(&#x27;atomic&#x27;, &#x27;atomic&#x27;);
-                decomps.createIndex(&#x27;Children&#x27;, &#x27;Children&#x27;);
-                //items table
-                var items = transaction.createObjectStore(&#x27;items&#x27;, {keyPath: &#x27;id&#x27;});
-                items.createIndex(&#x27;part&#x27;, &#x27;part&#x27;);
-                items.createIndex(&#x27;vocabIds&#x27;, &#x27;vocabIds&#x27;);
-                items.createIndex(&#x27;style&#x27;, &#x27;style&#x27;);
-                items.createIndex(&#x27;timeStudied&#x27;, &#x27;timeStudied&#x27;);
-                items.createIndex(&#x27;next&#x27;, &#x27;next&#x27;);
-                items.createIndex(&#x27;last&#x27;, &#x27;last&#x27;);
-                items.createIndex(&#x27;interval&#x27;, &#x27;interval&#x27;);
-                items.createIndex(&#x27;vocabListIds&#x27;, &#x27;vocabListIds&#x27;);
-                items.createIndex(&#x27;sectionIds&#x27;, &#x27;sectionIds&#x27;);
-                items.createIndex(&#x27;reviews&#x27;, &#x27;reviews&#x27;);
-                items.createIndex(&#x27;successes&#x27;, &#x27;successes&#x27;);
-                items.createIndex(&#x27;created&#x27;, &#x27;created&#x27;);
-                items.createIndex(&#x27;changed&#x27;, &#x27;changed&#x27;);
-                items.createIndex(&#x27;previousSuccess&#x27;, &#x27;previousSuccess&#x27;);
-                items.createIndex(&#x27;previousInterval&#x27;, &#x27;previousInterval&#x27;);
-                //log table
-                var log = transaction.createObjectStore(&#x27;log&#x27;, {keyPath: &#x27;id&#x27;, autoIncrement: true});
-                log.createIndex(&#x27;userId&#x27;, &#x27;userId&#x27;);
-                log.createIndex(&#x27;timestamp&#x27;, &#x27;timestamp&#x27;);
-                log.createIndex(&#x27;data&#x27;, &#x27;data&#x27;);
-                //reviews table
-                var reviews = transaction.createObjectStore(&#x27;reviews&#x27;, {keyPath: [&#x27;itemId&#x27;, &#x27;submitTime&#x27;]});
-                reviews.createIndex(&#x27;score&#x27;, &#x27;score&#x27;);
-                reviews.createIndex(&#x27;bearTime&#x27;, &#x27;bearTime&#x27;);
-                reviews.createIndex(&#x27;reviewTime&#x27;, &#x27;reviewTime&#x27;);
-                reviews.createIndex(&#x27;thinkingTime&#x27;, &#x27;thinkingTime&#x27;);
-                reviews.createIndex(&#x27;currentInterval&#x27;, &#x27;currentInterval&#x27;);
-                reviews.createIndex(&#x27;actualInterval&#x27;, &#x27;actualInterval&#x27;);
-                reviews.createIndex(&#x27;newInterval&#x27;, &#x27;newInterval&#x27;);
-                reviews.createIndex(&#x27;wordGroup&#x27;, &#x27;wordGroup&#x27;);
-                reviews.createIndex(&#x27;previousInterval&#x27;, &#x27;previousInterval&#x27;);
-                reviews.createIndex(&#x27;previousSuccess&#x27;, &#x27;previousSuccess&#x27;);
-                //sentences table
-                var sentences = transaction.createObjectStore(&#x27;sentences&#x27;, {keyPath: &#x27;id&#x27;});
-                sentences.createIndex(&#x27;containedVocabIds&#x27;, &#x27;containedVocabIds&#x27;);
-                sentences.createIndex(&#x27;definitions&#x27;, &#x27;definitions&#x27;);
-                sentences.createIndex(&#x27;lang&#x27;, &#x27;lang&#x27;);
-                sentences.createIndex(&#x27;reading&#x27;, &#x27;reading&#x27;);
-                sentences.createIndex(&#x27;starred&#x27;, &#x27;starred&#x27;);
-                sentences.createIndex(&#x27;style&#x27;, &#x27;style&#x27;);
-                sentences.createIndex(&#x27;toughness&#x27;, &#x27;toughness&#x27;);
-                sentences.createIndex(&#x27;toughnessString&#x27;, &#x27;toughnessString&#x27;);
-                sentences.createIndex(&#x27;writing&#x27;, &#x27;writing&#x27;);
-                //strokes table
-                var strokes = transaction.createObjectStore(&#x27;strokes&#x27;, {keyPath: &#x27;rune&#x27;});
-                strokes.createIndex(&#x27;lang&#x27;, &#x27;lang&#x27;);
-                strokes.createIndex(&#x27;strokes&#x27;, &#x27;strokes&#x27;);
-                //srsconfigs table
-                var srsconfigs = transaction.createObjectStore(&#x27;srsconfigs&#x27;, {keyPath: [&#x27;part&#x27;, &#x27;lang&#x27;]});
-                srsconfigs.createIndex(&#x27;initialRightInterval&#x27;, &#x27;initialRightInterval&#x27;);
-                srsconfigs.createIndex(&#x27;initialWrongInterval&#x27;, &#x27;initialWrongInterval&#x27;);
-                srsconfigs.createIndex(&#x27;rightFactors&#x27;, &#x27;rightFactors&#x27;);
-                srsconfigs.createIndex(&#x27;wrongFactors&#x27;, &#x27;wrongFactors&#x27;);
-                //vocabs table
-                var vocabs = transaction.createObjectStore(&#x27;vocabs&#x27;, {keyPath: &#x27;id&#x27;});
-                vocabs.createIndex(&#x27;writing&#x27;, &#x27;writing&#x27;);
-                vocabs.createIndex(&#x27;reading&#x27;, &#x27;reading&#x27;);
-                vocabs.createIndex(&#x27;definitions&#x27;, &#x27;definitions&#x27;);
-                vocabs.createIndex(&#x27;customDefinitions&#x27;, &#x27;customDefinitions&#x27;);
-                vocabs.createIndex(&#x27;lang&#x27;, &#x27;lang&#x27;);
-                vocabs.createIndex(&#x27;audio&#x27;, &#x27;audio&#x27;);
-                vocabs.createIndex(&#x27;rareKanji&#x27;, &#x27;rareKanji&#x27;);
-                vocabs.createIndex(&#x27;toughness&#x27;, &#x27;toughness&#x27;);
-                vocabs.createIndex(&#x27;toughnessString&#x27;, &#x27;toughnessString&#x27;);
-                vocabs.createIndex(&#x27;mnemonic&#x27;, &#x27;mnemonic&#x27;);
-                vocabs.createIndex(&#x27;starred&#x27;, &#x27;starred&#x27;);
-                vocabs.createIndex(&#x27;style&#x27;, &#x27;style&#x27;);
-                vocabs.createIndex(&#x27;changed&#x27;, &#x27;changed&#x27;);
-                vocabs.createIndex(&#x27;bannedParts&#x27;, &#x27;bannedParts&#x27;);
-                vocabs.createIndex(&#x27;containedVocabIds&#x27;, &#x27;containedVocabIds&#x27;);
-                vocabs.createIndex(&#x27;heisigDefinition&#x27;, &#x27;heisigDefinition&#x27;);
-                vocabs.createIndex(&#x27;sentenceId&#x27;, &#x27;sentenceId&#x27;);
-                vocabs.createIndex(&#x27;topMnemonic&#x27;, &#x27;topMnemonic&#x27;);
             }
         };
     }

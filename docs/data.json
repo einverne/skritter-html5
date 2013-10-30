@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.51"
+        "version": "0.0.53"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -3400,7 +3400,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 148,
+            "line": 230,
             "itemtype": "method",
             "name": "removeItem",
             "params": [
@@ -3426,7 +3426,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 164,
+            "line": 246,
             "itemtype": "method",
             "name": "removeItems",
             "params": [
@@ -3452,7 +3452,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 185,
+            "line": 267,
             "itemtype": "method",
             "name": "setItem",
             "params": [
@@ -3478,7 +3478,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\IndexedDBAdapter.js",
-            "line": 201,
+            "line": 283,
             "itemtype": "method",
             "name": "setItems",
             "params": [
@@ -3504,7 +3504,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 211,
+            "line": 128,
             "itemtype": "method",
             "name": "getTable",
             "params": [
@@ -3524,7 +3524,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 220,
+            "line": 137,
             "itemtype": "method",
             "name": "getTableFieldNames",
             "params": [
@@ -3549,7 +3549,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 238,
+            "line": 155,
             "itemtype": "method",
             "name": "getTableKeys",
             "params": [
@@ -3569,7 +3569,7 @@
         },
         {
             "file": "public_html\\js\\app\\storage\\Storage.js",
-            "line": 247,
+            "line": 164,
             "itemtype": "method",
             "name": "getTableNames",
             "return": {
@@ -4000,7 +4000,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 171,
+            "line": 173,
             "description": "The grid that fills the background of the canvas for rune prompts.",
             "itemtype": "method",
             "name": "drawGrid",
@@ -4010,7 +4010,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 188,
+            "line": 190,
             "itemtype": "method",
             "name": "drawPhantomStroke",
             "params": [
@@ -4031,7 +4031,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 202,
+            "line": 206,
             "itemtype": "method",
             "name": "drawSquig",
             "params": [
@@ -4052,7 +4052,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 227,
+            "line": 231,
             "itemtype": "method",
             "name": "drawStroke",
             "params": [
@@ -4073,7 +4073,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 241,
+            "line": 245,
             "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger. It's important that this canvas doesn't use autoClear for\nspeed reasons and Cordova compatibility.",
             "itemtype": "method",
             "name": "enableInput",
@@ -4083,7 +4083,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 295,
+            "line": 299,
             "itemtype": "method",
             "name": "fadeBackground",
             "class": "PromptCanvas",
@@ -4092,7 +4092,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 306,
+            "line": 310,
             "itemtype": "method",
             "name": "fadeOverlay",
             "class": "PromptCanvas",
@@ -4101,7 +4101,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 317,
+            "line": 321,
             "itemtype": "method",
             "name": "resize",
             "params": [
@@ -4117,7 +4117,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 335,
+            "line": 339,
             "itemtype": "method",
             "name": "tick",
             "class": "PromptCanvas",
@@ -4126,7 +4126,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 341,
+            "line": 345,
             "description": "Enables the view to fire events when the canvas has been touched.",
             "itemtype": "method",
             "name": "triggerMouseDown",
@@ -4143,7 +4143,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 350,
+            "line": 354,
             "description": "Enables the view to fire events when the canvas touch has been released.",
             "itemtype": "method",
             "name": "triggerMouseUp",
@@ -4213,7 +4213,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 170,
+            "line": 169,
             "description": "Returns the stroke highest possible stroke count out of all of the targets.",
             "itemtype": "method",
             "name": "getTargetStrokeCount",
@@ -4534,7 +4534,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 123,
+            "line": 122,
             "itemtype": "method",
             "name": "updateDue",
             "class": "StudyView",
@@ -4543,7 +4543,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 129,
+            "line": 128,
             "itemtype": "method",
             "name": "updateItems",
             "params": [
@@ -5838,19 +5838,19 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:211"
+            "line": " public_html\\js\\app\\storage\\Storage.js:128"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:220"
+            "line": " public_html\\js\\app\\storage\\Storage.js:137"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:238"
+            "line": " public_html\\js\\app\\storage\\Storage.js:155"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\storage\\Storage.js:247"
+            "line": " public_html\\js\\app\\storage\\Storage.js:164"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5886,7 +5886,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:170"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:169"
         },
         {
             "message": "replacing incorrect tag: returns with return",

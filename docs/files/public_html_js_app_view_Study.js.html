@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.51</em>
+            <em>API Docs for: 0.0.53</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -318,7 +318,6 @@ define([
         resize: function() {
             var bottom = {width: this.$(&#x27;#prompt-bottom&#x27;).width(), height: this.$(&#x27;#prompt-bottom&#x27;).height()};
             if (Skritter.settings.get(&#x27;orientation&#x27;) === &#x27;vertical&#x27;) {
-                console.log(Skritter.settings.get(&#x27;appHeight&#x27;), bottom.height);
                 this.$(&#x27;#prompt-top&#x27;).height(Skritter.settings.get(&#x27;appHeight&#x27;) - bottom.height);
             }
         },

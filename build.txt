@@ -89,7 +89,7 @@ js/app/model/StudyVocab.js
 js/app/collection/StudyVocabs.js
 js/app/model/User.js
 js/app/storage/Storage.js
-js/lib/jquery.indexeddb.js
+js/lib/jquery.indexeddb.min.js
 js/lib/indexeddb.shim-0.1.2.min.js
 js/app/storage/IndexedDBAdapter.js
 js/lib/async.js
