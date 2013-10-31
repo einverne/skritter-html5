@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.53</em>
+            <em>API Docs for: 0.0.54</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -252,7 +252,7 @@ define([
         },
         refreshDate: function() {
             var date = new Date();
-            this.set(&#x27;date&#x27;, date.getFullYear() + &#x27;-&#x27; + date.getMonth() + &#x27;-&#x27; + date.getDate());
+            this.set(&#x27;date&#x27;, date.getFullYear() + &#x27;-&#x27; + (date.getMonth()+1) + &#x27;-&#x27; + date.getDate());
         },
         triggerResize: function() {
             var newSizes = {width:this.get(&#x27;appWidth&#x27;), height:this.get(&#x27;appHeight&#x27;), canvas:this.get(&#x27;canvasSize&#x27;)};

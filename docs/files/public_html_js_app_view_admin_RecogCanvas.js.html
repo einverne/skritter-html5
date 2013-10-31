@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.53</em>
+            <em>API Docs for: 0.0.54</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -206,14 +206,27 @@
  * @author Joshua McFarland
  */
 define([
-    &#x27;prompt/PromptCanvas&#x27;
+    &#x27;prompt/PromptCanvas&#x27;,
 ], function(PromptCanvas) {
     /**
      * RecogCanvas
      */
     var Canvas = PromptCanvas.extend({
         
-        
+        drawParam: function(param) {
+            PromptCanvas.layerOverlay.removeAllChildren();
+            var corners = param.get(&#x27;corners&#x27;);
+            for (var c in corners) {
+                var corner = corners[c];
+                var circle = new createjs.Shape();
+                circle.graphics.beginFill(&#x27;orange&#x27;).drawCircle(corner.x, corner.y, 5);
+                PromptCanvas.layerOverlay.addChild(circle);
+            }
+        },
+        drawRawStroke: function(canvasStroke) {
+            PromptCanvas.layerBackground.removeAllChildren();
+            PromptCanvas.layerBackground.addChild(canvasStroke.getSprite());
+        }
         
     });
     

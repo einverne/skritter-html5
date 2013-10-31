@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.53</em>
+            <em>API Docs for: 0.0.54</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -207,10 +207,11 @@
  * @author Joshua McFarland
  */
 define([
+    &#x27;model/CanvasStroke&#x27;,
     &#x27;view/admin/RecogCanvas&#x27;,
     &#x27;require.text!template/admin-recog-editor.html&#x27;,
     &#x27;backbone&#x27;
-], function(RecogCanvas, templateRecogEditor) {
+], function(CanvasStroke, RecogCanvas, templateRecogEditor) {
     /**
      * @class RecogEditor
      */
@@ -226,11 +227,35 @@ define([
             this.resize();
             return this;
         },
-        load: function(strokeId, paramId) {
-            
+        events: {
+            &#x27;click.Editor #stroke-list .panel-body&#x27;: &#x27;handleStrokeClick&#x27;,
+            &#x27;click.Editor #param-list .panel-body&#x27;: &#x27;handleParamClick&#x27;
+        },
+        handleParamClick: function(event) {
+            var cid = event.target.id.replace(&#x27;param-&#x27;, &#x27;&#x27;);
+            if (cid)
+                this.loadParam(cid);
+        },
+        handleStrokeClick: function(event) {
+            var id = event.target.id.replace(&#x27;stroke-&#x27;, &#x27;&#x27;);
+            if (id)
+                this.loadStroke(id);
+        },
+        loadParam: function(paramId) {
+            var param = Skritter.study.params.get(paramId);
+            Editor.canvas.drawParam(param);
+        },
+        loadStroke: function(strokeId) {
+            Editor.canvas.drawRawStroke(new CanvasStroke().set(&#x27;sprite&#x27;, Skritter.assets.getStroke(strokeId)));
+            this.populateParamList(strokeId);
         },
         populateParamList: function(strokeId) {
-            
+            this.$(&#x27;#param-list .panel-body&#x27;).html(&#x27;&#x27;);
+            var params = Skritter.study.params.where({bitmapId: parseInt(strokeId)});
+            for (var p in params) {
+                var param = params[p];
+                this.$(&#x27;#param-list .panel-body&#x27;).append(&quot;&lt;div id=&#x27;param-&quot; + param.cid + &quot;&#x27;&gt;&quot; + param.cid + &quot;&lt;/div&gt;&quot;);
+            }
         },
         populateStrokeList: function() {
             var strokeIds = Editor.strokes.getAnimations();
@@ -239,7 +264,7 @@ define([
             }
             strokeIds.sort();
             for (i in strokeIds) {
-                this.$(&#x27;#stroke-list .panel-body&#x27;).append(&quot;&lt;div id=&#x27;stroke-&quot; + strokeIds[i].replace(/0/g, &#x27;&#x27;) + &quot;&#x27;&gt;&quot; + strokeIds[i] + &quot;&lt;/div&gt;&quot;);
+                this.$(&#x27;#stroke-list .panel-body&#x27;).append(&quot;&lt;div id=&#x27;stroke-&quot; + parseInt(strokeIds[i], 10) + &quot;&#x27;&gt;&quot; + strokeIds[i] + &quot;&lt;/div&gt;&quot;);
             }
             
         },

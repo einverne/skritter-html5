@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.53</em>
+            <em>API Docs for: 0.0.54</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -305,6 +305,7 @@ define([
         studyView: function() {
             if (!Router.studyView) {
                 Router.studyView = new StudyView({el: $(Skritter.settings.get(&#x27;container&#x27;))}).render();
+                Skritter.test = Router.studyView;
             } else {
                 Router.studyView.setElement($(Skritter.settings.get(&#x27;container&#x27;))).render();
             }

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.53</em>
+            <em>API Docs for: 0.0.54</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -240,7 +240,7 @@ define([
         loadEntries: function() {
             this.$(&#x27;#entries&#x27;).html(&#x27;&#x27;);
             var lang = Skritter.user.getSetting(&#x27;sourceLang&#x27;);
-            var items = Skritter.study.items.filterActive();
+            var items = Skritter.study.items.filterActive(true);
             var vocabs = items.getContainedVocabs();
             for (var i in vocabs) {
                 var vocab = vocabs[i];

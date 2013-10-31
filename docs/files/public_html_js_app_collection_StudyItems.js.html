@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.53</em>
+            <em>API Docs for: 0.0.54</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -305,9 +305,10 @@ define([
          * are considered active must have the part enabled, contained vocabs and not be banned.
          * 
          * @method filterActive
+         * @param {Boolean} includeBanned
          * @returns {StudyItems}
          */
-        filterActive: function() {
+        filterActive: function(includeBanned) {
             //filter items based on the user parts study settings
             var filtered = this.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
             //ISSUE #22: loads simplified and traditional chinese based on user settings
@@ -325,7 +326,7 @@ define([
                 if (contained.length &gt; 0) {
                     var vocab = item.getVocabs()[0];
                     //active items shouldn&#x27;t be banned
-                    if (!vocab.has(&#x27;bannedParts&#x27;))
+                    if (!vocab.has(&#x27;bannedParts&#x27;) || includeBanned)
                         return true;
                 }
                 
@@ -436,11 +437,7 @@ define([
          * @returns {StudyItem} The next item to be studied
          */
         getNext: function() {
-            var filtered = this.filterActive();
-            //TESTING: uncomment and adjust to filter and focus on specific items
-            //filtered = filtered.filterBy(&#x27;id&#x27;, &#x27;mcfarljwtest1-zh-嗯-0-rune&#x27;);
-            filtered = filtered.filterBy(&#x27;part&#x27;, Skritter.user.getStudyParts());
-            var item = filtered.at(0);
+            var item = this.at(0);
             return item;
         },
         /**

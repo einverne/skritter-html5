@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.53"
+        "version": "0.0.54"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -1092,7 +1092,7 @@
             "module": "Skritter",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
-            "line": 12
+            "line": 13
         },
         "Facade": {
             "name": "Facade",
@@ -1741,6 +1741,13 @@
             "description": "Returns a collection of items that are considered to be active for studying. Items that\nare considered active must have the part enabled, contained vocabs and not be banned.",
             "itemtype": "method",
             "name": "filterActive",
+            "params": [
+                {
+                    "name": "includeBanned",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "StudyItems"
@@ -1751,7 +1758,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 133,
+            "line": 134,
             "itemtype": "method",
             "name": "filterBy",
             "params": [
@@ -1781,7 +1788,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 149,
+            "line": 150,
             "itemtype": "method",
             "name": "getContainedItemIds",
             "return": {
@@ -1794,7 +1801,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 170,
+            "line": 171,
             "description": "Returns a unique set of vocabs that are contained in all of the items.",
             "itemtype": "method",
             "name": "getContainedVocabs",
@@ -1808,7 +1815,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 186,
+            "line": 187,
             "description": "Returns items that are actively being studied and have a readiness value\ngreater than or equal to 1.",
             "itemtype": "method",
             "name": "getItemsDue",
@@ -1822,7 +1829,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 203,
+            "line": 204,
             "description": "Returns the number of items that are currently due. Optionally it can include contained items for\nthose rune and tone items. Returning the contained items is probably a better representation of\nthe actual amount of work that needs to be done.",
             "itemtype": "method",
             "name": "getDueCount",
@@ -1843,7 +1850,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 229,
+            "line": 230,
             "description": "Returns the item at the top of the sorted collection only including\nitems that are actively being studied.",
             "itemtype": "method",
             "name": "getNext",
@@ -1857,7 +1864,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\StudyItems.js",
-            "line": 244,
+            "line": 241,
             "description": "Returns a random active study item.",
             "itemtype": "method",
             "name": "getRandom",
@@ -2279,7 +2286,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 25,
+            "line": 26,
             "description": "Plays an audio file using the native HTML5 audio element.",
             "itemtype": "method",
             "name": "getAudio",
@@ -2300,7 +2307,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 39,
+            "line": 40,
             "description": "Returns a stroke in the form of a sprite from the preloaded spritesheet.",
             "itemtype": "method",
             "name": "getStroke",
@@ -2321,7 +2328,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 49,
+            "line": 50,
             "description": "Returns the current instance of the stroke spritesheet.",
             "itemtype": "method",
             "name": "getStrokeSpriteSheet",
@@ -2335,7 +2342,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 58,
+            "line": 59,
             "description": "Loads the strokes as a spritesheet and returns a callback once they have been preloaded.",
             "itemtype": "method",
             "name": "loadStrokes",
@@ -4464,7 +4471,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 31,
+            "line": 32,
             "itemtype": "method",
             "name": "render",
             "return": {
@@ -4477,7 +4484,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 43,
+            "line": 45,
             "itemtype": "property",
             "name": "events",
             "type": "Object",
@@ -4487,7 +4494,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 50,
+            "line": 52,
             "itemtype": "method",
             "name": "handlePromptComplete",
             "params": [
@@ -4503,7 +4510,33 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 60,
+            "line": 62,
+            "description": "Loads the selected items into the study session. If nothing is set then\nit'll just load the current active items.",
+            "itemtype": "method",
+            "name": "loadPrompt",
+            "params": [
+                {
+                    "name": "itemAttr",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "itemVals",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "StudyItem"
+            },
+            "class": "StudyView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Study.js",
+            "line": 80,
             "itemtype": "method",
             "name": "next",
             "return": {
@@ -4516,7 +4549,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 107,
+            "line": 132,
             "itemtype": "method",
             "name": "showInfo",
             "class": "StudyView",
@@ -4525,7 +4558,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 113,
+            "line": 138,
             "itemtype": "method",
             "name": "resize",
             "class": "StudyView",
@@ -4534,7 +4567,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 122,
+            "line": 147,
             "itemtype": "method",
             "name": "updateDue",
             "class": "StudyView",
@@ -4543,7 +4576,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Study.js",
-            "line": 128,
+            "line": 153,
             "itemtype": "method",
             "name": "updateItems",
             "params": [
@@ -5057,7 +5090,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 132,
+            "line": 138,
             "description": "This loads the user, data and also initiates the syncing process. In the future the callbacks should \nprobably be cleaned up a bit.",
             "itemtype": "method",
             "name": "loadUser",
@@ -5073,7 +5106,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 155,
+            "line": 161,
             "description": "Initializing the appliation should only happen once when the application is first loaded.",
             "itemtype": "method",
             "name": "initialize",
@@ -5082,7 +5115,7 @@
         },
         {
             "file": "public_html\\js\\app\\Application.js",
-            "line": 176,
+            "line": 182,
             "description": "Reloading is used to initialize the application by only loading data that may have changed.\nIt skips loading large static assets from the media folder again.",
             "itemtype": "method",
             "name": "reload",
@@ -5625,7 +5658,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 110,
+            "line": 111,
             "itemtype": "method",
             "name": "vocabView",
             "class": "Router",
@@ -5634,7 +5667,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 122,
+            "line": 123,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -5718,31 +5751,31 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:133"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:134"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:149"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:150"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:170"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:171"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:186"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:187"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:203"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:204"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:229"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:230"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\StudyItems.js:244"
+            "line": " public_html\\js\\app\\collection\\StudyItems.js:241"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5802,7 +5835,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\Assets.js:49"
+            "line": " public_html\\js\\app\\model\\Assets.js:50"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5894,7 +5927,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\Study.js:60"
+            "line": " public_html\\js\\app\\view\\Study.js:62"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\Study.js:80"
         },
         {
             "message": "replacing incorrect tag: returns with return",

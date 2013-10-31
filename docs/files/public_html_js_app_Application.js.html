@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.53</em>
+            <em>API Docs for: 0.0.54</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -270,7 +270,7 @@ define([
         loadAssets: function(callback) {
             Skritter.assets = new Assets();
             Skritter.async.parallel([
-               Skritter.async.apply(Skritter.assets.loadStrokes) 
+               Skritter.async.apply(Skritter.assets.loadStrokeSprites) 
             ], function() {
                 callback();
             });
@@ -326,6 +326,12 @@ define([
          */
         loadTimer: function(callback) {
             Skritter.timer = new Timer();
+            //attemps to pull the official date information from the server
+            Skritter.api.getDateInfo(function(date) {
+                if (date.today)
+                    Skritter.settings.set(&#x27;date&#x27;, date.today);
+            });
+            //attempts to sync with the server study time
             if (Skritter.user.isLoggedIn()) {
                 Skritter.timer.sync(true);
             }

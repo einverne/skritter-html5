@@ -246,3 +246,14 @@ body {
 #entries .entry #definition {
     font-size: large;
 }
+#stroke-list .panel-body div:hover {
+    background: #39b3d7;
+    cursor: pointer;
+}
+#param-list .panel-body div:hover {
+    background: #39b3d7;
+    cursor: pointer;
+}
+#recog-editor-view #canvas-container {
+    margin: 0 auto;
+}
