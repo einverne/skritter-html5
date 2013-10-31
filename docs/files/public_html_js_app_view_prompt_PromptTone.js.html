@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.56</em>
+            <em>API Docs for: 0.0.58</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -345,7 +345,7 @@ define([
             Skritter.timer.start();
             Tone.userCharacter = new CanvasCharacter();
             Tone.userTargets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, &#x27;tone&#x27;);
-            Tone.canvas.drawCharacter(Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, &#x27;rune&#x27;)[0], 0.3);
+            Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), 0.3);
             Tone.canvas.enableInput();
             this.$(&#x27;#writing&#x27;).html(Prompt.writing);
             this.$(&#x27;#reading&#x27;).html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1)));

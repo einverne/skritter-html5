@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.56"
+        "version": "0.0.58"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -716,13 +716,37 @@
             "namespace": "",
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
             "line": 24,
+            "author": "Joshua McFarland",
             "params": [
                 {
-                    "name": "LeapController",
+                    "name": "PinyinConverter",
+                    "description": ""
+                },
+                {
+                    "name": "Recognizer",
+                    "description": ""
+                },
+                {
+                    "name": "CanvasCharacter",
+                    "description": ""
+                },
+                {
+                    "name": "CanvasStroke",
+                    "description": ""
+                },
+                {
+                    "name": "Prompt",
+                    "description": ""
+                },
+                {
+                    "name": "Canvas",
+                    "description": ""
+                },
+                {
+                    "name": "templateRune",
                     "description": ""
                 }
-            ],
-            "author": "Joshua McFarland"
+            ]
         }
     },
     "classes": {
@@ -1161,7 +1185,7 @@
             "submodule": "Prompt",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 13
+            "line": 11
         },
         "PromptDefn": {
             "name": "PromptDefn",
@@ -3924,7 +3948,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 30,
+            "line": 27,
             "itemtype": "method",
             "name": "render",
             "return": {
@@ -3937,7 +3961,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 47,
+            "line": 44,
             "description": "Creates several containers used to organize different levels of display.",
             "itemtype": "method",
             "name": "initLayers",
@@ -3951,7 +3975,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 76,
+            "line": 73,
             "itemtype": "method",
             "name": "initStage",
             "return": {
@@ -3964,7 +3988,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 93,
+            "line": 90,
             "itemtype": "method",
             "name": "applyBackgroundColorFilter",
             "params": [
@@ -3980,7 +4004,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 101,
+            "line": 98,
             "itemtype": "method",
             "name": "applyBackgroundGlow",
             "params": [
@@ -4001,7 +4025,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 119,
+            "line": 116,
             "description": "Disables all touch input on the canvas. This is most commonly used when a user has\nalready completed a problem and it needs grading.",
             "itemtype": "method",
             "name": "disableInput",
@@ -4011,7 +4035,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 128,
+            "line": 125,
             "description": "Draws text to the canvas on the message layer. If a position isn't specified then\nit defaults to the bottom center of the canvas.",
             "itemtype": "method",
             "name": "displayMessage",
@@ -4048,7 +4072,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 157,
+            "line": 154,
             "description": "Given a CanvasCharacter this will render the image to the canvas.",
             "params": [
                 {
@@ -4068,7 +4092,29 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 174,
+            "line": 171,
+            "description": "Draws the character to the background using the font rather than assembling\nthe character strokes.",
+            "itemtype": "method",
+            "name": "drawCharacterFromText",
+            "params": [
+                {
+                    "name": "text",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "alpha",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "PromptCanvas",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
+            "line": 185,
             "description": "The grid that fills the background of the canvas for rune prompts.",
             "itemtype": "method",
             "name": "drawGrid",
@@ -4078,7 +4124,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 191,
+            "line": 202,
             "itemtype": "method",
             "name": "drawPhantomStroke",
             "params": [
@@ -4099,7 +4145,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 207,
+            "line": 218,
             "itemtype": "method",
             "name": "drawSquig",
             "params": [
@@ -4120,7 +4166,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 232,
+            "line": 243,
             "itemtype": "method",
             "name": "drawStroke",
             "params": [
@@ -4141,7 +4187,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 246,
+            "line": 257,
             "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger. It's important that this canvas doesn't use autoClear for\nspeed reasons and Cordova compatibility.",
             "itemtype": "method",
             "name": "enableInput",
@@ -4151,7 +4197,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 300,
+            "line": 311,
             "itemtype": "method",
             "name": "fadeBackground",
             "class": "PromptCanvas",
@@ -4160,7 +4206,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 311,
+            "line": 322,
             "itemtype": "method",
             "name": "fadeOverlay",
             "class": "PromptCanvas",
@@ -4169,7 +4215,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 322,
+            "line": 333,
             "itemtype": "method",
             "name": "resize",
             "params": [
@@ -4185,7 +4231,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 340,
+            "line": 351,
             "itemtype": "method",
             "name": "tick",
             "class": "PromptCanvas",
@@ -4194,7 +4240,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 346,
+            "line": 357,
             "description": "Enables the view to fire events when the canvas has been touched.",
             "itemtype": "method",
             "name": "triggerMouseDown",
@@ -4211,7 +4257,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 355,
+            "line": 366,
             "description": "Enables the view to fire events when the canvas touch has been released.",
             "itemtype": "method",
             "name": "triggerMouseUp",
@@ -4250,7 +4296,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 61,
+            "line": 62,
             "description": "Handles the points returned when the user is finished with a stroke.",
             "itemtype": "method",
             "name": "handleInputRecieved",
@@ -4267,8 +4313,75 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 157,
-            "description": "Returns the next stroke in the character based on the order it should be written.",
+            "line": 107,
+            "description": "Handles the character if it is complete by applying the correct background glow\nand then displaying the grading buttons.",
+            "itemtype": "method",
+            "name": "handleCharacterComplete",
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 135,
+            "description": "Handles the double tap event by displaying the character hint if it's\nnot finished yet.",
+            "itemtype": "method",
+            "name": "handleDoubleTap",
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 147,
+            "description": "Handles either the swipeleft or tap events by moving to the next if the\nprompt has already been finished.",
+            "itemtype": "method",
+            "name": "handleIfFinished",
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 159,
+            "description": "Handles the grade selected event by passing the selected grade along and then\ncalled the next character in the prompt.",
+            "itemtype": "method",
+            "name": "handleGradeSelected",
+            "params": [
+                {
+                    "name": "selected",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 171,
+            "description": "Handles the hold event by clearing the canvas and reseting the input.",
+            "itemtype": "method",
+            "name": "handleHold",
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 180,
+            "description": "Handles a complete stroke a trigger by the PromptCanvas. It also checks to see\nif the character has been completed yet or not.",
+            "itemtype": "method",
+            "name": "handleStrokeComplete",
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 193,
+            "description": "Returns the next stroke in the character based on the order it should be written. It also\nreturn the variation, so the matching background hint can be displayed.",
             "itemtype": "method",
             "name": "getNextStroke",
             "return": {
@@ -4281,7 +4394,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 172,
+            "line": 209,
             "description": "Returns the stroke highest possible stroke count out of all of the targets.",
             "itemtype": "method",
             "name": "getTargetStrokeCount",
@@ -4289,6 +4402,36 @@
                 "description": "",
                 "type": "Number"
             },
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 225,
+            "description": "Moves to the next item in the prompt for prompts containing multiple characters.",
+            "itemtype": "method",
+            "name": "next",
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 260,
+            "description": "Displays the answer for the user, which should be called after the prompt\nhas been completed.",
+            "itemtype": "method",
+            "name": "showAnswer",
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 273,
+            "description": "Displays the initial prompt for the user and should probably be renamed to\nsomething a little less misleading than show hidden.",
+            "itemtype": "method",
+            "name": "showHidden",
             "class": "PromptRune",
             "module": "Skritter",
             "submodule": "Prompt"
@@ -5987,15 +6130,15 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:30"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:27"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:47"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:44"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:76"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:73"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6003,11 +6146,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:157"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:193"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:172"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:209"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6111,7 +6254,7 @@
         },
         {
             "message": "Missing item type\nGiven a CanvasCharacter this will render the image to the canvas.",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:157"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:154"
         },
         {
             "message": "Missing item type\nCreates the global Skritter namespace when the application first opened.",

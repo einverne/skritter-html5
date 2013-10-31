@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.56</em>
+            <em>API Docs for: 0.0.58</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -247,7 +247,7 @@ define([
          * @return {Sprite}
          */
         getStroke: function(bitmapId) {
-            return Assets.strokeSprites[bitmapId];
+            return Assets.strokeSprites[bitmapId].clone();
         },
         /**
          * Returns the current instance of the stroke spritesheet.

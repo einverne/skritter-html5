@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.56</em>
+            <em>API Docs for: 0.0.58</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -270,6 +270,41 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_handleCharacterComplete">handleCharacterComplete</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_handleDoubleTap">handleDoubleTap</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_handleGradeSelected">handleGradeSelected</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_handleHold">handleHold</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_handleIfFinished">handleIfFinished</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_handleInputRecieved">handleInputRecieved</a>
 
                                 
@@ -277,7 +312,35 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_handleStrokeComplete">handleStrokeComplete</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_next">next</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_render">render</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_showAnswer">showAnswer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_showHidden">showHidden</a>
 
                                 
                                 
@@ -389,7 +452,7 @@
             
         
         
-        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l157"><code>public_html\js\app\view\prompt\PromptRune.js:157</code></a>
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l193"><code>public_html\js\app\view\prompt\PromptRune.js:193</code></a>
         
         </p>
 
@@ -400,7 +463,8 @@
     </div>
 
     <div class="description">
-        <p>Returns the next stroke in the character based on the order it should be written.</p>
+        <p>Returns the next stroke in the character based on the order it should be written. It also
+return the variation, so the matching background hint can be displayed.</p>
 
     </div>
 
@@ -460,7 +524,7 @@
             
         
         
-        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l172"><code>public_html\js\app\view\prompt\PromptRune.js:172</code></a>
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l209"><code>public_html\js\app\view\prompt\PromptRune.js:209</code></a>
         
         </p>
 
@@ -489,6 +553,318 @@
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_handleCharacterComplete" class="method item">
+    <h3 class="name"><code>handleCharacterComplete</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l107"><code>public_html\js\app\view\prompt\PromptRune.js:107</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Handles the character if it is complete by applying the correct background glow
+and then displaying the grading buttons.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_handleDoubleTap" class="method item">
+    <h3 class="name"><code>handleDoubleTap</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l135"><code>public_html\js\app\view\prompt\PromptRune.js:135</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Handles the double tap event by displaying the character hint if it&#39;s
+not finished yet.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_handleGradeSelected" class="method item">
+    <h3 class="name"><code>handleGradeSelected</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>selected</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l159"><code>public_html\js\app\view\prompt\PromptRune.js:159</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Handles the grade selected event by passing the selected grade along and then
+called the next character in the prompt.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">selected</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_handleHold" class="method item">
+    <h3 class="name"><code>handleHold</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l171"><code>public_html\js\app\view\prompt\PromptRune.js:171</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Handles the hold event by clearing the canvas and reseting the input.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_handleIfFinished" class="method item">
+    <h3 class="name"><code>handleIfFinished</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l147"><code>public_html\js\app\view\prompt\PromptRune.js:147</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Handles either the swipeleft or tap events by moving to the next if the
+prompt has already been finished.</p>
+
+    </div>
+
+    
+
     
 
     
@@ -537,7 +913,7 @@
             
         
         
-        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l61"><code>public_html\js\app\view\prompt\PromptRune.js:61</code></a>
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l62"><code>public_html\js\app\view\prompt\PromptRune.js:62</code></a>
         
         </p>
 
@@ -575,6 +951,117 @@
             
             </ul>
         </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_handleStrokeComplete" class="method item">
+    <h3 class="name"><code>handleStrokeComplete</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l180"><code>public_html\js\app\view\prompt\PromptRune.js:180</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Handles a complete stroke a trigger by the PromptCanvas. It also checks to see
+if the character has been completed yet or not.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_next" class="method item">
+    <h3 class="name"><code>next</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l225"><code>public_html\js\app\view\prompt\PromptRune.js:225</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Moves to the next item in the prompt for prompts containing multiple characters.</p>
+
+    </div>
+
     
 
     
@@ -647,6 +1134,118 @@
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_showAnswer" class="method item">
+    <h3 class="name"><code>showAnswer</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l260"><code>public_html\js\app\view\prompt\PromptRune.js:260</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Displays the answer for the user, which should be called after the prompt
+has been completed.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_showHidden" class="method item">
+    <h3 class="name"><code>showHidden</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_prompt_PromptRune.js.html#l273"><code>public_html\js\app\view\prompt\PromptRune.js:273</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Displays the initial prompt for the user and should probably be renamed to
+something a little less misleading than show hidden.</p>
+
+    </div>
+
+    
+
     
 
     

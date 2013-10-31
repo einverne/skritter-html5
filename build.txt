@@ -42,7 +42,6 @@ js/app/collection/CanvasCharacter.js
 require.text!template/grading-buttons.html
 js/app/view/prompt/GradingButtons.js
 js/app/view/prompt/Prompt.js
-js/app/model/LeapController.js
 js/lib/createjs.tweenjs-0.5.0.min.js
 js/app/view/prompt/PromptCanvas.js
 require.text!template/prompt-rune.html

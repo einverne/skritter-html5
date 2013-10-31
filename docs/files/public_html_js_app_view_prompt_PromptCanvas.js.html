@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.56</em>
+            <em>API Docs for: 0.0.58</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -203,22 +203,19 @@
 /**
  * @module Skritter
  * @submodule Prompt
- * @param LeapController
  * @author Joshua McFarland
  */
 define([
-    &#x27;model/LeapController&#x27;,
     &#x27;backbone&#x27;,
     &#x27;createjs.easel&#x27;,
     &#x27;createjs.tween&#x27;
-], function(LeapController) {
+], function() {
     /**
      * @class PromptCanvas
      */
     var Canvas = Backbone.View.extend({
         initialize: function() {
             Canvas.canvas = null;
-            Canvas.leap = new LeapController();
             Canvas.stage = null;
             Canvas.points = [];
             Canvas.size = Skritter.settings.get(&#x27;canvasSize&#x27;);
@@ -240,7 +237,7 @@ define([
             
             //ISSUE #18: drawing a dummy sprite fixes the delayed tween problem in Chrome
             //it needs to be a clone otherwise the sprite will globally have the alpha set
-            var dummySprite = Skritter.assets.getStroke(0).clone();
+            var dummySprite = Skritter.assets.getStroke(0);
             dummySprite.alpha = 0.0001;
             Canvas.stage.addChildAt(dummySprite, 0);
             
@@ -372,6 +369,20 @@ define([
                 Canvas.layerBackground.addChild(characterSprite);
             }
             Canvas.stage.update();
+        },
+        /**
+         * Draws the character to the background using the font rather than assembling
+         * the character strokes.
+         * 
+         * @method drawCharacterFromText
+         * @param {String} text
+         * @param {Number} alpha
+         */
+        drawCharacterFromFont: function(text, alpha) {
+            text = new createjs.Text(text, Canvas.size + &#x27;px simkai&#x27;, &#x27;black&#x27;);
+            if (alpha)
+                text.alpha = alpha;
+            Canvas.layerBackground.addChild(text);
         },
         /**
          * The grid that fills the background of the canvas for rune prompts.
