@@ -17,8 +17,11 @@ define([
         render: function() {
             if (!Skritter.user.isLoggedIn())
 		document.location.hash = '';
-            this.$el.html(templateOptions);            
+            this.$el.html(templateOptions);        
             this.load();
+            //ISSUE #31: hides the tone option for users studying japanese
+            if (Skritter.user.getSetting('targetLang') === 'ja')
+                this.$('#part-tone').closest('.checkbox').hide();
             return this;
         },
         /**

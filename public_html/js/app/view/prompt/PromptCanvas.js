@@ -37,7 +37,8 @@ define([
             this.drawGrid();
             
             //ISSUE #18: drawing a dummy sprite fixes the delayed tween problem in Chrome
-            var dummySprite = Skritter.assets.getStroke(0);
+            //it needs to be a clone otherwise the sprite will globally have the alpha set
+            var dummySprite = Skritter.assets.getStroke(0).clone();
             dummySprite.alpha = 0.0001;
             Canvas.stage.addChildAt(dummySprite, 0);
             

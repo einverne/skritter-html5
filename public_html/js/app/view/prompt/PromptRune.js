@@ -188,10 +188,12 @@ define([
             Prompt.position++;
             //ISSUE #27: skips kana characters in the vocabs writing string
             if (Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1))) {
-                    this.next();
-                    return;
-                }
-            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
+                this.next();
+                return;
+            }
+            //makes sure the result contains something useful otherwise discard it
+            if (Skritter.timer.getStartTime() !== 0)
+                this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             //check to see if there are more characters in the prompt
             if (Prompt.position <= Prompt.vocabs[0].getCharacterCount()) {
                 //reset the item for a new character
@@ -225,6 +227,11 @@ define([
                 this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence));
         },
         showHidden: function() {
+            //ISSUE #30: skips japanese characters with leading kana
+            if (Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position-1))) {
+                this.next();
+                return;
+            }
             console.log('Prompt', 'RUNE', Prompt.vocabs[0].get('writing'));
             Skritter.timer.start();
             //play the audio file if the first character
