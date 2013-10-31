@@ -226,6 +226,7 @@ define([
         render: function() {
             if (Skritter.user.isLoggedIn()) {
                 this.$el.html(templateHomeIn);
+                this.$(&#x27;#lang-button&#x27;).html(Skritter.user.getSetting(&#x27;targetLang&#x27;).toUpperCase());
             } else {
                 this.$el.html(templateHomeOut);
             }
@@ -236,6 +237,26 @@ define([
          * @property {Object} events
          */
         events: {
+            &#x27;click.Home #lang-button&#x27;: &#x27;switchLanguage&#x27;
+        },
+        /**
+         * Toggles the language between Chinese and Japanese, syncs and then
+         * reloads the page in the new language.
+         * 
+         * @method switchLanguage
+         */
+        switchLanguage: function() {
+            if (Skritter.user.isChinese()) {
+                Skritter.user.setSetting(&#x27;targetLang&#x27;, &#x27;ja&#x27;);
+                Skritter.user.sync(function() {
+                    document.location.reload(true);
+                }, true);
+            } else {
+                Skritter.user.setSetting(&#x27;targetLang&#x27;, &#x27;zh&#x27;);
+                Skritter.user.sync(function() {
+                    document.location.reload(true);
+                }, true);
+            }
         }
     });
 

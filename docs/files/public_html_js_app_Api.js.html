@@ -525,15 +525,17 @@ define([
      * somewhat frequently to keep SRS calculations accurate.
      * 
      * @method getSRSConfigs
+     * @param {String} lang
      * @param {Function} callback
      */
-    Api.prototype.getSRSConfigs = function(callback) {
+    Api.prototype.getSRSConfigs = function(lang, callback) {
         var promise = $.ajax({
             url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/srsconfigs&#x27;,
             type: &#x27;GET&#x27;,
             cache: false,
             data: {
-                bearer_token: this.token
+                bearer_token: this.token,
+                lang: lang
             }
         });
 

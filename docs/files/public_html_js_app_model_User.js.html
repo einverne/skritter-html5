@@ -258,6 +258,8 @@ define([
             lastLogin: null,
             lastReviewFix: null,
             lastSync: null,
+            lastSyncChinese: null,
+            lastSyncJapanese: null,
             refresh_token: null,
             settings: null,
             token_type: null,
@@ -395,6 +397,18 @@ define([
             return &quot;&lt;img src=&#x27;data:image/png;base64,&quot; + this.get(&#x27;settings&#x27;).avatar + &quot;&#x27; width=&#x27;50&#x27; height=&#x27;50&#x27; /&gt;&quot;;
         },
         /**
+         * Returns the last sync based on the current active language. This is needed so we don&#x27;t
+         * have to delete all of the data when switching languages.
+         * 
+         * @method getLastSync
+         * @returns {Number}
+         */
+        getLastSync: function() {
+            if (this.isChinese())
+                return this.get(&#x27;lastSyncChinese&#x27;);
+            return this.get(&#x27;lastSyncJapanese&#x27;);
+        },
+        /**
          * Adapts the stored values for weight into a format the application can use and
          * then returns it.
          * 
@@ -425,6 +439,24 @@ define([
             if (this.get(&#x27;settings&#x27;).targetLang === &#x27;zh&#x27;)
                 return this.get(&#x27;settings&#x27;).chineseStudyParts;
             return this.get(&#x27;settings&#x27;).japaneseStudyParts;
+        },
+        /**
+         * @method isChinese
+         * @returns {Boolean}
+         */
+        isChinese: function() {
+            if (this.getSetting(&#x27;targetLang&#x27;) === &#x27;zh&#x27;)
+                return true;
+            return false;
+        },
+        /**
+         * @method isJapanese
+         * @returns {Boolean}
+         */
+        isJapanese: function() {
+            if (this.getSetting(&#x27;targetLang&#x27;) === &#x27;ja&#x27;)
+                return true;
+            return false;
         },
         /**
          * Checks to see if the user is logged in by seeing if a token exists. This might not always work
@@ -513,6 +545,21 @@ define([
             Skritter.study.vocabs.reset();
         },
         /**
+         * Sets the sync timestamp based on the active language and then returns it.
+         * 
+         * @method setLastSync
+         * @param {Number} timestamp
+         * @return {Number}
+         */
+        setLastSync: function(timestamp) {
+            if (this.isChinese()) {
+                this.set(&#x27;lastSyncChinese&#x27;, timestamp);
+                return this.get(&#x27;lastSyncChinese&#x27;);
+            }
+            this.set(&#x27;lastSyncJapanese&#x27;, timestamp);
+            return this.get(&#x27;lastSyncJapanese&#x27;);
+        },
+        /**
          * A quicker way to set the user settings object.
          * 
          * @method setSetting
@@ -548,11 +595,6 @@ define([
             var process = function(requests) {
                 Skritter.async.waterfall([
                     function(callback) {
-                        Skritter.study.srsconfigs.fetch(function() {
-                            callback();
-                        });
-                    },
-                    function(callback) {
                         Skritter.api.requestBatch(requests, function(result) {
                             callback(null, result);
                         });
@@ -565,11 +607,15 @@ define([
                             //ISSUE #20: decomps is returning a null value in the resulting array
                             Skritter.study.decomps.add(_.compact(result.Decomps));
                             Skritter.study.items.add(result.Items);
-                            Skritter.study.srsconfigs.add(result.SRSConfigs);
                             Skritter.study.sentences.add(result.Sentences);
                             Skritter.study.strokes.add(result.Strokes);
                             Skritter.study.vocabs.add(result.Vocabs);
                         }, function() {
+                            callback();
+                        });
+                    },
+                    function(callback) {
+                        Skritter.study.srsconfigs.fetch(function() {
                             callback();
                         });
                     },
@@ -579,18 +625,17 @@ define([
                         });
                     }
                 ], function() {
-                    Skritter.user.set(&#x27;lastSync&#x27;, Skritter.fn.getUnixTime());
                     if (accountDownload) {
                         Skritter.facade.hide();
                         self.set(&#x27;isSyncing&#x27;, false);
-                        self.set(&#x27;lastReviewFix&#x27;, Skritter.fn.getUnixTime());
                         if (typeof callback === &#x27;function&#x27;)
                             callback();
                     }
+                    self.setLastSync(Skritter.fn.getUnixTime());
                 });
             };
 
-            if (this.get(&#x27;lastSync&#x27;) &amp;&amp; !forceAccountDownload) {
+            if (this.getLastSync() &amp;&amp; !forceAccountDownload) {
                 //incremental sync from the last time a successful sync was performed
                 callback();
                 requests = [
@@ -599,8 +644,9 @@ define([
                         method: &#x27;GET&#x27;,
                         cache: false,
                         params: {
+                            lang: this.getSetting(&#x27;targetLang&#x27;),
                             sort: &#x27;changed&#x27;,
-                            offset: this.get(&#x27;lastSync&#x27;),
+                            offset: this.getLastSync(),
                             include_vocabs: &#x27;true&#x27;,
                             include_strokes: &#x27;true&#x27;,
                             include_sentences: &#x27;true&#x27;,
@@ -624,6 +670,7 @@ define([
                         method: &#x27;GET&#x27;,
                         cache: false,
                         params: {
+                            lang: this.getSetting(&#x27;targetLang&#x27;),
                             sort: &#x27;last&#x27;,
                             include_vocabs: &#x27;true&#x27;,
                             include_strokes: &#x27;true&#x27;,

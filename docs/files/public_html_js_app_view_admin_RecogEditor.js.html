@@ -251,7 +251,7 @@ define([
         },
         populateParamList: function(strokeId) {
             this.$(&#x27;#param-list .panel-body&#x27;).html(&#x27;&#x27;);
-            var params = Skritter.study.params.where({bitmapId: parseInt(strokeId)});
+            var params = Skritter.study.params.where({bitmapId: parseInt(strokeId, 10)});
             for (var p in params) {
                 var param = params[p];
                 this.$(&#x27;#param-list .panel-body&#x27;).append(&quot;&lt;div id=&#x27;param-&quot; + param.cid + &quot;&#x27;&gt;&quot; + param.cid + &quot;&lt;/div&gt;&quot;);

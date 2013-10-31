@@ -210,9 +210,7 @@ define(function() {
      * 
      * @class Scheduler
      */
-    function Scheduler() {
-        this.config = Skritter.study.srsconfigs;
-    }
+    function Scheduler() {}
 
     /**
      * Returns a calculated interval based on the grade and other details about the item.
@@ -223,8 +221,8 @@ define(function() {
      * @returns {Number}
      */
     Scheduler.prototype.getInterval = function(item, grade) {
-        //console.log(&#x27;SCHEDULING&#x27;, item, grade);
-        var config = this.config.findWhere({lang: Skritter.user.getSetting(&#x27;targetLang&#x27;), part: item.get(&#x27;part&#x27;)});
+        console.log(Skritter.user.getSetting(&#x27;targetLang&#x27;), item.get(&#x27;part&#x27;));
+        var config = Skritter.study.srsconfigs.findWhere({lang: Skritter.user.getSetting(&#x27;targetLang&#x27;), part: item.get(&#x27;part&#x27;)});
         var newInterval;
         var getRandomizedInterval = function(interval) {
             return Math.round(interval * (0.925 + (Math.random() * 0.15)));

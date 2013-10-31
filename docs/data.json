@@ -3012,7 +3012,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 64,
+            "line": 66,
             "itemtype": "method",
             "name": "cache",
             "class": "User",
@@ -3021,7 +3021,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 72,
+            "line": 74,
             "description": "Quickly caches all of the users current loaded data to storage and returns a callback.",
             "itemtype": "method",
             "name": "cacheAllData",
@@ -3038,7 +3038,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 124,
+            "line": 126,
             "itemtype": "method",
             "name": "checkReviewErrors",
             "params": [
@@ -3059,7 +3059,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 145,
+            "line": 147,
             "description": "Gets the current active users properties and settings from the server then saves it.",
             "itemtype": "method",
             "name": "fetch",
@@ -3076,7 +3076,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 172,
+            "line": 174,
             "description": "Adapts the stored values for animation speed into a format the application can use and\nthen returns it.",
             "itemtype": "method",
             "name": "getAnimationSpeed",
@@ -3090,7 +3090,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 183,
+            "line": 185,
             "description": "Gets the users current avatar and returns it as an image tag using base64 data.",
             "itemtype": "method",
             "name": "getAvatar",
@@ -3111,7 +3111,21 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 195,
+            "line": 197,
+            "description": "Returns the last sync based on the current active language. This is needed so we don't\nhave to delete all of the data when switching languages.",
+            "itemtype": "method",
+            "name": "getLastSync",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "User",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\User.js",
+            "line": 209,
             "description": "Adapts the stored values for weight into a format the application can use and\nthen returns it.",
             "itemtype": "method",
             "name": "getOrderStrictness",
@@ -3125,7 +3139,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 206,
+            "line": 220,
             "description": "A quicker way to get a setting from the user settings object.",
             "itemtype": "method",
             "name": "getSetting",
@@ -3146,7 +3160,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 216,
+            "line": 230,
             "description": "Returns an array of active study parts based on the current language being studied.",
             "itemtype": "method",
             "name": "getStudyParts",
@@ -3160,7 +3174,33 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 227,
+            "line": 241,
+            "itemtype": "method",
+            "name": "isChinese",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "User",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\User.js",
+            "line": 250,
+            "itemtype": "method",
+            "name": "isJapanese",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "User",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\User.js",
+            "line": 259,
             "description": "Checks to see if the user is logged in by seeing if a token exists. This might not always work\nin situations where the token as expired.",
             "itemtype": "method",
             "name": "isLoggedIn",
@@ -3174,7 +3214,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 239,
+            "line": 271,
             "description": "Loads all of the data for the current active user into memory. For small to medium size accounts this is\nfairly quick, but larger accounts might need to do loading in logical chunks.",
             "itemtype": "method",
             "name": "loadAllData",
@@ -3191,7 +3231,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 261,
+            "line": 293,
             "description": "Performs a complete login, stores the authentication data and also fetches the users settings from the server.\nIf the statusCode returned is anything but 200 then it doesn't save, but returns the response message. It also creates or\nopens the database for the user.",
             "itemtype": "method",
             "name": "login",
@@ -3218,7 +3258,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 287,
+            "line": 319,
             "description": "Automatically logs the user out and returns them to the home screen when called.",
             "itemtype": "method",
             "name": "logout",
@@ -3228,7 +3268,28 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 313,
+            "line": 345,
+            "description": "Sets the sync timestamp based on the active language and then returns it.",
+            "itemtype": "method",
+            "name": "setLastSync",
+            "params": [
+                {
+                    "name": "timestamp",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "User",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\User.js",
+            "line": 360,
             "description": "A quicker way to set the user settings object.",
             "itemtype": "method",
             "name": "setSetting",
@@ -3254,7 +3315,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 327,
+            "line": 374,
             "description": "Syncs data with the server by getting changed items and posting reviews. If the account has never synced\nthis it initiates an full account download.",
             "itemtype": "method",
             "name": "sync",
@@ -3276,7 +3337,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 442,
+            "line": 489,
             "itemtype": "method",
             "name": "unsetSetting",
             "params": [
@@ -4206,7 +4267,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 155,
+            "line": 157,
             "description": "Returns the next stroke in the character based on the order it should be written.",
             "itemtype": "method",
             "name": "getNextStroke",
@@ -4220,7 +4281,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 170,
+            "line": 172,
             "description": "Returns the stroke highest possible stroke count out of all of the targets.",
             "itemtype": "method",
             "name": "getTargetStrokeCount",
@@ -4272,10 +4333,20 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Home.js",
-            "line": 33,
+            "line": 34,
             "itemtype": "property",
             "name": "events",
             "type": "Object",
+            "class": "HomeView",
+            "module": "Skritter",
+            "submodule": "View"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Home.js",
+            "line": 40,
+            "description": "Toggles the language between Chinese and Japanese, syncs and then\nreloads the page in the new language.",
+            "itemtype": "method",
+            "name": "switchLanguage",
             "class": "HomeView",
             "module": "Skritter",
             "submodule": "View"
@@ -4814,6 +4885,11 @@
             "name": "getSRSConfigs",
             "params": [
                 {
+                    "name": "lang",
+                    "description": "",
+                    "type": "String"
+                },
+                {
                     "name": "callback",
                     "description": "",
                     "type": "Function"
@@ -4824,7 +4900,7 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 348,
+            "line": 350,
             "description": "Returns basic informatiom about a user or detailed information if its a request\nfor the current active user.",
             "itemtype": "method",
             "name": "getUser",
@@ -4845,7 +4921,7 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 377,
+            "line": 379,
             "description": "Returns a high level list of lists available sorted by type. For longer sort groups\nit might be nessesary to use pagination.",
             "itemtype": "method",
             "name": "getVocabLists",
@@ -4866,7 +4942,7 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 420,
+            "line": 422,
             "description": "Returns a single vocablist with section ids for further querying.",
             "itemtype": "method",
             "name": "getVocabList",
@@ -4887,7 +4963,7 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 447,
+            "line": 449,
             "description": "Returns an array of rows in s single list section.",
             "itemtype": "method",
             "name": "getVocabListSection",
@@ -4913,7 +4989,7 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 475,
+            "line": 477,
             "description": "Posts batches of reviews in groups of 500 and then returns an array of the posted objects.",
             "itemtype": "method",
             "name": "postReviews",
@@ -5680,7 +5756,7 @@
         },
         {
             "file": "public_html\\js\\app\\Scheduler.js",
-            "line": 15,
+            "line": 13,
             "description": "Returns a calculated interval based on the grade and other details about the item.",
             "itemtype": "method",
             "name": "getInterval",
@@ -5851,23 +5927,35 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:172"
+            "line": " public_html\\js\\app\\model\\User.js:174"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:183"
+            "line": " public_html\\js\\app\\model\\User.js:185"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:195"
+            "line": " public_html\\js\\app\\model\\User.js:197"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:216"
+            "line": " public_html\\js\\app\\model\\User.js:209"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:227"
+            "line": " public_html\\js\\app\\model\\User.js:230"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\model\\User.js:241"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\model\\User.js:250"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\model\\User.js:259"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5915,11 +6003,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:155"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:157"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:170"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:172"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5999,7 +6087,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Scheduler.js:15"
+            "line": " public_html\\js\\app\\Scheduler.js:13"
         },
         {
             "message": "replacing incorrect tag: returns with return",
