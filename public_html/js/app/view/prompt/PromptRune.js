@@ -46,7 +46,8 @@ define([
             Rune.canvas.setElement(this.$('#canvas-container')).render();
             this.$('#prompt-canvas').hammer().on('doubletap.Rune', this.handleDoubleTap);
             this.$('#prompt-canvas').hammer().on('hold.Rune', _.bind(this.handleHold, this));
-            this.$('#prompt-canvas').hammer().on('swipeleft.Rune', _.bind(this.handleSwipeLeft, this));
+            this.$('#prompt-canvas').hammer().on('swipeleft.Rune', _.bind(this.nextIfFinished, this));
+            this.$('#prompt-canvas').hammer().on('tap.Rune', _.bind(this.nextIfFinished, this));
             return this;
         },
         /**
@@ -208,6 +209,12 @@ define([
                 Rune.canvas.enableInput();
             } else {
                 this.triggerPromptComplete();
+            }
+        },
+        nextIfFinished: function() {
+            if (Prompt.finished) {
+                Prompt.buttons.remove();
+                this.next();
             }
         },
         showAnswer: function() {
