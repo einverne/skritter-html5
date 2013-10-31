@@ -68,7 +68,7 @@ define([
         loadAssets: function(callback) {
             Skritter.assets = new Assets();
             Skritter.async.parallel([
-               Skritter.async.apply(Skritter.assets.loadStrokes) 
+               Skritter.async.apply(Skritter.assets.loadStrokeSprites) 
             ], function() {
                 callback();
             });
@@ -124,6 +124,12 @@ define([
          */
         loadTimer: function(callback) {
             Skritter.timer = new Timer();
+            //attemps to pull the official date information from the server
+            Skritter.api.getDateInfo(function(date) {
+                if (date.today)
+                    Skritter.settings.set('date', date.today);
+            });
+            //attempts to sync with the server study time
             if (Skritter.user.isLoggedIn()) {
                 Skritter.timer.sync(true);
             }

@@ -103,6 +103,7 @@ define([
         studyView: function() {
             if (!Router.studyView) {
                 Router.studyView = new StudyView({el: $(Skritter.settings.get('container'))}).render();
+                Skritter.test = Router.studyView;
             } else {
                 Router.studyView.setElement($(Skritter.settings.get('container'))).render();
             }

@@ -103,9 +103,10 @@ define([
          * are considered active must have the part enabled, contained vocabs and not be banned.
          * 
          * @method filterActive
+         * @param {Boolean} includeBanned
          * @returns {StudyItems}
          */
-        filterActive: function() {
+        filterActive: function(includeBanned) {
             //filter items based on the user parts study settings
             var filtered = this.filterBy('part', Skritter.user.getStudyParts());
             //ISSUE #22: loads simplified and traditional chinese based on user settings
@@ -123,7 +124,7 @@ define([
                 if (contained.length > 0) {
                     var vocab = item.getVocabs()[0];
                     //active items shouldn't be banned
-                    if (!vocab.has('bannedParts'))
+                    if (!vocab.has('bannedParts') || includeBanned)
                         return true;
                 }
                 
@@ -234,11 +235,7 @@ define([
          * @returns {StudyItem} The next item to be studied
          */
         getNext: function() {
-            var filtered = this.filterActive();
-            //TESTING: uncomment and adjust to filter and focus on specific items
-            //filtered = filtered.filterBy('id', 'mcfarljwtest1-zh-嗯-0-rune');
-            filtered = filtered.filterBy('part', Skritter.user.getStudyParts());
-            var item = filtered.at(0);
+            var item = this.at(0);
             return item;
         },
         /**

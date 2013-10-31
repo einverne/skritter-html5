@@ -50,7 +50,7 @@ define([
         },
         refreshDate: function() {
             var date = new Date();
-            this.set('date', date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate());
+            this.set('date', date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate());
         },
         triggerResize: function() {
             var newSizes = {width:this.get('appWidth'), height:this.get('appHeight'), canvas:this.get('canvasSize')};

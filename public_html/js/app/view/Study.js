@@ -26,6 +26,7 @@ define([
     var Study = Backbone.View.extend({
         initialize: function() {
             Study.c = {prompt: null, item: null, vocabs: null};
+            Study.items = {};
             Study.scheduler = new Scheduler();
         },
         /**
@@ -36,6 +37,7 @@ define([
             this.$el.html(templateStudy);
             this.updateDue();
             Skritter.timer.setElement(this.$('#timer')).render();
+            this.loadItems();
             this.next();
             this.resize();
             return this;
@@ -58,12 +60,35 @@ define([
             this.next();
         },
         /**
+         * Loads the selected items into the study session. If nothing is set then
+         * it'll just load the current active items.
+         * 
+         * @method loadPrompt
+         * @param {String} itemAttr
+         * @param {Array} itemVals
+         * @returns {StudyItem}
+         */
+        loadItems: function(itemAttr, itemVals) {
+            if (itemAttr && itemVals) {
+                Study.items = Skritter.study.items.filterBy(itemAttr, itemVals);
+                this.next();
+            } else {
+                Study.items = Skritter.study.items.filterActive();
+            }
+            return Study.items;
+        },
+        /**
          * @method next
          * @returns {Object}
          */
         next: function() {
+            //force loads items if they haven't already been
+            if (Study.items.length === 0)
+                this.loadItems();
+            //resort the items based on the new readiness values
+            Study.items.sort();
             //gets the next item that should be studied and loads it
-            Study.c.item = Skritter.study.items.getNext();
+            Study.c.item = Study.items.getNext();
             //integrity check to make sure something loaded
             if (!Study.c.item) {
                 alert("Something didn't quite load properly!");

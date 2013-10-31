@@ -5,10 +5,11 @@
  * @author Joshua McFarland
  */
 define([
+    'model/CanvasStroke',
     'view/admin/RecogCanvas',
     'require.text!template/admin-recog-editor.html',
     'backbone'
-], function(RecogCanvas, templateRecogEditor) {
+], function(CanvasStroke, RecogCanvas, templateRecogEditor) {
     /**
      * @class RecogEditor
      */
@@ -24,11 +25,35 @@ define([
             this.resize();
             return this;
         },
-        load: function(strokeId, paramId) {
-            
+        events: {
+            'click.Editor #stroke-list .panel-body': 'handleStrokeClick',
+            'click.Editor #param-list .panel-body': 'handleParamClick'
+        },
+        handleParamClick: function(event) {
+            var cid = event.target.id.replace('param-', '');
+            if (cid)
+                this.loadParam(cid);
+        },
+        handleStrokeClick: function(event) {
+            var id = event.target.id.replace('stroke-', '');
+            if (id)
+                this.loadStroke(id);
+        },
+        loadParam: function(paramId) {
+            var param = Skritter.study.params.get(paramId);
+            Editor.canvas.drawParam(param);
+        },
+        loadStroke: function(strokeId) {
+            Editor.canvas.drawRawStroke(new CanvasStroke().set('sprite', Skritter.assets.getStroke(strokeId)));
+            this.populateParamList(strokeId);
         },
         populateParamList: function(strokeId) {
-            
+            this.$('#param-list .panel-body').html('');
+            var params = Skritter.study.params.where({bitmapId: parseInt(strokeId)});
+            for (var p in params) {
+                var param = params[p];
+                this.$('#param-list .panel-body').append("<div id='param-" + param.cid + "'>" + param.cid + "</div>");
+            }
         },
         populateStrokeList: function() {
             var strokeIds = Editor.strokes.getAnimations();
@@ -37,7 +62,7 @@ define([
             }
             strokeIds.sort();
             for (i in strokeIds) {
-                this.$('#stroke-list .panel-body').append("<div id='stroke-" + strokeIds[i].replace(/0/g, '') + "'>" + strokeIds[i] + "</div>");
+                this.$('#stroke-list .panel-body').append("<div id='stroke-" + parseInt(strokeIds[i], 10) + "'>" + strokeIds[i] + "</div>");
             }
             
         },

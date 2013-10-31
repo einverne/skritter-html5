@@ -20,8 +20,9 @@ define([
 	initialize: function() {
             Assets.audioPlayer = new Audio();
 	    Assets.queue = new createjs.LoadQueue();
-            Assets.strokes = null;
-	},	
+            Assets.strokeSpriteSheet = null;
+            Assets.strokeSprites= null;
+	},
 	/**
          * Plays an audio file using the native HTML5 audio element.
          * 
@@ -44,7 +45,7 @@ define([
          * @return {Sprite}
          */
         getStroke: function(bitmapId) {
-            return new createjs.Sprite(Assets.strokes, 's' + bitmapId);
+            return Assets.strokeSprites[bitmapId];
         },
         /**
          * Returns the current instance of the stroke spritesheet.
@@ -53,7 +54,7 @@ define([
          * @returns {SpriteSheet}
          */
         getStrokeSpriteSheet: function() {
-            return Assets.strokes;
+            return Assets.strokeSpriteSheet;
         },
         /**
          * Loads the strokes as a spritesheet and returns a callback once they have been preloaded.
@@ -61,15 +62,21 @@ define([
          * @method loadStrokes
          * @param {Function} callback
          */
-	loadStrokes: function(callback) {
-            var handleComplete = function() {
-                callback(Assets.strokes);
+	loadStrokeSprites: function(callback) {
+            var loadSprites = function() {
+                var strokeSprites = {};
+                var animationIds = Assets.strokeSpriteSheet.getAnimations();
+                for (var i in animationIds) {
+                    strokeSprites[parseInt(animationIds[i].replace('s', ''), 10)] = new createjs.Sprite(Assets.strokeSpriteSheet, animationIds[i]);
+                }
+                Assets.strokeSprites = strokeSprites;
+                callback(strokeSprites);
             };
-            Assets.strokes = new createjs.SpriteSheet(StrokeMap);
-            if (!Assets.strokes.complete) {
-                Assets.strokes.addEventListener('complete', handleComplete);
+            Assets.strokeSpriteSheet = new createjs.SpriteSheet(StrokeMap);
+            if (!Assets.strokeSpriteSheet.complete) {
+                Assets.strokeSpriteSheet.addEventListener('complete', loadSprites);
             } else {
-                callback(Assets.strokes);
+                loadSprites();
             }
 	}
     });
