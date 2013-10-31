@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.54</em>
+            <em>API Docs for: 0.0.56</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -219,8 +219,11 @@ define([
         render: function() {
             if (!Skritter.user.isLoggedIn())
 		document.location.hash = &#x27;&#x27;;
-            this.$el.html(templateOptions);            
+            this.$el.html(templateOptions);        
             this.load();
+            //ISSUE #31: hides the tone option for users studying japanese
+            if (Skritter.user.getSetting(&#x27;targetLang&#x27;) === &#x27;ja&#x27;)
+                this.$(&#x27;#part-tone&#x27;).closest(&#x27;.checkbox&#x27;).hide();
             return this;
         },
         /**

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.54</em>
+            <em>API Docs for: 0.0.56</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -248,7 +248,8 @@ define([
             Rune.canvas.setElement(this.$(&#x27;#canvas-container&#x27;)).render();
             this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;doubletap.Rune&#x27;, this.handleDoubleTap);
             this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;hold.Rune&#x27;, _.bind(this.handleHold, this));
-            this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;swipeleft.Rune&#x27;, _.bind(this.handleSwipeLeft, this));
+            this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;swipeleft.Rune&#x27;, _.bind(this.nextIfFinished, this));
+            this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;tap.Rune&#x27;, _.bind(this.nextIfFinished, this));
             return this;
         },
         /**
@@ -389,10 +390,12 @@ define([
             Prompt.position++;
             //ISSUE #27: skips kana characters in the vocabs writing string
             if (Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1))) {
-                    this.next();
-                    return;
-                }
-            this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
+                this.next();
+                return;
+            }
+            //makes sure the result contains something useful otherwise discard it
+            if (Skritter.timer.getStartTime() !== 0)
+                this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             //check to see if there are more characters in the prompt
             if (Prompt.position &lt;= Prompt.vocabs[0].getCharacterCount()) {
                 //reset the item for a new character
@@ -412,6 +415,12 @@ define([
                 this.triggerPromptComplete();
             }
         },
+        nextIfFinished: function() {
+            if (Prompt.finished) {
+                Prompt.buttons.remove();
+                this.next();
+            }
+        },
         showAnswer: function() {
             Skritter.timer.stop();
             Rune.canvas.disableInput();
@@ -420,6 +429,11 @@ define([
                 this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence));
         },
         showHidden: function() {
+            //ISSUE #30: skips japanese characters with leading kana
+            if (Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position-1))) {
+                this.next();
+                return;
+            }
             console.log(&#x27;Prompt&#x27;, &#x27;RUNE&#x27;, Prompt.vocabs[0].get(&#x27;writing&#x27;));
             Skritter.timer.start();
             //play the audio file if the first character
@@ -440,6 +454,7 @@ define([
 
     return Rune;
 });
+
     </pre>
 </div>
 

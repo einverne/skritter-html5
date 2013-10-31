@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.54"
+        "version": "0.0.56"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -3876,7 +3876,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 46,
+            "line": 47,
             "description": "Creates several containers used to organize different levels of display.",
             "itemtype": "method",
             "name": "initLayers",
@@ -3890,7 +3890,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 75,
+            "line": 76,
             "itemtype": "method",
             "name": "initStage",
             "return": {
@@ -3903,7 +3903,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 92,
+            "line": 93,
             "itemtype": "method",
             "name": "applyBackgroundColorFilter",
             "params": [
@@ -3919,7 +3919,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 100,
+            "line": 101,
             "itemtype": "method",
             "name": "applyBackgroundGlow",
             "params": [
@@ -3940,7 +3940,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 118,
+            "line": 119,
             "description": "Disables all touch input on the canvas. This is most commonly used when a user has\nalready completed a problem and it needs grading.",
             "itemtype": "method",
             "name": "disableInput",
@@ -3950,7 +3950,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 127,
+            "line": 128,
             "description": "Draws text to the canvas on the message layer. If a position isn't specified then\nit defaults to the bottom center of the canvas.",
             "itemtype": "method",
             "name": "displayMessage",
@@ -3987,7 +3987,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 156,
+            "line": 157,
             "description": "Given a CanvasCharacter this will render the image to the canvas.",
             "params": [
                 {
@@ -4007,7 +4007,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 173,
+            "line": 174,
             "description": "The grid that fills the background of the canvas for rune prompts.",
             "itemtype": "method",
             "name": "drawGrid",
@@ -4017,7 +4017,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 190,
+            "line": 191,
             "itemtype": "method",
             "name": "drawPhantomStroke",
             "params": [
@@ -4038,7 +4038,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 206,
+            "line": 207,
             "itemtype": "method",
             "name": "drawSquig",
             "params": [
@@ -4059,7 +4059,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 231,
+            "line": 232,
             "itemtype": "method",
             "name": "drawStroke",
             "params": [
@@ -4080,7 +4080,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 245,
+            "line": 246,
             "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger. It's important that this canvas doesn't use autoClear for\nspeed reasons and Cordova compatibility.",
             "itemtype": "method",
             "name": "enableInput",
@@ -4090,7 +4090,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 299,
+            "line": 300,
             "itemtype": "method",
             "name": "fadeBackground",
             "class": "PromptCanvas",
@@ -4099,7 +4099,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 310,
+            "line": 311,
             "itemtype": "method",
             "name": "fadeOverlay",
             "class": "PromptCanvas",
@@ -4108,7 +4108,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 321,
+            "line": 322,
             "itemtype": "method",
             "name": "resize",
             "params": [
@@ -4124,7 +4124,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 339,
+            "line": 340,
             "itemtype": "method",
             "name": "tick",
             "class": "PromptCanvas",
@@ -4133,7 +4133,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 345,
+            "line": 346,
             "description": "Enables the view to fire events when the canvas has been touched.",
             "itemtype": "method",
             "name": "triggerMouseDown",
@@ -4150,7 +4150,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 354,
+            "line": 355,
             "description": "Enables the view to fire events when the canvas touch has been released.",
             "itemtype": "method",
             "name": "triggerMouseUp",
@@ -4180,7 +4180,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 52,
+            "line": 53,
             "itemtype": "method",
             "name": "clear",
             "class": "PromptRune",
@@ -4189,7 +4189,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 60,
+            "line": 61,
             "description": "Handles the points returned when the user is finished with a stroke.",
             "itemtype": "method",
             "name": "handleInputRecieved",
@@ -4206,7 +4206,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 154,
+            "line": 155,
             "description": "Returns the next stroke in the character based on the order it should be written.",
             "itemtype": "method",
             "name": "getNextStroke",
@@ -4220,7 +4220,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 169,
+            "line": 170,
             "description": "Returns the stroke highest possible stroke count out of all of the targets.",
             "itemtype": "method",
             "name": "getTargetStrokeCount",
@@ -4403,7 +4403,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 24,
+            "line": 27,
             "description": "Immediately saves a users selection after they have been toggled.",
             "itemtype": "property",
             "name": "save",
@@ -4413,7 +4413,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 34,
+            "line": 37,
             "description": "Loads and sets all of the user settings on the interface of the view.",
             "itemtype": "method",
             "name": "load",
@@ -4422,7 +4422,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 63,
+            "line": 66,
             "description": "Saves all the settings to the database.",
             "itemtype": "method",
             "name": "save",
@@ -4431,7 +4431,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 99,
+            "line": 102,
             "itemtype": "method",
             "name": "toggleAudio",
             "params": [
@@ -4451,7 +4451,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 114,
+            "line": 117,
             "itemtype": "method",
             "name": "toggleRawSquigs",
             "params": [
@@ -5903,11 +5903,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:46"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:47"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:75"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:76"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -5915,11 +5915,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:154"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:155"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:169"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:170"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6023,7 +6023,7 @@
         },
         {
             "message": "Missing item type\nGiven a CanvasCharacter this will render the image to the canvas.",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:156"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:157"
         },
         {
             "message": "Missing item type\nCreates the global Skritter namespace when the application first opened.",
