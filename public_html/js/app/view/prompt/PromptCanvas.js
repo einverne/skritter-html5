@@ -1,22 +1,19 @@
 /**
  * @module Skritter
  * @submodule Prompt
- * @param LeapController
  * @author Joshua McFarland
  */
 define([
-    'model/LeapController',
     'backbone',
     'createjs.easel',
     'createjs.tween'
-], function(LeapController) {
+], function() {
     /**
      * @class PromptCanvas
      */
     var Canvas = Backbone.View.extend({
         initialize: function() {
             Canvas.canvas = null;
-            Canvas.leap = new LeapController();
             Canvas.stage = null;
             Canvas.points = [];
             Canvas.size = Skritter.settings.get('canvasSize');
@@ -38,7 +35,7 @@ define([
             
             //ISSUE #18: drawing a dummy sprite fixes the delayed tween problem in Chrome
             //it needs to be a clone otherwise the sprite will globally have the alpha set
-            var dummySprite = Skritter.assets.getStroke(0).clone();
+            var dummySprite = Skritter.assets.getStroke(0);
             dummySprite.alpha = 0.0001;
             Canvas.stage.addChildAt(dummySprite, 0);
             
@@ -170,6 +167,20 @@ define([
                 Canvas.layerBackground.addChild(characterSprite);
             }
             Canvas.stage.update();
+        },
+        /**
+         * Draws the character to the background using the font rather than assembling
+         * the character strokes.
+         * 
+         * @method drawCharacterFromText
+         * @param {String} text
+         * @param {Number} alpha
+         */
+        drawCharacterFromFont: function(text, alpha) {
+            text = new createjs.Text(text, Canvas.size + 'px simkai', 'black');
+            if (alpha)
+                text.alpha = alpha;
+            Canvas.layerBackground.addChild(text);
         },
         /**
          * The grid that fills the background of the canvas for rune prompts.

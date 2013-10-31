@@ -45,7 +45,7 @@ define([
          * @return {Sprite}
          */
         getStroke: function(bitmapId) {
-            return Assets.strokeSprites[bitmapId];
+            return Assets.strokeSprites[bitmapId].clone();
         },
         /**
          * Returns the current instance of the stroke spritesheet.

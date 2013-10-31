@@ -143,7 +143,7 @@ define([
             Skritter.timer.start();
             Tone.userCharacter = new CanvasCharacter();
             Tone.userTargets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'tone');
-            Tone.canvas.drawCharacter(Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'rune')[0], 0.3);
+            Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), 0.3);
             Tone.canvas.enableInput();
             this.$('#writing').html(Prompt.writing);
             this.$('#reading').html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1)));

@@ -44,10 +44,10 @@ define([
         render: function() {
             this.$el.html(templateRune);
             Rune.canvas.setElement(this.$('#canvas-container')).render();
-            this.$('#prompt-canvas').hammer().on('doubletap.Rune', this.handleDoubleTap);
+            this.$('#prompt-canvas').hammer().on('doubletap.Rune', _.bind(this.handleDoubleTap, this));
             this.$('#prompt-canvas').hammer().on('hold.Rune', _.bind(this.handleHold, this));
-            this.$('#prompt-canvas').hammer().on('swipeleft.Rune', _.bind(this.nextIfFinished, this));
-            this.$('#prompt-canvas').hammer().on('tap.Rune', _.bind(this.nextIfFinished, this));
+            this.$('#prompt-canvas').hammer().on('swipeleft.Rune', _.bind(this.handleIfFinished, this));
+            this.$('#prompt-canvas').hammer().on('tap.Rune', _.bind(this.handleIfFinished, this));
             return this;
         },
         /**
@@ -56,6 +56,7 @@ define([
         clear: function() {
             Prompt.buttons.remove();
             Rune.canvas.clear();
+            Prompt.finished = false;
             Rune.userCharacter = new CanvasCharacter();
         },
         /**
@@ -76,7 +77,6 @@ define([
                 var stroke = new CanvasStroke().set('points', points);
                 //recognize a stroke based on user input and targets
                 var result = new Recognizer(Rune.userCharacter, stroke, Rune.userTargets).recognize();
-                console.log(result);
                 //check if a result exists and that it's not a duplicate
                 if (result && !Rune.userCharacter.containsStroke(result)) {
                     //reset the failed attempts counter
@@ -99,11 +99,17 @@ define([
                     //if failed too many times show a hint
                     if (Rune.failedAttempts > Rune.maxFailedAttempts) {
                         Prompt.grade = 1;
-                        Rune.canvas.drawPhantomStroke(this.getNextStroke());
+                        Rune.canvas.drawPhantomStroke(this.getNextStroke().stroke);
                     }
                 }
             }
         },
+        /**
+         * Handles the character if it is complete by applying the correct background glow
+         * and then displaying the grading buttons.
+         * 
+         * @method handleCharacterComplete
+         */
         handleCharacterComplete: function() {
             //catches callbacks firing at the same time with people writing quickly
             //otherwise it's possible a character can complete twice
@@ -126,21 +132,57 @@ define([
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);
         },
+        /**
+         * Handles the double tap event by displaying the character hint if it's
+         * not finished yet.
+         * 
+         * @method handleDoubleTap
+         */
         handleDoubleTap: function() {
             if (!Prompt.finished) {
-                Rune.canvas.drawCharacter(Rune.userTargets[0], 0.3);
+                Rune.canvas.drawCharacter(Rune.userTargets[this.getNextStroke().variation], 0.3);
                 Prompt.grade = 1;
             }
         },
+        /**
+         * Handles either the swipeleft or tap events by moving to the next if the
+         * prompt has already been finished.
+         * 
+         * @method handleIfFinished
+         */
+        handleIfFinished: function() {
+            if (Prompt.finished) {
+                Prompt.buttons.remove();
+                this.next();
+            }
+        },
+        /**
+         * Handles the grade selected event by passing the selected grade along and then
+         * called the next character in the prompt.
+         * 
+         * @method handleGradeSelected
+         * @param {Number} selected
+         */
         handleGradeSelected: function(selected) {
             Prompt.grade = selected;
             Prompt.buttons.remove();
             this.next();
         },
+        /**
+         * Handles the hold event by clearing the canvas and reseting the input.
+         * 
+         * @method handleHold
+         */
         handleHold: function() {
             this.clear();
             Rune.canvas.enableInput();
         },
+        /**
+         * Handles a complete stroke a trigger by the PromptCanvas. It also checks to see
+         * if the character has been completed yet or not.
+         * 
+         * @method handleStrokeComplete
+         */
         handleStrokeComplete: function() {
             //check if the character has been completed yet or not
             console.log(Rune.userCharacter.getStrokeCount(), this.getTargetStrokeCount());
@@ -148,14 +190,9 @@ define([
                 this.handleCharacterComplete();
             }
         },
-        handleSwipeLeft: function() {
-            if (Prompt.finished) {
-                Prompt.buttons.remove();
-                this.next();
-            }
-        },
         /**
-         * Returns the next stroke in the character based on the order it should be written.
+         * Returns the next stroke in the character based on the order it should be written. It also
+         * return the variation, so the matching background hint can be displayed.
          * 
          * @method getNextStroke
          * @returns {CanvasStroke}
@@ -166,7 +203,7 @@ define([
             for (var a in Rune.userTargets) {
                 var stroke = Rune.userTargets[a].findWhere({position: position});
                 if (stroke && !Rune.userCharacter.containsStroke(stroke))
-                        return stroke;
+                        return {variation: a, stroke: stroke};
             }
         },
         /**
@@ -185,6 +222,11 @@ define([
             }
             return strokeCount;
         },
+        /**
+         * Moves to the next item in the prompt for prompts containing multiple characters.
+         * 
+         * @method next
+         */
         next: function() {
             console.log('next', Prompt.position, Prompt.vocabs[0].getCharacterCount());
             Prompt.position++;
@@ -215,12 +257,12 @@ define([
                 this.triggerPromptComplete();
             }
         },
-        nextIfFinished: function() {
-            if (Prompt.finished) {
-                Prompt.buttons.remove();
-                this.next();
-            }
-        },
+        /**
+         * Displays the answer for the user, which should be called after the prompt
+         * has been completed.
+         * 
+         * @method showAnswer
+         */
         showAnswer: function() {
             Skritter.timer.stop();
             Rune.canvas.disableInput();
@@ -228,6 +270,12 @@ define([
             if (Prompt.sentence && Prompt.position >= Prompt.vocabs[0].getCharacterCount())
                 this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence));
         },
+        /**
+         * Displays the initial prompt for the user and should probably be renamed to
+         * something a little less misleading than show hidden.
+         * 
+         * @method showHidden
+         */
         showHidden: function() {
             //ISSUE #30: skips japanese characters with leading kana
             if (Skritter.user.isJapanese() && Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position-1))) {
