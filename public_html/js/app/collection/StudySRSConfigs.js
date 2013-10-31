@@ -37,7 +37,7 @@ define([
          * @returns {undefined}
          */
         fetch: function(callback) {
-            Skritter.api.getSRSConfigs(function(result) {
+            Skritter.api.getSRSConfigs(Skritter.user.getSetting('targetLang'), function(result) {
                 Skritter.study.srsconfigs.add(result);
                 callback(null, result);
             });

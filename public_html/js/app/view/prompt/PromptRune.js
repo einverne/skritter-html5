@@ -76,6 +76,7 @@ define([
                 var stroke = new CanvasStroke().set('points', points);
                 //recognize a stroke based on user input and targets
                 var result = new Recognizer(Rune.userCharacter, stroke, Rune.userTargets).recognize();
+                console.log(result);
                 //check if a result exists and that it's not a duplicate
                 if (result && !Rune.userCharacter.containsStroke(result)) {
                     //reset the failed attempts counter
@@ -142,6 +143,7 @@ define([
         },
         handleStrokeComplete: function() {
             //check if the character has been completed yet or not
+            console.log(Rune.userCharacter.getStrokeCount(), this.getTargetStrokeCount());
             if (Rune.userCharacter.getStrokeCount() >= this.getTargetStrokeCount()) {
                 this.handleCharacterComplete();
             }
@@ -187,7 +189,7 @@ define([
             console.log('next', Prompt.position, Prompt.vocabs[0].getCharacterCount());
             Prompt.position++;
             //ISSUE #27: skips kana characters in the vocabs writing string
-            if (Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1))) {
+            if (Skritter.user.isJapanese() && Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1))) {
                 this.next();
                 return;
             }
@@ -228,7 +230,7 @@ define([
         },
         showHidden: function() {
             //ISSUE #30: skips japanese characters with leading kana
-            if (Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position-1))) {
+            if (Skritter.user.isJapanese() && Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position-1))) {
                 this.next();
                 return;
             }

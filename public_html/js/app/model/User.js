@@ -56,6 +56,8 @@ define([
             lastLogin: null,
             lastReviewFix: null,
             lastSync: null,
+            lastSyncChinese: null,
+            lastSyncJapanese: null,
             refresh_token: null,
             settings: null,
             token_type: null,
@@ -193,6 +195,18 @@ define([
             return "<img src='data:image/png;base64," + this.get('settings').avatar + "' width='50' height='50' />";
         },
         /**
+         * Returns the last sync based on the current active language. This is needed so we don't
+         * have to delete all of the data when switching languages.
+         * 
+         * @method getLastSync
+         * @returns {Number}
+         */
+        getLastSync: function() {
+            if (this.isChinese())
+                return this.get('lastSyncChinese');
+            return this.get('lastSyncJapanese');
+        },
+        /**
          * Adapts the stored values for weight into a format the application can use and
          * then returns it.
          * 
@@ -223,6 +237,24 @@ define([
             if (this.get('settings').targetLang === 'zh')
                 return this.get('settings').chineseStudyParts;
             return this.get('settings').japaneseStudyParts;
+        },
+        /**
+         * @method isChinese
+         * @returns {Boolean}
+         */
+        isChinese: function() {
+            if (this.getSetting('targetLang') === 'zh')
+                return true;
+            return false;
+        },
+        /**
+         * @method isJapanese
+         * @returns {Boolean}
+         */
+        isJapanese: function() {
+            if (this.getSetting('targetLang') === 'ja')
+                return true;
+            return false;
         },
         /**
          * Checks to see if the user is logged in by seeing if a token exists. This might not always work
@@ -311,6 +343,21 @@ define([
             Skritter.study.vocabs.reset();
         },
         /**
+         * Sets the sync timestamp based on the active language and then returns it.
+         * 
+         * @method setLastSync
+         * @param {Number} timestamp
+         * @return {Number}
+         */
+        setLastSync: function(timestamp) {
+            if (this.isChinese()) {
+                this.set('lastSyncChinese', timestamp);
+                return this.get('lastSyncChinese');
+            }
+            this.set('lastSyncJapanese', timestamp);
+            return this.get('lastSyncJapanese');
+        },
+        /**
          * A quicker way to set the user settings object.
          * 
          * @method setSetting
@@ -346,11 +393,6 @@ define([
             var process = function(requests) {
                 Skritter.async.waterfall([
                     function(callback) {
-                        Skritter.study.srsconfigs.fetch(function() {
-                            callback();
-                        });
-                    },
-                    function(callback) {
                         Skritter.api.requestBatch(requests, function(result) {
                             callback(null, result);
                         });
@@ -363,11 +405,15 @@ define([
                             //ISSUE #20: decomps is returning a null value in the resulting array
                             Skritter.study.decomps.add(_.compact(result.Decomps));
                             Skritter.study.items.add(result.Items);
-                            Skritter.study.srsconfigs.add(result.SRSConfigs);
                             Skritter.study.sentences.add(result.Sentences);
                             Skritter.study.strokes.add(result.Strokes);
                             Skritter.study.vocabs.add(result.Vocabs);
                         }, function() {
+                            callback();
+                        });
+                    },
+                    function(callback) {
+                        Skritter.study.srsconfigs.fetch(function() {
                             callback();
                         });
                     },
@@ -377,18 +423,17 @@ define([
                         });
                     }
                 ], function() {
-                    Skritter.user.set('lastSync', Skritter.fn.getUnixTime());
                     if (accountDownload) {
                         Skritter.facade.hide();
                         self.set('isSyncing', false);
-                        self.set('lastReviewFix', Skritter.fn.getUnixTime());
                         if (typeof callback === 'function')
                             callback();
                     }
+                    self.setLastSync(Skritter.fn.getUnixTime());
                 });
             };
 
-            if (this.get('lastSync') && !forceAccountDownload) {
+            if (this.getLastSync() && !forceAccountDownload) {
                 //incremental sync from the last time a successful sync was performed
                 callback();
                 requests = [
@@ -397,8 +442,9 @@ define([
                         method: 'GET',
                         cache: false,
                         params: {
+                            lang: this.getSetting('targetLang'),
                             sort: 'changed',
-                            offset: this.get('lastSync'),
+                            offset: this.getLastSync(),
                             include_vocabs: 'true',
                             include_strokes: 'true',
                             include_sentences: 'true',
@@ -422,6 +468,7 @@ define([
                         method: 'GET',
                         cache: false,
                         params: {
+                            lang: this.getSetting('targetLang'),
                             sort: 'last',
                             include_vocabs: 'true',
                             include_strokes: 'true',
