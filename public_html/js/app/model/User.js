@@ -239,6 +239,24 @@ define([
             return this.get('settings').japaneseStudyParts;
         },
         /**
+         * Returns the current style which really only applies to Chinese as both,
+         * simplified or traditional.
+         * 
+         * @method getStyle
+         * @returns {String}
+         */
+        getStyle: function() {
+            if (this.isJapanese()) {
+                return 'ja';
+            } else if (this.isChinese() && this.getSetting('addSimplified') && this.getSetting('addTraditional'))  {
+                return 'zh-both';
+            } else if (this.isChinese() && this.getSetting('addSimplified') && !this.getSetting('addTraditional')) {
+                return 'zh-simp';
+            } else {
+                return 'zh-trad';
+            }
+        },
+        /**
          * @method isChinese
          * @returns {Boolean}
          */

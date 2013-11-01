@@ -16,6 +16,21 @@
                         <h3 class="panel-title">Study Settings</h3>
                     </div>
                     <div id="parts" class="panel-body">
+                        <h4>Language</h4>
+                        <div class="btn-group">
+                            <button type="button" id="language-style" class="btn btn-default">{current language}</button>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul id="language-options" class="dropdown-menu" role="menu">
+                                <li><a id="style-zh-both">Chinese (Both)</a></li>
+                                <li><a id="style-zh-simp">Chinese (Simplified)</a></li>
+                                <li><a id="style-zh-trad">Chinese (Traditional)</a></li>
+                                <li class="divider"></li>
+                                <li><a id="style-ja">Japanese</a></li>
+                            </ul>
+                        </div>
                         <h4>Parts</h4>
                         <div class="btn-group" >
                             <div class="checkbox">
