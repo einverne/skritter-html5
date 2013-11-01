@@ -186,13 +186,10 @@ define([
          * Gets the users current avatar and returns it as an image tag using base64 data.
          * 
          * @method getAvatar
-         * @param {Boolean} fullsize Specifies wether is return the avatars original size
          * @returns {Image} Returns a base64 image tag
          */
-        getAvatar: function(fullsize) {
-            if (fullsize)
-                return "<img src='data:image/png;base64," + this.get('settings').avatar + "' />";
-            return "<img src='data:image/png;base64," + this.get('settings').avatar + "' width='50' height='50' />";
+        getAvatar: function() {
+            return "<img src='data:image/png;base64," + this.getSetting('avatar') + "' />";
         },
         /**
          * Returns the last sync based on the current active language. This is needed so we don't
