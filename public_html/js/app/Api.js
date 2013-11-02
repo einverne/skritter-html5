@@ -418,7 +418,43 @@ define([
 
         getNext();
     };
+    
+   /**
+    * Returns a single vocab item with all of the stroke data. Useful for looking up vcoabs that
+    * aren't actually associated with the user's items.
+    * 
+    * @method getVocab
+    * @param {String} writing
+    * @param {Function} callback
+    * @param {String} lang
+    */
+    Api.prototype.getVocab = function(writing, callback, lang) {       
+        var self = this;
+        var getNext = function() {
+            var promise = $.ajax({
+                url: self.root + '.' + self.domain + '/api/v' + self.version + '/vocabs',
+                type: 'GET',
+                cache: false,
+                data: {
+                    bearer_token: self.token,
+                    lang: lang,
+                    q: writing,
+                    include_strokes: true
+                }
+            });
 
+            promise.done(function(data) {
+                console.log(data);
+            });
+
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        };
+        getNext();
+    };
+    
     /**
      * Returns a single vocablist with section ids for further querying.
      * 

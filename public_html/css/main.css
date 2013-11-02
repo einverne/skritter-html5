@@ -288,3 +288,6 @@ body {
 #recog-editor-view #canvas-container {
     margin: 0 auto;
 }
+#recog-editor-view .active {
+    background: #7aba7b;
+}

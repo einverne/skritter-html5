@@ -4,7 +4,10 @@
         <div class="container">
             <div class="navbar-header">
                 <a id="back-button" class="navbar-brand" href="#">Back</a>
-                <!--<div id="new-button" class="navbar-text lr-padding">New</div>-->
+                <ul class="nav navbar-nav">
+                    <li id="new-button"><a class="btn">New</a></li>
+                    <li id="save-button"><a class="btn">Save</a></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -33,7 +36,16 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">Description</h3>
                     </div>
-                    <div class="panel-body"></div>
+                    <div class="panel-body">
+                        <label for="contains">Contains</label>
+                        <input id="contains" type="text">
+                        <label for="corners">Corners</label>
+                        <input id="corners" type="text" readonly>
+                        <label for="deviations">Deviations</label>
+                        <input id="deviations" type="text" readonly>
+                        <label for="feedback">Feedback</label>
+                        <input id="feedback" type="text">
+                    </div>
                 </div>
                 <div id="canvas-container"></div>
             </div>
