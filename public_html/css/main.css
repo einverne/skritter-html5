@@ -133,7 +133,6 @@ body {
     border-color: black;
     cursor: pointer;
     position: relative;
-    z-index: 5000; 
 }
 @media (max-width: 767px) {
     #prompt-canvas {
