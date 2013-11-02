@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.58"
+        "version": "0.0.61"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -248,7 +248,9 @@
         "public_html\\js\\app\\view\\admin\\RecogCanvas.js": {
             "name": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "RecogCanvas": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -530,6 +532,7 @@
                 "User": 1,
                 "IndexedDBAdapter": 1,
                 "Storage": 1,
+                "RecogCanvas": 1,
                 "RecogEditor": 1,
                 "Facade": 1,
                 "Timer": 1,
@@ -1105,6 +1108,19 @@
             "description": "This is a parent class used to store generic information about the database structure.",
             "is_constructor": 1
         },
+        "RecogCanvas": {
+            "name": "RecogCanvas",
+            "shortname": "RecogCanvas",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Skritter",
+            "namespace": "",
+            "file": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
+            "line": 9
+        },
         "RecogEditor": {
             "name": "RecogEditor",
             "shortname": "RecogEditor",
@@ -1116,7 +1132,7 @@
             "module": "Skritter",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
-            "line": 13
+            "line": 14
         },
         "Facade": {
             "name": "Facade",
@@ -3118,13 +3134,6 @@
             "description": "Gets the users current avatar and returns it as an image tag using base64 data.",
             "itemtype": "method",
             "name": "getAvatar",
-            "params": [
-                {
-                    "name": "fullsize",
-                    "description": "Specifies wether is return the avatars original size",
-                    "type": "Boolean"
-                }
-            ],
             "return": {
                 "description": "Returns a base64 image tag",
                 "type": "Image"
@@ -3135,7 +3144,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 197,
+            "line": 194,
             "description": "Returns the last sync based on the current active language. This is needed so we don't\nhave to delete all of the data when switching languages.",
             "itemtype": "method",
             "name": "getLastSync",
@@ -3149,7 +3158,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 209,
+            "line": 206,
             "description": "Adapts the stored values for weight into a format the application can use and\nthen returns it.",
             "itemtype": "method",
             "name": "getOrderStrictness",
@@ -3163,7 +3172,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 220,
+            "line": 217,
             "description": "A quicker way to get a setting from the user settings object.",
             "itemtype": "method",
             "name": "getSetting",
@@ -3184,7 +3193,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 230,
+            "line": 227,
             "description": "Returns an array of active study parts based on the current language being studied.",
             "itemtype": "method",
             "name": "getStudyParts",
@@ -3198,7 +3207,21 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 241,
+            "line": 238,
+            "description": "Returns the current style which really only applies to Chinese as both,\nsimplified or traditional.",
+            "itemtype": "method",
+            "name": "getStyle",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "User",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\User.js",
+            "line": 256,
             "itemtype": "method",
             "name": "isChinese",
             "return": {
@@ -3211,7 +3234,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 250,
+            "line": 265,
             "itemtype": "method",
             "name": "isJapanese",
             "return": {
@@ -3224,7 +3247,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 259,
+            "line": 274,
             "description": "Checks to see if the user is logged in by seeing if a token exists. This might not always work\nin situations where the token as expired.",
             "itemtype": "method",
             "name": "isLoggedIn",
@@ -3238,7 +3261,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 271,
+            "line": 286,
             "description": "Loads all of the data for the current active user into memory. For small to medium size accounts this is\nfairly quick, but larger accounts might need to do loading in logical chunks.",
             "itemtype": "method",
             "name": "loadAllData",
@@ -3255,7 +3278,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 293,
+            "line": 308,
             "description": "Performs a complete login, stores the authentication data and also fetches the users settings from the server.\nIf the statusCode returned is anything but 200 then it doesn't save, but returns the response message. It also creates or\nopens the database for the user.",
             "itemtype": "method",
             "name": "login",
@@ -3282,7 +3305,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 319,
+            "line": 334,
             "description": "Automatically logs the user out and returns them to the home screen when called.",
             "itemtype": "method",
             "name": "logout",
@@ -3292,7 +3315,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 345,
+            "line": 360,
             "description": "Sets the sync timestamp based on the active language and then returns it.",
             "itemtype": "method",
             "name": "setLastSync",
@@ -3313,7 +3336,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 360,
+            "line": 375,
             "description": "A quicker way to set the user settings object.",
             "itemtype": "method",
             "name": "setSetting",
@@ -3339,7 +3362,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 374,
+            "line": 389,
             "description": "Syncs data with the server by getting changed items and posting reviews. If the account has never synced\nthis it initiates an full account download.",
             "itemtype": "method",
             "name": "sync",
@@ -3361,7 +3384,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 489,
+            "line": 504,
             "itemtype": "method",
             "name": "unsetSetting",
             "params": [
@@ -3674,8 +3697,159 @@
         },
         {
             "file": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
-            "line": 9,
-            "description": "RecogCanvas",
+            "line": 13,
+            "itemtype": "method",
+            "name": "clear",
+            "class": "RecogCanvas",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
+            "line": 20,
+            "itemtype": "method",
+            "name": "drawParam",
+            "params": [
+                {
+                    "name": "param",
+                    "description": "",
+                    "type": "StudyParam"
+                }
+            ],
+            "class": "RecogCanvas",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
+            "line": 42,
+            "itemtype": "method",
+            "name": "drawRawStroke",
+            "params": [
+                {
+                    "name": "canvasStroke",
+                    "description": "",
+                    "type": "CanvasStroke"
+                }
+            ],
+            "class": "RecogCanvas",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 18,
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 25,
+            "itemtype": "method",
+            "name": "render",
+            "return": {
+                "description": "",
+                "type": "Editor"
+            },
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 36,
+            "itemtype": "property",
+            "name": "events",
+            "type": "Object",
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 43,
+            "itemtype": "method",
+            "name": "handleParamClick",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 55,
+            "itemtype": "method",
+            "name": "handleStrokeClick",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 69,
+            "itemtype": "method",
+            "name": "loadParam",
+            "params": [
+                {
+                    "name": "paramId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 81,
+            "itemtype": "method",
+            "name": "loadStroke",
+            "params": [
+                {
+                    "name": "strokeId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 89,
+            "itemtype": "method",
+            "name": "populateParamList",
+            "params": [
+                {
+                    "name": "strokeId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 105,
+            "itemtype": "method",
+            "name": "populateStrokeList",
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 119,
+            "itemtype": "method",
+            "name": "resize",
             "class": "RecogEditor",
             "module": "Skritter"
         },
@@ -4476,7 +4650,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Home.js",
-            "line": 34,
+            "line": 36,
             "itemtype": "property",
             "name": "events",
             "type": "Object",
@@ -4486,7 +4660,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Home.js",
-            "line": 40,
+            "line": 42,
             "description": "Toggles the language between Chinese and Japanese, syncs and then\nreloads the page in the new language.",
             "itemtype": "method",
             "name": "switchLanguage",
@@ -4611,13 +4785,21 @@
             "file": "public_html\\js\\app\\view\\Options.js",
             "line": 14,
             "itemtype": "method",
+            "name": "initialize",
+            "class": "OptionsView",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Options.js",
+            "line": 20,
+            "itemtype": "method",
             "name": "render",
             "class": "OptionsView",
             "module": "Skritter"
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 27,
+            "line": 33,
             "description": "Immediately saves a users selection after they have been toggled.",
             "itemtype": "property",
             "name": "save",
@@ -4627,7 +4809,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 37,
+            "line": 44,
             "description": "Loads and sets all of the user settings on the interface of the view.",
             "itemtype": "method",
             "name": "load",
@@ -4636,7 +4818,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 66,
+            "line": 96,
             "description": "Saves all the settings to the database.",
             "itemtype": "method",
             "name": "save",
@@ -4645,7 +4827,22 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 102,
+            "line": 160,
+            "itemtype": "method",
+            "name": "selectLanguage",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "OptionsView",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Options.js",
+            "line": 190,
             "itemtype": "method",
             "name": "toggleAudio",
             "params": [
@@ -4665,7 +4862,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 117,
+            "line": 205,
             "itemtype": "method",
             "name": "toggleRawSquigs",
             "params": [
@@ -5086,6 +5283,32 @@
         {
             "file": "public_html\\js\\app\\Api.js",
             "line": 422,
+            "description": "Returns a single vocab item with all of the stroke data. Useful for looking up vcoabs that\naren't actually associated with the user's items.",
+            "itemtype": "method",
+            "name": "getVocab",
+            "params": [
+                {
+                    "name": "writing",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "lang",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Api",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\Api.js",
+            "line": 458,
             "description": "Returns a single vocablist with section ids for further querying.",
             "itemtype": "method",
             "name": "getVocabList",
@@ -5106,7 +5329,7 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 449,
+            "line": 485,
             "description": "Returns an array of rows in s single list section.",
             "itemtype": "method",
             "name": "getVocabListSection",
@@ -5132,7 +5355,7 @@
         },
         {
             "file": "public_html\\js\\app\\Api.js",
-            "line": 477,
+            "line": 513,
             "description": "Posts batches of reviews in groups of 500 and then returns an array of the posted objects.",
             "itemtype": "method",
             "name": "postReviews",
@@ -6078,27 +6301,31 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:197"
+            "line": " public_html\\js\\app\\model\\User.js:194"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:209"
+            "line": " public_html\\js\\app\\model\\User.js:206"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:230"
+            "line": " public_html\\js\\app\\model\\User.js:227"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:241"
+            "line": " public_html\\js\\app\\model\\User.js:238"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:250"
+            "line": " public_html\\js\\app\\model\\User.js:256"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:259"
+            "line": " public_html\\js\\app\\model\\User.js:265"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\model\\User.js:274"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6115,6 +6342,10 @@
         {
             "message": "replacing incorrect tag: returns with return",
             "line": " public_html\\js\\app\\storage\\Storage.js:164"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\admin\\RecogEditor.js:25"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6243,10 +6474,6 @@
         {
             "message": "Missing item type",
             "line": " public_html\\js\\app\\model\\CanvasStroke.js:158"
-        },
-        {
-            "message": "Missing item type\nRecogCanvas",
-            "line": " public_html\\js\\app\\view\\admin\\RecogCanvas.js:9"
         },
         {
             "message": "Missing item type\nUsed to start, stop and calculate accurate durations of time     .",

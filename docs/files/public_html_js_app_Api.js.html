@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.58</em>
+            <em>API Docs for: 0.0.61</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,8 @@
                 <li><a href="../classes/PromptRune.html">PromptRune</a></li>
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
+            
+                <li><a href="../classes/RecogCanvas.html">RecogCanvas</a></li>
             
                 <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
             
@@ -620,7 +622,43 @@ define([
 
         getNext();
     };
+    
+   /**
+    * Returns a single vocab item with all of the stroke data. Useful for looking up vcoabs that
+    * aren&#x27;t actually associated with the user&#x27;s items.
+    * 
+    * @method getVocab
+    * @param {String} writing
+    * @param {Function} callback
+    * @param {String} lang
+    */
+    Api.prototype.getVocab = function(writing, callback, lang) {       
+        var self = this;
+        var getNext = function() {
+            var promise = $.ajax({
+                url: self.root + &#x27;.&#x27; + self.domain + &#x27;/api/v&#x27; + self.version + &#x27;/vocabs&#x27;,
+                type: &#x27;GET&#x27;,
+                cache: false,
+                data: {
+                    bearer_token: self.token,
+                    lang: lang,
+                    q: writing,
+                    include_strokes: true
+                }
+            });
 
+            promise.done(function(data) {
+                console.log(data);
+            });
+
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        };
+        getNext();
+    };
+    
     /**
      * Returns a single vocablist with section ids for further querying.
      * 

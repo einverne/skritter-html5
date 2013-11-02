@@ -24,6 +24,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "PromptRdng",
         "PromptRune",
         "PromptTone",
+        "RecogCanvas",
         "RecogEditor",
         "Recognizer",
         "Router",

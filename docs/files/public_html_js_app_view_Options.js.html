@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.58</em>
+            <em>API Docs for: 0.0.61</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,8 @@
                 <li><a href="../classes/PromptRune.html">PromptRune</a></li>
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
+            
+                <li><a href="../classes/RecogCanvas.html">RecogCanvas</a></li>
             
                 <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
             
@@ -214,6 +216,12 @@ define([
      */
     var Options = Backbone.View.extend({
         /**
+         * @method initialize
+         */
+        initialize: function() {
+            Options.originalLang = Skritter.user.getSetting(&#x27;targetLang&#x27;);
+        },
+        /**
          * @method render
          */
         render: function() {
@@ -234,6 +242,7 @@ define([
         events: {
             &#x27;click.Options #save-button&#x27;: &#x27;save&#x27;,
             &#x27;click.Options #audio&#x27;: &#x27;toggleAudio&#x27;,
+            &#x27;click.Options #language-options&#x27;: &#x27;selectLanguage&#x27;,
             &#x27;click.Options #raw-squigs&#x27;: &#x27;toggleRawSquigs&#x27;
         },
         /**
@@ -242,7 +251,30 @@ define([
          * @method load
          */
         load: function() {
-            //parts
+            //language style
+            switch (Skritter.user.getStyle()) {
+                case &#x27;ja&#x27;:
+                    this.$(&#x27;#language-style&#x27;).text(&#x27;Japanese&#x27;);
+                    this.$(&#x27;#language-options .divider&#x27;).hide();
+                    this.$(&#x27;#style-ja&#x27;).hide();
+                    break;
+                case &#x27;zh-both&#x27;:
+                    this.$(&#x27;#language-style&#x27;).text(&#x27;Chinese (Both)&#x27;);
+                    this.$(&#x27;#language-options .divider&#x27;).show();
+                    this.$(&#x27;#style-zh-both&#x27;).hide();
+                    break;
+                case &#x27;zh-simp&#x27;:
+                    this.$(&#x27;#language-style&#x27;).text(&#x27;Chinese (Simplified)&#x27;);
+                    this.$(&#x27;#language-options .divider&#x27;).show();
+                    this.$(&#x27;#style-zh-simp&#x27;).hide();
+                    break;
+                case &#x27;zh-trad&#x27;:
+                    this.$(&#x27;#language-style&#x27;).text(&#x27;Chinese (Traditional)&#x27;);
+                    this.$(&#x27;#language-options .divider&#x27;).show();
+                    this.$(&#x27;#style-zh-trad&#x27;).hide();
+                    break;
+            }
+            //language parts
             var parts = Skritter.user.getStudyParts();
 	    this.$(&#x27;#part-rune&#x27;).prop(&#x27;checked&#x27;, _.contains(parts, &#x27;rune&#x27;));
 	    this.$(&#x27;#part-tone&#x27;).prop(&#x27;checked&#x27;, _.contains(parts, &#x27;tone&#x27;));
@@ -270,7 +302,29 @@ define([
          * 
          * @method save
          */
-        save: function() {
+        save: function(event) {
+            //language style
+            var style = this.$(&#x27;#language-style&#x27;).text();
+            switch(style) {
+                case &#x27;Japanese&#x27;:
+                    Skritter.user.setSetting(&#x27;targetLang&#x27;, &#x27;ja&#x27;);
+                    break;
+                case &#x27;Chinese (Both)&#x27;:
+                    Skritter.user.setSetting(&#x27;targetLang&#x27;, &#x27;zh&#x27;);
+                    Skritter.user.setSetting(&#x27;addSimplified&#x27;, true);
+                    Skritter.user.setSetting(&#x27;addTraditional&#x27;, true);
+                    break;
+                case &#x27;Chinese (Simplified)&#x27;:
+                    Skritter.user.setSetting(&#x27;targetLang&#x27;, &#x27;zh&#x27;);
+                    Skritter.user.setSetting(&#x27;addSimplified&#x27;, true);
+                    Skritter.user.setSetting(&#x27;addTraditional&#x27;, false);
+                    break;
+                case &#x27;Chinese (Traditional)&#x27;:
+                    Skritter.user.setSetting(&#x27;targetLang&#x27;, &#x27;zh&#x27;);
+                    Skritter.user.setSetting(&#x27;addSimplified&#x27;, false);
+                    Skritter.user.setSetting(&#x27;addTraditional&#x27;, true);
+                    break;
+            }
             //language parts
             var lang = Skritter.user.get(&#x27;settings&#x27;).targetLang;
             if (lang === &#x27;zh&#x27;) {
@@ -300,6 +354,42 @@ define([
                 Skritter.user.setSetting(&#x27;squigs&#x27;, false);
             }
             Skritter.user.cache();
+            //only reload into a new language if it has changed
+            if (Options.originalLang !== Skritter.user.getSetting(&#x27;targetLang&#x27;)) {
+                Skritter.user.sync(function() {
+                    document.location.reload(true);
+                }, true);
+            }
+        },
+        /**
+         * @method selectLanguage
+         * @param {Object} event
+         */
+        selectLanguage: function(event) {
+            var selected = event.target.id;
+            this.$(&#x27;#language-options&#x27;).children().children(&#x27;a&#x27;).show();
+            switch (selected) {
+                case &#x27;style-ja&#x27;:
+                    this.$(&#x27;#language-style&#x27;).text(&#x27;Japanese&#x27;);
+                    this.$(&#x27;#language-options .divider&#x27;).hide();
+                    this.$(&#x27;#style-ja&#x27;).hide();
+                    break;
+                case &#x27;style-zh-both&#x27;:
+                    this.$(&#x27;#language-style&#x27;).text(&#x27;Chinese (Both)&#x27;);
+                    this.$(&#x27;#language-options .divider&#x27;).show();
+                    this.$(&#x27;#style-zh-both&#x27;).hide();
+                    break;
+                case &#x27;style-zh-simp&#x27;:
+                    this.$(&#x27;#language-style&#x27;).text(&#x27;Chinese (Simplified)&#x27;);
+                    this.$(&#x27;#language-options .divider&#x27;).show();
+                    this.$(&#x27;#style-zh-simp&#x27;).hide();
+                    break;
+                case &#x27;style-zh-trad&#x27;:
+                    this.$(&#x27;#language-style&#x27;).text(&#x27;Chinese (Traditional)&#x27;);
+                    this.$(&#x27;#language-options .divider&#x27;).show();
+                    this.$(&#x27;#style-zh-trad&#x27;).hide();
+                    break;
+            }
         },
         /**
          * @method toggleAudio

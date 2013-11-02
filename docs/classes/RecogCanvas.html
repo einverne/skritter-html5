@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public_html\js\app\Shortstraw.js - Skritter HTML5: Documentation</title>
+    <title>RecogCanvas - Skritter HTML5: Documentation</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -198,226 +198,331 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: public_html\js\app\Shortstraw.js</h1>
+                        <h1>RecogCanvas Class</h1>
+<div class="box meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
- * @module Skritter
- * @author Joshua McFarland
- */
-define(function() {
-    /**
-     * @class Shortstraw
-     * @param {Array} points
-     * @returns {Array}
-     * @constructor
-     */
-    function Shortstraw(points) {
-        var DIAGONAL_INTERVAL = 40; //default 40
-        var STRAW_WINDOW = 3; //default 3
-        var MEDIAN_THRESHOLD = 0.95; //default 95
-        var LINE_THRESHOLD = 0.95; //default 95
-        var self = this;
+    
 
-        if (!points)
-            return;
+    
+        <div class="foundat">
+            Defined in: <a href="../files/public_html_js_app_view_admin_RecogCanvas.js.html#l9"><code>public_html\js\app\view\admin\RecogCanvas.js:9</code></a>
+        </div>
+    
 
-        this.distance = function(p1, p2) {
-            var dx = p2.x - p1.x;
-            var dy = p2.y - p1.y;
-            return Math.pow((dx * dx) + (dy * dy), 1 / 2);
-        };
+    
+        
+            Module: <a href="../modules/Skritter.html">Skritter</a>
+        
+    
 
-        this.pathDistance = function(points, a, b) {
-            var d = 0;
-            for (var i = a; i &lt; b; i++)
-            {
-                d += this.distance(points[i], points[i + 1]);
-            }
-            return d;
-        };
-
-        this.isLine = function(points, a, b) {
-            var distance = this.distance(points[a], points[b]);
-            var pathDistance = this.pathDistance(points, a, b);
-            return (distance / pathDistance) &gt; LINE_THRESHOLD;
-        };
-
-        this.median = function(values) {
-            var s = values.concat();
-            s.sort();
-            var m;
-            if (s.length % 2 === 0) {
-                m = s.length / 2;
-                return (s[m - 1] + s[m]) / 2;
-            } else {
-                m = (s.length + 1) / 2;
-                return s[m - 1];
-            }
-        };
-
-        var s = determineResampleSpacing(points);
-        var resampled = resamplePoints(points, s);
-        var corners = getCorners(resampled);
-        var cornerPoints = [];
-
-        for (var i in corners)
-        {
-            cornerPoints.push(resampled[corners[i]]);
-        }
-
-        function determineResampleSpacing(points) {
-            var b = boundingBox(points);
-            var p1 = {x: b.x, y: b.y};
-            var p2 = {x: b.x + b.w, y: b.y + b.h};
-            var d = self.distance(p1, p2);
-
-            return d / DIAGONAL_INTERVAL;
-        }
-
-        function resamplePoints(points, s) {
-            var distance = 0;
-            var resampled = [];
-
-            resampled.push(points[0]);
-
-            for (var i = 1; i &lt; points.length; i++)
-            {
-                var p1 = points[i - 1];
-                var p2 = points[i];
-                var d2 = self.distance(p1, p2);
-                if ((distance + d2) &gt;= s) {
-                    var qx = p1.x + ((s - distance) / d2) * (p2.x - p1.x);
-                    var qy = p1.y + ((s - distance) / d2) * (p2.y - p1.y);
-                    var q = {x: qx, y: qy};
-                    resampled.push(q);
-                    points.splice(i, 0, q);
-                    distance = 0;
-                } else {
-                    distance += d2;
-                }
-            }
-            resampled.push(points[points.length - 1]);
-            return resampled;
-        }
-
-        function getCorners(points) {
-            var corners = [0];
-            var w = STRAW_WINDOW;
-            var straws = [];
-            var i;
-
-            for (i = w; i &lt; points.length - w; i++)
-            {
-                straws[i] = (self.distance(points[i - w], points[i + w]));
-            }
-
-            var t = self.median(straws) * MEDIAN_THRESHOLD;
-
-            for (i = w; i &lt; points.length - w; i++)
-            {
-                if (straws[i] &lt; t) {
-                    var localMin = Number.POSITIVE_INFINITY;
-                    var localMinIndex = i;
-                    while (i &lt; straws.length &amp;&amp; straws[i] &lt; t)
-                    {
-                        if (straws[i] &lt; localMin) {
-                            localMin = straws[i];
-                            localMinIndex = i;
-                        }
-                        i++;
-                    }
-                    corners.push(localMinIndex);
-                }
-            }
-            corners.push(points.length - 1);
-            corners = postProcessCorners(points, corners, straws);
-            return corners;
-        }
-
-        function postProcessCorners(points, corners, straws) {
-            var go = false;
-            var i, c1, c2;
-
-            while (!go)
-            {
-                go = true;
-                for (i = 1; i &lt; corners.length; i++)
-                {
-                    c1 = corners[i - 1];
-                    c2 = corners[i];
-                    if (!self.isLine(points, c1, c2)) {
-                        var newCorner =
-                                halfwayCorner(straws, c1, c2);
-                        if (newCorner &gt; c1 &amp;&amp; newCorner &lt; c2) {
-                            corners.splice(i, 0, newCorner);
-                            go = false;
-                        }
-                    }
-                }
-            }
-
-            for (i = 1; i &lt; corners.length - 1; i++)
-            {
-                c1 = corners[i - 1];
-                c2 = corners[i + 1];
-                if (self.isLine(points, c1, c2)) {
-                    corners.splice(i, 1);
-                    i--;
-                }
-            }
-
-            return corners;
-        }
-
-        function halfwayCorner(straws, a, b) {
-            var quarter = (b - a) / 4;
-            var minValue = Number.POSITIVE_INFINITY;
-            var minIndex;
-
-            for (var i = a + quarter; i &lt; (b - quarter); i++)
-            {
-                if (straws[i] &lt; minValue) {
-                    minValue = straws[i];
-                    minIndex = i;
-                }
-            }
-            return minIndex;
-        }
-
-        function boundingBox(points) {
-            var minX = Number.POSITIVE_INFINITY;
-            var maxX = Number.NEGATIVE_INFINITY;
-            var minY = Number.POSITIVE_INFINITY;
-            var maxY = Number.NEGATIVE_INFINITY;
-
-            for (var i in points)
-            {
-                var p = points[i];
-                if (p.x &lt; minX) {
-                    minX = p.x;
-                }
-                if (p.x &gt; maxX) {
-                    maxX = p.x;
-                }
-                if (p.y &lt; minY) {
-                    minY = p.y;
-                }
-                if (p.y &gt; maxY) {
-                    maxY = p.y;
-                }
-            }
-            return {x: minX, y: minY, w: maxX - minX, h: maxY - minY};
-        }
-
-        return cornerPoints;
-    }
+    
+</div>
 
 
-    return Shortstraw;
-});
-    </pre>
+
+<div class="box intro">
+    
+</div>
+
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_clear">clear</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_drawParam">drawParam</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_drawRawStroke">drawRawStroke</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_clear" class="method item">
+    <h3 class="name"><code>clear</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_admin_RecogCanvas.js.html#l13"><code>public_html\js\app\view\admin\RecogCanvas.js:13</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_drawParam" class="method item">
+    <h3 class="name"><code>drawParam</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>param</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_admin_RecogCanvas.js.html#l20"><code>public_html\js\app\view\admin\RecogCanvas.js:20</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">param</code>
+                        <span class="type"><a href="..\classes\StudyParam.html" class="crosslink">StudyParam</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_drawRawStroke" class="method item">
+    <h3 class="name"><code>drawRawStroke</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>canvasStroke</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_view_admin_RecogCanvas.js.html#l42"><code>public_html\js\app\view\admin\RecogCanvas.js:42</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">canvasStroke</code>
+                        <span class="type"><a href="..\classes\CanvasStroke.html" class="crosslink">CanvasStroke</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+
+        
+    </div>
 </div>
 
                     </div>

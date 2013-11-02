@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.58</em>
+            <em>API Docs for: 0.0.61</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,8 @@
                 <li><a href="../classes/PromptRune.html">PromptRune</a></li>
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
+            
+                <li><a href="../classes/RecogCanvas.html">RecogCanvas</a></li>
             
                 <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
             
@@ -388,13 +390,10 @@ define([
          * Gets the users current avatar and returns it as an image tag using base64 data.
          * 
          * @method getAvatar
-         * @param {Boolean} fullsize Specifies wether is return the avatars original size
          * @returns {Image} Returns a base64 image tag
          */
-        getAvatar: function(fullsize) {
-            if (fullsize)
-                return &quot;&lt;img src=&#x27;data:image/png;base64,&quot; + this.get(&#x27;settings&#x27;).avatar + &quot;&#x27; /&gt;&quot;;
-            return &quot;&lt;img src=&#x27;data:image/png;base64,&quot; + this.get(&#x27;settings&#x27;).avatar + &quot;&#x27; width=&#x27;50&#x27; height=&#x27;50&#x27; /&gt;&quot;;
+        getAvatar: function() {
+            return &quot;&lt;img src=&#x27;data:image/png;base64,&quot; + this.getSetting(&#x27;avatar&#x27;) + &quot;&#x27; /&gt;&quot;;
         },
         /**
          * Returns the last sync based on the current active language. This is needed so we don&#x27;t
@@ -439,6 +438,24 @@ define([
             if (this.get(&#x27;settings&#x27;).targetLang === &#x27;zh&#x27;)
                 return this.get(&#x27;settings&#x27;).chineseStudyParts;
             return this.get(&#x27;settings&#x27;).japaneseStudyParts;
+        },
+        /**
+         * Returns the current style which really only applies to Chinese as both,
+         * simplified or traditional.
+         * 
+         * @method getStyle
+         * @returns {String}
+         */
+        getStyle: function() {
+            if (this.isJapanese()) {
+                return &#x27;ja&#x27;;
+            } else if (this.isChinese() &amp;&amp; this.getSetting(&#x27;addSimplified&#x27;) &amp;&amp; this.getSetting(&#x27;addTraditional&#x27;))  {
+                return &#x27;zh-both&#x27;;
+            } else if (this.isChinese() &amp;&amp; this.getSetting(&#x27;addSimplified&#x27;) &amp;&amp; !this.getSetting(&#x27;addTraditional&#x27;)) {
+                return &#x27;zh-simp&#x27;;
+            } else {
+                return &#x27;zh-trad&#x27;;
+            }
         },
         /**
          * @method isChinese

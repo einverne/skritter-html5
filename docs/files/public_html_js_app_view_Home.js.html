@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.58</em>
+            <em>API Docs for: 0.0.61</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,8 @@
                 <li><a href="../classes/PromptRune.html">PromptRune</a></li>
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
+            
+                <li><a href="../classes/RecogCanvas.html">RecogCanvas</a></li>
             
                 <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
             
@@ -226,6 +228,8 @@ define([
         render: function() {
             if (Skritter.user.isLoggedIn()) {
                 this.$el.html(templateHomeIn);
+                this.$(&#x27;#user-avatar&#x27;).html(Skritter.user.getAvatar());
+                this.$(&#x27;#user-welcome-message&#x27;).html(Skritter.user.getSetting(&#x27;name&#x27;) + &quot;, you have &quot; + Skritter.study.items.getDueCount() + &quot; items ready for review.&quot;);
                 this.$(&#x27;#lang-button&#x27;).html(Skritter.user.getSetting(&#x27;targetLang&#x27;).toUpperCase());
             } else {
                 this.$el.html(templateHomeOut);

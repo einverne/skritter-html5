@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.58</em>
+            <em>API Docs for: 0.0.61</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,8 @@
                 <li><a href="../classes/PromptRune.html">PromptRune</a></li>
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
+            
+                <li><a href="../classes/RecogCanvas.html">RecogCanvas</a></li>
             
                 <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
             
@@ -202,6 +204,7 @@
     <pre class="code prettyprint linenums">
 /**
  * @module Skritter
+ * @param CanvasStroke
  * @param RecogCanvas
  * @param templateRecogEditor
  * @author Joshua McFarland
@@ -216,10 +219,17 @@ define([
      * @class RecogEditor
      */
     var Editor = Backbone.View.extend({
+        /**
+         * @method initialize
+         */
         initialize: function() {
             Editor.canvas = new RecogCanvas();
             Editor.strokes = Skritter.assets.getStrokeSpriteSheet();
         },
+        /**
+         * @method render
+         * @returns {Editor}
+         */
         render: function() {
             this.$el.html(templateRecogEditor);
             this.populateStrokeList();
@@ -227,36 +237,78 @@ define([
             this.resize();
             return this;
         },
+        /**
+         * @property {Object} events
+         */
         events: {
             &#x27;click.Editor #stroke-list .panel-body&#x27;: &#x27;handleStrokeClick&#x27;,
             &#x27;click.Editor #param-list .panel-body&#x27;: &#x27;handleParamClick&#x27;
         },
+        /**
+         * @method handleParamClick
+         * @param {Object} event
+         */
         handleParamClick: function(event) {
             var cid = event.target.id.replace(&#x27;param-&#x27;, &#x27;&#x27;);
-            if (cid)
+            if (cid) {
+                this.$(&#x27;#param-list .panel-body&#x27;).children().removeClass(&#x27;active&#x27;);
+                this.$(event.target).addClass(&#x27;active&#x27;);
                 this.loadParam(cid);
+            }
         },
+        /**
+         * @method handleStrokeClick
+         * @param {Object} event
+         */
         handleStrokeClick: function(event) {
             var id = event.target.id.replace(&#x27;stroke-&#x27;, &#x27;&#x27;);
-            if (id)
+            if (id) {
+                Editor.canvas.clear();
+                this.$(&#x27;#stroke-list .panel-body&#x27;).children().removeClass(&#x27;active&#x27;);
+                this.$(&#x27;#param-list .panel-body&#x27;).children().removeClass(&#x27;active&#x27;);
+                this.$(event.target).addClass(&#x27;active&#x27;);
                 this.loadStroke(id);
+            }
         },
+        /**
+         * @method loadParam
+         * @param {Number} paramId
+         */
         loadParam: function(paramId) {
             var param = Skritter.study.params.get(paramId);
             Editor.canvas.drawParam(param);
+            this.$(&#x27;#contains&#x27;).val(param.get(&#x27;contains&#x27;));
+            this.$(&#x27;#corners&#x27;).val(JSON.stringify(param.get(&#x27;corners&#x27;)));
+            this.$(&#x27;#deviations&#x27;).val(JSON.stringify(param.get(&#x27;deviations&#x27;)));
+            this.$(&#x27;#feedback&#x27;).val(param.get(&#x27;feedback&#x27;));
         },
+        /**
+         * @method loadStroke
+         * @param {Number} strokeId
+         */
         loadStroke: function(strokeId) {
             Editor.canvas.drawRawStroke(new CanvasStroke().set(&#x27;sprite&#x27;, Skritter.assets.getStroke(strokeId)));
             this.populateParamList(strokeId);
         },
+        /**
+         * @method populateParamList
+         * @param {Number} strokeId
+         */
         populateParamList: function(strokeId) {
             this.$(&#x27;#param-list .panel-body&#x27;).html(&#x27;&#x27;);
             var params = Skritter.study.params.where({bitmapId: parseInt(strokeId, 10)});
             for (var p in params) {
                 var param = params[p];
-                this.$(&#x27;#param-list .panel-body&#x27;).append(&quot;&lt;div id=&#x27;param-&quot; + param.cid + &quot;&#x27;&gt;&quot; + param.cid + &quot;&lt;/div&gt;&quot;);
+                if (param.has(&#x27;feedback&#x27;)) {
+                    this.$(&#x27;#param-list .panel-body&#x27;).append(&quot;&lt;div id=&#x27;param-&quot; + param.cid + &quot;&#x27;&gt;&quot; + param.cid + &quot;: &quot; + param.get(&#x27;feedback&#x27;) + &quot;&lt;/div&gt;&quot;);
+                } else {
+                    this.$(&#x27;#param-list .panel-body&#x27;).append(&quot;&lt;div id=&#x27;param-&quot; + param.cid + &quot;&#x27;&gt;&quot; + param.cid + &quot;&lt;/div&gt;&quot;);
+                }
             }
         },
+        /**
+         * @method populateStrokeList
+         */
         populateStrokeList: function() {
             var strokeIds = Editor.strokes.getAnimations();
             for (var i in strokeIds) {
@@ -268,6 +320,9 @@ define([
             }
             
         },
+        /**
+         * @method resize
+         */
         resize: function() {
             this.$(&#x27;#canvas-container&#x27;).width(Skritter.settings.get(&#x27;canvasSize&#x27;));
             this.$(&#x27;#stroke-list .panel-body&#x27;).height(this.$el.height() - 100);
