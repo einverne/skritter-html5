@@ -25,12 +25,17 @@ define([
      * @class CanvasStroke
      */
     var CanvasStroke = Backbone.Model.extend({
+        /**
+         * @method initialize
+         */
         initialize: function() {
             this.on('change:points', function(stroke) {
                 stroke.set('corners', Shortstraw(stroke.get('points')));
             });
         },
         /**
+         * Returns the angle created by the starting and ending point of the entire object.
+         * 
          * @method getAngle
          * @return {Number} description
          */
@@ -38,6 +43,8 @@ define([
             return Skritter.fn.getAngle(this.get('points'));
         },
         /**
+         * Returns the contained stroke ids.
+         * 
          * @method getContainedStrokeIds
          * @return {Array}
          */
@@ -61,6 +68,8 @@ define([
             return ids;
         },
         /**
+         * Returns the length of the stroke based on the distance between the corner segments.
+         * 
          * @method getLength
          * @return {Number}
          */
@@ -73,6 +82,8 @@ define([
             return length;
         },
         /**
+         * Returns the sprite transformed to fit the stroke data and canvas size.
+         * 
          * @method getInflatedSprite
          * @return {unresolved}
          */
@@ -97,6 +108,8 @@ define([
             return sprite;
         },
         /**
+         * Returns an inflated version of the data based on the canvas size.
+         * 
          * @method getInflatedData
          * @return {Object}
          */
@@ -116,6 +129,8 @@ define([
             };
         },
         /**
+         * Returns an inflated version of the params based on the canvas size.
+         * 
          * @method getInflatedParams
          * @return {Array}
          */
@@ -148,6 +163,8 @@ define([
             return inflatedParams;
         },
         /**
+         * Returns an object of the bounding rectangle of the points.
+         * 
          * @method getRectangle
          * @return {Object}
          */
@@ -156,14 +173,18 @@ define([
             return Skritter.fn.getBoundingRectangle(this.get('points'), canvasSize, canvasSize, 14);
         },
         /**
+         * Returns an object of the bounding rectangle of the corners.
          * 
-         * @return {@exp;Skritter@pro;fn@call;getBoundingRectangle}
+         * @method getRectangleCorners
+         * @return {Object}
          */
         getRectangleCorners: function() {
             var canvasSize = Skritter.settings.get('canvasSize');
             return Skritter.fn.getBoundingRectangle(this.get('corners'), canvasSize, canvasSize, 14);
         },
         /**
+         * Returns the raw sprite without any tranformations or positioning.
+         * 
          * @method getSprite
          * @returns {Bitmap}
          */
@@ -171,6 +192,8 @@ define([
             return this.get('sprite');
         },
         /**
+         * Returns a sprite of the target stroke that has been altered based on the users input.
+         * 
          * @method getUserSprite
          * @return {Bitmap}
          */

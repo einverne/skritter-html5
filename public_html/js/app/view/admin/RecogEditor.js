@@ -41,6 +41,17 @@ define([
             'click.Editor #param-list .panel-body': 'handleParamClick'
         },
         /**
+         * @method clear
+         */
+        clear: function() {
+            Editor.canvas.clear('background');
+            Editor.canvas.clear('overlay');
+            this.$('#contains').val('');
+            this.$('#corners').val('');
+            this.$('#deviations').val('');
+            this.$('#feedback').val('');
+        },
+        /**
          * @method handleParamClick
          * @param {Object} event
          */
@@ -59,7 +70,7 @@ define([
         handleStrokeClick: function(event) {
             var id = event.target.id.replace('stroke-', '');
             if (id) {
-                Editor.canvas.clear();
+                this.clear();
                 this.$('#stroke-list .panel-body').children().removeClass('active');
                 this.$('#param-list .panel-body').children().removeClass('active');
                 this.$(event.target).addClass('active');
@@ -83,7 +94,7 @@ define([
          * @param {Number} strokeId
          */
         loadStroke: function(strokeId) {
-            Editor.canvas.drawRawStroke(new CanvasStroke().set('sprite', Skritter.assets.getStroke(strokeId)));
+            Editor.canvas.drawStroke(Skritter.assets.getStroke(strokeId), 'background');
             this.populateParamList(strokeId);
         },
         /**

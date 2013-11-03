@@ -55,7 +55,9 @@ define([
          */
         clear: function() {
             Prompt.buttons.remove();
-            Rune.canvas.clear();
+            Rune.canvas.clear('background');
+            Rune.canvas.clear('hint');
+            Rune.canvas.clear('stroke');
             Prompt.finished = false;
             Rune.userCharacter = new CanvasCharacter();
         },
@@ -72,7 +74,7 @@ define([
             //check that a minimum distance is met
             if (Skritter.fn.getDistance(points[0], points[points.length - 1]) > Rune.minStrokeDistance) {
                 //fade any hints that were previously visible
-                Rune.canvas.fadeBackground();
+                Rune.canvas.fadeLayer('background');
                 //create the stroke from the points to analyze
                 var stroke = new CanvasStroke().set('points', points);
                 //recognize a stroke based on user input and targets
@@ -85,21 +87,21 @@ define([
                     Rune.userCharacter.add(result);
                     //choose whether to draw the stroke normally or using raw squigs
                     if (Skritter.user.get('settings').squigs) {
-                        Rune.canvas.drawSquig(result);
+                        Rune.canvas.drawSquig(result.get('points'), 'overlay');
                         this.handleStrokeComplete();
                     } else {
                         //display feedback if it exists
                         if (result.get('feedback')) {
-                            Rune.canvas.displayMessage(result.get('feedback'), 'orange', '24px Arial', 10, 10);
+                            Rune.canvas.drawText(result.get('feedback'), 'orange', '24px Arial', 10, 10);
                         }
-                        Rune.canvas.drawStroke(result, _.bind(this.handleStrokeComplete, this));
+                        Rune.canvas.drawTweenedStroke(result.getUserSprite(), result.getInflatedSprite(), 'stroke', _.bind(this.handleStrokeComplete, this));
                     }
                 } else {
                     Rune.failedAttempts++;
                     //if failed too many times show a hint
                     if (Rune.failedAttempts > Rune.maxFailedAttempts) {
                         Prompt.grade = 1;
-                        Rune.canvas.drawPhantomStroke(this.getNextStroke().stroke);
+                        Rune.canvas.drawPhantomStroke(this.getNextStroke().stroke.getInflatedSprite(), 'hint');
                     }
                 }
             }
@@ -122,12 +124,13 @@ define([
                 for (var i in Rune.userCharacter.models)
                 {
                     var stroke = Rune.userCharacter.models[i];
-                    Rune.canvas.drawStroke(stroke);
-                    Rune.canvas.setInputAlpha(0.5);
+                    Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), 'stroke', function() {
+                        Rune.canvas.colorFilterLayer('stroke', Prompt.gradeColorFilters[Prompt.grade]);
+                    });
+                    Rune.canvas.setLayerAlpha('overlay', 0.5);
                 }
-                Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterSprite(), Prompt.gradeColors[Prompt.grade]);
             } else {
-                Rune.canvas.applyBackgroundGlow(Rune.userTargets[0].getCharacterSprite(), Prompt.gradeColors[Prompt.grade]);
+                Rune.canvas.colorFilterLayer('stroke', Prompt.gradeColorFilters[Prompt.grade]);
             }
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);
@@ -140,7 +143,7 @@ define([
          */
         handleDoubleTap: function() {
             if (!Prompt.finished) {
-                Rune.canvas.drawCharacter(Rune.userTargets[this.getNextStroke().variation], 0.3);
+                Rune.canvas.drawCharacter(Rune.userTargets[this.getNextStroke().variation].getCharacterSprite(), 'background', 0.3);
                 Prompt.grade = 1;
             }
         },
