@@ -92,7 +92,7 @@ define([
                     } else {
                         //display feedback if it exists
                         if (result.get('feedback')) {
-                            Rune.canvas.drawText(result.get('feedback'), 'orange', '24px Arial', 10, 10);
+                            Rune.canvas.drawText(result.get('feedback'), 'feedback', 'orange', '24px Arial', 10, 10);
                         }
                         Rune.canvas.drawTweenedStroke(result.getUserSprite(), result.getInflatedSprite(), 'stroke', _.bind(this.handleStrokeComplete, this));
                     }
@@ -188,7 +188,6 @@ define([
          */
         handleStrokeComplete: function() {
             //check if the character has been completed yet or not
-            console.log(Rune.userCharacter.getStrokeCount(), this.getTargetStrokeCount());
             if (Rune.userCharacter.getStrokeCount() >= this.getTargetStrokeCount()) {
                 this.handleCharacterComplete();
             }

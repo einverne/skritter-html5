@@ -14,7 +14,6 @@ define([
     var Prompt = Backbone.View.extend({
         initialize: function() {
             Prompt.buttons = new GradingButtons();
-            Prompt.item = null;
             Prompt.finished = false;
             Prompt.grade = 3;
             Prompt.gradeColors = {
@@ -41,9 +40,8 @@ define([
                 thinkingTime: thinkingTime
             });
         },
-        set: function(item, vocabs) {
+        set: function(vocabs) {
             Prompt.definition = vocabs[0].get('definitions')[Skritter.user.get('settings').sourceLang];
-            Prompt.item = item;
             Prompt.reading = vocabs[0].get('reading');
             Prompt.sentence = (vocabs[0].getSentence()) ? vocabs[0].getSentence().get('writing') : null;
             Prompt.vocabs = vocabs;

@@ -121,7 +121,7 @@ define([
             } else {
                 this.$('#audio-button').text('{no-audio}');
             }
-            Study.c.prompt.set(Study.c.item, Study.c.vocabs).showHidden();
+            Study.c.prompt.set(Study.c.vocabs).showHidden();
             this.listenToOnce(Study.c.prompt, 'complete', this.handlePromptComplete);
             return Study.c;
         },
