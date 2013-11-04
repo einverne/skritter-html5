@@ -210,6 +210,19 @@ define(function() {
         return string;
     };
 
+    /**
+     * Returns a Bootstrap alert of the given level containing the given text.
+     * @method twbsAlertHTML
+     * @param {String} level One of {success, info, warning, danger}
+     * @param {String} text The alert text to be displayed
+     */
+    var twbsAlertHTML = function(level, text) {
+        var string = "<div class='alert alert-" + level + "'>" +
+                "<button type='button' class='close' data-dismiss='alert'>&times;</button>" +
+                text +
+                "</div>";
+        return string;
+    };
 
     return {
         bytesToSize: bytesToSize,
@@ -222,6 +235,7 @@ define(function() {
         getUnixTime: getUnixTime,
         isKana: isKana,
         maskCharacters: maskCharacters,
-        pad: pad
+        pad: pad,
+        twbsAlertHTML: twbsAlertHTML
     };
 });
