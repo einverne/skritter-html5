@@ -63,10 +63,8 @@ define([
          * @param {String} text
          */
         showErrorMessage: function(text) {
-            this.$('.error-message').html("<div class='alert alert-warning'>" +
-                    "<button type='button' class='close' data-dismiss='alert'>&times;</button>" +
-                    text +
-                    "</div>");
+            this.$('.error-message').html(
+                Skritter.fn.twbsAlertHTML('warning', text));
         }
     });
 
