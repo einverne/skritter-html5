@@ -1,5 +1,6 @@
 /**
  * @module Skritter
+ * @param StudyParam
  * @author Joshua McFarland
  */
 define([
@@ -96,7 +97,7 @@ define([
 		var rune = variations.at(b).get('rune');
                 var sprite = variations.at(b).get('sprite');
 		
-                //todo: update this backwards check to use the new params concept
+                //TODO: update this backwards check to use the new params concept
                 //right now it's just a hack to manually inject params backwards
                 var reverseCorners = _.cloneDeep(params[0].get('corners')).reverse();
                 var reverseDeviations = _.cloneDeep(params[0].get('deviations')).reverse();

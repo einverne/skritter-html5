@@ -5,10 +5,11 @@
  * @author Joshua McFarland
  */
 define([
+    'Strokes',
     'StrokeMap',
     'backbone',
     'createjs.preload'
-], function(StrokeMap) {
+], function(Strokes, StrokeMap) {
     /**
      * @class Assets
      * @constructor
@@ -45,6 +46,8 @@ define([
          * @return {Sprite}
          */
         getStroke: function(bitmapId) {
+            //TODO: use this when switching toe vector-based shapes
+            //return Strokes[bitmapId];
             return Assets.strokeSprites[bitmapId].clone();
         },
         /**

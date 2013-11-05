@@ -248,7 +248,7 @@ define([
                 Prompt.finished = false;
                 //clear the canvas for the new character
                 this.clear();
-                Rune.canvas.setInputAlpha(1);
+                Rune.canvas.setLayerAlpha('input', 1);
                 //resets the targets
                 Rune.userTargets = [];
                 //lets go ahead and show the net character in the item
