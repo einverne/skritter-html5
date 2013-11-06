@@ -64,6 +64,49 @@ define([
             user_id: null
         },
         /**
+         * Makes a batch call requesting a number of new items to be added into the users
+         * current studies. There is a max limit of 100 and a default of 1.
+         * 
+         * @method addItems
+         * @param {Number} limit
+         * @param {Function} callback
+         */
+        addItems: function(limit, callback) {
+            limit = (limit) ? limit : 1;
+            var requests = [
+                    {
+                        path: 'api/v' + Skritter.settings.get('apiVersion') + '/items/add',
+                        method: 'POST',
+                        cache: false,
+                        params: {
+                            lang: this.getSetting('targetLang'),
+                            limit: limit,
+                            offset: 0
+                        }
+                    }
+                ];
+                Skritter.async.waterfall([
+                    function(callback) {
+                        Skritter.api.requestBatch(requests, function(result) {
+                            console.log(result);
+                            callback(null, result);
+                        });
+                    },
+                    function(result, callback) {
+                        Skritter.api.getBatch(result.id, function(result) {
+                            //TODO: handle the newly added items by adding and storing them
+                           console.log(result); 
+                        }, function() {
+                            callback();
+                        });
+                    }
+                ], function() {
+                    console.log('finished adding');
+                    if (typeof callback === 'function')
+                        callback();
+                });
+        },
+        /**
          * @method cache
          */
         cache: function() {
@@ -453,7 +496,7 @@ define([
                 callback();
                 requests = [
                     {
-                        path: 'api/v0/items',
+                        path: 'api/v' + Skritter.settings.get('apiVersion') + '/items',
                         method: 'GET',
                         cache: false,
                         params: {
@@ -479,7 +522,7 @@ define([
                 accountDownload = true;
                 requests = [
                     {
-                        path: 'api/v0/items',
+                        path: 'api/v' + Skritter.settings.get('apiVersion') + '/items',
                         method: 'GET',
                         cache: false,
                         params: {
