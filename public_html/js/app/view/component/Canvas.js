@@ -80,29 +80,22 @@ define([
         /**
          * @method clear
          * @param {String} layerName
-         * @returns {Stage}
-         */
-        clear: function(layerName) {
-            if (layerName) {
-                this.getLayer(layerName).removeAllChildren();
-            } else {
-                var layers = this.getLayers();
-                for (var i in layers)
-                    layers[i].removeAllChildren();
-            }
-            return Canvas.stage;
-        },
-        /**
-         * @method colorFilterLayer
-         * @param {String} layerName
-         * @param {ColorFilter} filter
          * @returns {Container}
          */
-        colorFilterLayer: function(layerName, filter) {
-            var layer = this.getLayer(layerName);
-            layer.filters = [filter];
-            layer.cache(0, 0, Canvas.size, Canvas.size);
-            return layer;
+        clear: function(layerName) {
+            var layer;
+            if (layerName) {
+                layer = this.getLayer(layerName);
+                layer.removeAllChildren();
+                layer.uncache();
+                return layer;
+            }
+            var layers = this.getLayers();
+            for (var i in layers) {
+                layers[i].removeAllChildren();
+                layers[i].uncache();
+            }
+            return Canvas.stage;
         },
         /**
          * @method createLayer
@@ -326,6 +319,18 @@ define([
                     callback(layer);
                 });
             }
+            return layer;
+        },
+        /**
+         * @method filterLayerColor
+         * @param {String} layerName
+         * @param {ColorFilter} filter
+         * @returns {Container}
+         */
+        filterLayerColor: function(layerName, filter) {
+            var layer = this.getLayer(layerName);
+            layer.filters = [filter];
+            layer.cache(0, 0, Canvas.size, Canvas.size);
             return layer;
         },
         /**

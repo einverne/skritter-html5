@@ -125,12 +125,12 @@ define([
                 {
                     var stroke = Rune.userCharacter.models[i];
                     Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), 'stroke', function() {
-                        Rune.canvas.colorFilterLayer('stroke', Prompt.gradeColorFilters[Prompt.grade]);
+                        Rune.canvas.filterLayerColor('stroke', Prompt.gradeColorFilters[Prompt.grade]);
                     });
                     Rune.canvas.setLayerAlpha('overlay', 0.5);
                 }
             } else {
-                Rune.canvas.colorFilterLayer('stroke', Prompt.gradeColorFilters[Prompt.grade]);
+                Rune.canvas.filterLayerColor('stroke', Prompt.gradeColorFilters[Prompt.grade]);
             }
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);

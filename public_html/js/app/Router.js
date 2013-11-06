@@ -7,6 +7,7 @@
  * @param OptionsView
  * @param StudyView
  * @param VocabView
+ * @param RecogEditor
  * @author Joshua McFarland
  */
 define([

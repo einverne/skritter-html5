@@ -63,7 +63,7 @@ define([
             Prompt.finished = true;
             this.showAnswer();
             //if multiple possible tone answers then display the one drawn
-            Tone.canvas.applyBackgroundGlow(Tone.userCharacter.at(0).getInflatedSprite(), Prompt.gradeColors[Prompt.grade]);
+            Tone.canvas.filterLayerColor('stroke', Prompt.gradeColorFilters[Prompt.grade]);
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);
         },
@@ -90,13 +90,14 @@ define([
                 if (result && !Tone.userCharacter.containsStroke(result)) {
                     //add the stroke to the users character
                     Tone.userCharacter.add(result);
-                    Tone.canvas.drawStroke(result, _.bind(this.handleStrokeComplete, this));
+                    Tone.canvas.drawStroke(result.getInflatedSprite(), 'stroke');
                 } else {
                     Prompt.grade = 1;
                     //select the first possible tone and display it as wrong
                     Tone.userCharacter.add(Tone.userTargets[0].at(0));
-                    Tone.canvas.drawStroke(Tone.userTargets[0].at(0), _.bind(this.handleStrokeComplete, this));
+                    Tone.canvas.drawStroke(Tone.userTargets[0].at(0).getInflatedSprite(), 'stroke');
                 }
+                this.handleStrokeComplete();
             }
         },
         handleStrokeComplete: function() {
@@ -143,7 +144,7 @@ define([
             Skritter.timer.start();
             Tone.userCharacter = new CanvasCharacter();
             Tone.userTargets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'tone');
-            Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), 0.3);
+            Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), 'background', 0.3);
             Tone.canvas.enableInput();
             this.$('#writing').html(Prompt.writing);
             this.$('#reading').html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1)));

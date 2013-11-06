@@ -94,9 +94,10 @@ define([
             this.$('#order-strictness').attr('value', Skritter.user.getSetting('orderWeight')*100);
         },
         /**
-         * Saves all the settings to the database.
+         * Saves all the settings to localStorage.
          * 
          * @method save
+         * @param {Object} event
          */
         save: function(event) {
             //language parts
@@ -105,7 +106,7 @@ define([
             if (this.$('#part-rdng').prop('checked')) parts.push('rdng');
             if (this.$('#part-rune').prop('checked')) parts.push('rune');
             if (this.$('#part-tone').prop('checked')) parts.push('tone');
-            if (parts.length == 0) {
+            if (parts.length === 0) {
                 this.$('.error-message').html(Skritter.fn.twbsAlertHTML('warning', 'At least one part must be selected for study.'));
                 return false;
             }
