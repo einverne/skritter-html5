@@ -316,7 +316,8 @@ define([
                 createjs.Tween.get(layer).to({alpha: 0}, 750).call(function() {
                     layer.removeAllChildren();
                     layer.alpha = 1.0;
-                    callback(layer);
+                    if (typeof callback === 'function')
+                        callback(layer);
                 });
             }
             return layer;

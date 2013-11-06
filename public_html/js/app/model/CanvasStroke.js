@@ -101,12 +101,9 @@ define([
             var t = ms.decompose();
 
             sprite.setTransform(t.x, t.y, t.scaleX, t.scaleY, t.rotation, t.skewX, t.skewY);
-            var bounds = sprite.getTransformedBounds();          
-            sprite.x += bounds.width / 2 + data.x;
-            sprite.y += bounds.height / 2 + data.y;
-            //TODO: might need to use this instead when switching to vector-based shapes
-            //sprite.x = data.x;
-            //sprite.y = data.y;
+            var finalBounds = sprite.getTransformedBounds();          
+            sprite.x += finalBounds.width / 2 + data.x;
+            sprite.y += finalBounds.height / 2 + data.y;
 
             return sprite;
         },
