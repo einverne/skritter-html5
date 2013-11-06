@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.61</em>
+            <em>API Docs for: 0.0.65</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Application.html">Application</a></li>
             
                 <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
             
                 <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
             
@@ -414,6 +416,19 @@ define(function() {
         return string;
     };
 
+    /**
+     * Returns a Bootstrap alert of the given level containing the given text.
+     * @method twbsAlertHTML
+     * @param {String} level One of {success, info, warning, danger}
+     * @param {String} text The alert text to be displayed
+     */
+    var twbsAlertHTML = function(level, text) {
+        var string = &quot;&lt;div class=&#x27;alert alert-&quot; + level + &quot;&#x27;&gt;&quot; +
+                &quot;&lt;button type=&#x27;button&#x27; class=&#x27;close&#x27; data-dismiss=&#x27;alert&#x27;&gt;&amp;times;&lt;/button&gt;&quot; +
+                text +
+                &quot;&lt;/div&gt;&quot;;
+        return string;
+    };
 
     return {
         bytesToSize: bytesToSize,
@@ -426,9 +441,11 @@ define(function() {
         getUnixTime: getUnixTime,
         isKana: isKana,
         maskCharacters: maskCharacters,
-        pad: pad
+        pad: pad,
+        twbsAlertHTML: twbsAlertHTML
     };
 });
+
     </pre>
 </div>
 

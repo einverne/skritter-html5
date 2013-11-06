@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.61</em>
+            <em>API Docs for: 0.0.65</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Application.html">Application</a></li>
             
                 <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
             
                 <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
             
@@ -226,7 +228,7 @@ define([
          */
         render: function() {
             if (!Skritter.user.isLoggedIn())
-		document.location.hash = &#x27;&#x27;;
+            document.location.hash = &#x27;&#x27;;
             this.$el.html(templateOptions);        
             this.load();
             //ISSUE #31: hides the tone option for users studying japanese
@@ -276,10 +278,10 @@ define([
             }
             //language parts
             var parts = Skritter.user.getStudyParts();
-	    this.$(&#x27;#part-rune&#x27;).prop(&#x27;checked&#x27;, _.contains(parts, &#x27;rune&#x27;));
-	    this.$(&#x27;#part-tone&#x27;).prop(&#x27;checked&#x27;, _.contains(parts, &#x27;tone&#x27;));
-	    this.$(&#x27;#part-defn&#x27;).prop(&#x27;checked&#x27;, _.contains(parts, &#x27;defn&#x27;));
-	    this.$(&#x27;#part-rdng&#x27;).prop(&#x27;checked&#x27;, _.contains(parts, &#x27;rdng&#x27;));
+            this.$(&#x27;#part-rune&#x27;).prop(&#x27;checked&#x27;, _.contains(parts, &#x27;rune&#x27;));
+            this.$(&#x27;#part-tone&#x27;).prop(&#x27;checked&#x27;, _.contains(parts, &#x27;tone&#x27;));
+            this.$(&#x27;#part-defn&#x27;).prop(&#x27;checked&#x27;, _.contains(parts, &#x27;defn&#x27;));
+            this.$(&#x27;#part-rdng&#x27;).prop(&#x27;checked&#x27;, _.contains(parts, &#x27;rdng&#x27;));
             //audio
             if (Skritter.user.get(&#x27;audio&#x27;)) {
                 this.toggleAudio(null, true);
@@ -295,14 +297,33 @@ define([
             //animation speed
             this.$(&#x27;#animation-speed&#x27;).attr(&#x27;value&#x27;, Skritter.user.getSetting(&#x27;animationSpeed&#x27;)*100);
             //order strictness
-	    this.$(&#x27;#order-strictness&#x27;).attr(&#x27;value&#x27;, Skritter.user.getSetting(&#x27;orderWeight&#x27;)*100);
+            this.$(&#x27;#order-strictness&#x27;).attr(&#x27;value&#x27;, Skritter.user.getSetting(&#x27;orderWeight&#x27;)*100);
         },
         /**
-         * Saves all the settings to the database.
+         * Saves all the settings to localStorage.
          * 
          * @method save
+         * @param {Object} event
          */
         save: function(event) {
+            //language parts
+            var parts = [];
+            if (this.$(&#x27;#part-defn&#x27;).prop(&#x27;checked&#x27;)) parts.push(&#x27;defn&#x27;);
+            if (this.$(&#x27;#part-rdng&#x27;).prop(&#x27;checked&#x27;)) parts.push(&#x27;rdng&#x27;);
+            if (this.$(&#x27;#part-rune&#x27;).prop(&#x27;checked&#x27;)) parts.push(&#x27;rune&#x27;);
+            if (this.$(&#x27;#part-tone&#x27;).prop(&#x27;checked&#x27;)) parts.push(&#x27;tone&#x27;);
+            if (parts.length === 0) {
+                this.$(&#x27;.error-message&#x27;).html(Skritter.fn.twbsAlertHTML(&#x27;warning&#x27;, &#x27;At least one part must be selected for study.&#x27;));
+                return false;
+            }
+            var lang = Skritter.user.get(&#x27;settings&#x27;).targetLang;
+            if (lang === &#x27;zh&#x27;) {
+                lang = &#x27;chineseStudyParts&#x27;;
+            } else {
+                lang = &#x27;japaneseStudyParts&#x27;;
+            }
+            Skritter.user.setSetting(lang, parts);
+
             //language style
             var style = this.$(&#x27;#language-style&#x27;).text();
             switch(style) {
@@ -325,24 +346,14 @@ define([
                     Skritter.user.setSetting(&#x27;addTraditional&#x27;, true);
                     break;
             }
-            //language parts
-            var lang = Skritter.user.get(&#x27;settings&#x27;).targetLang;
-            if (lang === &#x27;zh&#x27;) {
-		lang = &#x27;chineseStudyParts&#x27;;
-	    } else {
-		lang = &#x27;japaneseStudyParts&#x27;;
-	    }
-	    var parts = [];
-	    if (this.$(&#x27;#part-defn&#x27;).prop(&#x27;checked&#x27;)) parts.push(&#x27;defn&#x27;);
-	    if (this.$(&#x27;#part-rdng&#x27;).prop(&#x27;checked&#x27;)) parts.push(&#x27;rdng&#x27;);
-	    if (this.$(&#x27;#part-rune&#x27;).prop(&#x27;checked&#x27;)) parts.push(&#x27;rune&#x27;);
-	    if (this.$(&#x27;#part-tone&#x27;).prop(&#x27;checked&#x27;)) parts.push(&#x27;tone&#x27;);
+
+            //audio
             if (this.$(&#x27;#audio .active&#x27;)[0].id === &#x27;audio-on&#x27;) {
                 Skritter.user.set(&#x27;audio&#x27;, true);
             } else {
                 Skritter.user.set(&#x27;audio&#x27;, false);
             }
-            Skritter.user.setSetting(lang, parts);
+            
             //animation speed
             Skritter.user.setSetting(&#x27;animationSpeed&#x27;, this.$(&#x27;#animation-speed&#x27;).val()/100);
             //order strictness
@@ -426,6 +437,7 @@ define([
     
     return Options;
 });
+
     </pre>
 </div>
 

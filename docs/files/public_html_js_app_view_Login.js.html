@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.61</em>
+            <em>API Docs for: 0.0.65</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Application.html">Application</a></li>
             
                 <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
             
                 <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
             
@@ -267,10 +269,8 @@ define([
          * @param {String} text
          */
         showErrorMessage: function(text) {
-            this.$(&#x27;.error-message&#x27;).html(&quot;&lt;div class=&#x27;alert alert-warning&#x27;&gt;&quot; +
-                    &quot;&lt;button type=&#x27;button&#x27; class=&#x27;close&#x27; data-dismiss=&#x27;alert&#x27;&gt;&amp;times;&lt;/button&gt;&quot; +
-                    text +
-                    &quot;&lt;/div&gt;&quot;);
+            this.$(&#x27;.error-message&#x27;).html(
+                Skritter.fn.twbsAlertHTML(&#x27;warning&#x27;, text));
         }
     });
 

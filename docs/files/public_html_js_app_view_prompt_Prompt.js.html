@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.61</em>
+            <em>API Docs for: 0.0.65</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Application.html">Application</a></li>
             
                 <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
             
                 <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
             
@@ -218,7 +220,6 @@ define([
     var Prompt = Backbone.View.extend({
         initialize: function() {
             Prompt.buttons = new GradingButtons();
-            Prompt.item = null;
             Prompt.finished = false;
             Prompt.grade = 3;
             Prompt.gradeColors = {
@@ -245,9 +246,8 @@ define([
                 thinkingTime: thinkingTime
             });
         },
-        set: function(item, vocabs) {
+        set: function(vocabs) {
             Prompt.definition = vocabs[0].get(&#x27;definitions&#x27;)[Skritter.user.get(&#x27;settings&#x27;).sourceLang];
-            Prompt.item = item;
             Prompt.reading = vocabs[0].get(&#x27;reading&#x27;);
             Prompt.sentence = (vocabs[0].getSentence()) ? vocabs[0].getSentence().get(&#x27;writing&#x27;) : null;
             Prompt.vocabs = vocabs;

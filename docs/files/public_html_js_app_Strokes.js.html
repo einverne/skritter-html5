@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public_html\js\app\collection\StudyDecomps.js - Skritter HTML5: Documentation</title>
+    <title>public_html\js\app\Strokes.js - Skritter HTML5: Documentation</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -200,59 +200,99 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: public_html\js\app\collection\StudyDecomps.js</h1>
+                        <h1 class="file-heading">File: public_html\js\app\Strokes.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
  * @module Skritter
- * @submodule Collection
- * @param StudyDecomp
  * @author Joshua McFarland
  */
 define([
-    &#x27;model/StudyDecomp&#x27;,
-    &#x27;backbone&#x27;
-], function(StudyDecomp) {
+    &#x27;createjs.easel&#x27;
+], function() {
     /**
-     * @class StudyDecomps
+     * @property {String} defaultColor
      */
-    var StudyDecomps = Backbone.Collection.extend({
-        /**
-         * @property {StudyDecomp} model
-         */
-        model: StudyDecomp,
-        /**
-         * @method cache
-         * @param {Callback} callback
-         * @returns {undefined}
-         */
-        cache: function(callback) {
-            if (this.length === 0) {
-                callback();
-                return;
-            }
-            Skritter.storage.setItems(&#x27;decomps&#x27;, this.toJSON(), function() {
-                if (typeof callback === &#x27;function&#x27;)
-                    callback();
-            });
-        },
-        /**
-         * @method loadAll
-         * @param {Callback} callback
-         * @returns {undefined}
-         */
-        loadAll: function(callback) {
-            Skritter.storage.getItems(&#x27;decomps&#x27;, function(decomps) {
-                Skritter.study.decomps.add(decomps);
-                callback(null, decomps);
-            });
-        }
+    var defaultColor = &#x27;#000000&#x27;;
+    /**
+     * @property {Object} strokes
+     */
+    var strokes = {
+        0: function() {
+            var stroke = new createjs.Shape(new createjs.Graphics().f(defaultColor).p(&quot;EA/mAFUYAAAUAAAUAAAeYgoAygyAKgyAAYgUgKgUAAgUAAYkYgUkYgekYAAYjwAAjmAUjwAUYkiAUkiAUksAoYjIAUjIAojSAeYh4AUh4Aoh4AeYgeAAgeAAgeAAYgygegygKgogeYhkgyhagygyhkYAAgUAAgUAAgKYAUgyAoAAAogKYDmAADwAADmgUYGagoGkgoGagyYFogeFogoFegyYB4gKBugeB4gUYAoAAAoAAAoAAYAUAKAUAKAeAKYCWBQCgBQBuCW&quot;).cp().ef());
+            stroke.regX = 407 / 2;
+            stroke.regY = 71 / 2;
+            stroke.setBounds(0, 0, 407, 71);
+            return stroke;
+        }(),
+        1: function() {
+            var stroke = new createjs.Shape(new createjs.Graphics().f(defaultColor).p(&quot;AFAJEYgeAAgeAAgUAAYgogegogKgegeYgygegogogogeYAAgKAAgKAAgKYAegUAegUAoAAYCWgKCWgKCWgUYEOgUEOgUEEgeYDwgeDwgyDwgyYCqgeCggoCqgeYAeAAAeAAAoAAYAKAAAKAAAKAKYBkAeBuAeA8BuYAAAAAAAKAAAKYgoAKgeAegeAKYkOAUkYAUkYAeYnWA8nWBGnWBGYhuAKhkAehkAU&quot;).cp().ef());
+            stroke.regX = 297 / 2;
+            stroke.regY = 58 / 2;
+            stroke.setBounds(0, 0, 297, 58);
+            return stroke;
+        }(),
+        4: function() {
+            var stroke = new createjs.Shape(new createjs.Graphics().f(defaultColor).p(&quot;AHgGGYg8AAg8AAgyAAYh4gehugohQhQYAAgKAAgKAAgKYAegUAegKAeAAYDSgUDIAADIgUYEOgUEEg8EOg8YAyAAAyAAAyAAYAKAAAKAAAKAKYBQAUBGAeAyBGYAAAKAAAUAAAUYg8AyhGAKhGAAYlAAolAAolAAeYhQAKhQAKhQAU&quot;).cp().ef());
+            stroke.regX = 188 / 2;
+            stroke.regY = 39 / 2;
+            stroke.setBounds(0, 0, 188, 39);
+            return stroke;
+        }(),
+        11: function() {
+            var stroke = new createjs.Shape(new createjs.Graphics().f(defaultColor).p(&quot;AAACCYAAgyAAgoAAgoYAeAAAeAAAoAAYBaAoA8BGA8BQYAyA8AyA8AyBGYAAAKAAAUAAAUYgKAogKAogKAoYAAC0gKC+AKC0YAAFyAKFyAKFyYAAAUAAAeAKAeYAAAUAAAUAAAeYgKAAAAAKAAAKYgUB4gUB4geB4YgKAygoAogUAyYgUAAgKAAgKAAYg8gegegogUgyYhQiggyigAyiqYBGlAAok2AAlAYAAjmAAjwAAjmYAAhGgUg8geg8Ygyhkgyhkgohk&quot;).cp().ef());
+            stroke.regX = 46 / 2;
+            stroke.regY = 288 / 2;
+            stroke.setBounds(0, 0, 46, 288);
+            return stroke;
+        }(),
+        37: function() {
+            var stroke = new createjs.Shape(new createjs.Graphics().f(defaultColor).p(&quot;ATsDwYgUBugeB4AAB4YgeFUgoFUg8FUYhkIIkOGQm4EiYg8Aog8Aeg8AoYgeAAgeAAgeAAYAAgUAAgKAAgKYBuh4CChuBuh4YEOkYCClKBalyYBGkOAUkYAKkiYAAhuAAh4gUh4YgKhagohQgehaYgeg8AAgeBGgUYAAAAAKAAAKAAYAAAAAKAAAKAAYB4AoB4AyBkBQYAAAUAAAUAAAe&quot;).cp().ef());
+            stroke.regX = 126 / 2;
+            stroke.regY = 293 / 2;
+            stroke.setBounds(0, 0, 126, 293);
+            return stroke;
+        }(),
+        51: function() {
+            var stroke = new createjs.Shape(new createjs.Graphics().f(defaultColor).p(&quot;AaaFyYhQBkhaBuhGBkYi0D6igEEi0DwYjSEYjcEOkODSYgyAyg8AegyAoYgeAAgUAAgUAAYAAgUAAgUAAgKYBQhuBahkBahuYEYleEYlyDSmaYA8h4A8iMA8iCYAohQAAhagehaYgKgUAAgUgKgUYgKgyAKgeAygUYAKAAAKAAAUAAYAAAAAKAAAKAAYCqA8CCBaBQCqYAAAKAAAUAAAU&quot;).cp().ef());
+            stroke.regX = 169 / 2;
+            stroke.regY = 231 / 2;
+            stroke.setBounds(0, 0, 169, 231);
+            return stroke;
+        }()/*,
+        57: function() {
+            var stroke = new createjs.Shape(new createjs.Graphics());
+            stroke.regX =  / 2;
+            stroke.regY =  / 2;
+            stroke.setBounds(0, 0, , );
+            return stroke;
+        }(),
+        66: function() {
+            var stroke = new createjs.Shape(new createjs.Graphics());
+            stroke.regX =  / 2;
+            stroke.regY =  / 2;
+            stroke.setBounds(0, 0, , );
+            return stroke;
+        }(),
+        75: function() {
+            var stroke = new createjs.Shape(new createjs.Graphics());
+            stroke.regX =  / 2;
+            stroke.regY =  / 2;
+            stroke.setBounds(0, 0, , );
+            return stroke;
+        }(),
+        78: function() {
+            var stroke = new createjs.Shape(new createjs.Graphics());
+            stroke.regX =  / 2;
+            stroke.regY =  / 2;
+            stroke.setBounds(0, 0, , );
+            return stroke;
+        }()*/
+    };
 
-    });
 
-
-    return StudyDecomps;
+    return strokes;
 });
     </pre>
 </div>

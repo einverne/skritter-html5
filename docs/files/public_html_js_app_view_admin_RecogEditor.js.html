@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.61</em>
+            <em>API Docs for: 0.0.65</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Application.html">Application</a></li>
             
                 <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
             
                 <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
             
@@ -245,6 +247,17 @@ define([
             &#x27;click.Editor #param-list .panel-body&#x27;: &#x27;handleParamClick&#x27;
         },
         /**
+         * @method clear
+         */
+        clear: function() {
+            Editor.canvas.clear(&#x27;background&#x27;);
+            Editor.canvas.clear(&#x27;overlay&#x27;);
+            this.$(&#x27;#contains&#x27;).val(&#x27;&#x27;);
+            this.$(&#x27;#corners&#x27;).val(&#x27;&#x27;);
+            this.$(&#x27;#deviations&#x27;).val(&#x27;&#x27;);
+            this.$(&#x27;#feedback&#x27;).val(&#x27;&#x27;);
+        },
+        /**
          * @method handleParamClick
          * @param {Object} event
          */
@@ -263,7 +276,7 @@ define([
         handleStrokeClick: function(event) {
             var id = event.target.id.replace(&#x27;stroke-&#x27;, &#x27;&#x27;);
             if (id) {
-                Editor.canvas.clear();
+                this.clear();
                 this.$(&#x27;#stroke-list .panel-body&#x27;).children().removeClass(&#x27;active&#x27;);
                 this.$(&#x27;#param-list .panel-body&#x27;).children().removeClass(&#x27;active&#x27;);
                 this.$(event.target).addClass(&#x27;active&#x27;);
@@ -287,7 +300,7 @@ define([
          * @param {Number} strokeId
          */
         loadStroke: function(strokeId) {
-            Editor.canvas.drawRawStroke(new CanvasStroke().set(&#x27;sprite&#x27;, Skritter.assets.getStroke(strokeId)));
+            Editor.canvas.drawStroke(Skritter.assets.getStroke(strokeId), &#x27;background&#x27;);
             this.populateParamList(strokeId);
         },
         /**

@@ -43,6 +43,7 @@ require.text!template/grading-buttons.html
 js/app/view/prompt/GradingButtons.js
 js/app/view/prompt/Prompt.js
 js/lib/createjs.tweenjs-0.5.0.min.js
+js/app/view/component/Canvas.js
 js/app/view/prompt/PromptCanvas.js
 require.text!template/prompt-rune.html
 js/lib/jquery.hammerjs-1.0.5.min.js
@@ -65,6 +66,7 @@ js/app/view/admin/RecogEditor.js
 js/app/Router.js
 js/app/view/component/Facade.js
 js/app/view/component/Timer.js
+js/app/Strokes.js
 js/app/StrokeMap.js
 js/lib/createjs.preloadjs-0.4.0.min.js
 js/app/model/Assets.js

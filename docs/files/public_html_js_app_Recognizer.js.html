@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.61</em>
+            <em>API Docs for: 0.0.65</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Application.html">Application</a></li>
             
                 <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
             
                 <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
             
@@ -204,6 +206,7 @@
     <pre class="code prettyprint linenums">
 /**
  * @module Skritter
+ * @param StudyParam
  * @author Joshua McFarland
  */
 define([
@@ -300,7 +303,7 @@ define([
 		var rune = variations.at(b).get(&#x27;rune&#x27;);
                 var sprite = variations.at(b).get(&#x27;sprite&#x27;);
 		
-                //todo: update this backwards check to use the new params concept
+                //TODO: update this backwards check to use the new params concept
                 //right now it&#x27;s just a hack to manually inject params backwards
                 var reverseCorners = _.cloneDeep(params[0].get(&#x27;corners&#x27;)).reverse();
                 var reverseDeviations = _.cloneDeep(params[0].get(&#x27;deviations&#x27;)).reverse();

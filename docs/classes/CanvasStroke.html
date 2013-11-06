@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.61</em>
+            <em>API Docs for: 0.0.65</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Application.html">Application</a></li>
             
                 <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
             
                 <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
             
@@ -300,6 +302,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_getRectangleCorners">getRectangleCorners</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_getSprite">getSprite</a>
 
                                 
@@ -308,6 +317,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_getUserSprite">getUserSprite</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_initialize">initialize</a>
 
                                 
                                 
@@ -365,7 +381,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l33"><code>public_html\js\app\model\CanvasStroke.js:33</code></a>
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l36"><code>public_html\js\app\model\CanvasStroke.js:36</code></a>
         
         </p>
 
@@ -376,7 +392,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the angle created by the starting and ending point of the entire object.</p>
+
     </div>
 
     
@@ -437,7 +454,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l40"><code>public_html\js\app\model\CanvasStroke.js:40</code></a>
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l45"><code>public_html\js\app\model\CanvasStroke.js:45</code></a>
         
         </p>
 
@@ -448,7 +465,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the contained stroke ids.</p>
+
     </div>
 
     
@@ -507,7 +525,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l99"><code>public_html\js\app\model\CanvasStroke.js:99</code></a>
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l113"><code>public_html\js\app\model\CanvasStroke.js:113</code></a>
         
         </p>
 
@@ -518,7 +536,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns an inflated version of the data based on the canvas size.</p>
+
     </div>
 
     
@@ -577,7 +596,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l118"><code>public_html\js\app\model\CanvasStroke.js:118</code></a>
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l134"><code>public_html\js\app\model\CanvasStroke.js:134</code></a>
         
         </p>
 
@@ -588,7 +607,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns an inflated version of the params based on the canvas size.</p>
+
     </div>
 
     
@@ -647,7 +667,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l75"><code>public_html\js\app\model\CanvasStroke.js:75</code></a>
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l84"><code>public_html\js\app\model\CanvasStroke.js:84</code></a>
         
         </p>
 
@@ -658,7 +678,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the sprite transformed to fit the stroke data and canvas size.</p>
+
     </div>
 
     
@@ -717,7 +738,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l63"><code>public_html\js\app\model\CanvasStroke.js:63</code></a>
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l70"><code>public_html\js\app\model\CanvasStroke.js:70</code></a>
         
         </p>
 
@@ -728,7 +749,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the length of the stroke based on the distance between the corner segments.</p>
+
     </div>
 
     
@@ -787,7 +809,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l150"><code>public_html\js\app\model\CanvasStroke.js:150</code></a>
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l168"><code>public_html\js\app\model\CanvasStroke.js:168</code></a>
         
         </p>
 
@@ -798,7 +820,79 @@
     </div>
 
     <div class="description">
+        <p>Returns an object of the bounding rectangle of the points.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getRectangleCorners" class="method item">
+    <h3 class="name"><code>getRectangleCorners</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l178"><code>public_html\js\app\model\CanvasStroke.js:178</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns an object of the bounding rectangle of the corners.</p>
+
     </div>
 
     
@@ -857,7 +951,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l166"><code>public_html\js\app\model\CanvasStroke.js:166</code></a>
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l188"><code>public_html\js\app\model\CanvasStroke.js:188</code></a>
         
         </p>
 
@@ -868,7 +962,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the raw sprite without any tranformations or positioning.</p>
+
     </div>
 
     
@@ -927,7 +1022,7 @@
             
         
         
-        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l173"><code>public_html\js\app\model\CanvasStroke.js:173</code></a>
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l197"><code>public_html\js\app\model\CanvasStroke.js:197</code></a>
         
         </p>
 
@@ -938,7 +1033,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a sprite of the target stroke that has been altered based on the users input.</p>
+
     </div>
 
     
@@ -955,6 +1051,60 @@
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_initialize" class="method item">
+    <h3 class="name"><code>initialize</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_model_CanvasStroke.js.html#l28"><code>public_html\js\app\model\CanvasStroke.js:28</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
     
 
     

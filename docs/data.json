@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.61"
+        "version": "0.0.65"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -263,11 +263,20 @@
             "fors": {},
             "namespaces": {}
         },
-        "public_html\\js\\app\\view\\component\\Facade.js": {
-            "name": "public_html\\js\\app\\view\\component\\Facade.js",
+        "public_html\\js\\app\\view\\component\\Canvas.js": {
+            "name": "public_html\\js\\app\\view\\component\\Canvas.js",
             "modules": {
                 "Component": 1
             },
+            "classes": {
+                "Canvas": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "public_html\\js\\app\\view\\component\\Facade.js": {
+            "name": "public_html\\js\\app\\view\\component\\Facade.js",
+            "modules": {},
             "classes": {
                 "Facade": 1
             },
@@ -493,6 +502,13 @@
             },
             "fors": {},
             "namespaces": {}
+        },
+        "public_html\\js\\app\\Strokes.js": {
+            "name": "public_html\\js\\app\\Strokes.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
         }
     },
     "modules": {
@@ -534,6 +550,7 @@
                 "Storage": 1,
                 "RecogCanvas": 1,
                 "RecogEditor": 1,
+                "Canvas": 1,
                 "Facade": 1,
                 "Timer": 1,
                 "Words": 1,
@@ -568,7 +585,7 @@
             "author": "Joshua McFarland",
             "params": [
                 {
-                    "name": "PromptCanvas",
+                    "name": "Canvas",
                     "description": ""
                 }
             ],
@@ -663,6 +680,7 @@
             "name": "Component",
             "submodules": {},
             "classes": {
+                "Canvas": 1,
                 "Facade": 1,
                 "Timer": 1
             },
@@ -693,7 +711,7 @@
             "module": "Skritter",
             "namespace": "",
             "file": "public_html\\js\\app\\Router.js",
-            "line": 22,
+            "line": 23,
             "params": [
                 {
                     "name": "templateVocabWords",
@@ -719,37 +737,13 @@
             "namespace": "",
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
             "line": 24,
-            "author": "Joshua McFarland",
             "params": [
-                {
-                    "name": "PinyinConverter",
-                    "description": ""
-                },
-                {
-                    "name": "Recognizer",
-                    "description": ""
-                },
-                {
-                    "name": "CanvasCharacter",
-                    "description": ""
-                },
-                {
-                    "name": "CanvasStroke",
-                    "description": ""
-                },
-                {
-                    "name": "Prompt",
-                    "description": ""
-                },
                 {
                     "name": "Canvas",
                     "description": ""
-                },
-                {
-                    "name": "templateRune",
-                    "description": ""
                 }
-            ]
+            ],
+            "author": "Joshua McFarland"
         }
     },
     "classes": {
@@ -905,7 +899,7 @@
             "submodule": "Model",
             "namespace": "",
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 12,
+            "line": 13,
             "is_constructor": 1
         },
         "CanvasStroke": {
@@ -1119,7 +1113,7 @@
             "module": "Skritter",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
-            "line": 9
+            "line": 10
         },
         "RecogEditor": {
             "name": "RecogEditor",
@@ -1133,6 +1127,20 @@
             "namespace": "",
             "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
             "line": 14
+        },
+        "Canvas": {
+            "name": "Canvas",
+            "shortname": "Canvas",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Skritter",
+            "submodule": "Component",
+            "namespace": "",
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 11
         },
         "Facade": {
             "name": "Facade",
@@ -1201,7 +1209,8 @@
             "submodule": "Prompt",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 11
+            "line": 13,
+            "extends": "Canvas"
         },
         "PromptDefn": {
             "name": "PromptDefn",
@@ -1435,7 +1444,7 @@
             "module": "Skritter",
             "namespace": "",
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 9,
+            "line": 10,
             "params": [
                 {
                     "name": "userCharacter",
@@ -1467,7 +1476,7 @@
             "submodule": "View",
             "namespace": "",
             "file": "public_html\\js\\app\\Router.js",
-            "line": 22
+            "line": 23
         },
         "Scheduler": {
             "name": "Scheduler",
@@ -1541,6 +1550,7 @@
         {
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
             "line": 19,
+            "description": "Checks the character to see if the stroke already exists either directly or indirectly as\na contained double stroke.",
             "itemtype": "method",
             "name": "containsStroke",
             "params": [
@@ -1551,7 +1561,7 @@
                 }
             ],
             "return": {
-                "description": "True if the character contains the stroke",
+                "description": "Returns true if the character contains the stroke",
                 "type": "Boolean"
             },
             "class": "CanvasCharacter",
@@ -1560,7 +1570,8 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
-            "line": 46,
+            "line": 49,
+            "description": "Gets a container with all of the child stroke that character is comprised of and\nreturns them in a single container.",
             "itemtype": "method",
             "name": "getCharacterSprite",
             "return": {
@@ -1573,7 +1584,8 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
-            "line": 57,
+            "line": 64,
+            "description": "Returns a count of the total number of strokes in the character including the broken\ndown double strokes.",
             "itemtype": "method",
             "name": "getStrokeCount",
             "return": {
@@ -2317,7 +2329,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 17,
+            "line": 18,
             "itemtype": "method",
             "name": "initialize",
             "class": "Assets",
@@ -2326,7 +2338,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 26,
+            "line": 27,
             "description": "Plays an audio file using the native HTML5 audio element.",
             "itemtype": "method",
             "name": "getAudio",
@@ -2347,7 +2359,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 40,
+            "line": 41,
             "description": "Returns a stroke in the form of a sprite from the preloaded spritesheet.",
             "itemtype": "method",
             "name": "getStroke",
@@ -2368,7 +2380,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 50,
+            "line": 53,
             "description": "Returns the current instance of the stroke spritesheet.",
             "itemtype": "method",
             "name": "getStrokeSpriteSheet",
@@ -2382,7 +2394,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\Assets.js",
-            "line": 59,
+            "line": 62,
             "description": "Loads the strokes as a spritesheet and returns a callback once they have been preloaded.",
             "itemtype": "method",
             "name": "loadStrokes",
@@ -2399,7 +2411,17 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 33,
+            "line": 28,
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "CanvasStroke",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\CanvasStroke.js",
+            "line": 36,
+            "description": "Returns the angle created by the starting and ending point of the entire object.",
             "itemtype": "method",
             "name": "getAngle",
             "return": {
@@ -2412,7 +2434,8 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 40,
+            "line": 45,
+            "description": "Returns the contained stroke ids.",
             "itemtype": "method",
             "name": "getContainedStrokeIds",
             "return": {
@@ -2425,7 +2448,8 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 63,
+            "line": 70,
+            "description": "Returns the length of the stroke based on the distance between the corner segments.",
             "itemtype": "method",
             "name": "getLength",
             "return": {
@@ -2438,7 +2462,8 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 75,
+            "line": 84,
+            "description": "Returns the sprite transformed to fit the stroke data and canvas size.",
             "itemtype": "method",
             "name": "getInflatedSprite",
             "return": {
@@ -2451,7 +2476,8 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 99,
+            "line": 113,
+            "description": "Returns an inflated version of the data based on the canvas size.",
             "itemtype": "method",
             "name": "getInflatedData",
             "return": {
@@ -2464,7 +2490,8 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 118,
+            "line": 134,
+            "description": "Returns an inflated version of the params based on the canvas size.",
             "itemtype": "method",
             "name": "getInflatedParams",
             "return": {
@@ -2477,7 +2504,8 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 150,
+            "line": 168,
+            "description": "Returns an object of the bounding rectangle of the points.",
             "itemtype": "method",
             "name": "getRectangle",
             "return": {
@@ -2490,10 +2518,13 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 158,
+            "line": 178,
+            "description": "Returns an object of the bounding rectangle of the corners.",
+            "itemtype": "method",
+            "name": "getRectangleCorners",
             "return": {
                 "description": "",
-                "type": "@exp;Skritter@pro;fn@call;getBoundingRectangle"
+                "type": "Object"
             },
             "class": "CanvasStroke",
             "module": "Skritter",
@@ -2501,7 +2532,8 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 166,
+            "line": 188,
+            "description": "Returns the raw sprite without any tranformations or positioning.",
             "itemtype": "method",
             "name": "getSprite",
             "return": {
@@ -2514,7 +2546,8 @@
         },
         {
             "file": "public_html\\js\\app\\model\\CanvasStroke.js",
-            "line": 173,
+            "line": 197,
+            "description": "Returns a sprite of the target stroke that has been altered based on the users input.",
             "itemtype": "method",
             "name": "getUserSprite",
             "return": {
@@ -3697,9 +3730,9 @@
         },
         {
             "file": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
-            "line": 13,
+            "line": 14,
             "itemtype": "method",
-            "name": "clear",
+            "name": "initialize",
             "class": "RecogCanvas",
             "module": "Skritter"
         },
@@ -3707,29 +3740,11 @@
             "file": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
             "line": 20,
             "itemtype": "method",
-            "name": "drawParam",
-            "params": [
-                {
-                    "name": "param",
-                    "description": "",
-                    "type": "StudyParam"
-                }
-            ],
-            "class": "RecogCanvas",
-            "module": "Skritter"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\admin\\RecogCanvas.js",
-            "line": 42,
-            "itemtype": "method",
-            "name": "drawRawStroke",
-            "params": [
-                {
-                    "name": "canvasStroke",
-                    "description": "",
-                    "type": "CanvasStroke"
-                }
-            ],
+            "name": "render",
+            "return": {
+                "description": "",
+                "type": "RecogCanvas"
+            },
             "class": "RecogCanvas",
             "module": "Skritter"
         },
@@ -3766,6 +3781,14 @@
             "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
             "line": 43,
             "itemtype": "method",
+            "name": "clear",
+            "class": "RecogEditor",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
+            "line": 54,
+            "itemtype": "method",
             "name": "handleParamClick",
             "params": [
                 {
@@ -3779,7 +3802,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
-            "line": 55,
+            "line": 66,
             "itemtype": "method",
             "name": "handleStrokeClick",
             "params": [
@@ -3794,7 +3817,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
-            "line": 69,
+            "line": 80,
             "itemtype": "method",
             "name": "loadParam",
             "params": [
@@ -3809,7 +3832,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
-            "line": 81,
+            "line": 92,
             "itemtype": "method",
             "name": "loadStroke",
             "params": [
@@ -3824,7 +3847,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
-            "line": 89,
+            "line": 100,
             "itemtype": "method",
             "name": "populateParamList",
             "params": [
@@ -3839,7 +3862,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
-            "line": 105,
+            "line": 116,
             "itemtype": "method",
             "name": "populateStrokeList",
             "class": "RecogEditor",
@@ -3847,11 +3870,568 @@
         },
         {
             "file": "public_html\\js\\app\\view\\admin\\RecogEditor.js",
-            "line": 119,
+            "line": 130,
             "itemtype": "method",
             "name": "resize",
             "class": "RecogEditor",
             "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 15,
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 34,
+            "itemtype": "method",
+            "name": "render",
+            "return": {
+                "description": "",
+                "type": "Canvas"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 51,
+            "itemtype": "method",
+            "name": "initElement",
+            "return": {
+                "description": "",
+                "type": "DOMElement"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 62,
+            "itemtype": "method",
+            "name": "initListeners",
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 68,
+            "itemtype": "method",
+            "name": "initStage",
+            "return": {
+                "description": "",
+                "type": "Stage"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 80,
+            "itemtype": "method",
+            "name": "clear",
+            "params": [
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Container"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 100,
+            "itemtype": "method",
+            "name": "createLayer",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Container"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 111,
+            "description": "Disables all touch input on the canvas. This is most commonly used when a user has\nalready completed a prompt and it needs grading.",
+            "itemtype": "method",
+            "name": "disableInput",
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 120,
+            "itemtype": "method",
+            "name": "drawCharacter",
+            "params": [
+                {
+                    "name": "bitmap",
+                    "description": "",
+                    "type": "Bitmap"
+                },
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "alpha",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Bitmap"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 138,
+            "description": "Draws the character to the background using the font rather than assembling\nthe character strokes.",
+            "itemtype": "method",
+            "name": "drawCharacterFromText",
+            "params": [
+                {
+                    "name": "text",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "alpha",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Text"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 154,
+            "itemtype": "method",
+            "name": "drawGrid",
+            "params": [
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "color",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Container"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 176,
+            "itemtype": "method",
+            "name": "drawParam",
+            "params": [
+                {
+                    "name": "param",
+                    "description": "",
+                    "type": "StudyParam"
+                }
+            ],
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 198,
+            "itemtype": "method",
+            "name": "drawPhantomStroke",
+            "params": [
+                {
+                    "name": "bitmap",
+                    "description": "",
+                    "type": "Bitmap"
+                },
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Bitmap"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 217,
+            "itemtype": "method",
+            "name": "drawSquig",
+            "params": [
+                {
+                    "name": "points",
+                    "description": "",
+                    "type": "Array"
+                },
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "alpha",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Shape"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 244,
+            "itemtype": "method",
+            "name": "drawStroke",
+            "params": [
+                {
+                    "name": "bitmap",
+                    "description": "",
+                    "type": "Bitmap"
+                },
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "alpha",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Bitmap"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 257,
+            "description": "Draws text to the canvas on the message layer. If a position isn't specified then\nit defaults to the bottom center of the canvas.",
+            "itemtype": "method",
+            "name": "drawText",
+            "params": [
+                {
+                    "name": "text",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "color",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "font",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Text"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 291,
+            "itemtype": "method",
+            "name": "drawTweenedStroke",
+            "params": [
+                {
+                    "name": "fromBitmap",
+                    "description": "",
+                    "type": "Bitmap"
+                },
+                {
+                    "name": "toBitmap",
+                    "description": "",
+                    "type": "Bitmap"
+                },
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Bitmap"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 307,
+            "itemtype": "method",
+            "name": "fadeLayer",
+            "params": [
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Container"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 324,
+            "itemtype": "method",
+            "name": "filterLayerColor",
+            "params": [
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "filter",
+                    "description": "",
+                    "type": "ColorFilter"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Container"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 336,
+            "itemtype": "method",
+            "name": "getLayer",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Container"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 344,
+            "itemtype": "method",
+            "name": "getLayers",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 357,
+            "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger.",
+            "itemtype": "method",
+            "name": "enableInput",
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 410,
+            "itemtype": "method",
+            "name": "setLayerAlpha",
+            "params": [
+                {
+                    "name": "layerName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "alpha",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Container"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 421,
+            "itemtype": "method",
+            "name": "resize",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 433,
+            "itemtype": "method",
+            "name": "tick",
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 439,
+            "description": "Enables the view to fire events when the canvas has been touched.",
+            "itemtype": "method",
+            "name": "triggerMouseDown",
+            "params": [
+                {
+                    "name": "point",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 448,
+            "description": "Enables the view to fire events when the canvas touch has been released.",
+            "itemtype": "method",
+            "name": "triggerMouseUp",
+            "params": [
+                {
+                    "name": "points",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Facade.js",
@@ -4122,326 +4702,22 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 27,
+            "line": 18,
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "PromptCanvas",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
+            "line": 24,
             "itemtype": "method",
             "name": "render",
             "return": {
                 "description": "",
-                "type": "Canvas"
+                "type": "PromptCanvas"
             },
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 44,
-            "description": "Creates several containers used to organize different levels of display.",
-            "itemtype": "method",
-            "name": "initLayers",
-            "return": {
-                "description": "",
-                "type": "Canvas"
-            },
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 73,
-            "itemtype": "method",
-            "name": "initStage",
-            "return": {
-                "description": "",
-                "type": "Canvas"
-            },
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 90,
-            "itemtype": "method",
-            "name": "applyBackgroundColorFilter",
-            "params": [
-                {
-                    "name": "filter",
-                    "description": "",
-                    "type": "ColorFilter"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 98,
-            "itemtype": "method",
-            "name": "applyBackgroundGlow",
-            "params": [
-                {
-                    "name": "sprite",
-                    "description": "",
-                    "type": "Sprite"
-                },
-                {
-                    "name": "color",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 116,
-            "description": "Disables all touch input on the canvas. This is most commonly used when a user has\nalready completed a problem and it needs grading.",
-            "itemtype": "method",
-            "name": "disableInput",
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 125,
-            "description": "Draws text to the canvas on the message layer. If a position isn't specified then\nit defaults to the bottom center of the canvas.",
-            "itemtype": "method",
-            "name": "displayMessage",
-            "params": [
-                {
-                    "name": "message",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "color",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "font",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 154,
-            "description": "Given a CanvasCharacter this will render the image to the canvas.",
-            "params": [
-                {
-                    "name": "canvasCharacter",
-                    "description": "",
-                    "type": "CanvasCharacter"
-                },
-                {
-                    "name": "alpha",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 171,
-            "description": "Draws the character to the background using the font rather than assembling\nthe character strokes.",
-            "itemtype": "method",
-            "name": "drawCharacterFromText",
-            "params": [
-                {
-                    "name": "text",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "alpha",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 185,
-            "description": "The grid that fills the background of the canvas for rune prompts.",
-            "itemtype": "method",
-            "name": "drawGrid",
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 202,
-            "itemtype": "method",
-            "name": "drawPhantomStroke",
-            "params": [
-                {
-                    "name": "canvasStroke",
-                    "description": "",
-                    "type": "CanvasStroke"
-                },
-                {
-                    "name": "callback",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 218,
-            "itemtype": "method",
-            "name": "drawSquig",
-            "params": [
-                {
-                    "name": "canvasStroke",
-                    "description": "",
-                    "type": "CanvasStroke"
-                },
-                {
-                    "name": "alpha",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 243,
-            "itemtype": "method",
-            "name": "drawStroke",
-            "params": [
-                {
-                    "name": "canvasStroke",
-                    "description": "",
-                    "type": "CanvasStroke"
-                },
-                {
-                    "name": "callback",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 257,
-            "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger. It's important that this canvas doesn't use autoClear for\nspeed reasons and Cordova compatibility.",
-            "itemtype": "method",
-            "name": "enableInput",
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 311,
-            "itemtype": "method",
-            "name": "fadeBackground",
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 322,
-            "itemtype": "method",
-            "name": "fadeOverlay",
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 333,
-            "itemtype": "method",
-            "name": "resize",
-            "params": [
-                {
-                    "name": "event",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 351,
-            "itemtype": "method",
-            "name": "tick",
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 357,
-            "description": "Enables the view to fire events when the canvas has been touched.",
-            "itemtype": "method",
-            "name": "triggerMouseDown",
-            "params": [
-                {
-                    "name": "point",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "class": "PromptCanvas",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 366,
-            "description": "Enables the view to fire events when the canvas touch has been released.",
-            "itemtype": "method",
-            "name": "triggerMouseUp",
-            "params": [
-                {
-                    "name": "points",
-                    "description": "",
-                    "type": "Array"
-                }
-            ],
             "class": "PromptCanvas",
             "module": "Skritter",
             "submodule": "Prompt"
@@ -4470,7 +4746,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 62,
+            "line": 64,
             "description": "Handles the points returned when the user is finished with a stroke.",
             "itemtype": "method",
             "name": "handleInputRecieved",
@@ -4487,7 +4763,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 107,
+            "line": 109,
             "description": "Handles the character if it is complete by applying the correct background glow\nand then displaying the grading buttons.",
             "itemtype": "method",
             "name": "handleCharacterComplete",
@@ -4497,7 +4773,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 135,
+            "line": 138,
             "description": "Handles the double tap event by displaying the character hint if it's\nnot finished yet.",
             "itemtype": "method",
             "name": "handleDoubleTap",
@@ -4507,7 +4783,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 147,
+            "line": 150,
             "description": "Handles either the swipeleft or tap events by moving to the next if the\nprompt has already been finished.",
             "itemtype": "method",
             "name": "handleIfFinished",
@@ -4517,7 +4793,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 159,
+            "line": 162,
             "description": "Handles the grade selected event by passing the selected grade along and then\ncalled the next character in the prompt.",
             "itemtype": "method",
             "name": "handleGradeSelected",
@@ -4534,7 +4810,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 171,
+            "line": 174,
             "description": "Handles the hold event by clearing the canvas and reseting the input.",
             "itemtype": "method",
             "name": "handleHold",
@@ -4544,7 +4820,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 180,
+            "line": 183,
             "description": "Handles a complete stroke a trigger by the PromptCanvas. It also checks to see\nif the character has been completed yet or not.",
             "itemtype": "method",
             "name": "handleStrokeComplete",
@@ -4554,7 +4830,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 193,
+            "line": 195,
             "description": "Returns the next stroke in the character based on the order it should be written. It also\nreturn the variation, so the matching background hint can be displayed.",
             "itemtype": "method",
             "name": "getNextStroke",
@@ -4568,7 +4844,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 209,
+            "line": 211,
             "description": "Returns the stroke highest possible stroke count out of all of the targets.",
             "itemtype": "method",
             "name": "getTargetStrokeCount",
@@ -4582,7 +4858,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 225,
+            "line": 227,
             "description": "Moves to the next item in the prompt for prompts containing multiple characters.",
             "itemtype": "method",
             "name": "next",
@@ -4592,7 +4868,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 260,
+            "line": 262,
             "description": "Displays the answer for the user, which should be called after the prompt\nhas been completed.",
             "itemtype": "method",
             "name": "showAnswer",
@@ -4602,7 +4878,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 273,
+            "line": 275,
             "description": "Displays the initial prompt for the user and should probably be renamed to\nsomething a little less misleading than show hidden.",
             "itemtype": "method",
             "name": "showHidden",
@@ -4819,15 +5095,22 @@
         {
             "file": "public_html\\js\\app\\view\\Options.js",
             "line": 96,
-            "description": "Saves all the settings to the database.",
+            "description": "Saves all the settings to localStorage.",
             "itemtype": "method",
             "name": "save",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
             "class": "OptionsView",
             "module": "Skritter"
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 160,
+            "line": 169,
             "itemtype": "method",
             "name": "selectLanguage",
             "params": [
@@ -4842,7 +5125,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 190,
+            "line": 199,
             "itemtype": "method",
             "name": "toggleAudio",
             "params": [
@@ -4862,7 +5145,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 205,
+            "line": 214,
             "itemtype": "method",
             "name": "toggleRawSquigs",
             "params": [
@@ -5845,6 +6128,27 @@
             "module": "Skritter"
         },
         {
+            "file": "public_html\\js\\app\\Functions.js",
+            "line": 213,
+            "description": "Returns a Bootstrap alert of the given level containing the given text.",
+            "itemtype": "method",
+            "name": "twbsAlertHTML",
+            "params": [
+                {
+                    "name": "level",
+                    "description": "One of {success, info, warning, danger}",
+                    "type": "String"
+                },
+                {
+                    "name": "text",
+                    "description": "The alert text to be displayed",
+                    "type": "String"
+                }
+            ],
+            "class": "Functions",
+            "module": "Skritter"
+        },
+        {
             "file": "public_html\\js\\app\\Mauler.js",
             "line": 9,
             "itemtype": "method",
@@ -5920,7 +6224,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 28,
+            "line": 29,
             "itemtype": "method",
             "name": "recognize",
             "return": {
@@ -5932,7 +6236,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 78,
+            "line": 79,
             "itemtype": "method",
             "name": "getResultSet",
             "return": {
@@ -5944,7 +6248,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 140,
+            "line": 141,
             "itemtype": "method",
             "name": "checkAngle",
             "params": [
@@ -5963,7 +6267,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 150,
+            "line": 151,
             "itemtype": "method",
             "name": "checkCorners",
             "params": [
@@ -5982,7 +6286,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 160,
+            "line": 161,
             "itemtype": "method",
             "name": "checkDistance",
             "params": [
@@ -6001,7 +6305,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 170,
+            "line": 171,
             "itemtype": "method",
             "name": "checkLength",
             "params": [
@@ -6020,7 +6324,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 26,
+            "line": 27,
             "itemtype": "property",
             "name": "routes",
             "type": "Object",
@@ -6030,7 +6334,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 39,
+            "line": 40,
             "itemtype": "method",
             "name": "homeView",
             "class": "Router",
@@ -6039,7 +6343,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 49,
+            "line": 50,
             "itemtype": "method",
             "name": "infoView",
             "params": [
@@ -6055,7 +6359,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 64,
+            "line": 65,
             "itemtype": "method",
             "name": "logout",
             "class": "Router",
@@ -6064,7 +6368,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 70,
+            "line": 71,
             "itemtype": "method",
             "name": "loginView",
             "class": "Router",
@@ -6073,7 +6377,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 80,
+            "line": 81,
             "itemtype": "method",
             "name": "optionsView",
             "class": "Router",
@@ -6082,7 +6386,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 90,
+            "line": 91,
             "itemtype": "method",
             "name": "recogEditorView",
             "class": "Router",
@@ -6091,7 +6395,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 100,
+            "line": 101,
             "itemtype": "method",
             "name": "studyView",
             "class": "Router",
@@ -6100,7 +6404,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 111,
+            "line": 112,
             "itemtype": "method",
             "name": "vocabView",
             "class": "Router",
@@ -6109,7 +6413,7 @@
         },
         {
             "file": "public_html\\js\\app\\Router.js",
-            "line": 123,
+            "line": 124,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -6144,6 +6448,24 @@
             },
             "class": "Scheduler",
             "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\Strokes.js",
+            "line": 8,
+            "itemtype": "property",
+            "name": "defaultColor",
+            "type": "String",
+            "class": "",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\Strokes.js",
+            "line": 12,
+            "itemtype": "property",
+            "name": "strokes",
+            "type": "Object",
+            "class": "",
+            "module": "Skritter"
         }
     ],
     "warnings": [
@@ -6153,11 +6475,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:46"
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:49"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:57"
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:64"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6277,11 +6599,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\Assets.js:50"
+            "line": " public_html\\js\\app\\model\\Assets.js:53"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:166"
+            "line": " public_html\\js\\app\\model\\CanvasStroke.js:188"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6345,7 +6667,83 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\admin\\RecogCanvas.js:20"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
             "line": " public_html\\js\\app\\view\\admin\\RecogEditor.js:25"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:34"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:51"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:68"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:80"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:100"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:120"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:138"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:154"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:198"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:217"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:244"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:257"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:291"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:307"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:324"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:336"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:344"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:410"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6361,15 +6759,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:27"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:44"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:73"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:24"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6377,11 +6767,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:193"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:195"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:209"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:211"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6437,27 +6827,27 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:28"
+            "line": " public_html\\js\\app\\Recognizer.js:29"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:78"
+            "line": " public_html\\js\\app\\Recognizer.js:79"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:140"
+            "line": " public_html\\js\\app\\Recognizer.js:141"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:150"
+            "line": " public_html\\js\\app\\Recognizer.js:151"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:160"
+            "line": " public_html\\js\\app\\Recognizer.js:161"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:170"
+            "line": " public_html\\js\\app\\Recognizer.js:171"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6472,16 +6862,8 @@
             "line": " public_html\\js\\app\\StrokeMap.js:6"
         },
         {
-            "message": "Missing item type",
-            "line": " public_html\\js\\app\\model\\CanvasStroke.js:158"
-        },
-        {
             "message": "Missing item type\nUsed to start, stop and calculate accurate durations of time     .",
             "line": " public_html\\js\\app\\view\\component\\Timer.js:9"
-        },
-        {
-            "message": "Missing item type\nGiven a CanvasCharacter this will render the image to the canvas.",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:154"
         },
         {
             "message": "Missing item type\nCreates the global Skritter namespace when the application first opened.",

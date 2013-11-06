@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.61</em>
+            <em>API Docs for: 0.0.65</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Application.html">Application</a></li>
             
                 <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
             
                 <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
             
@@ -229,12 +231,17 @@ define([
      * @class CanvasStroke
      */
     var CanvasStroke = Backbone.Model.extend({
+        /**
+         * @method initialize
+         */
         initialize: function() {
             this.on(&#x27;change:points&#x27;, function(stroke) {
                 stroke.set(&#x27;corners&#x27;, Shortstraw(stroke.get(&#x27;points&#x27;)));
             });
         },
         /**
+         * Returns the angle created by the starting and ending point of the entire object.
+         * 
          * @method getAngle
          * @return {Number} description
          */
@@ -242,6 +249,8 @@ define([
             return Skritter.fn.getAngle(this.get(&#x27;points&#x27;));
         },
         /**
+         * Returns the contained stroke ids.
+         * 
          * @method getContainedStrokeIds
          * @return {Array}
          */
@@ -265,6 +274,8 @@ define([
             return ids;
         },
         /**
+         * Returns the length of the stroke based on the distance between the corner segments.
+         * 
          * @method getLength
          * @return {Number}
          */
@@ -277,6 +288,8 @@ define([
             return length;
         },
         /**
+         * Returns the sprite transformed to fit the stroke data and canvas size.
+         * 
          * @method getInflatedSprite
          * @return {unresolved}
          */
@@ -294,13 +307,18 @@ define([
             var t = ms.decompose();
 
             sprite.setTransform(t.x, t.y, t.scaleX, t.scaleY, t.rotation, t.skewX, t.skewY);
-            var bounds = sprite.getTransformedBounds();            
+            var bounds = sprite.getTransformedBounds();          
             sprite.x += bounds.width / 2 + data.x;
             sprite.y += bounds.height / 2 + data.y;
+            //TODO: might need to use this instead when switching to vector-based shapes
+            //sprite.x = data.x;
+            //sprite.y = data.y;
 
             return sprite;
         },
         /**
+         * Returns an inflated version of the data based on the canvas size.
+         * 
          * @method getInflatedData
          * @return {Object}
          */
@@ -320,6 +338,8 @@ define([
             };
         },
         /**
+         * Returns an inflated version of the params based on the canvas size.
+         * 
          * @method getInflatedParams
          * @return {Array}
          */
@@ -352,6 +372,8 @@ define([
             return inflatedParams;
         },
         /**
+         * Returns an object of the bounding rectangle of the points.
+         * 
          * @method getRectangle
          * @return {Object}
          */
@@ -360,14 +382,18 @@ define([
             return Skritter.fn.getBoundingRectangle(this.get(&#x27;points&#x27;), canvasSize, canvasSize, 14);
         },
         /**
+         * Returns an object of the bounding rectangle of the corners.
          * 
-         * @return {@exp;Skritter@pro;fn@call;getBoundingRectangle}
+         * @method getRectangleCorners
+         * @return {Object}
          */
         getRectangleCorners: function() {
             var canvasSize = Skritter.settings.get(&#x27;canvasSize&#x27;);
             return Skritter.fn.getBoundingRectangle(this.get(&#x27;corners&#x27;), canvasSize, canvasSize, 14);
         },
         /**
+         * Returns the raw sprite without any tranformations or positioning.
+         * 
          * @method getSprite
          * @returns {Bitmap}
          */
@@ -375,6 +401,8 @@ define([
             return this.get(&#x27;sprite&#x27;);
         },
         /**
+         * Returns a sprite of the target stroke that has been altered based on the users input.
+         * 
          * @method getUserSprite
          * @return {Bitmap}
          */

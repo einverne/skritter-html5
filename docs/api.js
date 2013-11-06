@@ -4,6 +4,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Api",
         "Application",
         "Assets",
+        "Canvas",
         "CanvasCharacter",
         "CanvasStroke",
         "Facade",
