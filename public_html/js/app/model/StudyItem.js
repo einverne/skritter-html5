@@ -91,11 +91,25 @@ define([
             return vocabs;
         },
         /**
+         *
+         * 
          * @method isActive
          * @return {Boolean}
          */
         isActive: function() {
             if (this.get('vocabIds').length > 0)
+                return true;
+            return false;
+        },
+        /**
+         * Returns true if the item is considered to be new. An item is considered to be new
+         * if it doesn't have a previousInterval or it's never has a successful review.
+         * 
+         * @method isNew
+         * @returns {Boolean}
+         */
+        isNew: function() {
+            if (this.get('previousInterval') === 0 || this.get('successes') === 0)
                 return true;
             return false;
         },
@@ -106,53 +120,6 @@ define([
         play: function() {
             var vocab = this.getVocabs()[0];
             vocab.play();
-        },
-        /**
-         * @method spawnReview
-         * @param {Number} grade
-         * @param {Number} reviewTime
-         * @param {Number} startTime
-         * @param {Number} thinkingTime
-         * @param {String} wordGroup
-         * @param {Boolean} bearTime
-         * @return {StudyItem}
-         */
-        spawnReview: function(grade, reviewTime, startTime, thinkingTime, wordGroup, bearTime) {
-            bearTime = (bearTime) ? true : false;
-            var currentTime = Skritter.fn.getUnixTime();
-            var actualInterval = startTime - this.get('last');
-            var newInterval = new Scheduler().getNewInterval(this, grade);
-            var previousInterval = (this.get('previousInterval')) ? this.get('previousInterval') : 0;
-            var previousSuccess = (this.get('previousSuccess')) ? this.get('previousSuccess') : false;
-
-            var review = new StudyReview();
-            review.set({
-                itemId: this.get('id'),
-                score: parseInt(grade, 10),
-                bearTime: bearTime,
-                submitTime: startTime,
-                reviewTime: parseFloat(reviewTime),
-                thinkingTime: parseFloat(thinkingTime),
-                currentInterval: this.get('interval'),
-                actualInterval: actualInterval,
-                newInterval: newInterval,
-                wordGroup: wordGroup,
-                previousInterval: previousInterval,
-                previousSuccess: previousSuccess
-            });
-            Skritter.data.reviews.add(review);
-
-            this.set({
-                last: currentTime,
-                next: currentTime + newInterval,
-                interval: newInterval,
-                previousInterval: this.get('interval'),
-                previousSuccess: (this.get('grade') > 1) ? true : false,
-                reviews: this.get('reviews') + 1,
-                successes: (grade > 1) ? this.get('successes') + 1 : this.get('successes')
-            });
-
-            return this;
         }
     });
 
