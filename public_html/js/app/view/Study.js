@@ -28,6 +28,7 @@ define([
             Study.c = {prompt: null, item: null, vocabs: null};
             Study.items = {};
             Study.scheduler = new Scheduler();
+            Skritter.debug.loadItems = this.loadItems;
         },
         /**
          * @method render
@@ -71,6 +72,8 @@ define([
         loadItems: function(itemAttr, itemVals) {
             if (itemAttr && itemVals) {
                 Study.items = Skritter.study.items.filterBy(itemAttr, itemVals);
+                if (Study.items.length < 1)
+                    return false;
                 this.next();
             } else {
                 Study.items = Skritter.study.items.filterActive();
@@ -121,7 +124,7 @@ define([
             } else {
                 this.$('#audio-button').text('{no-audio}');
             }
-            Study.c.prompt.set(Study.c.vocabs).showHidden();
+            Study.c.prompt.set(Study.c.vocabs).show();
             this.listenToOnce(Study.c.prompt, 'complete', this.handlePromptComplete);
             return Study.c;
         },

@@ -29,6 +29,8 @@ define([
             Canvas.textFont = '12px Arial';
             Canvas.element = this.initElement();
             Canvas.stage = this.initStage();
+            createjs.Touch.enable(Canvas.stage);
+            createjs.Ticker.addEventListener('tick', this.tick);
             this.initListeners();
         },
         /**
@@ -73,8 +75,6 @@ define([
             var stage = new createjs.Stage(Canvas.element);
             stage.enableDOMEvents(true);
             stage.autoClear = true;
-            createjs.Touch.enable(Canvas.stage);
-            createjs.Ticker.addEventListener('tick', this.tick);
             return stage;
         },
         /**

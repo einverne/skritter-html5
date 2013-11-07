@@ -125,22 +125,14 @@ define([
                 //resets the targets
                 Tone.userTargets = [];
                 //go ahead and show the next part of the prompt
-                this.showHidden();
+                this.show();
                 //enable the canvas to begin next prompt
                 Tone.canvas.enableInput();
             } else {
                 this.triggerPromptComplete();
             }
         },
-        showAnswer: function() {
-            Skritter.timer.stop();
-            Tone.canvas.disableInput();
-            this.$('#reading').html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position)));
-            //play the audio file if last prompt is finished
-            if (Prompt.vocabs[0].has('audio') && Prompt.position === Prompt.vocabs[0].getCharacterCount() && Skritter.user.get('audio'))
-                Prompt.vocabs[0].play();
-        },
-        showHidden: function() {
+        show: function() {
             Skritter.timer.start();
             Tone.userCharacter = new CanvasCharacter();
             Tone.userTargets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'tone');
@@ -152,6 +144,14 @@ define([
             this.$('#style').text(Prompt.vocabs[0].get('style'));
             this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
             this.listenToOnce(Tone.canvas, 'mouseup', this.handleInputRecieved);
+        },
+        showAnswer: function() {
+            Skritter.timer.stop();
+            Tone.canvas.disableInput();
+            this.$('#reading').html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position)));
+            //play the audio file if last prompt is finished
+            if (Prompt.vocabs[0].has('audio') && Prompt.position === Prompt.vocabs[0].getCharacterCount() && Skritter.user.get('audio'))
+                Prompt.vocabs[0].play();
         }
     });
     

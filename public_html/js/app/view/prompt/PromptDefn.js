@@ -37,6 +37,15 @@ define([
             this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             this.triggerPromptComplete();
         },
+        show: function() {
+            console.log('Prompt', 'DEFN', Prompt.vocabs[0].get('writing'));
+            Skritter.timer.start();
+            this.$('#writing').text(Prompt.writing);
+            this.$('#style').text(Prompt.vocabs[0].get('style'));
+            this.$('#definition').text("What's the definition?");
+            this.$('#prompt-tip').text("(Click to show answer)");
+            this.$('#canvas-container').hammer().one('click.Defn', _.bind(this.handleClick, this));
+        },
         showAnswer: function() {
             Skritter.timer.stop();
             this.$('#reading').text(PinyinConverter.toTone(Prompt.reading));
@@ -46,16 +55,6 @@ define([
             //play the audio file when answer is shown
             if (Prompt.vocabs[0].has('audio') && Skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
-        },
-        
-        showHidden: function() {
-            console.log('Prompt', 'DEFN', Prompt.vocabs[0].get('writing'));
-            Skritter.timer.start();
-            this.$('#writing').text(Prompt.writing);
-            this.$('#style').text(Prompt.vocabs[0].get('style'));
-            this.$('#definition').text("What's the definition?");
-            this.$('#prompt-tip').text("(Click to show answer)");
-            this.$('#canvas-container').hammer().one('click.Defn', _.bind(this.handleClick, this));
         }
     });
 

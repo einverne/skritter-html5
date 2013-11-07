@@ -66,15 +66,28 @@ define([
          * down double strokes.
          * 
          * @method getStrokeCount
+         * @param {Boolean} enforceTweening
          * @returns {Number} The total number of stroke in the character
          */
-        getStrokeCount: function() {
+        getStrokeCount: function(enforceTweening) {
             var strokeCount = 0;
             for (var i in this.models) {
-                if (this.models[i].has('contains')) {
-                    strokeCount += this.models[i].get('contains').length;
+                var stroke = this.models[i];
+                if (enforceTweening) {
+                    if (!stroke.get('isTweening')) {
+                        if (stroke.has('contains')) {
+                            strokeCount += stroke.get('contains').length;
+                        } else {
+                            strokeCount++;
+                        }
+                    }
                 } else {
-                    strokeCount++;
+                    if (stroke.has('contains')) {
+                        strokeCount += stroke.get('contains').length;
+                    } else {
+                        strokeCount++;
+                    }
+
                 }
             }
             return strokeCount;

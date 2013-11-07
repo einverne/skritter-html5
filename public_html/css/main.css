@@ -18,6 +18,12 @@ body {
 }
 
 
+/** NAVBAR **/
+.navbar {
+    z-index: 9999;
+}
+
+
 /** FONTS **/
 @font-face {
 	font-family: "kaisho";

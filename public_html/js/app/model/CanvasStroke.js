@@ -34,6 +34,12 @@ define([
             });
         },
         /**
+         * @property {Object} defaults
+         */
+        defaults: {
+            isTweening: false
+        },
+        /**
          * Returns the angle created by the starting and ending point of the entire object.
          * 
          * @method getAngle

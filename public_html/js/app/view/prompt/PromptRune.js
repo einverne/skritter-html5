@@ -33,6 +33,7 @@ define([
             Rune.failedAttempts = 0;
             Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 25;
+            Rune.strokeCount = 0;
             Rune.userCharacter = null;
             Rune.userTargets = [];
             this.listenTo(Rune.canvas, 'mouseup', this.handleInputRecieved);
@@ -81,20 +82,22 @@ define([
                 var result = new Recognizer(Rune.userCharacter, stroke, Rune.userTargets).recognize();
                 //check if a result exists and that it's not a duplicate
                 if (result && !Rune.userCharacter.containsStroke(result)) {
+                    //add the stroke to the users character
+                    Rune.userCharacter.add(stroke);
                     //reset the failed attempts counter
                     Rune.failedAttempts = 0;
-                    //add the stroke to the users character
-                    Rune.userCharacter.add(result);
                     //choose whether to draw the stroke normally or using raw squigs
                     if (Skritter.user.get('settings').squigs) {
                         Rune.canvas.drawSquig(result.get('points'), 'overlay');
-                        this.handleStrokeComplete();
+                        this.handleStrokeComplete(result);
                     } else {
                         //display feedback if it exists
                         if (result.get('feedback')) {
                             Rune.canvas.drawText(result.get('feedback'), 'feedback', 'orange', '24px Arial', 10, 10);
                         }
-                        Rune.canvas.drawTweenedStroke(result.getUserSprite(), result.getInflatedSprite(), 'stroke', _.bind(this.handleStrokeComplete, this));
+                        //properly tracking when a character is complete requires better tween handling
+                        result.set('isTweening', true);
+                        Rune.canvas.drawTweenedStroke(result.getUserSprite(), result.getInflatedSprite(), 'stroke', _.bind(this.handleStrokeComplete, this, result));
                     }
                 } else {
                     Rune.failedAttempts++;
@@ -113,6 +116,7 @@ define([
          * @method handleCharacterComplete
          */
         handleCharacterComplete: function() {
+            console.log('character complete');
             //catches callbacks firing at the same time with people writing quickly
             //otherwise it's possible a character can complete twice
             if (Prompt.finished === true)
@@ -185,10 +189,13 @@ define([
          * if the character has been completed yet or not.
          * 
          * @method handleStrokeComplete
+         * @param {CanvasStroke} stroke
          */
-        handleStrokeComplete: function() {
-            //check if the character has been completed yet or not
-            if (Rune.userCharacter.getStrokeCount() >= this.getTargetStrokeCount()) {
+        handleStrokeComplete: function(stroke) {
+            //flag the stroke as not being tweened once it finishes
+            stroke.set('isTweening', false);
+            //check if the character has been completed yet or not with enforced tween checks
+            if (Rune.userCharacter.getStrokeCount(true) >= this.getTargetStrokeCount()) {
                 this.handleCharacterComplete();
             }
         },
@@ -252,7 +259,7 @@ define([
                 //resets the targets
                 Rune.userTargets = [];
                 //lets go ahead and show the net character in the item
-                this.showHidden();
+                this.show();
                 //enable the canvas to begin next prompt
                 Rune.canvas.enableInput();
             } else {
@@ -260,25 +267,12 @@ define([
             }
         },
         /**
-         * Displays the answer for the user, which should be called after the prompt
-         * has been completed.
-         * 
-         * @method showAnswer
-         */
-        showAnswer: function() {
-            Skritter.timer.stop();
-            Rune.canvas.disableInput();
-            this.$('#writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            if (Prompt.sentence && Prompt.position >= Prompt.vocabs[0].getCharacterCount())
-                this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence));
-        },
-        /**
          * Displays the initial prompt for the user and should probably be renamed to
          * something a little less misleading than show hidden.
          * 
-         * @method showHidden
+         * @method show
          */
-        showHidden: function() {
+        show: function() {
             //ISSUE #30: skips japanese characters with leading kana
             if (Skritter.user.isJapanese() && Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position-1))) {
                 this.next();
@@ -298,6 +292,19 @@ define([
             this.$('#style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence)
                 this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
+        },
+        /**
+         * Displays the answer for the user, which should be called after the prompt
+         * has been completed.
+         * 
+         * @method showAnswer
+         */
+        showAnswer: function() {
+            Skritter.timer.stop();
+            Rune.canvas.disableInput();
+            this.$('#writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
+            if (Prompt.sentence && Prompt.position >= Prompt.vocabs[0].getCharacterCount())
+                this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence));
         }
     });
 
