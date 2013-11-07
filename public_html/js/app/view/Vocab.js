@@ -38,7 +38,7 @@ define([
         loadEntries: function() {
             this.$('#entries').html('');
             var lang = Skritter.user.getSetting('sourceLang');
-            var items = Skritter.study.items.filterActive(true);
+            var items = Skritter.data.items.filterActive(true);
             var vocabs = items.getContainedVocabs();
             for (var i in vocabs) {
                 var vocab = vocabs[i];

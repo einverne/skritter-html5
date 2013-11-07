@@ -30,7 +30,7 @@ define([
     var User = Backbone.Model.extend({
         initialize: function() {
             Skritter.log = new Log();
-            Skritter.study = {
+            Skritter.data = {
                 decomps: new StudyDecomps(),
                 items: new StudyItems(),
                 params: new StudyParams(),
@@ -128,37 +128,37 @@ define([
                     });
                 },*/
                 function(callback) {
-                    Skritter.study.decomps.cache(function() {
+                    Skritter.data.decomps.cache(function() {
                         callback();
                     });
                 },
                 function(callback) {
-                    Skritter.study.items.cache(function() {
+                    Skritter.data.items.cache(function() {
                         callback();
                     });
                 },
                 function(callback) {
-                    Skritter.study.reviews.cache(function() {
+                    Skritter.data.reviews.cache(function() {
                         callback();
                     });
                 },
                 function(callback) {
-                    Skritter.study.srsconfigs.cache(function() {
+                    Skritter.data.srsconfigs.cache(function() {
                         callback();
                     });
                 },
                 function(callback) {
-                    Skritter.study.sentences.cache(function() {
+                    Skritter.data.sentences.cache(function() {
                         callback();
                     });
                 },
                 function(callback) {
-                    Skritter.study.strokes.cache(function() {
+                    Skritter.data.strokes.cache(function() {
                         callback();
                     });
                 },
                 function(callback) {
-                    Skritter.study.vocabs.cache(function() {
+                    Skritter.data.vocabs.cache(function() {
                         callback();
                     });
                 }
@@ -208,7 +208,7 @@ define([
             }
             Skritter.facade.show('fixing ' + errors.length + ' sync issues');
             Skritter.api.getItems(_.uniq(errorIds), _.bind(function(items) {
-                var updated = Skritter.study.items.set(items, {add: false, remove: false});
+                var updated = Skritter.data.items.set(items, {add: false, remove: false});
                 this.set('lastReviewFix', parseInt(errors[errors.length -1].created + 1, 10));
                 callback(updated);
                 Skritter.facade.hide();
@@ -336,14 +336,14 @@ define([
         loadAllData: function(callback) {
             Skritter.async.parallel([
                 //Skritter.async.apply(Skritter.log.loadAll),
-                Skritter.async.apply(Skritter.study.decomps.loadAll),
-                Skritter.async.apply(Skritter.study.items.loadAll),
-                Skritter.async.apply(Skritter.study.params.loadAll),
-                Skritter.async.apply(Skritter.study.reviews.loadAll),
-                Skritter.async.apply(Skritter.study.srsconfigs.loadAll),
-                Skritter.async.apply(Skritter.study.sentences.loadAll),
-                Skritter.async.apply(Skritter.study.strokes.loadAll),
-                Skritter.async.apply(Skritter.study.vocabs.loadAll)
+                Skritter.async.apply(Skritter.data.decomps.loadAll),
+                Skritter.async.apply(Skritter.data.items.loadAll),
+                Skritter.async.apply(Skritter.data.params.loadAll),
+                Skritter.async.apply(Skritter.data.reviews.loadAll),
+                Skritter.async.apply(Skritter.data.srsconfigs.loadAll),
+                Skritter.async.apply(Skritter.data.sentences.loadAll),
+                Skritter.async.apply(Skritter.data.strokes.loadAll),
+                Skritter.async.apply(Skritter.data.vocabs.loadAll)
             ], function() {
                 callback();
             });
@@ -391,14 +391,14 @@ define([
         },
         resetAllData: function() {
             Skritter.log.reset();
-            Skritter.study.decomps.reset();
-            Skritter.study.items.reset();
-            Skritter.study.reviews.reset();
-            Skritter.study.srsconfigs.reset();
-            Skritter.study.sentences.reset();
-            Skritter.study.strokes.reset();
-            Skritter.study.strokes.loadTones();
-            Skritter.study.vocabs.reset();
+            Skritter.data.decomps.reset();
+            Skritter.data.items.reset();
+            Skritter.data.reviews.reset();
+            Skritter.data.srsconfigs.reset();
+            Skritter.data.sentences.reset();
+            Skritter.data.strokes.reset();
+            Skritter.data.strokes.loadTones();
+            Skritter.data.vocabs.reset();
         },
         /**
          * Sets the sync timestamp based on the active language and then returns it.
@@ -461,17 +461,17 @@ define([
                             if (accountDownload)
                                 Skritter.facade.show('initial download <br />' + Skritter.fn.bytesToSize(size));
                             //ISSUE #20: decomps is returning a null value in the resulting array
-                            Skritter.study.decomps.add(_.compact(result.Decomps));
-                            Skritter.study.items.add(result.Items);
-                            Skritter.study.sentences.add(result.Sentences);
-                            Skritter.study.strokes.add(result.Strokes);
-                            Skritter.study.vocabs.add(result.Vocabs);
+                            Skritter.data.decomps.add(_.compact(result.Decomps));
+                            Skritter.data.items.add(result.Items);
+                            Skritter.data.sentences.add(result.Sentences);
+                            Skritter.data.strokes.add(result.Strokes);
+                            Skritter.data.vocabs.add(result.Vocabs);
                         }, function() {
                             callback();
                         });
                     },
                     function(callback) {
-                        Skritter.study.srsconfigs.fetch(function() {
+                        Skritter.data.srsconfigs.fetch(function() {
                             callback();
                         });
                     },

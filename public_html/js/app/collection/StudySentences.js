@@ -38,7 +38,7 @@ define([
          */
         loadAll: function(callback) {
             Skritter.storage.getItems('sentences', function(sentences) {
-                Skritter.study.sentences.add(sentences);
+                Skritter.data.sentences.add(sentences);
                 callback(null, sentences);
             });
         }

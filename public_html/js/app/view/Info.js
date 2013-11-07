@@ -55,7 +55,7 @@ define([
                 this.$('#contained-panel .panel-body').html('');
 		for (var i in contained)
 		{
-		    var containedVocab = Skritter.study.vocabs.findWhere({id:contained[i]});
+		    var containedVocab = Skritter.data.vocabs.findWhere({id:contained[i]});
 		    var div = "<div class='contained-vocab'>";
 		    div += "<span class='writing'>" + containedVocab.get('writing') + "</span>";
 		    div += "<span class='reading'>" + PinyinConverter.toTone(containedVocab.get('reading')) + ": </span>";
@@ -99,10 +99,10 @@ define([
          * @param {String} id
          */
         load: function(id) {
-            Info.items = Skritter.study.items.filterBy('id', id, true);
-            Info.vocab = Skritter.study.vocabs.findWhere({id: id});
+            Info.items = Skritter.data.items.filterBy('id', id, true);
+            Info.vocab = Skritter.data.vocabs.findWhere({id: id});
 	    if (Info.vocab.get('sentenceId'))
-		Info.sentence = Skritter.study.sentences.findWhere({id: Info.vocab.get('sentenceId')});
+		Info.sentence = Skritter.data.sentences.findWhere({id: Info.vocab.get('sentenceId')});
         },
         /**
          * @method playAudio

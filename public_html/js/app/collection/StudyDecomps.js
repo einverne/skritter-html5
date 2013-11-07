@@ -38,7 +38,7 @@ define([
          */
         loadAll: function(callback) {
             Skritter.storage.getItems('decomps', function(decomps) {
-                Skritter.study.decomps.add(decomps);
+                Skritter.data.decomps.add(decomps);
                 callback(null, decomps);
             });
         }

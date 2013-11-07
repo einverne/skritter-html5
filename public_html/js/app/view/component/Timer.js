@@ -199,7 +199,7 @@ define([
          * @param {Boolean} includeServer
          */
         sync: function(includeServer) {
-            TimerView.offset = Skritter.study.reviews.getTime();
+            TimerView.offset = Skritter.data.reviews.getTime();
             if (includeServer) {
                 Skritter.api.getProgressStats({
                     start: Skritter.settings.get('date')

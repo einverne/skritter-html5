@@ -82,7 +82,7 @@ define([
          * @param {Number} paramId
          */
         loadParam: function(paramId) {
-            var param = Skritter.study.params.get(paramId);
+            var param = Skritter.data.params.get(paramId);
             Editor.canvas.drawParam(param);
             this.$('#contains').val(param.get('contains'));
             this.$('#corners').val(JSON.stringify(param.get('corners')));
@@ -103,7 +103,7 @@ define([
          */
         populateParamList: function(strokeId) {
             this.$('#param-list .panel-body').html('');
-            var params = Skritter.study.params.where({bitmapId: parseInt(strokeId, 10)});
+            var params = Skritter.data.params.where({bitmapId: parseInt(strokeId, 10)});
             for (var p in params) {
                 var param = params[p];
                 if (param.has('feedback')) {

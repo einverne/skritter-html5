@@ -28,7 +28,6 @@ define([
             Study.c = {prompt: null, item: null, vocabs: null};
             Study.items = {};
             Study.scheduler = new Scheduler();
-            Skritter.debug.loadItems = this.loadItems;
         },
         /**
          * @method render
@@ -57,7 +56,7 @@ define([
         handlePromptComplete: function(results) {
             this.updateItems(results);
             this.updateDue();
-            Skritter.study.items.sort();
+            Skritter.data.items.sort();
             this.next();
         },
         /**
@@ -71,12 +70,12 @@ define([
          */
         loadItems: function(itemAttr, itemVals) {
             if (itemAttr && itemVals) {
-                Study.items = Skritter.study.items.filterBy(itemAttr, itemVals);
+                Study.items = Skritter.data.items.filterBy(itemAttr, itemVals);
                 if (Study.items.length < 1)
                     return false;
                 this.next();
             } else {
-                Study.items = Skritter.study.items.filterActive();
+                Study.items = Skritter.data.items.filterActive();
             }
             return Study.items;
         },
@@ -151,7 +150,7 @@ define([
          * @method updateDue
          */
         updateDue: function() {
-            this.$('#items-due').text(Skritter.study.items.getDueCount(true));
+            this.$('#items-due').text(Skritter.data.items.getDueCount(true));
         },
         /**
          * @method updateItems
@@ -243,7 +242,7 @@ define([
                 successes: (results[0].grade > 1) ? Study.c.item.get('successes') + 1 : Study.c.item.get('successes')
             });
             reviews.push(review);
-            Skritter.study.reviews.add(reviews);
+            Skritter.data.reviews.add(reviews);
         }
     });
 

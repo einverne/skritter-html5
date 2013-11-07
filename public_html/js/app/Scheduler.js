@@ -20,7 +20,7 @@ define(function() {
      */
     Scheduler.prototype.getInterval = function(item, grade) {
         console.log(Skritter.user.getSetting('targetLang'), item.get('part'));
-        var config = Skritter.study.srsconfigs.findWhere({lang: Skritter.user.getSetting('targetLang'), part: item.get('part')});
+        var config = Skritter.data.srsconfigs.findWhere({lang: Skritter.user.getSetting('targetLang'), part: item.get('part')});
         var newInterval;
         var getRandomizedInterval = function(interval) {
             return Math.round(interval * (0.925 + (Math.random() * 0.15)));

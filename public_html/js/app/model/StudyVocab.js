@@ -66,13 +66,13 @@ define([
 
             var variations = [];
             if (part === 'rune') {
-                variations = Skritter.study.strokes.findWhere({rune: rune}).get('strokes');
+                variations = Skritter.data.strokes.findWhere({rune: rune}).get('strokes');
             } else {
                 var tones = this.getPinyinAt(index).tone.split(',');
                 for (var t in tones)
                 {
                     var tone = 'tone' + tones[t].replace(' ', '');
-                    variations.push(Skritter.study.strokes.findWhere({rune: tone}).get('strokes'));
+                    variations.push(Skritter.data.strokes.findWhere({rune: tone}).get('strokes'));
                 }
             }
 
@@ -86,7 +86,7 @@ define([
                 {
                     var stroke = new CanvasStroke();
                     var bitmapId = parseInt(strokes[s][0], 10);
-                    var params = Skritter.study.params.findWhere({bitmapId: bitmapId});
+                    var params = Skritter.data.params.findWhere({bitmapId: bitmapId});
                     stroke.set({
                        bitmapId: bitmapId,
                        data: strokes[s],
@@ -136,7 +136,7 @@ define([
          * @returns {Object}
          */
         getItems: function() {
-            return Skritter.study.items.filterBy('id', this.get('id'), true);
+            return Skritter.data.items.filterBy('id', this.get('id'), true);
         },
         /**
          * @method getPinyinAt
@@ -184,7 +184,7 @@ define([
          * @return {String}
          */
         getSentence: function() {
-            var sentence = Skritter.study.sentences.findWhere({id: this.get('sentenceId')});
+            var sentence = Skritter.data.sentences.findWhere({id: this.get('sentenceId')});
             return (sentence) ? sentence : '';
         },
         /**

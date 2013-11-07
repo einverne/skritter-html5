@@ -46,7 +46,7 @@ define([
          */
         loadAll: function(callback) {
             Skritter.storage.getItems('vocabs', function(vocabs) {
-                Skritter.study.vocabs.add(vocabs);
+                Skritter.data.vocabs.add(vocabs);
                 callback(null, vocabs);
             });
         }

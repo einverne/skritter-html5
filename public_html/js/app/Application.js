@@ -74,17 +74,6 @@ define([
             });
         },
         /**
-         * Right now this just loads the debug namespace inside the application, but
-         * in the future it might be expanded to have more functionality.
-         * 
-         * @method loadDebug
-         * @param {Function} callback
-         */
-        loadDebug: function(callback) {
-            Skritter.debug = {};
-            callback();
-        },
-        /**
          * @method loadFacade
          * @returns {Facade}
          */
@@ -178,7 +167,6 @@ define([
             this.loadFacade().show('loading');
             this.loadAsync();
             Skritter.async.series([
-                Skritter.async.apply(this.loadDebug),
                 Skritter.async.apply(this.loadFunctions),
                 Skritter.async.apply(this.loadAssets),
                 Skritter.async.apply(this.loadSettings),

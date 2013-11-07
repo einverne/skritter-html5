@@ -25,7 +25,7 @@ define([
             if (Skritter.user.isLoggedIn()) {
                 this.$el.html(templateHomeIn);
                 this.$('#user-avatar').html(Skritter.user.getAvatar());
-                this.$('#user-welcome-message').html(Skritter.user.getSetting('name') + ", you have " + Skritter.study.items.getDueCount() + " items ready for review.");
+                this.$('#user-welcome-message').html(Skritter.user.getSetting('name') + ", you have " + Skritter.data.items.getDueCount() + " items ready for review.");
                 this.$('#lang-button').html(Skritter.user.getSetting('targetLang').toUpperCase());
             } else {
                 this.$el.html(templateHomeOut);

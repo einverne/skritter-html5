@@ -79,7 +79,7 @@ define([
          */
         loadAll: function(callback) {
             Skritter.storage.getItems('reviews', function(reviews) {
-                Skritter.study.reviews.add(reviews);
+                Skritter.data.reviews.add(reviews);
                 callback(null, reviews);
             });
         },
@@ -100,11 +100,11 @@ define([
                     return;
                 }
                 for (var i in reviews) {
-                    reviewModels.push(Skritter.study.reviews.findWhere({itemId:reviews[i].itemId, submitTime:reviews[i].submitTime}));
+                    reviewModels.push(Skritter.data.reviews.findWhere({itemId:reviews[i].itemId, submitTime:reviews[i].submitTime}));
                     reviewKeys.push([reviews[i].itemId, reviews[i].submitTime]);
                 }
                 Skritter.storage.removeItems('reviews', reviewKeys, function() {
-                    Skritter.study.reviews.remove(reviewModels, {silent: true});
+                    Skritter.data.reviews.remove(reviewModels, {silent: true});
                     callback();
                 });
             });

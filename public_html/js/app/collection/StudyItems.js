@@ -73,12 +73,12 @@ define([
                 },
                 function(result, callback) {
                     Skritter.api.getBatch(result.id, function(result) {
-                        Skritter.study.decomps.add(result.Decomps);
-                        Skritter.study.items.add(result.Items);
-                        Skritter.study.srsconfigs.add(result.SRSConfigs);
-                        Skritter.study.sentences.add(result.Sentences);
-                        Skritter.study.strokes.add(result.Strokes);
-                        Skritter.study.vocabs.add(result.Vocabs);
+                        Skritter.data.decomps.add(result.Decomps);
+                        Skritter.data.items.add(result.Items);
+                        Skritter.data.srsconfigs.add(result.SRSConfigs);
+                        Skritter.data.sentences.add(result.Sentences);
+                        Skritter.data.strokes.add(result.Strokes);
+                        Skritter.data.vocabs.add(result.Vocabs);
                     }, function() {
                         callback();
                     });
@@ -94,7 +94,7 @@ define([
          */
         loadAll: function(callback) {
             Skritter.storage.getItems('items', function(items) {
-                Skritter.study.items.add(items);
+                Skritter.data.items.add(items);
                 callback(null, items);
             });
         },

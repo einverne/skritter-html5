@@ -142,7 +142,7 @@ define([
          */
         getInflatedParams: function() {
             var data = this.getInflatedData();
-            var params = Skritter.study.params.where({bitmapId: this.get('bitmapId')});
+            var params = Skritter.data.params.where({bitmapId: this.get('bitmapId')});
             var inflatedParams = [];
             for (var p in params) {
                 var param = params[p].clone();

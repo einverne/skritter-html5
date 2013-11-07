@@ -38,7 +38,7 @@ define([
          */
         fetch: function(callback) {
             Skritter.api.getSRSConfigs(Skritter.user.getSetting('targetLang'), function(result) {
-                Skritter.study.srsconfigs.add(result);
+                Skritter.data.srsconfigs.add(result);
                 callback(null, result);
             });
         },
@@ -49,7 +49,7 @@ define([
          */
         loadAll: function(callback) {
             Skritter.storage.getItems('srsconfigs', function(srsconfigs) {
-                Skritter.study.srsconfigs.add(srsconfigs);
+                Skritter.data.srsconfigs.add(srsconfigs);
                 callback(null, srsconfigs);
             });
         }

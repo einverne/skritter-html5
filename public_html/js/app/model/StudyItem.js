@@ -63,7 +63,7 @@ define([
             for (var i in contained)
             {
                 var id = Skritter.user.get('user_id') + '-' + contained[i] + '-' + this.get('part');
-                var item = Skritter.study.items.findWhere({id: id});
+                var item = Skritter.data.items.findWhere({id: id});
                 if (item)
                     items.push(item);
             }
@@ -86,7 +86,7 @@ define([
             var vocabs = [];
             for (var i in this.get('vocabIds'))
             {
-                vocabs.push(Skritter.study.vocabs.findWhere({id: this.get('vocabIds')[i]}));
+                vocabs.push(Skritter.data.vocabs.findWhere({id: this.get('vocabIds')[i]}));
             }
             return vocabs;
         },
@@ -140,7 +140,7 @@ define([
                 previousInterval: previousInterval,
                 previousSuccess: previousSuccess
             });
-            Skritter.study.reviews.add(review);
+            Skritter.data.reviews.add(review);
 
             this.set({
                 last: currentTime,

@@ -44,7 +44,7 @@ define([
          */
         loadAll: function(callback) {
             Skritter.storage.getItems('strokes', function(strokes) {
-                Skritter.study.strokes.add(strokes);
+                Skritter.data.strokes.add(strokes);
                 callback(null, strokes);
             });
         },
