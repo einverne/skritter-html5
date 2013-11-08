@@ -1,1 +1,100 @@
-define(["backbone"],function(){var e=Backbone.Model.extend({initialize:function(){e.controller=new Leap.Controller,e.canvasSize=Skritter.settings.get("canvasSize"),e.oldPt={},e.points=[],e.waitingCounter=0},disable:function(){e.controller.removeAllListeners(),e.controller.disconnect()},enable:function(t){e.canvasSize=Skritter.settings.get("canvasSize"),e.waitingCounter=0,t&&(e.controller=new Leap.Controller(t)),e.controller.on("animationFrame",_.bind(this.loop,this)),e.controller.connect()},loop:function(t){if(t.pointables.length>0){var n=t.pointables[0],r=n.tipPosition[0]+150,i=Math.abs(n.tipPosition[1]-400),s=n.tipPosition[2],o;r>=0&&r<=300&&i>=0&&i<=250&&s>-75?(r=r*e.canvasSize/300,i=i*e.canvasSize/250,this.triggerMove(new createjs.Point(r,i)),e.oldPt&&(o=Skritter.fn.getDistance({x:r,y:i},e.oldPt)),e.oldPt=new createjs.Point(r,i),o>=12?(e.waitingCounter=0,e.points.push(new createjs.Point(r,i))):(e.waitingCounter>30&&(e.points.length>=5&&this.triggerStrokeComplete(e.points),e.points=[]),e.waitingCounter++)):this.triggerMove(new createjs.Point(-30,-30))}},triggerStrokeComplete:function(e){this.trigger("strokeComplete",e)},triggerMove:function(e){this.trigger("move",e)}});return e});
+/**
+ * @module Skritter
+ * @submodule Model
+ * @author Joshua McFarland
+ */
+define([
+    'backbone'
+], function() {
+    /**
+     * @class LeapController
+     */
+    var LeapController = Backbone.Model.extend({
+        /**
+         * @method initialize
+         */
+        initialize: function() {
+            LeapController.controller = new Leap.Controller();
+            LeapController.canvasSize = Skritter.settings.get('canvasSize');
+            LeapController.oldPt = {};
+            LeapController.points = [];
+            LeapController.waitingCounter = 0;
+        },
+        /**
+         * @method disable
+         */
+        disable: function() {
+            LeapController.controller.removeAllListeners();
+            LeapController.controller.disconnect();
+        },
+        /**
+         * @method enable
+         * @param {Object} options
+         */
+        enable: function(options) {
+            LeapController.canvasSize = Skritter.settings.get('canvasSize');
+            LeapController.waitingCounter = 0;
+            
+            if (options)
+                LeapController.controller = new Leap.Controller(options);
+            
+            LeapController.controller.on('animationFrame', _.bind(this.loop, this));
+            LeapController.controller.connect();
+        },
+        /**
+         * @method loop
+         * @param {Object} frame
+         */
+        loop: function(frame) {
+            if (frame.pointables.length > 0) {
+                var finger = frame.pointables[0];
+                var x = finger.tipPosition[0] + 150;
+                var y = Math.abs(finger.tipPosition[1] - 400);
+                var z = finger.tipPosition[2];
+                var speed;
+                //checks to make sure the pointer is within screen bounds
+                if (x >= 0 && x <= 300 && y >= 0 && y <= 250 && z > -75) {
+                    x = (x * LeapController.canvasSize) / 300;
+                    y = (y * LeapController.canvasSize) / 250;
+                    this.triggerMove(new createjs.Point(x, y));
+                    if (LeapController.oldPt)
+                        speed = Skritter.fn.getDistance({x: x, y: y}, LeapController.oldPt);
+                    LeapController.oldPt = new createjs.Point(x, y);
+                    //checks the speed to see if a stroke is happening
+                    if (speed >= 12) {
+                        LeapController.waitingCounter = 0;
+                        LeapController.points.push(new createjs.Point(x, y));
+                    } else {
+                        //not drawing fast enough or stroke finished
+                        if (LeapController.waitingCounter > 30) {
+                            if (LeapController.points.length >= 5) {
+                                this.triggerStrokeComplete(LeapController.points);
+                            }
+                            LeapController.points = [];
+                        }
+                        LeapController.waitingCounter++;
+                    }
+                } else {
+                    this.triggerMove(new createjs.Point(-30, -30));
+                }
+            }
+        },
+        /**
+         * @method triggerGestureComplete
+         * @param {Array} points
+         */
+        triggerStrokeComplete: function(points) {
+            this.trigger('strokeComplete', points);
+        },
+        /**
+         * @method triggerMove
+         * @param {Point} point
+         */
+        triggerMove: function(point) {
+            this.trigger('move', point);
+        }
+    });
+
+
+    return LeapController;
+});
