@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Wed Oct 30 2013 17:30:20 GMT+0800 (China Standard Time)
+# Time: Fri Nov 08 2013 11:52:17 GMT+0800 (China Standard Time)
 
 CACHE:
 index.html
@@ -23,6 +23,7 @@ js/app/Router.js
 js/app/Scheduler.js
 js/app/Shortstraw.js
 js/app/StrokeMap.js
+js/app/Strokes.js
 js/app/collection/CanvasCharacter.js
 js/app/collection/Log.js
 js/app/collection/StudyDecomps.js
@@ -57,6 +58,7 @@ js/app/view/Study.js
 js/app/view/Vocab.js
 js/app/view/admin/RecogCanvas.js
 js/app/view/admin/RecogEditor.js
+js/app/view/component/Canvas.js
 js/app/view/component/Facade.js
 js/app/view/component/Timer.js
 js/app/view/component/Words.js
