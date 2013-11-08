@@ -1,8 +1,6 @@
 /**
  * @module Skritter
  * @submodule Model
- * @param Scheduler
- * @param StudyReview
  * @author Joshua McFarland
  * 
  * Properties
@@ -25,10 +23,8 @@
  * 
  */
 define([
-    'Scheduler',
-    'model/StudyReview',
     'backbone'
-], function(Scheduler, StudyReview) {
+], function() {
     /**
      * @class StudyItem
      */

@@ -176,10 +176,12 @@ define([
         /**
          * @method drawParam
          * @param {StudyParam} param
+         * @param {String} layerName
+         * @returns {Shape}
          */
-        drawParam: function(param) {
+        drawParam: function(param, layerName) {
             var circle;
-            var layer = this.getLayer('overlay');
+            var layer = this.getLayer(layerName);
             var corners = param.get('corners');
             for (var c in corners) {
                 var corner = corners[c];
@@ -194,6 +196,7 @@ define([
                 circle.graphics.beginFill('purple').drawCircle(deviation.x, deviation.y, 5);
                 layer.addChild(circle);
             }
+            return circle;
         },
         /**
          * @method drawPhantomStroke

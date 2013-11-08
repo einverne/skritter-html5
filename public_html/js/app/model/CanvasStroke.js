@@ -146,7 +146,6 @@ define([
             var inflatedParams = [];
             for (var p in params) {
                 var param = params[p].clone();
-
                 //inflates the param corners
                 var corners = _.cloneDeep(param.get('corners'));
                 for (var c in corners)
@@ -155,7 +154,6 @@ define([
                     corners[c].y = corners[c].y * data.scaleY + data.y;
                 }
                 param.set('corners', corners);
-
                 //inflates the param deviations
                 var deviations = _.cloneDeep(param.get('deviations'));
                 for (var d in deviations)

@@ -305,6 +305,18 @@ define([
             this.$('#writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
             if (Prompt.sentence && Prompt.position >= Prompt.vocabs[0].getCharacterCount())
                 this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence));
+        },
+        /**
+         * Displays the recognition parameters as points on the canvas which can be
+         * useful for debugging recognition problems and quircks.
+         * 
+         * @method showParams
+         */
+        showParams: function() {
+            for (var i in Rune.userTargets[0].models) {
+                var stroke = Rune.userTargets[0].at(i);
+                Rune.canvas.drawParam(stroke.getInflatedParams()[0], 'overlay');
+            }
         }
     });
 
