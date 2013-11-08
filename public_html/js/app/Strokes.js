@@ -269,12 +269,12 @@ define([
             var stroke = new createjs.Shape(new createjs.Graphics());
             stroke.setBounds(0, 0, w, h);
             return stroke;
-        }(),
+        }()/*,
         0: function() {
             var stroke = new createjs.Shape(new createjs.Graphics());
             stroke.setBounds(0, 0, w, h);
             return stroke;
-        }(),
+        }(),*/
     };
 
 

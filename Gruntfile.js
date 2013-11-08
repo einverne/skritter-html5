@@ -15,11 +15,16 @@ module.exports = function(grunt) {
             }
         },
         copy: {
-            'www-build': {
+            'www-copy': {
                 files: [
                     {expand: true, cwd: 'public_html/', src: [
-                            'js/lib/**',
-                            'media/**'
+                            '*',
+                            'css/**',
+                            'js/**',
+                            'media/font/**',
+                            'media/image/**',
+                            'template/**',
+                            'test/**'
                         ], dest: 'build/www/'}
                 ]
             }
@@ -39,8 +44,6 @@ module.exports = function(grunt) {
         jshint: {
             ignore_warning: {
                 options: {
-                    /*'-W058': true,
-                     '-W082': true,*/
                     '-W083': true,
                     '-W099': true
                 },
@@ -185,4 +188,5 @@ module.exports = function(grunt) {
     grunt.registerTask('cache-manifest', ['manifest']);
     grunt.registerTask('hint', ['jshint']);
     grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'includereplace', 'manifest:generate-www', 'yuidoc:compile-www']);
+    grunt.registerTask('www-copy', ['jshint', 'clean:www-build', 'manifest', 'copy:www-copy']);
 };
