@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.65</em>
+            <em>API Docs for: 0.0.78</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -104,8 +104,6 @@
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
-            
-                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -207,15 +205,14 @@
 /**
  * @module Skritter
  * @submodule Model
- * @param StrokeMap
+ * @param Strokes
  * @author Joshua McFarland
  */
 define([
     &#x27;Strokes&#x27;,
-    &#x27;StrokeMap&#x27;,
     &#x27;backbone&#x27;,
     &#x27;createjs.preload&#x27;
-], function(Strokes, StrokeMap) {
+], function(Strokes) {
     /**
      * @class Assets
      * @constructor
@@ -227,8 +224,9 @@ define([
 	initialize: function() {
             Assets.audioPlayer = new Audio();
 	    Assets.queue = new createjs.LoadQueue();
-            Assets.strokeSpriteSheet = null;
-            Assets.strokeSprites= null;
+            Assets.strokeSpriteSheets = [];
+            Assets.strokeSprites = {};
+            Assets.strokeShapes = {};
 	},
 	/**
          * Plays an audio file using the native HTML5 audio element.
@@ -252,41 +250,48 @@ define([
          * @return {Sprite}
          */
         getStroke: function(bitmapId) {
-            //TODO: use this when switching toe vector-based shapes
-            //return Strokes[bitmapId];
+            if (Skritter.settings.get(&#x27;strokeFormat&#x27;) === &#x27;vector&#x27;)
+                return Assets.strokeShapes[bitmapId].clone();
             return Assets.strokeSprites[bitmapId].clone();
         },
         /**
          * Returns the current instance of the stroke spritesheet.
          * 
-         * @method getStrokeSpriteSheet
-         * @returns {SpriteSheet}
+         * @method getStrokeSprites
+         * @returns {Object}
          */
-        getStrokeSpriteSheet: function() {
-            return Assets.strokeSpriteSheet;
+        getStrokeSprites: function() {
+            return Assets.strokeSprites;
+        },
+        /**
+         * @method loadStrokeShapes
+         * @param {Function} callback
+         */
+        loadStrokeShapes: function(callback) {
+            Assets.strokeShapes = Strokes.getStrokeShapes();
+            callback();
         },
         /**
          * Loads the strokes as a spritesheet and returns a callback once they have been preloaded.
          * 
-         * @method loadStrokes
+         * @method loadStrokeSprites
          * @param {Function} callback
          */
 	loadStrokeSprites: function(callback) {
-            var loadSprites = function() {
-                var strokeSprites = {};
-                var animationIds = Assets.strokeSpriteSheet.getAnimations();
-                for (var i in animationIds) {
-                    strokeSprites[parseInt(animationIds[i].replace(&#x27;s&#x27;, &#x27;&#x27;), 10)] = new createjs.Sprite(Assets.strokeSpriteSheet, animationIds[i]);
+            var loadSprites = function(sheets) {
+                for (var a in sheets) {
+                    var sheet = sheets[a];
+                    var animations = sheet.getAnimations();
+                    for (var b in animations)
+                        Assets.strokeSprites[animations[b].replace(&#x27;s&#x27;, &#x27;&#x27;)] = new createjs.Sprite(sheet, animations[b]);
                 }
-                Assets.strokeSprites = strokeSprites;
-                callback(strokeSprites);
+                Assets.strokeSpriteSheets = sheets;
+                callback();
             };
-            Assets.strokeSpriteSheet = new createjs.SpriteSheet(StrokeMap);
-            if (!Assets.strokeSpriteSheet.complete) {
-                Assets.strokeSpriteSheet.addEventListener(&#x27;complete&#x27;, loadSprites);
-            } else {
-                loadSprites();
-            }
+            
+            Strokes.getSpriteSheets(loadSprites);
+            
+            
 	}
     });
     

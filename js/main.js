@@ -6,7 +6,11 @@
 requirejs.config({
     baseUrl: 'js/app/',
     main: 'Application',
-    urlArgs: 'cb=' + Math.random(),
+    //ISSUE #44: should be removed or commented out for application caching to work
+    urlArgs: function() {
+        if (document.location.href.indexOf('localhost') > -1 && document.location.href.indexOf('public_html') > -1)
+            return 'cb=' + Math.random();
+    }(),
     paths: {
         //directories
         component: 'view/component',

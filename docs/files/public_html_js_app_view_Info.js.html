@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.65</em>
+            <em>API Docs for: 0.0.78</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -104,8 +104,6 @@
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
-            
-                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -261,7 +259,7 @@ define([
                 this.$(&#x27;#contained-panel .panel-body&#x27;).html(&#x27;&#x27;);
 		for (var i in contained)
 		{
-		    var containedVocab = Skritter.study.vocabs.findWhere({id:contained[i]});
+		    var containedVocab = Skritter.data.vocabs.findWhere({id:contained[i]});
 		    var div = &quot;&lt;div class=&#x27;contained-vocab&#x27;&gt;&quot;;
 		    div += &quot;&lt;span class=&#x27;writing&#x27;&gt;&quot; + containedVocab.get(&#x27;writing&#x27;) + &quot;&lt;/span&gt;&quot;;
 		    div += &quot;&lt;span class=&#x27;reading&#x27;&gt;&quot; + PinyinConverter.toTone(containedVocab.get(&#x27;reading&#x27;)) + &quot;: &lt;/span&gt;&quot;;
@@ -305,10 +303,10 @@ define([
          * @param {String} id
          */
         load: function(id) {
-            Info.items = Skritter.study.items.filterBy(&#x27;id&#x27;, id, true);
-            Info.vocab = Skritter.study.vocabs.findWhere({id: id});
+            Info.items = Skritter.data.items.filterBy(&#x27;id&#x27;, id, true);
+            Info.vocab = Skritter.data.vocabs.findWhere({id: id});
 	    if (Info.vocab.get(&#x27;sentenceId&#x27;))
-		Info.sentence = Skritter.study.sentences.findWhere({id: Info.vocab.get(&#x27;sentenceId&#x27;)});
+		Info.sentence = Skritter.data.sentences.findWhere({id: Info.vocab.get(&#x27;sentenceId&#x27;)});
         },
         /**
          * @method playAudio

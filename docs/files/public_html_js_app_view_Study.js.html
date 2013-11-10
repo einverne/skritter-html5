@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.65</em>
+            <em>API Docs for: 0.0.78</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -104,8 +104,6 @@
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
-            
-                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -262,7 +260,7 @@ define([
         handlePromptComplete: function(results) {
             this.updateItems(results);
             this.updateDue();
-            Skritter.study.items.sort();
+            Skritter.data.items.sort();
             this.next();
         },
         /**
@@ -276,10 +274,12 @@ define([
          */
         loadItems: function(itemAttr, itemVals) {
             if (itemAttr &amp;&amp; itemVals) {
-                Study.items = Skritter.study.items.filterBy(itemAttr, itemVals);
+                Study.items = Skritter.data.items.filterBy(itemAttr, itemVals);
+                if (Study.items.length &lt; 1)
+                    return false;
                 this.next();
             } else {
-                Study.items = Skritter.study.items.filterActive();
+                Study.items = Skritter.data.items.filterActive();
             }
             return Study.items;
         },
@@ -327,7 +327,7 @@ define([
             } else {
                 this.$(&#x27;#audio-button&#x27;).text(&#x27;{no-audio}&#x27;);
             }
-            Study.c.prompt.set(Study.c.vocabs).showHidden();
+            Study.c.prompt.set(Study.c.vocabs).show();
             this.listenToOnce(Study.c.prompt, &#x27;complete&#x27;, this.handlePromptComplete);
             return Study.c;
         },
@@ -354,7 +354,7 @@ define([
          * @method updateDue
          */
         updateDue: function() {
-            this.$(&#x27;#items-due&#x27;).text(Skritter.study.items.getDueCount(true));
+            this.$(&#x27;#items-due&#x27;).text(Skritter.data.items.getDueCount(true));
         },
         /**
          * @method updateItems
@@ -446,7 +446,7 @@ define([
                 successes: (results[0].grade &gt; 1) ? Study.c.item.get(&#x27;successes&#x27;) + 1 : Study.c.item.get(&#x27;successes&#x27;)
             });
             reviews.push(review);
-            Skritter.study.reviews.add(reviews);
+            Skritter.data.reviews.add(reviews);
         }
     });
 

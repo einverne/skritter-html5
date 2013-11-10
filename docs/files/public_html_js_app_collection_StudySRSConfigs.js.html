@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.65</em>
+            <em>API Docs for: 0.0.78</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -104,8 +104,6 @@
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
-            
-                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -244,7 +242,7 @@ define([
          */
         fetch: function(callback) {
             Skritter.api.getSRSConfigs(Skritter.user.getSetting(&#x27;targetLang&#x27;), function(result) {
-                Skritter.study.srsconfigs.add(result);
+                Skritter.data.srsconfigs.add(result);
                 callback(null, result);
             });
         },
@@ -255,7 +253,7 @@ define([
          */
         loadAll: function(callback) {
             Skritter.storage.getItems(&#x27;srsconfigs&#x27;, function(srsconfigs) {
-                Skritter.study.srsconfigs.add(srsconfigs);
+                Skritter.data.srsconfigs.add(srsconfigs);
                 callback(null, srsconfigs);
             });
         }

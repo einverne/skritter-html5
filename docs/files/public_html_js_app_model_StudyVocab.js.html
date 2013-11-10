@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.65</em>
+            <em>API Docs for: 0.0.78</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -104,8 +104,6 @@
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
-            
-                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -272,13 +270,13 @@ define([
 
             var variations = [];
             if (part === &#x27;rune&#x27;) {
-                variations = Skritter.study.strokes.findWhere({rune: rune}).get(&#x27;strokes&#x27;);
+                variations = Skritter.data.strokes.findWhere({rune: rune}).get(&#x27;strokes&#x27;);
             } else {
                 var tones = this.getPinyinAt(index).tone.split(&#x27;,&#x27;);
                 for (var t in tones)
                 {
                     var tone = &#x27;tone&#x27; + tones[t].replace(&#x27; &#x27;, &#x27;&#x27;);
-                    variations.push(Skritter.study.strokes.findWhere({rune: tone}).get(&#x27;strokes&#x27;));
+                    variations.push(Skritter.data.strokes.findWhere({rune: tone}).get(&#x27;strokes&#x27;));
                 }
             }
 
@@ -292,7 +290,7 @@ define([
                 {
                     var stroke = new CanvasStroke();
                     var bitmapId = parseInt(strokes[s][0], 10);
-                    var params = Skritter.study.params.findWhere({bitmapId: bitmapId});
+                    var params = Skritter.data.params.findWhere({bitmapId: bitmapId});
                     stroke.set({
                        bitmapId: bitmapId,
                        data: strokes[s],
@@ -342,7 +340,7 @@ define([
          * @returns {Object}
          */
         getItems: function() {
-            return Skritter.study.items.filterBy(&#x27;id&#x27;, this.get(&#x27;id&#x27;), true);
+            return Skritter.data.items.filterBy(&#x27;id&#x27;, this.get(&#x27;id&#x27;), true);
         },
         /**
          * @method getPinyinAt
@@ -390,7 +388,7 @@ define([
          * @return {String}
          */
         getSentence: function() {
-            var sentence = Skritter.study.sentences.findWhere({id: this.get(&#x27;sentenceId&#x27;)});
+            var sentence = Skritter.data.sentences.findWhere({id: this.get(&#x27;sentenceId&#x27;)});
             return (sentence) ? sentence : &#x27;&#x27;;
         },
         /**

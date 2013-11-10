@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.65</em>
+            <em>API Docs for: 0.0.78</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -104,8 +104,6 @@
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
-            
-                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -239,6 +237,7 @@ define([
             Rune.failedAttempts = 0;
             Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 25;
+            Rune.strokeCount = 0;
             Rune.userCharacter = null;
             Rune.userTargets = [];
             this.listenTo(Rune.canvas, &#x27;mouseup&#x27;, this.handleInputRecieved);
@@ -287,20 +286,22 @@ define([
                 var result = new Recognizer(Rune.userCharacter, stroke, Rune.userTargets).recognize();
                 //check if a result exists and that it&#x27;s not a duplicate
                 if (result &amp;&amp; !Rune.userCharacter.containsStroke(result)) {
+                    //add the stroke to the users character
+                    Rune.userCharacter.add(stroke);
                     //reset the failed attempts counter
                     Rune.failedAttempts = 0;
-                    //add the stroke to the users character
-                    Rune.userCharacter.add(result);
                     //choose whether to draw the stroke normally or using raw squigs
                     if (Skritter.user.get(&#x27;settings&#x27;).squigs) {
                         Rune.canvas.drawSquig(result.get(&#x27;points&#x27;), &#x27;overlay&#x27;);
-                        this.handleStrokeComplete();
+                        this.handleStrokeComplete(result);
                     } else {
                         //display feedback if it exists
                         if (result.get(&#x27;feedback&#x27;)) {
                             Rune.canvas.drawText(result.get(&#x27;feedback&#x27;), &#x27;feedback&#x27;, &#x27;orange&#x27;, &#x27;24px Arial&#x27;, 10, 10);
                         }
-                        Rune.canvas.drawTweenedStroke(result.getUserSprite(), result.getInflatedSprite(), &#x27;stroke&#x27;, _.bind(this.handleStrokeComplete, this));
+                        //properly tracking when a character is complete requires better tween handling
+                        result.set(&#x27;isTweening&#x27;, true);
+                        Rune.canvas.drawTweenedStroke(result.getUserSprite(), result.getInflatedSprite(), &#x27;stroke&#x27;, _.bind(this.handleStrokeComplete, this, result));
                     }
                 } else {
                     Rune.failedAttempts++;
@@ -319,6 +320,7 @@ define([
          * @method handleCharacterComplete
          */
         handleCharacterComplete: function() {
+            console.log(&#x27;character complete&#x27;);
             //catches callbacks firing at the same time with people writing quickly
             //otherwise it&#x27;s possible a character can complete twice
             if (Prompt.finished === true)
@@ -391,10 +393,13 @@ define([
          * if the character has been completed yet or not.
          * 
          * @method handleStrokeComplete
+         * @param {CanvasStroke} stroke
          */
-        handleStrokeComplete: function() {
-            //check if the character has been completed yet or not
-            if (Rune.userCharacter.getStrokeCount() &gt;= this.getTargetStrokeCount()) {
+        handleStrokeComplete: function(stroke) {
+            //flag the stroke as not being tweened once it finishes
+            stroke.set(&#x27;isTweening&#x27;, false);
+            //check if the character has been completed yet or not with enforced tween checks
+            if (Rune.userCharacter.getStrokeCount(true) &gt;= this.getTargetStrokeCount()) {
                 this.handleCharacterComplete();
             }
         },
@@ -458,7 +463,7 @@ define([
                 //resets the targets
                 Rune.userTargets = [];
                 //lets go ahead and show the net character in the item
-                this.showHidden();
+                this.show();
                 //enable the canvas to begin next prompt
                 Rune.canvas.enableInput();
             } else {
@@ -466,25 +471,12 @@ define([
             }
         },
         /**
-         * Displays the answer for the user, which should be called after the prompt
-         * has been completed.
-         * 
-         * @method showAnswer
-         */
-        showAnswer: function() {
-            Skritter.timer.stop();
-            Rune.canvas.disableInput();
-            this.$(&#x27;#writing&#x27;).html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            if (Prompt.sentence &amp;&amp; Prompt.position &gt;= Prompt.vocabs[0].getCharacterCount())
-                this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence));
-        },
-        /**
          * Displays the initial prompt for the user and should probably be renamed to
          * something a little less misleading than show hidden.
          * 
-         * @method showHidden
+         * @method show
          */
-        showHidden: function() {
+        show: function() {
             //ISSUE #30: skips japanese characters with leading kana
             if (Skritter.user.isJapanese() &amp;&amp; Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position-1))) {
                 this.next();
@@ -504,6 +496,31 @@ define([
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             if (Prompt.sentence)
                 this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, &#x27; _ &#x27;));
+        },
+        /**
+         * Displays the answer for the user, which should be called after the prompt
+         * has been completed.
+         * 
+         * @method showAnswer
+         */
+        showAnswer: function() {
+            Skritter.timer.stop();
+            Rune.canvas.disableInput();
+            this.$(&#x27;#writing&#x27;).html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
+            if (Prompt.sentence &amp;&amp; Prompt.position &gt;= Prompt.vocabs[0].getCharacterCount())
+                this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence));
+        },
+        /**
+         * Displays the recognition parameters as points on the canvas which can be
+         * useful for debugging recognition problems and quircks.
+         * 
+         * @method showParams
+         */
+        showParams: function() {
+            for (var i in Rune.userTargets[0].models) {
+                var stroke = Rune.userTargets[0].at(i);
+                Rune.canvas.drawParam(stroke.getInflatedParams()[0], &#x27;overlay&#x27;);
+            }
         }
     });
 

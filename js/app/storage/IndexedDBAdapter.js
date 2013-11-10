@@ -135,6 +135,7 @@ define([
                     decomps.createIndex('Children', 'Children');
                     //items table
                     var items = transaction.createObjectStore('items', {keyPath: 'id'});
+                    items.createIndex('lang', 'lang');
                     items.createIndex('part', 'part');
                     items.createIndex('vocabIds', 'vocabIds');
                     items.createIndex('style', 'style');

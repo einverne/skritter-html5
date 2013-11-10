@@ -377,17 +377,25 @@ define([
                 self.triggerMouseDown(oldPt);
                 oldMidPt = oldPt;
                 Canvas.points.push(oldPt.clone());
+                marker.graphics.beginStroke(Canvas.strokeColor);
                 stage.addEventListener('stagemousemove', move);
                 stage.addEventListener('stagemouseup', up);
             };
             var move = function() {
                 var point = new createjs.Point(stage.mouseX, stage.mouseY);
                 var midPt = new createjs.Point(oldPt.x + point.x >> 1, oldPt.y + point.y >> 1);
-                marker.graphics
-                        .setStrokeStyle(Skritter.fn.getPressurizedStrokeSize(point, oldPt), Canvas.strokeCapStyle, Canvas.strokeJointStyle)
-                        .beginStroke(Canvas.strokeColor)
-                        .moveTo(midPt.x, midPt.y)
-                        .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                //disable the pressurized stroke size on mobile to help speed things up
+                if (Skritter.fn.isMobile()) {
+                    marker.graphics
+                            .setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                            .moveTo(midPt.x, midPt.y)
+                            .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                } else {
+                    marker.graphics
+                            .setStrokeStyle(Skritter.fn.getPressurizedStrokeSize(point, oldPt), Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                            .moveTo(midPt.x, midPt.y)
+                            .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                }
                 oldPt.x = point.x;
                 oldPt.y = point.y;
                 oldMidPt.x = midPt.x;
@@ -396,6 +404,7 @@ define([
                 stage.update();
             };
             var up = function up(event) {
+                marker.graphics.endStroke();
                 if (isOnCanvas(event)) {
                     self.triggerMouseUp(points);
                 }

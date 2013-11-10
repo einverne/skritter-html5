@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Fri Nov 08 2013 12:10:08 GMT+0800 (China Standard Time)
+# Time: Sun Nov 10 2013 10:00:56 GMT+0800 (China Standard Time)
 
 CACHE:
 index.html
@@ -11,7 +11,12 @@ media/image/button/grade2.png
 media/image/button/grade3.png
 media/image/button/grade4.png
 media/image/logo/logo_skritter.png
-media/image/stroke/strokes.png
+media/image/stroke/strokes-0.png
+media/image/stroke/strokes-1.png
+media/image/stroke/strokes-2.png
+media/image/stroke/strokes-3.png
+css/bootstrap.css
+css/main.css
 js/app/Api.js
 js/app/Application.js
 js/app/Functions.js
@@ -22,7 +27,6 @@ js/app/Recognizer.js
 js/app/Router.js
 js/app/Scheduler.js
 js/app/Shortstraw.js
-js/app/StrokeMap.js
 js/app/Strokes.js
 js/app/collection/CanvasCharacter.js
 js/app/collection/Log.js

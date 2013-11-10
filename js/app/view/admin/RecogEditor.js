@@ -20,7 +20,7 @@ define([
          */
         initialize: function() {
             Editor.canvas = new RecogCanvas();
-            Editor.strokes = Skritter.assets.getStrokeSpriteSheet();
+            Editor.strokes = Skritter.assets.getStrokeSprites();
         },
         /**
          * @method render
@@ -83,7 +83,7 @@ define([
          */
         loadParam: function(paramId) {
             var param = Skritter.data.params.get(paramId);
-            Editor.canvas.drawParam(param);
+            Editor.canvas.drawParam(param, 'overlay');
             this.$('#contains').val(param.get('contains'));
             this.$('#corners').val(JSON.stringify(param.get('corners')));
             this.$('#deviations').val(JSON.stringify(param.get('deviations')));
@@ -117,12 +117,11 @@ define([
          * @method populateStrokeList
          */
         populateStrokeList: function() {
-            var strokeIds = Editor.strokes.getAnimations();
-            for (var i in strokeIds) {
-                strokeIds[i] = Skritter.fn.pad(strokeIds[i].replace('s', ''), 0, 4);
+            var strokeIds = Editor.strokes;
+            for (var stroke in strokeIds) {
+                strokeIds[stroke] = Skritter.fn.pad(stroke.replace('s', ''), 0, 4);
             }
-            strokeIds.sort();
-            for (i in strokeIds) {
+            for (var i in strokeIds) {
                 this.$('#stroke-list .panel-body').append("<div id='stroke-" + parseInt(strokeIds[i], 10) + "'>" + strokeIds[i] + "</div>");
             }
             

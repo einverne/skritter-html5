@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.65</em>
+            <em>API Docs for: 0.0.78</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -104,8 +104,6 @@
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
-            
-                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -226,7 +224,7 @@ define([
          */
         initialize: function() {
             Editor.canvas = new RecogCanvas();
-            Editor.strokes = Skritter.assets.getStrokeSpriteSheet();
+            Editor.strokes = Skritter.assets.getStrokeSprites();
         },
         /**
          * @method render
@@ -288,8 +286,8 @@ define([
          * @param {Number} paramId
          */
         loadParam: function(paramId) {
-            var param = Skritter.study.params.get(paramId);
-            Editor.canvas.drawParam(param);
+            var param = Skritter.data.params.get(paramId);
+            Editor.canvas.drawParam(param, &#x27;overlay&#x27;);
             this.$(&#x27;#contains&#x27;).val(param.get(&#x27;contains&#x27;));
             this.$(&#x27;#corners&#x27;).val(JSON.stringify(param.get(&#x27;corners&#x27;)));
             this.$(&#x27;#deviations&#x27;).val(JSON.stringify(param.get(&#x27;deviations&#x27;)));
@@ -309,7 +307,7 @@ define([
          */
         populateParamList: function(strokeId) {
             this.$(&#x27;#param-list .panel-body&#x27;).html(&#x27;&#x27;);
-            var params = Skritter.study.params.where({bitmapId: parseInt(strokeId, 10)});
+            var params = Skritter.data.params.where({bitmapId: parseInt(strokeId, 10)});
             for (var p in params) {
                 var param = params[p];
                 if (param.has(&#x27;feedback&#x27;)) {
@@ -323,12 +321,11 @@ define([
          * @method populateStrokeList
          */
         populateStrokeList: function() {
-            var strokeIds = Editor.strokes.getAnimations();
-            for (var i in strokeIds) {
-                strokeIds[i] = Skritter.fn.pad(strokeIds[i].replace(&#x27;s&#x27;, &#x27;&#x27;), 0, 4);
+            var strokeIds = Editor.strokes;
+            for (var stroke in strokeIds) {
+                strokeIds[stroke] = Skritter.fn.pad(stroke.replace(&#x27;s&#x27;, &#x27;&#x27;), 0, 4);
             }
-            strokeIds.sort();
-            for (i in strokeIds) {
+            for (var i in strokeIds) {
                 this.$(&#x27;#stroke-list .panel-body&#x27;).append(&quot;&lt;div id=&#x27;stroke-&quot; + parseInt(strokeIds[i], 10) + &quot;&#x27;&gt;&quot; + strokeIds[i] + &quot;&lt;/div&gt;&quot;);
             }
             

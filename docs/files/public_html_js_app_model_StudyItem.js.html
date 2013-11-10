@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.65</em>
+            <em>API Docs for: 0.0.78</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -104,8 +104,6 @@
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
-            
-                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -207,8 +205,6 @@
 /**
  * @module Skritter
  * @submodule Model
- * @param Scheduler
- * @param StudyReview
  * @author Joshua McFarland
  * 
  * Properties
@@ -231,10 +227,8 @@
  * 
  */
 define([
-    &#x27;Scheduler&#x27;,
-    &#x27;model/StudyReview&#x27;,
     &#x27;backbone&#x27;
-], function(Scheduler, StudyReview) {
+], function() {
     /**
      * @class StudyItem
      */
@@ -269,7 +263,7 @@ define([
             for (var i in contained)
             {
                 var id = Skritter.user.get(&#x27;user_id&#x27;) + &#x27;-&#x27; + contained[i] + &#x27;-&#x27; + this.get(&#x27;part&#x27;);
-                var item = Skritter.study.items.findWhere({id: id});
+                var item = Skritter.data.items.findWhere({id: id});
                 if (item)
                     items.push(item);
             }
@@ -292,16 +286,30 @@ define([
             var vocabs = [];
             for (var i in this.get(&#x27;vocabIds&#x27;))
             {
-                vocabs.push(Skritter.study.vocabs.findWhere({id: this.get(&#x27;vocabIds&#x27;)[i]}));
+                vocabs.push(Skritter.data.vocabs.findWhere({id: this.get(&#x27;vocabIds&#x27;)[i]}));
             }
             return vocabs;
         },
         /**
+         *
+         * 
          * @method isActive
          * @return {Boolean}
          */
         isActive: function() {
             if (this.get(&#x27;vocabIds&#x27;).length &gt; 0)
+                return true;
+            return false;
+        },
+        /**
+         * Returns true if the item is considered to be new. An item is considered to be new
+         * if it doesn&#x27;t have a previousInterval or it&#x27;s never has a successful review.
+         * 
+         * @method isNew
+         * @returns {Boolean}
+         */
+        isNew: function() {
+            if (this.get(&#x27;previousInterval&#x27;) === 0 || this.get(&#x27;successes&#x27;) === 0)
                 return true;
             return false;
         },
@@ -312,53 +320,6 @@ define([
         play: function() {
             var vocab = this.getVocabs()[0];
             vocab.play();
-        },
-        /**
-         * @method spawnReview
-         * @param {Number} grade
-         * @param {Number} reviewTime
-         * @param {Number} startTime
-         * @param {Number} thinkingTime
-         * @param {String} wordGroup
-         * @param {Boolean} bearTime
-         * @return {StudyItem}
-         */
-        spawnReview: function(grade, reviewTime, startTime, thinkingTime, wordGroup, bearTime) {
-            bearTime = (bearTime) ? true : false;
-            var currentTime = Skritter.fn.getUnixTime();
-            var actualInterval = startTime - this.get(&#x27;last&#x27;);
-            var newInterval = new Scheduler().getNewInterval(this, grade);
-            var previousInterval = (this.get(&#x27;previousInterval&#x27;)) ? this.get(&#x27;previousInterval&#x27;) : 0;
-            var previousSuccess = (this.get(&#x27;previousSuccess&#x27;)) ? this.get(&#x27;previousSuccess&#x27;) : false;
-
-            var review = new StudyReview();
-            review.set({
-                itemId: this.get(&#x27;id&#x27;),
-                score: parseInt(grade, 10),
-                bearTime: bearTime,
-                submitTime: startTime,
-                reviewTime: parseFloat(reviewTime),
-                thinkingTime: parseFloat(thinkingTime),
-                currentInterval: this.get(&#x27;interval&#x27;),
-                actualInterval: actualInterval,
-                newInterval: newInterval,
-                wordGroup: wordGroup,
-                previousInterval: previousInterval,
-                previousSuccess: previousSuccess
-            });
-            Skritter.study.reviews.add(review);
-
-            this.set({
-                last: currentTime,
-                next: currentTime + newInterval,
-                interval: newInterval,
-                previousInterval: this.get(&#x27;interval&#x27;),
-                previousSuccess: (this.get(&#x27;grade&#x27;) &gt; 1) ? true : false,
-                reviews: this.get(&#x27;reviews&#x27;) + 1,
-                successes: (grade &gt; 1) ? this.get(&#x27;successes&#x27;) + 1 : this.get(&#x27;successes&#x27;)
-            });
-
-            return this;
         }
     });
 

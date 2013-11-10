@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.65</em>
+            <em>API Docs for: 0.0.78</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -104,8 +104,6 @@
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
                 <li><a href="../classes/Storage.html">Storage</a></li>
-            
-                <li><a href="../classes/StrokeMap.html">StrokeMap</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -240,6 +238,12 @@ define([
             });
         },
         /**
+         * @property {Object} defaults
+         */
+        defaults: {
+            isTweening: false
+        },
+        /**
          * Returns the angle created by the starting and ending point of the entire object.
          * 
          * @method getAngle
@@ -307,12 +311,9 @@ define([
             var t = ms.decompose();
 
             sprite.setTransform(t.x, t.y, t.scaleX, t.scaleY, t.rotation, t.skewX, t.skewY);
-            var bounds = sprite.getTransformedBounds();          
-            sprite.x += bounds.width / 2 + data.x;
-            sprite.y += bounds.height / 2 + data.y;
-            //TODO: might need to use this instead when switching to vector-based shapes
-            //sprite.x = data.x;
-            //sprite.y = data.y;
+            var finalBounds = sprite.getTransformedBounds();          
+            sprite.x += finalBounds.width / 2 + data.x;
+            sprite.y += finalBounds.height / 2 + data.y;
 
             return sprite;
         },
@@ -345,11 +346,10 @@ define([
          */
         getInflatedParams: function() {
             var data = this.getInflatedData();
-            var params = Skritter.study.params.where({bitmapId: this.get(&#x27;bitmapId&#x27;)});
+            var params = Skritter.data.params.where({bitmapId: this.get(&#x27;bitmapId&#x27;)});
             var inflatedParams = [];
             for (var p in params) {
                 var param = params[p].clone();
-
                 //inflates the param corners
                 var corners = _.cloneDeep(param.get(&#x27;corners&#x27;));
                 for (var c in corners)
@@ -358,7 +358,6 @@ define([
                     corners[c].y = corners[c].y * data.scaleY + data.y;
                 }
                 param.set(&#x27;corners&#x27;, corners);
-
                 //inflates the param deviations
                 var deviations = _.cloneDeep(param.get(&#x27;deviations&#x27;));
                 for (var d in deviations)
