@@ -50,10 +50,16 @@ After the initial install you can either run the project directly from the `publ
 	grunt hint //checks the application for common errors
 	grunt www-build //creates a minified version of the application in the build directory
 	grunt www-copy //creates a copy non-minified version of the application in the build directory
+	
+	
+## Contributing
+
+While the project is still a work in progress towards a stable first release contributions will be handled a bit differently. Small changes, only effecting 1 or 2 lines, can be made directly to master. Larger pieces of chunks should have a new branch created, changes made and then a pull request submitted. Hopefully this will allow for fast development without too many clashes. If you're not sure about something feel free to ask me.
+
 
 ## Troubleshooting
 
-**The application opens but gets stuck on the loading screen.** This happens when the database is having troubles opening which could be for a number of reasons. A quick workaround is to make sure you have the latest build then try completely clearing the pages cache. Since new version are being pushed out rapidly it's always good to clear the application and cache frequently anyways.
+**The application opens but gets stuck on the loading screen.** This happens when the database is having troubles opening which could be for a number of reasons. A quick workaround is to make sure you have the latest build then try completely clearing the pages cache. Since new versions are being pushed out rapidly it's always good to clear the application and cache frequently.
 
 
 ## Links
