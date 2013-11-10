@@ -145,7 +145,7 @@ define([
          */
         getPinyinAt: function(index) {
             index = (index) ? index : 0;
-            var reading = _.clone(this.get('reading'));
+            var reading = _.clone(this.get('reading').toLowerCase());
             var syllable = _.clone(reading);
             var tone = _.clone(reading);
             if (this.getCharacterCount() === 1) {

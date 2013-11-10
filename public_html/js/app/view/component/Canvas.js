@@ -441,7 +441,7 @@ define([
             Canvas.element.setAttribute('height', Canvas.size);
             $('#canvas-container').width(Canvas.size);
             $('#canvas-container').height(Canvas.size);
-            this.drawGrid();
+            this.drawGrid('grid');
         },
         /**
          * @method tick
