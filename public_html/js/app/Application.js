@@ -68,6 +68,7 @@ define([
         loadAssets: function(callback) {
             Skritter.assets = new Assets();
             Skritter.async.parallel([
+               Skritter.async.apply(Skritter.assets.loadStrokeShapes),
                Skritter.async.apply(Skritter.assets.loadStrokeSprites) 
             ], function() {
                 callback();

@@ -62,7 +62,7 @@ module.exports = function(grunt) {
                 },
                 src: [
                     "**/*.png",
-                    "css/**/*.js",
+                    "css/**/*.css",
                     "js/**/*.js",
                     "media/**/*.eot",
                     "media/**/*.svg",
@@ -83,7 +83,7 @@ module.exports = function(grunt) {
                 },
                 src: [
                     "**/*.png",
-                    "css/**/*.js",
+                    "css/**/*.css",
                     "js/**/*.js",
                     "media/**/*.eot",
                     "media/**/*.svg",
@@ -184,9 +184,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-manifest');
     grunt.loadNpmTasks('grunt-shell');
 
+    grunt.registerTask('appcache', ['manifest']);
     grunt.registerTask('docs', ['yuidoc']);
-    grunt.registerTask('cache-manifest', ['manifest']);
     grunt.registerTask('hint', ['jshint']);
     grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'includereplace', 'manifest:generate-www', 'yuidoc:compile-www']);
-    grunt.registerTask('www-copy', ['jshint', 'clean:www-build', 'manifest', 'copy:www-copy']);
+    grunt.registerTask('www-copy', ['jshint', 'clean:www-build', 'manifest', 'copy:www-copy', 'yuidoc:compile-www']);
 };

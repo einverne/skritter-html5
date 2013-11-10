@@ -27,6 +27,7 @@ define([
             canvasSize: 600,
             container: '#skritter-container',
             orientation: 'vertical',
+            strokeFormat: 'vector',
             transitionSpeed: 200,
             version: '@@version'
         },

@@ -1,15 +1,14 @@
 /**
  * @module Skritter
  * @submodule Model
- * @param StrokeMap
+ * @param Strokes
  * @author Joshua McFarland
  */
 define([
     'Strokes',
-    'StrokeMap',
     'backbone',
     'createjs.preload'
-], function(Strokes, StrokeMap) {
+], function(Strokes) {
     /**
      * @class Assets
      * @constructor
@@ -21,8 +20,9 @@ define([
 	initialize: function() {
             Assets.audioPlayer = new Audio();
 	    Assets.queue = new createjs.LoadQueue();
-            Assets.strokeSpriteSheet = null;
-            Assets.strokeSprites= null;
+            Assets.strokeSpriteSheets = [];
+            Assets.strokeSprites = {};
+            Assets.strokeShapes = {};
 	},
 	/**
          * Plays an audio file using the native HTML5 audio element.
@@ -46,41 +46,48 @@ define([
          * @return {Sprite}
          */
         getStroke: function(bitmapId) {
-            //TODO: use this when switching toe vector-based shapes
-            //return Strokes[bitmapId];
+            if (Skritter.settings.get('strokeFormat') === 'vector')
+                return Assets.strokeShapes[bitmapId].clone();
             return Assets.strokeSprites[bitmapId].clone();
         },
         /**
          * Returns the current instance of the stroke spritesheet.
          * 
-         * @method getStrokeSpriteSheet
-         * @returns {SpriteSheet}
+         * @method getStrokeSprites
+         * @returns {Object}
          */
-        getStrokeSpriteSheet: function() {
-            return Assets.strokeSpriteSheet;
+        getStrokeSprites: function() {
+            return Assets.strokeSprites;
+        },
+        /**
+         * @method loadStrokeShapes
+         * @param {Function} callback
+         */
+        loadStrokeShapes: function(callback) {
+            Assets.strokeShapes = Strokes.getStrokeShapes();
+            callback();
         },
         /**
          * Loads the strokes as a spritesheet and returns a callback once they have been preloaded.
          * 
-         * @method loadStrokes
+         * @method loadStrokeSprites
          * @param {Function} callback
          */
 	loadStrokeSprites: function(callback) {
-            var loadSprites = function() {
-                var strokeSprites = {};
-                var animationIds = Assets.strokeSpriteSheet.getAnimations();
-                for (var i in animationIds) {
-                    strokeSprites[parseInt(animationIds[i].replace('s', ''), 10)] = new createjs.Sprite(Assets.strokeSpriteSheet, animationIds[i]);
+            var loadSprites = function(sheets) {
+                for (var a in sheets) {
+                    var sheet = sheets[a];
+                    var animations = sheet.getAnimations();
+                    for (var b in animations)
+                        Assets.strokeSprites[animations[b].replace('s', '')] = new createjs.Sprite(sheet, animations[b]);
                 }
-                Assets.strokeSprites = strokeSprites;
-                callback(strokeSprites);
+                Assets.strokeSpriteSheets = sheets;
+                callback();
             };
-            Assets.strokeSpriteSheet = new createjs.SpriteSheet(StrokeMap);
-            if (!Assets.strokeSpriteSheet.complete) {
-                Assets.strokeSpriteSheet.addEventListener('complete', loadSprites);
-            } else {
-                loadSprites();
-            }
+            
+            Strokes.getSpriteSheets(loadSprites);
+            
+            
 	}
     });
     

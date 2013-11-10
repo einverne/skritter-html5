@@ -45,10 +45,11 @@ Next navigate to the root directory and run the following command to install the
 	
 After the initial install you can either run the project directly from the `public_html` directory or compile it using one of the following commands.
 
+	grunt appcache //regenerates the cache manifest in the public_html directory
 	grunt docs //generates the docs in the build directory
-	grunt cache-manifest //regenerates the cache manifest in the public_html directory
 	grunt hint //checks the application for common errors
 	grunt www-build //creates a minified version of the application in the build directory
+	grunt www-copy //creates a copy non-minified version of the application in the build directory
 
 ## Troubleshooting
 
