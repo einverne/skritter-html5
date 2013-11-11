@@ -29,7 +29,7 @@ define([
             orientation: 'vertical',
             strokeFormat: 'vector',
             transitionSpeed: 200,
-            version: '@@version'
+            version: '0.0.83'
         },
         resize: function() {
             //sets the max boundaries of the application

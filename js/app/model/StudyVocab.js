@@ -97,9 +97,11 @@ define([
                        sprite: Skritter.assets.getStroke(bitmapId)
                     });
 
-                    //adjusts the relative position for double strokes
-                    if (params.has('contains'))
+                    //adjusts the relative position for double strokes and sets contained strokes
+                    if (params.has('contains')) {
+                        stroke.set('contains', params.get('contains'));
                         position++;
+                    }
                     position++;
 
                     character.add(stroke);
@@ -196,8 +198,9 @@ define([
             var element = '';
             for (var i = 0; i < this.getCharacterCount(); i++)
             {
-                if (index > i) {
-                    element += "<div class='prompt-display'>" + this.getCharacterAt(i) + "</div>";
+                var character = this.getCharacterAt(i);
+                if (index > i || Skritter.fn.isKana(character)) {
+                    element += "<div class='prompt-display'>" + character + "</div>";
                 } else {
                     element += "<div class='prompt-hidden'></div>";
                 }

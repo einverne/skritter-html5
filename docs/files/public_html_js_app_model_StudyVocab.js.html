@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.81</em>
+            <em>API Docs for: 0.0.83</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -301,9 +301,11 @@ define([
                        sprite: Skritter.assets.getStroke(bitmapId)
                     });
 
-                    //adjusts the relative position for double strokes
-                    if (params.has(&#x27;contains&#x27;))
+                    //adjusts the relative position for double strokes and sets contained strokes
+                    if (params.has(&#x27;contains&#x27;)) {
+                        stroke.set(&#x27;contains&#x27;, params.get(&#x27;contains&#x27;));
                         position++;
+                    }
                     position++;
 
                     character.add(stroke);
@@ -400,8 +402,9 @@ define([
             var element = &#x27;&#x27;;
             for (var i = 0; i &lt; this.getCharacterCount(); i++)
             {
-                if (index &gt; i) {
-                    element += &quot;&lt;div class=&#x27;prompt-display&#x27;&gt;&quot; + this.getCharacterAt(i) + &quot;&lt;/div&gt;&quot;;
+                var character = this.getCharacterAt(i);
+                if (index &gt; i || Skritter.fn.isKana(character)) {
+                    element += &quot;&lt;div class=&#x27;prompt-display&#x27;&gt;&quot; + character + &quot;&lt;/div&gt;&quot;;
                 } else {
                     element += &quot;&lt;div class=&#x27;prompt-hidden&#x27;&gt;&lt;/div&gt;&quot;;
                 }

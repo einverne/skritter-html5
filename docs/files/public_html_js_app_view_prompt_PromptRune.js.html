@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.81</em>
+            <em>API Docs for: 0.0.83</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -235,7 +235,7 @@ define([
             Skritter.timer.setThinkingLimit(15000);
             Rune.canvas = new Canvas();
             Rune.failedAttempts = 0;
-            Rune.maxFailedAttempts = 3;
+            Rune.maxFailedAttempts = 1;
             Rune.minStrokeDistance = 25;
             Rune.strokeCount = 0;
             Rune.userCharacter = null;
@@ -309,7 +309,10 @@ define([
                     //if failed too many times show a hint
                     if (Rune.failedAttempts &gt; Rune.maxFailedAttempts) {
                         Prompt.grade = 1;
-                        Rune.canvas.drawPhantomStroke(this.getNextStroke().stroke.getInflatedSprite(), &#x27;hint&#x27;);
+                        //ISSUE #28: if the find the next stroke then don&#x27;t try to show a hint
+                        var nextStroke = this.getNextStroke();
+                        if (nextStroke)
+                            Rune.canvas.drawPhantomStroke(nextStroke.stroke.getInflatedSprite(), &#x27;hint&#x27;);
                     }
                 }
             }
@@ -410,15 +413,20 @@ define([
          * return the variation, so the matching background hint can be displayed.
          * 
          * @method getNextStroke
-         * @returns {CanvasStroke}
+         * @returns {Object}
          */
         getNextStroke: function() {
             //ISSUE #26: needs to properly get the position and check for contained strokes
-            var position = Rune.userCharacter.getStrokeCount() + 1;
+            //ISSUE #28: it should check from the beginning so it can suppports other strictness values
+            var nextPosition = Rune.userCharacter.getStrokeCount() + 1;
             for (var a in Rune.userTargets) {
-                var stroke = Rune.userTargets[a].findWhere({position: position});
-                if (stroke &amp;&amp; !Rune.userCharacter.containsStroke(stroke))
+                var variation = Rune.userTargets[a];
+                for (var b in variation.models) {
+                    var stroke = variation.models[b];
+                    if (stroke &amp;&amp; !Rune.userCharacter.containsStroke(stroke) &amp;&amp; stroke.get(&#x27;position&#x27;) &lt;= nextPosition) {
                         return {variation: a, stroke: stroke};
+                    }
+                }     
             }
         },
         /**
@@ -498,7 +506,6 @@ define([
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             if (Prompt.sentence)
                 this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, &#x27; _ &#x27;));
-            console.log($._data(this.$(&#x27;#prompt-canvas&#x27;)[0], &quot;events&quot; ));
         },
         /**
          * Displays the answer for the user, which should be called after the prompt
@@ -515,7 +522,6 @@ define([
             //events
             this.$(&#x27;#prompt-canvas&#x27;).hammer().one(&#x27;swipeleft.Rune&#x27;, _.bind(this.handleIfFinished, this));
             this.$(&#x27;#prompt-canvas&#x27;).hammer().one(&#x27;tap.Rune&#x27;, _.bind(this.handleIfFinished, this));
-            console.log($._data(this.$(&#x27;#prompt-canvas&#x27;)[0], &quot;events&quot; ));
         },
         /**
          * Displays the recognition parameters as points on the canvas which can be
