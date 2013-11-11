@@ -16,6 +16,7 @@ define([
          * @method initialize
          */
         initialize: function() {
+            Canvas.grid = true;
             Canvas.gridColor = 'grey';
             Canvas.gridLineWidth = 1;
             Canvas.points = [];
@@ -41,7 +42,8 @@ define([
             this.$el.html(Canvas.element);
             this.createLayer('grid');
             this.createLayer('input');
-            this.drawGrid('grid');
+            if (Canvas.grid)
+                this.drawGrid('grid');
             //ISSUE #18: drawing a dummy sprite fixes the delayed tween problem in Chrome
             //it needs to be a clone otherwise the sprite will globally have the alpha set
             var dummySprite = Skritter.assets.getStroke(0);
@@ -107,6 +109,13 @@ define([
             layer.name = 'layer-' + name;
             Canvas.stage.addChild(layer);
             return layer;
+        },
+        /**
+         * @method disableGrid
+         * @returns {undefined}
+         */
+        disableGrid: function() {
+            Canvas.grid = false;
         },
         /**
          * Disables all touch input on the canvas. This is most commonly used when a user has
@@ -359,6 +368,13 @@ define([
             return layers;
         },
         /**
+         * @method enableGrid
+         * @returns {undefined}
+         */
+        enableGrid: function() {
+            Canvas.grid = true;
+        },
+        /**
          * Enables touch input and drawing on the canvas. It also handles the immediate ink
          * traced by the finger.
          * 
@@ -418,7 +434,8 @@ define([
                 if (x >= 0 && x < Canvas.size && y >= 0 && y < Canvas.size)
                     return true;
             };
-            stage.addEventListener('stagemousedown', down);
+            if (!stage.hasEventListener('stagemousedown'))
+                stage.addEventListener('stagemousedown', down);
         },
         /**
          * @method setLayerAlpha
