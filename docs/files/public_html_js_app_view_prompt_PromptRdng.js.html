@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.83</em>
+            <em>API Docs for: 0.0.84</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -276,7 +276,6 @@ define([
          * @method show
          */
         show: function() {
-            console.log(&#x27;Prompt&#x27;, &#x27;RDNG&#x27;, Prompt.vocabs[0].get(&#x27;writing&#x27;));
             Skritter.timer.start();
             this.$(&#x27;#writing&#x27;).text(Prompt.writing);
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));

@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.83"
+        "version": "0.0.84"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -4830,7 +4830,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
-            "line": 84,
+            "line": 83,
             "itemtype": "method",
             "name": "showAnswer",
             "class": "PromptDefn",
@@ -4914,7 +4914,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
-            "line": 83,
+            "line": 82,
             "itemtype": "method",
             "name": "showAnswer",
             "class": "PromptRdng",
@@ -4962,7 +4962,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 116,
+            "line": 120,
             "description": "Handles the character if it is complete by applying the correct background glow\nand then displaying the grading buttons.",
             "itemtype": "method",
             "name": "handleCharacterComplete",
@@ -4972,7 +4972,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 146,
+            "line": 149,
             "description": "Handles the double tap event by displaying the character hint if it's\nnot finished yet.",
             "itemtype": "method",
             "name": "handleDoubleTap",
@@ -4982,7 +4982,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 158,
+            "line": 161,
             "description": "Handles either the swipeleft or tap events by moving to the next if the\nprompt has already been finished.",
             "itemtype": "method",
             "name": "handleIfFinished",
@@ -4992,7 +4992,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 171,
+            "line": 174,
             "description": "Handles the grade selected event by passing the selected grade along and then\ncalled the next character in the prompt.",
             "itemtype": "method",
             "name": "handleGradeSelected",
@@ -5009,7 +5009,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 183,
+            "line": 186,
             "description": "Handles the hold event by clearing the canvas and reseting the input.",
             "itemtype": "method",
             "name": "handleHold",
@@ -5019,7 +5019,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 192,
+            "line": 195,
             "description": "Handles a complete stroke a trigger by the PromptCanvas. It also checks to see\nif the character has been completed yet or not.",
             "itemtype": "method",
             "name": "handleStrokeComplete",
@@ -5036,7 +5036,20 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 207,
+            "line": 210,
+            "itemtype": "method",
+            "name": "getExpectedStroke",
+            "return": {
+                "description": "",
+                "type": "CanvasStroke"
+            },
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 226,
             "description": "Returns the next stroke in the character based on the order it should be written. It also\nreturn the variation, so the matching background hint can be displayed.",
             "itemtype": "method",
             "name": "getNextStroke",
@@ -5050,7 +5063,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 228,
+            "line": 247,
             "description": "Returns the stroke highest possible stroke count out of all of the targets.",
             "itemtype": "method",
             "name": "getTargetStrokeCount",
@@ -5064,7 +5077,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 244,
+            "line": 263,
             "description": "Moves to the next item in the prompt for prompts containing multiple characters.",
             "itemtype": "method",
             "name": "next",
@@ -5074,7 +5087,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 279,
+            "line": 297,
             "description": "Displays the initial prompt for the user and should probably be renamed to\nsomething a little less misleading than show hidden.",
             "itemtype": "method",
             "name": "show",
@@ -5084,7 +5097,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 306,
+            "line": 323,
             "description": "Displays the answer for the user, which should be called after the prompt\nhas been completed.",
             "itemtype": "method",
             "name": "showAnswer",
@@ -5094,7 +5107,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 322,
+            "line": 339,
             "description": "Displays the recognition parameters as points on the canvas which can be\nuseful for debugging recognition problems and quircks.",
             "itemtype": "method",
             "name": "showParams",
@@ -5231,7 +5244,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 184,
+            "line": 183,
             "itemtype": "method",
             "name": "show",
             "class": "PromptTone",
@@ -5240,7 +5253,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 199,
+            "line": 198,
             "itemtype": "method",
             "name": "showAnswer",
             "class": "PromptTone",
@@ -7165,11 +7178,15 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:207"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:210"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:228"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:226"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:247"
         },
         {
             "message": "replacing incorrect tag: returns with return",

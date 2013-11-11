@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.83</em>
+            <em>API Docs for: 0.0.84</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -365,7 +365,6 @@ define([
          * @method next
          */
         next: function() {
-            console.log(&#x27;next&#x27;, Prompt.position, Prompt.vocabs[0].getCharacterCount());
             this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             Prompt.position++;
             //check to see if there are more characters in the prompt

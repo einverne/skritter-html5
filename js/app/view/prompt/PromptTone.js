@@ -161,7 +161,6 @@ define([
          * @method next
          */
         next: function() {
-            console.log('next', Prompt.position, Prompt.vocabs[0].getCharacterCount());
             this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             Prompt.position++;
             //check to see if there are more characters in the prompt

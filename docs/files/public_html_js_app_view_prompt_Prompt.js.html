@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.83</em>
+            <em>API Docs for: 0.0.84</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -246,6 +246,7 @@ define([
             });
         },
         set: function(vocabs) {
+            console.log(&#x27;Prompt&#x27;, vocabs[0].get(&#x27;writing&#x27;));
             Prompt.definition = vocabs[0].get(&#x27;definitions&#x27;)[Skritter.user.get(&#x27;settings&#x27;).sourceLang];
             Prompt.reading = vocabs[0].get(&#x27;reading&#x27;);
             Prompt.sentence = (vocabs[0].getSentence()) ? vocabs[0].getSentence().get(&#x27;writing&#x27;) : null;

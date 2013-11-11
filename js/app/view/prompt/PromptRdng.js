@@ -72,7 +72,6 @@ define([
          * @method show
          */
         show: function() {
-            console.log('Prompt', 'RDNG', Prompt.vocabs[0].get('writing'));
             Skritter.timer.start();
             this.$('#writing').text(Prompt.writing);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
