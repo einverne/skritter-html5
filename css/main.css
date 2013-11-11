@@ -20,7 +20,7 @@ body {
 
 /** NAVBAR **/
 .navbar {
-    z-index: 9999;
+    z-index: 9000;
 }
 
 
@@ -65,6 +65,10 @@ body {
 #prompt-container {
     margin: 0 auto;
     max-width: 1170px;
+}
+#prompt-container .row {
+    margin-left: 0;
+    margin-right: 0;
 }
 #prompt-top {
     float: left;
@@ -124,6 +128,8 @@ body {
     }
     #prompt-bottom {
         bottom: 3px;
+        padding-left: 0;
+        padding-right: 0;
         position: absolute;
     }
 }

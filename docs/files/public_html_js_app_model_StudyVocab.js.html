@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.78</em>
+            <em>API Docs for: 0.0.81</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -349,7 +349,7 @@ define([
          */
         getPinyinAt: function(index) {
             index = (index) ? index : 0;
-            var reading = _.clone(this.get(&#x27;reading&#x27;));
+            var reading = _.clone(this.get(&#x27;reading&#x27;).toLowerCase());
             var syllable = _.clone(reading);
             var tone = _.clone(reading);
             if (this.getCharacterCount() === 1) {

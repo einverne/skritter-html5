@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.78"
+        "version": "0.0.81"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -1214,7 +1214,7 @@
             "submodule": "Prompt",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
-            "line": 13
+            "line": 16
         },
         "PromptRdng": {
             "name": "PromptRdng",
@@ -1228,7 +1228,7 @@
             "submodule": "Prompt",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
-            "line": 13
+            "line": 16
         },
         "PromptRune": {
             "name": "PromptRune",
@@ -3883,7 +3883,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 36,
+            "line": 37,
             "itemtype": "method",
             "name": "render",
             "return": {
@@ -3896,7 +3896,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 53,
+            "line": 55,
             "itemtype": "method",
             "name": "initElement",
             "return": {
@@ -3909,7 +3909,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 64,
+            "line": 66,
             "itemtype": "method",
             "name": "initListeners",
             "class": "Canvas",
@@ -3918,7 +3918,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 70,
+            "line": 72,
             "itemtype": "method",
             "name": "initStage",
             "return": {
@@ -3931,7 +3931,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 80,
+            "line": 82,
             "itemtype": "method",
             "name": "clear",
             "params": [
@@ -3951,7 +3951,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 100,
+            "line": 102,
             "itemtype": "method",
             "name": "createLayer",
             "params": [
@@ -3971,7 +3971,20 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 111,
+            "line": 113,
+            "itemtype": "method",
+            "name": "disableGrid",
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 120,
             "description": "Disables all touch input on the canvas. This is most commonly used when a user has\nalready completed a prompt and it needs grading.",
             "itemtype": "method",
             "name": "disableInput",
@@ -3981,7 +3994,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 120,
+            "line": 129,
             "itemtype": "method",
             "name": "drawCharacter",
             "params": [
@@ -4011,7 +4024,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 138,
+            "line": 147,
             "description": "Draws the character to the background using the font rather than assembling\nthe character strokes.",
             "itemtype": "method",
             "name": "drawCharacterFromText",
@@ -4042,7 +4055,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 154,
+            "line": 163,
             "itemtype": "method",
             "name": "drawGrid",
             "params": [
@@ -4067,7 +4080,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 176,
+            "line": 185,
             "itemtype": "method",
             "name": "drawParam",
             "params": [
@@ -4092,7 +4105,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 201,
+            "line": 210,
             "itemtype": "method",
             "name": "drawPhantomStroke",
             "params": [
@@ -4122,7 +4135,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 220,
+            "line": 229,
             "itemtype": "method",
             "name": "drawSquig",
             "params": [
@@ -4152,7 +4165,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 247,
+            "line": 256,
             "itemtype": "method",
             "name": "drawStroke",
             "params": [
@@ -4182,7 +4195,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 260,
+            "line": 269,
             "description": "Draws text to the canvas on the message layer. If a position isn't specified then\nit defaults to the bottom center of the canvas.",
             "itemtype": "method",
             "name": "drawText",
@@ -4228,7 +4241,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 294,
+            "line": 303,
             "itemtype": "method",
             "name": "drawTweenedStroke",
             "params": [
@@ -4263,7 +4276,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 310,
+            "line": 319,
             "itemtype": "method",
             "name": "fadeLayer",
             "params": [
@@ -4288,7 +4301,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 328,
+            "line": 337,
             "itemtype": "method",
             "name": "filterLayerColor",
             "params": [
@@ -4313,7 +4326,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 340,
+            "line": 349,
             "itemtype": "method",
             "name": "getLayer",
             "params": [
@@ -4333,7 +4346,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 348,
+            "line": 357,
             "itemtype": "method",
             "name": "getLayers",
             "return": {
@@ -4346,7 +4359,20 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 361,
+            "line": 370,
+            "itemtype": "method",
+            "name": "enableGrid",
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": "Canvas",
+            "module": "Skritter",
+            "submodule": "Component"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\component\\Canvas.js",
+            "line": 377,
             "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger.",
             "itemtype": "method",
             "name": "enableInput",
@@ -4356,7 +4382,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 423,
+            "line": 440,
             "itemtype": "method",
             "name": "setLayerAlpha",
             "params": [
@@ -4381,7 +4407,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 434,
+            "line": 451,
             "itemtype": "method",
             "name": "resize",
             "params": [
@@ -4397,7 +4423,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 446,
+            "line": 463,
             "itemtype": "method",
             "name": "tick",
             "class": "Canvas",
@@ -4406,7 +4432,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 452,
+            "line": 469,
             "description": "Enables the view to fire events when the canvas has been touched.",
             "itemtype": "method",
             "name": "triggerMouseDown",
@@ -4423,7 +4449,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 461,
+            "line": 478,
             "description": "Enables the view to fire events when the canvas touch has been released.",
             "itemtype": "method",
             "name": "triggerMouseUp",
@@ -4728,6 +4754,174 @@
             "submodule": "Prompt"
         },
         {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
+            "line": 20,
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "PromptDefn",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
+            "line": 28,
+            "itemtype": "method",
+            "name": "render",
+            "return": {
+                "description": "",
+                "type": "PromptDefn"
+            },
+            "class": "PromptDefn",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
+            "line": 37,
+            "itemtype": "method",
+            "name": "handleClick",
+            "class": "PromptDefn",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
+            "line": 44,
+            "itemtype": "method",
+            "name": "handleGradeSelected",
+            "params": [
+                {
+                    "name": "selected",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "PromptDefn",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
+            "line": 52,
+            "description": "Handles either the swipeleft or tap events by moving to the next if the\nprompt has already been finished.",
+            "itemtype": "method",
+            "name": "handleIfFinished",
+            "class": "PromptDefn",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
+            "line": 64,
+            "itemtype": "method",
+            "name": "next",
+            "class": "PromptDefn",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
+            "line": 71,
+            "itemtype": "method",
+            "name": "show",
+            "class": "PromptDefn",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptDefn.js",
+            "line": 84,
+            "itemtype": "method",
+            "name": "showAnswer",
+            "class": "PromptDefn",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
+            "line": 20,
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "PromptRdng",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
+            "line": 28,
+            "itemtype": "method",
+            "name": "render",
+            "return": {
+                "description": "",
+                "type": "PromptRdng"
+            },
+            "class": "PromptRdng",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
+            "line": 37,
+            "itemtype": "method",
+            "name": "handleClick",
+            "class": "PromptRdng",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
+            "line": 44,
+            "itemtype": "method",
+            "name": "handleGradeSelected",
+            "params": [
+                {
+                    "name": "selected",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "PromptRdng",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
+            "line": 52,
+            "description": "Handles either the swipeleft or tap events by moving to the next if the\nprompt has already been finished.",
+            "itemtype": "method",
+            "name": "handleIfFinished",
+            "class": "PromptRdng",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
+            "line": 64,
+            "itemtype": "method",
+            "name": "next",
+            "class": "PromptRdng",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
+            "line": 71,
+            "itemtype": "method",
+            "name": "show",
+            "class": "PromptRdng",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRdng.js",
+            "line": 83,
+            "itemtype": "method",
+            "name": "showAnswer",
+            "class": "PromptRdng",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
             "line": 41,
             "itemtype": "method",
@@ -4751,7 +4945,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 65,
+            "line": 66,
             "description": "Handles the points returned when the user is finished with a stroke.",
             "itemtype": "method",
             "name": "handleInputRecieved",
@@ -4768,7 +4962,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 112,
+            "line": 113,
             "description": "Handles the character if it is complete by applying the correct background glow\nand then displaying the grading buttons.",
             "itemtype": "method",
             "name": "handleCharacterComplete",
@@ -4778,7 +4972,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 142,
+            "line": 143,
             "description": "Handles the double tap event by displaying the character hint if it's\nnot finished yet.",
             "itemtype": "method",
             "name": "handleDoubleTap",
@@ -4788,7 +4982,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 154,
+            "line": 155,
             "description": "Handles either the swipeleft or tap events by moving to the next if the\nprompt has already been finished.",
             "itemtype": "method",
             "name": "handleIfFinished",
@@ -4798,7 +4992,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 166,
+            "line": 168,
             "description": "Handles the grade selected event by passing the selected grade along and then\ncalled the next character in the prompt.",
             "itemtype": "method",
             "name": "handleGradeSelected",
@@ -4815,7 +5009,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 178,
+            "line": 180,
             "description": "Handles the hold event by clearing the canvas and reseting the input.",
             "itemtype": "method",
             "name": "handleHold",
@@ -4825,7 +5019,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 187,
+            "line": 189,
             "description": "Handles a complete stroke a trigger by the PromptCanvas. It also checks to see\nif the character has been completed yet or not.",
             "itemtype": "method",
             "name": "handleStrokeComplete",
@@ -4842,7 +5036,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 202,
+            "line": 204,
             "description": "Returns the next stroke in the character based on the order it should be written. It also\nreturn the variation, so the matching background hint can be displayed.",
             "itemtype": "method",
             "name": "getNextStroke",
@@ -4856,7 +5050,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 218,
+            "line": 220,
             "description": "Returns the stroke highest possible stroke count out of all of the targets.",
             "itemtype": "method",
             "name": "getTargetStrokeCount",
@@ -4870,7 +5064,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 234,
+            "line": 236,
             "description": "Moves to the next item in the prompt for prompts containing multiple characters.",
             "itemtype": "method",
             "name": "next",
@@ -4880,7 +5074,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 269,
+            "line": 271,
             "description": "Displays the initial prompt for the user and should probably be renamed to\nsomething a little less misleading than show hidden.",
             "itemtype": "method",
             "name": "show",
@@ -4890,7 +5084,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 296,
+            "line": 299,
             "description": "Displays the answer for the user, which should be called after the prompt\nhas been completed.",
             "itemtype": "method",
             "name": "showAnswer",
@@ -4900,7 +5094,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 309,
+            "line": 316,
             "description": "Displays the recognition parameters as points on the canvas which can be\nuseful for debugging recognition problems and quircks.",
             "itemtype": "method",
             "name": "showParams",
@@ -4910,7 +5104,29 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 44,
+            "line": 28,
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 42,
+            "itemtype": "method",
+            "name": "render",
+            "return": {
+                "description": "",
+                "type": "PromptTone"
+            },
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 55,
             "itemtype": "method",
             "name": "clear",
             "class": "PromptTone",
@@ -4919,7 +5135,69 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 75,
+            "line": 63,
+            "itemtype": "method",
+            "name": "getTargetStrokeCount",
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 76,
+            "itemtype": "method",
+            "name": "handleCharacterComplete",
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 87,
+            "itemtype": "method",
+            "name": "handleDoubleTap",
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 93,
+            "itemtype": "method",
+            "name": "handleGradeSelected",
+            "params": [
+                {
+                    "name": "selected",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 102,
+            "itemtype": "method",
+            "name": "handleHold",
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 111,
+            "description": "Handles either the swipeleft or tap events by moving to the next if the\nprompt has already been finished.",
+            "itemtype": "method",
+            "name": "handleIfFinished",
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 124,
             "itemtype": "method",
             "name": "handleInputRecieved",
             "params": [
@@ -4929,6 +5207,42 @@
                     "type": "Array"
                 }
             ],
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 152,
+            "itemtype": "method",
+            "name": "handleStrokeComplete",
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 160,
+            "itemtype": "method",
+            "name": "next",
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 184,
+            "itemtype": "method",
+            "name": "show",
+            "class": "PromptTone",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
+            "line": 199,
+            "itemtype": "method",
+            "name": "showAnswer",
             "class": "PromptTone",
             "module": "Skritter",
             "submodule": "Prompt"
@@ -6228,7 +6542,7 @@
         },
         {
             "file": "public_html\\js\\app\\PinyinConverter.js",
-            "line": 111,
+            "line": 112,
             "description": "Uses regex to and loops through the string replacing all of the matching numbers with tones.",
             "itemtype": "method",
             "name": "tone",
@@ -6739,79 +7053,87 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:36"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:37"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:53"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:55"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:70"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:72"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:80"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:82"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:100"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:102"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:120"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:113"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:138"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:129"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:154"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:147"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:176"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:163"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:201"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:185"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:220"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:210"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:247"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:229"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:260"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:256"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:294"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:269"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:310"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:303"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:328"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:319"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:340"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:337"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:348"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:349"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:423"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:357"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:370"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:440"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6831,15 +7153,27 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\prompt\\PromptDefn.js:28"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRdng.js:28"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
             "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:41"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:202"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:204"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:218"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:220"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\view\\prompt\\PromptTone.js:42"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -6895,7 +7229,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\PinyinConverter.js:111"
+            "line": " public_html\\js\\app\\PinyinConverter.js:112"
         },
         {
             "message": "replacing incorrect tag: returns with return",

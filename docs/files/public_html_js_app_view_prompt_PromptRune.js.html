@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.78</em>
+            <em>API Docs for: 0.0.81</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -248,11 +248,11 @@ define([
          */
         render: function() {
             this.$el.html(templateRune);
+            Rune.canvas.enableGrid();
             Rune.canvas.setElement(this.$(&#x27;#canvas-container&#x27;)).render();
             this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;doubletap.Rune&#x27;, _.bind(this.handleDoubleTap, this));
             this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;hold.Rune&#x27;, _.bind(this.handleHold, this));
-            this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;swipeleft.Rune&#x27;, _.bind(this.handleIfFinished, this));
-            this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;tap.Rune&#x27;, _.bind(this.handleIfFinished, this));
+            this.resize();
             return this;
         },
         /**
@@ -262,6 +262,7 @@ define([
             Prompt.buttons.remove();
             Rune.canvas.clear(&#x27;background&#x27;);
             Rune.canvas.clear(&#x27;hint&#x27;);
+            Rune.canvas.clear(&#x27;overlay&#x27;);
             Rune.canvas.clear(&#x27;stroke&#x27;);
             Prompt.finished = false;
             Rune.userCharacter = new CanvasCharacter();
@@ -362,6 +363,7 @@ define([
          * @method handleIfFinished
          */
         handleIfFinished: function() {
+            console.log(&#x27;tapped&#x27;);
             if (Prompt.finished) {
                 Prompt.buttons.remove();
                 this.next();
@@ -496,6 +498,7 @@ define([
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             if (Prompt.sentence)
                 this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, &#x27; _ &#x27;));
+            console.log($._data(this.$(&#x27;#prompt-canvas&#x27;)[0], &quot;events&quot; ));
         },
         /**
          * Displays the answer for the user, which should be called after the prompt
@@ -509,6 +512,10 @@ define([
             this.$(&#x27;#writing&#x27;).html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
             if (Prompt.sentence &amp;&amp; Prompt.position &gt;= Prompt.vocabs[0].getCharacterCount())
                 this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence));
+            //events
+            this.$(&#x27;#prompt-canvas&#x27;).hammer().one(&#x27;swipeleft.Rune&#x27;, _.bind(this.handleIfFinished, this));
+            this.$(&#x27;#prompt-canvas&#x27;).hammer().one(&#x27;tap.Rune&#x27;, _.bind(this.handleIfFinished, this));
+            console.log($._data(this.$(&#x27;#prompt-canvas&#x27;)[0], &quot;events&quot; ));
         },
         /**
          * Displays the recognition parameters as points on the canvas which can be

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.78</em>
+            <em>API Docs for: 0.0.81</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -235,6 +235,7 @@ define([
             Prompt.position = 1;
             Prompt.results = [];
             Prompt.vocabs = null;
+            this.listenTo(Skritter.settings, &#x27;resize&#x27;, this.resize);
         },
         pushResult: function(grade, reviewTime, startTime, thinkingTime) {
             Prompt.results.push({
@@ -253,11 +254,14 @@ define([
             return this;
         },
         resize: function() {
-            this.$(&#x27;#canvas-container&#x27;).width(Skritter.settings.get(&#x27;canvasSize&#x27;));
-            this.$(&#x27;#canvas-container&#x27;).height(Skritter.settings.get(&#x27;canvasSize&#x27;));
+            var canvasSize = Skritter.settings.get(&#x27;canvasSize&#x27;);
+            this.$(&#x27;#prompt-bottom&#x27;).width(canvasSize);
+            this.$(&#x27;#prompt-bottom&#x27;).height(canvasSize);
+            this.$(&#x27;#canvas-container&#x27;).width(canvasSize);
+            this.$(&#x27;#canvas-container&#x27;).height(canvasSize);
         },
         showGrading: function(selected) {
-            Prompt.buttons.setElement(this.$(&#x27;#canvas-container&#x27;)).render();
+            Prompt.buttons.setElement(this.$(&#x27;#prompt-bottom&#x27;)).render();
             if (selected)
                 Prompt.buttons.select(selected);
             this.listenToOnce(Prompt.buttons, &#x27;selected&#x27;, this.handleGradeSelected);

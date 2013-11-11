@@ -100,6 +100,7 @@ define(function() {
      * @returns {String} The string with replaced values
      */
     var number = function(text) {
+        text = text.toLowerCase();
         for (var key in mapping)
         {
             var expression = new RegExp(mapping[key], 'g');
@@ -116,7 +117,7 @@ define(function() {
      * @returns {String} The string with replaced values
      */
     var tone = function(text) {
-        text = text.replace('5', '');
+        text = text.replace('5', '').toLowerCase();
         for (var key in mapping)
         {
             var expression = new RegExp(key, 'g');

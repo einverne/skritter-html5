@@ -19,7 +19,6 @@ define(function() {
      * @returns {Number}
      */
     Scheduler.prototype.getInterval = function(item, grade) {
-        console.log(Skritter.user.getSetting('targetLang'), item.get('part'));
         var config = Skritter.data.srsconfigs.findWhere({lang: Skritter.user.getSetting('targetLang'), part: item.get('part')});
         var newInterval;
         var getRandomizedInterval = function(interval) {

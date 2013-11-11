@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.78</em>
+            <em>API Docs for: 0.0.81</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -304,6 +304,7 @@ define(function() {
      * @returns {String} The string with replaced values
      */
     var number = function(text) {
+        text = text.toLowerCase();
         for (var key in mapping)
         {
             var expression = new RegExp(mapping[key], &#x27;g&#x27;);
@@ -320,7 +321,7 @@ define(function() {
      * @returns {String} The string with replaced values
      */
     var tone = function(text) {
-        text = text.replace(&#x27;5&#x27;, &#x27;&#x27;);
+        text = text.replace(&#x27;5&#x27;, &#x27;&#x27;).toLowerCase();
         for (var key in mapping)
         {
             var expression = new RegExp(key, &#x27;g&#x27;);

@@ -44,11 +44,11 @@ define([
          */
         render: function() {
             this.$el.html(templateRune);
+            Rune.canvas.enableGrid();
             Rune.canvas.setElement(this.$('#canvas-container')).render();
             this.$('#prompt-canvas').hammer().on('doubletap.Rune', _.bind(this.handleDoubleTap, this));
             this.$('#prompt-canvas').hammer().on('hold.Rune', _.bind(this.handleHold, this));
-            this.$('#prompt-canvas').hammer().on('swipeleft.Rune', _.bind(this.handleIfFinished, this));
-            this.$('#prompt-canvas').hammer().on('tap.Rune', _.bind(this.handleIfFinished, this));
+            this.resize();
             return this;
         },
         /**
@@ -58,6 +58,7 @@ define([
             Prompt.buttons.remove();
             Rune.canvas.clear('background');
             Rune.canvas.clear('hint');
+            Rune.canvas.clear('overlay');
             Rune.canvas.clear('stroke');
             Prompt.finished = false;
             Rune.userCharacter = new CanvasCharacter();
@@ -158,6 +159,7 @@ define([
          * @method handleIfFinished
          */
         handleIfFinished: function() {
+            console.log('tapped');
             if (Prompt.finished) {
                 Prompt.buttons.remove();
                 this.next();
@@ -292,6 +294,7 @@ define([
             this.$('#style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence)
                 this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
+            console.log($._data(this.$('#prompt-canvas')[0], "events" ));
         },
         /**
          * Displays the answer for the user, which should be called after the prompt
@@ -305,6 +308,10 @@ define([
             this.$('#writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
             if (Prompt.sentence && Prompt.position >= Prompt.vocabs[0].getCharacterCount())
                 this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence));
+            //events
+            this.$('#prompt-canvas').hammer().one('swipeleft.Rune', _.bind(this.handleIfFinished, this));
+            this.$('#prompt-canvas').hammer().one('tap.Rune', _.bind(this.handleIfFinished, this));
+            console.log($._data(this.$('#prompt-canvas')[0], "events" ));
         },
         /**
          * Displays the recognition parameters as points on the canvas which can be

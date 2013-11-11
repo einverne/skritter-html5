@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.78</em>
+            <em>API Docs for: 0.0.81</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -223,7 +223,6 @@ define(function() {
      * @returns {Number}
      */
     Scheduler.prototype.getInterval = function(item, grade) {
-        console.log(Skritter.user.getSetting(&#x27;targetLang&#x27;), item.get(&#x27;part&#x27;));
         var config = Skritter.data.srsconfigs.findWhere({lang: Skritter.user.getSetting(&#x27;targetLang&#x27;), part: item.get(&#x27;part&#x27;)});
         var newInterval;
         var getRandomizedInterval = function(interval) {

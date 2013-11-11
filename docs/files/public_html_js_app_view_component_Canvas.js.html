@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.78</em>
+            <em>API Docs for: 0.0.81</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -220,6 +220,7 @@ define([
          * @method initialize
          */
         initialize: function() {
+            Canvas.grid = true;
             Canvas.gridColor = &#x27;grey&#x27;;
             Canvas.gridLineWidth = 1;
             Canvas.points = [];
@@ -245,7 +246,8 @@ define([
             this.$el.html(Canvas.element);
             this.createLayer(&#x27;grid&#x27;);
             this.createLayer(&#x27;input&#x27;);
-            this.drawGrid(&#x27;grid&#x27;);
+            if (Canvas.grid)
+                this.drawGrid(&#x27;grid&#x27;);
             //ISSUE #18: drawing a dummy sprite fixes the delayed tween problem in Chrome
             //it needs to be a clone otherwise the sprite will globally have the alpha set
             var dummySprite = Skritter.assets.getStroke(0);
@@ -311,6 +313,13 @@ define([
             layer.name = &#x27;layer-&#x27; + name;
             Canvas.stage.addChild(layer);
             return layer;
+        },
+        /**
+         * @method disableGrid
+         * @returns {undefined}
+         */
+        disableGrid: function() {
+            Canvas.grid = false;
         },
         /**
          * Disables all touch input on the canvas. This is most commonly used when a user has
@@ -563,6 +572,13 @@ define([
             return layers;
         },
         /**
+         * @method enableGrid
+         * @returns {undefined}
+         */
+        enableGrid: function() {
+            Canvas.grid = true;
+        },
+        /**
          * Enables touch input and drawing on the canvas. It also handles the immediate ink
          * traced by the finger.
          * 
@@ -622,7 +638,8 @@ define([
                 if (x &gt;= 0 &amp;&amp; x &lt; Canvas.size &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; Canvas.size)
                     return true;
             };
-            stage.addEventListener(&#x27;stagemousedown&#x27;, down);
+            if (!stage.hasEventListener(&#x27;stagemousedown&#x27;))
+                stage.addEventListener(&#x27;stagemousedown&#x27;, down);
         },
         /**
          * @method setLayerAlpha
@@ -645,7 +662,7 @@ define([
             Canvas.element.setAttribute(&#x27;height&#x27;, Canvas.size);
             $(&#x27;#canvas-container&#x27;).width(Canvas.size);
             $(&#x27;#canvas-container&#x27;).height(Canvas.size);
-            this.drawGrid();
+            this.drawGrid(&#x27;grid&#x27;);
         },
         /**
          * @method tick

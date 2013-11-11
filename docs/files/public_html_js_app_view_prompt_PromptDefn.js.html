@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.78</em>
+            <em>API Docs for: 0.0.81</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -205,6 +205,9 @@
 /**
  * @module Skritter
  * @submodule Prompt
+ * @param PinyinConverter
+ * @param Prompt
+ * @param templateDefn
  * @author Joshua McFarland
  */
 define([
@@ -218,29 +221,60 @@ define([
      * @class PromptDefn
      */
     var Defn = Prompt.extend({
+        /**
+         * @method initialize
+         */
         initialize: function() {
             Prompt.prototype.initialize.call(this);
             Skritter.timer.setReviewLimit(30000);
             Skritter.timer.setThinkingLimit(15000);
         },
+        /**
+         * @method render
+         * @returns {PromptDefn}
+         */
         render: function() {
             this.$el.html(templateDefn);
             this.resize();
             return this;
         },
+        /**
+         * @method handleClick
+         */
         handleClick: function() {
-            Prompt.finished = true;
             this.showGrading();
             this.showAnswer();
         },
+        /**
+         * @method handleGradeSelected
+         * @param {String} selected
+         */
         handleGradeSelected: function(selected) {
             Prompt.grade = selected;
             this.next();
         },
+        /**
+         * Handles either the swipeleft or tap events by moving to the next if the
+         * prompt has already been finished.
+         * 
+         * @method handleIfFinished
+         */
+        handleIfFinished: function() {
+            if (Prompt.finished) {
+                Prompt.buttons.remove();
+                this.next();
+            }
+        },
+        /**
+         * @method next
+         */
         next: function() {
             this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
             this.triggerPromptComplete();
         },
+        /**
+         * @method show
+         */
         show: function() {
             console.log(&#x27;Prompt&#x27;, &#x27;DEFN&#x27;, Prompt.vocabs[0].get(&#x27;writing&#x27;));
             Skritter.timer.start();
@@ -248,17 +282,26 @@ define([
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             this.$(&#x27;#definition&#x27;).text(&quot;What&#x27;s the definition?&quot;);
             this.$(&#x27;#prompt-tip&#x27;).text(&quot;(Click to show answer)&quot;);
-            this.$(&#x27;#canvas-container&#x27;).hammer().one(&#x27;click.Defn&#x27;, _.bind(this.handleClick, this));
+            this.$(&#x27;#canvas-container&#x27;).hammer().one(&#x27;tap.Defn&#x27;, _.bind(this.handleClick, this));
+            
         },
+        /**
+         * @method showAnswer
+         */
         showAnswer: function() {
             Skritter.timer.stop();
+            Prompt.finished = true;
             this.$(&#x27;#reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));
             this.$(&#x27;#definition&#x27;).text(Prompt.definition);
-            this.$(&#x27;#sentence&#x27;).text(Prompt.sentence);
+            if (Prompt.sentence)
+                this.$(&#x27;#sentence&#x27;).text(Prompt.sentence);
             this.$(&#x27;#prompt-tip&#x27;).hide();
             //play the audio file when answer is shown
             if (Prompt.vocabs[0].has(&#x27;audio&#x27;) &amp;&amp; Skritter.user.get(&#x27;audio&#x27;))
                 Prompt.vocabs[0].play();
+            //events
+            this.$(&#x27;#canvas-container&#x27;).hammer().one(&#x27;swipeleft.Defn&#x27;, _.bind(this.handleIfFinished, this));
+            this.$(&#x27;#canvas-container&#x27;).hammer().one(&#x27;tap.Defn&#x27;, _.bind(this.handleIfFinished, this));
         }
     });
 

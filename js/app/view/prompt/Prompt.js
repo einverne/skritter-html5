@@ -31,6 +31,7 @@ define([
             Prompt.position = 1;
             Prompt.results = [];
             Prompt.vocabs = null;
+            this.listenTo(Skritter.settings, 'resize', this.resize);
         },
         pushResult: function(grade, reviewTime, startTime, thinkingTime) {
             Prompt.results.push({
@@ -49,11 +50,14 @@ define([
             return this;
         },
         resize: function() {
-            this.$('#canvas-container').width(Skritter.settings.get('canvasSize'));
-            this.$('#canvas-container').height(Skritter.settings.get('canvasSize'));
+            var canvasSize = Skritter.settings.get('canvasSize');
+            this.$('#prompt-bottom').width(canvasSize);
+            this.$('#prompt-bottom').height(canvasSize);
+            this.$('#canvas-container').width(canvasSize);
+            this.$('#canvas-container').height(canvasSize);
         },
         showGrading: function(selected) {
-            Prompt.buttons.setElement(this.$('#canvas-container')).render();
+            Prompt.buttons.setElement(this.$('#prompt-bottom')).render();
             if (selected)
                 Prompt.buttons.select(selected);
             this.listenToOnce(Prompt.buttons, 'selected', this.handleGradeSelected);

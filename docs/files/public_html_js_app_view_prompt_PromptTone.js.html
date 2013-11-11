@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.78</em>
+            <em>API Docs for: 0.0.81</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -229,6 +229,9 @@ define([
      * @class PromptTone
      */
     var Tone = Prompt.extend({
+        /**
+         * @method initialize
+         */
         initialize: function() {
             Prompt.prototype.initialize.call(this);
             Skritter.timer.setReviewLimit(15000);
@@ -238,11 +241,19 @@ define([
             Tone.minStrokeDistance = 25;
             Tone.userCharacter = null;
             Tone.userTargets = [];
+            this.listenTo(Tone.canvas, &#x27;mouseup&#x27;, this.handleInputRecieved);
         },
+        /**
+         * @method render
+         * @returns {PromptTone}
+         */
         render: function() {
             this.$el.html(templateTone);
+            Tone.canvas.disableGrid();
             Tone.canvas.setElement(this.$(&#x27;#canvas-container&#x27;)).render();
-            this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;swipeleft.Rune&#x27;, _.bind(this.handleSwipeLeft, this));
+            this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;doubletap.Tone&#x27;, _.bind(this.handleDoubleTap, this));
+            this.$(&#x27;#prompt-canvas&#x27;).hammer().on(&#x27;hold.Tone&#x27;, _.bind(this.handleHold, this));
+            this.resize();
             return this;
         },
         /**
@@ -253,6 +264,9 @@ define([
             Tone.canvas.clear();
             Tone.userCharacter = new CanvasCharacter();
         },
+        /**
+         * @method getTargetStrokeCount
+         */
         getTargetStrokeCount: function() {
             var strokeCount = 0;
             for (var a in Tone.userTargets)
@@ -263,6 +277,9 @@ define([
             }
             return strokeCount - 1;
         },
+        /**
+         * @method handleCharacterComplete
+         */
         handleCharacterComplete: function() {
             Prompt.finished = true;
             this.showAnswer();
@@ -271,10 +288,42 @@ define([
             //show the grading buttons and listen for a selection
             this.showGrading(Prompt.grade);
         },
+        /**
+         * @method handleDoubleTap
+         */
+        handleDoubleTap: function() {
+            
+        },
+        /**
+         * @method handleGradeSelected
+         * @param {String} selected
+         */
         handleGradeSelected: function(selected) {
             Prompt.grade = selected;
             Prompt.buttons.remove();
             this.next();
+        },
+        /**
+         * @method handleHold
+         */
+        handleHold: function() {
+            Prompt.buttons.remove();
+            Tone.canvas.clear(&#x27;stroke&#x27;);
+            Tone.userCharacter = new CanvasCharacter();
+            Tone.canvas.enableInput();
+        },
+        /**
+         * Handles either the swipeleft or tap events by moving to the next if the
+         * prompt has already been finished.
+         * 
+         * @method handleIfFinished
+         */
+        handleIfFinished: function() {
+            console.log(&#x27;checking finished&#x27;);
+            if (Prompt.finished) {
+                Prompt.buttons.remove();
+                this.next();
+            }
         },
         /**
          * @method handleInputRecieved
@@ -304,17 +353,17 @@ define([
                 this.handleStrokeComplete();
             }
         },
+        /**
+         * @method handleStrokeComplete
+         */
         handleStrokeComplete: function() {
             //check if the character has been completed yet or not
             if (Tone.userCharacter.getStrokeCount() &gt; this.getTargetStrokeCount())
                 this.handleCharacterComplete();
         },
-        handleSwipeLeft: function() {
-            if (Prompt.finished) {
-                Prompt.buttons.remove();
-                this.next();
-            }
-        },
+        /**
+         * @method next
+         */
         next: function() {
             console.log(&#x27;next&#x27;, Prompt.position, Prompt.vocabs[0].getCharacterCount());
             this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
@@ -336,6 +385,9 @@ define([
                 this.triggerPromptComplete();
             }
         },
+        /**
+         * @method show
+         */
         show: function() {
             Skritter.timer.start();
             Tone.userCharacter = new CanvasCharacter();
@@ -347,8 +399,10 @@ define([
             this.$(&#x27;#definition&#x27;).text(Prompt.definition);
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, &#x27; _ &#x27;));
-            this.listenToOnce(Tone.canvas, &#x27;mouseup&#x27;, this.handleInputRecieved);
         },
+        /**
+         * @method showAnswer
+         */
         showAnswer: function() {
             Skritter.timer.stop();
             Tone.canvas.disableInput();
@@ -356,6 +410,9 @@ define([
             //play the audio file if last prompt is finished
             if (Prompt.vocabs[0].has(&#x27;audio&#x27;) &amp;&amp; Prompt.position === Prompt.vocabs[0].getCharacterCount() &amp;&amp; Skritter.user.get(&#x27;audio&#x27;))
                 Prompt.vocabs[0].play();
+            //events
+            this.$(&#x27;#prompt-canvas&#x27;).hammer().one(&#x27;swipeleft.Tone&#x27;, _.bind(this.handleIfFinished, this));
+            this.$(&#x27;#prompt-canvas&#x27;).hammer().one(&#x27;tap.Tone&#x27;, _.bind(this.handleIfFinished, this));
         }
     });
     
