@@ -31,7 +31,7 @@ define([
             Skritter.timer.setThinkingLimit(15000);
             Rune.canvas = new Canvas();
             Rune.failedAttempts = 0;
-            Rune.maxFailedAttempts = 1;
+            Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 25;
             Rune.strokeCount = 0;
             Rune.userCharacter = null;
@@ -96,6 +96,10 @@ define([
                         if (result.get('feedback')) {
                             Rune.canvas.drawText(result.get('feedback'), 'feedback', 'orange', '24px Arial', 10, 10);
                         }
+                        //show a hint if the drawn stroke isn't in the optimal order
+                        var expectedStroke = this.getExpectedStroke();
+                        if (expectedStroke && result.get('id') !== expectedStroke.get('id') && !_.contains(expectedStroke.get('contains'), stroke.get('id')))
+                            Rune.canvas.drawPhantomStroke(expectedStroke.getInflatedSprite(), 'hint');
                         //properly tracking when a character is complete requires better tween handling
                         result.set('isTweening', true);
                         Rune.canvas.drawTweenedStroke(result.getUserSprite(), result.getInflatedSprite(), 'stroke', _.bind(this.handleStrokeComplete, this, result));
@@ -120,7 +124,6 @@ define([
          * @method handleCharacterComplete
          */
         handleCharacterComplete: function() {
-            console.log('character complete');
             //catches callbacks firing at the same time with people writing quickly
             //otherwise it's possible a character can complete twice
             if (Prompt.finished === true)
@@ -205,6 +208,22 @@ define([
             }
         },
         /**
+         * @method getExpectedStroke
+         * @returns {CanvasStroke}
+         */
+        getExpectedStroke: function() {
+            var position = Rune.userCharacter.getStrokeCount();
+            for (var a in Rune.userTargets) {
+                var variation = Rune.userTargets[a];
+                for (var b in variation.models) {
+                    var stroke = variation.models[b];
+                    if (stroke && !Rune.userCharacter.containsStroke(stroke) && stroke.get('position') === position) {
+                        return stroke;
+                    }
+                }     
+            }
+        },
+        /**
          * Returns the next stroke in the character based on the order it should be written. It also
          * return the variation, so the matching background hint can be displayed.
          * 
@@ -247,7 +266,6 @@ define([
          * @method next
          */
         next: function() {
-            console.log('next', Prompt.position, Prompt.vocabs[0].getCharacterCount());
             Prompt.position++;
             //ISSUE #27: skips kana characters in the vocabs writing string
             if (Skritter.user.isJapanese() && Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1))) {
@@ -288,7 +306,6 @@ define([
                 this.next();
                 return;
             }
-            console.log('Prompt', 'RUNE', Prompt.vocabs[0].get('writing'));
             Skritter.timer.start();
             //play the audio file if the first character
             if (Prompt.vocabs[0].has('audio') && Prompt.position === 1 && Skritter.user.get('audio'))
