@@ -30,7 +30,7 @@ module.exports = function(grunt) {
             }
         },
         includereplace: {
-            dist: {
+            'www-build': {
                 options: {
                     globals: {
                         version: '<%= pkg.version %>'
@@ -38,6 +38,16 @@ module.exports = function(grunt) {
                 },
                 files: [
                     {src: 'Application.js', dest: 'build/www/js/app/', expand: true, cwd: 'build/www/js/app/'}
+                ]
+            },
+            'www-copy': {
+                options: {
+                    globals: {
+                        version: '<%= pkg.version %>'
+                    }
+                },
+                files: [
+                    {src: 'Settings.js', dest: 'build/www/js/app/model', expand: true, cwd: 'build/www/js/app/model'}
                 ]
             }
         },
@@ -187,6 +197,6 @@ module.exports = function(grunt) {
     grunt.registerTask('appcache', ['manifest']);
     grunt.registerTask('docs', ['yuidoc']);
     grunt.registerTask('hint', ['jshint']);
-    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'includereplace', 'manifest:generate-www', 'yuidoc:compile-www']);
-    grunt.registerTask('www-copy', ['jshint', 'clean:www-build', 'manifest', 'copy:www-copy', 'yuidoc:compile-www']);
+    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'includereplace:www-build', 'manifest:generate-www', 'yuidoc:compile-www']);
+    grunt.registerTask('www-copy', ['jshint', 'clean:www-build', 'manifest', 'copy:www-copy', 'includereplace:www-copy', 'yuidoc:compile-www']);
 };
