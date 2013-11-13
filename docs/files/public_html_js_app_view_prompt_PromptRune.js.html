@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.84</em>
+            <em>API Docs for: 0.0.85</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -287,6 +287,8 @@ define([
                 var result = new Recognizer(Rune.userCharacter, stroke, Rune.userTargets).recognize();
                 //check if a result exists and that it&#x27;s not a duplicate
                 if (result &amp;&amp; !Rune.userCharacter.containsStroke(result)) {
+                    //get the expected stroke based on accepted stroke orders
+                    var expected = Rune.userCharacter.getExpectedStroke(result);
                     //add the stroke to the users character
                     Rune.userCharacter.add(stroke);
                     //reset the failed attempts counter
@@ -300,13 +302,12 @@ define([
                         if (result.get(&#x27;feedback&#x27;)) {
                             Rune.canvas.drawText(result.get(&#x27;feedback&#x27;), &#x27;feedback&#x27;, &#x27;orange&#x27;, &#x27;24px Arial&#x27;, 10, 10);
                         }
-                        //show a hint if the drawn stroke isn&#x27;t in the optimal order
-                        var expectedStroke = this.getExpectedStroke();
-                        if (expectedStroke &amp;&amp; result.get(&#x27;id&#x27;) !== expectedStroke.get(&#x27;id&#x27;) &amp;&amp; !_.contains(expectedStroke.get(&#x27;contains&#x27;), stroke.get(&#x27;id&#x27;)))
-                            Rune.canvas.drawPhantomStroke(expectedStroke.getInflatedSprite(), &#x27;hint&#x27;);
                         //properly tracking when a character is complete requires better tween handling
                         result.set(&#x27;isTweening&#x27;, true);
                         Rune.canvas.drawTweenedStroke(result.getUserSprite(), result.getInflatedSprite(), &#x27;stroke&#x27;, _.bind(this.handleStrokeComplete, this, result));
+                        //show a hint if the stroke wasn&#x27;t in the expected order
+                        if (expected &amp;&amp; result.get(&#x27;id&#x27;) !== expected.get(&#x27;id&#x27;))
+                            Rune.canvas.drawPhantomStroke(Rune.userCharacter.getExpectedStroke().getInflatedSprite(), &#x27;hint&#x27;);
                     }
                 } else {
                     Rune.failedAttempts++;
@@ -314,9 +315,9 @@ define([
                     if (Rune.failedAttempts &gt; Rune.maxFailedAttempts) {
                         Prompt.grade = 1;
                         //ISSUE #28: if the find the next stroke then don&#x27;t try to show a hint
-                        var nextStroke = this.getNextStroke();
+                        var nextStroke = Rune.userCharacter.getNextStroke();
                         if (nextStroke)
-                            Rune.canvas.drawPhantomStroke(nextStroke.stroke.getInflatedSprite(), &#x27;hint&#x27;);
+                            Rune.canvas.drawPhantomStroke(nextStroke.getInflatedSprite(), &#x27;hint&#x27;);
                     }
                 }
             }
@@ -358,7 +359,7 @@ define([
          */
         handleDoubleTap: function() {
             if (!Prompt.finished) {
-                Rune.canvas.drawCharacter(Rune.userTargets[this.getNextStroke().variation].getCharacterSprite(), &#x27;background&#x27;, 0.3);
+                Rune.canvas.drawCharacter(Rune.userTargets[Rune.userCharacter.getVariationIndex()].getCharacterSprite(), &#x27;background&#x27;, 0.3);
                 Prompt.grade = 1;
             }
         },
@@ -407,62 +408,9 @@ define([
             //flag the stroke as not being tweened once it finishes
             stroke.set(&#x27;isTweening&#x27;, false);
             //check if the character has been completed yet or not with enforced tween checks
-            if (Rune.userCharacter.getStrokeCount(true) &gt;= this.getTargetStrokeCount()) {
+            if (Rune.userCharacter.getStrokeCount(true) &gt;= Rune.userCharacter.getTargetStrokeCount()) {
                 this.handleCharacterComplete();
             }
-        },
-        /**
-         * @method getExpectedStroke
-         * @returns {CanvasStroke}
-         */
-        getExpectedStroke: function() {
-            var position = Rune.userCharacter.getStrokeCount();
-            for (var a in Rune.userTargets) {
-                var variation = Rune.userTargets[a];
-                for (var b in variation.models) {
-                    var stroke = variation.models[b];
-                    if (stroke &amp;&amp; !Rune.userCharacter.containsStroke(stroke) &amp;&amp; stroke.get(&#x27;position&#x27;) === position) {
-                        return stroke;
-                    }
-                }     
-            }
-        },
-        /**
-         * Returns the next stroke in the character based on the order it should be written. It also
-         * return the variation, so the matching background hint can be displayed.
-         * 
-         * @method getNextStroke
-         * @returns {Object}
-         */
-        getNextStroke: function() {
-            //ISSUE #26: needs to properly get the position and check for contained strokes
-            //ISSUE #28: it should check from the beginning so it can suppports other strictness values
-            var nextPosition = Rune.userCharacter.getStrokeCount() + 1;
-            for (var a in Rune.userTargets) {
-                var variation = Rune.userTargets[a];
-                for (var b in variation.models) {
-                    var stroke = variation.models[b];
-                    if (stroke &amp;&amp; !Rune.userCharacter.containsStroke(stroke) &amp;&amp; stroke.get(&#x27;position&#x27;) &lt;= nextPosition) {
-                        return {variation: a, stroke: stroke};
-                    }
-                }     
-            }
-        },
-        /**
-         * Returns the stroke highest possible stroke count out of all of the targets.
-         * 
-         * @method getTargetStrokeCount
-         * @returns {Number}
-         */
-        getTargetStrokeCount: function() {
-            var strokeCount = 0;
-            for (var a in Rune.userTargets)
-            {
-                if (Rune.userTargets[a].getStrokeCount() &gt; strokeCount) {
-                    strokeCount = Rune.userTargets[a].getStrokeCount();
-                }
-            }
-            return strokeCount;
         },
         /**
          * Moves to the next item in the prompt for prompts containing multiple characters.
@@ -515,6 +463,7 @@ define([
             if (Prompt.vocabs[0].has(&#x27;audio&#x27;) &amp;&amp; Prompt.position === 1 &amp;&amp; Skritter.user.get(&#x27;audio&#x27;))
                 Prompt.vocabs[0].play();
             Rune.userCharacter = new CanvasCharacter();
+            Rune.userCharacter.targets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, &#x27;rune&#x27;);
             Rune.userTargets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, &#x27;rune&#x27;);
             Rune.canvas.enableInput();
             this.$(&#x27;#writing&#x27;).html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position - 1));

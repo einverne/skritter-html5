@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.84"
+        "version": "0.0.85"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -1512,6 +1512,19 @@
         {
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
             "line": 15,
+            "itemtype": "method",
+            "name": "initialize",
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": "CanvasCharacter",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
+            "line": 22,
             "itemtype": "property",
             "name": "model",
             "type": "CanvasStroke",
@@ -1521,7 +1534,27 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
-            "line": 19,
+            "line": 26,
+            "itemtype": "method",
+            "name": "comparator",
+            "params": [
+                {
+                    "name": "stroke",
+                    "description": "",
+                    "type": "CanvasStroke"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "CanvasStroke"
+            },
+            "class": "CanvasCharacter",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
+            "line": 34,
             "description": "Checks the character to see if the stroke already exists either directly or indirectly as\na contained double stroke.",
             "itemtype": "method",
             "name": "containsStroke",
@@ -1542,7 +1575,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
-            "line": 49,
+            "line": 64,
             "description": "Gets a container with all of the child stroke that character is comprised of and\nreturns them in a single container.",
             "itemtype": "method",
             "name": "getCharacterSprite",
@@ -1556,7 +1589,70 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
-            "line": 64,
+            "line": 79,
+            "description": "The number of strokes in a row starting from the first that are in the correct order.s",
+            "itemtype": "method",
+            "name": "getConsecutiveStrokeCount",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "CanvasCharacter",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
+            "line": 96,
+            "description": "Returns the next expected stroke based on the next stroke.",
+            "itemtype": "method",
+            "name": "getExpectedStroke",
+            "params": [
+                {
+                    "name": "nextStroke",
+                    "description": "",
+                    "type": "CanvasStroke"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "CanvasStroke"
+            },
+            "class": "CanvasCharacter",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
+            "line": 122,
+            "description": "Returns the next stroke based on the predicted variation.",
+            "itemtype": "method",
+            "name": "getNextStroke",
+            "return": {
+                "description": "",
+                "type": "CanvasStroke"
+            },
+            "class": "CanvasCharacter",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
+            "line": 135,
+            "description": "Returns the index of the variation that matches the currently input character.",
+            "itemtype": "method",
+            "name": "getVariationIndex",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "CanvasCharacter",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
+            "line": 158,
             "description": "Returns a count of the total number of strokes in the character including the broken\ndown double strokes.",
             "itemtype": "method",
             "name": "getStrokeCount",
@@ -1569,6 +1665,20 @@
             ],
             "return": {
                 "description": "The total number of stroke in the character",
+                "type": "Number"
+            },
+            "class": "CanvasCharacter",
+            "module": "Skritter",
+            "submodule": "Collection"
+        },
+        {
+            "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
+            "line": 189,
+            "description": "Returns the stroke highest possible stroke count out of all of the targets.",
+            "itemtype": "method",
+            "name": "getTargetStrokeCount",
+            "return": {
+                "description": "",
                 "type": "Number"
             },
             "class": "CanvasCharacter",
@@ -4962,7 +5072,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 120,
+            "line": 121,
             "description": "Handles the character if it is complete by applying the correct background glow\nand then displaying the grading buttons.",
             "itemtype": "method",
             "name": "handleCharacterComplete",
@@ -4972,7 +5082,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 149,
+            "line": 150,
             "description": "Handles the double tap event by displaying the character hint if it's\nnot finished yet.",
             "itemtype": "method",
             "name": "handleDoubleTap",
@@ -4982,7 +5092,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 161,
+            "line": 162,
             "description": "Handles either the swipeleft or tap events by moving to the next if the\nprompt has already been finished.",
             "itemtype": "method",
             "name": "handleIfFinished",
@@ -4992,7 +5102,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 174,
+            "line": 175,
             "description": "Handles the grade selected event by passing the selected grade along and then\ncalled the next character in the prompt.",
             "itemtype": "method",
             "name": "handleGradeSelected",
@@ -5009,7 +5119,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 186,
+            "line": 187,
             "description": "Handles the hold event by clearing the canvas and reseting the input.",
             "itemtype": "method",
             "name": "handleHold",
@@ -5019,7 +5129,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 195,
+            "line": 196,
             "description": "Handles a complete stroke a trigger by the PromptCanvas. It also checks to see\nif the character has been completed yet or not.",
             "itemtype": "method",
             "name": "handleStrokeComplete",
@@ -5036,48 +5146,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 210,
-            "itemtype": "method",
-            "name": "getExpectedStroke",
-            "return": {
-                "description": "",
-                "type": "CanvasStroke"
-            },
-            "class": "PromptRune",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 226,
-            "description": "Returns the next stroke in the character based on the order it should be written. It also\nreturn the variation, so the matching background hint can be displayed.",
-            "itemtype": "method",
-            "name": "getNextStroke",
-            "return": {
-                "description": "",
-                "type": "Object"
-            },
-            "class": "PromptRune",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 247,
-            "description": "Returns the stroke highest possible stroke count out of all of the targets.",
-            "itemtype": "method",
-            "name": "getTargetStrokeCount",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "PromptRune",
-            "module": "Skritter",
-            "submodule": "Prompt"
-        },
-        {
-            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 263,
+            "line": 211,
             "description": "Moves to the next item in the prompt for prompts containing multiple characters.",
             "itemtype": "method",
             "name": "next",
@@ -5087,7 +5156,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 297,
+            "line": 245,
             "description": "Displays the initial prompt for the user and should probably be renamed to\nsomething a little less misleading than show hidden.",
             "itemtype": "method",
             "name": "show",
@@ -5097,7 +5166,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 323,
+            "line": 272,
             "description": "Displays the answer for the user, which should be called after the prompt\nhas been completed.",
             "itemtype": "method",
             "name": "showAnswer",
@@ -5107,7 +5176,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 339,
+            "line": 288,
             "description": "Displays the recognition parameters as points on the canvas which can be\nuseful for debugging recognition problems and quircks.",
             "itemtype": "method",
             "name": "showParams",
@@ -6858,15 +6927,43 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:19"
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:15"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:49"
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:26"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:34"
         },
         {
             "message": "replacing incorrect tag: returns with return",
             "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:64"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:79"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:96"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:122"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:135"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:158"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:189"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -7175,18 +7272,6 @@
         {
             "message": "replacing incorrect tag: returns with return",
             "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:41"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:210"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:226"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:247"
         },
         {
             "message": "replacing incorrect tag: returns with return",
