@@ -28,29 +28,41 @@ define([
     
     /**
      * @method recognize
+     * @param {Array} ignoreCheck
      * @returns {CanvasStroke}
      */
-    Recognizer.prototype.recognize = function() {
+    Recognizer.prototype.recognize = function(ignoreCheck, enforceOrder) {
 	var results = this.getResultSet();
+        if (enforceOrder)
+            this.orderStrictness = 0;
 	for (var i in results)
 	{
 	    var result = results[i];
 	    var scores = result.scores;
-	    if (scores.angle > this.angleThreshold)
-		continue;
-	    if (scores.distance > this.distanceThreshold)
-		continue;
-	    if (scores.length > this.lengthThreshold)
-		continue;
-	    
-	    var orderOffset = result.position - this.currentPosition;
-	    if (orderOffset > this.orderStrictness)
-		continue;
+            
+            if (!_.contains(ignoreCheck, 'angle')) {
+                if (scores.angle > this.angleThreshold)
+                    continue;
+            }
+            if (!_.contains(ignoreCheck, 'distance')) {
+                if (scores.distance > this.distanceThreshold)
+                    continue;
+            }
+            if (!_.contains(ignoreCheck, 'length')) {
+                if (scores.length > this.lengthThreshold)
+                    continue;
+            }
+            
+            if (!_.contains(ignoreCheck, 'offset')) {
+                var orderOffset = result.position - this.currentPosition;
+                if (_.contains(ignoreCheck, 'offset') || orderOffset > this.orderStrictness)
+                    continue;
+            }
 	    
 	    var total = 0;
 	    for (var s in scores)
 	    {
-		total += scores[s];
+                total += scores[s];
 	    }
 	    results[i].result = total;
 	}
@@ -111,7 +123,7 @@ define([
 		for (var p in params) {
 		    var result = [];
 		    var param = params[p];
-		    
+                    
 		    var scores = {
 			angle: this.checkAngle(param),
                         corners: this.checkCorners(param),
@@ -154,7 +166,7 @@ define([
      * @returns {Number}
      */
     Recognizer.prototype.checkCorners = function(param) {
-        var cornerPenalty = 50;
+        var cornerPenalty = 200;
         return Math.abs(param.get('corners').length - this.stroke.get('corners').length) * cornerPenalty;
     };
     
