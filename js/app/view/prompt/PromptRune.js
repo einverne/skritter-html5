@@ -5,6 +5,7 @@
  * @param Recognizer
  * @param CanvasCharacter
  * @param CanvasStroke
+ * @param LeapController
  * @param Prompt
  * @param Canvas
  * @param templateRune
@@ -15,12 +16,13 @@ define([
     'Recognizer',
     'collection/CanvasCharacter',
     'model/CanvasStroke',
+    'model/LeapController',
     'prompt/Prompt',
     'prompt/PromptCanvas',
     'require.text!template/prompt-rune.html',
     'backbone',
     'jquery.hammer'
-], function(PinyinConverter, Recognizer, CanvasCharacter, CanvasStroke, Prompt, Canvas, templateRune) {
+], function(PinyinConverter, Recognizer, CanvasCharacter, CanvasStroke, LeapController, Prompt, Canvas, templateRune) {
     /**
      * @class PromptRune
      */
@@ -29,11 +31,20 @@ define([
             Prompt.prototype.initialize.call(this);
             Skritter.timer.setReviewLimit(30000);
             Skritter.timer.setThinkingLimit(15000);
+            
+            if (Skritter.user.get('leap') && !Skritter.user.getSetting('squigs')) {
+                Rune.leap = new LeapController();
+                Rune.leap.enable();
+                this.listenTo(Rune.leap, 'moving', this.handleLeapMoving);
+                this.listenTo(Rune.leap, 'strokeComplete', this.handleLeapRecieved);
+                this.listenTo(Rune.leap, 'waiting', this.handleLeapWaiting);
+            }
             Rune.canvas = new Canvas();
             Rune.failedAttempts = 0;
             Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 25;
             Rune.strokeCount = 0;
+            Rune.teachMode = false;
             Rune.userCharacter = null;
             Rune.userTargets = [];
             this.listenTo(Rune.canvas, 'mouseup', this.handleInputRecieved);
@@ -51,6 +62,9 @@ define([
             this.resize();
             return this;
         },
+        events: {
+            'click.Rune #teach-me': 'teach'
+        },
         /**
          * @method clear
          */
@@ -62,6 +76,19 @@ define([
             Rune.canvas.clear('stroke');
             Prompt.finished = false;
             Rune.userCharacter = new CanvasCharacter();
+            Rune.userCharacter.targets = Rune.userTargets;
+        },
+        /**
+         * @method teach
+         */
+        teach: function() {
+            Prompt.grade = 1;
+            Rune.canvas.drawCharacter(Rune.userTargets[Rune.userCharacter.getVariationIndex()].getCharacterSprite(), 'hint', 0.3);
+            Rune.teachMode = true;
+            var nextStroke = Rune.userCharacter.getNextStroke();
+            if (nextStroke) {
+                Rune.canvas.drawPhantomStroke(nextStroke.getInflatedSprite(), 'hint');
+            }
         },
         /**
          * Handles the points returned when the user is finished with a stroke.
@@ -70,6 +97,28 @@ define([
          * @param {Array} points
          */
         handleInputRecieved: function(points) {
+            this.handleReceived(points);
+        },
+        /**
+         * @method handleLeapMoving
+         * @param {Point} point
+         */
+        handleLeapMoving: function(point) {
+            Rune.canvas.updateLeapPointer(point.x, point.y);
+        },
+        /**
+         * @method handleLeapRecieved
+         * @param {Array} points
+         */
+        handleLeapRecieved: function(points) {
+            this.handleReceived(points, null, true);
+        },
+        /**
+         * @method handleReceived
+         * @param {Array} points
+         * @param {Array} ignoreCheck
+         */
+        handleReceived: function(points, ignoreCheck, enforceOrder) {
             //check to see if the input recieved points
             if (points.length === 0)
                 return;
@@ -80,7 +129,7 @@ define([
                 //create the stroke from the points to analyze
                 var stroke = new CanvasStroke().set('points', points);
                 //recognize a stroke based on user input and targets
-                var result = new Recognizer(Rune.userCharacter, stroke, Rune.userTargets).recognize();
+                var result = new Recognizer(Rune.userCharacter, stroke, Rune.userTargets).recognize(ignoreCheck, enforceOrder);
                 //check if a result exists and that it's not a duplicate
                 if (result && !Rune.userCharacter.containsStroke(result)) {
                     //get the expected stroke based on accepted stroke orders
@@ -105,6 +154,9 @@ define([
                         if (expected && result.get('id') !== expected.get('id'))
                             Rune.canvas.drawPhantomStroke(Rune.userCharacter.getExpectedStroke().getInflatedSprite(), 'hint');
                     }
+                    //if teaching mode is enabled then go ahead and show the next stroke hint
+                    if (Rune.teachMode)
+                        this.teach();
                 } else {
                     Rune.failedAttempts++;
                     //if failed too many times show a hint

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.85</em>
+            <em>API Docs for: 0.0.87</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -243,6 +243,7 @@ define([
             &#x27;click.Options #save-button&#x27;: &#x27;save&#x27;,
             &#x27;click.Options #audio&#x27;: &#x27;toggleAudio&#x27;,
             &#x27;click.Options #language-options&#x27;: &#x27;selectLanguage&#x27;,
+            &#x27;click.Options #leap-enabled&#x27;: &#x27;toggleLeap&#x27;,
             &#x27;click.Options #raw-squigs&#x27;: &#x27;toggleRawSquigs&#x27;
         },
         /**
@@ -291,6 +292,15 @@ define([
                 this.toggleRawSquigs(null, true);
             } else {
                 this.toggleRawSquigs(null, false);
+            }
+            //leap motion
+            this.$(&#x27;#leap-offset-x&#x27;).val(Skritter.user.get(&#x27;leapOffsetX&#x27;));
+            this.$(&#x27;#leap-offset-y-min&#x27;).val(Skritter.user.get(&#x27;leapOffsetYMin&#x27;));
+            this.$(&#x27;#leap-offset-y-max&#x27;).val(Skritter.user.get(&#x27;leapOffsetYMax&#x27;));
+            if (Skritter.user.get(&#x27;leap&#x27;)) {
+                this.toggleLeap(null, true);
+            } else {
+                this.toggleLeap(null, false);
             }
             //animation speed
             this.$(&#x27;#animation-speed&#x27;).attr(&#x27;value&#x27;, Skritter.user.getSetting(&#x27;animationSpeed&#x27;)*100);
@@ -362,6 +372,17 @@ define([
             } else {
                 Skritter.user.setSetting(&#x27;squigs&#x27;, false);
             }
+            //leap motion
+            Skritter.user.set(&#x27;leapOffsetX&#x27;, this.$(&#x27;#leap-offset-x&#x27;).val());
+            Skritter.user.set(&#x27;leapOffsetYMin&#x27;, this.$(&#x27;#leap-offset-y-min&#x27;).val());
+            Skritter.user.set(&#x27;leapOffsetYMax&#x27;, this.$(&#x27;#leap-offset-y-max&#x27;).val());
+            console.log(this.$(&#x27;#leap-enabled .active&#x27;)[0].id);
+            if (this.$(&#x27;#leap-enabled .active&#x27;)[0].id === &#x27;leap-on&#x27;) {
+                Skritter.user.set(&#x27;leap&#x27;, true);
+            } else {
+                Skritter.user.set(&#x27;leap&#x27;, false);
+            }
+            console.log(Skritter.user);
             Skritter.user.cache();
             //only reload into a new language if it has changed
             if (Options.originalLang !== Skritter.user.getSetting(&#x27;targetLang&#x27;)) {
@@ -413,6 +434,21 @@ define([
             } else {
                 this.$(&#x27;#audio-off&#x27;).addClass(&#x27;active&#x27;);
                 this.$(&#x27;#audio-on&#x27;).removeClass(&#x27;active&#x27;);
+            }
+        },
+        /**
+         * @method toggleLeap
+         * @param {Object} event
+         * @param {Boolean} value
+         */
+        toggleLeap: function(event, value) {
+            var id = (event) ? (event.target.id) : false;
+            if (id === &#x27;leap-on&#x27; || value) {
+                this.$(&#x27;#leap-on&#x27;).addClass(&#x27;active&#x27;);
+                this.$(&#x27;#leap-off&#x27;).removeClass(&#x27;active&#x27;);
+            } else {
+                this.$(&#x27;#leap-off&#x27;).addClass(&#x27;active&#x27;);
+                this.$(&#x27;#leap-on&#x27;).removeClass(&#x27;active&#x27;);
             }
         },
         /**

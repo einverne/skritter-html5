@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.85"
+        "version": "0.0.87"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -1242,7 +1242,7 @@
             "submodule": "Prompt",
             "namespace": "",
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 24
+            "line": 26
         },
         "PromptTone": {
             "name": "PromptTone",
@@ -1652,7 +1652,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
-            "line": 158,
+            "line": 159,
             "description": "Returns a count of the total number of strokes in the character including the broken\ndown double strokes.",
             "itemtype": "method",
             "name": "getStrokeCount",
@@ -1673,7 +1673,7 @@
         },
         {
             "file": "public_html\\js\\app\\collection\\CanvasCharacter.js",
-            "line": 189,
+            "line": 190,
             "description": "Returns the stroke highest possible stroke count out of all of the targets.",
             "itemtype": "method",
             "name": "getTargetStrokeCount",
@@ -2684,7 +2684,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\LeapController.js",
-            "line": 23,
+            "line": 27,
             "itemtype": "method",
             "name": "disable",
             "class": "LeapController",
@@ -2693,7 +2693,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\LeapController.js",
-            "line": 30,
+            "line": 34,
             "itemtype": "method",
             "name": "enable",
             "params": [
@@ -2709,7 +2709,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\LeapController.js",
-            "line": 44,
+            "line": 51,
             "itemtype": "method",
             "name": "loop",
             "params": [
@@ -2725,7 +2725,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\LeapController.js",
-            "line": 82,
+            "line": 92,
             "itemtype": "method",
             "name": "triggerGestureComplete",
             "params": [
@@ -2741,7 +2741,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\LeapController.js",
-            "line": 89,
+            "line": 100,
             "itemtype": "method",
             "name": "triggerMove",
             "params": [
@@ -3169,7 +3169,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 66,
+            "line": 71,
             "description": "Makes a batch call requesting a number of new items to be added into the users\ncurrent studies. There is a max limit of 100 and a default of 1.",
             "itemtype": "method",
             "name": "addItems",
@@ -3191,7 +3191,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 109,
+            "line": 114,
             "itemtype": "method",
             "name": "cache",
             "class": "User",
@@ -3200,7 +3200,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 117,
+            "line": 122,
             "description": "Quickly caches all of the users current loaded data to storage and returns a callback.",
             "itemtype": "method",
             "name": "cacheAllData",
@@ -3217,7 +3217,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 169,
+            "line": 174,
             "itemtype": "method",
             "name": "checkReviewErrors",
             "params": [
@@ -3238,7 +3238,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 190,
+            "line": 195,
             "description": "Gets the current active users properties and settings from the server then saves it.",
             "itemtype": "method",
             "name": "fetch",
@@ -3255,7 +3255,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 217,
+            "line": 222,
             "description": "Adapts the stored values for animation speed into a format the application can use and\nthen returns it.",
             "itemtype": "method",
             "name": "getAnimationSpeed",
@@ -3269,7 +3269,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 228,
+            "line": 233,
             "description": "Gets the users current avatar and returns it as an image tag using base64 data.",
             "itemtype": "method",
             "name": "getAvatar",
@@ -3283,7 +3283,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 237,
+            "line": 242,
             "description": "Returns the last sync based on the current active language. This is needed so we don't\nhave to delete all of the data when switching languages.",
             "itemtype": "method",
             "name": "getLastSync",
@@ -3297,7 +3297,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 249,
+            "line": 254,
             "description": "Adapts the stored values for weight into a format the application can use and\nthen returns it.",
             "itemtype": "method",
             "name": "getOrderStrictness",
@@ -3311,7 +3311,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 260,
+            "line": 265,
             "description": "A quicker way to get a setting from the user settings object.",
             "itemtype": "method",
             "name": "getSetting",
@@ -3332,7 +3332,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 270,
+            "line": 275,
             "description": "Returns an array of active study parts based on the current language being studied.",
             "itemtype": "method",
             "name": "getStudyParts",
@@ -3346,7 +3346,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 281,
+            "line": 286,
             "description": "Returns the current style which really only applies to Chinese as both,\nsimplified or traditional.",
             "itemtype": "method",
             "name": "getStyle",
@@ -3360,7 +3360,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 299,
+            "line": 304,
             "itemtype": "method",
             "name": "isChinese",
             "return": {
@@ -3373,7 +3373,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 308,
+            "line": 313,
             "itemtype": "method",
             "name": "isJapanese",
             "return": {
@@ -3386,7 +3386,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 317,
+            "line": 322,
             "description": "Checks to see if the user is logged in by seeing if a token exists. This might not always work\nin situations where the token as expired.",
             "itemtype": "method",
             "name": "isLoggedIn",
@@ -3400,7 +3400,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 329,
+            "line": 334,
             "description": "Loads all of the data for the current active user into memory. For small to medium size accounts this is\nfairly quick, but larger accounts might need to do loading in logical chunks.",
             "itemtype": "method",
             "name": "loadAllData",
@@ -3417,7 +3417,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 351,
+            "line": 356,
             "description": "Performs a complete login, stores the authentication data and also fetches the users settings from the server.\nIf the statusCode returned is anything but 200 then it doesn't save, but returns the response message. It also creates or\nopens the database for the user.",
             "itemtype": "method",
             "name": "login",
@@ -3444,7 +3444,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 377,
+            "line": 382,
             "description": "Automatically logs the user out and returns them to the home screen when called.",
             "itemtype": "method",
             "name": "logout",
@@ -3454,7 +3454,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 403,
+            "line": 408,
             "description": "Sets the sync timestamp based on the active language and then returns it.",
             "itemtype": "method",
             "name": "setLastSync",
@@ -3475,7 +3475,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 418,
+            "line": 423,
             "description": "A quicker way to set the user settings object.",
             "itemtype": "method",
             "name": "setSetting",
@@ -3501,7 +3501,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 432,
+            "line": 437,
             "description": "Syncs data with the server by getting changed items and posting reviews. If the account has never synced\nthis it initiates an full account download.",
             "itemtype": "method",
             "name": "sync",
@@ -3523,7 +3523,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\User.js",
-            "line": 547,
+            "line": 552,
             "itemtype": "method",
             "name": "unsetSetting",
             "params": [
@@ -4852,7 +4852,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptCanvas.js",
-            "line": 24,
+            "line": 26,
             "itemtype": "method",
             "name": "render",
             "return": {
@@ -5033,7 +5033,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 41,
+            "line": 52,
             "itemtype": "method",
             "name": "render",
             "return": {
@@ -5046,7 +5046,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 54,
+            "line": 68,
             "itemtype": "method",
             "name": "clear",
             "class": "PromptRune",
@@ -5055,7 +5055,16 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 66,
+            "line": 81,
+            "itemtype": "method",
+            "name": "teach",
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 93,
             "description": "Handles the points returned when the user is finished with a stroke.",
             "itemtype": "method",
             "name": "handleInputRecieved",
@@ -5072,7 +5081,60 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 121,
+            "line": 102,
+            "itemtype": "method",
+            "name": "handleLeapMoving",
+            "params": [
+                {
+                    "name": "point",
+                    "description": "",
+                    "type": "Point"
+                }
+            ],
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 109,
+            "itemtype": "method",
+            "name": "handleLeapRecieved",
+            "params": [
+                {
+                    "name": "points",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 116,
+            "itemtype": "method",
+            "name": "handleReceived",
+            "params": [
+                {
+                    "name": "points",
+                    "description": "",
+                    "type": "Array"
+                },
+                {
+                    "name": "ignoreCheck",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "class": "PromptRune",
+            "module": "Skritter",
+            "submodule": "Prompt"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
+            "line": 173,
             "description": "Handles the character if it is complete by applying the correct background glow\nand then displaying the grading buttons.",
             "itemtype": "method",
             "name": "handleCharacterComplete",
@@ -5082,7 +5144,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 150,
+            "line": 202,
             "description": "Handles the double tap event by displaying the character hint if it's\nnot finished yet.",
             "itemtype": "method",
             "name": "handleDoubleTap",
@@ -5092,7 +5154,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 162,
+            "line": 214,
             "description": "Handles either the swipeleft or tap events by moving to the next if the\nprompt has already been finished.",
             "itemtype": "method",
             "name": "handleIfFinished",
@@ -5102,7 +5164,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 175,
+            "line": 227,
             "description": "Handles the grade selected event by passing the selected grade along and then\ncalled the next character in the prompt.",
             "itemtype": "method",
             "name": "handleGradeSelected",
@@ -5119,7 +5181,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 187,
+            "line": 239,
             "description": "Handles the hold event by clearing the canvas and reseting the input.",
             "itemtype": "method",
             "name": "handleHold",
@@ -5129,7 +5191,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 196,
+            "line": 248,
             "description": "Handles a complete stroke a trigger by the PromptCanvas. It also checks to see\nif the character has been completed yet or not.",
             "itemtype": "method",
             "name": "handleStrokeComplete",
@@ -5146,7 +5208,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 211,
+            "line": 263,
             "description": "Moves to the next item in the prompt for prompts containing multiple characters.",
             "itemtype": "method",
             "name": "next",
@@ -5156,7 +5218,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 245,
+            "line": 297,
             "description": "Displays the initial prompt for the user and should probably be renamed to\nsomething a little less misleading than show hidden.",
             "itemtype": "method",
             "name": "show",
@@ -5166,7 +5228,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 272,
+            "line": 324,
             "description": "Displays the answer for the user, which should be called after the prompt\nhas been completed.",
             "itemtype": "method",
             "name": "showAnswer",
@@ -5176,7 +5238,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 288,
+            "line": 340,
             "description": "Displays the recognition parameters as points on the canvas which can be\nuseful for debugging recognition problems and quircks.",
             "itemtype": "method",
             "name": "showParams",
@@ -5322,7 +5384,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 198,
+            "line": 199,
             "itemtype": "method",
             "name": "showAnswer",
             "class": "PromptTone",
@@ -5493,7 +5555,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 44,
+            "line": 45,
             "description": "Loads and sets all of the user settings on the interface of the view.",
             "itemtype": "method",
             "name": "load",
@@ -5502,7 +5564,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 96,
+            "line": 106,
             "description": "Saves all the settings to localStorage.",
             "itemtype": "method",
             "name": "save",
@@ -5518,7 +5580,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 169,
+            "line": 190,
             "itemtype": "method",
             "name": "selectLanguage",
             "params": [
@@ -5533,7 +5595,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 199,
+            "line": 220,
             "itemtype": "method",
             "name": "toggleAudio",
             "params": [
@@ -5553,7 +5615,27 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Options.js",
-            "line": 214,
+            "line": 235,
+            "itemtype": "method",
+            "name": "toggleLeap",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "OptionsView",
+            "module": "Skritter"
+        },
+        {
+            "file": "public_html\\js\\app\\view\\Options.js",
+            "line": 250,
             "itemtype": "method",
             "name": "toggleRawSquigs",
             "params": [
@@ -6647,6 +6729,13 @@
             "line": 29,
             "itemtype": "method",
             "name": "recognize",
+            "params": [
+                {
+                    "name": "ignoreCheck",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "CanvasStroke"
@@ -6656,7 +6745,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 79,
+            "line": 91,
             "itemtype": "method",
             "name": "getResultSet",
             "return": {
@@ -6668,7 +6757,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 141,
+            "line": 153,
             "itemtype": "method",
             "name": "checkAngle",
             "params": [
@@ -6687,7 +6776,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 151,
+            "line": 163,
             "itemtype": "method",
             "name": "checkCorners",
             "params": [
@@ -6706,7 +6795,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 161,
+            "line": 173,
             "itemtype": "method",
             "name": "checkDistance",
             "params": [
@@ -6725,7 +6814,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 171,
+            "line": 183,
             "itemtype": "method",
             "name": "checkLength",
             "params": [
@@ -6959,11 +7048,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:158"
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:159"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:189"
+            "line": " public_html\\js\\app\\collection\\CanvasCharacter.js:190"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -7103,39 +7192,39 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:217"
+            "line": " public_html\\js\\app\\model\\User.js:222"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:228"
+            "line": " public_html\\js\\app\\model\\User.js:233"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:237"
+            "line": " public_html\\js\\app\\model\\User.js:242"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:249"
+            "line": " public_html\\js\\app\\model\\User.js:254"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:270"
+            "line": " public_html\\js\\app\\model\\User.js:275"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:281"
+            "line": " public_html\\js\\app\\model\\User.js:286"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:299"
+            "line": " public_html\\js\\app\\model\\User.js:304"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:308"
+            "line": " public_html\\js\\app\\model\\User.js:313"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\User.js:317"
+            "line": " public_html\\js\\app\\model\\User.js:322"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -7259,7 +7348,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:24"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptCanvas.js:26"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -7271,7 +7360,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:41"
+            "line": " public_html\\js\\app\\view\\prompt\\PromptRune.js:52"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -7339,23 +7428,23 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:79"
+            "line": " public_html\\js\\app\\Recognizer.js:91"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:141"
+            "line": " public_html\\js\\app\\Recognizer.js:153"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:151"
+            "line": " public_html\\js\\app\\Recognizer.js:163"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:161"
+            "line": " public_html\\js\\app\\Recognizer.js:173"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:171"
+            "line": " public_html\\js\\app\\Recognizer.js:183"
         },
         {
             "message": "replacing incorrect tag: returns with return",

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.85</em>
+            <em>API Docs for: 0.0.87</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -232,29 +232,41 @@ define([
     
     /**
      * @method recognize
+     * @param {Array} ignoreCheck
      * @returns {CanvasStroke}
      */
-    Recognizer.prototype.recognize = function() {
+    Recognizer.prototype.recognize = function(ignoreCheck, enforceOrder) {
 	var results = this.getResultSet();
+        if (enforceOrder)
+            this.orderStrictness = 0;
 	for (var i in results)
 	{
 	    var result = results[i];
 	    var scores = result.scores;
-	    if (scores.angle &gt; this.angleThreshold)
-		continue;
-	    if (scores.distance &gt; this.distanceThreshold)
-		continue;
-	    if (scores.length &gt; this.lengthThreshold)
-		continue;
-	    
-	    var orderOffset = result.position - this.currentPosition;
-	    if (orderOffset &gt; this.orderStrictness)
-		continue;
+            
+            if (!_.contains(ignoreCheck, &#x27;angle&#x27;)) {
+                if (scores.angle &gt; this.angleThreshold)
+                    continue;
+            }
+            if (!_.contains(ignoreCheck, &#x27;distance&#x27;)) {
+                if (scores.distance &gt; this.distanceThreshold)
+                    continue;
+            }
+            if (!_.contains(ignoreCheck, &#x27;length&#x27;)) {
+                if (scores.length &gt; this.lengthThreshold)
+                    continue;
+            }
+            
+            if (!_.contains(ignoreCheck, &#x27;offset&#x27;)) {
+                var orderOffset = result.position - this.currentPosition;
+                if (_.contains(ignoreCheck, &#x27;offset&#x27;) || orderOffset &gt; this.orderStrictness)
+                    continue;
+            }
 	    
 	    var total = 0;
 	    for (var s in scores)
 	    {
-		total += scores[s];
+                total += scores[s];
 	    }
 	    results[i].result = total;
 	}
@@ -315,7 +327,7 @@ define([
 		for (var p in params) {
 		    var result = [];
 		    var param = params[p];
-		    
+                    
 		    var scores = {
 			angle: this.checkAngle(param),
                         corners: this.checkCorners(param),
@@ -358,7 +370,7 @@ define([
      * @returns {Number}
      */
     Recognizer.prototype.checkCorners = function(param) {
-        var cornerPenalty = 50;
+        var cornerPenalty = 200;
         return Math.abs(param.get(&#x27;corners&#x27;).length - this.stroke.get(&#x27;corners&#x27;).length) * cornerPenalty;
     };
     

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.85</em>
+            <em>API Docs for: 0.0.87</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -397,7 +397,8 @@ define([
             this.$(&#x27;#reading&#x27;).html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1)));
             this.$(&#x27;#definition&#x27;).text(Prompt.definition);
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
-            this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, &#x27; _ &#x27;));
+            if (Prompt.sentence)
+                this.$(&#x27;#sentence&#x27;).text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, &#x27; _ &#x27;));
         },
         /**
          * @method showAnswer

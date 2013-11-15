@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.85</em>
+            <em>API Docs for: 0.0.87</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -262,6 +262,11 @@ define([
             lastSync: null,
             lastSyncChinese: null,
             lastSyncJapanese: null,
+            leap: false,
+            leapOffsetX: 250,
+            leapOffsetYMin: 50,
+            leapOffsetYMax: 300,
+            leapOffsetZ: 200,
             refresh_token: null,
             settings: null,
             token_type: null,
@@ -278,37 +283,37 @@ define([
         addItems: function(limit, callback) {
             limit = (limit) ? limit : 1;
             var requests = [
-                    {
-                        path: &#x27;api/v&#x27; + Skritter.settings.get(&#x27;apiVersion&#x27;) + &#x27;/items/add&#x27;,
-                        method: &#x27;POST&#x27;,
-                        cache: false,
-                        params: {
-                            lang: this.getSetting(&#x27;targetLang&#x27;),
-                            limit: limit,
-                            offset: 0
-                        }
+                {
+                    path: &#x27;api/v&#x27; + Skritter.settings.get(&#x27;apiVersion&#x27;) + &#x27;/items/add&#x27;,
+                    method: &#x27;POST&#x27;,
+                    cache: false,
+                    params: {
+                        lang: this.getSetting(&#x27;targetLang&#x27;),
+                        limit: limit,
+                        offset: 0
                     }
-                ];
-                Skritter.async.waterfall([
-                    function(callback) {
-                        Skritter.api.requestBatch(requests, function(result) {
-                            console.log(result);
-                            callback(null, result);
-                        });
-                    },
-                    function(result, callback) {
-                        Skritter.api.getBatch(result.id, function(result) {
-                            //TODO: handle the newly added items by adding and storing them
-                           console.log(result); 
-                        }, function() {
-                            callback();
-                        });
-                    }
-                ], function() {
-                    console.log(&#x27;finished adding&#x27;);
-                    if (typeof callback === &#x27;function&#x27;)
+                }
+            ];
+            Skritter.async.waterfall([
+                function(callback) {
+                    Skritter.api.requestBatch(requests, function(result) {
+                        console.log(result);
+                        callback(null, result);
+                    });
+                },
+                function(result, callback) {
+                    Skritter.api.getBatch(result.id, function(result) {
+                        //TODO: handle the newly added items by adding and storing them
+                        console.log(result);
+                    }, function() {
                         callback();
-                });
+                    });
+                }
+            ], function() {
+                console.log(&#x27;finished adding&#x27;);
+                if (typeof callback === &#x27;function&#x27;)
+                    callback();
+            });
         },
         /**
          * @method cache
@@ -327,10 +332,10 @@ define([
         cacheAllData: function(callback) {
             Skritter.async.parallel([
                 /*function(callback) {
-                    Skritter.log.cache(function() {
-                        callback();
-                    });
-                },*/
+                 Skritter.log.cache(function() {
+                 callback();
+                 });
+                 },*/
                 function(callback) {
                     Skritter.data.decomps.cache(function() {
                         callback();
@@ -413,7 +418,7 @@ define([
             Skritter.facade.show(&#x27;fixing &#x27; + errors.length + &#x27; sync issues&#x27;);
             Skritter.api.getItems(_.uniq(errorIds), _.bind(function(items) {
                 var updated = Skritter.data.items.set(items, {add: false, remove: false});
-                this.set(&#x27;lastReviewFix&#x27;, parseInt(errors[errors.length -1].created + 1, 10));
+                this.set(&#x27;lastReviewFix&#x27;, parseInt(errors[errors.length - 1].created + 1, 10));
                 callback(updated);
                 Skritter.facade.hide();
             }, this));
@@ -492,7 +497,7 @@ define([
         getStyle: function() {
             if (this.isJapanese()) {
                 return &#x27;ja&#x27;;
-            } else if (this.isChinese() &amp;&amp; this.getSetting(&#x27;addSimplified&#x27;) &amp;&amp; this.getSetting(&#x27;addTraditional&#x27;))  {
+            } else if (this.isChinese() &amp;&amp; this.getSetting(&#x27;addSimplified&#x27;) &amp;&amp; this.getSetting(&#x27;addTraditional&#x27;)) {
                 return &#x27;zh-both&#x27;;
             } else if (this.isChinese() &amp;&amp; this.getSetting(&#x27;addSimplified&#x27;) &amp;&amp; !this.getSetting(&#x27;addTraditional&#x27;)) {
                 return &#x27;zh-simp&#x27;;

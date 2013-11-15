@@ -219,7 +219,7 @@ define([
             bitmap.cache(0, 0, Canvas.size, Canvas.size);
             var layer = this.getLayer(layerName);
             layer.addChild(bitmap);
-            createjs.Tween.get(bitmap).to({alpha: 0}, 500).call(function() {
+            createjs.Tween.get(bitmap).wait(500).to({alpha: 0}, 1000).call(function() {
                 layer.removeChild(bitmap);
                 if (typeof callback === 'function')
                     callback();

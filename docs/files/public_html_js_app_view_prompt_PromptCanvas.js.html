@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.85</em>
+            <em>API Docs for: 0.0.87</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -224,6 +224,8 @@ define([
          */
         initialize: function() {
             Canvas.prototype.initialize.call(this);
+            PromptCanvas.leapPointer = null;
+            PromptCanvas.motionIndicator = null;
         },
         /**
          * @method render
@@ -235,8 +237,17 @@ define([
             this.createLayer(&#x27;hint&#x27;);
             this.createLayer(&#x27;stroke&#x27;);
             this.createLayer(&#x27;overlay&#x27;);
+            this.createLayer(&#x27;indicator&#x27;);
             this.createLayer(&#x27;feedback&#x27;);
             return this;
+        },
+        updateLeapPointer: function(x, y, color) {
+            color = (color) ? color : &#x27;black&#x27;;
+            if (!PromptCanvas.leapPointer) {
+                PromptCanvas.leapPointer = new createjs.Shape(new createjs.Graphics().clear().beginFill(color).drawCircle(x, y, 15).endFill());
+                this.getLayer(&#x27;indicator&#x27;).addChild(PromptCanvas.leapPointer);
+            }
+            PromptCanvas.leapPointer.graphics.clear().beginFill(color).drawCircle(x, y, 15).endFill();
         }
     });
 

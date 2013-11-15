@@ -140,6 +140,8 @@ define([
          */
         getVariationIndex: function() {
             var scores = [];
+            if (this.targets.length === 0)
+                return 0;
             //sizes and sets the scores array
             for (var i = 0; i < this.targets.length; i++)
                 scores[i] = 0;
@@ -152,7 +154,6 @@ define([
                         scores[b]++;
                 }
             }
-            console.log(scores);
             return scores.indexOf(Math.max.apply(Math, scores));
         },
         /**

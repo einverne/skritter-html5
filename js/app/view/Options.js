@@ -39,6 +39,7 @@ define([
             'click.Options #save-button': 'save',
             'click.Options #audio': 'toggleAudio',
             'click.Options #language-options': 'selectLanguage',
+            'click.Options #leap-enabled': 'toggleLeap',
             'click.Options #raw-squigs': 'toggleRawSquigs'
         },
         /**
@@ -87,6 +88,15 @@ define([
                 this.toggleRawSquigs(null, true);
             } else {
                 this.toggleRawSquigs(null, false);
+            }
+            //leap motion
+            this.$('#leap-offset-x').val(Skritter.user.get('leapOffsetX'));
+            this.$('#leap-offset-y-min').val(Skritter.user.get('leapOffsetYMin'));
+            this.$('#leap-offset-y-max').val(Skritter.user.get('leapOffsetYMax'));
+            if (Skritter.user.get('leap')) {
+                this.toggleLeap(null, true);
+            } else {
+                this.toggleLeap(null, false);
             }
             //animation speed
             this.$('#animation-speed').attr('value', Skritter.user.getSetting('animationSpeed')*100);
@@ -158,6 +168,17 @@ define([
             } else {
                 Skritter.user.setSetting('squigs', false);
             }
+            //leap motion
+            Skritter.user.set('leapOffsetX', this.$('#leap-offset-x').val());
+            Skritter.user.set('leapOffsetYMin', this.$('#leap-offset-y-min').val());
+            Skritter.user.set('leapOffsetYMax', this.$('#leap-offset-y-max').val());
+            console.log(this.$('#leap-enabled .active')[0].id);
+            if (this.$('#leap-enabled .active')[0].id === 'leap-on') {
+                Skritter.user.set('leap', true);
+            } else {
+                Skritter.user.set('leap', false);
+            }
+            console.log(Skritter.user);
             Skritter.user.cache();
             //only reload into a new language if it has changed
             if (Options.originalLang !== Skritter.user.getSetting('targetLang')) {
@@ -209,6 +230,21 @@ define([
             } else {
                 this.$('#audio-off').addClass('active');
                 this.$('#audio-on').removeClass('active');
+            }
+        },
+        /**
+         * @method toggleLeap
+         * @param {Object} event
+         * @param {Boolean} value
+         */
+        toggleLeap: function(event, value) {
+            var id = (event) ? (event.target.id) : false;
+            if (id === 'leap-on' || value) {
+                this.$('#leap-on').addClass('active');
+                this.$('#leap-off').removeClass('active');
+            } else {
+                this.$('#leap-off').addClass('active');
+                this.$('#leap-on').removeClass('active');
             }
         },
         /**

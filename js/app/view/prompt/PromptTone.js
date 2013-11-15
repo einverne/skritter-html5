@@ -193,7 +193,8 @@ define([
             this.$('#reading').html(PinyinConverter.toTone(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1)));
             this.$('#definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
-            this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
+            if (Prompt.sentence)
+                this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
         },
         /**
          * @method showAnswer
