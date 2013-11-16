@@ -117,6 +117,7 @@ define([
          * @method handleReceived
          * @param {Array} points
          * @param {Array} ignoreCheck
+         * @param {Boolean} enforceOrder
          */
         handleReceived: function(points, ignoreCheck, enforceOrder) {
             //check to see if the input recieved points
@@ -218,7 +219,6 @@ define([
          * @method handleIfFinished
          */
         handleIfFinished: function() {
-            console.log('tapped');
             if (Prompt.finished) {
                 Prompt.buttons.remove();
                 this.next();
@@ -267,11 +267,6 @@ define([
          */
         next: function() {
             Prompt.position++;
-            //ISSUE #27: skips kana characters in the vocabs writing string
-            if (Skritter.user.isJapanese() && Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1))) {
-                this.next();
-                return;
-            }
             //makes sure the result contains something useful otherwise discard it
             if (Skritter.timer.getStartTime() !== 0)
                 this.pushResult(Prompt.grade, Skritter.timer.getReviewTime(), Skritter.timer.getStartTime(), Skritter.timer.getThinkingTime());
@@ -301,11 +296,6 @@ define([
          * @method show
          */
         show: function() {
-            //ISSUE #30: skips japanese characters with leading kana
-            if (Skritter.user.isJapanese() && Skritter.fn.isKana(Prompt.vocabs[0].getCharacterAt(Prompt.position-1))) {
-                this.next();
-                return;
-            }
             Skritter.timer.start();
             //play the audio file if the first character
             if (Prompt.vocabs[0].has('audio') && Prompt.position === 1 && Skritter.user.get('audio'))

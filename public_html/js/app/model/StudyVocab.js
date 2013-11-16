@@ -117,21 +117,29 @@ define([
          * @return {String}
          */
         getCharacterAt: function(index) {
-            return this.get('writing').split('')[index];
+            return this.getCharacters()[index];
         },
         /**
          * @method getCharacterCount
-         * @return {String}
+         * @return {Number}
          */
         getCharacterCount: function() {
-            return this.get('writing').split('').length;
+            return this.getCharacters().length;
         },
         /**
          * @method getCharacters
-         * @return {String}
+         * @return {Array}
          */
         getCharacters: function() {
-            return this.get('writing').split('');
+            //ISSUE #27: skips kana characters in the vocabs writing string
+            //ISSUE #30: skips japanese characters with leading kana
+            var characters = this.get('writing').split('');
+            for (var i in characters) {
+                //removes characters that contain kana because they aren't currently supported
+                if (Skritter.fn.isKana(characters[i]))
+                    characters.splice(i, 1);
+            }
+            return characters;
         },
         /**
          * @method getItems
@@ -196,13 +204,20 @@ define([
          */
         getWritingDisplayAt: function(index) {
             var element = '';
-            for (var i = 0; i < this.getCharacterCount(); i++)
+            var characterIndex = 0;
+            var characters = this.get('writing').split('');
+            for (var i = 0; i < characters.length; i++)
             {
-                var character = this.getCharacterAt(i);
-                if (index > i || Skritter.fn.isKana(character)) {
+                var character = characters[i];
+                if (Skritter.fn.isKana(character)) {
                     element += "<div class='prompt-display'>" + character + "</div>";
                 } else {
-                    element += "<div class='prompt-hidden'></div>";
+                    if (index > characterIndex) {
+                        element += "<div class='prompt-display'>" + character + "</div>";
+                    } else {
+                        element += "<div class='prompt-hidden'></div>";
+                    }
+                    characterIndex++;
                 }
             }
             return element;

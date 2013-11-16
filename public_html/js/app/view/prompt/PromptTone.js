@@ -115,7 +115,6 @@ define([
          * @method handleIfFinished
          */
         handleIfFinished: function() {
-            console.log('checking finished');
             if (Prompt.finished) {
                 Prompt.buttons.remove();
                 this.next();
@@ -194,7 +193,7 @@ define([
             this.$('#definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence)
-                this.$('#sentence').text(Skritter.fn.maskCharacters(Prompt.sentence, Prompt.writing, ' _ '));
+                this.$('#sentence').text(Prompt.sentence);
         },
         /**
          * @method showAnswer
