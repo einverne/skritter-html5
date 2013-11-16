@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.87"
+        "version": "0.0.88"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -3006,7 +3006,7 @@
             "name": "getCharacterCount",
             "return": {
                 "description": "",
-                "type": "String"
+                "type": "Number"
             },
             "class": "StudyVocab",
             "module": "Skritter",
@@ -3019,7 +3019,7 @@
             "name": "getCharacters",
             "return": {
                 "description": "",
-                "type": "String"
+                "type": "Array"
             },
             "class": "StudyVocab",
             "module": "Skritter",
@@ -3027,7 +3027,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 136,
+            "line": 144,
             "itemtype": "method",
             "name": "getItems",
             "return": {
@@ -3040,7 +3040,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 143,
+            "line": 151,
             "itemtype": "method",
             "name": "getPinyinAt",
             "params": [
@@ -3060,7 +3060,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 163,
+            "line": 171,
             "itemtype": "method",
             "name": "getReadingDisplayAt",
             "params": [
@@ -3080,7 +3080,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 184,
+            "line": 192,
             "itemtype": "method",
             "name": "getSentence",
             "return": {
@@ -3093,7 +3093,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 192,
+            "line": 200,
             "itemtype": "method",
             "name": "getWritingDisplayAt",
             "params": [
@@ -3113,7 +3113,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 210,
+            "line": 225,
             "itemtype": "method",
             "name": "hasCharacterAt",
             "params": [
@@ -3133,7 +3133,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 220,
+            "line": 235,
             "itemtype": "method",
             "name": "isSingleCharacter",
             "return": {
@@ -3146,7 +3146,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 229,
+            "line": 244,
             "itemtype": "method",
             "name": "play",
             "return": {
@@ -5126,6 +5126,11 @@
                     "name": "ignoreCheck",
                     "description": "",
                     "type": "Array"
+                },
+                {
+                    "name": "enforceOrder",
+                    "description": "",
+                    "type": "Boolean"
                 }
             ],
             "class": "PromptRune",
@@ -5134,7 +5139,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 173,
+            "line": 174,
             "description": "Handles the character if it is complete by applying the correct background glow\nand then displaying the grading buttons.",
             "itemtype": "method",
             "name": "handleCharacterComplete",
@@ -5144,7 +5149,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 202,
+            "line": 203,
             "description": "Handles the double tap event by displaying the character hint if it's\nnot finished yet.",
             "itemtype": "method",
             "name": "handleDoubleTap",
@@ -5154,7 +5159,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 214,
+            "line": 215,
             "description": "Handles either the swipeleft or tap events by moving to the next if the\nprompt has already been finished.",
             "itemtype": "method",
             "name": "handleIfFinished",
@@ -5218,7 +5223,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 297,
+            "line": 292,
             "description": "Displays the initial prompt for the user and should probably be renamed to\nsomething a little less misleading than show hidden.",
             "itemtype": "method",
             "name": "show",
@@ -5228,7 +5233,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 324,
+            "line": 314,
             "description": "Displays the answer for the user, which should be called after the prompt\nhas been completed.",
             "itemtype": "method",
             "name": "showAnswer",
@@ -5238,7 +5243,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptRune.js",
-            "line": 340,
+            "line": 330,
             "description": "Displays the recognition parameters as points on the canvas which can be\nuseful for debugging recognition problems and quircks.",
             "itemtype": "method",
             "name": "showParams",
@@ -5341,7 +5346,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 124,
+            "line": 123,
             "itemtype": "method",
             "name": "handleInputRecieved",
             "params": [
@@ -5357,7 +5362,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 152,
+            "line": 151,
             "itemtype": "method",
             "name": "handleStrokeComplete",
             "class": "PromptTone",
@@ -5366,7 +5371,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 160,
+            "line": 159,
             "itemtype": "method",
             "name": "next",
             "class": "PromptTone",
@@ -5375,7 +5380,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 183,
+            "line": 182,
             "itemtype": "method",
             "name": "show",
             "class": "PromptTone",
@@ -5384,7 +5389,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\prompt\\PromptTone.js",
-            "line": 199,
+            "line": 198,
             "itemtype": "method",
             "name": "showAnswer",
             "class": "PromptTone",
@@ -6734,6 +6739,11 @@
                     "name": "ignoreCheck",
                     "description": "",
                     "type": "Array"
+                },
+                {
+                    "name": "enforceOrder",
+                    "description": "",
+                    "type": "Boolean"
                 }
             ],
             "return": {
@@ -6745,7 +6755,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 91,
+            "line": 92,
             "itemtype": "method",
             "name": "getResultSet",
             "return": {
@@ -6757,7 +6767,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 153,
+            "line": 154,
             "itemtype": "method",
             "name": "checkAngle",
             "params": [
@@ -6776,7 +6786,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 163,
+            "line": 164,
             "itemtype": "method",
             "name": "checkCorners",
             "params": [
@@ -6795,7 +6805,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 173,
+            "line": 174,
             "itemtype": "method",
             "name": "checkDistance",
             "params": [
@@ -6814,7 +6824,7 @@
         },
         {
             "file": "public_html\\js\\app\\Recognizer.js",
-            "line": 183,
+            "line": 184,
             "itemtype": "method",
             "name": "checkLength",
             "params": [
@@ -7188,7 +7198,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\StudyVocab.js:136"
+            "line": " public_html\\js\\app\\model\\StudyVocab.js:144"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -7428,23 +7438,23 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:91"
+            "line": " public_html\\js\\app\\Recognizer.js:92"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:153"
+            "line": " public_html\\js\\app\\Recognizer.js:154"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:163"
+            "line": " public_html\\js\\app\\Recognizer.js:164"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:173"
+            "line": " public_html\\js\\app\\Recognizer.js:174"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Recognizer.js:183"
+            "line": " public_html\\js\\app\\Recognizer.js:184"
         },
         {
             "message": "replacing incorrect tag: returns with return",

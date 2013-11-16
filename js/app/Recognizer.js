@@ -29,6 +29,7 @@ define([
     /**
      * @method recognize
      * @param {Array} ignoreCheck
+     * @param {Boolean} enforceOrder
      * @returns {CanvasStroke}
      */
     Recognizer.prototype.recognize = function(ignoreCheck, enforceOrder) {

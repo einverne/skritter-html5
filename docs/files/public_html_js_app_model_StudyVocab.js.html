@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.87</em>
+            <em>API Docs for: 0.0.88</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -321,21 +321,29 @@ define([
          * @return {String}
          */
         getCharacterAt: function(index) {
-            return this.get(&#x27;writing&#x27;).split(&#x27;&#x27;)[index];
+            return this.getCharacters()[index];
         },
         /**
          * @method getCharacterCount
-         * @return {String}
+         * @return {Number}
          */
         getCharacterCount: function() {
-            return this.get(&#x27;writing&#x27;).split(&#x27;&#x27;).length;
+            return this.getCharacters().length;
         },
         /**
          * @method getCharacters
-         * @return {String}
+         * @return {Array}
          */
         getCharacters: function() {
-            return this.get(&#x27;writing&#x27;).split(&#x27;&#x27;);
+            //ISSUE #27: skips kana characters in the vocabs writing string
+            //ISSUE #30: skips japanese characters with leading kana
+            var characters = this.get(&#x27;writing&#x27;).split(&#x27;&#x27;);
+            for (var i in characters) {
+                //removes characters that contain kana because they aren&#x27;t currently supported
+                if (Skritter.fn.isKana(characters[i]))
+                    characters.splice(i, 1);
+            }
+            return characters;
         },
         /**
          * @method getItems
@@ -400,13 +408,20 @@ define([
          */
         getWritingDisplayAt: function(index) {
             var element = &#x27;&#x27;;
-            for (var i = 0; i &lt; this.getCharacterCount(); i++)
+            var characterIndex = 0;
+            var characters = this.get(&#x27;writing&#x27;).split(&#x27;&#x27;);
+            for (var i = 0; i &lt; characters.length; i++)
             {
-                var character = this.getCharacterAt(i);
-                if (index &gt; i || Skritter.fn.isKana(character)) {
+                var character = characters[i];
+                if (Skritter.fn.isKana(character)) {
                     element += &quot;&lt;div class=&#x27;prompt-display&#x27;&gt;&quot; + character + &quot;&lt;/div&gt;&quot;;
                 } else {
-                    element += &quot;&lt;div class=&#x27;prompt-hidden&#x27;&gt;&lt;/div&gt;&quot;;
+                    if (index &gt; characterIndex) {
+                        element += &quot;&lt;div class=&#x27;prompt-display&#x27;&gt;&quot; + character + &quot;&lt;/div&gt;&quot;;
+                    } else {
+                        element += &quot;&lt;div class=&#x27;prompt-hidden&#x27;&gt;&lt;/div&gt;&quot;;
+                    }
+                    characterIndex++;
                 }
             }
             return element;

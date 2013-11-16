@@ -43,6 +43,9 @@ define([
         },
         set: function(vocabs) {
             console.log('Prompt', vocabs[0].get('writing'));
+            //make sure the time is stopped and reset for the new prompt
+            Skritter.timer.stop();
+            //set global prompt values
             Prompt.definition = vocabs[0].get('definitions')[Skritter.user.get('settings').sourceLang];
             Prompt.reading = vocabs[0].get('reading');
             Prompt.sentence = (vocabs[0].getSentence()) ? vocabs[0].getSentence().get('writing') : null;
