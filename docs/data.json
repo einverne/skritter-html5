@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.88"
+        "version": "0.0.89"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -3027,7 +3027,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 144,
+            "line": 141,
             "itemtype": "method",
             "name": "getItems",
             "return": {
@@ -3040,7 +3040,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 151,
+            "line": 148,
             "itemtype": "method",
             "name": "getPinyinAt",
             "params": [
@@ -3060,7 +3060,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 171,
+            "line": 168,
             "itemtype": "method",
             "name": "getReadingDisplayAt",
             "params": [
@@ -3080,7 +3080,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 192,
+            "line": 189,
             "itemtype": "method",
             "name": "getSentence",
             "return": {
@@ -3093,7 +3093,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 200,
+            "line": 197,
             "itemtype": "method",
             "name": "getWritingDisplayAt",
             "params": [
@@ -3113,7 +3113,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 225,
+            "line": 222,
             "itemtype": "method",
             "name": "hasCharacterAt",
             "params": [
@@ -3133,7 +3133,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 235,
+            "line": 232,
             "itemtype": "method",
             "name": "isSingleCharacter",
             "return": {
@@ -3146,7 +3146,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 244,
+            "line": 241,
             "itemtype": "method",
             "name": "play",
             "return": {
@@ -6559,14 +6559,14 @@
             ],
             "return": {
                 "description": "",
-                "type": "Undefined"
+                "type": "Boolean"
             },
             "class": "Functions",
             "module": "Skritter"
         },
         {
             "file": "public_html\\js\\app\\Functions.js",
-            "line": 179,
+            "line": 167,
             "itemtype": "method",
             "name": "isMobile",
             "return": {
@@ -6578,7 +6578,7 @@
         },
         {
             "file": "public_html\\js\\app\\Functions.js",
-            "line": 189,
+            "line": 177,
             "itemtype": "method",
             "name": "maskText",
             "params": [
@@ -6607,7 +6607,7 @@
         },
         {
             "file": "public_html\\js\\app\\Functions.js",
-            "line": 208,
+            "line": 196,
             "itemtype": "method",
             "name": "pad",
             "params": [
@@ -6636,7 +6636,7 @@
         },
         {
             "file": "public_html\\js\\app\\Functions.js",
-            "line": 223,
+            "line": 211,
             "description": "Returns a Bootstrap alert of the given level containing the given text.",
             "itemtype": "method",
             "name": "twbsAlertHTML",
@@ -7198,7 +7198,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\model\\StudyVocab.js:144"
+            "line": " public_html\\js\\app\\model\\StudyVocab.js:141"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -7418,7 +7418,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\Functions.js:179"
+            "line": " public_html\\js\\app\\Functions.js:167"
         },
         {
             "message": "replacing incorrect tag: returns with return",

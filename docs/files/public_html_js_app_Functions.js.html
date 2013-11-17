@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.88</em>
+            <em>API Docs for: 0.0.89</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -360,24 +360,12 @@ define(function() {
     /**
      * @method isKana
      * @param {String} character
-     * @returns {undefined}
+     * @returns {Boolean}
      */
     var isKana = function(character) {
-        var i = 0;
-        var p = document.createElement(&#x27;p&#x27;);
-        //hiragana entity code range
-        for (i=12353; i &lt;= 12436; i++) {
-            p.innerHTML = &#x27;&amp;#&#x27;+i;
-            if (p.innerHTML === character)
-                return true;
-        }
-        //katakana entity code range
-        for (i=12449; i &lt;= 12539; i++) {
-            p.innerHTML = &#x27;&amp;#&#x27;+i;
-            if (p.innerHTML === character)
-                return true;
-        }
-        return false;
+        //return !!character.match(/^[\u3040-\u3096]+$/) || !!character.match(/^[\u30A1-\u30FA]+$/);
+        var charCode = character.charCodeAt(0);
+        return (charCode &gt; 12352 &amp;&amp; charCode &lt; 12438) || (charCode &gt; 12449 &amp;&amp; charCode &lt; 12538);
     };
     
     /**

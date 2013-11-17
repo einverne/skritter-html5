@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.88</em>
+            <em>API Docs for: 0.0.89</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -337,13 +337,10 @@ define([
         getCharacters: function() {
             //ISSUE #27: skips kana characters in the vocabs writing string
             //ISSUE #30: skips japanese characters with leading kana
-            var characters = this.get(&#x27;writing&#x27;).split(&#x27;&#x27;);
-            for (var i in characters) {
+            return this.get(&#x27;writing&#x27;).split(&#x27;&#x27;).filter(function(a) {
                 //removes characters that contain kana because they aren&#x27;t currently supported
-                if (Skritter.fn.isKana(characters[i]))
-                    characters.splice(i, 1);
-            }
-            return characters;
+                return !Skritter.fn.isKana(a);
+            });
         },
         /**
          * @method getItems

@@ -133,13 +133,10 @@ define([
         getCharacters: function() {
             //ISSUE #27: skips kana characters in the vocabs writing string
             //ISSUE #30: skips japanese characters with leading kana
-            var characters = this.get('writing').split('');
-            for (var i in characters) {
+            return this.get('writing').split('').filter(function(a) {
                 //removes characters that contain kana because they aren't currently supported
-                if (Skritter.fn.isKana(characters[i]))
-                    characters.splice(i, 1);
-            }
-            return characters;
+                return !Skritter.fn.isKana(a);
+            });
         },
         /**
          * @method getItems
