@@ -156,24 +156,12 @@ define(function() {
     /**
      * @method isKana
      * @param {String} character
-     * @returns {undefined}
+     * @returns {Boolean}
      */
     var isKana = function(character) {
-        var i = 0;
-        var p = document.createElement('p');
-        //hiragana entity code range
-        for (i=12353; i <= 12436; i++) {
-            p.innerHTML = '&#'+i;
-            if (p.innerHTML === character)
-                return true;
-        }
-        //katakana entity code range
-        for (i=12449; i <= 12539; i++) {
-            p.innerHTML = '&#'+i;
-            if (p.innerHTML === character)
-                return true;
-        }
-        return false;
+        //return !!character.match(/^[\u3040-\u3096]+$/) || !!character.match(/^[\u30A1-\u30FA]+$/);
+        var charCode = character.charCodeAt(0);
+        return (charCode > 12352 && charCode < 12438) || (charCode > 12449 && charCode < 12538);
     };
     
     /**
