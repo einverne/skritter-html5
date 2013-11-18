@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.89"
+        "version": "0.0.91"
     },
     "files": {
         "public_html\\js\\app\\collection\\CanvasCharacter.js": {
@@ -3028,6 +3028,27 @@
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
             "line": 141,
+            "description": "Returns an array of a sinlge character vocab items decompositions. It can optionally return\nduplicates if that is so desired.",
+            "itemtype": "method",
+            "name": "getDecomps",
+            "params": [
+                {
+                    "name": "returnDuplicates",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "StudyVocab",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\model\\StudyVocab.js",
+            "line": 167,
             "itemtype": "method",
             "name": "getItems",
             "return": {
@@ -3040,7 +3061,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 148,
+            "line": 174,
             "itemtype": "method",
             "name": "getPinyinAt",
             "params": [
@@ -3060,7 +3081,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 168,
+            "line": 194,
             "itemtype": "method",
             "name": "getReadingDisplayAt",
             "params": [
@@ -3080,7 +3101,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 189,
+            "line": 215,
             "itemtype": "method",
             "name": "getSentence",
             "return": {
@@ -3093,7 +3114,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 197,
+            "line": 223,
             "itemtype": "method",
             "name": "getWritingDisplayAt",
             "params": [
@@ -3113,7 +3134,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 222,
+            "line": 248,
             "itemtype": "method",
             "name": "hasCharacterAt",
             "params": [
@@ -3133,7 +3154,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 232,
+            "line": 258,
             "itemtype": "method",
             "name": "isSingleCharacter",
             "return": {
@@ -3146,7 +3167,7 @@
         },
         {
             "file": "public_html\\js\\app\\model\\StudyVocab.js",
-            "line": 241,
+            "line": 267,
             "itemtype": "method",
             "name": "play",
             "return": {
@@ -4275,7 +4296,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 256,
+            "line": 259,
             "itemtype": "method",
             "name": "drawStroke",
             "params": [
@@ -4305,7 +4326,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 269,
+            "line": 272,
             "description": "Draws text to the canvas on the message layer. If a position isn't specified then\nit defaults to the bottom center of the canvas.",
             "itemtype": "method",
             "name": "drawText",
@@ -4351,7 +4372,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 303,
+            "line": 306,
             "itemtype": "method",
             "name": "drawTweenedStroke",
             "params": [
@@ -4386,7 +4407,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 319,
+            "line": 322,
             "itemtype": "method",
             "name": "fadeLayer",
             "params": [
@@ -4411,7 +4432,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 337,
+            "line": 340,
             "itemtype": "method",
             "name": "filterLayerColor",
             "params": [
@@ -4436,7 +4457,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 349,
+            "line": 352,
             "itemtype": "method",
             "name": "getLayer",
             "params": [
@@ -4456,7 +4477,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 357,
+            "line": 360,
             "itemtype": "method",
             "name": "getLayers",
             "return": {
@@ -4469,7 +4490,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 370,
+            "line": 373,
             "itemtype": "method",
             "name": "enableGrid",
             "return": {
@@ -4482,7 +4503,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 377,
+            "line": 380,
             "description": "Enables touch input and drawing on the canvas. It also handles the immediate ink\ntraced by the finger.",
             "itemtype": "method",
             "name": "enableInput",
@@ -4492,7 +4513,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 440,
+            "line": 443,
             "itemtype": "method",
             "name": "setLayerAlpha",
             "params": [
@@ -4517,7 +4538,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 451,
+            "line": 454,
             "itemtype": "method",
             "name": "resize",
             "params": [
@@ -4533,7 +4554,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 463,
+            "line": 466,
             "itemtype": "method",
             "name": "tick",
             "class": "Canvas",
@@ -4542,7 +4563,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 469,
+            "line": 472,
             "description": "Enables the view to fire events when the canvas has been touched.",
             "itemtype": "method",
             "name": "triggerMouseDown",
@@ -4559,7 +4580,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\component\\Canvas.js",
-            "line": 478,
+            "line": 481,
             "description": "Enables the view to fire events when the canvas touch has been released.",
             "itemtype": "method",
             "name": "triggerMouseUp",
@@ -5443,7 +5464,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Info.js",
-            "line": 82,
+            "line": 99,
             "itemtype": "property",
             "name": "events",
             "type": "Oject",
@@ -5453,7 +5474,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Info.js",
-            "line": 91,
+            "line": 108,
             "itemtype": "method",
             "name": "goBack",
             "class": "InfoView",
@@ -5462,7 +5483,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Info.js",
-            "line": 97,
+            "line": 114,
             "itemtype": "method",
             "name": "load",
             "params": [
@@ -5478,7 +5499,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Info.js",
-            "line": 107,
+            "line": 124,
             "itemtype": "method",
             "name": "playAudio",
             "class": "InfoView",
@@ -5487,7 +5508,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Info.js",
-            "line": 113,
+            "line": 130,
             "itemtype": "method",
             "name": "toggleBanned",
             "class": "InfoView",
@@ -5496,7 +5517,7 @@
         },
         {
             "file": "public_html\\js\\app\\view\\Info.js",
-            "line": 125,
+            "line": 142,
             "itemtype": "method",
             "name": "toggleStarred",
             "class": "InfoView",
@@ -7202,6 +7223,10 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\model\\StudyVocab.js:167"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
             "line": " public_html\\js\\app\\model\\User.js:222"
         },
         {
@@ -7310,39 +7335,39 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:256"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:259"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:269"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:272"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:303"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:306"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:319"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:322"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:337"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:340"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:349"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:352"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:357"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:360"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:370"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:373"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\view\\component\\Canvas.js:440"
+            "line": " public_html\\js\\app\\view\\component\\Canvas.js:443"
         },
         {
             "message": "replacing incorrect tag: returns with return",

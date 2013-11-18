@@ -237,20 +237,23 @@ define([
             var marker = new createjs.Shape();
             var midPoint;
             var prevPoint = points[0];
-            var prevMidPoint = points[0];
+            //var prevMidPoint = points[0];
             marker.graphics.setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle).beginStroke(Canvas.squigColor);
             for (var p in points)
             {
-                midPoint = new createjs.Point(prevPoint.x + points[p].x >> 1, prevPoint.y + points[p].y >> 1);
-                marker.graphics.moveTo(midPoint.x, midPoint.y).curveTo(prevPoint.x, prevPoint.y, prevMidPoint.x, prevMidPoint.y);
-                prevPoint = points[p];
-                prevMidPoint = midPoint;
+                var point = points[p];
+                midPoint = new createjs.Point(prevPoint.x + point.x >> 1, prevPoint.y + point.y >> 1);
+                marker.graphics.moveTo(midPoint.x, midPoint.y).lineTo(prevPoint.x, prevPoint.y);
+                //ISSUE #50: using curveTo renders strange wisps in the squigs while lineTo doesn't
+                //marker.graphics.moveTo(midPoint.x, midPoint.y).curveTo(prevPoint.x, prevPoint.y, prevMidPoint.x, prevMidPoint.y);
+                prevPoint = point;
+                //prevMidPoint = midPoint;
             }
             if (alpha)
                 marker.alpha = alpha;
             marker.graphics.endStroke();
             this.getLayer(layerName).addChild(marker);
-            Canvas.stage.update();
+            
             return marker;
         },
         /**

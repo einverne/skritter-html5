@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.89</em>
+            <em>API Docs for: 0.0.91</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -341,6 +341,32 @@ define([
                 //removes characters that contain kana because they aren&#x27;t currently supported
                 return !Skritter.fn.isKana(a);
             });
+        },
+        /**
+         * Returns an array of a sinlge character vocab items decompositions. It can optionally return
+         * duplicates if that is so desired.
+         * 
+         * @method getDecomps
+         * @param {Boolean} returnDuplicates
+         * @returns {Array}
+         */
+        getDecomps: function(returnDuplicates) {
+            if (this.getCharacterCount() &gt; 1)
+                return false;
+            var writings = [];
+            var decomp = Skritter.data.decomps.findWhere({writing: this.getCharacterAt(0)});
+            if (!decomp.get(&#x27;atomic&#x27;)) {
+                var children = decomp.get(&#x27;Children&#x27;);
+                if (returnDuplicates)
+                    return children;
+                return children.filter(function(child) {
+                    for (var i in writings)
+                        if (writings[i] === child.writing)
+                            return false;
+                    writings.push(child.writing);
+                    return true;
+                });
+            }
         },
         /**
          * @method getItems

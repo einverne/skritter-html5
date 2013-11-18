@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.89</em>
+            <em>API Docs for: 0.0.91</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -257,28 +257,45 @@ define([
             var contained = _.uniq(Info.vocab.get(&#x27;containedVocabIds&#x27;));
 	    if (contained.length &gt; 0) {
                 this.$(&#x27;#contained-panel .panel-body&#x27;).html(&#x27;&#x27;);
-		for (var i in contained)
+		for (var a in contained)
 		{
-		    var containedVocab = Skritter.data.vocabs.findWhere({id:contained[i]});
-		    var div = &quot;&lt;div class=&#x27;contained-vocab&#x27;&gt;&quot;;
-		    div += &quot;&lt;span class=&#x27;writing&#x27;&gt;&quot; + containedVocab.get(&#x27;writing&#x27;) + &quot;&lt;/span&gt;&quot;;
-		    div += &quot;&lt;span class=&#x27;reading&#x27;&gt;&quot; + PinyinConverter.toTone(containedVocab.get(&#x27;reading&#x27;)) + &quot;: &lt;/span&gt;&quot;;
-		    div += &quot;&lt;span class=&#x27;definition&#x27;&gt;&quot; + containedVocab.get(&#x27;definitions&#x27;).en + &quot;&lt;/span&gt;&quot;;
-		    div += &quot;&lt;/div&gt;&quot;;
-		    this.$(&#x27;#contained-panel .panel-body&#x27;).append(div);
+		    var containedVocab = Skritter.data.vocabs.findWhere({id:contained[a]});
+		    var divA = &quot;&lt;div class=&#x27;contained-vocab&#x27;&gt;&quot;;
+		    divA += &quot;&lt;span class=&#x27;writing&#x27;&gt;&quot; + containedVocab.get(&#x27;writing&#x27;) + &quot;&lt;/span&gt;&quot;;
+		    divA += &quot;&lt;span class=&#x27;reading&#x27;&gt;&quot; + PinyinConverter.toTone(containedVocab.get(&#x27;reading&#x27;)) + &quot;: &lt;/span&gt;&quot;;
+		    divA += &quot;&lt;span class=&#x27;definition&#x27;&gt;&quot; + containedVocab.get(&#x27;definitions&#x27;)[Skritter.user.getSetting(&#x27;sourceLang&#x27;)] + &quot;&lt;/span&gt;&quot;;
+		    divA += &quot;&lt;/div&gt;&quot;;
+		    this.$(&#x27;#contained-panel .panel-body&#x27;).append(divA);
 		}
 	    } else {
                 this.$(&#x27;#contained-panel&#x27;).hide();
             }
             
             //load the items associated with the vocab and get the stats
-            for (var ii in Info.items.models) {
-                var item = Info.items.models[ii];
+            for (var b in Info.items.models) {
+                var item = Info.items.models[b];
                 var part = item.get(&#x27;part&#x27;);
                 this.$(&#x27;#stat-&#x27; + part + &#x27; .spart&#x27;).text(part);
                 this.$(&#x27;#stat-&#x27; + part + &#x27; .snext&#x27;).text(item.get(&#x27;next&#x27;) - Skritter.fn.getUnixTime());
                 this.$(&#x27;#stat-&#x27; + part + &#x27; .slast&#x27;).text(Skritter.fn.getUnixTime() - item.get(&#x27;last&#x27;));
                 this.$(&#x27;#stat-&#x27; + part + &#x27; .sspent&#x27;).text(item.get(&#x27;timeStudied&#x27;));
+            }
+            
+            //load up decomps for vocabs that are single characters
+            var decomps = Info.vocab.getDecomps();
+            if (decomps) {
+                this.$(&#x27;#decompositions-panel .panel-body&#x27;).html(&#x27;&#x27;);
+                for (var c in decomps) {
+                    var decomp = decomps[c];
+                    var divB = &quot;&lt;div class=&#x27;decomp-item&#x27;&gt;&quot;;
+                    divB += &quot;&lt;span class=&#x27;writing&#x27;&gt;&quot; + decomp.writing + &quot;&lt;/span&gt;&quot;;
+                    divB += &quot;&lt;span class=&#x27;reading&#x27;&gt;&quot; + PinyinConverter.toTone(decomp.reading) + &quot;&lt;/span&gt;&quot;;
+                    divB += &quot;&lt;span class=&#x27;definition&#x27;&gt;&quot; + decomp.definitions[Skritter.user.getSetting(&#x27;sourceLang&#x27;)] + &quot;&lt;/span&gt;&quot;;
+                    divB += &quot;&lt;/div&gt;&quot;;
+                    this.$(&#x27;#decompositions-panel .panel-body&#x27;).append(divB);
+                }
+            } else {
+                this.$(&#x27;#decompositions-panel&#x27;).hide();
             }
             
             return this;
