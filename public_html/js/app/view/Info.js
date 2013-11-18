@@ -53,28 +53,45 @@ define([
             var contained = _.uniq(Info.vocab.get('containedVocabIds'));
 	    if (contained.length > 0) {
                 this.$('#contained-panel .panel-body').html('');
-		for (var i in contained)
+		for (var a in contained)
 		{
-		    var containedVocab = Skritter.data.vocabs.findWhere({id:contained[i]});
-		    var div = "<div class='contained-vocab'>";
-		    div += "<span class='writing'>" + containedVocab.get('writing') + "</span>";
-		    div += "<span class='reading'>" + PinyinConverter.toTone(containedVocab.get('reading')) + ": </span>";
-		    div += "<span class='definition'>" + containedVocab.get('definitions').en + "</span>";
-		    div += "</div>";
-		    this.$('#contained-panel .panel-body').append(div);
+		    var containedVocab = Skritter.data.vocabs.findWhere({id:contained[a]});
+		    var divA = "<div class='contained-vocab'>";
+		    divA += "<span class='writing'>" + containedVocab.get('writing') + "</span>";
+		    divA += "<span class='reading'>" + PinyinConverter.toTone(containedVocab.get('reading')) + ": </span>";
+		    divA += "<span class='definition'>" + containedVocab.get('definitions')[Skritter.user.getSetting('sourceLang')] + "</span>";
+		    divA += "</div>";
+		    this.$('#contained-panel .panel-body').append(divA);
 		}
 	    } else {
                 this.$('#contained-panel').hide();
             }
             
             //load the items associated with the vocab and get the stats
-            for (var ii in Info.items.models) {
-                var item = Info.items.models[ii];
+            for (var b in Info.items.models) {
+                var item = Info.items.models[b];
                 var part = item.get('part');
                 this.$('#stat-' + part + ' .spart').text(part);
                 this.$('#stat-' + part + ' .snext').text(item.get('next') - Skritter.fn.getUnixTime());
                 this.$('#stat-' + part + ' .slast').text(Skritter.fn.getUnixTime() - item.get('last'));
                 this.$('#stat-' + part + ' .sspent').text(item.get('timeStudied'));
+            }
+            
+            //load up decomps for vocabs that are single characters
+            var decomps = Info.vocab.getDecomps();
+            if (decomps) {
+                this.$('#decompositions-panel .panel-body').html('');
+                for (var c in decomps) {
+                    var decomp = decomps[c];
+                    var divB = "<div class='decomp-item'>";
+                    divB += "<span class='writing'>" + decomp.writing + "</span>";
+                    divB += "<span class='reading'>" + PinyinConverter.toTone(decomp.reading) + "</span>";
+                    divB += "<span class='definition'>" + decomp.definitions[Skritter.user.getSetting('sourceLang')] + "</span>";
+                    divB += "</div>";
+                    this.$('#decompositions-panel .panel-body').append(divB);
+                }
+            } else {
+                this.$('#decompositions-panel').hide();
             }
             
             return this;

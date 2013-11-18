@@ -139,6 +139,32 @@ define([
             });
         },
         /**
+         * Returns an array of a sinlge character vocab items decompositions. It can optionally return
+         * duplicates if that is so desired.
+         * 
+         * @method getDecomps
+         * @param {Boolean} returnDuplicates
+         * @returns {Array}
+         */
+        getDecomps: function(returnDuplicates) {
+            if (this.getCharacterCount() > 1)
+                return false;
+            var writings = [];
+            var decomp = Skritter.data.decomps.findWhere({writing: this.getCharacterAt(0)});
+            if (!decomp.get('atomic')) {
+                var children = decomp.get('Children');
+                if (returnDuplicates)
+                    return children;
+                return children.filter(function(child) {
+                    for (var i in writings)
+                        if (writings[i] === child.writing)
+                            return false;
+                    writings.push(child.writing);
+                    return true;
+                });
+            }
+        },
+        /**
          * @method getItems
          * @returns {Object}
          */
