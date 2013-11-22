@@ -55,7 +55,6 @@ define([
             isSyncing: false,
             lastLogin: null,
             lastReviewFix: null,
-            lastSync: null,
             lastSyncChinese: null,
             lastSyncJapanese: null,
             leap: false,
@@ -532,7 +531,8 @@ define([
                         cache: false,
                         params: {
                             lang: this.getSetting('targetLang'),
-                            sort: 'last',
+                            sort: 'changed',
+                            offset: 0,
                             include_vocabs: 'true',
                             include_strokes: 'true',
                             include_sentences: 'true',
