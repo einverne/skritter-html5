@@ -2,6 +2,48 @@
  * @param grunt
  * @author Joshua McFarland
  */
+
+var paths = {
+    //directories
+    templates: '../../templates',
+    specs: '../../tests/specs/',
+    //libraries
+    async: '../libs/async',
+    backbone: '../libs/backbone-1.1.0',
+    base64: '../libs/base64',
+    bootstrap: '../../bootstrap/js/bootstrap',
+    'createjs.easel': '../libs/createjs.easel-NEXT.min',
+    'createjs.tween': '../libs/createjs.tween-NEXT.min',
+    jasmine: '../../tests/libs/jasmine',
+    'jasmine-html': '../../tests/libs/jasmine-html',
+    jquery: '../libs/jquery-2.0.3',
+    'jquery.hammer': '../libs/jquery.hammer-1.0.5',
+    'jquery.indexeddb': '../libs/jquery.indexeddb',
+    lodash: '../libs/lodash-2.4.1',
+    'lz-string': '../libs/lz-string-1.3.3',
+    moment: '../libs/moment-2.4.0',
+    'require.text': '../libs/require.text-2.0.10'
+};
+
+var shim = {
+    backbone: {
+        deps: ['jquery', 'lodash', 'require.text'],
+        exports: 'Backbone'
+    },
+    bootstrap: ['jquery'],
+    'jasmine-html': {
+        deps: ['jasmine', 'jquery'],
+        exports: 'jasmine'
+    },
+    jquery: {
+        exports: '$'
+    },
+    'jquery.indexeddb': ['jquery'],
+    lodash: {
+        exports: '_'
+    }
+};
+
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -112,47 +154,10 @@ module.exports = function(grunt) {
                     ],
                     optimize: 'uglify2',
                     optimizeCss: 'standard',
-                    paths: {
-                        //directories
-                        templates: '../../templates',
-                        specs: '../../tests/specs/',
-                        //libraries
-                        async: '../libs/async',
-                        backbone: '../libs/backbone-1.1.0',
-                        base64: '../libs/base64',
-                        bootstrap: '../../bootstrap/js/bootstrap',
-                        'createjs.easel': '../libs/createjs.easel-NEXT.min',
-                        'createjs.tween': '../libs/createjs.tween-NEXT.min',
-                        jasmine: '../../tests/libs/jasmine',
-                        'jasmine-html': '../../tests/libs/jasmine-html',
-                        jquery: '../libs/jquery-2.0.3',
-                        'jquery.hammer': '../libs/jquery.hammer-1.0.5',
-                        'jquery.indexeddb': '../libs/jquery.indexeddb',
-                        lodash: '../libs/lodash-2.4.0',
-                        'lz-string': '../libs/lz-string-1.3.3',
-                        moment: '../libs/moment-2.4.0',
-                        'require.text': '../libs/require.text-2.0.10'
-                    },
+                    paths: paths,
                     preserveLicenseComments: false,
                     removeCombined: true,
-                    shim: {
-                        backbone: {
-                            deps: ['jquery', 'lodash', 'require.text'],
-                            exports: 'Backbone'
-                        },
-                        bootstrap: ['jquery'],
-                        'jasmine-html': {
-                            deps: ['jasmine', 'jquery'],
-                            exports: 'jasmine'
-                        },
-                        jquery: {
-                            exports: '$'
-                        },
-                        'jquery.indexeddb': ['jquery'],
-                        lodash: {
-                            exports: '_'
-                        }
-                    }
+                    shim: shim
                 }
             },
             combined: {
@@ -173,47 +178,10 @@ module.exports = function(grunt) {
                     ],
                     optimize: 'none',
                     optimizeCss: 'standard',
-                    paths: {
-                        //directories
-                        templates: '../../templates',
-                        specs: '../../tests/specs/',
-                        //libraries
-                        async: '../libs/async',
-                        backbone: '../libs/backbone-1.1.0',
-                        base64: '../libs/base64',
-                        bootstrap: '../../bootstrap/js/bootstrap',
-                        'createjs.easel': '../libs/createjs.easel-NEXT.min',
-                        'createjs.tween': '../libs/createjs.tween-NEXT.min',
-                        jasmine: '../../tests/libs/jasmine',
-                        'jasmine-html': '../../tests/libs/jasmine-html',
-                        jquery: '../libs/jquery-2.0.3',
-                        'jquery.hammer': '../libs/jquery.hammer-1.0.5',
-                        'jquery.indexeddb': '../libs/jquery.indexeddb',
-                        lodash: '../libs/lodash-2.4.0',
-                        'lz-string': '../libs/lz-string-1.3.3',
-                        moment: '../libs/moment-2.4.0',
-                        'require.text': '../libs/require.text-2.0.10'
-                    },
+                    paths: paths,
                     preserveLicenseComments: false,
                     removeCombined: true,
-                    shim: {
-                        backbone: {
-                            deps: ['jquery', 'lodash', 'require.text'],
-                            exports: 'Backbone'
-                        },
-                        bootstrap: ['jquery'],
-                        'jasmine-html': {
-                            deps: ['jasmine', 'jquery'],
-                            exports: 'jasmine'
-                        },
-                        jquery: {
-                            exports: '$'
-                        },
-                        'jquery.indexeddb': ['jquery'],
-                        lodash: {
-                            exports: '_'
-                        }
-                    }
+                    shim: shim
                 }
             }
         },
