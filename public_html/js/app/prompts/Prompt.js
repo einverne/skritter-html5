@@ -120,6 +120,7 @@ define([
             Prompt.sentence = vocabs[0].getSentence();
             Prompt.vocabs = vocabs;
             Prompt.writing = vocabs[0].get('writing');
+            skritter.timer.reset();
             return this;
         },
         /**

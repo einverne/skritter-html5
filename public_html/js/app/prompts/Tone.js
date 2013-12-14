@@ -183,6 +183,7 @@ define([
             Tone.canvas.enableInput();
         },
         showAnswer: function() {
+            skritter.timer.stop();
             if (Prompt.vocabs[0].has('audio') && this.isLast() && skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
             this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position));

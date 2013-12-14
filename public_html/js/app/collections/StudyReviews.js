@@ -22,6 +22,9 @@ define([
             this.on('change', function(review) {
                 review.cache();
             });
+            this.on('remove', function(review) {
+                skritter.storage.removeItems('reviews', [[review.get('itemId'), review.get('submitTime')]]);
+            });
         },
         /**
          * @property {StudyReview} model

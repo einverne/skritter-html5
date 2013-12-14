@@ -435,12 +435,12 @@ define([
                                     size += result.responseSize;
                                     if (result.responseSize > 100)
                                         skritter.modal.setProgress(100, skritter.fn.bytesToSize(size));
-                                    skritter.data.decomps.add(result.Decomps);
-                                    skritter.data.items.add(result.Items);
-                                    skritter.data.srsconfigs.add(result.SRSConfigs);
-                                    skritter.data.sentences.add(result.Sentences);
-                                    skritter.data.strokes.add(result.Strokes);
-                                    skritter.data.vocabs.add(result.Vocabs);
+                                    skritter.data.decomps.add(result.Decomps, {merge: true});
+                                    skritter.data.items.add(result.Items, {merge: true});
+                                    skritter.data.srsconfigs.add(result.SRSConfigs, {merge: true});
+                                    skritter.data.sentences.add(result.Sentences, {merge: true});
+                                    skritter.data.strokes.add(result.Strokes, {merge: true});
+                                    skritter.data.vocabs.add(result.Vocabs, {merge: true});
                                     setTimeout(function() {
                                         nextBatch();
                                     }, 2000);
