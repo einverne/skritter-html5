@@ -34,24 +34,24 @@ define([
             this.$('#mnemonic').text(Info.vocab.get('mnemonic'));
             this.$('#sentence').text(Info.sentence.get('writing').replace(/\s+/g, ''));
             this.$('#sentence').addClass(skritter.user.getTextStyle());
-            
+
             //contained characters
             var contained = _.uniq(Info.vocab.get('containedVocabIds'));
-	    if (contained.length > 0) {
+            if (contained.length > 0) {
                 this.$('#contained-characters tbody').html('');
-		for (var a in contained) {
-		    var containedVocab = skritter.data.vocabs.findWhere({id:contained[a]});
-		    var divA = "<tr id='" + containedVocab.get('id') + "' class='contained-row'>";
-		    divA += "<td class='writing'>" + containedVocab.get('writing') + "</td>";
-		    divA += "<td class='reading'>" + PinyinConverter.toTone(containedVocab.get('reading')) + ": </td>";
-		    divA += "<td class='definition'>" + containedVocab.get('definitions')[skritter.user.getSetting('sourceLang')] + "</td>";
-		    divA += "</tr>";
-		    this.$('#contained-characters tbody').append(divA);
-		}
-	    } else {
+                for (var a in contained) {
+                    var containedVocab = skritter.data.vocabs.findWhere({id: contained[a]});
+                    var divA = "<tr id='" + containedVocab.get('id') + "' class='contained-row'>";
+                    divA += "<td class='writing'>" + containedVocab.get('writing') + "</td>";
+                    divA += "<td class='reading'>" + PinyinConverter.toTone(containedVocab.get('reading')) + ": </td>";
+                    divA += "<td class='definition'>" + containedVocab.get('definitions')[skritter.user.getSetting('sourceLang')] + "</td>";
+                    divA += "</tr>";
+                    this.$('#contained-characters tbody').append(divA);
+                }
+            } else {
                 this.$('#contained-characters').hide();
             }
-            
+
             //decompositions
             var decomps = Info.vocab.getDecomps();
             if (decomps) {
@@ -68,7 +68,7 @@ define([
             } else {
                 this.$('#decompositions').hide();
             }
-            
+
             if (Info.vocab.has('audio')) {
                 this.$('#audio-button').show();
             } else {

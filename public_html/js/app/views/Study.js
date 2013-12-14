@@ -27,8 +27,8 @@ define([
             this.$('#username').text(skritter.user.getSetting('name'));
             skritter.timer.setElement(this.$('#timer')).render();
             
-            //this.loadItems('id', ['mcfarljwtest1-zh-亻-0-rune']);
-            //this.loadItems('part', ['rune']);
+            //this.loadItems('id', ['mcfarljwtest1-zh-啊-0-tone']);
+            //this.loadItems('part', ['tone']);
             this.loadItems();
             
             if (Study.current.prompt) {

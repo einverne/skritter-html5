@@ -55,7 +55,6 @@ define([
          */
         clear: function() {
             Prompt.gradingButtons.hide();
-            Prompt.gradingButtons.grade(3);
             Prompt.finished = false;
             Rune.canvas.clear('background');
             Rune.canvas.clear('hint');
@@ -88,7 +87,7 @@ define([
                     Rune.canvas.setLayerAlpha('overlay', 0.3);
                 }
             } else {
-                //this.filterCharacter();
+                this.filterCharacter();
             }
             this.showAnswer();
         },
@@ -174,6 +173,7 @@ define([
                 this.triggerPromptComplete();
             } else {
                 skritter.timer.reset();
+                Prompt.gradingButtons.grade(3);
                 Prompt.position++;
                 this.clear();
                 this.show();
@@ -218,7 +218,7 @@ define([
                     //ISSUE #63: show the grading buttons and grade color preemptively
                     if (Rune.userCharacter.getStrokeCount(false) >= Rune.userCharacter.getTargetStrokeCount()) {
                         Prompt.gradingButtons.select().collapse();
-                        this.filterCharacter();
+                        //this.filterCharacter();
                     }
                 } else {
                     Rune.failedAttempts++;

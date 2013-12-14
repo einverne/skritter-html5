@@ -166,7 +166,12 @@ define([
             var element = '';
             for (var i = 0; i < this.getCharacterCount(); i++) {
                 if (index > i) {
-                    element += "<div class='prompt-tone-display'>" + PinyinConverter.toTone(this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone) + "</div>";
+                    //checks for characters with multiple tone answers
+                    if (this.getPinyinAt(i).syllable.split(',').length > 1) {
+                        element += "<div class='prompt-tone-display'>" + PinyinConverter.toTone(this.getPinyinAt(i).reading) + "</div>";
+                    } else {
+                        element += "<div class='prompt-tone-display'>" + PinyinConverter.toTone(this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone) + "</div>";
+                    }
                 } else if (index === i) {
                     element += "<div class='prompt-tone-hidden'>" + this.getPinyinAt(i).syllable + "</div>";
                 } else {
