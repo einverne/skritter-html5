@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.91</em>
+            <em>API Docs for: 0.0.97</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -53,31 +53,23 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/Facade.html">Facade</a></li>
-            
                 <li><a href="../classes/Functions.html">Functions</a></li>
             
-                <li><a href="../classes/HomeView.html">HomeView</a></li>
+                <li><a href="../classes/GradingButtons.html">GradingButtons</a></li>
+            
+                <li><a href="../classes/Home.html">Home</a></li>
             
                 <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
             
-                <li><a href="../classes/InfoView.html">InfoView</a></li>
+                <li><a href="../classes/Info.html">Info</a></li>
             
-                <li><a href="../classes/LeapController.html">LeapController</a></li>
-            
-                <li><a href="../classes/Log.html">Log</a></li>
-            
-                <li><a href="../classes/LoginView.html">LoginView</a></li>
-            
-                <li><a href="../classes/LogItem.html">LogItem</a></li>
+                <li><a href="../classes/Lists.html">Lists</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
-                <li><a href="../classes/OptionsView.html">OptionsView</a></li>
+                <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
-            
-                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -89,11 +81,9 @@
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
             
-                <li><a href="../classes/RecogCanvas.html">RecogCanvas</a></li>
-            
-                <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
-            
                 <li><a href="../classes/Recognizer.html">Recognizer</a></li>
+            
+                <li><a href="../classes/Reviews.html">Reviews</a></li>
             
                 <li><a href="../classes/Router.html">Router</a></li>
             
@@ -103,7 +93,7 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/Storage.html">Storage</a></li>
+                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -131,8 +121,6 @@
             
                 <li><a href="../classes/StudyStrokes.html">StudyStrokes</a></li>
             
-                <li><a href="../classes/StudyView.html">StudyView</a></li>
-            
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
@@ -141,9 +129,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/VocabView.html">VocabView</a></li>
-            
-                <li><a href="../classes/Words.html">Words</a></li>
+                <li><a href="../classes/Vocabs.html">Vocabs</a></li>
             
             </ul>
 
@@ -153,15 +139,17 @@
             
                 <li><a href="../modules/Component.html">Component</a></li>
             
+                <li><a href="../modules/Components.html">Components</a></li>
+            
                 <li><a href="../modules/Model.html">Model</a></li>
             
-                <li><a href="../modules/Prompt.html">Prompt</a></li>
+                <li><a href="../modules/Prompts.html">Prompts</a></li>
             
                 <li><a href="../modules/Skritter.html">Skritter</a></li>
             
                 <li><a href="../modules/Storage.html">Storage</a></li>
             
-                <li><a href="../modules/View.html">View</a></li>
+                <li><a href="../modules/Views.html">Views</a></li>
             
             </ul>
         </div>
@@ -205,307 +193,208 @@
 /**
  * @module Skritter
  * @submodule Storage
- * @param Storage
  * @author Joshua McFarland
  */
 define([
-    &#x27;storage/Storage&#x27;,
-    &#x27;jquery.indexeddb&#x27;,
-    &#x27;indexeddb.shim&#x27;
-], function(Storage) {
+    &#x27;jquery.indexeddb&#x27;
+], function() {
     /**
-     * A data adapter for IndexedDB which uses the a jQuery plugin written by nparashuram.
-     * It extends the Storage class to get the generic database structure and version.
-     * https://github.com/axemclion/jquery-indexeddb/
-     * 
      * @class IndexedDBAdapter
-     * @extends Storage
      * @constructor
      */
-    IndexedDBAdapter.prototype = new Storage();
-    IndexedDBAdapter.constructor = IndexedDBAdapter;
     function IndexedDBAdapter() {
+        this.databaseName = null;
+        this.databaseVersion = 1;
     }
-
+    
     /**
-     * @method clear
-     * @param {Function} callback Returns once the table or tables have been cleared
-     * @param {String} tableName An options parameter to clear a specific table
+     * @method count
+     * @param {String} tableName
+     * @param {Function} callback
+     * @returns {undefined}
      */
-    IndexedDBAdapter.prototype.clear = function(callback, tableName) {
-        if (tableName) {
-            var promise = $.indexedDB(this.name).objectStore(tableName).each(function(item) {
-                item.delete();
-                return true;
-            });
-            promise.fail(function(error) {
-                console.error(error);
-            });
-            promise.done(function() {
-                callback();
-            });
-        } else {
-            var position = 0;
-            var tables = this.getTableNames();
-            for (var i in tables) {
-                $.indexedDB(this.name).objectStore(tables[i]).each(function(item) {
-                    item.delete();
-                    return true;
-                }).then(function() {
-                    position++;
-                    if (position &gt;= tables.length)
-                        callback();
-                }, function(error) {
-                    console.error(error);
-                });
-            }
-        }
+    IndexedDBAdapter.prototype.count = function(tableName, callback) {
+        var promise = $.indexedDB(this.databaseName).objectStore(tableName).count();
+        promise.done(function(count) {
+            callback(count);
+        });
+        promise.fail(function(error) {
+            console.error(tableName, error);
+        });
     };
-
+    
     /**
      * @method deleteDatabase
-     * @param {Function} callback Returns once the open database has been successfully deleted
-     * @param {String} databaseName
+     * @param {Function} callback
+     * @returns {undefined}
      */
-    IndexedDBAdapter.prototype.deleteDatabase = function(callback, databaseName) {
-        var promise;
-        if (databaseName) {
-            promise = $.indexedDB(databaseName).deleteDatabase();
-        } else {
-            promise = $.indexedDB(this.name).deleteDatabase();
-        }
-        promise.fail(function(error) {
-            console.error(error);
-        });
+    IndexedDBAdapter.prototype.deleteDatabase = function(callback) {
+        var promise = $.indexedDB(this.databaseName).deleteDatabase();
         promise.done(function() {
             if (typeof callback === &#x27;function&#x27;)
                 callback();
         });
-    };
-
-    /**
-     * @method getItem
-     * @param {String} tableName The name of the table
-     * @param {String} key The primary key or keys
-     * @param {Function} callback Returns a single row as an object
-     */
-    IndexedDBAdapter.prototype.getItem = function(tableName, key, callback) {
-        var promise = $.indexedDB(this.name).objectStore(tableName).get(key);
         promise.fail(function(error) {
             console.error(error);
         });
-        promise.done(function(event) {
-            callback(event);
-        });
     };
-
+    
     /**
-     * @method getItems
-     * @param {String} tableName
+     * @method openDatabase
+     * @param {String} databaseName
      * @param {Function} callback
-     * @param {String} keys
+     * @returns {undefined}
      */
-    IndexedDBAdapter.prototype.getItems = function(tableName, callback, keys) {
-        var items = [];
-        var promise = $.indexedDB(this.name).objectStore(tableName).each(function(item) {
-            if (!keys || _.contains(keys, item.key)) {
-                items.push(item.value);
+    IndexedDBAdapter.prototype.openDatabase = function(databaseName, callback) {
+        this.databaseName = databaseName;
+        var promise = $.indexedDB(this.databaseName, {
+            version: 1,
+            schema: {
+                1: function(transaction) {
+                    transaction.createObjectStore(&#x27;decomps&#x27;, {keyPath: &#x27;writing&#x27;});
+                    transaction.createObjectStore(&#x27;items&#x27;, {keyPath: &#x27;id&#x27;});
+                    transaction.createObjectStore(&#x27;reviews&#x27;, {keyPath: [&#x27;itemId&#x27;, &#x27;submitTime&#x27;]});
+                    transaction.createObjectStore(&#x27;sentences&#x27;, {keyPath: &#x27;id&#x27;});
+                    transaction.createObjectStore(&#x27;strokes&#x27;, {keyPath: &#x27;rune&#x27;});
+                    transaction.createObjectStore(&#x27;srsconfigs&#x27;, {keyPath: [&#x27;part&#x27;, &#x27;lang&#x27;]});
+                    transaction.createObjectStore(&#x27;vocabs&#x27;, {keyPath: &#x27;id&#x27;});
+                }
             }
         });
+        promise.done(function() {   
+            callback();
+        });
         promise.fail(function(error) {
-            console.error(error);
+            console.error(databaseName, error);
+        });
+    };
+    
+    /**
+     * @method getAll
+     * @param {String} tableName
+     * @param {Function} callback
+     * @returns {undefined}
+     */
+    IndexedDBAdapter.prototype.getAll = function(tableName, callback) {
+        var items = [];
+        var promise = $.indexedDB(this.databaseName).objectStore(tableName).each(function(item) {
+            items.push(item.value);
         });
         promise.done(function() {
             callback(items);
         });
+        promise.fail(function(error) {
+            console.error(tableName, error);
+        });
     };
-
+    
     /**
-     * @method openDatabase
-     * @param {String} databaseName The name of the database
-     * @param {Function} callback Returns the successfully created database object
+     * @method getItems
+     * @param {String} tableName
+     * @param {Arrau} keys
+     * @param {Function} callback
+     * @returns {undefined}
      */
-    IndexedDBAdapter.prototype.openDatabase = function(databaseName, callback) {
+    IndexedDBAdapter.prototype.getItems = function(tableName, keys, callback) {
         var self = this;
-        var promise = $.indexedDB(databaseName, {
-            version: this.version,
-            upgrade: function(transaction) {
-            },
-            schema: {
-                1: function(transaction) {
-                    //decomps table
-                    var decomps = transaction.createObjectStore(&#x27;decomps&#x27;, {keyPath: &#x27;writing&#x27;});
-                    decomps.createIndex(&#x27;atomic&#x27;, &#x27;atomic&#x27;);
-                    decomps.createIndex(&#x27;Children&#x27;, &#x27;Children&#x27;);
-                    //items table
-                    var items = transaction.createObjectStore(&#x27;items&#x27;, {keyPath: &#x27;id&#x27;});
-                    items.createIndex(&#x27;lang&#x27;, &#x27;lang&#x27;);
-                    items.createIndex(&#x27;part&#x27;, &#x27;part&#x27;);
-                    items.createIndex(&#x27;vocabIds&#x27;, &#x27;vocabIds&#x27;);
-                    items.createIndex(&#x27;style&#x27;, &#x27;style&#x27;);
-                    items.createIndex(&#x27;timeStudied&#x27;, &#x27;timeStudied&#x27;);
-                    items.createIndex(&#x27;next&#x27;, &#x27;next&#x27;);
-                    items.createIndex(&#x27;last&#x27;, &#x27;last&#x27;);
-                    items.createIndex(&#x27;interval&#x27;, &#x27;interval&#x27;);
-                    items.createIndex(&#x27;vocabListIds&#x27;, &#x27;vocabListIds&#x27;);
-                    items.createIndex(&#x27;sectionIds&#x27;, &#x27;sectionIds&#x27;);
-                    items.createIndex(&#x27;reviews&#x27;, &#x27;reviews&#x27;);
-                    items.createIndex(&#x27;successes&#x27;, &#x27;successes&#x27;);
-                    items.createIndex(&#x27;created&#x27;, &#x27;created&#x27;);
-                    items.createIndex(&#x27;changed&#x27;, &#x27;changed&#x27;);
-                    items.createIndex(&#x27;previousSuccess&#x27;, &#x27;previousSuccess&#x27;);
-                    items.createIndex(&#x27;previousInterval&#x27;, &#x27;previousInterval&#x27;);
-                    //log table
-                    var log = transaction.createObjectStore(&#x27;log&#x27;, {keyPath: &#x27;id&#x27;, autoIncrement: true});
-                    log.createIndex(&#x27;userId&#x27;, &#x27;userId&#x27;);
-                    log.createIndex(&#x27;timestamp&#x27;, &#x27;timestamp&#x27;);
-                    log.createIndex(&#x27;data&#x27;, &#x27;data&#x27;);
-                    //reviews table
-                    var reviews = transaction.createObjectStore(&#x27;reviews&#x27;, {keyPath: [&#x27;itemId&#x27;, &#x27;submitTime&#x27;]});
-                    reviews.createIndex(&#x27;score&#x27;, &#x27;score&#x27;);
-                    reviews.createIndex(&#x27;bearTime&#x27;, &#x27;bearTime&#x27;);
-                    reviews.createIndex(&#x27;reviewTime&#x27;, &#x27;reviewTime&#x27;);
-                    reviews.createIndex(&#x27;thinkingTime&#x27;, &#x27;thinkingTime&#x27;);
-                    reviews.createIndex(&#x27;currentInterval&#x27;, &#x27;currentInterval&#x27;);
-                    reviews.createIndex(&#x27;actualInterval&#x27;, &#x27;actualInterval&#x27;);
-                    reviews.createIndex(&#x27;newInterval&#x27;, &#x27;newInterval&#x27;);
-                    reviews.createIndex(&#x27;wordGroup&#x27;, &#x27;wordGroup&#x27;);
-                    reviews.createIndex(&#x27;previousInterval&#x27;, &#x27;previousInterval&#x27;);
-                    reviews.createIndex(&#x27;previousSuccess&#x27;, &#x27;previousSuccess&#x27;);
-                    //sentences table
-                    var sentences = transaction.createObjectStore(&#x27;sentences&#x27;, {keyPath: &#x27;id&#x27;});
-                    sentences.createIndex(&#x27;containedVocabIds&#x27;, &#x27;containedVocabIds&#x27;);
-                    sentences.createIndex(&#x27;definitions&#x27;, &#x27;definitions&#x27;);
-                    sentences.createIndex(&#x27;lang&#x27;, &#x27;lang&#x27;);
-                    sentences.createIndex(&#x27;reading&#x27;, &#x27;reading&#x27;);
-                    sentences.createIndex(&#x27;starred&#x27;, &#x27;starred&#x27;);
-                    sentences.createIndex(&#x27;style&#x27;, &#x27;style&#x27;);
-                    sentences.createIndex(&#x27;toughness&#x27;, &#x27;toughness&#x27;);
-                    sentences.createIndex(&#x27;toughnessString&#x27;, &#x27;toughnessString&#x27;);
-                    sentences.createIndex(&#x27;writing&#x27;, &#x27;writing&#x27;);
-                    //strokes table
-                    var strokes = transaction.createObjectStore(&#x27;strokes&#x27;, {keyPath: &#x27;rune&#x27;});
-                    strokes.createIndex(&#x27;lang&#x27;, &#x27;lang&#x27;);
-                    strokes.createIndex(&#x27;strokes&#x27;, &#x27;strokes&#x27;);
-                    //srsconfigs table
-                    var srsconfigs = transaction.createObjectStore(&#x27;srsconfigs&#x27;, {keyPath: [&#x27;part&#x27;, &#x27;lang&#x27;]});
-                    srsconfigs.createIndex(&#x27;initialRightInterval&#x27;, &#x27;initialRightInterval&#x27;);
-                    srsconfigs.createIndex(&#x27;initialWrongInterval&#x27;, &#x27;initialWrongInterval&#x27;);
-                    srsconfigs.createIndex(&#x27;rightFactors&#x27;, &#x27;rightFactors&#x27;);
-                    srsconfigs.createIndex(&#x27;wrongFactors&#x27;, &#x27;wrongFactors&#x27;);
-                    //vocabs table
-                    var vocabs = transaction.createObjectStore(&#x27;vocabs&#x27;, {keyPath: &#x27;id&#x27;});
-                    vocabs.createIndex(&#x27;writing&#x27;, &#x27;writing&#x27;);
-                    vocabs.createIndex(&#x27;reading&#x27;, &#x27;reading&#x27;);
-                    vocabs.createIndex(&#x27;definitions&#x27;, &#x27;definitions&#x27;);
-                    vocabs.createIndex(&#x27;customDefinitions&#x27;, &#x27;customDefinitions&#x27;);
-                    vocabs.createIndex(&#x27;lang&#x27;, &#x27;lang&#x27;);
-                    vocabs.createIndex(&#x27;audio&#x27;, &#x27;audio&#x27;);
-                    vocabs.createIndex(&#x27;rareKanji&#x27;, &#x27;rareKanji&#x27;);
-                    vocabs.createIndex(&#x27;toughness&#x27;, &#x27;toughness&#x27;);
-                    vocabs.createIndex(&#x27;toughnessString&#x27;, &#x27;toughnessString&#x27;);
-                    vocabs.createIndex(&#x27;mnemonic&#x27;, &#x27;mnemonic&#x27;);
-                    vocabs.createIndex(&#x27;starred&#x27;, &#x27;starred&#x27;);
-                    vocabs.createIndex(&#x27;style&#x27;, &#x27;style&#x27;);
-                    vocabs.createIndex(&#x27;changed&#x27;, &#x27;changed&#x27;);
-                    vocabs.createIndex(&#x27;bannedParts&#x27;, &#x27;bannedParts&#x27;);
-                    vocabs.createIndex(&#x27;containedVocabIds&#x27;, &#x27;containedVocabIds&#x27;);
-                    vocabs.createIndex(&#x27;heisigDefinition&#x27;, &#x27;heisigDefinition&#x27;);
-                    vocabs.createIndex(&#x27;sentenceId&#x27;, &#x27;sentenceId&#x27;);
-                    vocabs.createIndex(&#x27;topMnemonic&#x27;, &#x27;topMnemonic&#x27;);
-                }
+        var position = 0;
+        var items = [];
+        keys = Array.isArray(keys) ? keys : [keys];
+        getNext();
+        function getNext() {
+            if (position &lt; keys.length) {
+                var promise = $.indexedDB(self.databaseName).objectStore(tableName).get(keys[position]);
+                promise.done(function(item) {
+                    position++;
+                    items.push(item);
+                    getNext();
+                });
+                promise.fail(function(error) {
+                    console.error(tableName, keys[position], error);
+                });
+            } else {
+                callback(items);
             }
+        }
+    };
+    
+    IndexedDBAdapter.prototype.getSchedule = function(callback) {
+        var schedule = [];
+        var promise = $.indexedDB(this.databaseName).objectStore(&#x27;items&#x27;).each(function(item) {
+            if (item.value.vocabIds.length &gt; 0)
+                schedule.push(item.value);
+        });
+        promise.done(function() {
+            console.log(schedule);
+            callback(schedule);
         });
         promise.fail(function(error) {
             console.error(error);
-            self.deleteDatabase(function() {
-                self.openDatabase(databaseName, function() {
-                    callback();
-                });
-            }, databaseName);
-        });
-        promise.done(function(event) {
-            self.database = event;
-            self.name = event.name;
-            if (typeof callback === &#x27;function&#x27;)
-                callback(event);
         });
     };
-
-    /**
-     * @method removeItem
-     * @param {String} tableName
-     * @param {String} key
-     * @param {Function} callback
-     */
-    IndexedDBAdapter.prototype.removeItem = function(tableName, key, callback) {
-        var promise = $.indexedDB(this.name).objectStore(tableName, true).delete(key);
-        promise.fail(function(error) {
-            console.error(key, error);
-        });
-        promise.done(function(event) {
-            callback(event);
-        });
-    };
-
+    
     /**
      * @method removeItems
      * @param {String} tableName
-     * @param {Array} items
+     * @param {Array} keys
      * @param {Function} callback
+     * @returns {undefined}
      */
-    IndexedDBAdapter.prototype.removeItems = function(tableName, items, callback) {
-        var events = [];
+    IndexedDBAdapter.prototype.removeItems = function(tableName, keys, callback) {
+        var self = this;
         var position = 0;
-        for (var i in items) {
-            var item = items[i];
-            this.removeItem(tableName, item, function(event) {
-                position++;
-                events.push(event);
-                if (position &gt;= items.length) {
-                    callback(events);
-                }
-            });
+        keys = Array.isArray(keys) ? keys : [keys];
+        removeNext();
+        function removeNext() {
+            if (position &lt; keys.length) {
+                var promise = $.indexedDB(self.databaseName).objectStore(tableName).delete(keys[position]);
+                promise.done(function() {
+                    position++;
+                    removeNext();
+                });
+                promise.fail(function(error) {
+                    console.error(tableName, keys[position], error);
+                });
+            } else {
+                if (typeof callback === &#x27;function&#x27;)
+                    callback();
+            }
         }
     };
-
-    /**
-     * @method setItem
-     * @param {String} tableName
-     * @param {Object} item An object to be saved or updated
-     * @param {Function} callback
-     */
-    IndexedDBAdapter.prototype.setItem = function(tableName, item, callback) {
-        var promise = $.indexedDB(this.name).objectStore(tableName, true).put(item);
-        promise.fail(function(error) {
-            console.error(error);
-        });
-        promise.done(function(event) {
-            callback(event);
-        });
-    };
-
+    
     /**
      * @method setItems
      * @param {String} tableName
-     * @param {Array} items An array of item objects
+     * @param {Array} items
      * @param {Function} callback
+     * @returns {undefined}
      */
     IndexedDBAdapter.prototype.setItems = function(tableName, items, callback) {
-        var events = [];
+        var self = this;
         var position = 0;
-        for (var i in items) {
-            var item = items[i];
-            this.setItem(tableName, item, function(event) {
-                position++;
-                events.push(event);
-                if (position === items.length) {
-                    callback(events);
-                }
-            });
+        var setNext = function() {
+            if (position &lt; items.length) {
+                var promise = $.indexedDB(self.databaseName).objectStore(tableName).put(items[position]);
+                promise.done(function() {
+                    position++;
+                    setNext();
+                });
+                promise.fail(function(error) {
+                    console.error(tableName, items[position], error);
+                });
+            } else {
+                if (typeof callback === &#x27;function&#x27;)
+                    callback();
+            }
+        };
+        
+        if (items) {
+            items = Array.isArray(items) ? items : [items];
+            setNext();
+        } else {
+            callback();
         }
     };
-
 
     return IndexedDBAdapter;
 });

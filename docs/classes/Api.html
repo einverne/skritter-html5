@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.91</em>
+            <em>API Docs for: 0.0.97</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -53,31 +53,23 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/Facade.html">Facade</a></li>
-            
                 <li><a href="../classes/Functions.html">Functions</a></li>
             
-                <li><a href="../classes/HomeView.html">HomeView</a></li>
+                <li><a href="../classes/GradingButtons.html">GradingButtons</a></li>
+            
+                <li><a href="../classes/Home.html">Home</a></li>
             
                 <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
             
-                <li><a href="../classes/InfoView.html">InfoView</a></li>
+                <li><a href="../classes/Info.html">Info</a></li>
             
-                <li><a href="../classes/LeapController.html">LeapController</a></li>
-            
-                <li><a href="../classes/Log.html">Log</a></li>
-            
-                <li><a href="../classes/LoginView.html">LoginView</a></li>
-            
-                <li><a href="../classes/LogItem.html">LogItem</a></li>
+                <li><a href="../classes/Lists.html">Lists</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
-                <li><a href="../classes/OptionsView.html">OptionsView</a></li>
+                <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
-            
-                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -89,11 +81,9 @@
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
             
-                <li><a href="../classes/RecogCanvas.html">RecogCanvas</a></li>
-            
-                <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
-            
                 <li><a href="../classes/Recognizer.html">Recognizer</a></li>
+            
+                <li><a href="../classes/Reviews.html">Reviews</a></li>
             
                 <li><a href="../classes/Router.html">Router</a></li>
             
@@ -103,7 +93,7 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/Storage.html">Storage</a></li>
+                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -131,8 +121,6 @@
             
                 <li><a href="../classes/StudyStrokes.html">StudyStrokes</a></li>
             
-                <li><a href="../classes/StudyView.html">StudyView</a></li>
-            
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
@@ -141,9 +129,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/VocabView.html">VocabView</a></li>
-            
-                <li><a href="../classes/Words.html">Words</a></li>
+                <li><a href="../classes/Vocabs.html">Vocabs</a></li>
             
             </ul>
 
@@ -153,15 +139,17 @@
             
                 <li><a href="../modules/Component.html">Component</a></li>
             
+                <li><a href="../modules/Components.html">Components</a></li>
+            
                 <li><a href="../modules/Model.html">Model</a></li>
             
-                <li><a href="../modules/Prompt.html">Prompt</a></li>
+                <li><a href="../modules/Prompts.html">Prompts</a></li>
             
                 <li><a href="../modules/Skritter.html">Skritter</a></li>
             
                 <li><a href="../modules/Storage.html">Storage</a></li>
             
-                <li><a href="../modules/View.html">View</a></li>
+                <li><a href="../modules/Views.html">Views</a></li>
             
             </ul>
         </div>
@@ -235,23 +223,7 @@ For documentation regarding the API user the following link:
     <h3 class="name"><code>Api</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>clientId</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>clientSecret</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
@@ -294,46 +266,6 @@ For documentation regarding the API user the following link:
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">clientId</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>description</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">clientSecret</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>description</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
 
     
 
@@ -373,7 +305,14 @@ For documentation regarding the API user the following link:
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getBatch">getBatch</a>
+                                <a href="#method_checkBatch">checkBatch</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getCompleteBatch">getCompleteBatch</a>
 
                                 
                                 
@@ -408,28 +347,7 @@ For documentation regarding the API user the following link:
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getSimpTradMap">getSimpTradMap</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_getSRSConfigs">getSRSConfigs</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
                                 <a href="#method_getUser">getUser</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_getVocab">getVocab</a>
 
                                 
                                 
@@ -444,13 +362,6 @@ For documentation regarding the API user the following link:
                         
                             <li class="index-item method">
                                 <a href="#method_getVocabLists">getVocabLists</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_getVocabListSection">getVocabListSection</a>
 
                                 
                                 
@@ -540,7 +451,7 @@ For documentation regarding the API user the following link:
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l34"><code>public_html\js\app\Api.js:34</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l29"><code>public_html\js\app\Api.js:29</code></a>
         
         </p>
 
@@ -616,8 +527,137 @@ For documentation regarding the API user the following link:
 </div>
 
                 
-                    <div id="method_getBatch" class="method item">
-    <h3 class="name"><code>getBatch</code></h3>
+                    <div id="method_checkBatch" class="method item">
+    <h3 class="name"><code>checkBatch</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>batchId</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>detailed</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_Api.js.html#l62"><code>public_html\js\app\Api.js:62</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">batchId</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">detailed</code>
+                        <span class="type">Boolean</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_getCompleteBatch" class="method item">
+    <h3 class="name"><code>getCompleteBatch</code></h3>
 
     
         <div class="args">
@@ -670,7 +710,7 @@ For documentation regarding the API user the following link:
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l117"><code>public_html\js\app\Api.js:117</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l136"><code>public_html\js\app\Api.js:136</code></a>
         
         </p>
 
@@ -789,7 +829,7 @@ account downloads and for larger account can take a few minutes.</p>
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l65"><code>public_html\js\app\Api.js:65</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l193"><code>public_html\js\app\Api.js:193</code></a>
         
         </p>
 
@@ -845,7 +885,7 @@ to check the current time associated with the account.</p>
             
                 <li class="arg">
                     
-                        <code>ids</code>
+                        <code>limit</code>
                     
                 </li>
             
@@ -884,7 +924,7 @@ to check the current time associated with the account.</p>
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l183"><code>public_html\js\app\Api.js:183</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l217"><code>public_html\js\app\Api.js:217</code></a>
         
         </p>
 
@@ -895,9 +935,7 @@ to check the current time associated with the account.</p>
     </div>
 
     <div class="description">
-        <p>Returns an array of items based on requested ids. This is useful for syncing specific items that may
-have errors or other issues.</p>
-
+        
     </div>
 
     
@@ -908,15 +946,14 @@ have errors or other issues.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">ids</code>
-                        <span class="type">Array</span>
+                        <code class="param-name">limit</code>
+                        <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>description</p>
-
+                         
                     </div>
 
                     
@@ -931,8 +968,7 @@ have errors or other issues.</p>
                     
 
                     <div class="param-description">
-                        <p>description</p>
-
+                         
                     </div>
 
                     
@@ -996,7 +1032,7 @@ have errors or other issues.</p>
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l223"><code>public_html\js\app\Api.js:223</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l262"><code>public_html\js\app\Api.js:262</code></a>
         
         </p>
 
@@ -1107,7 +1143,7 @@ check the API documentation.</p>
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l251"><code>public_html\js\app\Api.js:251</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l287"><code>public_html\js\app\Api.js:287</code></a>
         
         </p>
 
@@ -1133,205 +1169,6 @@ it&#39;ll return all of the review errors.</p>
                     
                         <code class="param-name">offset</code>
                         <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">callback</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_getSimpTradMap" class="method item">
-    <h3 class="name"><code>getSimpTradMap</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>callback</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_Api.js.html#l294"><code>public_html\js\app\Api.js:294</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns an object containing character mappings from simplified to traditional Chinese.
-Right now this is locally packaged with the application as it&#39;s not often updated.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">callback</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_getSRSConfigs" class="method item">
-    <h3 class="name"><code>getSRSConfigs</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>lang</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>callback</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_Api.js.html#l321"><code>public_html\js\app\Api.js:321</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the SRSConfig values for the current active user. These should be updated
-somewhat frequently to keep SRS calculations accurate.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">lang</code>
-                        <span class="type">String</span>
                     
 
                     
@@ -1416,7 +1253,7 @@ somewhat frequently to keep SRS calculations accurate.</p>
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l350"><code>public_html\js\app\Api.js:350</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l326"><code>public_html\js\app\Api.js:326</code></a>
         
         </p>
 
@@ -1480,137 +1317,6 @@ for the current active user.</p>
 </div>
 
                 
-                    <div id="method_getVocab" class="method item">
-    <h3 class="name"><code>getVocab</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>writing</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>callback</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>lang</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_Api.js.html#l422"><code>public_html\js\app\Api.js:422</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns a single vocab item with all of the stroke data. Useful for looking up vcoabs that
-aren&#39;t actually associated with the user&#39;s items.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">writing</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">callback</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">lang</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="method_getVocabList" class="method item">
     <h3 class="name"><code>getVocabList</code></h3>
 
@@ -1659,7 +1365,7 @@ aren&#39;t actually associated with the user&#39;s items.</p>
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l458"><code>public_html\js\app\Api.js:458</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l356"><code>public_html\js\app\Api.js:356</code></a>
         
         </p>
 
@@ -1768,7 +1474,7 @@ aren&#39;t actually associated with the user&#39;s items.</p>
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l379"><code>public_html\js\app\Api.js:379</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l384"><code>public_html\js\app\Api.js:384</code></a>
         
         </p>
 
@@ -1780,7 +1486,7 @@ aren&#39;t actually associated with the user&#39;s items.</p>
 
     <div class="description">
         <p>Returns a high level list of lists available sorted by type. For longer sort groups
-it might be nessesary to use pagination.</p>
+it might be necessary to use pagination.</p>
 
     </div>
 
@@ -1793,136 +1499,6 @@ it might be nessesary to use pagination.</p>
                 <li class="param">
                     
                         <code class="param-name">sort</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">callback</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_getVocabListSection" class="method item">
-    <h3 class="name"><code>getVocabListSection</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>listId</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>sectionId</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>callback</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_Api.js.html#l485"><code>public_html\js\app\Api.js:485</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns an array of rows in s single list section.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">listId</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">sectionId</code>
                         <span class="type">String</span>
                     
 
@@ -1975,12 +1551,6 @@ it might be nessesary to use pagination.</p>
             
                 <li class="arg">
                     
-                        <code>date</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
                         <code>callback</code>
                     
                 </li>
@@ -2014,7 +1584,7 @@ it might be nessesary to use pagination.</p>
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l513"><code>public_html\js\app\Api.js:513</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l426"><code>public_html\js\app\Api.js:426</code></a>
         
         </p>
 
@@ -2039,21 +1609,6 @@ it might be nessesary to use pagination.</p>
                     
                         <code class="param-name">reviews</code>
                         <span class="type">Array</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">date</code>
-                        <span class="type">Date</span>
                     
 
                     
@@ -2138,7 +1693,7 @@ it might be nessesary to use pagination.</p>
             
         
         
-        <a href="../files/public_html_js_app_Api.js.html#l92"><code>public_html\js\app\Api.js:92</code></a>
+        <a href="../files/public_html_js_app_Api.js.html#l461"><code>public_html\js\app\Api.js:461</code></a>
         
         </p>
 

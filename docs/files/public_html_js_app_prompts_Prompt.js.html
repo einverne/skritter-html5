@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>public_html\js\app\prompts\Prompt.js - Skritter HTML5: Documentation</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Skritter HTML5: Documentation"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.97</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Api.html">Api</a></li>
+            
+                <li><a href="../classes/Application.html">Application</a></li>
+            
+                <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
+            
+                <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
+            
+                <li><a href="../classes/Functions.html">Functions</a></li>
+            
+                <li><a href="../classes/GradingButtons.html">GradingButtons</a></li>
+            
+                <li><a href="../classes/Home.html">Home</a></li>
+            
+                <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
+            
+                <li><a href="../classes/Info.html">Info</a></li>
+            
+                <li><a href="../classes/Lists.html">Lists</a></li>
+            
+                <li><a href="../classes/Mauler.html">Mauler</a></li>
+            
+                <li><a href="../classes/Modal.html">Modal</a></li>
+            
+                <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
+            
+                <li><a href="../classes/PromptDefn.html">PromptDefn</a></li>
+            
+                <li><a href="../classes/PromptRdng.html">PromptRdng</a></li>
+            
+                <li><a href="../classes/PromptRune.html">PromptRune</a></li>
+            
+                <li><a href="../classes/PromptTone.html">PromptTone</a></li>
+            
+                <li><a href="../classes/Recognizer.html">Recognizer</a></li>
+            
+                <li><a href="../classes/Reviews.html">Reviews</a></li>
+            
+                <li><a href="../classes/Router.html">Router</a></li>
+            
+                <li><a href="../classes/Scheduler.html">Scheduler</a></li>
+            
+                <li><a href="../classes/Settings.html">Settings</a></li>
+            
+                <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
+            
+                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
+            
+                <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
+            
+                <li><a href="../classes/StudyDecomps.html">StudyDecomps</a></li>
+            
+                <li><a href="../classes/StudyItem.html">StudyItem</a></li>
+            
+                <li><a href="../classes/StudyItems.html">StudyItems</a></li>
+            
+                <li><a href="../classes/StudyParam.html">StudyParam</a></li>
+            
+                <li><a href="../classes/StudyParams.html">StudyParams</a></li>
+            
+                <li><a href="../classes/StudyReview.html">StudyReview</a></li>
+            
+                <li><a href="../classes/StudyReviews.html">StudyReviews</a></li>
+            
+                <li><a href="../classes/StudySentence.html">StudySentence</a></li>
+            
+                <li><a href="../classes/StudySentences.html">StudySentences</a></li>
+            
+                <li><a href="../classes/StudySRSConfigs.html">StudySRSConfigs</a></li>
+            
+                <li><a href="../classes/StudyStroke.html">StudyStroke</a></li>
+            
+                <li><a href="../classes/StudyStrokes.html">StudyStrokes</a></li>
+            
+                <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
+            
+                <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocabs.html">Vocabs</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Model.html">Model</a></li>
+            
+                <li><a href="../modules/Prompts.html">Prompts</a></li>
+            
+                <li><a href="../modules/Skritter.html">Skritter</a></li>
+            
+                <li><a href="../modules/Storage.html">Storage</a></li>
+            
+                <li><a href="../modules/Views.html">Views</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: public_html\js\app\prompts\Prompt.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module Skritter
+ * @submodule Prompts
+ * @param GradingButtons
+ * @author Joshua McFarland
+ */
+define([
+    &#x27;components/GradingButtons&#x27;,
+    &#x27;backbone&#x27;
+], function(GradingButtons) {
+    var Prompt = Backbone.View.extend({
+        initialize: function() {
+            Prompt.contained = [];
+            Prompt.definition = &#x27;&#x27;;
+            Prompt.finished = false;
+            Prompt.gradingButtons = new GradingButtons();
+            Prompt.gradeColorHex = {
+                1: &#x27;#e68e8e&#x27;,
+                2: &#x27;#d95757&#x27;,
+                3: &#x27;#70da70&#x27;,
+                4: &#x27;#4097d3&#x27;
+            };
+            Prompt.gradeColorFilters = {
+                1: new createjs.ColorFilter(0, 0, 0, 1, 230, 142, 142, 1),
+                2: new createjs.ColorFilter(0, 0, 0, 1, 217, 87, 87, 1),
+                3: new createjs.ColorFilter(0, 0, 0, 1, 112, 218, 112, 1),
+                4: new createjs.ColorFilter(0, 0, 0, 1, 112, 218, 112, 1)
+            };
+            Prompt.item = null;
+            Prompt.position = 1;
+            Prompt.reading = &#x27;&#x27;;
+            Prompt.results = [];
+            Prompt.sentence = &#x27;&#x27;;
+            Prompt.vocabs = null;
+            Prompt.writing = &#x27;&#x27;;
+            this.listenTo(skritter.settings, &#x27;resize&#x27;, this.resize);
+            this.listenTo(Prompt.gradingButtons, &#x27;selected&#x27;, this.handleGradeSelected);
+        },
+        render: function() {
+            Prompt.gradingButtons.setElement(this.$(&#x27;#grading-container&#x27;)).render();
+            this.$(&#x27;.prompt-writing&#x27;).addClass(skritter.user.getTextStyle());
+            this.$(&#x27;.prompt-sentence&#x27;).addClass(skritter.user.getTextStyle());
+            this.resize();
+        },
+        handleGradeSelected: function(selected) {
+            Prompt.grade = selected;
+            if (Prompt.finished) {
+                this.next();
+            }
+        },
+        /**
+         * @method isFinished
+         * @returns {Boolean}
+         */
+        isFinished: function() {
+            if (Prompt.finished)
+                return true;
+            return false;
+        },
+        /**
+         * Returns true if the prompt is in the first position.
+         * 
+         * @method isFirst
+         * @returns {Boolean}
+         */
+        isFirst: function() {
+            if (Prompt.position === 1)
+                return true;
+            return false;
+        },
+        /**
+         * Returns true if the prompt is in the last position.
+         * 
+         * @method isLast
+         * @returns {Boolean}
+         */
+        isLast: function() {
+            if (Prompt.position &gt;= Prompt.vocabs[0].getCharacterCount())
+                return true;
+            return false;
+        },
+        next: function() {
+            //store the results for the item or subitem
+            Prompt.results.push({
+                item: Prompt.contained[Prompt.position - 1],
+                grade: Prompt.gradingButtons.grade(),
+                reviewTime: skritter.timer.getReviewTime(),
+                startTime: skritter.timer.getStartTime(),
+                thinkingTime: skritter.timer.getThinkingTime()
+            });
+            //defn and rdng prompts don&#x27;t have subitems
+            this.triggerPromptComplete();
+        },
+        /**
+         * @method resize
+         */
+        resize: function() {
+            var canvasSize = skritter.settings.get(&#x27;canvasSize&#x27;);
+            this.$(&#x27;#input-container&#x27;).width(canvasSize);
+            this.$(&#x27;#input-container&#x27;).height(canvasSize);
+            //manually resizes the info section to fill the space mobile devices
+            if (skritter.settings.get(&#x27;appWidth&#x27;) &lt;= 768) {
+                this.$(&#x27;#info-container&#x27;).height(skritter.settings.get(&#x27;appHeight&#x27;) - $(&#x27;.navbar&#x27;).height() - canvasSize - 2);
+            } else {
+                this.$(&#x27;#info-container&#x27;).height(&#x27;&#x27;);
+            }
+        },
+        /**
+         * @method set
+         * @param {Array} vocabs
+         * @param {Backbone.Model} item
+         * @returns {Backbone.View}
+         */
+        set: function(vocabs, item) {
+            console.log(&#x27;PROMPT&#x27;, vocabs[0].get(&#x27;writing&#x27;));
+            Prompt.contained = item.getContained();
+            Prompt.definition = vocabs[0].get(&#x27;definitions&#x27;)[skritter.user.getSetting(&#x27;sourceLang&#x27;)];
+            Prompt.item = item;
+            Prompt.reading = vocabs[0].get(&#x27;reading&#x27;);
+            Prompt.sentence = vocabs[0].getSentence();
+            Prompt.vocabs = vocabs;
+            Prompt.writing = vocabs[0].get(&#x27;writing&#x27;);
+            return this;
+        },
+        /**
+         * @method triggerPromptComplete
+         */
+        triggerPromptComplete: function() {
+            this.trigger(&#x27;complete&#x27;, Prompt.results);
+        }
+    });
+
+    return Prompt;
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

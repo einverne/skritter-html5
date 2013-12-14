@@ -1,0 +1,85 @@
+<div id="options-view" class="view">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Skritter</a>
+                <div class="navbar-text">   
+                    <ul class="navbar-nav list-inline">
+                        <li><a id="save-button" class="cursor"><span class="fa fa-navbar fa-check">Save</span></a></li>
+                        <li><a class="link-button" data-fragment="/"><span class="fa fa-navbar fa-ban">Cancel</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Studying</div>
+                    <div class="panel-body">
+
+                        <!--<h4>Language</h4>
+                        <div id="language" class="btn-group">
+                            <button id="current" type="button" class="btn btn-default">{language}</button>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li id="zh-simp"><a href="#">Chinese (Simplified)</a></li>
+                                <li id="zh-trad"><a href="#">Chinese (Traditional)</a></li>
+                                <li id="zh-both"><a href="#">Chinese (Both)</a></li>
+                                <li class="divider"></li>
+                                <li id="ja"><a href="#">Japanese</a></li>
+                            </ul>
+                        </div>-->
+
+                        <h4>Parts</h4>
+                        <div id="parts" class="btn-group" data-toggle="buttons">
+                            <label id="rune" class="btn btn-default">
+                                <input type="checkbox"> Writing
+                            </label>
+                            <label id="tone" class="btn btn-default">
+                                <input type="checkbox"> Tone
+                            </label>
+                            <label id="defn" class="btn btn-default">
+                                <input type="checkbox"> Definition
+                            </label>
+                            <label id="rdng" class="btn btn-default">
+                                <input type="checkbox"> Reading
+                            </label>
+                        </div>
+
+                        <h4>Audio</h4>
+                        <div id="audio" class="btn-group" data-toggle="buttons">
+                            <label id="on" class="btn btn-default">
+                                <input type="radio" name="options" id="option1"> On
+                            </label>
+                            <label id="off" class="btn btn-default">
+                                <input type="radio" name="options" id="option2"> Off
+                            </label>
+                        </div>
+                        
+                        <h4>Raw Squigs</h4>
+                        <div id="raw-squigs" class="btn-group" data-toggle="buttons">
+                            <label id="on" class="btn btn-default">
+                                <input type="radio" name="options" id="option1"> On
+                            </label>
+                            <label id="off" class="btn btn-default">
+                                <input type="radio" name="options" id="option2"> Off
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xs-6 col-md-6">
+
+            </div>
+        </div>
+
+    </div>
+</div>

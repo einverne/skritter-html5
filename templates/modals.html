@@ -1,0 +1,64 @@
+<!-- /MODAL: default -->
+<div class="modal fade modal-vertical-centered" id="default" tabindex="-1" role="dialog" aria-labelledby="default" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="label-default"></h4>
+            </div>
+            <div class="modal-body text-center"></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- /MODAL: default -->
+<div class="modal fade modal-vertical-centered" id="confirm" tabindex="-1" role="dialog" aria-labelledby="confirm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="label-confirm"></h4>
+            </div>
+            <div class="modal-body text-center"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- /MODAL: progress -->
+<div class="modal fade modal-vertical-centered" id="progress" tabindex="-1" role="dialog" aria-labelledby="progress" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="pull-right"><span class="modal-progress-text" style="display:inline-block; vertical-align:middle"></span></div>
+                <h4 class="modal-title" id="label-progress"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="progress progress-striped active">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        <span class="sr-only">100% Complete</span>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- /MODAL: login -->
+<div class="modal fade modal-vertical-centered" id="login" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <form class="form-signin">
+                    <h2 class="form-signin-heading">Please log in</h2>
+                    <input id="login-username" type="text" class="form-control" placeholder="Username" required autofocus>
+                    <input id="login-password" type="password" class="form-control" placeholder="Password" required>
+                    <button id="login-button" class="btn btn-primary">Log In</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <div id="error-message"></div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

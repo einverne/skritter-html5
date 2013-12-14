@@ -7,32 +7,27 @@ YUI.add("yuidoc-meta", function(Y) {
         "Canvas",
         "CanvasCharacter",
         "CanvasStroke",
-        "Facade",
         "Functions",
-        "HomeView",
+        "GradingButtons",
+        "Home",
         "IndexedDBAdapter",
-        "InfoView",
-        "LeapController",
-        "Log",
-        "LogItem",
-        "LoginView",
+        "Info",
+        "Lists",
         "Mauler",
-        "OptionsView",
+        "Modal",
         "PinyinConverter",
-        "Prompt",
         "PromptCanvas",
         "PromptDefn",
         "PromptRdng",
         "PromptRune",
         "PromptTone",
-        "RecogCanvas",
-        "RecogEditor",
         "Recognizer",
+        "Reviews",
         "Router",
         "Scheduler",
         "Settings",
         "Shortstraw",
-        "Storage",
+        "Stopwatch",
         "StudyDecomp",
         "StudyDecomps",
         "StudyItem",
@@ -46,22 +41,21 @@ YUI.add("yuidoc-meta", function(Y) {
         "StudySentences",
         "StudyStroke",
         "StudyStrokes",
-        "StudyView",
         "StudyVocab",
         "StudyVocabs",
         "Timer",
         "User",
-        "VocabView",
-        "Words"
+        "Vocabs"
     ],
     "modules": [
         "Collection",
         "Component",
+        "Components",
         "Model",
-        "Prompt",
+        "Prompts",
         "Skritter",
         "Storage",
-        "View"
+        "Views"
     ],
     "allModules": [
         {
@@ -70,15 +64,20 @@ YUI.add("yuidoc-meta", function(Y) {
         },
         {
             "displayName": "Component",
-            "name": "Component"
+            "name": "Component",
+            "description": "Used to start, stop and calculate accurate durations of time.     ."
+        },
+        {
+            "displayName": "Components",
+            "name": "Components"
         },
         {
             "displayName": "Model",
             "name": "Model"
         },
         {
-            "displayName": "Prompt",
-            "name": "Prompt"
+            "displayName": "Prompts",
+            "name": "Prompts"
         },
         {
             "displayName": "Skritter",
@@ -86,12 +85,11 @@ YUI.add("yuidoc-meta", function(Y) {
         },
         {
             "displayName": "Storage",
-            "name": "Storage",
-            "description": "A data adapter for IndexedDB which uses the a jQuery plugin written by nparashuram.\nIt extends the Storage class to get the generic database structure and version.\nhttps://github.com/axemclion/jquery-indexeddb/"
+            "name": "Storage"
         },
         {
-            "displayName": "View",
-            "name": "View"
+            "displayName": "Views",
+            "name": "Views"
         }
     ]
 } };

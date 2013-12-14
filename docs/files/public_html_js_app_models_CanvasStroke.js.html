@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>public_html\js\app\models\CanvasStroke.js - Skritter HTML5: Documentation</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Skritter HTML5: Documentation"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.97</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Api.html">Api</a></li>
+            
+                <li><a href="../classes/Application.html">Application</a></li>
+            
+                <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
+            
+                <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
+            
+                <li><a href="../classes/Functions.html">Functions</a></li>
+            
+                <li><a href="../classes/GradingButtons.html">GradingButtons</a></li>
+            
+                <li><a href="../classes/Home.html">Home</a></li>
+            
+                <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
+            
+                <li><a href="../classes/Info.html">Info</a></li>
+            
+                <li><a href="../classes/Lists.html">Lists</a></li>
+            
+                <li><a href="../classes/Mauler.html">Mauler</a></li>
+            
+                <li><a href="../classes/Modal.html">Modal</a></li>
+            
+                <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
+            
+                <li><a href="../classes/PromptDefn.html">PromptDefn</a></li>
+            
+                <li><a href="../classes/PromptRdng.html">PromptRdng</a></li>
+            
+                <li><a href="../classes/PromptRune.html">PromptRune</a></li>
+            
+                <li><a href="../classes/PromptTone.html">PromptTone</a></li>
+            
+                <li><a href="../classes/Recognizer.html">Recognizer</a></li>
+            
+                <li><a href="../classes/Reviews.html">Reviews</a></li>
+            
+                <li><a href="../classes/Router.html">Router</a></li>
+            
+                <li><a href="../classes/Scheduler.html">Scheduler</a></li>
+            
+                <li><a href="../classes/Settings.html">Settings</a></li>
+            
+                <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
+            
+                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
+            
+                <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
+            
+                <li><a href="../classes/StudyDecomps.html">StudyDecomps</a></li>
+            
+                <li><a href="../classes/StudyItem.html">StudyItem</a></li>
+            
+                <li><a href="../classes/StudyItems.html">StudyItems</a></li>
+            
+                <li><a href="../classes/StudyParam.html">StudyParam</a></li>
+            
+                <li><a href="../classes/StudyParams.html">StudyParams</a></li>
+            
+                <li><a href="../classes/StudyReview.html">StudyReview</a></li>
+            
+                <li><a href="../classes/StudyReviews.html">StudyReviews</a></li>
+            
+                <li><a href="../classes/StudySentence.html">StudySentence</a></li>
+            
+                <li><a href="../classes/StudySentences.html">StudySentences</a></li>
+            
+                <li><a href="../classes/StudySRSConfigs.html">StudySRSConfigs</a></li>
+            
+                <li><a href="../classes/StudyStroke.html">StudyStroke</a></li>
+            
+                <li><a href="../classes/StudyStrokes.html">StudyStrokes</a></li>
+            
+                <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
+            
+                <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocabs.html">Vocabs</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Model.html">Model</a></li>
+            
+                <li><a href="../modules/Prompts.html">Prompts</a></li>
+            
+                <li><a href="../modules/Skritter.html">Skritter</a></li>
+            
+                <li><a href="../modules/Storage.html">Storage</a></li>
+            
+                <li><a href="../modules/Views.html">Views</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: public_html\js\app\models\CanvasStroke.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module Skritter
+ * @submodule Model
+ * @param Mauler
+ * @param Shortstraw
+ * @author Joshua McFarland 
+ */
+define([
+    &#x27;Mauler&#x27;,
+    &#x27;Shortstraw&#x27;,
+    &#x27;backbone&#x27;,
+    &#x27;createjs.easel&#x27;
+], function(Mauler, Shortstraw) {
+    /**
+     * @class CanvasStroke
+     */
+    var CanvasStroke = Backbone.Model.extend({
+        /**
+         * @method initialize
+         */
+        initialize: function() {
+            this.on(&#x27;change:points&#x27;, function(stroke) {
+                stroke.set(&#x27;corners&#x27;, Shortstraw(stroke.get(&#x27;points&#x27;)));
+            });
+        },
+        /**
+         * @property {Object} defaults
+         */
+        defaults: {
+            isTweening: false
+        },
+        /**
+         * Returns the angle created by the starting and ending point of the entire object.
+         * 
+         * @method getAngle
+         * @return {Number} description
+         */
+        getAngle: function() {
+            return skritter.fn.getAngle(this.get(&#x27;points&#x27;));
+        },
+        /**
+         * Returns the contained stroke ids.
+         * 
+         * @method getContainedStrokeIds
+         * @return {Array}
+         */
+        getContainedStrokeIds: function() {
+            var ids = [];
+
+            if (!this.has(&#x27;contains&#x27;)) {
+                ids.push(this.get(&#x27;id&#x27;));
+                return ids;
+            }
+
+            var contains = this.get(&#x27;contains&#x27;);
+            var position = this.get(&#x27;position&#x27;);
+            for (var i in contains)
+            {
+                var contained = contains[i];
+                ids.push(position + &#x27;|&#x27; + contained);
+                ids.push((position + 1) + &#x27;|&#x27; + contained);
+            }
+
+            return ids;
+        },
+        /**
+         * Returns the length of the stroke based on the distance between the corner segments.
+         * 
+         * @method getLength
+         * @return {Number}
+         */
+        getLength: function() {
+            var length = 0;
+            for (var i = 0; i &lt; this.get(&#x27;corners&#x27;).length - 1; i++)
+                length += skritter.fn.getDistance(this.get(&#x27;corners&#x27;)[i], this.get(&#x27;corners&#x27;)[i + 1]);
+            return length;
+        },
+        /**
+         * Returns the sprite transformed to fit the stroke data and canvas size.
+         * 
+         * @method getInflatedSprite
+         * @return {unresolved}
+         */
+        getInflatedSprite: function() {
+            var sprite = this.get(&#x27;sprite&#x27;).clone();
+            var spriteBounds = sprite.getBounds();
+            var data = this.getInflatedData();         
+            var ms = sprite.getMatrix();
+            
+            var sx = data.w / spriteBounds.width;
+            var sy = data.h / spriteBounds.height;
+            ms.scale(sx, sy);
+            ms.translate(-data.w / 2, -data.h / 2);
+            ms.rotate(data.rot * Math.PI / 180);
+            var t = ms.decompose();
+
+            sprite.setTransform(t.x, t.y, t.scaleX, t.scaleY, t.rotation, t.skewX, t.skewY);
+            var finalBounds = sprite.getTransformedBounds();          
+            sprite.x += finalBounds.width / 2 + data.x;
+            sprite.y += finalBounds.height / 2 + data.y;
+
+            return sprite;
+        },
+        /**
+         * Returns an inflated version of the data based on the canvas size.
+         * 
+         * @method getInflatedData
+         * @return {Object}
+         */
+        getInflatedData: function() {
+            var bounds = this.get(&#x27;sprite&#x27;).getBounds();
+            var canvasSize = skritter.settings.get(&#x27;canvasSize&#x27;);
+            var data = this.get(&#x27;data&#x27;);
+            return {
+                n: data[0],
+                x: data[1] * canvasSize,
+                y: data[2] * canvasSize,
+                w: data[3] * canvasSize,
+                h: data[4] * canvasSize,
+                scaleX: (data[3] * canvasSize) / bounds.width,
+                scaleY: (data[4] * canvasSize) / bounds.height,
+                rot: -data[5]
+            };
+        },
+        /**
+         * Returns an inflated version of the params based on the canvas size.
+         * 
+         * @method getInflatedParams
+         * @return {Array}
+         */
+        getInflatedParams: function() {
+            var params = skritter.data.params.where({bitmapId: this.get(&#x27;bitmapId&#x27;)});
+            var inflatedParams = [];
+            for (var p in params) {
+                var param = params[p].clone();
+                //inflates the param corners
+                var corners = _.cloneDeep(param.get(&#x27;corners&#x27;));
+                for (var c in corners) {
+                    var inflatedCorner = this.getInflatedSprite().getMatrix().transformPoint(corners[c].x, corners[c].y);
+                    corners[c].x = inflatedCorner.x;
+                    corners[c].y = inflatedCorner.y;
+                }
+                param.set(&#x27;corners&#x27;, corners);
+                //inflates the param deviations
+                var deviations = _.cloneDeep(param.get(&#x27;deviations&#x27;));
+                for (var d in deviations) {
+                    var inflatedDeviation = this.getInflatedSprite().getMatrix().transformPoint(deviations[d].x, deviations[d].y);
+                    deviations[d].x = inflatedDeviation.x;
+                    deviations[d].y = inflatedDeviation.y;
+                }
+                param.set(&#x27;deviations&#x27;, deviations);
+                inflatedParams.push(param);
+            }
+            return inflatedParams;
+        },
+        /**
+         * Returns an object of the bounding rectangle of the points.
+         * 
+         * @method getRectangle
+         * @return {Object}
+         */
+        getRectangle: function() {
+            var canvasSize = skritter.settings.get(&#x27;canvasSize&#x27;);
+            return skritter.fn.getBoundingRectangle(this.get(&#x27;points&#x27;), canvasSize, canvasSize, 14);
+        },
+        /**
+         * Returns an object of the bounding rectangle of the corners.
+         * 
+         * @method getRectangleCorners
+         * @return {Object}
+         */
+        getRectangleCorners: function() {
+            var canvasSize = skritter.settings.get(&#x27;canvasSize&#x27;);
+            return skritter.fn.getBoundingRectangle(this.get(&#x27;corners&#x27;), canvasSize, canvasSize, 14);
+        },
+        /**
+         * Returns the raw sprite without any transformations or positioning.
+         * 
+         * @method getSprite
+         * @returns {Bitmap}
+         */
+        getSprite: function() {
+            return this.get(&#x27;sprite&#x27;);
+        },
+        /**
+         * Returns a sprite of the target stroke that has been altered based on the users input.
+         * 
+         * @method getUserSprite
+         * @return {Bitmap}
+         */
+        getUserSprite: function() {
+            var sprite = this.getInflatedSprite();
+            var rect = this.getRectangle();
+            sprite.x = rect.x;
+            sprite.y = rect.y;
+            return Mauler.tweak(sprite, this.get(&#x27;bitmapId&#x27;));
+        }
+
+    });
+
+    return CanvasStroke;
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

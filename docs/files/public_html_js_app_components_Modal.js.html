@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>public_html\js\app\components\Modal.js - Skritter HTML5: Documentation</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Skritter HTML5: Documentation"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.97</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Api.html">Api</a></li>
+            
+                <li><a href="../classes/Application.html">Application</a></li>
+            
+                <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
+            
+                <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
+            
+                <li><a href="../classes/Functions.html">Functions</a></li>
+            
+                <li><a href="../classes/GradingButtons.html">GradingButtons</a></li>
+            
+                <li><a href="../classes/Home.html">Home</a></li>
+            
+                <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
+            
+                <li><a href="../classes/Info.html">Info</a></li>
+            
+                <li><a href="../classes/Lists.html">Lists</a></li>
+            
+                <li><a href="../classes/Mauler.html">Mauler</a></li>
+            
+                <li><a href="../classes/Modal.html">Modal</a></li>
+            
+                <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
+            
+                <li><a href="../classes/PromptDefn.html">PromptDefn</a></li>
+            
+                <li><a href="../classes/PromptRdng.html">PromptRdng</a></li>
+            
+                <li><a href="../classes/PromptRune.html">PromptRune</a></li>
+            
+                <li><a href="../classes/PromptTone.html">PromptTone</a></li>
+            
+                <li><a href="../classes/Recognizer.html">Recognizer</a></li>
+            
+                <li><a href="../classes/Reviews.html">Reviews</a></li>
+            
+                <li><a href="../classes/Router.html">Router</a></li>
+            
+                <li><a href="../classes/Scheduler.html">Scheduler</a></li>
+            
+                <li><a href="../classes/Settings.html">Settings</a></li>
+            
+                <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
+            
+                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
+            
+                <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
+            
+                <li><a href="../classes/StudyDecomps.html">StudyDecomps</a></li>
+            
+                <li><a href="../classes/StudyItem.html">StudyItem</a></li>
+            
+                <li><a href="../classes/StudyItems.html">StudyItems</a></li>
+            
+                <li><a href="../classes/StudyParam.html">StudyParam</a></li>
+            
+                <li><a href="../classes/StudyParams.html">StudyParams</a></li>
+            
+                <li><a href="../classes/StudyReview.html">StudyReview</a></li>
+            
+                <li><a href="../classes/StudyReviews.html">StudyReviews</a></li>
+            
+                <li><a href="../classes/StudySentence.html">StudySentence</a></li>
+            
+                <li><a href="../classes/StudySentences.html">StudySentences</a></li>
+            
+                <li><a href="../classes/StudySRSConfigs.html">StudySRSConfigs</a></li>
+            
+                <li><a href="../classes/StudyStroke.html">StudyStroke</a></li>
+            
+                <li><a href="../classes/StudyStrokes.html">StudyStrokes</a></li>
+            
+                <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
+            
+                <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocabs.html">Vocabs</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Model.html">Model</a></li>
+            
+                <li><a href="../modules/Prompts.html">Prompts</a></li>
+            
+                <li><a href="../modules/Skritter.html">Skritter</a></li>
+            
+                <li><a href="../modules/Storage.html">Storage</a></li>
+            
+                <li><a href="../modules/Views.html">Views</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: public_html\js\app\components\Modal.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module Skritter
+ * @submodule Component
+ * @param templateModals
+ * @author Joshua McFarland
+ */
+define([
+    &#x27;require.text!templates/modals.html&#x27;,
+    &#x27;backbone&#x27;
+], function(templateModals) {
+    /**
+     * @class Modal
+     */
+    var Modal = Backbone.View.extend({
+        /**
+         * @method initialze
+         */
+        initialize: function() {
+            var self = this;
+            Modal.element = null;
+            Modal.id = null;
+            Modal.options = null;
+            this.$el.on(&#x27;show.bs.modal&#x27;, function() {
+                if (self.$el.children().hasClass(&#x27;in&#x27;)) {
+                    self.$el.children(&#x27;.in&#x27;).modal(&#x27;hide&#x27;).one(&#x27;hidden.bs.modal&#x27;, function() {
+                        self.$(Modal.element).modal(Modal.options);
+                    });
+                    return false;
+                }
+            });
+        },
+        el: this.$(&#x27;#modal-container&#x27;),
+        /**
+         * @method render
+         * @returns {Backbone.View}
+         */
+        render: function() {
+            this.$el.html(templateModals);
+            return this;
+        },
+        /**
+         * @property {Object} events
+         */
+        events: {
+            &#x27;click.Modal #login #login-button&#x27;: &#x27;handleLogin&#x27;
+        },
+        /**
+         * @method handleLogin
+         * @param {Object} event
+         */
+        handleLogin: function(event) {
+            var self = this;
+            var username = this.$(event.target.parentNode).children(&#x27;#login-username&#x27;).val();
+            var password = this.$(event.target.parentNode).children(&#x27;#login-password&#x27;).val();
+            this.show(&#x27;default&#x27;, function() {
+                skritter.user.login(username, password, function(result) {
+                    if (result.statusCode === 200) {
+                        document.location.href = &#x27;&#x27;;
+                    } else {
+                        self.$(&#x27;#login #error-message&#x27;).html(skritter.fn.twbsAlertHTML(&#x27;warning&#x27;, result.message));
+                        self.show(&#x27;login&#x27;);
+                    }
+                });
+            }).setBody(&#x27;Logging In&#x27;).noHeader();
+            return false;
+        },
+        /**
+         * @method hide
+         * @param {Function} callback
+         * @returns {Backbone.View}
+         */
+        hide: function(callback) {
+            this.$(Modal.element).modal(&#x27;hide&#x27;).one(&#x27;hidden.bs.modal&#x27;, callback);
+            return this;
+        },
+        /**
+         * @method noBody
+         * @returns {Backbone.View}
+         */
+        noBody: function() {
+            this.$(&#x27;.modal-body&#x27;).hide();
+            return this;
+        },
+        /**
+         * @method noHeader
+         * @returns {Backbone.View}
+         */
+        noHeader: function() {
+            this.$(&#x27;.modal-header&#x27;).hide();
+            return this;
+        },
+        /**
+         * @method reset
+         * @returns {Backbone.View}
+         */
+        reset: function() {
+            this.$(&#x27;#&#x27; + Modal.id + &#x27;.modal-body&#x27;).html(&#x27;&#x27;);
+            this.$(&#x27;#&#x27; + Modal.id + &#x27;.modal-header&#x27;).html(&#x27;&#x27;);
+            this.$(&#x27;#&#x27; + Modal.id + &#x27;.modal-progress-text&#x27;).html(&#x27;&#x27;);
+            this.$(&#x27;#&#x27; + Modal.id + &#x27;.modal-title&#x27;).html(&#x27;&#x27;);
+            return this;
+        },
+        /**
+         * @method setBody
+         * @param {String} text
+         * @returns {Backbone.View}
+         */
+        setBody: function(text) {
+            this.$(&#x27;#&#x27; + Modal.id + &#x27; .modal-body&#x27;).html(text);
+            return this;
+        },
+        /**
+         * @method setProgress
+         * @param {Number} percent
+         * @param {String} text
+         * @returns {Backbone.View}
+         */
+        setProgress: function(percent, text) {
+            this.$(&#x27;#&#x27; + Modal.id + &#x27; .progress-bar&#x27;).width(percent + &#x27;%&#x27;);
+            this.$(&#x27;#&#x27; + Modal.id + &#x27; .progress-bar .sr-only&#x27;).text(percent + &#x27;% Complete&#x27;);
+            this.$(&#x27;#&#x27; + Modal.id + &#x27; .modal-progress-text&#x27;).text(text);
+            return this;
+        },
+        /**
+         * @method setTitle
+         * @param {String} text
+         * @returns {Backbone.View}
+         */
+        setTitle: function(text) {
+            this.$(&#x27;#&#x27; + Modal.id + &#x27; .modal-title&#x27;).html(text);
+            return this;
+        },
+        /**
+         * @method show
+         * @param {String} id
+         * @param {Function} callback
+         * @param {Object} options
+         * @returns {Backbone.View}
+         */
+        show: function(id, callback, options) {
+            id = (id) ? id : &#x27;default&#x27;;
+            options = (options) ? options : {};
+            options.backdrop = (options.backdrop) ? options.backdrop : &#x27;static&#x27;;
+            options.keyboard = (options.keyboard) ? options.keyboard : false;
+            options.show = (options.show) ? options.show : true;
+            options.remote = (options.remote) ? options.remote : false;
+            Modal.id = id;
+            Modal.options = options;
+            Modal.element = this.$(&#x27;#&#x27; + id).modal(options).one(&#x27;shown.bs.modal&#x27;, callback);
+            this.$(Modal.element).children(&#x27;.modal-content&#x27;).show();
+            this.reset();
+            return this;
+        }
+    });
+
+    return Modal;
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

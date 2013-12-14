@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.91</em>
+            <em>API Docs for: 0.0.97</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -53,31 +53,23 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/Facade.html">Facade</a></li>
-            
                 <li><a href="../classes/Functions.html">Functions</a></li>
             
-                <li><a href="../classes/HomeView.html">HomeView</a></li>
+                <li><a href="../classes/GradingButtons.html">GradingButtons</a></li>
+            
+                <li><a href="../classes/Home.html">Home</a></li>
             
                 <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
             
-                <li><a href="../classes/InfoView.html">InfoView</a></li>
+                <li><a href="../classes/Info.html">Info</a></li>
             
-                <li><a href="../classes/LeapController.html">LeapController</a></li>
-            
-                <li><a href="../classes/Log.html">Log</a></li>
-            
-                <li><a href="../classes/LoginView.html">LoginView</a></li>
-            
-                <li><a href="../classes/LogItem.html">LogItem</a></li>
+                <li><a href="../classes/Lists.html">Lists</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
-                <li><a href="../classes/OptionsView.html">OptionsView</a></li>
+                <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
-            
-                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -89,11 +81,9 @@
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
             
-                <li><a href="../classes/RecogCanvas.html">RecogCanvas</a></li>
-            
-                <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
-            
                 <li><a href="../classes/Recognizer.html">Recognizer</a></li>
+            
+                <li><a href="../classes/Reviews.html">Reviews</a></li>
             
                 <li><a href="../classes/Router.html">Router</a></li>
             
@@ -103,7 +93,7 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/Storage.html">Storage</a></li>
+                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -131,8 +121,6 @@
             
                 <li><a href="../classes/StudyStrokes.html">StudyStrokes</a></li>
             
-                <li><a href="../classes/StudyView.html">StudyView</a></li>
-            
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
@@ -141,9 +129,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/VocabView.html">VocabView</a></li>
-            
-                <li><a href="../classes/Words.html">Words</a></li>
+                <li><a href="../classes/Vocabs.html">Vocabs</a></li>
             
             </ul>
 
@@ -153,15 +139,17 @@
             
                 <li><a href="../modules/Component.html">Component</a></li>
             
+                <li><a href="../modules/Components.html">Components</a></li>
+            
                 <li><a href="../modules/Model.html">Model</a></li>
             
-                <li><a href="../modules/Prompt.html">Prompt</a></li>
+                <li><a href="../modules/Prompts.html">Prompts</a></li>
             
                 <li><a href="../modules/Skritter.html">Skritter</a></li>
             
                 <li><a href="../modules/Storage.html">Storage</a></li>
             
-                <li><a href="../modules/View.html">View</a></li>
+                <li><a href="../modules/Views.html">Views</a></li>
             
             </ul>
         </div>
@@ -217,22 +205,17 @@ define([
      * http://beta.skritter.com/api/v0/docs
      * 
      * @class Api
-     * @param {String} clientId description
-     * @param {String} clientSecret description
      * @constructor
      */
-    function Api(clientId, clientSecret) {
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
-        this.domain = null;
-        this.root = null;
+    function Api() {
+        this.batchId = null;
+        this.clientId = &#x27;mcfarljwapiclient&#x27;;
+        this.clientSecret = &#x27;e3872517fed90a820e441531548b8c&#x27;;
+        this.credentials = &#x27;basic &#x27; + Base64.encode(this.clientId + &#x27;:&#x27; + this.clientSecret);
+        this.domain = &#x27;com&#x27;;
+        this.root = &#x27;https://beta.skritter&#x27;;
         this.token = null;
-        this.version = null;
-        $.ajaxSetup({
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, &#x27;basic &#x27; + Base64.encode(clientId + &#x27;:&#x27; + clientSecret));
-            }
-        });
+        this.version = 0;
     }
 
     /**
@@ -244,8 +227,12 @@ define([
      * @param {Function} callback
      */
     Api.prototype.authenticateUser = function(username, password, callback) {
+        var self = this;
         var promise = $.ajax({
             url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/oauth2/token&#x27;,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, self.credentials);
+            },
             type: &#x27;POST&#x27;,
             data: {
                 suppress_response_codes: true,
@@ -255,15 +242,144 @@ define([
                 password: password
             }
         });
-
         promise.done(function(data) {
             callback(data);
         });
-
         promise.fail(function(error) {
             console.error(error);
             callback(error);
         });
+    };
+
+    /**
+     * @method checkBatch
+     * @param {Number} batchId
+     * @param {Function} callback
+     * @param {Boolean} detailed
+     */
+    Api.prototype.checkBatch = function(batchId, callback, detailed) {
+        var self = this;
+        var promise = $.ajax({
+            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/batch/&#x27; + batchId + &#x27;/status&#x27;,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, self.credentials);
+            },
+            type: &#x27;GET&#x27;,
+            data: {
+                bearer_token: this.token,
+                detailed: detailed
+            }
+        });
+        promise.done(function(data) {
+            console.log(data.Batch);
+            callback(data.Batch);
+        });
+        promise.fail(function(error) {
+            console.error(error);
+            callback(error);
+        });
+    };
+    
+    /**
+     * @getBatch
+     * @param {String} batchId
+     * @param {Function} callback
+     * @returns {undefined}
+     */
+    Api.prototype.getBatch = function(batchId, callback) {
+        var self = this;
+        var result = {};
+        var responseSize = 0;
+        var promise = $.ajax({
+            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/batch/&#x27; + batchId,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, self.credentials);
+            },
+            type: &#x27;GET&#x27;,
+            data: {
+                bearer_token: self.token
+            }
+        });
+        promise.done(function(data) {
+            var batch = data.Batch;
+            var requests = batch.Requests;
+            for (var i in requests) {
+                if (requests[i].response.statusCode === 200) {
+                    _.merge(result, requests[i].response, merge);
+                    responseSize += requests[i].responseSize;
+                }
+            }
+            result.responseSize = responseSize;
+            if (batch &amp;&amp; (batch.runningRequests &gt; 0 || requests.length &gt; 0)) {
+                callback(result);
+            } else {
+                callback();
+            }
+        });
+        promise.fail(function(error) {
+            console.error(error);
+            callback();
+        });
+        function merge(a, b) {
+            return Array.isArray(a) ? a.concat(b) : undefined;
+        }
+    };
+    
+    /**
+     * Returns an object with merged results based on a batch request. This is mainly used for
+     * account downloads and for larger account can take a few minutes.
+     * 
+     * @method getCompleteBatch
+     * @param {Number} batchId
+     * @param {Function} callback1
+     * @param {Function} callback2
+     */
+    Api.prototype.getCompleteBatch = function(batchId, callback1, callback2) {
+        var self = this;
+        var retryCount = 0;
+        var responseSize = 0;
+        var result = {};
+        getNext();
+        function getNext() {
+            var promise = $.ajax({
+                url: self.root + &#x27;.&#x27; + self.domain + &#x27;/api/v&#x27; + self.version + &#x27;/batch/&#x27; + batchId,
+                type: &#x27;GET&#x27;,
+                data: {
+                    bearer_token: self.token
+                }
+            });
+            promise.done(function(data) {
+                var batch = data.Batch;
+                var requests = batch.Requests;
+                retryCount = 0;
+                for (var i in requests) {
+                    _.merge(result, requests[i].response, merge);
+                    responseSize += requests[i].responseSize;
+                }
+                callback1(responseSize);
+                if (batch &amp;&amp; (batch.runningRequests &gt; 0 || requests.length &gt; 0)) {
+                    setTimeout(function() {
+                        getNext(batchId);
+                    }, 2000);
+                } else {
+                    result.responseSize = responseSize;
+                    callback2(result);
+                }
+            });
+            promise.fail(function(error) {
+                if (retryCount &lt; 5) {
+                    retryCount++;
+                    setTimeout(function() {
+                        getBatchRequest(batchId);
+                    }, 5000);
+                } else {
+                    console.error(error);
+                }
+            });
+        }
+        function merge(a, b) {
+            return Array.isArray(a) ? a.concat(b) : undefined;
+        }
     };
 
     /**
@@ -277,153 +393,64 @@ define([
         var promise = $.ajax({
             url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/dateinfo&#x27;,
             type: &#x27;GET&#x27;,
-            cache: false,
             data: {
-                bearer_token: Skritter.user.get(&#x27;access_token&#x27;)
+                bearer_token: this.token
             }
         });
-
         promise.done(function(data) {
             callback(data);
         });
-
         promise.fail(function(error) {
             console.error(error);
             callback(error);
         });
     };
-
+    
     /**
-     * Requests a specific batch from the server and returns the request id. Use the
-     * getBatch function to get the requested data from the server.
-     * 
-     * @method requestBatch
-     * @param {Array} requests
+     * @method getItems
+     * @param {Number} limit
      * @param {Function} callback
      */
-    Api.prototype.requestBatch = function(requests, callback) {
-        var promise = $.ajax({
-            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/batch?bearer_token=&#x27; + this.token,
-            type: &#x27;POST&#x27;,
-            data: JSON.stringify(requests)
-        });
-
-        promise.done(function(data) {
-            callback(data.Batch);
-        });
-
-        promise.fail(function(error) {
-            console.error(error);
-            callback(error);
-        });
-    };
-
-    /**
-     * Returns an object with merged results based on a batch request. This is mainly used for
-     * account downloads and for larger account can take a few minutes.
-     * 
-     * @method getBatch
-     * @param {Number} batchId
-     * @param {Function} callback1
-     * @param {Function} callback2
-     */
-    Api.prototype.getBatch = function(batchId, callback1, callback2) {
+    Api.prototype.getItems = function(limit, callback) {
         var self = this;
-        var retryCount = 0;
-        var getBatchRequest = function(batchId) {
-            var promise = $.ajax({
-                url: self.root + &#x27;.&#x27; + self.domain + &#x27;/api/v&#x27; + self.version + &#x27;/batch/&#x27; + batchId,
-                type: &#x27;GET&#x27;,
-                cache: false,
-                data: {
-                    bearer_token: self.token
-                }
-            });
-
-            promise.done(function(data) {
-                retryCount = 0;
-                var batch = data.Batch;
-                var result = [];
-                var requests = batch.Requests;
-
-                for (var i in requests) {
-                    _.merge(result, requests[i].response, function(a, b) {
-                        return _.isArray(a) ? a.concat(b) : undefined;
-                    });
-                }
-
-                var responseSize = 0;
-                for (var r in requests) {
-                    responseSize += requests[r].responseSize;
-                }
-
-                result.responseSize = responseSize;
-                callback1(result);
-
-                if (batch.runningRequests &gt; 0 || requests.length &gt; 0) {
-                    setTimeout(function() {
-                        getBatchRequest(batchId);
-                    }, 2000);
-                } else {
-                    callback2();
-                }
-            });
-
-            promise.fail(function(error) {
-                if (retryCount &lt; 5) {
-                    retryCount++;
-                    setTimeout(function() {
-                        getBatchRequest(batchId);
-                    }, 5000);
-                } else {
-                    console.error(error);
-                }
-            });
-        };
-
-        getBatchRequest(batchId);
-    };
-
-    /**
-     * Returns an array of items based on requested ids. This is useful for syncing specific items that may
-     * have errors or other issues.
-     * 
-     * @method getItems
-     * @param {Array} ids description
-     * @param {Function} callback description
-     */
-    Api.prototype.getItems = function(ids, callback) {
-        var self = this;
-        var items = [];
-        var getNext = function(batch) {
+        var results = [];
+        next();
+        function next(cursor) {
             var promise = $.ajax({
                 url: self.root + &#x27;.&#x27; + self.domain + &#x27;/api/v&#x27; + self.version + &#x27;/items&#x27;,
                 type: &#x27;GET&#x27;,
-                cache: false,
                 data: {
                     bearer_token: self.token,
-                    ids: batch.join(&#x27;|&#x27;)
+                    limit: 30,
+                    sort: &#x27;next&#x27;,
+                    cursor: cursor,
+                    include_vocabs: &#x27;true&#x27;,
+                    include_strokes: &#x27;true&#x27;,
+                    include_sentences: &#x27;true&#x27;,
+                    include_heisigs: &#x27;true&#x27;,
+                    include_top_mnemonics: &#x27;true&#x27;,
+                    include_decomps: &#x27;true&#x27;
                 }
             });
-
             promise.done(function(data) {
-                items = items.concat(data.Items);
-                if (ids.length &gt; 0) {
-                    getNext(ids.splice(0, 99));
+                console.log(data);
+                _.merge(results, data, merge);
+                if (results.Items.length &lt; limit &amp;&amp; data.cursor) {
+                    next(data.cursor);
                 } else {
-                    callback(items);
+                    callback(results);
                 }
             });
-
             promise.fail(function(error) {
                 console.error(error);
                 callback(error);
             });
-        };
-        
-        getNext(ids.splice(0, 99));
+        }
+        function merge(a, b) {
+            return Array.isArray(a) ? a.concat(b) : undefined;
+        }
     };
-
+    
     /**
      * Returns specific progress stats that can be used for various things such as an actual
      * progress page or study time for the day from the server. To read more about the request parameters
@@ -434,24 +461,21 @@ define([
      * @param {Function} callback
      */
     Api.prototype.getProgressStats = function(request, callback) {
-        request.bearer_token = Skritter.user.get(&#x27;access_token&#x27;);
+        request.bearer_token = this.token;
         var promise = $.ajax({
-            url: Skritter.settings.get(&#x27;apiRoot&#x27;) + &#x27;.&#x27; + Skritter.settings.get(&#x27;apiDomain&#x27;) + &#x27;/api/v0/progstats&#x27;,
+            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/progstats&#x27;,
             type: &#x27;GET&#x27;,
-            cache: false,
             data: request
         });
-
         promise.done(function(data) {
             callback(data.ProgressStats);
         });
-
         promise.fail(function(error) {
             console.error(error);
             callback(error);
         });
     };
-
+    
     /**
      * Returns an array of review post errors from the server. If the offset is null then
      * it&#x27;ll return all of the review errors.
@@ -467,88 +491,28 @@ define([
             var promise = $.ajax({
                 url: self.root + &#x27;.&#x27; + self.domain + &#x27;/api/v&#x27; + self.version + &#x27;/reviews/errors&#x27;,
                 type: &#x27;GET&#x27;,
-                cache: false,
                 data: {
                     bearer_token: self.token,
                     cursor: cursor,
                     offset: offset
                 }
             });
-
             promise.done(function(data) {
                 errors = errors.concat(data.ReviewErrors);
                 if (data.cursor) {
                     setTimeout(function() {
                         getNext(data.cursor);
-                    }, 2000);
+                    }, 1000);
                 } else {
                     callback(errors);
                 }
             });
-
             promise.fail(function(error) {
                 console.error(error);
                 callback(error);
             });
         };
-
         getNext();
-    };
-
-    /**
-     * Returns an object containing character mappings from simplified to traditional Chinese.
-     * Right now this is locally packaged with the application as it&#x27;s not often updated.
-     * 
-     * @method getSimpTradMap
-     * @param {Function} callback
-     */
-    Api.prototype.getSimpTradMap = function(callback) {
-        var promise = $.ajax({
-            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/simptradmap&#x27;,
-            type: &#x27;GET&#x27;,
-            cache: false,
-            data: {
-                bearer_token: this.token
-            }
-        });
-
-        promise.done(function(data) {
-            callback(data);
-        });
-
-        promise.fail(function(error) {
-            console.error(error);
-            callback(error);
-        });
-    };
-
-    /**
-     * Returns the SRSConfig values for the current active user. These should be updated
-     * somewhat frequently to keep SRS calculations accurate.
-     * 
-     * @method getSRSConfigs
-     * @param {String} lang
-     * @param {Function} callback
-     */
-    Api.prototype.getSRSConfigs = function(lang, callback) {
-        var promise = $.ajax({
-            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/srsconfigs&#x27;,
-            type: &#x27;GET&#x27;,
-            cache: false,
-            data: {
-                bearer_token: this.token,
-                lang: lang
-            }
-        });
-
-        promise.done(function(data) {
-            callback(data.SRSConfigs);
-        });
-
-        promise.fail(function(error) {
-            console.error(error);
-            callback(error);
-        });
     };
 
     /**
@@ -560,20 +524,49 @@ define([
      * @param {Function} callback description
      */
     Api.prototype.getUser = function(userId, callback) {
+        var self = this;
         var promise = $.ajax({
             url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/users/&#x27; + userId,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, self.credentials);
+            },
             type: &#x27;GET&#x27;,
-            cache: false,
             data: {
                 bearer_token: this.token,
                 detailed: true
             }
         });
-
         promise.done(function(data) {
             callback(data.User);
         });
+        promise.fail(function(error) {
+            console.error(error);
+            callback(error);
+        });
+    };
 
+    /**
+     * Returns a single vocablist with section ids for further querying.
+     * 
+     * @method getVocabList
+     * @param {Number} id
+     * @param {Function} callback
+     */
+    Api.prototype.getVocabList = function(id, callback) {
+        var self = this;
+        var promise = $.ajax({
+            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/vocablists/&#x27; + id,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, self.credentials);
+            },
+            type: &#x27;GET&#x27;,
+            data: {
+                bearer_token: this.token
+            }
+        });
+        promise.done(function(data) {
+            callback(data.VocabList);
+        });
         promise.fail(function(error) {
             console.error(error);
             callback(error);
@@ -582,7 +575,7 @@ define([
 
     /**
      * Returns a high level list of lists available sorted by type. For longer sort groups
-     * it might be nessesary to use pagination.
+     * it might be necessary to use pagination.
      * 
      * @method getVocabLists
      * @param {String} sort
@@ -594,15 +587,16 @@ define([
         var getNext = function(cursor) {
             var promise = $.ajax({
                 url: self.root + &#x27;.&#x27; + self.domain + &#x27;/api/v&#x27; + self.version + &#x27;/vocablists&#x27;,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, self.credentials);
+                },
                 type: &#x27;GET&#x27;,
-                cache: false,
                 data: {
                     bearer_token: self.token,
                     sort: sort,
                     cursor: cursor
                 }
             });
-
             promise.done(function(data) {
                 lists = lists.concat(data.VocabLists);
                 if (data.cursor) {
@@ -613,105 +607,12 @@ define([
                     callback(lists, data.cursor);
                 }
             });
-
-            promise.fail(function(error) {
-                console.error(error);
-                callback(error);
-            });
-        };
-
-        getNext();
-    };
-    
-   /**
-    * Returns a single vocab item with all of the stroke data. Useful for looking up vcoabs that
-    * aren&#x27;t actually associated with the user&#x27;s items.
-    * 
-    * @method getVocab
-    * @param {String} writing
-    * @param {Function} callback
-    * @param {String} lang
-    */
-    Api.prototype.getVocab = function(writing, callback, lang) {       
-        var self = this;
-        var getNext = function() {
-            var promise = $.ajax({
-                url: self.root + &#x27;.&#x27; + self.domain + &#x27;/api/v&#x27; + self.version + &#x27;/vocabs&#x27;,
-                type: &#x27;GET&#x27;,
-                cache: false,
-                data: {
-                    bearer_token: self.token,
-                    lang: lang,
-                    q: writing,
-                    include_strokes: true
-                }
-            });
-
-            promise.done(function(data) {
-                console.log(data);
-            });
-
             promise.fail(function(error) {
                 console.error(error);
                 callback(error);
             });
         };
         getNext();
-    };
-    
-    /**
-     * Returns a single vocablist with section ids for further querying.
-     * 
-     * @method getVocabList
-     * @param {Number} id
-     * @param {Function} callback
-     */
-    Api.prototype.getVocabList = function(id, callback) {
-        var promise = $.ajax({
-            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/vocablists/&#x27; + id,
-            type: &#x27;GET&#x27;,
-            cache: false,
-            data: {
-                bearer_token: this.token
-            }
-        });
-
-        promise.done(function(data) {
-            callback(data.VocabList);
-        });
-
-        promise.fail(function(error) {
-            console.error(error);
-            callback(error);
-        });
-    };
-
-    /**
-     * Returns an array of rows in s single list section.
-     * 
-     * @method getVocabListSection
-     * @param {String} listId
-     * @param {String} sectionId
-     * @param {Function} callback
-     */
-    Api.prototype.getVocabListSection = function(listId, sectionId, callback) {
-        var promise = $.ajax({
-            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/vocablists/&#x27; + listId + &#x27;/sections/&#x27; + sectionId,
-            type: &#x27;GET&#x27;,
-            cache: false,
-            data: {
-                bearer_token: this.token
-            }
-        });
-
-        promise.done(function(data) {
-            callback(data.VocabListSection);
-        });
-
-        promise.fail(function(error) {
-            console.error(error);
-            callback(error);
-        });
     };
 
     /**
@@ -719,38 +620,63 @@ define([
      * 
      * @method postReviews
      * @param {Array} reviews
-     * @param {Date} date
      * @param {Function} callback
      */
-    Api.prototype.postReviews = function(reviews, date, callback) {
+    Api.prototype.postReviews = function(reviews, callback) {
         var self = this;
         var postedReviews = [];
-        var postNext = function(batch) {
+        var postBatch = function(batch) {
             var promise = $.ajax({
-                url: self.root + &#x27;.&#x27; + self.domain + &#x27;/api/v&#x27; + self.version + &#x27;/reviews?bearer_token=&#x27; + self.token + &#x27;&amp;date=&#x27; + date,
+                url: self.root + &#x27;.&#x27; + self.domain + &#x27;/api/v&#x27; + self.version + &#x27;/reviews?bearer_token=&#x27; + self.token,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, self.credentials);
+                },
                 type: &#x27;POST&#x27;,
-                cache: false,
                 data: JSON.stringify(batch)
             });
-
             promise.done(function(data) {
                 postedReviews = postedReviews.concat(batch);
                 if (reviews.length &gt; 0) {
-                    postNext(reviews.splice(0, 499));
+                    postBatch(reviews.splice(0, 499));
                 } else {
                     callback(postedReviews, data);
                 }
             });
-
             promise.fail(function(error) {
                 console.error(error);
-                callback(error);
+                callback(false);
             });
         };
-        
-        postNext(reviews.splice(0, 499));
+        postBatch(reviews.splice(0, 499));
     };
 
+    /**
+     * Requests a specific batch from the server and returns the request id. Use the
+     * getBatch function to get the requested data from the server.
+     * 
+     * @method requestBatch
+     * @param {Array} requests
+     * @param {Function} callback
+     */
+    Api.prototype.requestBatch = function(requests, callback) {
+        var self = this;
+        var promise = $.ajax({
+            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/batch?bearer_token=&#x27; + this.token,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, self.credentials);
+            },
+            type: &#x27;POST&#x27;,
+            data: JSON.stringify(requests)
+        });
+        promise.done(function(data) {
+            self.batchId = data.Batch.id;
+            callback(data.Batch);
+        });
+        promise.fail(function(error) {
+            console.error(error);
+            callback();
+        });
+    };
 
     return Api;
 });

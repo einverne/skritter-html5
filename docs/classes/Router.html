@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.91</em>
+            <em>API Docs for: 0.0.97</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -53,31 +53,23 @@
             
                 <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
             
-                <li><a href="../classes/Facade.html">Facade</a></li>
-            
                 <li><a href="../classes/Functions.html">Functions</a></li>
             
-                <li><a href="../classes/HomeView.html">HomeView</a></li>
+                <li><a href="../classes/GradingButtons.html">GradingButtons</a></li>
+            
+                <li><a href="../classes/Home.html">Home</a></li>
             
                 <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
             
-                <li><a href="../classes/InfoView.html">InfoView</a></li>
+                <li><a href="../classes/Info.html">Info</a></li>
             
-                <li><a href="../classes/LeapController.html">LeapController</a></li>
-            
-                <li><a href="../classes/Log.html">Log</a></li>
-            
-                <li><a href="../classes/LoginView.html">LoginView</a></li>
-            
-                <li><a href="../classes/LogItem.html">LogItem</a></li>
+                <li><a href="../classes/Lists.html">Lists</a></li>
             
                 <li><a href="../classes/Mauler.html">Mauler</a></li>
             
-                <li><a href="../classes/OptionsView.html">OptionsView</a></li>
+                <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
-            
-                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -89,11 +81,9 @@
             
                 <li><a href="../classes/PromptTone.html">PromptTone</a></li>
             
-                <li><a href="../classes/RecogCanvas.html">RecogCanvas</a></li>
-            
-                <li><a href="../classes/RecogEditor.html">RecogEditor</a></li>
-            
                 <li><a href="../classes/Recognizer.html">Recognizer</a></li>
+            
+                <li><a href="../classes/Reviews.html">Reviews</a></li>
             
                 <li><a href="../classes/Router.html">Router</a></li>
             
@@ -103,7 +93,7 @@
             
                 <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
             
-                <li><a href="../classes/Storage.html">Storage</a></li>
+                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
             
                 <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
             
@@ -131,8 +121,6 @@
             
                 <li><a href="../classes/StudyStrokes.html">StudyStrokes</a></li>
             
-                <li><a href="../classes/StudyView.html">StudyView</a></li>
-            
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
@@ -141,9 +129,7 @@
             
                 <li><a href="../classes/User.html">User</a></li>
             
-                <li><a href="../classes/VocabView.html">VocabView</a></li>
-            
-                <li><a href="../classes/Words.html">Words</a></li>
+                <li><a href="../classes/Vocabs.html">Vocabs</a></li>
             
             </ul>
 
@@ -153,15 +139,17 @@
             
                 <li><a href="../modules/Component.html">Component</a></li>
             
+                <li><a href="../modules/Components.html">Components</a></li>
+            
                 <li><a href="../modules/Model.html">Model</a></li>
             
-                <li><a href="../modules/Prompt.html">Prompt</a></li>
+                <li><a href="../modules/Prompts.html">Prompts</a></li>
             
                 <li><a href="../modules/Skritter.html">Skritter</a></li>
             
                 <li><a href="../modules/Storage.html">Storage</a></li>
             
-                <li><a href="../modules/View.html">View</a></li>
+                <li><a href="../modules/Views.html">Views</a></li>
             
             </ul>
         </div>
@@ -206,14 +194,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/public_html_js_app_Router.js.html#l23"><code>public_html\js\app\Router.js:23</code></a>
+            Defined in: <a href="../files/public_html_js_app_Router.js.html#l22"><code>public_html\js\app\Router.js:22</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/View.html">View</a><br>
-            Parent Module: <a href="../modules/Skritter.html">Skritter</a>
+            Module: <a href="../modules/Skritter.html">Skritter</a>
         
     
 
@@ -253,6 +240,34 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
+                                <a href="#method_back">back</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_defaultRoute">defaultRoute</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_handleLogin">handleLogin</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_handleLogout">handleLogout</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_homeView">homeView</a>
 
                                 
@@ -274,14 +289,14 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_loginView">loginView</a>
+                                <a href="#method_initialize">initialize</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_logout">logout</a>
+                                <a href="#method_listsView">listsView</a>
 
                                 
                                 
@@ -295,7 +310,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_recogEditorView">recogEditorView</a>
+                                <a href="#method_reviewsView">reviewsView</a>
 
                                 
                                 
@@ -309,7 +324,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_vocabView">vocabView</a>
+                                <a href="#method_vocabsView">vocabsView</a>
 
                                 
                                 
@@ -346,6 +361,222 @@
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method_back" class="method item">
+    <h3 class="name"><code>back</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_Router.js.html#l56"><code>public_html\js\app\Router.js:56</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_defaultRoute" class="method item">
+    <h3 class="name"><code>defaultRoute</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_Router.js.html#l66"><code>public_html\js\app\Router.js:66</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_handleLogin" class="method item">
+    <h3 class="name"><code>handleLogin</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_Router.js.html#l109"><code>public_html\js\app\Router.js:109</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_handleLogout" class="method item">
+    <h3 class="name"><code>handleLogout</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_Router.js.html#l115"><code>public_html\js\app\Router.js:115</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_homeView" class="method item">
     <h3 class="name"><code>homeView</code></h3>
 
@@ -378,7 +609,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Router.js.html#l40"><code>public_html\js\app\Router.js:40</code></a>
+        <a href="../files/public_html_js_app_Router.js.html#l72"><code>public_html\js\app\Router.js:72</code></a>
         
         </p>
 
@@ -409,7 +640,7 @@
             
                 <li class="arg">
                     
-                        <code>id</code>
+                        <code>vocabId</code>
                     
                 </li>
             
@@ -442,7 +673,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Router.js.html#l50"><code>public_html\js\app\Router.js:50</code></a>
+        <a href="../files/public_html_js_app_Router.js.html#l82"><code>public_html\js\app\Router.js:82</code></a>
         
         </p>
 
@@ -464,8 +695,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">id</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">vocabId</code>
+                        <span class="type">String</span>
                     
 
                     
@@ -479,6 +710,60 @@
             
             </ul>
         </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_initialize" class="method item">
+    <h3 class="name"><code>initialize</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_Router.js.html#l26"><code>public_html\js\app\Router.js:26</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
     
 
     
@@ -523,7 +808,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Router.js.html#l124"><code>public_html\js\app\Router.js:124</code></a>
+        <a href="../files/public_html_js_app_Router.js.html#l166"><code>public_html\js\app\Router.js:166</code></a>
         
         </p>
 
@@ -548,7 +833,7 @@
                     
                         <span class="type"><a href="..\classes\Router.html" class="crosslink">Router</a></span>:
                     
-                    <p>Returns the current router instance</p>
+                    <p>Returns the application hashtag routing instance</p>
 
                 
             </div>
@@ -559,11 +844,27 @@
 </div>
 
                 
-                    <div id="method_loginView" class="method item">
-    <h3 class="name"><code>loginView</code></h3>
+                    <div id="method_listsView" class="method item">
+    <h3 class="name"><code>listsView</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>listId</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>sectionId</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -591,7 +892,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Router.js.html#l71"><code>public_html\js\app\Router.js:71</code></a>
+        <a href="../files/public_html_js_app_Router.js.html#l95"><code>public_html\js\app\Router.js:95</code></a>
         
         </p>
 
@@ -606,59 +907,43 @@
     </div>
 
     
+        <div class="params">
+            <h4>Parameters:</h4>
 
-    
-
-    
-</div>
-
-                
-                    <div id="method_logout" class="method item">
-    <h3 class="name"><code>logout</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
+            <ul class="params-list">
             
-                
-                <p>
-                
-                Defined in
-                
+                <li class="param">
+                    
+                        <code class="param-name">listId</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
             
-        
-        
-        <a href="../files/public_html_js_app_Router.js.html#l65"><code>public_html\js\app\Router.js:65</code></a>
-        
-        </p>
+                <li class="param">
+                    
+                        <code class="param-name">sectionId</code>
+                        <span class="type">String</span>
+                    
 
+                    
 
-        
+                    <div class="param-description">
+                         
+                    </div>
 
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -699,7 +984,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Router.js.html#l81"><code>public_html\js\app\Router.js:81</code></a>
+        <a href="../files/public_html_js_app_Router.js.html#l122"><code>public_html\js\app\Router.js:122</code></a>
         
         </p>
 
@@ -721,8 +1006,8 @@
 </div>
 
                 
-                    <div id="method_recogEditorView" class="method item">
-    <h3 class="name"><code>recogEditorView</code></h3>
+                    <div id="method_reviewsView" class="method item">
+    <h3 class="name"><code>reviewsView</code></h3>
 
     
         <span class="paren">()</span>
@@ -753,7 +1038,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Router.js.html#l91"><code>public_html\js\app\Router.js:91</code></a>
+        <a href="../files/public_html_js_app_Router.js.html#l132"><code>public_html\js\app\Router.js:132</code></a>
         
         </p>
 
@@ -807,7 +1092,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Router.js.html#l101"><code>public_html\js\app\Router.js:101</code></a>
+        <a href="../files/public_html_js_app_Router.js.html#l142"><code>public_html\js\app\Router.js:142</code></a>
         
         </p>
 
@@ -829,11 +1114,21 @@
 </div>
 
                 
-                    <div id="method_vocabView" class="method item">
-    <h3 class="name"><code>vocabView</code></h3>
+                    <div id="method_vocabsView" class="method item">
+    <h3 class="name"><code>vocabsView</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>sort</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -861,7 +1156,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Router.js.html#l112"><code>public_html\js\app\Router.js:112</code></a>
+        <a href="../files/public_html_js_app_Router.js.html#l152"><code>public_html\js\app\Router.js:152</code></a>
         
         </p>
 
@@ -875,6 +1170,29 @@
         
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">sort</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -914,7 +1232,7 @@
             
         
         
-        <a href="../files/public_html_js_app_Router.js.html#l27"><code>public_html\js\app\Router.js:27</code></a>
+        <a href="../files/public_html_js_app_Router.js.html#l38"><code>public_html\js\app\Router.js:38</code></a>
         
         </p>
 

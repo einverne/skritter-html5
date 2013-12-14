@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>public_html\js\app\components\Canvas.js - Skritter HTML5: Documentation</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Skritter HTML5: Documentation"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.97</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Api.html">Api</a></li>
+            
+                <li><a href="../classes/Application.html">Application</a></li>
+            
+                <li><a href="../classes/Assets.html">Assets</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/CanvasCharacter.html">CanvasCharacter</a></li>
+            
+                <li><a href="../classes/CanvasStroke.html">CanvasStroke</a></li>
+            
+                <li><a href="../classes/Functions.html">Functions</a></li>
+            
+                <li><a href="../classes/GradingButtons.html">GradingButtons</a></li>
+            
+                <li><a href="../classes/Home.html">Home</a></li>
+            
+                <li><a href="../classes/IndexedDBAdapter.html">IndexedDBAdapter</a></li>
+            
+                <li><a href="../classes/Info.html">Info</a></li>
+            
+                <li><a href="../classes/Lists.html">Lists</a></li>
+            
+                <li><a href="../classes/Mauler.html">Mauler</a></li>
+            
+                <li><a href="../classes/Modal.html">Modal</a></li>
+            
+                <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
+            
+                <li><a href="../classes/PromptDefn.html">PromptDefn</a></li>
+            
+                <li><a href="../classes/PromptRdng.html">PromptRdng</a></li>
+            
+                <li><a href="../classes/PromptRune.html">PromptRune</a></li>
+            
+                <li><a href="../classes/PromptTone.html">PromptTone</a></li>
+            
+                <li><a href="../classes/Recognizer.html">Recognizer</a></li>
+            
+                <li><a href="../classes/Reviews.html">Reviews</a></li>
+            
+                <li><a href="../classes/Router.html">Router</a></li>
+            
+                <li><a href="../classes/Scheduler.html">Scheduler</a></li>
+            
+                <li><a href="../classes/Settings.html">Settings</a></li>
+            
+                <li><a href="../classes/Shortstraw.html">Shortstraw</a></li>
+            
+                <li><a href="../classes/Stopwatch.html">Stopwatch</a></li>
+            
+                <li><a href="../classes/StudyDecomp.html">StudyDecomp</a></li>
+            
+                <li><a href="../classes/StudyDecomps.html">StudyDecomps</a></li>
+            
+                <li><a href="../classes/StudyItem.html">StudyItem</a></li>
+            
+                <li><a href="../classes/StudyItems.html">StudyItems</a></li>
+            
+                <li><a href="../classes/StudyParam.html">StudyParam</a></li>
+            
+                <li><a href="../classes/StudyParams.html">StudyParams</a></li>
+            
+                <li><a href="../classes/StudyReview.html">StudyReview</a></li>
+            
+                <li><a href="../classes/StudyReviews.html">StudyReviews</a></li>
+            
+                <li><a href="../classes/StudySentence.html">StudySentence</a></li>
+            
+                <li><a href="../classes/StudySentences.html">StudySentences</a></li>
+            
+                <li><a href="../classes/StudySRSConfigs.html">StudySRSConfigs</a></li>
+            
+                <li><a href="../classes/StudyStroke.html">StudyStroke</a></li>
+            
+                <li><a href="../classes/StudyStrokes.html">StudyStrokes</a></li>
+            
+                <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
+            
+                <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/User.html">User</a></li>
+            
+                <li><a href="../classes/Vocabs.html">Vocabs</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Collection.html">Collection</a></li>
+            
+                <li><a href="../modules/Component.html">Component</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Model.html">Model</a></li>
+            
+                <li><a href="../modules/Prompts.html">Prompts</a></li>
+            
+                <li><a href="../modules/Skritter.html">Skritter</a></li>
+            
+                <li><a href="../modules/Storage.html">Storage</a></li>
+            
+                <li><a href="../modules/Views.html">Views</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: public_html\js\app\components\Canvas.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module Skritter
+ * @submodule Component
+ * @author Joshua McFarland
+ */
+define([
+    &#x27;backbone&#x27;,
+    &#x27;createjs.easel&#x27;,
+    &#x27;createjs.tween&#x27;
+], function() {
+    /**
+     * @class Canvas
+     */
+    var Canvas = Backbone.View.extend({
+        /**
+         * @method initialize
+         */
+        initialize: function() {
+            Canvas.grid = false;
+            Canvas.gridColor = &#x27;grey&#x27;;
+            Canvas.gridLineWidth = 1;
+            Canvas.points = [];
+            Canvas.size = skritter.settings.get(&#x27;canvasSize&#x27;);
+            Canvas.strokeColor = &#x27;#000000&#x27;;
+            Canvas.strokeSize = 12;
+            Canvas.strokeCapStyle = &#x27;round&#x27;;
+            Canvas.strokeJointStyle = &#x27;round&#x27;;
+            Canvas.squigColor = &#x27;black&#x27;;
+            Canvas.textColor = &#x27;orange&#x27;;
+            Canvas.textFont = &#x27;12px Arial&#x27;;
+            Canvas.element = this.initElement();
+            Canvas.stage = this.initStage();
+            createjs.Touch.enable(Canvas.stage);
+            createjs.Ticker.addEventListener(&#x27;tick&#x27;, this.tick);
+            this.initListeners();
+        },
+        /**
+         * @method render
+         * @returns {Canvas}
+         */
+        render: function() {
+            this.$el.html(Canvas.element);
+            this.createLayer(&#x27;grid&#x27;);
+            this.createLayer(&#x27;input&#x27;);
+            if (Canvas.grid)
+                this.drawGrid(&#x27;grid&#x27;);
+            //ISSUE #18: drawing a dummy sprite fixes the delayed tween problem in Chrome
+            //it needs to be a clone otherwise the sprite will globally have the alpha set
+            var dummySprite = skritter.assets.getStroke(0);
+            dummySprite.alpha = 0.0001;
+            Canvas.stage.addChildAt(dummySprite, 0);
+            
+            return this;
+        },
+        /**
+         * @method initElement
+         * @returns {DOMElement}
+         */
+        initElement: function() {
+            var element = document.createElement(&#x27;canvas&#x27;);
+            element.setAttribute(&#x27;id&#x27;, &#x27;prompt-canvas&#x27;);
+            element.setAttribute(&#x27;width&#x27;, Canvas.size);
+            element.setAttribute(&#x27;height&#x27;, Canvas.size);
+            return element;
+        },
+        /**
+         * @method initListeners
+         */
+        initListeners: function() {
+            this.listenTo(skritter.settings, &#x27;resize&#x27;, this.resize);
+        },
+        /**
+         * @method initStage
+         * @returns {Stage}
+         */
+        initStage: function() {
+            var stage = new createjs.Stage(Canvas.element);
+            stage.enableDOMEvents(true);
+            stage.autoClear = true;
+            return stage;
+        },
+        /**
+         * @method clear
+         * @param {String} layerName
+         * @returns {Container}
+         */
+        clear: function(layerName) {
+            var layer;
+            if (layerName) {
+                layer = this.getLayer(layerName);
+                layer.removeAllChildren();
+                layer.uncache();
+                return layer;
+            }
+            var layers = this.getLayers();
+            for (var i in layers) {
+                layers[i].removeAllChildren();
+                layers[i].uncache();
+            }
+            return Canvas.stage;
+        },
+        /**
+         * @method createLayer
+         * @param {String} name
+         * @returns {Container}
+         */
+        createLayer: function(name) {
+            var layer = new createjs.Container();
+            layer.name = &#x27;layer-&#x27; + name;
+            Canvas.stage.addChild(layer);
+            return layer;
+        },
+        /**
+         * @method disableGrid
+         * @returns {undefined}
+         */
+        disableGrid: function() {
+            Canvas.grid = false;
+        },
+        /**
+         * Disables all touch input on the canvas. This is most commonly used when a user has
+         * already completed a prompt and it needs grading.
+         * 
+         * @method disableInput
+         */
+        disableInput: function() {
+            Canvas.stage.removeAllEventListeners();
+        },
+        /**
+         * @method drawCharacter
+         * @param {Bitmap} bitmap
+         * @param {String} layerName
+         * @param {Number} alpha
+         * @returns {Bitmap}
+         */
+        drawCharacter: function(bitmap, layerName, alpha) {
+            var layer = this.getLayer(layerName);
+            if (layer.getChildByName(&#x27;character&#x27;))
+                layer.removeChild(layer.getChildByName(&#x27;character&#x27;));
+            if (alpha) {
+                bitmap.filters = [new createjs.ColorFilter(0, 0, 0, alpha, 0, 0, 0, 0)];
+                bitmap.cache(0, 0, Canvas.size, Canvas.size);
+            }
+            layer.addChild(bitmap);
+            return bitmap;
+        },
+        /**
+         * Draws the character to the background using the font rather than assembling
+         * the character strokes.
+         * 
+         * @param {String} character
+         * @param {String} font
+         * @param {String} layerName
+         * @param {Number} alpha
+         * @param {String} color
+         * @returns {Container}
+         */
+        drawCharacterFromFont: function(character, font, layerName, alpha, color) {
+            var text = new createjs.Text(character, Canvas.size + &#x27;px &#x27; + font, &#x27;black&#x27;);
+            if (alpha)
+                text.alpha = alpha;
+            if (color)
+                text.color = color;
+            return this.getLayer(layerName).addChild(text);
+        },
+        /**
+         * @method drawGrid
+         * @param {String} layerName
+         * @param {String} color
+         * @returns {Container}
+         */
+        drawGrid: function(layerName, color) {
+            color = (color) ? color : Canvas.gridColor;
+            var grid = new createjs.Shape();
+            var layer = this.getLayer(layerName);
+            if (layer.getChildByName(&#x27;grid&#x27;))
+                layer.removeChild(layer.getChildByName(&#x27;grid&#x27;));
+            grid.name = &#x27;grid&#x27;;
+            grid.graphics.beginStroke(color).setStrokeStyle(Canvas.gridLineWidth, Canvas.strokeCapStyle, Canvas.strokeJointStyle);
+            grid.graphics.moveTo(Canvas.size / 2, 0).lineTo(Canvas.size / 2, Canvas.size);
+            grid.graphics.moveTo(0, Canvas.size / 2).lineTo(Canvas.size, Canvas.size / 2);
+            grid.graphics.moveTo(0, 0).lineTo(Canvas.size, Canvas.size);
+            grid.graphics.moveTo(Canvas.size, 0).lineTo(0, Canvas.size);
+            layer.addChild(grid);
+            grid.graphics.endStroke();
+            return grid;
+        },
+        /**
+         * @method drawParam
+         * @param {StudyParam} param
+         * @param {String} layerName
+         * @returns {Shape}
+         */
+        drawParam: function(param, layerName) {
+            var circle;
+            var layer = this.getLayer(layerName);
+            var corners = param.get(&#x27;corners&#x27;);
+            for (var c in corners) {
+                var corner = corners[c];
+                circle = new createjs.Shape();
+                circle.graphics.beginFill(&#x27;orange&#x27;).drawCircle(corner.x, corner.y, 5);
+                layer.addChild(circle);
+            }
+            var deviations = param.get(&#x27;deviations&#x27;);
+            for (var d in deviations) {
+                var deviation = deviations[d];
+                circle = new createjs.Shape();
+                circle.graphics.beginFill(&#x27;purple&#x27;).drawCircle(deviation.x, deviation.y, 5);
+                layer.addChild(circle);
+            }
+            return circle;
+        },
+        /**
+         * @method drawPhantomStroke
+         * @param {Bitmap} bitmap
+         * @param {String} layerName
+         * @param {Function} callback
+         * @returns {Bitmap}
+         */
+        drawPhantomStroke: function(bitmap, layerName, callback) {
+            bitmap.filters = [new createjs.ColorFilter(0, 0, 0, 1, 135, 206, 250, 0)];
+            bitmap.cache(0, 0, Canvas.size, Canvas.size);
+            var layer = this.getLayer(layerName);
+            layer.addChild(bitmap);
+            createjs.Tween.get(bitmap).wait(500).to({alpha: 0}, 1000).call(function() {
+                layer.removeChild(bitmap);
+                if (typeof callback === &#x27;function&#x27;)
+                    callback();
+            });
+            return bitmap;
+        },
+        /**
+         * @method drawPoints
+         * @param {type} points
+         * @param {type} layerName
+         */
+        drawPoints: function(points, layerName) {
+            var layer = this.getLayer(layerName);
+            for (var i in points) {
+                var point = new createjs.Shape(new createjs.Graphics().beginFill(&#x27;blue&#x27;).drawCircle(points[i].x, points[i].y, 10));
+                layer.addChild(point);
+            }
+        },
+        /**
+         * @method drawSquig
+         * @param {Array} points
+         * @param {String} layerName
+         * @param {Number} alpha
+         * @returns {Shape}
+         */
+        drawSquig: function(points, layerName, alpha) {
+            var marker = new createjs.Shape();
+            var midPoint;
+            var prevPoint = points[0];
+            //var prevMidPoint = points[0];
+            marker.graphics.setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle).beginStroke(Canvas.squigColor);
+            for (var p in points)
+            {
+                var point = points[p];
+                midPoint = new createjs.Point(prevPoint.x + point.x &gt;&gt; 1, prevPoint.y + point.y &gt;&gt; 1);
+                marker.graphics.moveTo(midPoint.x, midPoint.y).lineTo(prevPoint.x, prevPoint.y);
+                //ISSUE #50: using curveTo renders strange wisps in the squigs while lineTo doesn&#x27;t
+                //marker.graphics.moveTo(midPoint.x, midPoint.y).curveTo(prevPoint.x, prevPoint.y, prevMidPoint.x, prevMidPoint.y);
+                prevPoint = point;
+                //prevMidPoint = midPoint;
+            }
+            if (alpha)
+                marker.alpha = alpha;
+            marker.graphics.endStroke();
+            this.getLayer(layerName).addChild(marker);
+            
+            return marker;
+        },
+        /**
+         * @method drawStroke
+         * @param {Bitmap} bitmap
+         * @param {String} layerName
+         * @param {Number} alpha
+         * @returns {Bitmap}
+         */
+        drawStroke: function(bitmap, layerName, alpha) {
+            bitmap = this.getLayer(layerName).addChildAt(bitmap, 0);
+            if (alpha)
+                bitmap.alpha = alpha;
+            return bitmap;
+        },
+        /**
+         * Draws text to the canvas on the message layer. If a position isn&#x27;t specified then
+         * it defaults to the bottom center of the canvas.
+         * 
+         * @method drawText
+         * @param {String} text
+         * @param {String} layerName
+         * @param {String} color
+         * @param {String} font
+         * @param {Number} x
+         * @param {Number} y
+         * @returns {Text}
+         */
+        drawText: function(text, layerName, color, font, x, y) {
+            font = (font) ? font : Canvas.textFont;
+            color = (color) ? color : Canvas.textColor;
+            text = new createjs.Text(text, font, color);
+            var layer = this.getLayer(layerName);
+            if (x) {
+                text.x = x;
+            } else {
+                text.x = (Canvas.size / 2) - (text.getMeasuredWidth() / 2);
+            }
+            if (y) {
+                text.y = y;
+            } else {
+                text.y = Canvas.size * 0.9;
+            }
+            layer.addChild(text);
+            createjs.Tween.get(text).wait(2000).to({alpha: 0}, 500).call(function() {
+                layer.removeChild(text);
+            });
+            return text;
+        },
+        /**
+         * @method drawTweenedStroke
+         * @param {Bitmap} fromBitmap
+         * @param {Bitmap} toBitmap
+         * @param {String} layerName
+         * @param {Function} callback
+         * @returns {Bitmap}
+         */
+        drawTweenedStroke: function(fromBitmap, toBitmap, layerName, callback) {
+            var layer = this.getLayer(layerName);
+            layer.addChildAt(fromBitmap, 0);
+            createjs.Tween.get(fromBitmap).to(toBitmap, 300, createjs.Ease.sineOut).call(function() {
+                if (typeof callback === &#x27;function&#x27;)
+                    callback();
+            }).addEventListener(&#x27;change&#x27;, function() {
+                if (layer.cacheCanvas)
+                    layer.updateCache();
+            });
+            return toBitmap;
+        },
+        /**
+         * @method fadeLayer
+         * @param {String} layerName
+         * @param {Function} callback
+         * @returns {Container}
+         */
+        fadeLayer: function(layerName, callback) {
+            var layer = this.getLayer(layerName);
+            if (layer.getNumChildren() &gt; 0) {
+                createjs.Tween.get(layer).to({alpha: 0}, 750).call(function() {
+                    layer.removeAllChildren();
+                    layer.alpha = 1.0;
+                    if (typeof callback === &#x27;function&#x27;)
+                        callback(layer);
+                });
+            }
+            return layer;
+        },
+        /**
+         * @method filterLayerColor
+         * @param {String} layerName
+         * @param {ColorFilter} filter
+         * @returns {Container}
+         */
+        filterLayerColor: function(layerName, filter) {
+            var layer = this.getLayer(layerName);
+            layer.filters = [filter];
+            layer.cache(0, 0, Canvas.size, Canvas.size);
+            return layer;
+        },
+        /**
+         * @method getLayer
+         * @param {String} name
+         * @returns {Container}
+         */
+        getLayer: function(name) {
+            return Canvas.stage.getChildByName(&#x27;layer-&#x27; + name);
+        },
+        /**
+         * @method getLayers
+         * @returns {Array}
+         */
+        getLayers: function() {
+            var layers = [];
+            for (var i in Canvas.stage.children) {
+                var child = Canvas.stage.children[i];
+                if (child.name &amp;&amp; child.name.indexOf(&#x27;layer-&#x27;) &gt; -1)
+                    layers.push(Canvas.stage.children[i]);
+            }
+            return layers;
+        },
+        /**
+         * @method enableGrid
+         * @returns {undefined}
+         */
+        enableGrid: function() {
+            Canvas.grid = true;
+        },
+        /**
+         * Enables touch input and drawing on the canvas. It also handles the immediate ink
+         * traced by the finger.
+         * 
+         * @method enableInput
+         */
+        enableInput: function() {
+            var self = this;
+            var layer = this.getLayer(&#x27;input&#x27;);
+            var oldPt, oldMidPt, points;
+            var stage = Canvas.stage;
+            var marker = new createjs.Shape();
+            layer.addChild(marker);
+            var down = function() {
+                points = [];
+                oldPt = new createjs.Point(stage.mouseX, stage.mouseY);
+                self.triggerMouseDown(oldPt);
+                oldMidPt = oldPt;
+                Canvas.points.push(oldPt.clone());
+                marker.graphics.beginStroke(Canvas.strokeColor);
+                stage.addEventListener(&#x27;stagemousemove&#x27;, move);
+                stage.addEventListener(&#x27;stagemouseup&#x27;, up);
+            };
+            var move = function() {
+                var point = new createjs.Point(stage.mouseX, stage.mouseY);
+                var midPt = new createjs.Point(oldPt.x + point.x &gt;&gt; 1, oldPt.y + point.y &gt;&gt; 1);
+                //disable the pressurized stroke size on mobile to help speed things up
+                if (skritter.fn.isMobile()) {
+                    marker.graphics
+                            .setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                            .moveTo(midPt.x, midPt.y)
+                            .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                } else {
+                    marker.graphics
+                            .setStrokeStyle(skritter.fn.getPressurizedStrokeSize(point, oldPt), Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                            .moveTo(midPt.x, midPt.y)
+                            .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                }
+                oldPt.x = point.x;
+                oldPt.y = point.y;
+                oldMidPt.x = midPt.x;
+                oldMidPt.y = midPt.y;
+                points.push(oldPt.clone());
+                stage.update();
+            };
+            var up = function up(event) {
+                marker.graphics.endStroke();
+                if (isOnCanvas(event)) {
+                    self.triggerMouseUp(points);
+                }
+                stage.removeEventListener(&#x27;stagemousemove&#x27;, move);
+                stage.removeEventListener(&#x27;stagemouseup&#x27;, up);
+                marker.graphics.clear();
+            };
+            var isOnCanvas = function(event) {
+                var x = event.rawX;
+                var y = event.rawY;
+                if (x &gt;= 0 &amp;&amp; x &lt; Canvas.size &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; Canvas.size)
+                    return true;
+            };
+            if (!stage.hasEventListener(&#x27;stagemousedown&#x27;))
+                stage.addEventListener(&#x27;stagemousedown&#x27;, down);
+        },
+        /**
+         * @method setLayerAlpha
+         * @param {String} layerName
+         * @param {Number} alpha
+         * @returns {Container}
+         */
+        setLayerAlpha: function(layerName, alpha) {
+            var layer = this.getLayer(layerName);
+            layer.alpha = alpha;
+            return layer;
+        },
+        /**
+         * @method resize
+         * @param {Object} event
+         */
+        resize: function(event) {
+            Canvas.size = event.canvas;
+            Canvas.element.setAttribute(&#x27;width&#x27;, Canvas.size);
+            Canvas.element.setAttribute(&#x27;height&#x27;, Canvas.size);
+            $(&#x27;#canvas-container&#x27;).width(Canvas.size);
+            $(&#x27;#canvas-container&#x27;).height(Canvas.size);
+            if (Canvas.grid)
+                this.drawGrid(&#x27;grid&#x27;);
+        },
+        /**
+         * @method tick
+         */
+        tick: function() {
+            Canvas.stage.update();
+        },
+        /**
+         * Enables the view to fire events when the canvas has been touched.
+         * 
+         * @method triggerMouseDown
+         * @param {Object} point
+         */
+        triggerMouseDown: function(point) {
+            this.trigger(&#x27;mousedown&#x27;, point);
+        },
+        /**
+         * Enables the view to fire events when the canvas touch has been released.
+         * 
+         * @method triggerMouseUp
+         * @param {Array} points
+         */
+        triggerMouseUp: function(points) {
+            this.trigger(&#x27;mouseup&#x27;, points);
+        }
+    });
+    
+    return Canvas;
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
