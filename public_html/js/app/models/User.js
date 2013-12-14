@@ -59,7 +59,7 @@ define([
         defaults: {
             access_token: null,
             addOffset: 0,
-            audio: false,
+            audio: true,
             expires_in: null,
             lastLogin: null,
             lastSyncChinese: null,
@@ -83,6 +83,7 @@ define([
          */
         addItems: function(limit, callback) {
             var self = this;
+            var offset = this.get('addOffset');
             limit = (limit) ? limit : 1;
             var requests = [
                 {
@@ -92,7 +93,7 @@ define([
                     params: {
                         lang: this.getSetting('targetLang'),
                         limit: limit,
-                        offset: this.get('addOffset')
+                        offset: offset
                     }
                 }
             ];
@@ -117,14 +118,14 @@ define([
                 function(result, callback) {
                     skritter.modal.setProgress(100, 'Getting Items');
                     skritter.api.getBatch(result.id, function(result) {
-                        //TODO: handle the newly added items by adding and storing them
-                        console.log('items', result);
+                        console.log('added items', result);
                     }, function() {
                         callback();
                     });
                 },
                 //run a fresh sync to get the new items and update
                 function(callback) {
+                    self.set('addOffset', offset + 1);
                     self.sync(callback);
                 }
             ], function() {
@@ -398,7 +399,6 @@ define([
                     path: 'api/v' + skritter.api.version + '/items',
                     method: 'GET',
                     params: {
-                        lang: this.getSetting('targetLang'),
                         sort: 'changed',
                         offset: offset,
                         include_vocabs: 'true',

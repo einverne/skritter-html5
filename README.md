@@ -67,4 +67,3 @@ While the project is still a work in progress towards a stable first release con
 
 * API Documentation: http://beta.skritter.com/api/v0/docs
 * Issues: https://github.com/mcfarljw/skritter-html5/issues
-* Media: http://skritter.joshmcfarland.net/media.zip

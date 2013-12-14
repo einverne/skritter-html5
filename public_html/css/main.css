@@ -79,6 +79,10 @@ html, body {
 /*** INFO.HTML ***/
 #info-view #writing {
     font-size: 86px;
+    text-align: center;
+}
+#info-view #definition-reading {
+    padding: 40px 2% 0 2%;
 }
 #info-view #reading {
     font-size: xx-large;
@@ -86,11 +90,27 @@ html, body {
 #info-view #definition {
     font-size: x-large;
 }
-#info-view #sentence {
-    font-size: x-large;
-}
 #info-view #mnemonic {
     font-size: x-large;
+    padding-top: 20px;
+}
+#info-view #sentence {
+    font-size: x-large;
+    padding-top: 20px;
+}
+#info-view #contained-characters, #info-view #decompositions {
+    padding: 20px 15% 0 15%;
+}
+@media (max-width:767px) {
+    #info-view #definition-reading {
+        text-align: center;
+    }
+    #info-view #contained-characters, #info-view #decompositions {
+        padding: 20px 5% 0 5%;
+    }
+    #info-view #sentence {
+        text-align: center;
+    }
 }
 
 

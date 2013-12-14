@@ -118,6 +118,9 @@ define([
             }
             return Study.items;
         },
+        /**
+         * @method loadPrompt
+         */
         loadPrompt: function() {
             console.log('Resuming', Study.current.vocabs[0].get('writing'));
             switch (Study.current.item.get('part')) {
@@ -142,10 +145,18 @@ define([
             if (Study.current.prompt.isFinished())
                 Study.current.prompt.showAnswer();
         },
+        /**
+         * @method loadPrompt
+         * @returns {Boolean}
+         */
         navigateInfo: function() {
             skritter.router.navigate('info/' + Study.current.vocabs[0].get('id'), {trigger: true});
             return false;
         },
+        /**
+         * @method nextItem
+         * @returns {Object}
+         */
         nextItem: function() {
             //resort the items based on the new readiness values
             Study.items.sort();
@@ -180,10 +191,16 @@ define([
             this.listenToOnce(Study.current.prompt, 'complete', this.handlePromptComplete);
             return Study.current;
         },
+        /**
+         * @method playAudio
+         */
         playAudio: function() {
             Study.current.vocabs[0].play();
             return false;
         },
+        /**
+         * @method toggleAudioButton
+         */
         toggleAudioButton: function() {
             if (Study.current.vocabs[0].has('audio')) {
                 this.$('#audio-button').removeClass('fa fa-volume-off');
@@ -193,6 +210,9 @@ define([
                 this.$('#audio-button').addClass('fa fa-volume-off');
             }
         },
+        /**
+         * @method updateDueCount
+         */
         updateDueCount: function() {
            this.$('#items-due').text(Study.items.getDue().length); 
         }

@@ -146,7 +146,7 @@ define([
         var self = this;
         var retryCount = 0;
         var responseSize = 0;
-        var result = [];
+        var result = {};
         getNext();
         function getNext() {
             var promise = $.ajax({
@@ -212,6 +212,51 @@ define([
             console.error(error);
             callback(error);
         });
+    };
+    
+    /**
+     * @method getItems
+     * @param {Number} limit
+     * @param {Function} callback
+     */
+    Api.prototype.getItems = function(limit, callback) {
+        var self = this;
+        var results = [];
+        next();
+        function next(cursor) {
+            var promise = $.ajax({
+                url: self.root + '.' + self.domain + '/api/v' + self.version + '/items',
+                type: 'GET',
+                data: {
+                    bearer_token: self.token,
+                    limit: 30,
+                    sort: 'next',
+                    cursor: cursor,
+                    include_vocabs: 'true',
+                    include_strokes: 'true',
+                    include_sentences: 'true',
+                    include_heisigs: 'true',
+                    include_top_mnemonics: 'true',
+                    include_decomps: 'true'
+                }
+            });
+            promise.done(function(data) {
+                console.log(data);
+                _.merge(results, data, merge);
+                if (results.Items.length < limit && data.cursor) {
+                    next(data.cursor);
+                } else {
+                    callback(results);
+                }
+            });
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        }
+        function merge(a, b) {
+            return Array.isArray(a) ? a.concat(b) : undefined;
+        }
     };
     
     /**

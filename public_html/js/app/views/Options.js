@@ -27,7 +27,7 @@ define([
         },
         load: function() {
             //language
-            this.toggleLanguage();
+            //this.toggleLanguage();
             
             //parts
             var activeParts = skritter.user.getActiveStudyParts();
@@ -93,7 +93,7 @@ define([
             if (this.$('#parts #rdng').hasClass('active'))
                 parts.push('rdng');
             if (parts.length === 0) {
-                //TODO: handle error message with a modal
+                skritter.modal.show('confirm').noHeader().setBody('You need to select at least one part to study!');
                 return false;
             } else {
                 if (skritter.user.isChinese()) {
