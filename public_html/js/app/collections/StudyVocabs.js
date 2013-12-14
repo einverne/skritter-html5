@@ -16,6 +16,12 @@ define([
          * @method initialize
          */
         initialize: function() {
+            this.on('add', function(vocab) {
+                vocab.cache();
+            });
+            this.on('change', function(vocab) {
+                vocab.cache();
+            });
         },
         /**
          * @property {StudyVocab} model

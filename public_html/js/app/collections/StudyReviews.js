@@ -16,6 +16,12 @@ define([
          * @method initialize
          */
         initialize: function() {
+            this.on('add', function(review) {
+                review.cache();
+            });
+            this.on('change', function(review) {
+                review.cache();
+            });
         },
         /**
          * @property {StudyReview} model

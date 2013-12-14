@@ -9,7 +9,7 @@ define([
     /**
      * @class StudyDecomp
      */
-    var StudyDecomp = Backbone.Model.extend({    
+    var StudyDecomp = Backbone.Model.extend({
 	/**
          * @property {String} idAttribute
          */

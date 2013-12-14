@@ -137,25 +137,13 @@ define([
          * @method checkReviewErrors
          * @param {Number} offset
          * @param {Function} callback
-         * @param {Boolean} fixErrors
          */
-        checkReviewErrors: function(callback, offset, fixErrors) {
-            var self = this;
+        checkReviewErrors: function(callback, offset) {
             offset = (offset && offset > -1) ? offset : this.getLastSync();
             skritter.api.getReviewErrors(offset, function(errors) {
-                if (errors.length > 0) {
-                    console.log('Review Errors', errors);
-                    if (fixErrors) {
-                        self.fixReviewErrors(errors, function(items) {
-                            callback(errors, items);
-                        });
-                    } else {
-                        callback(errors);
-                    }
-                } else {
-                    if (typeof callback === 'function')
-                        callback(errors);
-                }
+                console.log('Review Errors', errors);
+                if (typeof callback === 'function')
+                    callback(errors);
             });
         },
         /**
@@ -487,7 +475,7 @@ define([
                     //post reviews to the server and remove them locally
                     function(callback) {
                         if (skritter.data.reviews.length > 0) {
-                            skritter.modal.setTitle('Posting Reviews');
+                            skritter.modal.setTitle('Posting Reviews').setProgress(100, '');
                             skritter.data.reviews.sync(function() {
                                 callback();
                             });
