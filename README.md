@@ -48,8 +48,9 @@ After the initial install you can either run the project directly from the `publ
 	grunt appcache //regenerates the cache manifest in the public_html directory
 	grunt docs //generates the docs in the build directory
 	grunt hint //checks the application for common errors
-	grunt www-build //creates a minified version of the application in the build directory
-	grunt www-copy //creates a copy non-minified version of the application in the build directory
+	grunt build-combined //combines all of the files without optimized and minifying
+	grunt build-optimized //creates a minified version of the application in the build directory
+	grunt build-copy //copies the everything to the build folder and appends the docs
 	
 	
 ## Contributing

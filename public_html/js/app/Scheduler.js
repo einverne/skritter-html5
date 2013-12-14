@@ -19,7 +19,7 @@ define(function() {
      * @returns {Number}
      */
     Scheduler.prototype.getInterval = function(item, grade) {
-        var config = Skritter.data.srsconfigs.findWhere({lang: Skritter.user.getSetting('targetLang'), part: item.get('part')});
+        var config = skritter.data.srsconfigs.findWhere({lang: skritter.user.getSetting('targetLang'), part: item.get('part')});
         var newInterval;
         var getRandomizedInterval = function(interval) {
             return Math.round(interval * (0.925 + (Math.random() * 0.15)));
@@ -45,7 +45,7 @@ define(function() {
         }
 
         //set values for further calculations
-        var actualInterval = Skritter.fn.getUnixTime() - item.get('last');
+        var actualInterval = skritter.fn.getUnixTime() - item.get('last');
         var factor;
         var pctRight = item.get('successes') / item.get('reviews');
         var scheduledInterval = item.get('next') - item.get('last');
@@ -107,10 +107,8 @@ define(function() {
                 newInterval = 30;
             }
         }
-        //console.log(newInterval);
         return newInterval;
     };
-
 
     return Scheduler;
 });

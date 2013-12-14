@@ -1,101 +1,142 @@
 /**
  * @module Skritter
- * @submodule View
  * @param HomeView
  * @param InfoView
- * @param LoginView
+ * @param ListsView
  * @param OptionsView
+ * @param ReviewsView
  * @param StudyView
- * @param VocabView
- * @param RecogEditor
+ * @param VocabsView
  * @author Joshua McFarland
  */
 define([
-    'view/Home',
-    'view/Info',
-    'view/Login',
-    'view/Options',
-    'view/Study',
-    'view/Vocab',
-    'view/admin/RecogEditor',
+    'views/Home',
+    'views/Info',
+    'views/Lists',
+    'views/Options',
+    'views/Reviews',
+    'views/Study',
+    'views/Vocabs',
     'backbone'
-], function(HomeView, InfoView, LoginView, OptionsView, StudyView, VocabView, RecogEditor) {
+], function(HomeView, InfoView, ListsView, OptionsView, ReviewsView, StudyView, VocabsView) {
     /**
      * @class Router
      */
     var Router = Backbone.Router.extend({
         /**
+         * @method initialize
+         */
+        initialize: function() {
+            //load up the home since it contains a global click event
+            Router.homeView = new HomeView({el: $(skritter.settings.get('container'))});
+            //stop the timer when the view has moved from study
+            this.on('route', function(route) {
+                if (route !== 'studyView')
+                    skritter.timer.stop();
+            });
+        },
+        /**
          * @property {Object} routes
          */
         routes: {
             '': 'homeView',
-            'info/:id': 'infoView',
-            'login': 'loginView',
-            'logout': 'logout',
+            'info/:vocabId': 'infoView',
+            'lists': 'listsView',
+            'lists/:listId': 'listsView',
+            'lists/:listId/:sectionId': 'listsView',
+            'login': 'handleLogin',
+            'logout': 'handleLogout',
             'options': 'optionsView',
-            'recog/editor': 'recogEditorView',
+            'reviews': 'reviewsView',
             'study': 'studyView',
-            'vocab': 'vocabView'
+            'vocabs': 'vocabsView',
+            'vocabs/:filterBy': 'vocabsView',
+            '*default': 'defaultRoute'
+        },
+        /**
+         * @method back
+         */
+        back: function() {
+            if (Backbone.history.history.length > 1) {
+                Backbone.history.history.back();
+            } else {
+                this.navigate('/', {trigger: true, replace: true});
+            }
+        },
+        /**
+         * @method defaultRoute
+         */
+        defaultRoute: function() {
+            this.navigate('/', {trigger: true});
         },
         /**
          * @method homeView
          */
         homeView: function() {
             if (!Router.homeView) {
-                Router.homeView = new HomeView({el: $(Skritter.settings.get('container'))}).render();
+                Router.homeView = new HomeView({el: $(skritter.settings.get('container'))}).render();
             } else {
-                Router.homeView.setElement($(Skritter.settings.get('container'))).render();
+                Router.homeView.setElement($(skritter.settings.get('container'))).render();
             }
         },
         /**
          * @method infoView
-         * @param {Number} id
+         * @param {String} vocabId
          */
-        infoView: function(id) {
-            if (!id)
-                return;
+        infoView: function(vocabId) {
             if (!Router.infoView) {
-                Router.infoView = new InfoView({el: $(Skritter.settings.get('container'))});
+                Router.infoView = new InfoView({el: $(skritter.settings.get('container'))});
             } else {
-                Router.infoView.setElement($(Skritter.settings.get('container')));
+                Router.infoView.setElement($(skritter.settings.get('container')));
             }
-            Router.infoView.load(id);
+            Router.infoView.set(vocabId);
             Router.infoView.render();
         },
         /**
-         * @method logout
+         * @method listsView
+         * @param {String} listId
+         * @param {String} sectionId
          */
-        logout: function() {
-            Skritter.user.logout();
+        listsView: function(listId, sectionId) {
+            if (!Router.listsView) {
+                Router.listsView = new ListsView({el: $(skritter.settings.get('container'))});
+            } else {
+                Router.listsView.setElement($(skritter.settings.get('container')));
+            }
+            Router.listsView.set(listId, sectionId);
+            Router.listsView.render();
         },
         /**
-         * @method loginView
+         * @method handleLogin
          */
-        loginView: function() {
-            if (!Router.loginView) {
-                Router.loginView = new LoginView({el: $(Skritter.settings.get('container'))}).render();
-            } else {
-                Router.loginView.setElement($(Skritter.settings.get('container'))).render();
-            }
+        handleLogin: function() {
+            skritter.modal.show('login');
+        },
+        /**
+         * @method handleLogout
+         */
+        handleLogout: function() {
+            skritter.user.logout();
+            return false;
         },
         /**
          * @method optionsView
          */
         optionsView: function() {
             if (!Router.optionsView) {
-                Router.optionsView = new OptionsView({el: $(Skritter.settings.get('container'))}).render();
+                Router.optionsView = new OptionsView({el: $(skritter.settings.get('container'))}).render();
             } else {
-                Router.optionsView.setElement($(Skritter.settings.get('container'))).render();
+                Router.optionsView.setElement($(skritter.settings.get('container'))).render();
             }
         },
         /**
-         * @method recogEditorView
+         * @method reviewsView
          */
-        recogEditorView: function() {
-            if (!Router.recogEditorView) {
-                Router.recogEditorView = new RecogEditor({el: $(Skritter.settings.get('container'))}).render();
+        reviewsView: function() {
+            if (!Router.reviewsView) {
+                Router.reviewsView = new ReviewsView({el: $(skritter.settings.get('container'))}).render();
             } else {
-                Router.recogEditorView.setElement($(Skritter.settings.get('container'))).render();
+                Router.reviewsView.setElement($(skritter.settings.get('container'))).render();
             }
         },
         /**
@@ -103,34 +144,34 @@ define([
          */
         studyView: function() {
             if (!Router.studyView) {
-                Router.studyView = new StudyView({el: $(Skritter.settings.get('container'))}).render();
-                Skritter.debug = Router.studyView;
+                Router.studyView = new StudyView({el: $(skritter.settings.get('container'))}).render();
             } else {
-                Router.studyView.setElement($(Skritter.settings.get('container'))).render();
+                Router.studyView.setElement($(skritter.settings.get('container'))).render();
             }
         },
         /**
-         * @method vocabView
+         * @method vocabsView
+         * @param {String} sort
          */
-        vocabView: function() {
-            if (!Router.vocabView) {
-                Router.vocabView = new VocabView({el: $(Skritter.settings.get('container'))}).render();
+        vocabsView: function(sort) {
+            if (!Router.vocabsView) {
+                Router.vocabsView = new VocabsView({el: $(skritter.settings.get('container'))});
             } else {
-                Router.vocabView.setElement($(Skritter.settings.get('container'))).render();
+                Router.vocabsView.setElement($(skritter.settings.get('container')));
             }
+            Router.vocabsView.render();
         }
     });
 
     /**
      * @method initialize
-     * @return {Router} Returns the current router instance
+     * @return {Router} Returns the application hashtag routing instance
      */
     var initialize = function() {
-        Skritter.router = new Router();
-        Backbone.history.start();
-        return Skritter.router;
+        var router = new Router();
+        Backbone.history.start(skritter.fn.isLocal() ? {} : {pushState: true});
+        return router;
     };
-
 
     return {
         initialize: initialize

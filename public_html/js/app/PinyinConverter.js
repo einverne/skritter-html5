@@ -126,7 +126,6 @@ define(function() {
         return text;
     };
 
-
     return {
         toNumber: number,
         toTone: tone

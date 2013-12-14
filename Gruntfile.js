@@ -3,11 +3,10 @@
  * @author Joshua McFarland
  */
 module.exports = function(grunt) {
-
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            'www-build': {
+            'build': {
                 src: ['build/www/'],
                 options: {
                     force: true
@@ -15,50 +14,16 @@ module.exports = function(grunt) {
             }
         },
         copy: {
-            'www-copy': {
+            'public_html': {
                 files: [
                     {expand: true, cwd: 'public_html/', src: [
-                            '*',
-                            'css/**',
-                            'js/**',
-                            'media/font/**',
-                            'media/image/**',
-                            'template/**',
-                            'test/**'
+                            '**'
                         ], dest: 'build/www/'}
                 ]
             }
         },
-        includereplace: {
-            'www-build': {
-                options: {
-                    globals: {
-                        version: '<%= pkg.version %>'
-                    }
-                },
-                files: [
-                    {src: 'Application.js', dest: 'build/www/js/app/', expand: true, cwd: 'build/www/js/app/'}
-                ]
-            },
-            'www-copy': {
-                options: {
-                    globals: {
-                        version: '<%= pkg.version %>'
-                    }
-                },
-                files: [
-                    {src: 'Settings.js', dest: 'build/www/js/app/model', expand: true, cwd: 'build/www/js/app/model'}
-                ]
-            }
-        },
         jshint: {
-            ignore_warning: {
-                options: {
-                    '-W083': true,
-                    '-W099': true
-                },
-                src: ['public_html/js/app/**/*.js']
-            }
+            all: ['Gruntfile.js', 'public_html/js/app/**/*.js']
         },
         manifest: {
             generate: {
@@ -68,40 +33,64 @@ module.exports = function(grunt) {
                     network: ["*"],
                     preferOnline: false,
                     verbose: false,
-                    timestamp: true
+                    timestamp: false
                 },
                 src: [
+                    "*.*",
+                    "**/*.css",
+                    "**/*.eot",
+                    "**/*.html",
+                    "**/*.js",
+                    "**/*.otf",
                     "**/*.png",
-                    "css/**/*.css",
-                    "js/**/*.js",
-                    "media/**/*.eot",
-                    "media/**/*.svg",
-                    "media/**/*.ttf",
-                    "media/**/*.woff",
-                    "template/**/*.html"
+                    "**/*.svg",
+                    "**/*.woff"
                 ],
                 dest: "public_html/skritter.appcache"
             },
-            'generate-www': {
+            'optimized': {
                 options: {
                     basePath: "build/www/",
                     cache: ["index.html"],
                     network: ["*"],
                     preferOnline: false,
                     verbose: false,
-                    timestamp: true
+                    timestamp: false
                 },
                 src: [
+                    "*.*",
+                    "**/*.css",
+                    "**/*.eot",
+                    "**/*.html",
+                    "**/*.js",
+                    "**/*.otf",
                     "**/*.png",
-                    "css/**/*.css",
-                    "js/**/*.js",
-                    "media/**/*.eot",
-                    "media/**/*.svg",
-                    "media/**/*.ttf",
-                    "media/**/*.woff",
-                    "template/**/*.html"
+                    "**/*.svg",
+                    "**/*.woff"
                 ],
                 dest: "build/www/skritter.appcache"
+            }
+        },
+        replace: {
+            'compiled-version': {
+                options: {
+                    variables: {
+                        'version': '<%= pkg.version %>'
+                    }
+                },
+                files: [
+                    {src: 'Application.js', dest: 'build/www/js/app/', expand: true, cwd: 'build/www/js/app/'}
+                ]
+            },
+            'copy-version': {
+                options: {
+                    variables: {
+                        'version': '<%= pkg.version %>'
+                    }
+                },
+                files: [
+                    {src: 'Settings.js', dest: 'build/www/js/app/model/', expand: true, cwd: 'build/www/js/app/model/'}
+                ]
             }
         },
         requirejs: {
@@ -110,49 +99,117 @@ module.exports = function(grunt) {
                     appDir: "public_html/",
                     baseUrl: "js/app/",
                     dir: "build/www/",
-                    keepBuildDir: false,
                     fileExclusionRegExp: /\.mp3$/,
-                    name: "Application",
-                    removeCombined: true,
+                    generateSourceMaps: true,
+                    keepBuildDir: false,
+                    modules: [
+                        {
+                            name: 'Application'
+                        },
+                        {
+                            name: 'Jasmine'
+                        }
+                    ],
+                    optimize: 'uglify2',
+                    optimizeCss: 'standard',
                     paths: {
                         //directories
-                        component: 'view/component',
-                        media: '../../media',
-                        prompt: 'view/prompt',
-                        template: '../../template',
+                        templates: '../../templates',
+                        specs: '../../tests/specs/',
                         //libraries
-                        async: '../lib/async',
-                        backbone: '../lib/backbone-1.1.0.min',
-                        base64: '../lib/base64',
-                        bootstrap: '../lib/bootstrap-3.0.0.min',
-                        'createjs.easel': '../lib/createjs.easeljs-0.7.0.min',
-                        'createjs.preload': '../lib/createjs.preloadjs-0.4.0.min',
-                        'createjs.sound': '../lib/createjs.soundjs-0.5.0.min',
-                        'createjs.tween': '../lib/createjs.tweenjs-0.5.0.min',
-                        'indexeddb.shim': '../lib/indexeddb.shim-0.1.2.min',
-                        jquery: '../lib/jquery-1.10.2.min',
-                        'jquery.hammer': '../lib/jquery.hammerjs-1.0.5.min',
-                        'jquery.indexeddb': '../lib/jquery.indexeddb.min',
-                        lodash: '../lib/lodash.compat-2.2.1.min',
-                        'require.text': '../lib/require.text-2.0.10'
+                        async: '../libs/async',
+                        backbone: '../libs/backbone-1.1.0',
+                        base64: '../libs/base64',
+                        bootstrap: '../../bootstrap/js/bootstrap',
+                        'createjs.easel': '../libs/createjs.easel-NEXT.min',
+                        'createjs.tween': '../libs/createjs.tween-NEXT.min',
+                        jasmine: '../../tests/libs/jasmine',
+                        'jasmine-html': '../../tests/libs/jasmine-html',
+                        jquery: '../libs/jquery-2.0.3',
+                        'jquery.hammer': '../libs/jquery.hammer-1.0.5',
+                        'jquery.indexeddb': '../libs/jquery.indexeddb',
+                        lodash: '../libs/lodash-2.4.0',
+                        'lz-string': '../libs/lz-string-1.3.3',
+                        moment: '../libs/moment-2.4.0',
+                        'require.text': '../libs/require.text-2.0.10'
                     },
+                    preserveLicenseComments: false,
+                    removeCombined: true,
                     shim: {
                         backbone: {
                             deps: ['jquery', 'lodash', 'require.text'],
                             exports: 'Backbone'
                         },
-                        bootstrap: {
-                            deps: ['jquery']
+                        bootstrap: ['jquery'],
+                        'jasmine-html': {
+                            deps: ['jasmine', 'jquery'],
+                            exports: 'jasmine'
                         },
                         jquery: {
                             exports: '$'
                         },
-                        'jquery.hammer': {
-                            deps: ['jquery']
+                        'jquery.indexeddb': ['jquery'],
+                        lodash: {
+                            exports: '_'
+                        }
+                    }
+                }
+            },
+            combined: {
+                options: {
+                    appDir: "public_html/",
+                    baseUrl: "js/app/",
+                    dir: "build/www/",
+                    fileExclusionRegExp: /\.mp3$/,
+                    generateSourceMaps: false,
+                    keepBuildDir: false,
+                    modules: [
+                        {
+                            name: 'Application'
                         },
-                        'jquery.indexeddb': {
-                            deps: ['jquery']
+                        {
+                            name: 'Jasmine'
+                        }
+                    ],
+                    optimize: 'none',
+                    optimizeCss: 'standard',
+                    paths: {
+                        //directories
+                        templates: '../../templates',
+                        specs: '../../tests/specs/',
+                        //libraries
+                        async: '../libs/async',
+                        backbone: '../libs/backbone-1.1.0',
+                        base64: '../libs/base64',
+                        bootstrap: '../../bootstrap/js/bootstrap',
+                        'createjs.easel': '../libs/createjs.easel-NEXT.min',
+                        'createjs.tween': '../libs/createjs.tween-NEXT.min',
+                        jasmine: '../../tests/libs/jasmine',
+                        'jasmine-html': '../../tests/libs/jasmine-html',
+                        jquery: '../libs/jquery-2.0.3',
+                        'jquery.hammer': '../libs/jquery.hammer-1.0.5',
+                        'jquery.indexeddb': '../libs/jquery.indexeddb',
+                        lodash: '../libs/lodash-2.4.0',
+                        'lz-string': '../libs/lz-string-1.3.3',
+                        moment: '../libs/moment-2.4.0',
+                        'require.text': '../libs/require.text-2.0.10'
+                    },
+                    preserveLicenseComments: false,
+                    removeCombined: true,
+                    shim: {
+                        backbone: {
+                            deps: ['jquery', 'lodash', 'require.text'],
+                            exports: 'Backbone'
                         },
+                        bootstrap: ['jquery'],
+                        'jasmine-html': {
+                            deps: ['jasmine', 'jquery'],
+                            exports: 'jasmine'
+                        },
+                        jquery: {
+                            exports: '$'
+                        },
+                        'jquery.indexeddb': ['jquery'],
                         lodash: {
                             exports: '_'
                         }
@@ -160,7 +217,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-        shell: {},
         yuidoc: {
             compile: {
                 name: '<%= pkg.appName %>: Documentation',
@@ -172,7 +228,7 @@ module.exports = function(grunt) {
                     themedir: 'yuidoc'
                 }
             },
-            'compile-www': {
+            'www': {
                 name: '<%= pkg.appName %>: Documentation',
                 description: '<%= pkg.description %>',
                 version: '<%= pkg.version %>',
@@ -190,13 +246,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
-    grunt.loadNpmTasks('grunt-include-replace');
     grunt.loadNpmTasks('grunt-manifest');
+    grunt.loadNpmTasks('grunt-replace');
     grunt.loadNpmTasks('grunt-shell');
 
     grunt.registerTask('appcache', ['manifest']);
     grunt.registerTask('docs', ['yuidoc']);
     grunt.registerTask('hint', ['jshint']);
-    grunt.registerTask('www-build', ['jshint', 'clean:www-build', 'requirejs', 'includereplace:www-build', 'manifest:generate-www', 'yuidoc:compile-www']);
-    grunt.registerTask('www-copy', ['jshint', 'clean:www-build', 'manifest', 'copy:www-copy', 'includereplace:www-copy', 'yuidoc:compile-www']);
+    grunt.registerTask('build-combined', ['jshint', 'clean:build', 'requirejs:combined', 'replace:compiled-version', 'manifest:optimized', 'yuidoc:www']);
+    grunt.registerTask('build-optimized', ['jshint', 'clean:build', 'requirejs', 'replace:compiled-version', 'manifest:optimized', 'yuidoc:www']);
+    grunt.registerTask('build-copy', ['jshint', 'clean:build', 'copy:public_html', 'replace:copy-version', 'yuidoc:www']);
 };

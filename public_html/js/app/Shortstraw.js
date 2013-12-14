@@ -210,6 +210,5 @@ define(function() {
         return cornerPoints;
     }
 
-
     return Shortstraw;
 });

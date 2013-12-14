@@ -1,6 +1,6 @@
 /**
  * This class module contains numerous helper functions that are used throughout the application.
- * Additional functions used repeatedly shoud also be stored here. They are stored in the global Skritter namespace.
+ * Additional functions used repeatedly shoud also be stored here. They are stored in the global skritter namespace.
  * 
  * @module Skritter
  * @class Functions
@@ -19,6 +19,16 @@ define(function() {
         var i = parseFloat(Math.floor(Math.log(bytes) / Math.log(1024)));
         return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
     };
+    
+    /**
+     * @method extractCJK
+     * @param {String} value
+     * @returns {Array}
+     */
+    var extractCJK = function(value) {
+        return value.match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]|[\u20000-\u2a6d6]|[\u2a700-\u2b734]|[\u2b740-\u2b81d]/g);
+    };
+    
     /**
      * @method getAngle
      * @param {Array} points An array of point values
@@ -165,6 +175,17 @@ define(function() {
     };
     
     /**
+     * @method isLocal
+     * @returns {Boolean}
+     */
+    var isLocal = function() {
+        var hostname = document.location.hostname || window.location.hostname || location.hostname;
+        if (hostname === 'html5.skritter.com' || hostname === 'html5.skritter.cn')
+            return false;
+        return true;
+    };
+    
+    /**
      * @method isMobile
      * @returns {Boolean}
      */
@@ -210,20 +231,21 @@ define(function() {
 
     /**
      * Returns a Bootstrap alert of the given level containing the given text.
+     * 
      * @method twbsAlertHTML
      * @param {String} level One of {success, info, warning, danger}
      * @param {String} text The alert text to be displayed
      */
     var twbsAlertHTML = function(level, text) {
-        var string = "<div class='alert alert-" + level + "'>" +
+        return "<div class='alert alert-" + level + "'>" +
                 "<button type='button' class='close' data-dismiss='alert'>&times;</button>" +
                 text +
                 "</div>";
-        return string;
     };
 
     return {
         bytesToSize: bytesToSize,
+        extractCJK: extractCJK,
         getAngle: getAngle,
         getBoundingRectangle: getBoundingRectangle,
         getDistance: getDistance,
@@ -232,6 +254,7 @@ define(function() {
         getRandomInt: getRandomInt,
         getUnixTime: getUnixTime,
         isKana: isKana,
+        isLocal: isLocal,
         isMobile: isMobile,
         maskCharacters: maskCharacters,
         pad: pad,

@@ -2,6 +2,7 @@
 build/
 config/
 docs/
+files/
 nbproject/
 node_modules/
 public_html/media/audio/

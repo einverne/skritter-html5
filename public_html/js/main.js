@@ -1,66 +1,96 @@
 /**
- * This is the main load file which contains all of the RequireJS paths.
- * 
+ * @module Skritter
  * @author Joshua McFarland
  */
 requirejs.config({
-    baseUrl: 'js/app/',
-    main: 'Application',
-    //ISSUE #44: should be removed or commented out for application caching to work
+    baseUrl: 'js/app',
     urlArgs: function() {
-        if (document.location.host.indexOf('localhost') > -1 && document.location.pathname.indexOf('public_html') > -1)
+        //removes the added url args from testing environment 
+        var hostname = document.location.hostname || window.location.hostname || location.hostname;
+        if (hostname === 'localhost')
             return 'cb=' + Math.random();
     }(),
     paths: {
         //directories
-        component: 'view/component',
-        media: '../../media',
-        prompt: 'view/prompt',
-        template: '../../template',
+        templates: '../../templates',
+        specs: '../../tests/specs/',
         //libraries
-        async: '../lib/async',
-        backbone: '../lib/backbone-1.1.0.min',
-        base64: '../lib/base64',
-        bootstrap: '../lib/bootstrap-3.0.0.min',
-        'createjs.easel': '../lib/createjs.easeljs-0.7.0.min',
-        'createjs.preload': '../lib/createjs.preloadjs-0.4.0.min',
-        'createjs.sound': '../lib/createjs.soundjs-0.5.0.min',
-        'createjs.tween': '../lib/createjs.tweenjs-0.5.0.min',
-        'indexeddb.shim': '../lib/indexeddb.shim-0.1.2.min',
-        jquery: '../lib/jquery-1.10.2.min',
-        'jquery.hammer': '../lib/jquery.hammerjs-1.0.5.min',
-        'jquery.indexeddb': '../lib/jquery.indexeddb.min',
-        lodash: '../lib/lodash.compat-2.2.1.min',
-        'require.text': '../lib/require.text-2.0.10'
+        async: '../libs/async',
+        backbone: '../libs/backbone-1.1.0',
+        base64: '../libs/base64',
+        bootstrap: '../../bootstrap/js/bootstrap',
+        'createjs.easel': '../libs/createjs.easel-NEXT.min',
+        'createjs.tween': '../libs/createjs.tween-NEXT.min',
+        jasmine: '../../tests/libs/jasmine',
+        'jasmine-html': '../../tests/libs/jasmine-html',
+        jquery: '../libs/jquery-2.0.3',
+        'jquery.hammer': '../libs/jquery.hammer-1.0.5',
+        'jquery.indexeddb': '../libs/jquery.indexeddb',
+        lodash: '../libs/lodash-2.4.1',
+        'lz-string': '../libs/lz-string-1.3.3',
+        moment: '../libs/moment-2.4.0',
+        'require.text': '../libs/require.text-2.0.10'
     },
     shim: {
         backbone: {
             deps: ['jquery', 'lodash', 'require.text'],
             exports: 'Backbone'
         },
-        bootstrap: {
-            deps: ['jquery']
+        bootstrap: ['jquery'],
+        'jasmine-html': {
+            deps: ['jasmine', 'jquery'],
+            exports: 'jasmine'
         },
         jquery: {
             exports: '$'
         },
-        'jquery.hammer': {
-            deps: ['jquery']
-        },
-        'jquery.indexeddb': {
-            deps: ['jquery']
-        },
+        'jquery.indexeddb': ['jquery'],
         lodash: {
             exports: '_'
         }
     }
 });
 
-requirejs.onError = function (error) {
-    console.log('RequireJS Error', error);
-    if (error.requireType === 'timeout') {
-        console.log('modules: ' + error.requireModules);
-    }
-};
-
-requirejs(['Application']);
+if (document.location.pathname.indexOf('tests.html') > -1) {
+    /**
+     * Loads the jasmine test cases.
+     */
+    requirejs(['Application', 'Jasmine'], function() {
+        var jasmineEnv = jasmine.getEnv();
+        jasmineEnv.updateInterval = 1000;
+        var htmlReporter = new jasmine.HtmlReporter();
+        jasmineEnv.addReporter(htmlReporter);
+        jasmineEnv.specFilter = function(spec) { 
+            return htmlReporter.specFilter(spec);
+        };
+        var specs = [];
+        specs.push('specs/Functions');
+        $(document).ready(function() {
+            requirejs(specs, function() {
+                jasmineEnv.execute();
+            });
+        });
+    });
+} else {
+    /**
+     * Loads the application.
+     * 
+     * @param Application
+     */
+    requirejs(['Application'], function(Application) {
+        /**
+         * Creates the global Skritter namespace when the application first opened.
+         * @param skritter
+         */
+        window.skritter = (function(skritter) {
+            return skritter;
+        })(window.skritter || {});
+        /**
+         * Loads the application once the DOM has been fully loaded.
+         */
+        $(document).ready(function() {
+            skritter.application = Application;
+            Application.initialize();
+        });
+    });
+}
