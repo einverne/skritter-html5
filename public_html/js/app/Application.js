@@ -113,7 +113,9 @@ define([
     var loadUser = function(callback) {
         skritter.user = new User();
         if (skritter.user.isLoggedIn()) {
-            skritter.modal.show('progress').setTitle('Loading Account');
+            //don't display the loading account modal if initial download
+            if (!skritter.user.getLastSync())
+                skritter.modal.show('progress').setTitle('Loading Account');
             skritter.storage.openDatabase(skritter.user.get('user_id'), function() {
                 skritter.async.series([
                     skritter.async.apply(skritter.settings.refreshDate),
