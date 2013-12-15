@@ -58,7 +58,7 @@ define([
             callback(error);
         });
     };
-    
+
     /**
      * @method checkBatch
      * @param {Number} batchId
@@ -214,7 +214,7 @@ define([
             callback(error);
         });
     };
-    
+
     /**
      * @method getItemsById
      * @param {Array} ids
@@ -240,7 +240,7 @@ define([
             }
         ];
         skritter.async.waterfall([
-           //request the minimal fields from items and vocabs
+            //request the minimal fields from items and vocabs
             function(callback) {
                 self.requestBatch(requests, function(batch) {
                     callback(null, batch);
@@ -257,7 +257,7 @@ define([
             callback(result);
         });
     };
-    
+
     /**
      * @method getItemsNext
      * @param {Number} limit

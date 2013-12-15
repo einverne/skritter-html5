@@ -172,10 +172,9 @@ html, body {
 
 
 /*** MODALS.HTML ***/
-.modal {overflow-y: hidden;}
-.modal #error-message {
-    padding-top: 20px;
-}
+.modal { overflow-y: hidden; }
+.model #slider { width: 100%; }
+.modal #error-message { padding-top: 20px; }
 .modal-vertical-centered {
     outline: 0;
     transform: translate(0, 20%) !important;

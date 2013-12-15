@@ -47,7 +47,7 @@ define([
         addItems: function() {
             var self = this;
             skritter.modal.show('progress').setTitle('Adding Items').setProgress(100);
-            skritter.user.addItems(1, function() {
+            skritter.user.addItems(5, function() {
                 self.loadItems();
                 self.updateDueCount();
                 skritter.modal.hide();
@@ -111,7 +111,7 @@ define([
                     this.nextItem();
             } else {
                 Study.items = skritter.data.items.getActive();
-                
+
             }
             return Study.items;
         },
@@ -210,7 +210,7 @@ define([
          * @method updateDueCount
          */
         updateDueCount: function() {
-           this.$('#items-due').text(skritter.data.items.getDue().length); 
+            this.$('#items-due').text(skritter.data.items.getDue().length);
         }
     });
 

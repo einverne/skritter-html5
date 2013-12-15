@@ -111,7 +111,7 @@ define([
                 //start fetching the new items as they are completed
                 function(result, callback) {
                     skritter.modal.setProgress(100, 'Getting Items');
-                    skritter.api.getCompleteBatch(result.id, function(result) {
+                    skritter.api.getBatchCombined(result.id, function(result) {
                         console.log('added items', result);
                     }, function() {
                         callback();
@@ -373,20 +373,20 @@ define([
          */
         sync: function(callback) {
             var self = this;
-            console.log('syncing from', skritter.moment(this.getLastSync()*1000).format('YYYY[-]MM[-]DD h:mm:ss a'));
+            console.log('syncing from', skritter.moment(this.getLastSync() * 1000).format('YYYY[-]MM[-]DD h:mm:ss a'));
             skritter.async.waterfall([
                 /*function(callback) {
-                    skritter.modal.setProgress(100, 'Getting Schedule');
-                    skritter.api.getItemsCondensed(function(result) {
-                        console.log('condensed', result);
-                        callback(null, result);
-                    });
-                },
-                function(result, callback) {
-                    skritter.modal.setProgress(100, 'Saving Schedule');
-                    skritter.data.items.add(result.Items, {merge: true});
-                    skritter.data.items.cache(callback);
-                },*/
+                 skritter.modal.setProgress(100, 'Getting Schedule');
+                 skritter.api.getItemsCondensed(function(result) {
+                 console.log('condensed', result);
+                 callback(null, result);
+                 });
+                 },
+                 function(result, callback) {
+                 skritter.modal.setProgress(100, 'Saving Schedule');
+                 skritter.data.items.add(result.Items, {merge: true});
+                 skritter.data.items.cache(callback);
+                 },*/
                 function() {
                     switch (self.get('syncMethod')) {
                         case 'flash':
@@ -404,21 +404,21 @@ define([
                 self.setLastSync();
                 callback();
             });
-            
+
             /*skritter.api.getItemsCondensed(function(items) {
-                console.log('condensed items', items);
-                switch (self.get('syncMethod')) {
-                    case 'flash':
-                        Sync.methodFlash(callback);
-                        break;
-                    case 'full':
-                        Sync.methodFull(callback);
-                        break;
-                    case 'partial':
-                        Sync.methodPartial(callback);
-                        break;
-                }
-            }, this.getLastSync());*/
+             console.log('condensed items', items);
+             switch (self.get('syncMethod')) {
+             case 'flash':
+             Sync.methodFlash(callback);
+             break;
+             case 'full':
+             Sync.methodFull(callback);
+             break;
+             case 'partial':
+             Sync.methodPartial(callback);
+             break;
+             }
+             }, this.getLastSync());*/
         },
         /**
          * A shortcut method for removing user server settings.
