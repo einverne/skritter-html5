@@ -116,8 +116,10 @@ define([
          * @returns {Backbone.View}
          */
         setProgress: function(percent, text) {
-            this.$('#' + Modal.id + ' .progress-bar').width(percent + '%');
-            this.$('#' + Modal.id + ' .progress-bar .sr-only').text(percent + '% Complete');
+            if (percent)
+                this.$('#' + Modal.id + ' .progress-bar').width(percent + '%');
+            if (text)
+                this.$('#' + Modal.id + ' .progress-bar .sr-only').text(percent + '% Complete');
             this.$('#' + Modal.id + ' .modal-progress-text').text(text);
             return this;
         },

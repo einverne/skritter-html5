@@ -32,7 +32,7 @@ define([
             Rune.canvas = new Canvas();
             Rune.failedAttempts = 0;
             Rune.maxFailedAttempts = 3;
-            Rune.minStrokeDistance = 25;
+            Rune.minStrokeDistance = 15;
             Rune.strokeCount = 0;
             Rune.userCharacter = null;
             this.listenTo(Rune.canvas, 'mousedown', this.handleInputDown);

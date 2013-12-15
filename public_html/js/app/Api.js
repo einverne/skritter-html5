@@ -87,7 +87,7 @@ define([
             callback(error);
         });
     };
-    
+
     /**
      * @getBatch
      * @param {String} batchId
@@ -132,17 +132,17 @@ define([
             return Array.isArray(a) ? a.concat(b) : undefined;
         }
     };
-    
+
     /**
      * Returns an object with merged results based on a batch request. This is mainly used for
      * account downloads and for larger account can take a few minutes.
      * 
-     * @method getCompleteBatch
+     * @method getBatchCombined
      * @param {Number} batchId
      * @param {Function} callback1
      * @param {Function} callback2
      */
-    Api.prototype.getCompleteBatch = function(batchId, callback1, callback2) {
+    Api.prototype.getBatchCombined = function(batchId, callback1, callback2) {
         var self = this;
         var retryCount = 0;
         var responseSize = 0;
@@ -213,7 +213,7 @@ define([
             callback(error);
         });
     };
-    
+
     /**
      * @method getItems
      * @param {Number} limit
@@ -258,7 +258,56 @@ define([
             return Array.isArray(a) ? a.concat(b) : undefined;
         }
     };
-    
+
+    /**
+     * @method getItemsCondensed
+     * @param {Function} callback
+     * @param {Number} offset
+     */
+    Api.prototype.getItemsCondensed = function(callback, offset) {
+        var self = this;
+        var requests = [
+            {
+                path: 'api/v' + skritter.api.version + '/items',
+                method: 'GET',
+                params: {
+                    sort: 'changed',
+                    fields: 'id,last,next,vocabIds',
+                    include_vocabs: 'true',
+                    vocab_fields: 'id,containedVocabIds'
+                },
+                spawner: true
+            }
+        ];
+        skritter.async.waterfall([
+            //request the minimal fields from items and vocabs
+            function(callback) {
+                skritter.api.requestBatch(requests, function(batch) {
+                    callback(null, batch);
+                });
+            },
+            //waits for the batch to complete and updates the size
+            function(batch, callback) {
+                self.getCompleteBatch(batch.id, function(size) {
+                    console.log(skritter.fn.bytesToSize(size));
+                }, function(result) {
+                    callback(null, result);
+                });
+            },
+            //condenses the contained ids into the items entity
+            function(result, callback) {
+                for (var i in result.Items)
+                    //filter out items that don't need contained ids
+                    if ((result.Items[i].id.indexOf('rune') !== -1 || result.Items[i].id.indexOf('tone') !== -1) && result.Items[i].vocabIds.length > 0)
+                        result.Items[i].containedVocabIds = _.find(result.Vocabs, {id: result.Items[i].vocabIds[0]}).containedVocabIds;
+                callback(result.Items);
+            }
+        ], function(errors, items) {
+            if (!errors)
+                callback(items);
+        });
+    };
+
     /**
      * Returns specific progress stats that can be used for various things such as an actual
      * progress page or study time for the day from the server. To read more about the request parameters
@@ -283,7 +332,7 @@ define([
             callback(error);
         });
     };
-    
+
     /**
      * Returns an array of review post errors from the server. If the offset is null then
      * it'll return all of the review errors.

@@ -11,12 +11,12 @@
 
 /*** MAIN ***/
 html, body {
+    background-image: url('../images/textures/rice-paper1.png');
+    background-repeat: repeat;
     height: 100%;
     overflow-x: hidden;
 }
 #skritter-container {
-    background-image: url('../images/textures/rice-paper1.png');
-    background-repeat: repeat;
     height: 100%;
 }
 .chinese-text {font-family: "simkai";}
@@ -66,6 +66,21 @@ html, body {
 
 
 /*** HOME.HTML ***/
+#home-view #features .media {
+    padding: 15px 0;
+}
+#home-view .feature-icon {
+    background: url('../images/feature-icons.png') no-repeat;
+    height: 50px;
+    left: 0;
+    margin-right: 5px;
+    top: 0;
+    width: 60px;
+}
+#home-view #features #brush { background-position: 0 -150px; }
+#home-view #features #plane { background-position: 0 -100px; }
+#home-view #features #book { background-position: 0 -50px; }
+#home-view #features #clock { background-position: 0 0; }
 @media (max-width:767px) {
     #home-view #overview {
         text-align: center;

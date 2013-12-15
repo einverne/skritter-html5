@@ -32,6 +32,18 @@ define([
     };
     
     /**
+     * @method deleteAllDatabases
+     * @returns {undefined}
+     */
+    IndexedDBAdapter.prototype.deleteAllDatabases = function() {
+         var request = window.indexedDB.webkitGetDatabaseNames();
+        request.onsuccess = function(event) {
+            for (var i in event.target.result)
+                $.indexedDB(event.target.result[i]).deleteDatabase();
+        };
+    };
+    
+    /**
      * @method deleteDatabase
      * @param {Function} callback
      * @returns {undefined}
@@ -54,6 +66,7 @@ define([
      * @returns {undefined}
      */
     IndexedDBAdapter.prototype.openDatabase = function(databaseName, callback) {
+        var self = this;
         this.databaseName = databaseName;
         var promise = $.indexedDB(this.databaseName, {
             version: 1,
@@ -69,8 +82,13 @@ define([
                 }
             }
         });
-        promise.done(function() {   
-            callback();
+        promise.done(function(event) {   
+            if (event.objectStoreNames.length === 0) {
+                self.deleteDatabase(self.openDatabase, self.databaseName, callback);
+                return false;
+            } else {
+                callback();
+            }
         });
         promise.fail(function(error) {
             console.error(databaseName, error);
@@ -184,6 +202,7 @@ define([
             if (position < items.length) {
                 var promise = $.indexedDB(self.databaseName).objectStore(tableName).put(items[position]);
                 promise.done(function() {
+                    skritter.modal.setProgress(((position / items.length) * 100).toFixed(0));
                     position++;
                     setNext();
                 });
