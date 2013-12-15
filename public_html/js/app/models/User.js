@@ -103,19 +103,10 @@ define([
             skritter.async.waterfall([
                 //request the new items using a batch request
                 function(callback) {
-                    requestBatch();
                     skritter.modal.setProgress(100, 'Requesting Items');
-                    function requestBatch() {
-                        skritter.api.requestBatch(requests, function(result) {
-                            if (result) {
-                                setTimeout(function() {
-                                    callback(null, result);
-                                }, 5000);
-                            } else {
-                                requestBatch();
-                            }
-                        });
-                    }
+                    skritter.api.requestBatch(requests, function(result) {
+                        callback(null, result);
+                    });
                 },
                 //start fetching the new items as they are completed
                 function(result, callback) {
@@ -341,7 +332,7 @@ define([
         logout: function() {
             if (this.isLoggedIn()) {
                 skritter.modal.show().setBody('Logging Out').noHeader();
-                skritter.storage.deleteDatabase(function() {
+                skritter.storage.deleteAllDatabases(function() {
                     localStorage.removeItem('activeUser');
                     skritter.router.navigate('', {trigger: true, replace: true});
                     document.location.reload();
@@ -381,17 +372,53 @@ define([
          * @param {Function} callback
          */
         sync: function(callback) {
-            switch (this.get('syncMethod')) {
-                case 'flash':
-                    Sync.flash(callback);
-                    break;
-                case 'full':
-                    Sync.full(callback);
-                    break;
-                case 'partial':
-                    Sync.partial(callback);
-                    break;
-            }
+            var self = this;
+            console.log('syncing from', skritter.moment(this.getLastSync()*1000).format('YYYY[-]MM[-]DD h:mm:ss a'));
+            skritter.async.waterfall([
+                /*function(callback) {
+                    skritter.modal.setProgress(100, 'Getting Schedule');
+                    skritter.api.getItemsCondensed(function(result) {
+                        console.log('condensed', result);
+                        callback(null, result);
+                    });
+                },
+                function(result, callback) {
+                    skritter.modal.setProgress(100, 'Saving Schedule');
+                    skritter.data.items.add(result.Items, {merge: true});
+                    skritter.data.items.cache(callback);
+                },*/
+                function() {
+                    switch (self.get('syncMethod')) {
+                        case 'flash':
+                            Sync.methodFlash(callback);
+                            break;
+                        case 'full':
+                            Sync.methodFull(callback);
+                            break;
+                        case 'partial':
+                            Sync.methodPartial(callback);
+                            break;
+                    }
+                }
+            ], function() {
+                self.setLastSync();
+                callback();
+            });
+            
+            /*skritter.api.getItemsCondensed(function(items) {
+                console.log('condensed items', items);
+                switch (self.get('syncMethod')) {
+                    case 'flash':
+                        Sync.methodFlash(callback);
+                        break;
+                    case 'full':
+                        Sync.methodFull(callback);
+                        break;
+                    case 'partial':
+                        Sync.methodPartial(callback);
+                        break;
+                }
+            }, this.getLastSync());*/
         },
         /**
          * A shortcut method for removing user server settings.

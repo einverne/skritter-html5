@@ -38,9 +38,12 @@ define([
          * @method insert
          * @param {Array} vocabs
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(vocabs, callback) {
+            this.add(vocabs, {merge: true});
             skritter.storage.setItems('vocabs', vocabs, callback);
+            return this;
         },
         /**
          * @method loadAll

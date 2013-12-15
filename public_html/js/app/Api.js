@@ -58,7 +58,7 @@ define([
             callback(error);
         });
     };
-
+    
     /**
      * @method checkBatch
      * @param {Number} batchId
@@ -98,6 +98,9 @@ define([
         var self = this;
         var result = {};
         var responseSize = 0;
+        var merge = function(a, b) {
+            return Array.isArray(a) ? a.concat(b) : undefined;
+        };
         var promise = $.ajax({
             url: this.root + '.' + this.domain + '/api/v' + this.version + '/batch/' + batchId,
             beforeSend: function(xhr) {
@@ -128,9 +131,6 @@ define([
             console.error(error);
             callback();
         });
-        function merge(a, b) {
-            return Array.isArray(a) ? a.concat(b) : undefined;
-        }
     };
 
     /**
@@ -164,9 +164,10 @@ define([
                     _.merge(result, requests[i].response, merge);
                     responseSize += requests[i].responseSize;
                 }
-                callback1(responseSize);
+                if (typeof callback1 === 'function')
+                    callback1(responseSize);
                 if (batch && (batch.runningRequests > 0 || requests.length > 0)) {
-                    setTimeout(function() {
+                    window.setTimeout(function() {
                         getNext(batchId);
                     }, 2000);
                 } else {
@@ -317,7 +318,7 @@ define([
                 params: {
                     sort: 'changed',
                     offset: offset,
-                    fields: 'id,last,next,vocabIds',
+                    fields: 'id,changed,last,next,vocabIds',
                     include_vocabs: 'true',
                     vocab_fields: 'id,containedVocabIds'
                 },
@@ -340,10 +341,7 @@ define([
             },
             //waits for the batch to complete and updates the size
             function(batch, callback) {
-                self.getBatchCombined(batch.id, function(size) {
-                    if (skritter.fn.bytesToSize(size))
-                        console.log(skritter.fn.bytesToSize(size));
-                }, function(result) {
+                self.getBatchCombined(batch.id, null, function(result) {
                     callback(null, result);
                 });
             },
@@ -352,14 +350,17 @@ define([
                 for (var i in result.Items)
                     //filter out items that don't need contained ids
                     if ((result.Items[i].id.indexOf('rune') !== -1 || result.Items[i].id.indexOf('tone') !== -1) && result.Items[i].vocabIds.length > 1) {
+                        //TODO: really needs a web worker to handle this without bogging down the dom
                         var containedVocabIds = _.find(result.Vocabs, {id: result.Items[i].vocabIds[0]}).containedVocabIds;
                         if (containedVocabIds)
                             result.Items[i].containedVocabIds = containedVocabIds;
                     }
-                callback(result.Items);
+                delete result.cursor;
+                delete result.Vocabs;
+                callback(result);
             }
-        ], function(items) {
-            callback(items);
+        ], function(result) {
+            callback(result);
         });
     };
 
@@ -556,7 +557,7 @@ define([
             });
             promise.fail(function(error) {
                 console.error(error);
-                callback(false);
+                callback();
             });
         };
         postBatch(reviews.splice(0, 499));

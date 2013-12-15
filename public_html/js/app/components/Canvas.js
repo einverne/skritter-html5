@@ -25,7 +25,7 @@ define([
             Canvas.strokeSize = 12;
             Canvas.strokeCapStyle = 'round';
             Canvas.strokeJointStyle = 'round';
-            Canvas.squigColor = 'black';
+            Canvas.squigColor = '#000000';
             Canvas.textColor = 'orange';
             Canvas.textFont = '12px Arial';
             Canvas.element = this.initElement();
@@ -332,9 +332,6 @@ define([
             createjs.Tween.get(fromBitmap).to(toBitmap, 300, createjs.Ease.sineOut).call(function() {
                 if (typeof callback === 'function')
                     callback();
-            }).addEventListener('change', function() {
-                if (layer.cacheCanvas)
-                    layer.updateCache();
             });
             return toBitmap;
         },

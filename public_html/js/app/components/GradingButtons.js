@@ -72,7 +72,6 @@ define([
          * @param {Object} event
          */
         handleButtonClick: function(event) {
-            console.log(GradingButtons.expanded);
             this.select(parseInt(event.currentTarget.id.replace(/[^\d]+/, ''), 10));
             if (GradingButtons.expanded) {
                 this.triggerSelected();

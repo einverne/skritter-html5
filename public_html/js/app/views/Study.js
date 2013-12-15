@@ -18,7 +18,6 @@ define([
     var Study = Backbone.View.extend({
         initialize: function() {
             Study.current = {prompt: null, item: null, vocabs: null};
-            Study.items = null;
             skritter.timer.sync(true);
         },
         render: function() {
@@ -26,11 +25,6 @@ define([
             this.$('#avatar').html(skritter.user.getAvatar('avatar'));
             this.$('#username').text(skritter.user.getSetting('name'));
             skritter.timer.setElement(this.$('#timer')).render();
-            
-            //this.loadItems('id', ['mcfarljwtest1-zh-啊-0-tone']);
-            //this.loadItems('part', ['tone']);
-            this.loadItems();
-            
             if (Study.current.prompt) {
                 this.loadPrompt();
             } else {
@@ -159,11 +153,12 @@ define([
          */
         nextItem: function() {
             //resort the items based on the new readiness values
-            Study.items.sort();
+            skritter.data.items.sort();
             //keep an updated display of items due
             this.updateDueCount();
             //gets the next item that should be studied and loads it
-            Study.current.item = Study.items.at(0);
+            Study.current.item = skritter.data.items.at(0);
+            //Study.current.item = skritter.data.items.findWhere({id: 'mcfarljwtest1-zh-的-0-tone'});
             Study.current.vocabs = Study.current.item.getVocabs();
             //load the basd on the items part
             switch (Study.current.item.get('part')) {
@@ -214,7 +209,7 @@ define([
          * @method updateDueCount
          */
         updateDueCount: function() {
-           this.$('#items-due').text(Study.items.getDue().length); 
+           this.$('#items-due').text(skritter.data.items.getDue().length); 
         }
     });
 

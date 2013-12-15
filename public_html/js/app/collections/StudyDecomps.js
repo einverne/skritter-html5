@@ -38,9 +38,12 @@ define([
          * @method insert
          * @param {Array} decomps
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(decomps, callback) {
+            this.add(decomps, {merge: true});
             skritter.storage.setItems('decomps', decomps, callback);
+            return this;
         },
         /**
          * @method loadAll

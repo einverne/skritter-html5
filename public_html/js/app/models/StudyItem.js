@@ -43,6 +43,10 @@ define([
             }
             return items;
         },
+        /**
+         * @method getCharacterCount
+         * @returns {Number}
+         */
         getCharacterCount: function() {
             return this.get('id').match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]|[\u20000-\u2a6d6]|[\u2a700-\u2b734]|[\u2b740-\u2b81d]/g).length;
         },
@@ -53,8 +57,8 @@ define([
          */
         getReadiness: function(deprioritizeLongShots) {
             var now = skritter.fn.getUnixTime();
-            if (!this.get('vocabIds') || this.get('vocabIds').length <= 0)
-                return 0;
+            if (this.get('vocabIds').length === 0)
+                return false;
             if (!this.has('last') && (this.get('next') - now) > 600)
                 return 0.2;
             if (!this.has('last') || (this.get('next') - this.get('last')) === 1)
@@ -125,12 +129,12 @@ define([
                 submitTime: startTime,
                 reviewTime: reviewTime,
                 thinkingTime: thinkingTime,
-                currentInterval: this.get('interval'),
-                actualInterval: (this.get('last')) ? startTime - this.get('last') : 0,
+                currentInterval: this.has('interval') ? this.get('interval') : 0,
+                actualInterval: this.has('last') ? startTime - this.get('last') : 0,
                 newInterval: new Scheduler().getInterval(this, grade),
                 wordGroup: wordGroup,
-                previousInterval: (this.get('previousInterval')) ? this.get('previousInterval') : 0,
-                previousSuccess: (this.get('previousSuccess')) ? this.get('previousSuccess') : false
+                previousInterval: this.has('previousInterval') ? this.get('previousInterval') : 0,
+                previousSuccess: this.has('previousSuccess') ? this.get('previousSuccess') : false
             });
             this.set({
                 changed: startTime,

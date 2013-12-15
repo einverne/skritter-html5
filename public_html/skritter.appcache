@@ -9,7 +9,6 @@ icon-196x196.png
 index.html
 manifest.webapp
 package.json
-robots.txt
 skritter.appcache
 tests.html
 bootstrap/css/bootstrap-theme.css
@@ -62,6 +61,7 @@ js/app/Router.js
 js/app/Scheduler.js
 js/app/Shortstraw.js
 js/app/Strokes.js
+js/app/Sync.js
 js/app/collections/CanvasCharacter.js
 js/app/collections/StudyDecomps.js
 js/app/collections/StudyItems.js
@@ -119,6 +119,7 @@ tests/libs/jasmine-html.js
 tests/libs/jasmine.js
 tests/specs/Functions.js
 fonts/FontAwesome.otf
+images/feature-icons.png
 images/grading/grade1.png
 images/grading/grade2.png
 images/grading/grade3.png

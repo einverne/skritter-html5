@@ -75,19 +75,15 @@ define([
         handleCharacterComplete: function() {
             //stop the lap timer
             skritter.timer.stop();
-            //input should all be stopped once the character has been completed
-            Rune.canvas.disableInput();
             //mark the prompt as finished while the answer is shown
             Prompt.finished = true;
             //checks if we should snap or just glow the result
             if (skritter.user.getSetting('squigs')) {
                 for (var i in Rune.userCharacter.models) {
                     var stroke = Rune.userCharacter.models[i];
-                    Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), 'stroke', this.filterCharacter);
+                    Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), 'stroke');
                     Rune.canvas.setLayerAlpha('overlay', 0.3);
                 }
-            } else {
-                this.filterCharacter();
             }
             this.showAnswer();
         },
@@ -218,7 +214,6 @@ define([
                     //ISSUE #63: show the grading buttons and grade color preemptively
                     if (Rune.userCharacter.getStrokeCount(false) >= Rune.userCharacter.getTargetStrokeCount()) {
                         Prompt.gradingButtons.select().collapse();
-                        //this.filterCharacter();
                     }
                 } else {
                     Rune.failedAttempts++;
@@ -263,6 +258,7 @@ define([
          * @method showAnswer
          */
         showAnswer: function() {
+            Rune.canvas.disableInput();
             this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
             if (this.isLast() && Prompt.sentence)
                 this.$('.prompt-sentence').text(Prompt.sentence.get('writing'));

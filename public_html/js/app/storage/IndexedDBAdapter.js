@@ -11,6 +11,7 @@ define([
      * @constructor
      */
     function IndexedDBAdapter() {
+        this.database = null;
         this.databaseName = null;
         this.databaseVersion = 1;
     }
@@ -33,13 +34,28 @@ define([
     
     /**
      * @method deleteAllDatabases
+     * @param {Function} callback
      * @returns {undefined}
      */
-    IndexedDBAdapter.prototype.deleteAllDatabases = function() {
-         var request = window.indexedDB.webkitGetDatabaseNames();
+    IndexedDBAdapter.prototype.deleteAllDatabases = function(callback) {
+        var position = 0;
+        var request = window.indexedDB.webkitGetDatabaseNames();
         request.onsuccess = function(event) {
-            for (var i in event.target.result)
-                $.indexedDB(event.target.result[i]).deleteDatabase();
+            next();
+            function next() {
+                var promise = $.indexedDB(event.target.result[position]).deleteDatabase();
+                promise.done(function() {
+                    if (position < event.target.result.length) {
+                        position++;
+                        next();
+                    } else {
+                        callback();
+                    }
+                });
+                promise.fail(function(error) {
+                    console.error(error);
+                });
+            }
         };
     };
     
@@ -49,7 +65,7 @@ define([
      * @returns {undefined}
      */
     IndexedDBAdapter.prototype.deleteDatabase = function(callback) {
-        var promise = $.indexedDB(this.databaseName).deleteDatabase();
+        var promise = this.database.deleteDatabase();
         promise.done(function() {
             if (typeof callback === 'function')
                 callback();
@@ -82,11 +98,11 @@ define([
                 }
             }
         });
-        promise.done(function(event) {   
+        promise.done(function(event) {
             if (event.objectStoreNames.length === 0) {
-                self.deleteDatabase(self.openDatabase, self.databaseName, callback);
-                return false;
+                self.deleteAllDatabases(callback);
             } else {
+                self.database = promise;
                 callback();
             }
         });
@@ -103,7 +119,8 @@ define([
      */
     IndexedDBAdapter.prototype.getAll = function(tableName, callback) {
         var items = [];
-        var promise = $.indexedDB(this.databaseName).objectStore(tableName).each(function(item) {
+        var table = this.database.objectStore(tableName);
+        var promise = table.each(function(item) {
             items.push(item.value);
         });
         promise.done(function() {
@@ -122,14 +139,14 @@ define([
      * @returns {undefined}
      */
     IndexedDBAdapter.prototype.getItems = function(tableName, keys, callback) {
-        var self = this;
         var position = 0;
         var items = [];
+        var table = this.database.objectStore(tableName);
         keys = Array.isArray(keys) ? keys : [keys];
         getNext();
         function getNext() {
             if (position < keys.length) {
-                var promise = $.indexedDB(self.databaseName).objectStore(tableName).get(keys[position]);
+                var promise = table.get(keys[position]);
                 promise.done(function(item) {
                     position++;
                     items.push(item);
@@ -144,21 +161,6 @@ define([
         }
     };
     
-    IndexedDBAdapter.prototype.getSchedule = function(callback) {
-        var schedule = [];
-        var promise = $.indexedDB(this.databaseName).objectStore('items').each(function(item) {
-            if (item.value.vocabIds.length > 0)
-                schedule.push(item.value);
-        });
-        promise.done(function() {
-            console.log(schedule);
-            callback(schedule);
-        });
-        promise.fail(function(error) {
-            console.error(error);
-        });
-    };
-    
     /**
      * @method removeItems
      * @param {String} tableName
@@ -167,13 +169,13 @@ define([
      * @returns {undefined}
      */
     IndexedDBAdapter.prototype.removeItems = function(tableName, keys, callback) {
-        var self = this;
         var position = 0;
+        var table = this.database.objectStore(tableName);
         keys = Array.isArray(keys) ? keys : [keys];
         removeNext();
         function removeNext() {
             if (position < keys.length) {
-                var promise = $.indexedDB(self.databaseName).objectStore(tableName).delete(keys[position]);
+                var promise = table.delete(keys[position]);
                 promise.done(function() {
                     position++;
                     removeNext();
@@ -196,11 +198,11 @@ define([
      * @returns {undefined}
      */
     IndexedDBAdapter.prototype.setItems = function(tableName, items, callback) {
-        var self = this;
         var position = 0;
+        var table = this.database.objectStore(tableName);
         var setNext = function() {
             if (position < items.length) {
-                var promise = $.indexedDB(self.databaseName).objectStore(tableName).put(items[position]);
+                var promise = table.put(items[position]);
                 promise.done(function() {
                     position++;
                     setNext();

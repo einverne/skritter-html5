@@ -38,9 +38,12 @@ define([
          * @method insert
          * @param {Array} srsconfigs
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(srsconfigs, callback) {
+            this.add(srsconfigs, {merge: true});
             skritter.storage.setItems('srsconfigs', srsconfigs, callback);
+            return this;
         },
         /**
          * @method loadAll

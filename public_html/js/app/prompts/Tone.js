@@ -1,7 +1,6 @@
 /**
  * @module Skritter
  * @submodule Prompts
- * @param PinyinConverter
  * @param Recognizer
  * @param CanvasCharacter
  * @param CanvasStroke
@@ -63,7 +62,6 @@ define([
          */
         handleCharacterComplete: function() {
             Prompt.finished = true;
-            Tone.canvas.disableInput();
             Tone.canvas.filterLayerColor('stroke', Prompt.gradeColorFilters[Prompt.gradingButtons.grade()]);
             this.showAnswer();
         },
@@ -135,7 +133,7 @@ define([
                     var result = new Recognizer(Tone.userCharacter, stroke, Tone.userCharacter.targets).recognize(ignoreCheck, enforceOrder);
                     //check if a result exists and that it's not a duplicate
                     if (result && !Tone.userCharacter.containsStroke(result)) {
-                        Prompt.gradingButtons.select(3).collapse();
+                        Prompt.gradingButtons.select(3);
                         //add the stroke to the users character
                         Tone.userCharacter.add(result);
                         //draw the stroke on the canvas without tweening
@@ -184,8 +182,10 @@ define([
         },
         showAnswer: function() {
             skritter.timer.stop();
+            Tone.canvas.disableInput();
             if (Prompt.vocabs[0].has('audio') && this.isLast() && skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
+            Prompt.gradingButtons.select().collapse();
             this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position));
         }
     });
