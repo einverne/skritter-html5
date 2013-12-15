@@ -213,13 +213,56 @@ define([
             callback(error);
         });
     };
-
+    
     /**
-     * @method getItems
+     * @method getItemsById
+     * @param {Array} ids
+     * @param {Function} callback
+     */
+    Api.prototype.getItemsById = function(ids, callback) {
+        var self = this;
+        var requests = [
+            {
+                path: 'api/v' + this.version + '/items',
+                method: 'GET',
+                params: {
+                    bearer_token: self.token,
+                    ids: ids.join('|'),
+                    include_vocabs: 'true',
+                    include_strokes: 'true',
+                    include_sentences: 'true',
+                    include_heisigs: 'true',
+                    include_top_mnemonics: 'true',
+                    include_decomps: 'true'
+                },
+                spawner: true
+            }
+        ];
+        skritter.async.waterfall([
+           //request the minimal fields from items and vocabs
+            function(callback) {
+                self.requestBatch(requests, function(batch) {
+                    callback(null, batch);
+                });
+            },
+            //waits for the batch to complete and updates the size
+            function(batch, callback) {
+                self.getBatchCombined(batch.id, function(size) {
+                    if (skritter.fn.bytesToSize(size))
+                        console.log(skritter.fn.bytesToSize(size));
+                }, callback);
+            }
+        ], function(result) {
+            callback(result);
+        });
+    };
+    
+    /**
+     * @method getItemsNext
      * @param {Number} limit
      * @param {Function} callback
      */
-    Api.prototype.getItems = function(limit, callback) {
+    Api.prototype.getItemsNext = function(limit, callback) {
         var self = this;
         var results = [];
         next();
@@ -266,30 +309,40 @@ define([
      */
     Api.prototype.getItemsCondensed = function(callback, offset) {
         var self = this;
+        offset = (offset) ? offset : 0;
         var requests = [
             {
-                path: 'api/v' + skritter.api.version + '/items',
+                path: 'api/v' + self.version + '/items',
                 method: 'GET',
                 params: {
                     sort: 'changed',
+                    offset: offset,
                     fields: 'id,last,next,vocabIds',
                     include_vocabs: 'true',
                     vocab_fields: 'id,containedVocabIds'
                 },
                 spawner: true
+            },
+            {
+                path: 'api/v' + self.version + '/srsconfigs',
+                method: 'GET',
+                params: {
+                    bearer_token: self.token
+                }
             }
         ];
         skritter.async.waterfall([
             //request the minimal fields from items and vocabs
             function(callback) {
-                skritter.api.requestBatch(requests, function(batch) {
+                self.requestBatch(requests, function(batch) {
                     callback(null, batch);
                 });
             },
             //waits for the batch to complete and updates the size
             function(batch, callback) {
-                self.getCompleteBatch(batch.id, function(size) {
-                    console.log(skritter.fn.bytesToSize(size));
+                self.getBatchCombined(batch.id, function(size) {
+                    if (skritter.fn.bytesToSize(size))
+                        console.log(skritter.fn.bytesToSize(size));
                 }, function(result) {
                     callback(null, result);
                 });
@@ -298,13 +351,15 @@ define([
             function(result, callback) {
                 for (var i in result.Items)
                     //filter out items that don't need contained ids
-                    if ((result.Items[i].id.indexOf('rune') !== -1 || result.Items[i].id.indexOf('tone') !== -1) && result.Items[i].vocabIds.length > 0)
-                        result.Items[i].containedVocabIds = _.find(result.Vocabs, {id: result.Items[i].vocabIds[0]}).containedVocabIds;
+                    if ((result.Items[i].id.indexOf('rune') !== -1 || result.Items[i].id.indexOf('tone') !== -1) && result.Items[i].vocabIds.length > 1) {
+                        var containedVocabIds = _.find(result.Vocabs, {id: result.Items[i].vocabIds[0]}).containedVocabIds;
+                        if (containedVocabIds)
+                            result.Items[i].containedVocabIds = containedVocabIds;
+                    }
                 callback(result.Items);
             }
-        ], function(errors, items) {
-            if (!errors)
-                callback(items);
+        ], function(items) {
+            callback(items);
         });
     };
 

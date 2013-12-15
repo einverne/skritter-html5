@@ -15,15 +15,6 @@ define([
      */
     var StudyItem = Backbone.Model.extend({
         /**
-         * @property {Object} defaults
-         */
-        defaults: {
-            interval: 0,
-            previousSuccess: false,
-            reviews: 0,
-            successes: 0
-        },
-        /**
          * @method cache
          * @param {Function} callback
          */
@@ -63,7 +54,7 @@ define([
         getReadiness: function(deprioritizeLongShots) {
             var now = skritter.fn.getUnixTime();
             if (!this.get('vocabIds') || this.get('vocabIds').length <= 0)
-                return false;
+                return 0;
             if (!this.has('last') && (this.get('next') - now) > 600)
                 return 0.2;
             if (!this.has('last') || (this.get('next') - this.get('last')) === 1)

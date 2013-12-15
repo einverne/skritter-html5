@@ -89,14 +89,14 @@ define([
             'click.Info #info-view #audio-button': 'playAudio',
             'click.Info #info-view .contained-row': 'navigateInfo',
             'click.Info #info-view #ban-button': 'toggleBanned',
-            'click.Info #info-view #star-button': 'toggleStarred',
+            'click.Info #info-view #star-button': 'toggleStarred'
         },
         /**
          * @method navigateInfo
+         * @param {Object} event
          * @returns {Boolean}
          */
         navigateInfo: function(event) {
-            console.log(event);
             skritter.router.navigate('info/' + event.currentTarget.id, {trigger: true});
             return false;
         },

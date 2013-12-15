@@ -16,9 +16,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            this.on('add', function(sentence) {
-                sentence.cache();
-            });
             this.on('change', function(sentence) {
                 sentence.cache();
             });

@@ -16,9 +16,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            this.on('add', function(decomp) {
-                decomp.cache();
-            });
             this.on('change', function(decomp) {
                 decomp.cache();
             });

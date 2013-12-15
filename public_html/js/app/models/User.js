@@ -1,6 +1,7 @@
 /**
  * @module Skritter
  * @submodule Model
+ * @param Sync
  * @param StudyDecomps
  * @param StudyItems
  * @param StudyParams
@@ -12,6 +13,7 @@
  * @author Joshua McFarland
  */
 define([
+    'Sync',
     'collections/StudyDecomps',
     'collections/StudyItems',
     'collections/StudyParams',
@@ -22,7 +24,7 @@ define([
     'collections/StudyVocabs',
     'backbone',
     'lz-string'
-], function(StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
+], function(Sync, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
     /**
      * @class User
      */
@@ -66,6 +68,7 @@ define([
             lastSyncJapanese: null,
             refresh_token: null,
             settings: null,
+            syncMethod: 'full',
             token_type: null,
             user_id: null
         },
@@ -376,119 +379,19 @@ define([
         /**
          * @method sync
          * @param {Function} callback
-         * @param {Number} offset
          */
-        sync: function(callback, offset) {
-            var self = this;
-            offset = (offset > -1) ? offset : this.getLastSync();
-            var size = 0;
-            var requests = [
-                {
-                    path: 'api/v' + skritter.api.version + '/items',
-                    method: 'GET',
-                    params: {
-                        sort: 'changed',
-                        offset: offset,
-                        include_vocabs: 'true',
-                        include_strokes: 'true',
-                        include_sentences: 'true',
-                        include_heisigs: 'true',
-                        include_top_mnemonics: 'true',
-                        include_decomps: 'true'
-                    },
-                    spawner: true
-                },
-                {
-                    path: 'api/v' + skritter.api.version + '/srsconfigs',
-                    method: 'GET',
-                    params: {
-                        bearer_token: this.token,
-                        lang: this.getSetting('targetLang')
-                    }
-                }
-            ];
-            var startSync = function() {
-                skritter.async.waterfall([
-                    //make the initial batch request for changed items
-                    function(callback) {
-                        skritter.modal.setProgress(100, 'Requesting Batch');
-                        requestBatch();
-                        function requestBatch() {
-                            skritter.api.requestBatch(requests, function(batch) {
-                                if (batch) {
-                                    setTimeout(function() {
-                                        callback(null, batch);
-                                    }, 5000);
-                                } else {
-                                    console.log('re-requesting batch');
-                                    requestBatch();
-                                }
-                            });
-                        }
-                    },
-                    //download requested batch and then store it locally
-                    function(batch, callback) {
-                        nextBatch();
-                        function nextBatch() {
-                            skritter.api.getBatch(batch.id, function(result) {
-                                if (result) {
-                                    size += result.responseSize;
-                                    if (result.responseSize > 100)
-                                        skritter.modal.setProgress(100, skritter.fn.bytesToSize(size));
-                                    skritter.data.decomps.add(result.Decomps, {merge: true});
-                                    skritter.data.items.add(result.Items, {merge: true});
-                                    skritter.data.srsconfigs.add(result.SRSConfigs, {merge: true});
-                                    skritter.data.sentences.add(result.Sentences, {merge: true});
-                                    skritter.data.strokes.add(result.Strokes, {merge: true});
-                                    skritter.data.vocabs.add(result.Vocabs, {merge: true});
-                                    setTimeout(function() {
-                                        nextBatch();
-                                    }, 2000);
-                                } else {
-                                    skritter.modal.setProgress(100, 'Storing Data');
-                                    skritter.async.series([
-                                        function(callback) {
-                                            skritter.data.decomps.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.items.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.srsconfigs.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.sentences.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.strokes.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.vocabs.cache(callback);
-                                        }
-                                    ], function() {
-                                        callback();
-                                    });
-                                }
-                            });
-                        }
-                    },
-                    //post reviews to the server and remove them locally
-                    function(callback) {
-                        if (skritter.data.reviews.length > 0) {
-                            skritter.modal.setTitle('Posting Reviews').setProgress(100, '');
-                            skritter.data.reviews.sync(function() {
-                                callback();
-                            });
-                        } else {
-                            callback();
-                        }
-                    }
-                ], function() {
-                    self.setLastSync();
-                    callback();
-                });
-            };
-            startSync();
+        sync: function(callback) {
+            switch (this.get('syncMethod')) {
+                case 'flash':
+                    Sync.flash(callback);
+                    break;
+                case 'full':
+                    Sync.full(callback);
+                    break;
+                case 'partial':
+                    Sync.partial(callback);
+                    break;
+            }
         },
         /**
          * A shortcut method for removing user server settings.

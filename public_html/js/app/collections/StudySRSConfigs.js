@@ -16,9 +16,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            this.on('add', function(srsconfig) {
-                srsconfig.cache();
-            });
             this.on('change', function(srsconfig) {
                 srsconfig.cache();
             });

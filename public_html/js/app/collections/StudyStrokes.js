@@ -17,9 +17,6 @@ define([
          */
         initialize: function() {
             this.loadTones();
-            this.on('add', function(item) {
-                item.cache();
-            });
             this.on('change', function(item) {
                 item.cache();
             });

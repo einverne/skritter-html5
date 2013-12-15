@@ -202,7 +202,6 @@ define([
             if (position < items.length) {
                 var promise = $.indexedDB(self.databaseName).objectStore(tableName).put(items[position]);
                 promise.done(function() {
-                    skritter.modal.setProgress(((position / items.length) * 100).toFixed(0));
                     position++;
                     setNext();
                 });

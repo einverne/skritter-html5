@@ -86,6 +86,13 @@ define([
             }));
         },
         /**
+         * @method getCachedItems
+         * @returns {undefined}
+         */
+        getCachedItems: function() {
+            
+        },
+        /**
          * @method getDue
          * @returns {Array}
          */
@@ -95,12 +102,23 @@ define([
             });
         },
         /**
-         * @method insert
-         * @param {Array} items
-         * @param {Function} callback
+         * @method getNextIds
+         * @param {Number} limit
+         * @returns {Array}
          */
-        insert: function(items, callback) {
-            skritter.storage.setItems('items', items, callback);
+        getNextIds: function(limit) {
+            var ids = [];
+            limit = (limit) ? limit : 100;
+            var items = this.slice(0, limit);
+            for (var a in items) {
+                ids.push(items[a].get('id'));
+                if (items[a].has('containedVocabIds')) {
+                    var containedVocabsIds = items[a].get('containedVocabIds');
+                    for (var b in containedVocabsIds)
+                        ids.push(skritter.user.get('user_id') + '-' + containedVocabsIds[b]);
+                }
+            }
+            return _.uniq(ids);
         },
         /**
          * @method loadAll
