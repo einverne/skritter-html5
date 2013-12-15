@@ -152,12 +152,10 @@ define([
          * @returns {Object}
          */
         nextItem: function() {
-            //resort the items based on the new readiness values
-            skritter.data.items.sort();
             //keep an updated display of items due
             this.updateDueCount();
             //gets the next item that should be studied and loads it
-            Study.current.item = skritter.data.items.at(0);
+            Study.current.item = skritter.data.items.getActive()[0];
             //Study.current.item = skritter.data.items.findWhere({id: 'mcfarljwtest1-zh-的-0-tone'});
             Study.current.vocabs = Study.current.item.getVocabs();
             //load the basd on the items part

@@ -58,6 +58,7 @@ define([
         showAnswer: function() {
             skritter.timer.stop();
             Prompt.finished = true;
+            Prompt.gradingButtons.show();
             this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             this.$('#prompt-text .prompt-definition').text(Prompt.definition);
             if (Prompt.sentence)

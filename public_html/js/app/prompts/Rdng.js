@@ -59,6 +59,7 @@ define([
         showAnswer: function() {
             skritter.timer.stop();
             Prompt.finished = true;
+            Prompt.gradingButtons.show();
             if (Prompt.vocabs[0].has('audio') && this.isLast() && skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
             this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));

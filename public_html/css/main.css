@@ -79,6 +79,9 @@ html, body {
     top: 0;
     width: 60px;
 }
+#home-view #github-logo {
+    height: 108px;
+}
 #home-view #features #brush { background-position: 0 -150px; }
 #home-view #features #plane { background-position: 0 -100px; }
 #home-view #features #book { background-position: 0 -50px; }

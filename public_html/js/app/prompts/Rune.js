@@ -259,6 +259,7 @@ define([
          */
         showAnswer: function() {
             Rune.canvas.disableInput();
+            Prompt.gradingButtons.select().collapse();
             this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
             if (this.isLast() && Prompt.sentence)
                 this.$('.prompt-sentence').text(Prompt.sentence.get('writing'));

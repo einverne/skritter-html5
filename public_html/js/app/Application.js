@@ -113,6 +113,7 @@ define([
     var loadUser = function(callback) {
         skritter.user = new User();
         if (skritter.user.isLoggedIn()) {
+            skritter.modal.show('progress').setTitle('Loading Account');
             skritter.storage.openDatabase(skritter.user.get('user_id'), function() {
                 skritter.async.series([
                     skritter.async.apply(skritter.settings.refreshDate),
@@ -125,6 +126,7 @@ define([
                                 callback();
                             });
                         } else {
+                            skritter.modal.hide();
                             callback();
                         }
                     }

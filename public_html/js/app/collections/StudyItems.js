@@ -16,7 +16,7 @@ define([
          * @method initialize
          */
         initialize: function() {
-            this.on('change', function(item) {    
+            this.on('change', function(item) {
                 item.cache();
             });
         },
