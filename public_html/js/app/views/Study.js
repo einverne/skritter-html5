@@ -90,6 +90,9 @@ define([
             }
             console.log('PROMPT COMPLETE', results);
             Study.current.prompt.undelegateEvents();
+            //keep an updated display of items due
+            this.updateDueCount();
+            //get the next item
             this.nextItem();
         },
         /**
@@ -152,8 +155,8 @@ define([
          * @returns {Object}
          */
         nextItem: function() {
-            //keep an updated display of items due
-            this.updateDueCount();
+            //sort the items collection to put a new item on top
+            skritter.data.items.sort();
             //gets the next item that should be studied and loads it
             Study.current.item = skritter.data.items.getActive()[0];
             //Study.current.item = skritter.data.items.findWhere({id: 'mcfarljwtest1-zh-的-0-tone'});
