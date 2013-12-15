@@ -170,7 +170,7 @@ define([
             this.$('.prompt-definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence)
-                this.$('.prompt-sentence').text(Prompt.sentence.get('writing'));
+                this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             //ISSUE #74: redraws existing character when switching between pages
             if (Tone.userCharacter) {
                 Tone.canvas.drawCharacter(Tone.userCharacter.getCharacterSprite(), 'stroke');

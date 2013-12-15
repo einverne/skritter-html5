@@ -62,7 +62,7 @@ define([
             this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             this.$('#prompt-text .prompt-definition').text(Prompt.definition);
             if (Prompt.sentence)
-                this.$('.prompt-sentence').text(Prompt.sentence.get('writing').replace(' ', ''));
+                this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             this.$('#tip').hide();
         }
     });

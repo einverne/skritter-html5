@@ -19,6 +19,13 @@ define([
                 if (typeof callback === 'function')
                     callback();
             });
+        },
+        /**
+         * @method noWhiteSpaces
+         * @returns {undefined}
+         */
+        noWhiteSpaces: function() {
+            return this.get('writing').replace(/ /g,'');
         }
     });
 

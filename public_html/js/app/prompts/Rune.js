@@ -244,7 +244,7 @@ define([
             this.$('.prompt-definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence)
-                this.$('.prompt-sentence').text(skritter.fn.maskCharacters(Prompt.sentence.get('writing'), Prompt.writing, ' _ '));
+                this.$('.prompt-sentence').text(skritter.fn.maskCharacters(Prompt.sentence.noWhiteSpaces(), Prompt.writing, ' _ '));
             //ISSUE #74: redraws existing character when switching between pages
             if (Rune.userCharacter) {
                 Rune.canvas.drawCharacter(Rune.userCharacter.getCharacterSprite(), 'stroke');
@@ -252,6 +252,7 @@ define([
                 Rune.userCharacter = new CanvasCharacter();
             }
             Rune.userCharacter.targets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'rune');
+            console.log(Rune.userCharacter.targets);
             Rune.canvas.enableInput();
         },
         /**
@@ -262,7 +263,7 @@ define([
             Prompt.gradingButtons.select().collapse();
             this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
             if (this.isLast() && Prompt.sentence)
-                this.$('.prompt-sentence').text(Prompt.sentence.get('writing'));
+                this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
         },
         /**
          * @method showTarget

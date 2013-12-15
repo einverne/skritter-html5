@@ -52,7 +52,7 @@ define([
                 this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
             this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence)
-                this.$('.prompt-sentence').text(Prompt.sentence.get('writing'));
+                this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             this.$('#prompt-text .prompt-reading').text("What's the reading?");
             this.$('#tip').text("(Click to show answer)");
         },
