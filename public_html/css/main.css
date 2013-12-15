@@ -245,7 +245,7 @@ html, body {
 }
 #prompt-container #prompt-text {
     height: 100%;
-    padding-top: 30%;
+    padding-top: 20%;
     text-align: center;
 }
 #prompt-container .prompt-rune-display {
