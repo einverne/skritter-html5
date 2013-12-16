@@ -103,7 +103,7 @@ define([
          * @returns {Boolean}
          */
         isNew: function() {
-            if (this.get('reviews') < 1 || this.get('successes') < 1)
+            if (this.get('reviews') < 1)
                 return true;
             return false;
         },

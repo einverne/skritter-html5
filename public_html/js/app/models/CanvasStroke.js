@@ -20,7 +20,7 @@ define([
          */
         initialize: function() {
             this.on('change:points', function(stroke) {
-                stroke.set('corners', Shortstraw(stroke.get('points')));
+                stroke.set('corners', Shortstraw(_.clone(stroke.get('points'))));
             });
         },
         /**

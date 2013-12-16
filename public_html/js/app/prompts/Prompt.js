@@ -100,7 +100,7 @@ define([
             this.$('#input-container').height(canvasSize);
             //manually resizes the info section to fill the space mobile devices
             if (skritter.settings.get('appWidth') <= 768) {
-                this.$('#info-container').height(skritter.settings.get('appHeight') - $('.navbar').height() - canvasSize - 2);
+                this.$('#info-container').height(skritter.settings.get('appHeight') - $('.navbar').height() - canvasSize - 8);
             } else {
                 this.$('#info-container').height('');
             }
@@ -112,7 +112,7 @@ define([
          * @returns {Backbone.View}
          */
         set: function(vocabs, item) {
-            console.log('PROMPT', vocabs[0].get('writing'));
+            console.log('PROMPT', vocabs[0].get('writing'), item, vocabs);
             Prompt.contained = item.getContained();
             Prompt.definition = vocabs[0].get('definitions')[skritter.user.getSetting('sourceLang')];
             Prompt.item = item;

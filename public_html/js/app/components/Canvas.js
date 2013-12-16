@@ -49,7 +49,7 @@ define([
             var dummySprite = skritter.assets.getStroke(0);
             dummySprite.alpha = 0.0001;
             Canvas.stage.addChildAt(dummySprite, 0);
-            
+
             return this;
         },
         /**
@@ -250,25 +250,29 @@ define([
          */
         drawSquig: function(points, layerName, alpha) {
             var marker = new createjs.Shape();
-            var midPoint;
-            var prevPoint = points[0];
-            //var prevMidPoint = points[0];
-            marker.graphics.setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle).beginStroke(Canvas.squigColor);
-            for (var p in points)
-            {
-                var point = points[p];
-                midPoint = new createjs.Point(prevPoint.x + point.x >> 1, prevPoint.y + point.y >> 1);
-                marker.graphics.moveTo(midPoint.x, midPoint.y).lineTo(prevPoint.x, prevPoint.y);
-                //ISSUE #50: using curveTo renders strange wisps in the squigs while lineTo doesn't
-                //marker.graphics.moveTo(midPoint.x, midPoint.y).curveTo(prevPoint.x, prevPoint.y, prevMidPoint.x, prevMidPoint.y);
-                prevPoint = point;
-                //prevMidPoint = midPoint;
+            var oldPt, oldMidPt;
+            oldPt = new createjs.Point(points[0].x, points[0].y);
+            oldMidPt = oldPt;
+            marker.graphics.beginStroke(Canvas.squigColor).setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle);
+            for (var i in points) {
+                var point = new createjs.Point(points[i].x, points[i].y);
+                var midPt = new createjs.Point(oldPt.x + point.x >> 1, oldPt.y + point.y >> 1);
+                marker.graphics
+                        .moveTo(midPt.x, midPt.y)
+                        .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                oldPt.x = point.x;
+                oldPt.y = point.y;
+                oldMidPt.x = midPt.x;
+                oldMidPt.y = midPt.y;
             }
+            marker.graphics
+                    .moveTo(points[points.length - 1].x, points[points.length - 1].y)
+                    .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
             if (alpha)
                 marker.alpha = alpha;
             marker.graphics.endStroke();
             this.getLayer(layerName).addChild(marker);
-            
+
             return marker;
         },
         /**
@@ -505,6 +509,6 @@ define([
             this.trigger('mouseup', points);
         }
     });
-    
+
     return Canvas;
 });
