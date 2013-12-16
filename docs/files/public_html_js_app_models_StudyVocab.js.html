@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.108</em>
+            <em>API Docs for: 0.0.109</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -318,7 +318,7 @@ define([
                 return false;
             var writings = [];
             var decomp = skritter.data.decomps.findWhere({writing: this.getCharacterAt(0)});
-            if (!decomp.get(&#x27;atomic&#x27;)) {
+            if (decomp &amp;&amp; decomp.has(&#x27;atomic&#x27;)) {
                 var children = decomp.get(&#x27;Children&#x27;);
                 if (returnDuplicates)
                     return children;

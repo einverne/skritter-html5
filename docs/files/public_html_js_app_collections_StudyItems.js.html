@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.108</em>
+            <em>API Docs for: 0.0.109</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -310,7 +310,7 @@ define([
          * @returns {Backbone.Collection}
          */
         insert: function(items, callback) {
-            this.add(items, {merge: true});
+            this.add(items, {merge: true, sort: false});
             skritter.storage.setItems(&#x27;items&#x27;, items, callback);
             return this;
         },

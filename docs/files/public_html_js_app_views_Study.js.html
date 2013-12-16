@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.108</em>
+            <em>API Docs for: 0.0.109</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -354,7 +354,13 @@ define([
             //gets the next item that should be studied and loads it
             Study.current.item = skritter.data.items.getActive()[0];
             //Study.current.item = skritter.data.items.findWhere({id: &#x27;mcfarljwtest1-zh-的-0-tone&#x27;});
-            Study.current.vocabs = Study.current.item.getVocabs();
+            Study.current.vocabs = Study.current.item.getVocabs();    
+            //runs an integrity check on the item to catch errors that might prevent completion
+            if (!Study.current.item.integrityCheck()) {
+                console.log(Study.current.item.get(&#x27;id&#x27;), &#x27;failed an integrity check&#x27;);
+                this.nextItem();
+                return false;
+            }
             //load the basd on the items part
             switch (Study.current.item.get(&#x27;part&#x27;)) {
                 case &#x27;rune&#x27;:

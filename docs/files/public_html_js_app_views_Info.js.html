@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.108</em>
+            <em>API Docs for: 0.0.109</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -231,7 +231,7 @@ define([
 
             //contained characters
             var contained = _.uniq(Info.vocab.get(&#x27;containedVocabIds&#x27;));
-            if (contained.length &gt; 0) {
+            if (contained.length &gt; 1) {
                 this.$(&#x27;#contained-characters tbody&#x27;).html(&#x27;&#x27;);
                 for (var a in contained) {
                     var containedVocab = skritter.data.vocabs.findWhere({id: contained[a]});

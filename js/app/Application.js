@@ -18899,7 +18899,7 @@ define('views/Info',[
 
             //contained characters
             var contained = _.uniq(Info.vocab.get('containedVocabIds'));
-            if (contained.length > 0) {
+            if (contained.length > 1) {
                 this.$('#contained-characters tbody').html('');
                 for (var a in contained) {
                     var containedVocab = skritter.data.vocabs.findWhere({id: contained[a]});
@@ -23511,7 +23511,13 @@ define('views/Study',[
             //gets the next item that should be studied and loads it
             Study.current.item = skritter.data.items.getActive()[0];
             //Study.current.item = skritter.data.items.findWhere({id: 'mcfarljwtest1-zh-的-0-tone'});
-            Study.current.vocabs = Study.current.item.getVocabs();
+            Study.current.vocabs = Study.current.item.getVocabs();    
+            //runs an integrity check on the item to catch errors that might prevent completion
+            if (!Study.current.item.integrityCheck()) {
+                console.log(Study.current.item.get('id'), 'failed an integrity check');
+                this.nextItem();
+                return false;
+            }
             //load the basd on the items part
             switch (Study.current.item.get('part')) {
                 case 'rune':
@@ -26284,7 +26290,7 @@ define('models/Settings',[
             orientation: 'vertical',
             strokeFormat: 'vector',
             transitionSpeed: 200,
-            version: '0.0.108'
+            version: '0.0.109'
         },
         /**
          * @method handleResize
@@ -26768,13 +26774,14 @@ define('models/StudyItem',[
          */
         getContained: function() {
             var items = [];
-            var contained = this.getVocabs()[0].get('containedVocabIds');
-            for (var i in contained)
-            {
-                var id = skritter.user.get('user_id') + '-' + contained[i] + '-' + this.get('part');
-                var item = skritter.data.items.findWhere({id: id});
-                if (item)
-                    items.push(item);
+            if (this.get('vocabIds').length > 0) {
+                var contained = this.getVocabs()[0].get('containedVocabIds');
+                for (var i in contained) {
+                    var id = skritter.user.get('user_id') + '-' + contained[i] + '-' + this.get('part');
+                    var item = skritter.data.items.findWhere({id: id});
+                    if (item)
+                        items.push(item);
+                }
             }
             return items;
         },
@@ -26783,7 +26790,9 @@ define('models/StudyItem',[
          * @returns {Number}
          */
         getCharacterCount: function() {
-            return this.get('id').match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]|[\u20000-\u2a6d6]|[\u2a700-\u2b734]|[\u2b740-\u2b81d]/g).length;
+            if (this.get('vocabIds').length > 0)
+                return this.getVocabs()[0].getCharacterCount();
+            return 0;
         },
         /**
          * @method getReadiness
@@ -26832,6 +26841,23 @@ define('models/StudyItem',[
             for (var i in containedIds)
                 containedVocabs.push(skritter.data.vocabs.findWhere({id: containedIds[i]}));
             return containedVocabs;
+        },
+        /**
+         * This check should be used to try and catch common errors with data that could prevent studying
+         * certain items.
+         * 
+         * @method integrityCheck
+         * @returns {Boolean}
+         */
+        integrityCheck: function() {
+           //error logs show that in rare instances active items exist but don't contain the required contained item ids to create reviews
+           if (this.getCharacterCount() > 1 && _.contains(['rune', 'tone'], this.get('part')) && this.getContained() && this.getContained().length !== this.getCharacterCount()) {
+               this.set('vocabIds', []);
+               this.set('flag', true);
+               this.set('flagMessage', 'Missing contained item ids.');
+               return false;
+           }
+           return true;
         },
         /**
          * @method isNew
@@ -27016,7 +27042,7 @@ define('collections/StudyItems',[
          * @returns {Backbone.Collection}
          */
         insert: function(items, callback) {
-            this.add(items, {merge: true});
+            this.add(items, {merge: true, sort: false});
             skritter.storage.setItems('items', items, callback);
             return this;
         },
@@ -28005,7 +28031,7 @@ define('models/StudyVocab',[
                 return false;
             var writings = [];
             var decomp = skritter.data.decomps.findWhere({writing: this.getCharacterAt(0)});
-            if (!decomp.get('atomic')) {
+            if (decomp && decomp.has('atomic')) {
                 var children = decomp.get('Children');
                 if (returnDuplicates)
                     return children;

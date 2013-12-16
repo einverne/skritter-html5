@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.108</em>
+            <em>API Docs for: 0.0.109</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -227,13 +227,14 @@ define([
          */
         getContained: function() {
             var items = [];
-            var contained = this.getVocabs()[0].get(&#x27;containedVocabIds&#x27;);
-            for (var i in contained)
-            {
-                var id = skritter.user.get(&#x27;user_id&#x27;) + &#x27;-&#x27; + contained[i] + &#x27;-&#x27; + this.get(&#x27;part&#x27;);
-                var item = skritter.data.items.findWhere({id: id});
-                if (item)
-                    items.push(item);
+            if (this.get(&#x27;vocabIds&#x27;).length &gt; 0) {
+                var contained = this.getVocabs()[0].get(&#x27;containedVocabIds&#x27;);
+                for (var i in contained) {
+                    var id = skritter.user.get(&#x27;user_id&#x27;) + &#x27;-&#x27; + contained[i] + &#x27;-&#x27; + this.get(&#x27;part&#x27;);
+                    var item = skritter.data.items.findWhere({id: id});
+                    if (item)
+                        items.push(item);
+                }
             }
             return items;
         },
@@ -242,7 +243,9 @@ define([
          * @returns {Number}
          */
         getCharacterCount: function() {
-            return this.get(&#x27;id&#x27;).match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]|[\u20000-\u2a6d6]|[\u2a700-\u2b734]|[\u2b740-\u2b81d]/g).length;
+            if (this.get(&#x27;vocabIds&#x27;).length &gt; 0)
+                return this.getVocabs()[0].getCharacterCount();
+            return 0;
         },
         /**
          * @method getReadiness
@@ -291,6 +294,23 @@ define([
             for (var i in containedIds)
                 containedVocabs.push(skritter.data.vocabs.findWhere({id: containedIds[i]}));
             return containedVocabs;
+        },
+        /**
+         * This check should be used to try and catch common errors with data that could prevent studying
+         * certain items.
+         * 
+         * @method integrityCheck
+         * @returns {Boolean}
+         */
+        integrityCheck: function() {
+           //error logs show that in rare instances active items exist but don&#x27;t contain the required contained item ids to create reviews
+           if (this.getCharacterCount() &gt; 1 &amp;&amp; _.contains([&#x27;rune&#x27;, &#x27;tone&#x27;], this.get(&#x27;part&#x27;)) &amp;&amp; this.getContained() &amp;&amp; this.getContained().length !== this.getCharacterCount()) {
+               this.set(&#x27;vocabIds&#x27;, []);
+               this.set(&#x27;flag&#x27;, true);
+               this.set(&#x27;flagMessage&#x27;, &#x27;Missing contained item ids.&#x27;);
+               return false;
+           }
+           return true;
         },
         /**
          * @method isNew

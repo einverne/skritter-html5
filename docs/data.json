@@ -2,7 +2,7 @@
     "project": {
         "name": "Skritter HTML5: Documentation",
         "description": "Learn to Write Chinese and Japanese Characters",
-        "version": "0.0.108"
+        "version": "0.0.109"
     },
     "files": {
         "public_html\\js\\app\\collections\\CanvasCharacter.js": {
@@ -3850,7 +3850,7 @@
         },
         {
             "file": "public_html\\js\\app\\models\\StudyItem.js",
-            "line": 46,
+            "line": 47,
             "itemtype": "method",
             "name": "getCharacterCount",
             "return": {
@@ -3863,7 +3863,7 @@
         },
         {
             "file": "public_html\\js\\app\\models\\StudyItem.js",
-            "line": 53,
+            "line": 56,
             "itemtype": "method",
             "name": "getReadiness",
             "params": [
@@ -3883,7 +3883,7 @@
         },
         {
             "file": "public_html\\js\\app\\models\\StudyItem.js",
-            "line": 90,
+            "line": 93,
             "itemtype": "method",
             "name": "getVocabs",
             "return": {
@@ -3896,7 +3896,21 @@
         },
         {
             "file": "public_html\\js\\app\\models\\StudyItem.js",
-            "line": 101,
+            "line": 104,
+            "description": "This check should be used to try and catch common errors with data that could prevent studying\ncertain items.",
+            "itemtype": "method",
+            "name": "integrityCheck",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "StudyItem",
+            "module": "Skritter",
+            "submodule": "Model"
+        },
+        {
+            "file": "public_html\\js\\app\\models\\StudyItem.js",
+            "line": 121,
             "itemtype": "method",
             "name": "isNew",
             "return": {
@@ -3909,7 +3923,7 @@
         },
         {
             "file": "public_html\\js\\app\\models\\StudyItem.js",
-            "line": 110,
+            "line": 130,
             "description": "Updates the locally stored item and also spawns a review for it.",
             "itemtype": "method",
             "name": "update",
@@ -3955,7 +3969,7 @@
         },
         {
             "file": "public_html\\js\\app\\models\\StudyItem.js",
-            "line": 152,
+            "line": 172,
             "itemtype": "method",
             "name": "validate",
             "params": [
@@ -5702,7 +5716,7 @@
         },
         {
             "file": "public_html\\js\\app\\views\\Study.js",
-            "line": 190,
+            "line": 196,
             "itemtype": "method",
             "name": "playAudio",
             "class": "Vocabs",
@@ -5710,7 +5724,7 @@
         },
         {
             "file": "public_html\\js\\app\\views\\Study.js",
-            "line": 197,
+            "line": 203,
             "itemtype": "method",
             "name": "toggleAudioButton",
             "class": "Vocabs",
@@ -5718,7 +5732,7 @@
         },
         {
             "file": "public_html\\js\\app\\views\\Study.js",
-            "line": 209,
+            "line": 215,
             "itemtype": "method",
             "name": "updateDueCount",
             "class": "Vocabs",
@@ -7279,15 +7293,19 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\models\\StudyItem.js:46"
+            "line": " public_html\\js\\app\\models\\StudyItem.js:47"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\models\\StudyItem.js:101"
+            "line": " public_html\\js\\app\\models\\StudyItem.js:104"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " public_html\\js\\app\\models\\StudyItem.js:110"
+            "line": " public_html\\js\\app\\models\\StudyItem.js:121"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " public_html\\js\\app\\models\\StudyItem.js:130"
         },
         {
             "message": "replacing incorrect tag: returns with return",
