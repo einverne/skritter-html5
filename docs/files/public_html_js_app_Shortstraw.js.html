@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -190,9 +192,22 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+// ShortStrawJS, a javascript implementation
+// http://www.lab4games.net/zz85/blog/2010/01/21/geeknotes-shortstrawjs-fast-and-simple-corner-detection/
+//
+// Derived heavily from the AS3 implementation of the ShortStraw Corner Finder (Wolin et al. 2008)
+// by Felix Raab. 21 July 2009.
+// http://www.betriebsraum.de/blog/2009/07/21/efficient-gesture-recognition-and-corner-finding-in-as3/
+//
+// Based on the paper ShortStraw: A Simple and Effective Corner Finder for Polylines
+// http://srlweb.cs.tamu.edu/srlng_media/content/objects/object-1246294647-350817e4b0870da27e16472ed36475db/Wolin_SBIM08.pdf
+//
+// For comments on this JS port, email Joshua Koo (zz85nus @ gmail.com)
+//
+// Released under MIT license: http://www.opensource.org/licenses/mit-license.php
+
 /**
  * @module Skritter
- * @author Joshua McFarland
  */
 define(function() {
     /**
@@ -398,7 +413,7 @@ define(function() {
             }
             return {x: minX, y: minY, w: maxX - minX, h: maxY - minY};
         }
-
+        
         return cornerPoints;
     }
 

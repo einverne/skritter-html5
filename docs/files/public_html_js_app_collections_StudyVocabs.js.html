@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -208,9 +210,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            this.on(&#x27;add&#x27;, function(vocab) {
-                vocab.cache();
-            });
             this.on(&#x27;change&#x27;, function(vocab) {
                 vocab.cache();
             });
@@ -233,9 +232,12 @@ define([
          * @method insert
          * @param {Array} vocabs
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(vocabs, callback) {
+            this.add(vocabs, {merge: true});
             skritter.storage.setItems(&#x27;vocabs&#x27;, vocabs, callback);
+            return this;
         },
         /**
          * @method loadAll

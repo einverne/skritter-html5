@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -193,7 +195,6 @@
 /**
  * @module Skritter
  * @submodule Prompts
- * @param PinyinConverter
  * @param Recognizer
  * @param CanvasCharacter
  * @param CanvasStroke
@@ -221,7 +222,7 @@ define([
             skritter.timer.setReviewLimit(15);
             skritter.timer.setThinkingLimit(10);
             Tone.canvas = new Canvas();
-            Tone.minStrokeDistance = 25;
+            Tone.minStrokeDistance = 15;
             Tone.userCharacter = null;
             this.listenTo(Tone.canvas, &#x27;mousedown&#x27;, this.handleInputDown);
             this.listenTo(Tone.canvas, &#x27;mouseup&#x27;, this.handleInputRecieved);
@@ -255,7 +256,6 @@ define([
          */
         handleCharacterComplete: function() {
             Prompt.finished = true;
-            Tone.canvas.disableInput();
             Tone.canvas.filterLayerColor(&#x27;stroke&#x27;, Prompt.gradeColorFilters[Prompt.gradingButtons.grade()]);
             this.showAnswer();
         },
@@ -327,7 +327,7 @@ define([
                     var result = new Recognizer(Tone.userCharacter, stroke, Tone.userCharacter.targets).recognize(ignoreCheck, enforceOrder);
                     //check if a result exists and that it&#x27;s not a duplicate
                     if (result &amp;&amp; !Tone.userCharacter.containsStroke(result)) {
-                        Prompt.gradingButtons.select(3).collapse();
+                        Prompt.gradingButtons.select(3);
                         //add the stroke to the users character
                         Tone.userCharacter.add(result);
                         //draw the stroke on the canvas without tweening
@@ -364,7 +364,7 @@ define([
             this.$(&#x27;.prompt-definition&#x27;).text(Prompt.definition);
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             if (Prompt.sentence)
-                this.$(&#x27;.prompt-sentence&#x27;).text(Prompt.sentence.get(&#x27;writing&#x27;));
+                this.$(&#x27;.prompt-sentence&#x27;).text(Prompt.sentence.noWhiteSpaces());
             //ISSUE #74: redraws existing character when switching between pages
             if (Tone.userCharacter) {
                 Tone.canvas.drawCharacter(Tone.userCharacter.getCharacterSprite(), &#x27;stroke&#x27;);
@@ -375,8 +375,11 @@ define([
             Tone.canvas.enableInput();
         },
         showAnswer: function() {
+            skritter.timer.stop();
+            Tone.canvas.disableInput();
             if (Prompt.vocabs[0].has(&#x27;audio&#x27;) &amp;&amp; this.isLast() &amp;&amp; skritter.user.get(&#x27;audio&#x27;))
                 Prompt.vocabs[0].play();
+            Prompt.gradingButtons.select().collapse();
             this.$(&#x27;.prompt-reading&#x27;).html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position));
         }
     });

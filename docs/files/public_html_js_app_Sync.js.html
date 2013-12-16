@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Shortstraw - Skritter HTML5: Documentation</title>
+    <title>public_html\js\app\Sync.js - Skritter HTML5: Documentation</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -188,172 +188,182 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Shortstraw Class</h1>
-<div class="box meta">
-    
+                        <h1 class="file-heading">File: public_html\js\app\Sync.js</h1>
 
-    
-
-    
-        <div class="foundat">
-            Defined in: <a href="../files/public_html_js_app_Shortstraw.js.html#l19"><code>public_html\js\app\Shortstraw.js:19</code></a>
-        </div>
-    
-
-    
-        
-            Module: <a href="../modules/Skritter.html">Skritter</a>
-        
-    
-
-    
-</div>
-
-
-
-<div class="box intro">
-    
-</div>
-
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-        <div id="method_Shortstraw" class="method item">
-    <h3 class="name"><code>Shortstraw</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>points</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Array</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module Skritter
+ * @class Sync
+ * @author Joshua McFarland
+ */
+define(function() {
+    /**
+     * @method methodFlash
+     * @param {Function} callback
+     */
+    var methodFlash = function(callback) {
+        //TODO: implement a system for flash style loading and syncing
+        callback();
+    };
+    /**
+     * @method methodFull
+     * @param {Function} callback
+     */
+    var methodFull = function(callback) {
+        var requests = [
+            {
+                path: &#x27;api/v&#x27; + skritter.api.version + &#x27;/items&#x27;,
+                method: &#x27;GET&#x27;,
+                params: {
+                    sort: &#x27;changed&#x27;,
+                    offset: skritter.user.getLastSync(),
+                    include_vocabs: &#x27;true&#x27;,
+                    include_strokes: &#x27;true&#x27;,
+                    include_sentences: &#x27;true&#x27;,
+                    include_heisigs: &#x27;true&#x27;,
+                    include_top_mnemonics: &#x27;true&#x27;,
+                    include_decomps: &#x27;true&#x27;
+                },
+                spawner: true
+            },
+            {
+                path: &#x27;api/v&#x27; + skritter.api.version + &#x27;/srsconfigs&#x27;,
+                method: &#x27;GET&#x27;,
+                params: {
+                    bearer_token: this.token
+                }
+            }
+        ];
+        skritter.async.waterfall([
+            //make the initial batch request for changed items
+            function(callback) {
+                skritter.modal.setProgress(100, &#x27;Requesting Batch&#x27;);
+                skritter.api.requestBatch(requests, function(batch) {
+                    callback(null, batch);
+                });
                 
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_Shortstraw.js.html#l19"><code>public_html\js\app\Shortstraw.js:19</code></a>
-        
-        </p>
+            },
+            //download requested batch and then store it locally
+            function(batch, callback) {
+                var size = 0;
+                nextBatch();
+                function nextBatch() {
+                    skritter.api.getBatch(batch.id, function(result) {
+                        if (result) {
+                            size += result.responseSize;
+                            skritter.async.parallel([
+                                function(callback) {
+                                    skritter.data.decomps.insert(result.Decomps, callback);
+                                },
+                                function(callback) {
+                                    skritter.data.items.insert(result.Items, callback);
+                                },
+                                function(callback) {
+                                    skritter.data.srsconfigs.insert(result.SRSConfigs, callback);
+                                },
+                                function(callback) {
+                                    skritter.data.sentences.insert(result.Sentences, callback);
+                                },
+                                function(callback) {
+                                    skritter.data.strokes.insert(result.Strokes, callback);
+                                },
+                                function(callback) {
+                                    skritter.data.vocabs.insert(result.Vocabs, callback);
+                                }
+                            ], function() {
+                                if (size &gt; 1024)
+                                    skritter.modal.setProgress(100, skritter.fn.bytesToSize(size));
+                                nextBatch();
+                            });
+                        } else {
+                            callback();
+                        }
+                    });
+                }
+            },
+            //post reviews to the server and remove them locally
+            function(callback) {
+                if (skritter.data.reviews.length &gt; 0 &amp;&amp; skritter.user.getLastSync()) {
+                    skritter.modal.setProgress(100, &#x27;Posting Reviews&#x27;);
+                    skritter.data.reviews.sync(function() {
+                        callback();
+                    });
+                } else {
+                    callback();
+                }
+            }
+        ], function() {
+            skritter.user.setLastSync();
+            callback();
+        });
+    };
+    /**
+     * @method methodPartial
+     * @param {Function} callback
+     */
+    var methodPartial = function(callback) {
+        skritter.async.waterfall([
+            //fetch the condensed items and store them into the database
+            function(callback) {
+                skritter.api.getItemsCondensed(function(items) {
+                    skritter.data.items.add(items, {merge: true, silent: true});
+                    skritter.data.items.cache(callback);
 
+                });
+            },
+            //fetch full records for a limited number of next items
+            function(callback) {
+                skritter.api.getItemsById(skritter.data.items.getNextIds(), function(data) {
+                    callback(null, data);
+                });
+            },
+            //store the data in in collections and the database
+            function(data, callback) {
+                skritter.data.decomps.add(data.Decomps, {merge: true});
+                skritter.data.items.add(data.Items, {merge: true});
+                skritter.data.srsconfigs.add(data.SRSConfigs, {merge: true});
+                skritter.data.sentences.add(data.Sentences, {merge: true});
+                skritter.data.strokes.add(data.Strokes, {merge: true});
+                skritter.data.vocabs.add(data.Vocabs, {merge: true});
+                callback();
+            },
+            //cache all of the data and callback finished
+            function(callback) {
+                skritter.async.parallel([
+                    function(callback) {
+                        skritter.data.decomps.cache(callback);
+                    },
+                    function(callback) {
+                        skritter.data.items.cache(callback);
+                    },
+                    function(callback) {
+                        skritter.data.srsconfigs.cache(callback);
+                    },
+                    function(callback) {
+                        skritter.data.sentences.cache(callback);
+                    },
+                    function(callback) {
+                        skritter.data.strokes.cache(callback);
+                    },
+                    function(callback) {
+                        skritter.data.vocabs.cache(callback);
+                    }
+                ], callback);
+            }
+        ], function() {
+            skritter.user.setLastSync();
+            callback();
+        });
+    };
 
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">points</code>
-                        <span class="type">Array</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Array</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-    </div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-
-            
-
-            
-
-            
-        </div>
-
-        
-
-        
-
-        
-
-        
-    </div>
+    return {
+        methodFlash: methodFlash,
+        methodFull: methodFull,
+        methodpartial: methodPartial
+    };
+});
+    </pre>
 </div>
 
                     </div>

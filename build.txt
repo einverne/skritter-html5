@@ -96,6 +96,7 @@ js/app/components/Timer.js
 js/app/Strokes.js
 js/app/models/Assets.js
 js/app/models/Settings.js
+js/app/Sync.js
 js/app/models/StudyDecomp.js
 js/app/collections/StudyDecomps.js
 js/app/Scheduler.js

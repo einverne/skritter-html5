@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,8 @@
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Sync.html">Sync</a></li>
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
@@ -279,7 +281,7 @@ define([
             callback(error);
         });
     };
-    
+
     /**
      * @getBatch
      * @param {String} batchId
@@ -290,6 +292,9 @@ define([
         var self = this;
         var result = {};
         var responseSize = 0;
+        var merge = function(a, b) {
+            return Array.isArray(a) ? a.concat(b) : undefined;
+        };
         var promise = $.ajax({
             url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/batch/&#x27; + batchId,
             beforeSend: function(xhr) {
@@ -320,21 +325,18 @@ define([
             console.error(error);
             callback();
         });
-        function merge(a, b) {
-            return Array.isArray(a) ? a.concat(b) : undefined;
-        }
     };
-    
+
     /**
      * Returns an object with merged results based on a batch request. This is mainly used for
      * account downloads and for larger account can take a few minutes.
      * 
-     * @method getCompleteBatch
+     * @method getBatchCombined
      * @param {Number} batchId
      * @param {Function} callback1
      * @param {Function} callback2
      */
-    Api.prototype.getCompleteBatch = function(batchId, callback1, callback2) {
+    Api.prototype.getBatchCombined = function(batchId, callback1, callback2) {
         var self = this;
         var retryCount = 0;
         var responseSize = 0;
@@ -356,9 +358,10 @@ define([
                     _.merge(result, requests[i].response, merge);
                     responseSize += requests[i].responseSize;
                 }
-                callback1(responseSize);
+                if (typeof callback1 === &#x27;function&#x27;)
+                    callback1(responseSize);
                 if (batch &amp;&amp; (batch.runningRequests &gt; 0 || requests.length &gt; 0)) {
-                    setTimeout(function() {
+                    window.setTimeout(function() {
                         getNext(batchId);
                     }, 2000);
                 } else {
@@ -405,13 +408,56 @@ define([
             callback(error);
         });
     };
-    
+
     /**
-     * @method getItems
+     * @method getItemsById
+     * @param {Array} ids
+     * @param {Function} callback
+     */
+    Api.prototype.getItemsById = function(ids, callback) {
+        var self = this;
+        var requests = [
+            {
+                path: &#x27;api/v&#x27; + this.version + &#x27;/items&#x27;,
+                method: &#x27;GET&#x27;,
+                params: {
+                    bearer_token: self.token,
+                    ids: ids.join(&#x27;|&#x27;),
+                    include_vocabs: &#x27;true&#x27;,
+                    include_strokes: &#x27;true&#x27;,
+                    include_sentences: &#x27;true&#x27;,
+                    include_heisigs: &#x27;true&#x27;,
+                    include_top_mnemonics: &#x27;true&#x27;,
+                    include_decomps: &#x27;true&#x27;
+                },
+                spawner: true
+            }
+        ];
+        skritter.async.waterfall([
+            //request the minimal fields from items and vocabs
+            function(callback) {
+                self.requestBatch(requests, function(batch) {
+                    callback(null, batch);
+                });
+            },
+            //waits for the batch to complete and updates the size
+            function(batch, callback) {
+                self.getBatchCombined(batch.id, function(size) {
+                    if (skritter.fn.bytesToSize(size))
+                        console.log(skritter.fn.bytesToSize(size));
+                }, callback);
+            }
+        ], function(result) {
+            callback(result);
+        });
+    };
+
+    /**
+     * @method getItemsNext
      * @param {Number} limit
      * @param {Function} callback
      */
-    Api.prototype.getItems = function(limit, callback) {
+    Api.prototype.getItemsNext = function(limit, callback) {
         var self = this;
         var results = [];
         next();
@@ -450,7 +496,68 @@ define([
             return Array.isArray(a) ? a.concat(b) : undefined;
         }
     };
-    
+
+    /**
+     * @method getItemsCondensed
+     * @param {Function} callback
+     * @param {Number} offset
+     */
+    Api.prototype.getItemsCondensed = function(callback, offset) {
+        var self = this;
+        offset = (offset) ? offset : 0;
+        var requests = [
+            {
+                path: &#x27;api/v&#x27; + self.version + &#x27;/items&#x27;,
+                method: &#x27;GET&#x27;,
+                params: {
+                    sort: &#x27;changed&#x27;,
+                    offset: offset,
+                    fields: &#x27;id,changed,last,next,vocabIds&#x27;,
+                    include_vocabs: &#x27;true&#x27;,
+                    vocab_fields: &#x27;id,containedVocabIds&#x27;
+                },
+                spawner: true
+            },
+            {
+                path: &#x27;api/v&#x27; + self.version + &#x27;/srsconfigs&#x27;,
+                method: &#x27;GET&#x27;,
+                params: {
+                    bearer_token: self.token
+                }
+            }
+        ];
+        skritter.async.waterfall([
+            //request the minimal fields from items and vocabs
+            function(callback) {
+                self.requestBatch(requests, function(batch) {
+                    callback(null, batch);
+                });
+            },
+            //waits for the batch to complete and updates the size
+            function(batch, callback) {
+                self.getBatchCombined(batch.id, null, function(result) {
+                    callback(null, result);
+                });
+            },
+            //condenses the contained ids into the items entity
+            function(result, callback) {
+                for (var i in result.Items)
+                    //filter out items that don&#x27;t need contained ids
+                    if ((result.Items[i].id.indexOf(&#x27;rune&#x27;) !== -1 || result.Items[i].id.indexOf(&#x27;tone&#x27;) !== -1) &amp;&amp; result.Items[i].vocabIds.length &gt; 1) {
+                        //TODO: really needs a web worker to handle this without bogging down the dom
+                        var containedVocabIds = _.find(result.Vocabs, {id: result.Items[i].vocabIds[0]}).containedVocabIds;
+                        if (containedVocabIds)
+                            result.Items[i].containedVocabIds = containedVocabIds;
+                    }
+                delete result.cursor;
+                delete result.Vocabs;
+                callback(result);
+            }
+        ], function(result) {
+            callback(result);
+        });
+    };
+
     /**
      * Returns specific progress stats that can be used for various things such as an actual
      * progress page or study time for the day from the server. To read more about the request parameters
@@ -475,7 +582,7 @@ define([
             callback(error);
         });
     };
-    
+
     /**
      * Returns an array of review post errors from the server. If the offset is null then
      * it&#x27;ll return all of the review errors.
@@ -644,7 +751,7 @@ define([
             });
             promise.fail(function(error) {
                 console.error(error);
-                callback(false);
+                callback();
             });
         };
         postBatch(reviews.splice(0, 499));

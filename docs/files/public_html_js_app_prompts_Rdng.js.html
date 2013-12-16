@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,8 @@
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Sync.html">Sync</a></li>
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
@@ -244,13 +246,14 @@ define([
                 this.$(&#x27;.prompt-style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             this.$(&#x27;.prompt-style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             if (Prompt.sentence)
-                this.$(&#x27;.prompt-sentence&#x27;).text(Prompt.sentence.get(&#x27;writing&#x27;));
+                this.$(&#x27;.prompt-sentence&#x27;).text(Prompt.sentence.noWhiteSpaces());
             this.$(&#x27;#prompt-text .prompt-reading&#x27;).text(&quot;What&#x27;s the reading?&quot;);
             this.$(&#x27;#tip&#x27;).text(&quot;(Click to show answer)&quot;);
         },
         showAnswer: function() {
             skritter.timer.stop();
             Prompt.finished = true;
+            Prompt.gradingButtons.show();
             if (Prompt.vocabs[0].has(&#x27;audio&#x27;) &amp;&amp; this.isLast() &amp;&amp; skritter.user.get(&#x27;audio&#x27;))
                 Prompt.vocabs[0].play();
             this.$(&#x27;.prompt-reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));

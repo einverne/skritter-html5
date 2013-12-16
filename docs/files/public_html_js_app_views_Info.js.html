@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,8 @@
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Sync.html">Sync</a></li>
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
@@ -281,14 +283,14 @@ define([
             &#x27;click.Info #info-view #audio-button&#x27;: &#x27;playAudio&#x27;,
             &#x27;click.Info #info-view .contained-row&#x27;: &#x27;navigateInfo&#x27;,
             &#x27;click.Info #info-view #ban-button&#x27;: &#x27;toggleBanned&#x27;,
-            &#x27;click.Info #info-view #star-button&#x27;: &#x27;toggleStarred&#x27;,
+            &#x27;click.Info #info-view #star-button&#x27;: &#x27;toggleStarred&#x27;
         },
         /**
          * @method navigateInfo
+         * @param {Object} event
          * @returns {Boolean}
          */
         navigateInfo: function(event) {
-            console.log(event);
             skritter.router.navigate(&#x27;info/&#x27; + event.currentTarget.id, {trigger: true});
             return false;
         },

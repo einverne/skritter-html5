@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,8 @@
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Sync.html">Sync</a></li>
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
@@ -305,6 +307,9 @@ define([
     var loadUser = function(callback) {
         skritter.user = new User();
         if (skritter.user.isLoggedIn()) {
+            //don&#x27;t display the loading account modal if initial download
+            if (skritter.user.getLastSync())
+                skritter.modal.show(&#x27;progress&#x27;).setTitle(&#x27;Loading Account&#x27;);
             skritter.storage.openDatabase(skritter.user.get(&#x27;user_id&#x27;), function() {
                 skritter.async.series([
                     skritter.async.apply(skritter.settings.refreshDate),
@@ -317,6 +322,7 @@ define([
                                 callback();
                             });
                         } else {
+                            skritter.modal.hide();
                             callback();
                         }
                     }

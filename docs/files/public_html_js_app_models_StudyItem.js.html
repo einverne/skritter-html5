@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -207,15 +209,6 @@ define([
      */
     var StudyItem = Backbone.Model.extend({
         /**
-         * @property {Object} defaults
-         */
-        defaults: {
-            interval: 0,
-            previousSuccess: false,
-            reviews: 0,
-            successes: 0
-        },
-        /**
          * @method cache
          * @param {Function} callback
          */
@@ -244,6 +237,10 @@ define([
             }
             return items;
         },
+        /**
+         * @method getCharacterCount
+         * @returns {Number}
+         */
         getCharacterCount: function() {
             return this.get(&#x27;id&#x27;).match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]|[\u20000-\u2a6d6]|[\u2a700-\u2b734]|[\u2b740-\u2b81d]/g).length;
         },
@@ -254,7 +251,7 @@ define([
          */
         getReadiness: function(deprioritizeLongShots) {
             var now = skritter.fn.getUnixTime();
-            if (!this.get(&#x27;vocabIds&#x27;) || this.get(&#x27;vocabIds&#x27;).length &lt;= 0)
+            if (this.get(&#x27;vocabIds&#x27;).length === 0)
                 return false;
             if (!this.has(&#x27;last&#x27;) &amp;&amp; (this.get(&#x27;next&#x27;) - now) &gt; 600)
                 return 0.2;
@@ -300,7 +297,7 @@ define([
          * @returns {Boolean}
          */
         isNew: function() {
-            if (this.get(&#x27;reviews&#x27;) &lt; 1 || this.get(&#x27;successes&#x27;) &lt; 1)
+            if (this.get(&#x27;reviews&#x27;) &lt; 1)
                 return true;
             return false;
         },
@@ -326,12 +323,12 @@ define([
                 submitTime: startTime,
                 reviewTime: reviewTime,
                 thinkingTime: thinkingTime,
-                currentInterval: this.get(&#x27;interval&#x27;),
-                actualInterval: (this.get(&#x27;last&#x27;)) ? startTime - this.get(&#x27;last&#x27;) : 0,
+                currentInterval: this.has(&#x27;interval&#x27;) ? this.get(&#x27;interval&#x27;) : 0,
+                actualInterval: this.has(&#x27;last&#x27;) ? startTime - this.get(&#x27;last&#x27;) : 0,
                 newInterval: new Scheduler().getInterval(this, grade),
                 wordGroup: wordGroup,
-                previousInterval: (this.get(&#x27;previousInterval&#x27;)) ? this.get(&#x27;previousInterval&#x27;) : 0,
-                previousSuccess: (this.get(&#x27;previousSuccess&#x27;)) ? this.get(&#x27;previousSuccess&#x27;) : false
+                previousInterval: this.has(&#x27;previousInterval&#x27;) ? this.get(&#x27;previousInterval&#x27;) : 0,
+                previousSuccess: this.has(&#x27;previousSuccess&#x27;) ? this.get(&#x27;previousSuccess&#x27;) : false
             });
             this.set({
                 changed: startTime,
@@ -342,7 +339,7 @@ define([
                 previousSuccess: (grade &gt; 1) ? true : false,
                 reviews: this.get(&#x27;reviews&#x27;) + 1,
                 successes: (grade &gt; 1) ? this.get(&#x27;successes&#x27;) + 1 : this.get(&#x27;successes&#x27;)
-            }, {silent: true}).cache();
+            });
             skritter.data.reviews.add(review);
             return this;
         },

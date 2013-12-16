@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -208,9 +210,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            this.on(&#x27;add&#x27;, function(item) {
-                item.cache();
-            });
             this.on(&#x27;change&#x27;, function(item) {
                 item.cache();
             });
@@ -257,42 +256,63 @@ define([
          * @method getActive
          * @returns {Array}
          */
-        getActive: function() {
-            //filter out any lang and parts that aren&#x27;t currently being studied
-            var activeItems = this.filterBy(&#x27;lang&#x27;, skritter.user.getSetting(&#x27;targetLang&#x27;)).filterBy(&#x27;part&#x27;, skritter.user.getActiveStudyParts());
-            //for Chinese style needs to be filtered based on simp, trad or both
-            if (skritter.user.getSetting(&#x27;targetLang&#x27;) === &#x27;zh&#x27;) {
-                var style = [];
-                if (skritter.user.getSetting(&#x27;reviewSimplified&#x27;) &amp;&amp; skritter.user.getSetting(&#x27;reviewTraditional&#x27;))
-                    style.push(&#x27;both&#x27;);
-                if (skritter.user.getSetting(&#x27;reviewSimplified&#x27;))
-                    style.push(&#x27;simp&#x27;);
-                if (skritter.user.getSetting(&#x27;reviewTraditional&#x27;))
-                    style.push(&#x27;trad&#x27;);
+        getActive: function() { 
+            var activeItems = [];
+            var activeStudyParts = skritter.user.getActiveStudyParts();
+            for (var i in this.models) {
+                var item = this.models[i];
+                var part = &#x27;&#x27;;
+                if (item.has(&#x27;part&#x27;)) {
+                    part = item.get(&#x27;part&#x27;);
+                } else {
+                    part = item.get(&#x27;id&#x27;).split(&#x27;-&#x27;)[4];
+                }
+                if (activeStudyParts.indexOf(part) !== -1 &amp;&amp; item.get(&#x27;vocabIds&#x27;).length &gt; 0)
+                    activeItems.push(item);
             }
-            //apply other filters to return a true subset of active items
-            return new StudyItems(activeItems.filter(function(item) {
-                var vocabIds = item.get(&#x27;vocabIds&#x27;);
-                if (vocabIds.length &gt; 0)
-                    return true;
-            }));
+            return activeItems;
         },
         /**
          * @method getDue
          * @returns {Array}
          */
         getDue: function() {
-            return this.getActive().filter(function(item) {
-                return item.getReadiness(true) &gt;= 1;
-            });
+            var itemsDue = [];
+            var activeItems = this.getActive();
+            for (var i in activeItems)
+                if (activeItems[i].getReadiness() &gt;= 1)
+                    itemsDue.push(activeItems[i]);
+            return itemsDue;
+        },
+        /**
+         * @method getNextIds
+         * @param {Number} limit
+         * @returns {Array}
+         */
+        getNextIds: function(limit) {
+            var ids = [];
+            limit = (limit) ? limit : 100;
+            var items = this.slice(0, limit);
+            for (var a in items) {
+                ids.push(items[a].get(&#x27;id&#x27;));
+                if (items[a].has(&#x27;containedVocabIds&#x27;)) {
+                    var containedVocabsIds = items[a].get(&#x27;containedVocabIds&#x27;);
+                    for (var b in containedVocabsIds)
+                        ids.push(skritter.user.get(&#x27;user_id&#x27;) + &#x27;-&#x27; + containedVocabsIds[b]);
+                }
+            }
+            return _.uniq(ids);
         },
         /**
          * @method insert
          * @param {Array} items
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(items, callback) {
+            this.add(items, {merge: true});
             skritter.storage.setItems(&#x27;items&#x27;, items, callback);
+            return this;
         },
         /**
          * @method loadAll

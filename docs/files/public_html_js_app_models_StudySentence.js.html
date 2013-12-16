@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -211,6 +213,13 @@ define([
                 if (typeof callback === &#x27;function&#x27;)
                     callback();
             });
+        },
+        /**
+         * @method noWhiteSpaces
+         * @returns {undefined}
+         */
+        noWhiteSpaces: function() {
+            return this.get(&#x27;writing&#x27;).replace(/ /g,&#x27;&#x27;);
         }
     });
 

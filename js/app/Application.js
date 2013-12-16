@@ -15879,7 +15879,7 @@ define('Api',[
             callback(error);
         });
     };
-    
+
     /**
      * @getBatch
      * @param {String} batchId
@@ -15890,6 +15890,9 @@ define('Api',[
         var self = this;
         var result = {};
         var responseSize = 0;
+        var merge = function(a, b) {
+            return Array.isArray(a) ? a.concat(b) : undefined;
+        };
         var promise = $.ajax({
             url: this.root + '.' + this.domain + '/api/v' + this.version + '/batch/' + batchId,
             beforeSend: function(xhr) {
@@ -15920,21 +15923,18 @@ define('Api',[
             console.error(error);
             callback();
         });
-        function merge(a, b) {
-            return Array.isArray(a) ? a.concat(b) : undefined;
-        }
     };
-    
+
     /**
      * Returns an object with merged results based on a batch request. This is mainly used for
      * account downloads and for larger account can take a few minutes.
      * 
-     * @method getCompleteBatch
+     * @method getBatchCombined
      * @param {Number} batchId
      * @param {Function} callback1
      * @param {Function} callback2
      */
-    Api.prototype.getCompleteBatch = function(batchId, callback1, callback2) {
+    Api.prototype.getBatchCombined = function(batchId, callback1, callback2) {
         var self = this;
         var retryCount = 0;
         var responseSize = 0;
@@ -15956,9 +15956,10 @@ define('Api',[
                     _.merge(result, requests[i].response, merge);
                     responseSize += requests[i].responseSize;
                 }
-                callback1(responseSize);
+                if (typeof callback1 === 'function')
+                    callback1(responseSize);
                 if (batch && (batch.runningRequests > 0 || requests.length > 0)) {
-                    setTimeout(function() {
+                    window.setTimeout(function() {
                         getNext(batchId);
                     }, 2000);
                 } else {
@@ -16005,13 +16006,56 @@ define('Api',[
             callback(error);
         });
     };
-    
+
     /**
-     * @method getItems
+     * @method getItemsById
+     * @param {Array} ids
+     * @param {Function} callback
+     */
+    Api.prototype.getItemsById = function(ids, callback) {
+        var self = this;
+        var requests = [
+            {
+                path: 'api/v' + this.version + '/items',
+                method: 'GET',
+                params: {
+                    bearer_token: self.token,
+                    ids: ids.join('|'),
+                    include_vocabs: 'true',
+                    include_strokes: 'true',
+                    include_sentences: 'true',
+                    include_heisigs: 'true',
+                    include_top_mnemonics: 'true',
+                    include_decomps: 'true'
+                },
+                spawner: true
+            }
+        ];
+        skritter.async.waterfall([
+            //request the minimal fields from items and vocabs
+            function(callback) {
+                self.requestBatch(requests, function(batch) {
+                    callback(null, batch);
+                });
+            },
+            //waits for the batch to complete and updates the size
+            function(batch, callback) {
+                self.getBatchCombined(batch.id, function(size) {
+                    if (skritter.fn.bytesToSize(size))
+                        console.log(skritter.fn.bytesToSize(size));
+                }, callback);
+            }
+        ], function(result) {
+            callback(result);
+        });
+    };
+
+    /**
+     * @method getItemsNext
      * @param {Number} limit
      * @param {Function} callback
      */
-    Api.prototype.getItems = function(limit, callback) {
+    Api.prototype.getItemsNext = function(limit, callback) {
         var self = this;
         var results = [];
         next();
@@ -16050,7 +16094,68 @@ define('Api',[
             return Array.isArray(a) ? a.concat(b) : undefined;
         }
     };
-    
+
+    /**
+     * @method getItemsCondensed
+     * @param {Function} callback
+     * @param {Number} offset
+     */
+    Api.prototype.getItemsCondensed = function(callback, offset) {
+        var self = this;
+        offset = (offset) ? offset : 0;
+        var requests = [
+            {
+                path: 'api/v' + self.version + '/items',
+                method: 'GET',
+                params: {
+                    sort: 'changed',
+                    offset: offset,
+                    fields: 'id,changed,last,next,vocabIds',
+                    include_vocabs: 'true',
+                    vocab_fields: 'id,containedVocabIds'
+                },
+                spawner: true
+            },
+            {
+                path: 'api/v' + self.version + '/srsconfigs',
+                method: 'GET',
+                params: {
+                    bearer_token: self.token
+                }
+            }
+        ];
+        skritter.async.waterfall([
+            //request the minimal fields from items and vocabs
+            function(callback) {
+                self.requestBatch(requests, function(batch) {
+                    callback(null, batch);
+                });
+            },
+            //waits for the batch to complete and updates the size
+            function(batch, callback) {
+                self.getBatchCombined(batch.id, null, function(result) {
+                    callback(null, result);
+                });
+            },
+            //condenses the contained ids into the items entity
+            function(result, callback) {
+                for (var i in result.Items)
+                    //filter out items that don't need contained ids
+                    if ((result.Items[i].id.indexOf('rune') !== -1 || result.Items[i].id.indexOf('tone') !== -1) && result.Items[i].vocabIds.length > 1) {
+                        //TODO: really needs a web worker to handle this without bogging down the dom
+                        var containedVocabIds = _.find(result.Vocabs, {id: result.Items[i].vocabIds[0]}).containedVocabIds;
+                        if (containedVocabIds)
+                            result.Items[i].containedVocabIds = containedVocabIds;
+                    }
+                delete result.cursor;
+                delete result.Vocabs;
+                callback(result);
+            }
+        ], function(result) {
+            callback(result);
+        });
+    };
+
     /**
      * Returns specific progress stats that can be used for various things such as an actual
      * progress page or study time for the day from the server. To read more about the request parameters
@@ -16075,7 +16180,7 @@ define('Api',[
             callback(error);
         });
     };
-    
+
     /**
      * Returns an array of review post errors from the server. If the offset is null then
      * it'll return all of the review errors.
@@ -16244,7 +16349,7 @@ define('Api',[
             });
             promise.fail(function(error) {
                 console.error(error);
-                callback(false);
+                callback();
             });
         };
         postBatch(reviews.splice(0, 499));
@@ -16933,9 +17038,9 @@ define('require.text',['module'], function (module) {
 
 define('require.text!templates/home-footer.html',[],function () { return '';});
 
-define('require.text!templates/home-logged-in.html',[],function () { return '<div id="home-view" class="view">\r\n    <div class="navbar navbar-default navbar-fixed-top" role="navigation">\r\n        <div class="container">\r\n            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">\r\n                <span class="sr-only">Toggle navigation</span>\r\n                <span class="icon-bar"></span>\r\n                <span class="icon-bar"></span>\r\n                <span class="icon-bar"></span>\r\n            </button>\r\n            <a class="navbar-brand hidden-xs" href="#">Skritter</a>\r\n            \r\n            <div class="navbar-right navbar-text cursor" data-toggle="dropdown" data-target=".user-dropdown">\r\n                <span id="testing"></span>\r\n                <span class="user-name"></span> <b class="caret"></b>\r\n            </div>\r\n\r\n            <div class="collapse navbar-collapse">\r\n                <ul class="nav navbar-nav">\r\n                    <li><a class="link-button" data-fragment="study">Study</a></li>\r\n                    <!--<li><a class="link-button" data-fragment="vocabs">Vocabs</a></li>-->\r\n                    <!--<li><a class="link-button" data-fragment="lists">Lists</a></li>-->\r\n                </ul>\r\n            </div>\r\n\r\n            <ul class="nav navbar-nav navbar-user navbar-right">\r\n                <li class="dropdown user-dropdown">\r\n                    <ul class="dropdown-menu">\r\n                        <!--<li><a class="link-button" data-fragment="account"><i class="fa fa-user"></i> Account</a></li>-->\r\n                        <li><a class="link-button" data-fragment="options"><i class="fa fa-gear"></i> Options</a></li>\r\n                        <li class="divider"></li>\r\n                        <li><a class="link-button" data-fragment="logout"><i class="fa fa-power-off"></i> Log Out</a></li>\r\n                    </ul>\r\n                </li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n\r\n    <div class="container">\r\n        <div class="row">\r\n            <div class="col-md-6 content">\r\n                <div class="media">\r\n                    <a class="pull-left" href="#">\r\n                        <span id="user-avatar" class="media-object"></span>\r\n                    </a>\r\n                    <div class="media-body">\r\n                        <h4 class="media-heading">Overview</h4>\r\n                        <p><strong><span class="user-name"></span></strong>, you currently have <strong><span id="user-items-due"></span></strong> items ready to review.</p>\r\n                        <a class="btn btn-primary link-button" data-fragment="study" role="button">Study</a>\r\n                        <a class="btn btn-primary sync-button" role="button">\r\n                            Sync <span id="user-unsynced-reviews"></span>\r\n                        </a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="col-md-6"></div>\r\n        </div>\r\n    </div>\r\n</div>';});
+define('require.text!templates/home-logged-in.html',[],function () { return '<div id="home-view" class="view">\r\n    <div class="navbar navbar-default navbar-fixed-top" role="navigation">\r\n        <div class="container">\r\n            <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">\r\n                <span class="sr-only">Toggle navigation</span>\r\n                <span class="icon-bar"></span>\r\n                <span class="icon-bar"></span>\r\n                <span class="icon-bar"></span>\r\n            </button>-->\r\n            <a class="navbar-brand hidden-xs" href="#">Skritter</a>\r\n            <div class="navbar-right navbar-text cursor" data-toggle="dropdown" data-target=".user-dropdown">\r\n                <span class="user-name"></span> <b class="caret"></b>\r\n            </div>\r\n            <div class="collapse navbar-collapse">\r\n                <ul class="nav navbar-nav">\r\n                </ul>\r\n            </div>\r\n            <ul class="nav navbar-nav navbar-user navbar-right">\r\n                <li class="dropdown user-dropdown">\r\n                    <ul class="dropdown-menu">\r\n                        <!--<li><a class="link-button" data-fragment="account"><i class="fa fa-user"></i> Account</a></li>-->\r\n                        <li><a class="link-button" data-fragment="options"><i class="fa fa-gear"></i> Options</a></li>\r\n                        <li class="divider"></li>\r\n                        <li><a class="link-button" data-fragment="logout"><i class="fa fa-power-off"></i> Log Out</a></li>\r\n                    </ul>\r\n                </li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n\r\n    <div class="container">\r\n        <div class="row">\r\n            <div class="col-md-6 content">\r\n                <div class="media">\r\n                    <a class="pull-left" href="#">\r\n                        <span id="user-avatar" class="media-object"></span>\r\n                    </a>\r\n                    <div class="media-body">\r\n                        <h4 class="media-heading">Overview</h4>\r\n                        <p><strong><span class="user-name"></span></strong>, you currently have <strong><span id="user-items-due"></span></strong> items ready to review.</p>\r\n                        <a class="btn btn-primary link-button" data-fragment="study" role="button">Study</a>\r\n                        <a class="btn btn-primary sync-button" role="button">\r\n                            Sync <span id="user-unsynced-reviews"></span>\r\n                        </a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="col-md-6 content">\r\n                <div class="media">\r\n                    <a class="pull-left" href="https://github.com/mcfarljw/skritter-html5">\r\n                        <img id="github-logo" class="media-object" src="images/github-logo.png" alt="">\r\n                    </a>\r\n                    <div class="media-body">\r\n                        <h4 class="media-heading">Help out on GitHub!</h4>\r\n                        <p><a href="https://github.com/mcfarljw/skritter-html5/issues"><strong>Click here</strong></a> to submit issues and even help contribute to the project.</p>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>';});
 
-define('require.text!templates/home-logged-out.html',[],function () { return '<div id="home-view" class="view">\r\n    <div class="navbar navbar-default navbar-fixed-top" role="navigation">\r\n        <div class="container">\r\n            <div class="navbar-header">\r\n                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">\r\n                    <span class="sr-only">Toggle navigation</span>\r\n                    <span class="icon-bar"></span>\r\n                    <span class="icon-bar"></span>\r\n                    <span class="icon-bar"></span>\r\n                </button>\r\n                <a class="navbar-brand" href="#">Skritter</a>\r\n            </div>\r\n            <div class="collapse navbar-collapse">\r\n                <ul class="nav navbar-nav">\r\n                    <li><a class="cursor login-button">Log In</a></li>\r\n                    <li><a class="link-button" data-fragment="pricing">Pricing</a></li>\r\n                    <li><a class="link-button" data-fragment="features">Features</a></li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class="container">\r\n        <div id="introduction" class="content row">\r\n            <div class="col-md-3">\r\n                <img src="images/skritter-logo.svg" alt="">\r\n            </div>\r\n            <div class="col-md-9">\r\n                <h2>Learn to Write Chinese and Japanese Characters.</h2>\r\n                <p><strong>Skritter</strong> is a tool for learning Chinese and Japanese writing with stroke-level feedback, tone practice, audio playback, definition practice, and progress feedback.</p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>';});
+define('require.text!templates/home-logged-out.html',[],function () { return '<div id="home-view" class="view">\r\n    <div class="navbar navbar-default navbar-fixed-top" role="navigation">\r\n        <div class="container">\r\n            <div class="navbar-header">\r\n                <a class="navbar-brand" href="#">Skritter</a>\r\n                <div class="navbar-text">   \r\n                    <ul class="navbar-nav list-inline">\r\n                        <li><a class="cursor login-button">Log In</a></li>\r\n                        <li><a href="https://github.com/mcfarljw/skritter-html5/issues">GitHub Issues</a></li>\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n    </div>\r\n\r\n    <div class="container">\r\n        <div id="introduction" class="content row">\r\n            <div class="col-md-3">\r\n                <img src="images/skritter-logo.svg" alt="">\r\n            </div>\r\n            <div class="col-md-9">\r\n                <h2>Learn to Write Chinese and Japanese Characters.</h2>\r\n                <p><strong>Skritter</strong> is a tool for learning Chinese and Japanese writing with stroke-level feedback, tone practice, audio playback, definition practice, and progress feedback.</p>\r\n            </div>\r\n        </div>\r\n\r\n        <div id="demo" class="row">\r\n            <div class="col-md-6"></div>\r\n            <div class="col-md-6"></div>\r\n        </div>\r\n\r\n        <div id="features" class="row">\r\n            <div class="col-md-3">\r\n                <div class="media">\r\n                    <div class="pull-left">\r\n                        <div id="brush" class="feature-icon"></div>\r\n                    </div>\r\n                    <div class="media-body">\r\n                        <h4 class="media-heading">Real Handwriting</h4>\r\n                        With Skritter, you write, not trace. Skritter gives you immediate stroke-level feedback.\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="col-md-3">\r\n                <div class="media">\r\n                    <div class="pull-left">\r\n                        <div id="plane" class="feature-icon"></div>\r\n                    </div>\r\n                    <div class="media-body">\r\n                        <h4 class="media-heading">Study Anywhere</h4>\r\n                        No internet? No problem. Learn offline, automatically sync when connection returns. Happy travels!\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="col-md-3">\r\n                <div class="media">\r\n                    <div class="pull-left">\r\n                        <div id="book" class="feature-icon"></div>\r\n                    </div>\r\n                    <div class="media-body">\r\n                        <h4 class="media-heading">Every Textbook</h4>\r\n                        Don\'t waste time making lists. If you\'re studying from a textbook, we probably already have it.\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="col-md-3">\r\n                <div class="media">\r\n                    <div class="pull-left">\r\n                        <div id="watch" class="feature-icon"></div>\r\n                    </div>\r\n                    <div class="media-body">\r\n                        <h4 class="media-heading">54 Seconds Per Item</h4>\r\n                        Skritter users learn characters ten times faster than with competing apps.\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>';});
 
 //     Backbone.js 1.1.0
 
@@ -18846,14 +18951,14 @@ define('views/Info',[
             'click.Info #info-view #audio-button': 'playAudio',
             'click.Info #info-view .contained-row': 'navigateInfo',
             'click.Info #info-view #ban-button': 'toggleBanned',
-            'click.Info #info-view #star-button': 'toggleStarred',
+            'click.Info #info-view #star-button': 'toggleStarred'
         },
         /**
          * @method navigateInfo
+         * @param {Object} event
          * @returns {Boolean}
          */
         navigateInfo: function(event) {
-            console.log(event);
             skritter.router.navigate('info/' + event.currentTarget.id, {trigger: true});
             return false;
         },
@@ -19364,7 +19469,6 @@ define('components/GradingButtons',[
          * @param {Object} event
          */
         handleButtonClick: function(event) {
-            console.log(GradingButtons.expanded);
             this.select(parseInt(event.currentTarget.id.replace(/[^\d]+/, ''), 10));
             if (GradingButtons.expanded) {
                 this.triggerSelected();
@@ -19533,7 +19637,7 @@ define('prompts/Prompt',[
             this.$('#input-container').height(canvasSize);
             //manually resizes the info section to fill the space mobile devices
             if (skritter.settings.get('appWidth') <= 768) {
-                this.$('#info-container').height(skritter.settings.get('appHeight') - $('.navbar').height() - canvasSize - 2);
+                this.$('#info-container').height(skritter.settings.get('appHeight') - $('.navbar').height() - canvasSize - 8);
             } else {
                 this.$('#info-container').height('');
             }
@@ -19545,7 +19649,7 @@ define('prompts/Prompt',[
          * @returns {Backbone.View}
          */
         set: function(vocabs, item) {
-            console.log('PROMPT', vocabs[0].get('writing'));
+            console.log('PROMPT', vocabs[0].get('writing'), item, vocabs);
             Prompt.contained = item.getContained();
             Prompt.definition = vocabs[0].get('definitions')[skritter.user.getSetting('sourceLang')];
             Prompt.item = item;
@@ -19553,6 +19657,7 @@ define('prompts/Prompt',[
             Prompt.sentence = vocabs[0].getSentence();
             Prompt.vocabs = vocabs;
             Prompt.writing = vocabs[0].get('writing');
+            skritter.timer.reset();
             return this;
         },
         /**
@@ -21159,10 +21264,11 @@ define('prompts/Defn',[
         showAnswer: function() {
             skritter.timer.stop();
             Prompt.finished = true;
+            Prompt.gradingButtons.show();
             this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             this.$('#prompt-text .prompt-definition').text(Prompt.definition);
             if (Prompt.sentence)
-                this.$('.prompt-sentence').text(Prompt.sentence.get('writing').replace(' ', ''));
+                this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             this.$('#tip').hide();
         }
     });
@@ -21225,13 +21331,14 @@ define('prompts/Rdng',[
                 this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
             this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence)
-                this.$('.prompt-sentence').text(Prompt.sentence.get('writing'));
+                this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             this.$('#prompt-text .prompt-reading').text("What's the reading?");
             this.$('#tip').text("(Click to show answer)");
         },
         showAnswer: function() {
             skritter.timer.stop();
             Prompt.finished = true;
+            Prompt.gradingButtons.show();
             if (Prompt.vocabs[0].has('audio') && this.isLast() && skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
             this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
@@ -21527,9 +21634,22 @@ define('Mauler',[],function() {
         tweak: tweak
     };
 });
+// ShortStrawJS, a javascript implementation
+// http://www.lab4games.net/zz85/blog/2010/01/21/geeknotes-shortstrawjs-fast-and-simple-corner-detection/
+//
+// Derived heavily from the AS3 implementation of the ShortStraw Corner Finder (Wolin et al. 2008)
+// by Felix Raab. 21 July 2009.
+// http://www.betriebsraum.de/blog/2009/07/21/efficient-gesture-recognition-and-corner-finding-in-as3/
+//
+// Based on the paper ShortStraw: A Simple and Effective Corner Finder for Polylines
+// http://srlweb.cs.tamu.edu/srlng_media/content/objects/object-1246294647-350817e4b0870da27e16472ed36475db/Wolin_SBIM08.pdf
+//
+// For comments on this JS port, email Joshua Koo (zz85nus @ gmail.com)
+//
+// Released under MIT license: http://www.opensource.org/licenses/mit-license.php
+
 /**
  * @module Skritter
- * @author Joshua McFarland
  */
 define('Shortstraw',[],function() {
     /**
@@ -21735,7 +21855,7 @@ define('Shortstraw',[],function() {
             }
             return {x: minX, y: minY, w: maxX - minX, h: maxY - minY};
         }
-
+        
         return cornerPoints;
     }
 
@@ -21763,7 +21883,7 @@ define('models/CanvasStroke',[
          */
         initialize: function() {
             this.on('change:points', function(stroke) {
-                stroke.set('corners', Shortstraw(stroke.get('points')));
+                stroke.set('corners', Shortstraw(_.clone(stroke.get('points'))));
             });
         },
         /**
@@ -22221,7 +22341,7 @@ define('components/Canvas',[
             Canvas.strokeSize = 12;
             Canvas.strokeCapStyle = 'round';
             Canvas.strokeJointStyle = 'round';
-            Canvas.squigColor = 'black';
+            Canvas.squigColor = '#000000';
             Canvas.textColor = 'orange';
             Canvas.textFont = '12px Arial';
             Canvas.element = this.initElement();
@@ -22245,7 +22365,7 @@ define('components/Canvas',[
             var dummySprite = skritter.assets.getStroke(0);
             dummySprite.alpha = 0.0001;
             Canvas.stage.addChildAt(dummySprite, 0);
-            
+
             return this;
         },
         /**
@@ -22446,25 +22566,29 @@ define('components/Canvas',[
          */
         drawSquig: function(points, layerName, alpha) {
             var marker = new createjs.Shape();
-            var midPoint;
-            var prevPoint = points[0];
-            //var prevMidPoint = points[0];
-            marker.graphics.setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle).beginStroke(Canvas.squigColor);
-            for (var p in points)
-            {
-                var point = points[p];
-                midPoint = new createjs.Point(prevPoint.x + point.x >> 1, prevPoint.y + point.y >> 1);
-                marker.graphics.moveTo(midPoint.x, midPoint.y).lineTo(prevPoint.x, prevPoint.y);
-                //ISSUE #50: using curveTo renders strange wisps in the squigs while lineTo doesn't
-                //marker.graphics.moveTo(midPoint.x, midPoint.y).curveTo(prevPoint.x, prevPoint.y, prevMidPoint.x, prevMidPoint.y);
-                prevPoint = point;
-                //prevMidPoint = midPoint;
+            var oldPt, oldMidPt;
+            oldPt = new createjs.Point(points[0].x, points[0].y);
+            oldMidPt = oldPt;
+            marker.graphics.beginStroke(Canvas.squigColor).setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle);
+            for (var i in points) {
+                var point = new createjs.Point(points[i].x, points[i].y);
+                var midPt = new createjs.Point(oldPt.x + point.x >> 1, oldPt.y + point.y >> 1);
+                marker.graphics
+                        .moveTo(midPt.x, midPt.y)
+                        .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                oldPt.x = point.x;
+                oldPt.y = point.y;
+                oldMidPt.x = midPt.x;
+                oldMidPt.y = midPt.y;
             }
+            marker.graphics
+                    .moveTo(points[points.length - 1].x, points[points.length - 1].y)
+                    .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
             if (alpha)
                 marker.alpha = alpha;
             marker.graphics.endStroke();
             this.getLayer(layerName).addChild(marker);
-            
+
             return marker;
         },
         /**
@@ -22528,9 +22652,6 @@ define('components/Canvas',[
             createjs.Tween.get(fromBitmap).to(toBitmap, 300, createjs.Ease.sineOut).call(function() {
                 if (typeof callback === 'function')
                     callback();
-            }).addEventListener('change', function() {
-                if (layer.cacheCanvas)
-                    layer.updateCache();
             });
             return toBitmap;
         },
@@ -22704,7 +22825,7 @@ define('components/Canvas',[
             this.trigger('mouseup', points);
         }
     });
-    
+
     return Canvas;
 });
 /**
@@ -22785,7 +22906,7 @@ define('prompts/Rune',[
             Rune.canvas = new Canvas();
             Rune.failedAttempts = 0;
             Rune.maxFailedAttempts = 3;
-            Rune.minStrokeDistance = 25;
+            Rune.minStrokeDistance = 15;
             Rune.strokeCount = 0;
             Rune.userCharacter = null;
             this.listenTo(Rune.canvas, 'mousedown', this.handleInputDown);
@@ -22828,19 +22949,15 @@ define('prompts/Rune',[
         handleCharacterComplete: function() {
             //stop the lap timer
             skritter.timer.stop();
-            //input should all be stopped once the character has been completed
-            Rune.canvas.disableInput();
             //mark the prompt as finished while the answer is shown
             Prompt.finished = true;
             //checks if we should snap or just glow the result
             if (skritter.user.getSetting('squigs')) {
                 for (var i in Rune.userCharacter.models) {
                     var stroke = Rune.userCharacter.models[i];
-                    Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), 'stroke', this.filterCharacter);
+                    Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), 'stroke');
                     Rune.canvas.setLayerAlpha('overlay', 0.3);
                 }
-            } else {
-                this.filterCharacter();
             }
             this.showAnswer();
         },
@@ -22971,7 +23088,6 @@ define('prompts/Rune',[
                     //ISSUE #63: show the grading buttons and grade color preemptively
                     if (Rune.userCharacter.getStrokeCount(false) >= Rune.userCharacter.getTargetStrokeCount()) {
                         Prompt.gradingButtons.select().collapse();
-                        //this.filterCharacter();
                     }
                 } else {
                     Rune.failedAttempts++;
@@ -23002,7 +23118,7 @@ define('prompts/Rune',[
             this.$('.prompt-definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence)
-                this.$('.prompt-sentence').text(skritter.fn.maskCharacters(Prompt.sentence.get('writing'), Prompt.writing, ' _ '));
+                this.$('.prompt-sentence').text(skritter.fn.maskCharacters(Prompt.sentence.noWhiteSpaces(), Prompt.writing, ' _ '));
             //ISSUE #74: redraws existing character when switching between pages
             if (Rune.userCharacter) {
                 Rune.canvas.drawCharacter(Rune.userCharacter.getCharacterSprite(), 'stroke');
@@ -23010,15 +23126,18 @@ define('prompts/Rune',[
                 Rune.userCharacter = new CanvasCharacter();
             }
             Rune.userCharacter.targets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'rune');
+            console.log(Rune.userCharacter.targets);
             Rune.canvas.enableInput();
         },
         /**
          * @method showAnswer
          */
         showAnswer: function() {
+            Rune.canvas.disableInput();
+            Prompt.gradingButtons.select().collapse();
             this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
             if (this.isLast() && Prompt.sentence)
-                this.$('.prompt-sentence').text(Prompt.sentence.get('writing'));
+                this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
         },
         /**
          * @method showTarget
@@ -23032,12 +23151,11 @@ define('prompts/Rune',[
 
     return Rune;
 });
-define('require.text!templates/prompts-tone.html',[],function () { return '<div id="tone" class="prompt">\r\n    \r\n    <div id="info-container">\r\n        <div class="prompt-row">\r\n            <span class="prompt-writing"></span>\r\n            <span class="prompt-style"></span>\r\n        </div>\r\n        <div class="prompt-row"><span class="prompt-reading"></span></div>\r\n        <div class="prompt-row"><span class="prompt-definition"></span></div>\r\n        <div class="prompt-row"><span class="prompt-sentence"></span></div>\r\n    </div>\r\n    \r\n    <div id="input-container">\r\n        <div id="canvas-container"></div>\r\n        <div id="grading-container"></div>\r\n    </div>\r\n    \r\n</div>';});
+define('require.text!templates/prompts-tone.html',[],function () { return '<div id="tone" class="prompt">\r\n    \r\n    <div id="info-container">\r\n        <div class="prompt-row"><span class="prompt-reading"></span></div>\r\n        <div class="prompt-row">\r\n            <span class="prompt-writing"></span>\r\n            <span class="prompt-style"></span>\r\n        </div>\r\n        <div class="prompt-row"><span class="prompt-definition"></span></div>\r\n        <div class="prompt-row"><span class="prompt-sentence"></span></div>\r\n    </div>\r\n    \r\n    <div id="input-container">\r\n        <div id="canvas-container"></div>\r\n        <div id="grading-container"></div>\r\n    </div>\r\n    \r\n</div>';});
 
 /**
  * @module Skritter
  * @submodule Prompts
- * @param PinyinConverter
  * @param Recognizer
  * @param CanvasCharacter
  * @param CanvasStroke
@@ -23065,7 +23183,7 @@ define('prompts/Tone',[
             skritter.timer.setReviewLimit(15);
             skritter.timer.setThinkingLimit(10);
             Tone.canvas = new Canvas();
-            Tone.minStrokeDistance = 25;
+            Tone.minStrokeDistance = 15;
             Tone.userCharacter = null;
             this.listenTo(Tone.canvas, 'mousedown', this.handleInputDown);
             this.listenTo(Tone.canvas, 'mouseup', this.handleInputRecieved);
@@ -23099,7 +23217,6 @@ define('prompts/Tone',[
          */
         handleCharacterComplete: function() {
             Prompt.finished = true;
-            Tone.canvas.disableInput();
             Tone.canvas.filterLayerColor('stroke', Prompt.gradeColorFilters[Prompt.gradingButtons.grade()]);
             this.showAnswer();
         },
@@ -23171,7 +23288,7 @@ define('prompts/Tone',[
                     var result = new Recognizer(Tone.userCharacter, stroke, Tone.userCharacter.targets).recognize(ignoreCheck, enforceOrder);
                     //check if a result exists and that it's not a duplicate
                     if (result && !Tone.userCharacter.containsStroke(result)) {
-                        Prompt.gradingButtons.select(3).collapse();
+                        Prompt.gradingButtons.select(3);
                         //add the stroke to the users character
                         Tone.userCharacter.add(result);
                         //draw the stroke on the canvas without tweening
@@ -23208,7 +23325,7 @@ define('prompts/Tone',[
             this.$('.prompt-definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence)
-                this.$('.prompt-sentence').text(Prompt.sentence.get('writing'));
+                this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             //ISSUE #74: redraws existing character when switching between pages
             if (Tone.userCharacter) {
                 Tone.canvas.drawCharacter(Tone.userCharacter.getCharacterSprite(), 'stroke');
@@ -23219,8 +23336,11 @@ define('prompts/Tone',[
             Tone.canvas.enableInput();
         },
         showAnswer: function() {
+            skritter.timer.stop();
+            Tone.canvas.disableInput();
             if (Prompt.vocabs[0].has('audio') && this.isLast() && skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
+            Prompt.gradingButtons.select().collapse();
             this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position));
         }
     });
@@ -23249,7 +23369,6 @@ define('views/Study',[
     var Study = Backbone.View.extend({
         initialize: function() {
             Study.current = {prompt: null, item: null, vocabs: null};
-            Study.items = null;
             skritter.timer.sync(true);
         },
         render: function() {
@@ -23257,11 +23376,6 @@ define('views/Study',[
             this.$('#avatar').html(skritter.user.getAvatar('avatar'));
             this.$('#username').text(skritter.user.getSetting('name'));
             skritter.timer.setElement(this.$('#timer')).render();
-            
-            //this.loadItems('id', ['mcfarljwtest1-zh-啊-0-tone']);
-            //this.loadItems('part', ['tone']);
-            this.loadItems();
-            
             if (Study.current.prompt) {
                 this.loadPrompt();
             } else {
@@ -23284,7 +23398,7 @@ define('views/Study',[
         addItems: function() {
             var self = this;
             skritter.modal.show('progress').setTitle('Adding Items').setProgress(100);
-            skritter.user.addItems(1, function() {
+            skritter.user.addItems(5, function() {
                 self.loadItems();
                 self.updateDueCount();
                 skritter.modal.hide();
@@ -23327,6 +23441,9 @@ define('views/Study',[
             }
             console.log('PROMPT COMPLETE', results);
             Study.current.prompt.undelegateEvents();
+            //keep an updated display of items due
+            this.updateDueCount();
+            //get the next item
             this.nextItem();
         },
         /**
@@ -23345,7 +23462,7 @@ define('views/Study',[
                     this.nextItem();
             } else {
                 Study.items = skritter.data.items.getActive();
-                
+
             }
             return Study.items;
         },
@@ -23389,12 +23506,11 @@ define('views/Study',[
          * @returns {Object}
          */
         nextItem: function() {
-            //resort the items based on the new readiness values
-            Study.items.sort();
-            //keep an updated display of items due
-            this.updateDueCount();
+            //sort the items collection to put a new item on top
+            skritter.data.items.sort();
             //gets the next item that should be studied and loads it
-            Study.current.item = Study.items.at(0);
+            Study.current.item = skritter.data.items.getActive()[0];
+            //Study.current.item = skritter.data.items.findWhere({id: 'mcfarljwtest1-zh-的-0-tone'});
             Study.current.vocabs = Study.current.item.getVocabs();
             //load the basd on the items part
             switch (Study.current.item.get('part')) {
@@ -23445,7 +23561,7 @@ define('views/Study',[
          * @method updateDueCount
          */
         updateDueCount: function() {
-           this.$('#items-due').text(Study.items.getDue().length); 
+            this.$('#items-due').text(skritter.data.items.getDue().length);
         }
     });
 
@@ -23693,7 +23809,7 @@ define('Router',[
         initialize: initialize
     };
 });
-define('require.text!templates/modals.html',[],function () { return '<!-- /MODAL: default -->\r\n<div class="modal fade modal-vertical-centered" id="default" tabindex="-1" role="dialog" aria-labelledby="default" aria-hidden="true">\r\n    <div class="modal-dialog">\r\n        <div class="modal-content">\r\n            <div class="modal-header">\r\n                <h4 class="modal-title" id="label-default"></h4>\r\n            </div>\r\n            <div class="modal-body text-center"></div>\r\n        </div><!-- /.modal-content -->\r\n    </div><!-- /.modal-dialog -->\r\n</div><!-- /.modal -->\r\n\r\n<!-- /MODAL: default -->\r\n<div class="modal fade modal-vertical-centered" id="confirm" tabindex="-1" role="dialog" aria-labelledby="confirm" aria-hidden="true">\r\n    <div class="modal-dialog">\r\n        <div class="modal-content">\r\n            <div class="modal-header">\r\n                <h4 class="modal-title" id="label-confirm"></h4>\r\n            </div>\r\n            <div class="modal-body text-center"></div>\r\n            <div class="modal-footer">\r\n                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>\r\n            </div>\r\n        </div><!-- /.modal-content -->\r\n    </div><!-- /.modal-dialog -->\r\n</div><!-- /.modal -->\r\n\r\n<!-- /MODAL: progress -->\r\n<div class="modal fade modal-vertical-centered" id="progress" tabindex="-1" role="dialog" aria-labelledby="progress" aria-hidden="true">\r\n    <div class="modal-dialog">\r\n        <div class="modal-content">\r\n            <div class="modal-header">\r\n                <div class="pull-right"><span class="modal-progress-text" style="display:inline-block; vertical-align:middle"></span></div>\r\n                <h4 class="modal-title" id="label-progress"></h4>\r\n            </div>\r\n            <div class="modal-body">\r\n                <div class="progress progress-striped active">\r\n                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\r\n                        <span class="sr-only">100% Complete</span>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div><!-- /.modal-content -->\r\n    </div><!-- /.modal-dialog -->\r\n</div><!-- /.modal -->\r\n\r\n<!-- /MODAL: login -->\r\n<div class="modal fade modal-vertical-centered" id="login" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">\r\n    <div class="modal-dialog">\r\n        <div class="modal-content">\r\n            <div class="modal-body text-center">\r\n                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\r\n                <form class="form-signin">\r\n                    <h2 class="form-signin-heading">Please log in</h2>\r\n                    <input id="login-username" type="text" class="form-control" placeholder="Username" required autofocus>\r\n                    <input id="login-password" type="password" class="form-control" placeholder="Password" required>\r\n                    <button id="login-button" class="btn btn-primary">Log In</button>\r\n                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>\r\n                    <div id="error-message"></div>\r\n                </form>\r\n            </div>\r\n        </div><!-- /.modal-content -->\r\n    </div><!-- /.modal-dialog -->\r\n</div><!-- /.modal -->';});
+define('require.text!templates/modals.html',[],function () { return '<!-- /MODAL: default -->\r\n<div class="modal fade modal-vertical-centered" id="default" tabindex="-1" role="dialog" aria-labelledby="default" aria-hidden="true">\r\n    <div class="modal-dialog">\r\n        <div class="modal-content">\r\n            <div class="modal-header">\r\n                <h4 class="modal-title" id="label-default"></h4>\r\n            </div>\r\n            <div class="modal-body text-center"></div>\r\n        </div><!-- /.modal-content -->\r\n    </div><!-- /.modal-dialog -->\r\n</div><!-- /.modal -->\r\n\r\n<!-- /MODAL: confirm -->\r\n<div class="modal fade modal-vertical-centered" id="confirm" tabindex="-1" role="dialog" aria-labelledby="confirm" aria-hidden="true">\r\n    <div class="modal-dialog">\r\n        <div class="modal-content">\r\n            <div class="modal-header">\r\n                <h4 class="modal-title" id="label-confirm"></h4>\r\n            </div>\r\n            <div class="modal-body text-center"></div>\r\n            <div class="modal-footer">\r\n                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>\r\n            </div>\r\n        </div><!-- /.modal-content -->\r\n    </div><!-- /.modal-dialog -->\r\n</div><!-- /.modal -->\r\n\r\n<!-- /MODAL: default -->\r\n<div class="modal fade modal-vertical-centered" id="input-range" tabindex="-1" role="dialog" aria-labelledby="input-range" aria-hidden="true">\r\n    <div class="modal-dialog">\r\n        <div class="modal-content">\r\n            <div class="modal-header">\r\n                <h4 class="modal-title" id="label-input-range"></h4>\r\n            </div>\r\n            <div class="modal-body text-center"></div>\r\n        </div><!-- /.modal-content -->\r\n    </div><!-- /.modal-dialog -->\r\n</div><!-- /.modal -->\r\n\r\n<!-- /MODAL: progress -->\r\n<div class="modal fade modal-vertical-centered" id="progress" tabindex="-1" role="dialog" aria-labelledby="progress" aria-hidden="true">\r\n    <div class="modal-dialog">\r\n        <div class="modal-content">\r\n            <div class="modal-header">\r\n                <div class="pull-right"><span class="modal-progress-text" style="display:inline-block; vertical-align:middle"></span></div>\r\n                <h4 class="modal-title" id="label-progress"></h4>\r\n            </div>\r\n            <div class="modal-body">\r\n                <div class="progress progress-striped active">\r\n                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\r\n                        <span class="sr-only">100% Complete</span>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div><!-- /.modal-content -->\r\n    </div><!-- /.modal-dialog -->\r\n</div><!-- /.modal -->\r\n\r\n<!-- /MODAL: login -->\r\n<div class="modal fade modal-vertical-centered" id="login" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">\r\n    <div class="modal-dialog">\r\n        <div class="modal-content">\r\n            <div class="modal-body text-center">\r\n                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\r\n                <form class="form-signin">\r\n                    <h2 class="form-signin-heading">Please log in</h2>\r\n                    <input id="login-username" type="text" class="form-control" placeholder="Username" required autofocus>\r\n                    <input id="login-password" type="password" class="form-control" placeholder="Password" required>\r\n                    <button id="login-button" class="btn btn-primary">Log In</button>\r\n                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>\r\n                    <div id="error-message"></div>\r\n                </form>\r\n            </div>\r\n        </div><!-- /.modal-content -->\r\n    </div><!-- /.modal-dialog -->\r\n</div><!-- /.modal -->';});
 
 /**
  * @module Skritter
@@ -23813,8 +23929,10 @@ define('components/Modal',[
          * @returns {Backbone.View}
          */
         setProgress: function(percent, text) {
-            this.$('#' + Modal.id + ' .progress-bar').width(percent + '%');
-            this.$('#' + Modal.id + ' .progress-bar .sr-only').text(percent + '% Complete');
+            if (percent)
+                this.$('#' + Modal.id + ' .progress-bar').width(percent + '%');
+            if (text)
+                this.$('#' + Modal.id + ' .progress-bar .sr-only').text(percent + '% Complete');
             this.$('#' + Modal.id + ' .modal-progress-text').text(text);
             return this;
         },
@@ -26166,7 +26284,7 @@ define('models/Settings',[
             orientation: 'vertical',
             strokeFormat: 'vector',
             transitionSpeed: 200,
-            version: '0.0.97'
+            version: '0.0.108'
         },
         /**
          * @method handleResize
@@ -26212,6 +26330,177 @@ define('models/Settings',[
     });
     
     return Settings;
+});
+/**
+ * @module Skritter
+ * @class Sync
+ * @author Joshua McFarland
+ */
+define('Sync',[],function() {
+    /**
+     * @method methodFlash
+     * @param {Function} callback
+     */
+    var methodFlash = function(callback) {
+        //TODO: implement a system for flash style loading and syncing
+        callback();
+    };
+    /**
+     * @method methodFull
+     * @param {Function} callback
+     */
+    var methodFull = function(callback) {
+        var requests = [
+            {
+                path: 'api/v' + skritter.api.version + '/items',
+                method: 'GET',
+                params: {
+                    sort: 'changed',
+                    offset: skritter.user.getLastSync(),
+                    include_vocabs: 'true',
+                    include_strokes: 'true',
+                    include_sentences: 'true',
+                    include_heisigs: 'true',
+                    include_top_mnemonics: 'true',
+                    include_decomps: 'true'
+                },
+                spawner: true
+            },
+            {
+                path: 'api/v' + skritter.api.version + '/srsconfigs',
+                method: 'GET',
+                params: {
+                    bearer_token: this.token
+                }
+            }
+        ];
+        skritter.async.waterfall([
+            //make the initial batch request for changed items
+            function(callback) {
+                skritter.modal.setProgress(100, 'Requesting Batch');
+                skritter.api.requestBatch(requests, function(batch) {
+                    callback(null, batch);
+                });
+                
+            },
+            //download requested batch and then store it locally
+            function(batch, callback) {
+                var size = 0;
+                nextBatch();
+                function nextBatch() {
+                    skritter.api.getBatch(batch.id, function(result) {
+                        if (result) {
+                            size += result.responseSize;
+                            skritter.async.parallel([
+                                function(callback) {
+                                    skritter.data.decomps.insert(result.Decomps, callback);
+                                },
+                                function(callback) {
+                                    skritter.data.items.insert(result.Items, callback);
+                                },
+                                function(callback) {
+                                    skritter.data.srsconfigs.insert(result.SRSConfigs, callback);
+                                },
+                                function(callback) {
+                                    skritter.data.sentences.insert(result.Sentences, callback);
+                                },
+                                function(callback) {
+                                    skritter.data.strokes.insert(result.Strokes, callback);
+                                },
+                                function(callback) {
+                                    skritter.data.vocabs.insert(result.Vocabs, callback);
+                                }
+                            ], function() {
+                                if (size > 1024)
+                                    skritter.modal.setProgress(100, skritter.fn.bytesToSize(size));
+                                nextBatch();
+                            });
+                        } else {
+                            callback();
+                        }
+                    });
+                }
+            },
+            //post reviews to the server and remove them locally
+            function(callback) {
+                if (skritter.data.reviews.length > 0 && skritter.user.getLastSync()) {
+                    skritter.modal.setProgress(100, 'Posting Reviews');
+                    skritter.data.reviews.sync(function() {
+                        callback();
+                    });
+                } else {
+                    callback();
+                }
+            }
+        ], function() {
+            skritter.user.setLastSync();
+            callback();
+        });
+    };
+    /**
+     * @method methodPartial
+     * @param {Function} callback
+     */
+    var methodPartial = function(callback) {
+        skritter.async.waterfall([
+            //fetch the condensed items and store them into the database
+            function(callback) {
+                skritter.api.getItemsCondensed(function(items) {
+                    skritter.data.items.add(items, {merge: true, silent: true});
+                    skritter.data.items.cache(callback);
+
+                });
+            },
+            //fetch full records for a limited number of next items
+            function(callback) {
+                skritter.api.getItemsById(skritter.data.items.getNextIds(), function(data) {
+                    callback(null, data);
+                });
+            },
+            //store the data in in collections and the database
+            function(data, callback) {
+                skritter.data.decomps.add(data.Decomps, {merge: true});
+                skritter.data.items.add(data.Items, {merge: true});
+                skritter.data.srsconfigs.add(data.SRSConfigs, {merge: true});
+                skritter.data.sentences.add(data.Sentences, {merge: true});
+                skritter.data.strokes.add(data.Strokes, {merge: true});
+                skritter.data.vocabs.add(data.Vocabs, {merge: true});
+                callback();
+            },
+            //cache all of the data and callback finished
+            function(callback) {
+                skritter.async.parallel([
+                    function(callback) {
+                        skritter.data.decomps.cache(callback);
+                    },
+                    function(callback) {
+                        skritter.data.items.cache(callback);
+                    },
+                    function(callback) {
+                        skritter.data.srsconfigs.cache(callback);
+                    },
+                    function(callback) {
+                        skritter.data.sentences.cache(callback);
+                    },
+                    function(callback) {
+                        skritter.data.strokes.cache(callback);
+                    },
+                    function(callback) {
+                        skritter.data.vocabs.cache(callback);
+                    }
+                ], callback);
+            }
+        ], function() {
+            skritter.user.setLastSync();
+            callback();
+        });
+    };
+
+    return {
+        methodFlash: methodFlash,
+        methodFull: methodFull,
+        methodpartial: methodPartial
+    };
 });
 /**
  * @module Skritter
@@ -26261,9 +26550,6 @@ define('collections/StudyDecomps',[
          * @method initialize
          */
         initialize: function() {
-            this.on('add', function(decomp) {
-                decomp.cache();
-            });
             this.on('change', function(decomp) {
                 decomp.cache();
             });
@@ -26286,9 +26572,12 @@ define('collections/StudyDecomps',[
          * @method insert
          * @param {Array} decomps
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(decomps, callback) {
+            this.add(decomps, {merge: true});
             skritter.storage.setItems('decomps', decomps, callback);
+            return this;
         },
         /**
          * @method loadAll
@@ -26461,15 +26750,6 @@ define('models/StudyItem',[
      */
     var StudyItem = Backbone.Model.extend({
         /**
-         * @property {Object} defaults
-         */
-        defaults: {
-            interval: 0,
-            previousSuccess: false,
-            reviews: 0,
-            successes: 0
-        },
-        /**
          * @method cache
          * @param {Function} callback
          */
@@ -26498,6 +26778,10 @@ define('models/StudyItem',[
             }
             return items;
         },
+        /**
+         * @method getCharacterCount
+         * @returns {Number}
+         */
         getCharacterCount: function() {
             return this.get('id').match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]|[\u20000-\u2a6d6]|[\u2a700-\u2b734]|[\u2b740-\u2b81d]/g).length;
         },
@@ -26508,7 +26792,7 @@ define('models/StudyItem',[
          */
         getReadiness: function(deprioritizeLongShots) {
             var now = skritter.fn.getUnixTime();
-            if (!this.get('vocabIds') || this.get('vocabIds').length <= 0)
+            if (this.get('vocabIds').length === 0)
                 return false;
             if (!this.has('last') && (this.get('next') - now) > 600)
                 return 0.2;
@@ -26554,7 +26838,7 @@ define('models/StudyItem',[
          * @returns {Boolean}
          */
         isNew: function() {
-            if (this.get('reviews') < 1 || this.get('successes') < 1)
+            if (this.get('reviews') < 1)
                 return true;
             return false;
         },
@@ -26580,12 +26864,12 @@ define('models/StudyItem',[
                 submitTime: startTime,
                 reviewTime: reviewTime,
                 thinkingTime: thinkingTime,
-                currentInterval: this.get('interval'),
-                actualInterval: (this.get('last')) ? startTime - this.get('last') : 0,
+                currentInterval: this.has('interval') ? this.get('interval') : 0,
+                actualInterval: this.has('last') ? startTime - this.get('last') : 0,
                 newInterval: new Scheduler().getInterval(this, grade),
                 wordGroup: wordGroup,
-                previousInterval: (this.get('previousInterval')) ? this.get('previousInterval') : 0,
-                previousSuccess: (this.get('previousSuccess')) ? this.get('previousSuccess') : false
+                previousInterval: this.has('previousInterval') ? this.get('previousInterval') : 0,
+                previousSuccess: this.has('previousSuccess') ? this.get('previousSuccess') : false
             });
             this.set({
                 changed: startTime,
@@ -26596,7 +26880,7 @@ define('models/StudyItem',[
                 previousSuccess: (grade > 1) ? true : false,
                 reviews: this.get('reviews') + 1,
                 successes: (grade > 1) ? this.get('successes') + 1 : this.get('successes')
-            }, {silent: true}).cache();
+            });
             skritter.data.reviews.add(review);
             return this;
         },
@@ -26632,9 +26916,6 @@ define('collections/StudyItems',[
          * @method initialize
          */
         initialize: function() {
-            this.on('add', function(item) {
-                item.cache();
-            });
             this.on('change', function(item) {
                 item.cache();
             });
@@ -26681,42 +26962,63 @@ define('collections/StudyItems',[
          * @method getActive
          * @returns {Array}
          */
-        getActive: function() {
-            //filter out any lang and parts that aren't currently being studied
-            var activeItems = this.filterBy('lang', skritter.user.getSetting('targetLang')).filterBy('part', skritter.user.getActiveStudyParts());
-            //for Chinese style needs to be filtered based on simp, trad or both
-            if (skritter.user.getSetting('targetLang') === 'zh') {
-                var style = [];
-                if (skritter.user.getSetting('reviewSimplified') && skritter.user.getSetting('reviewTraditional'))
-                    style.push('both');
-                if (skritter.user.getSetting('reviewSimplified'))
-                    style.push('simp');
-                if (skritter.user.getSetting('reviewTraditional'))
-                    style.push('trad');
+        getActive: function() { 
+            var activeItems = [];
+            var activeStudyParts = skritter.user.getActiveStudyParts();
+            for (var i in this.models) {
+                var item = this.models[i];
+                var part = '';
+                if (item.has('part')) {
+                    part = item.get('part');
+                } else {
+                    part = item.get('id').split('-')[4];
+                }
+                if (activeStudyParts.indexOf(part) !== -1 && item.get('vocabIds').length > 0)
+                    activeItems.push(item);
             }
-            //apply other filters to return a true subset of active items
-            return new StudyItems(activeItems.filter(function(item) {
-                var vocabIds = item.get('vocabIds');
-                if (vocabIds.length > 0)
-                    return true;
-            }));
+            return activeItems;
         },
         /**
          * @method getDue
          * @returns {Array}
          */
         getDue: function() {
-            return this.getActive().filter(function(item) {
-                return item.getReadiness(true) >= 1;
-            });
+            var itemsDue = [];
+            var activeItems = this.getActive();
+            for (var i in activeItems)
+                if (activeItems[i].getReadiness() >= 1)
+                    itemsDue.push(activeItems[i]);
+            return itemsDue;
+        },
+        /**
+         * @method getNextIds
+         * @param {Number} limit
+         * @returns {Array}
+         */
+        getNextIds: function(limit) {
+            var ids = [];
+            limit = (limit) ? limit : 100;
+            var items = this.slice(0, limit);
+            for (var a in items) {
+                ids.push(items[a].get('id'));
+                if (items[a].has('containedVocabIds')) {
+                    var containedVocabsIds = items[a].get('containedVocabIds');
+                    for (var b in containedVocabsIds)
+                        ids.push(skritter.user.get('user_id') + '-' + containedVocabsIds[b]);
+                }
+            }
+            return _.uniq(ids);
         },
         /**
          * @method insert
          * @param {Array} items
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(items, callback) {
+            this.add(items, {merge: true});
             skritter.storage.setItems('items', items, callback);
+            return this;
         },
         /**
          * @method loadAll
@@ -27197,6 +27499,9 @@ define('collections/StudyReviews',[
             this.on('change', function(review) {
                 review.cache();
             });
+            this.on('remove', function(review) {
+                skritter.storage.removeItems('reviews', [[review.get('itemId'), review.get('submitTime')]]);
+            });
         },
         /**
          * @property {StudyReview} model
@@ -27220,29 +27525,14 @@ define('collections/StudyReviews',[
             return -review.get('submitTime');
         },
         /**
-         * @method filterBy
-         * @param {String} attribute
-         * @param {String} value
-         * @param {Boolean} checkSubString
-         * @returns {Array}
-         */
-        filterBy: function(attribute, value, checkSubString) {
-            var filtered = this.filter(function(items) {
-                if (checkSubString)
-                    return (items.get(attribute).indexOf(value) > -1) ? true : false;
-                return _.contains(value, items.get(attribute));
-            });
-            return new StudyReviews(filtered);
-        },
-        /**
          * @method getTotalTime
          * @returns {Number}
          */
         getTotalTime: function() {
             var time = 0;
-            var filtered = this.filterBy('bearTime', true);
-            for (var i in filtered.models)
-                time += parseInt(filtered.models[i].get('reviewTime'), 10);
+            for (var i in this.models)
+                if (this.models[i].get('bearTime') && skritter.moment(this.models[0].submitTime).format('YYYY[-]MM[-]DD') === skritter.settings.get('date'))
+                    time += parseInt(this.models[i].get('reviewTime'), 10);
             return time * 1000;
         },
         /**
@@ -27264,6 +27554,7 @@ define('collections/StudyReviews',[
         sync: function(callback) {
             if (this.length > 0) {
                 skritter.api.postReviews(this.toJSON(), function(reviews) {
+                    console.log('submitted reviews', reviews);
                     skritter.data.reviews.remove(reviews);
                     callback();
                 });
@@ -27319,9 +27610,6 @@ define('collections/StudySRSConfigs',[
          * @method initialize
          */
         initialize: function() {
-            this.on('add', function(srsconfig) {
-                srsconfig.cache();
-            });
             this.on('change', function(srsconfig) {
                 srsconfig.cache();
             });
@@ -27344,9 +27632,12 @@ define('collections/StudySRSConfigs',[
          * @method insert
          * @param {Array} srsconfigs
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(srsconfigs, callback) {
+            this.add(srsconfigs, {merge: true});
             skritter.storage.setItems('srsconfigs', srsconfigs, callback);
+            return this;
         },
         /**
          * @method loadAll
@@ -27383,6 +27674,13 @@ define('models/StudySentence',[
                 if (typeof callback === 'function')
                     callback();
             });
+        },
+        /**
+         * @method noWhiteSpaces
+         * @returns {undefined}
+         */
+        noWhiteSpaces: function() {
+            return this.get('writing').replace(/ /g,'');
         }
     });
 
@@ -27406,9 +27704,6 @@ define('collections/StudySentences',[
          * @method initialize
          */
         initialize: function() {
-            this.on('add', function(sentence) {
-                sentence.cache();
-            });
             this.on('change', function(sentence) {
                 sentence.cache();
             });
@@ -27431,9 +27726,12 @@ define('collections/StudySentences',[
          * @method insert
          * @param {Array} sentences
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(sentences, callback) {
+            this.add(sentences, {merge: true});
             skritter.storage.setItems('sentences', sentences, callback);
+            return this;
         },
         /**
          * @method loadAll
@@ -27498,9 +27796,6 @@ define('collections/StudyStrokes',[
          */
         initialize: function() {
             this.loadTones();
-            this.on('add', function(item) {
-                item.cache();
-            });
             this.on('change', function(item) {
                 item.cache();
             });
@@ -27523,9 +27818,12 @@ define('collections/StudyStrokes',[
          * @method insert
          * @param {Array} strokes
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(strokes, callback) {
+            this.add(strokes, {merge: true});
             skritter.storage.setItems('strokes', strokes, callback);
+            return this;
         },
         /**
          * @method loadAll
@@ -27833,9 +28131,6 @@ define('collections/StudyVocabs',[
          * @method initialize
          */
         initialize: function() {
-            this.on('add', function(vocab) {
-                vocab.cache();
-            });
             this.on('change', function(vocab) {
                 vocab.cache();
             });
@@ -27858,9 +28153,12 @@ define('collections/StudyVocabs',[
          * @method insert
          * @param {Array} vocabs
          * @param {Function} callback
+         * @returns {Backbone.Collection}
          */
         insert: function(vocabs, callback) {
+            this.add(vocabs, {merge: true});
             skritter.storage.setItems('vocabs', vocabs, callback);
+            return this;
         },
         /**
          * @method loadAll
@@ -28547,6 +28845,7 @@ define("lz-string", function(){});
 /**
  * @module Skritter
  * @submodule Model
+ * @param Sync
  * @param StudyDecomps
  * @param StudyItems
  * @param StudyParams
@@ -28558,6 +28857,7 @@ define("lz-string", function(){});
  * @author Joshua McFarland
  */
 define('models/User',[
+    'Sync',
     'collections/StudyDecomps',
     'collections/StudyItems',
     'collections/StudyParams',
@@ -28568,7 +28868,7 @@ define('models/User',[
     'collections/StudyVocabs',
     'backbone',
     'lz-string'
-], function(StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
+], function(Sync, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
     /**
      * @class User
      */
@@ -28612,6 +28912,7 @@ define('models/User',[
             lastSyncJapanese: null,
             refresh_token: null,
             settings: null,
+            syncMethod: 'full',
             token_type: null,
             user_id: null
         },
@@ -28646,24 +28947,15 @@ define('models/User',[
             skritter.async.waterfall([
                 //request the new items using a batch request
                 function(callback) {
-                    requestBatch();
                     skritter.modal.setProgress(100, 'Requesting Items');
-                    function requestBatch() {
-                        skritter.api.requestBatch(requests, function(result) {
-                            if (result) {
-                                setTimeout(function() {
-                                    callback(null, result);
-                                }, 5000);
-                            } else {
-                                requestBatch();
-                            }
-                        });
-                    }
+                    skritter.api.requestBatch(requests, function(result) {
+                        callback(null, result);
+                    });
                 },
                 //start fetching the new items as they are completed
                 function(result, callback) {
                     skritter.modal.setProgress(100, 'Getting Items');
-                    skritter.api.getCompleteBatch(result.id, function(result) {
+                    skritter.api.getBatchCombined(result.id, function(result) {
                         console.log('added items', result);
                     }, function() {
                         callback();
@@ -28884,7 +29176,7 @@ define('models/User',[
         logout: function() {
             if (this.isLoggedIn()) {
                 skritter.modal.show().setBody('Logging Out').noHeader();
-                skritter.storage.deleteDatabase(function() {
+                skritter.storage.deleteAllDatabases(function() {
                     localStorage.removeItem('activeUser');
                     skritter.router.navigate('', {trigger: true, replace: true});
                     document.location.reload();
@@ -28922,119 +29214,55 @@ define('models/User',[
         /**
          * @method sync
          * @param {Function} callback
-         * @param {Number} offset
          */
-        sync: function(callback, offset) {
+        sync: function(callback) {
             var self = this;
-            offset = (offset > -1) ? offset : this.getLastSync();
-            var size = 0;
-            var requests = [
-                {
-                    path: 'api/v' + skritter.api.version + '/items',
-                    method: 'GET',
-                    params: {
-                        sort: 'changed',
-                        offset: offset,
-                        include_vocabs: 'true',
-                        include_strokes: 'true',
-                        include_sentences: 'true',
-                        include_heisigs: 'true',
-                        include_top_mnemonics: 'true',
-                        include_decomps: 'true'
-                    },
-                    spawner: true
-                },
-                {
-                    path: 'api/v' + skritter.api.version + '/srsconfigs',
-                    method: 'GET',
-                    params: {
-                        bearer_token: this.token,
-                        lang: this.getSetting('targetLang')
+            console.log('syncing from', skritter.moment(this.getLastSync() * 1000).format('YYYY[-]MM[-]DD h:mm:ss a'));
+            skritter.async.waterfall([
+                /*function(callback) {
+                 skritter.modal.setProgress(100, 'Getting Schedule');
+                 skritter.api.getItemsCondensed(function(result) {
+                 console.log('condensed', result);
+                 callback(null, result);
+                 });
+                 },
+                 function(result, callback) {
+                 skritter.modal.setProgress(100, 'Saving Schedule');
+                 skritter.data.items.add(result.Items, {merge: true});
+                 skritter.data.items.cache(callback);
+                 },*/
+                function() {
+                    switch (self.get('syncMethod')) {
+                        case 'flash':
+                            Sync.methodFlash(callback);
+                            break;
+                        case 'full':
+                            Sync.methodFull(callback);
+                            break;
+                        case 'partial':
+                            Sync.methodPartial(callback);
+                            break;
                     }
                 }
-            ];
-            var startSync = function() {
-                skritter.async.waterfall([
-                    //make the initial batch request for changed items
-                    function(callback) {
-                        skritter.modal.setProgress(100, 'Requesting Batch');
-                        requestBatch();
-                        function requestBatch() {
-                            skritter.api.requestBatch(requests, function(batch) {
-                                if (batch) {
-                                    setTimeout(function() {
-                                        callback(null, batch);
-                                    }, 5000);
-                                } else {
-                                    console.log('re-requesting batch');
-                                    requestBatch();
-                                }
-                            });
-                        }
-                    },
-                    //download requested batch and then store it locally
-                    function(batch, callback) {
-                        nextBatch();
-                        function nextBatch() {
-                            skritter.api.getBatch(batch.id, function(result) {
-                                if (result) {
-                                    size += result.responseSize;
-                                    if (result.responseSize > 100)
-                                        skritter.modal.setProgress(100, skritter.fn.bytesToSize(size));
-                                    skritter.data.decomps.add(result.Decomps);
-                                    skritter.data.items.add(result.Items);
-                                    skritter.data.srsconfigs.add(result.SRSConfigs);
-                                    skritter.data.sentences.add(result.Sentences);
-                                    skritter.data.strokes.add(result.Strokes);
-                                    skritter.data.vocabs.add(result.Vocabs);
-                                    setTimeout(function() {
-                                        nextBatch();
-                                    }, 2000);
-                                } else {
-                                    skritter.modal.setProgress(100, 'Storing Data');
-                                    skritter.async.series([
-                                        function(callback) {
-                                            skritter.data.decomps.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.items.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.srsconfigs.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.sentences.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.strokes.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.vocabs.cache(callback);
-                                        }
-                                    ], function() {
-                                        callback();
-                                    });
-                                }
-                            });
-                        }
-                    },
-                    //post reviews to the server and remove them locally
-                    function(callback) {
-                        if (skritter.data.reviews.length > 0) {
-                            skritter.modal.setTitle('Posting Reviews').setProgress(100, '');
-                            skritter.data.reviews.sync(function() {
-                                callback();
-                            });
-                        } else {
-                            callback();
-                        }
-                    }
-                ], function() {
-                    self.setLastSync();
-                    callback();
-                });
-            };
-            startSync();
+            ], function() {
+                self.setLastSync();
+                callback();
+            });
+
+            /*skritter.api.getItemsCondensed(function(items) {
+             console.log('condensed items', items);
+             switch (self.get('syncMethod')) {
+             case 'flash':
+             Sync.methodFlash(callback);
+             break;
+             case 'full':
+             Sync.methodFull(callback);
+             break;
+             case 'partial':
+             Sync.methodPartial(callback);
+             break;
+             }
+             }, this.getLastSync());*/
         },
         /**
          * A shortcut method for removing user server settings.
@@ -29590,6 +29818,7 @@ define('storage/IndexedDBAdapter',[
      * @constructor
      */
     function IndexedDBAdapter() {
+        this.database = null;
         this.databaseName = null;
         this.databaseVersion = 1;
     }
@@ -29611,12 +29840,39 @@ define('storage/IndexedDBAdapter',[
     };
     
     /**
+     * @method deleteAllDatabases
+     * @param {Function} callback
+     * @returns {undefined}
+     */
+    IndexedDBAdapter.prototype.deleteAllDatabases = function(callback) {
+        var position = 0;
+        var request = window.indexedDB.webkitGetDatabaseNames();
+        request.onsuccess = function(event) {
+            next();
+            function next() {
+                var promise = $.indexedDB(event.target.result[position]).deleteDatabase();
+                promise.done(function() {
+                    if (position < event.target.result.length) {
+                        position++;
+                        next();
+                    } else {
+                        callback();
+                    }
+                });
+                promise.fail(function(error) {
+                    console.error(error);
+                });
+            }
+        };
+    };
+    
+    /**
      * @method deleteDatabase
      * @param {Function} callback
      * @returns {undefined}
      */
     IndexedDBAdapter.prototype.deleteDatabase = function(callback) {
-        var promise = $.indexedDB(this.databaseName).deleteDatabase();
+        var promise = this.database.deleteDatabase();
         promise.done(function() {
             if (typeof callback === 'function')
                 callback();
@@ -29633,6 +29889,7 @@ define('storage/IndexedDBAdapter',[
      * @returns {undefined}
      */
     IndexedDBAdapter.prototype.openDatabase = function(databaseName, callback) {
+        var self = this;
         this.databaseName = databaseName;
         var promise = $.indexedDB(this.databaseName, {
             version: 1,
@@ -29648,8 +29905,13 @@ define('storage/IndexedDBAdapter',[
                 }
             }
         });
-        promise.done(function() {   
-            callback();
+        promise.done(function(event) {
+            if (event.objectStoreNames.length === 0) {
+                self.deleteAllDatabases(callback);
+            } else {
+                self.database = promise;
+                callback();
+            }
         });
         promise.fail(function(error) {
             console.error(databaseName, error);
@@ -29664,7 +29926,8 @@ define('storage/IndexedDBAdapter',[
      */
     IndexedDBAdapter.prototype.getAll = function(tableName, callback) {
         var items = [];
-        var promise = $.indexedDB(this.databaseName).objectStore(tableName).each(function(item) {
+        var table = this.database.objectStore(tableName);
+        var promise = table.each(function(item) {
             items.push(item.value);
         });
         promise.done(function() {
@@ -29683,14 +29946,14 @@ define('storage/IndexedDBAdapter',[
      * @returns {undefined}
      */
     IndexedDBAdapter.prototype.getItems = function(tableName, keys, callback) {
-        var self = this;
         var position = 0;
         var items = [];
+        var table = this.database.objectStore(tableName);
         keys = Array.isArray(keys) ? keys : [keys];
         getNext();
         function getNext() {
             if (position < keys.length) {
-                var promise = $.indexedDB(self.databaseName).objectStore(tableName).get(keys[position]);
+                var promise = table.get(keys[position]);
                 promise.done(function(item) {
                     position++;
                     items.push(item);
@@ -29705,21 +29968,6 @@ define('storage/IndexedDBAdapter',[
         }
     };
     
-    IndexedDBAdapter.prototype.getSchedule = function(callback) {
-        var schedule = [];
-        var promise = $.indexedDB(this.databaseName).objectStore('items').each(function(item) {
-            if (item.value.vocabIds.length > 0)
-                schedule.push(item.value);
-        });
-        promise.done(function() {
-            console.log(schedule);
-            callback(schedule);
-        });
-        promise.fail(function(error) {
-            console.error(error);
-        });
-    };
-    
     /**
      * @method removeItems
      * @param {String} tableName
@@ -29728,13 +29976,13 @@ define('storage/IndexedDBAdapter',[
      * @returns {undefined}
      */
     IndexedDBAdapter.prototype.removeItems = function(tableName, keys, callback) {
-        var self = this;
         var position = 0;
+        var table = this.database.objectStore(tableName);
         keys = Array.isArray(keys) ? keys : [keys];
         removeNext();
         function removeNext() {
             if (position < keys.length) {
-                var promise = $.indexedDB(self.databaseName).objectStore(tableName).delete(keys[position]);
+                var promise = table.delete(keys[position]);
                 promise.done(function() {
                     position++;
                     removeNext();
@@ -29757,11 +30005,11 @@ define('storage/IndexedDBAdapter',[
      * @returns {undefined}
      */
     IndexedDBAdapter.prototype.setItems = function(tableName, items, callback) {
-        var self = this;
         var position = 0;
+        var table = this.database.objectStore(tableName);
         var setNext = function() {
             if (position < items.length) {
-                var promise = $.indexedDB(self.databaseName).objectStore(tableName).put(items[position]);
+                var promise = table.put(items[position]);
                 promise.done(function() {
                     position++;
                     setNext();
@@ -39929,6 +40177,9 @@ define('Application',[
     var loadUser = function(callback) {
         skritter.user = new User();
         if (skritter.user.isLoggedIn()) {
+            //don't display the loading account modal if initial download
+            if (skritter.user.getLastSync())
+                skritter.modal.show('progress').setTitle('Loading Account');
             skritter.storage.openDatabase(skritter.user.get('user_id'), function() {
                 skritter.async.series([
                     skritter.async.apply(skritter.settings.refreshDate),
@@ -39941,6 +40192,7 @@ define('Application',[
                                 callback();
                             });
                         } else {
+                            skritter.modal.hide();
                             callback();
                         }
                     }

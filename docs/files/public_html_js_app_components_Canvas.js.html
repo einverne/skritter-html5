@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -217,7 +219,7 @@ define([
             Canvas.strokeSize = 12;
             Canvas.strokeCapStyle = &#x27;round&#x27;;
             Canvas.strokeJointStyle = &#x27;round&#x27;;
-            Canvas.squigColor = &#x27;black&#x27;;
+            Canvas.squigColor = &#x27;#000000&#x27;;
             Canvas.textColor = &#x27;orange&#x27;;
             Canvas.textFont = &#x27;12px Arial&#x27;;
             Canvas.element = this.initElement();
@@ -241,7 +243,7 @@ define([
             var dummySprite = skritter.assets.getStroke(0);
             dummySprite.alpha = 0.0001;
             Canvas.stage.addChildAt(dummySprite, 0);
-            
+
             return this;
         },
         /**
@@ -442,25 +444,29 @@ define([
          */
         drawSquig: function(points, layerName, alpha) {
             var marker = new createjs.Shape();
-            var midPoint;
-            var prevPoint = points[0];
-            //var prevMidPoint = points[0];
-            marker.graphics.setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle).beginStroke(Canvas.squigColor);
-            for (var p in points)
-            {
-                var point = points[p];
-                midPoint = new createjs.Point(prevPoint.x + point.x &gt;&gt; 1, prevPoint.y + point.y &gt;&gt; 1);
-                marker.graphics.moveTo(midPoint.x, midPoint.y).lineTo(prevPoint.x, prevPoint.y);
-                //ISSUE #50: using curveTo renders strange wisps in the squigs while lineTo doesn&#x27;t
-                //marker.graphics.moveTo(midPoint.x, midPoint.y).curveTo(prevPoint.x, prevPoint.y, prevMidPoint.x, prevMidPoint.y);
-                prevPoint = point;
-                //prevMidPoint = midPoint;
+            var oldPt, oldMidPt;
+            oldPt = new createjs.Point(points[0].x, points[0].y);
+            oldMidPt = oldPt;
+            marker.graphics.beginStroke(Canvas.squigColor).setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle);
+            for (var i in points) {
+                var point = new createjs.Point(points[i].x, points[i].y);
+                var midPt = new createjs.Point(oldPt.x + point.x &gt;&gt; 1, oldPt.y + point.y &gt;&gt; 1);
+                marker.graphics
+                        .moveTo(midPt.x, midPt.y)
+                        .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                oldPt.x = point.x;
+                oldPt.y = point.y;
+                oldMidPt.x = midPt.x;
+                oldMidPt.y = midPt.y;
             }
+            marker.graphics
+                    .moveTo(points[points.length - 1].x, points[points.length - 1].y)
+                    .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
             if (alpha)
                 marker.alpha = alpha;
             marker.graphics.endStroke();
             this.getLayer(layerName).addChild(marker);
-            
+
             return marker;
         },
         /**
@@ -524,9 +530,6 @@ define([
             createjs.Tween.get(fromBitmap).to(toBitmap, 300, createjs.Ease.sineOut).call(function() {
                 if (typeof callback === &#x27;function&#x27;)
                     callback();
-            }).addEventListener(&#x27;change&#x27;, function() {
-                if (layer.cacheCanvas)
-                    layer.updateCache();
             });
             return toBitmap;
         },
@@ -700,7 +703,7 @@ define([
             this.trigger(&#x27;mouseup&#x27;, points);
         }
     });
-    
+
     return Canvas;
 });
     </pre>

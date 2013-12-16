@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,8 @@
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Sync.html">Sync</a></li>
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
@@ -292,7 +294,7 @@ define([
             this.$(&#x27;#input-container&#x27;).height(canvasSize);
             //manually resizes the info section to fill the space mobile devices
             if (skritter.settings.get(&#x27;appWidth&#x27;) &lt;= 768) {
-                this.$(&#x27;#info-container&#x27;).height(skritter.settings.get(&#x27;appHeight&#x27;) - $(&#x27;.navbar&#x27;).height() - canvasSize - 2);
+                this.$(&#x27;#info-container&#x27;).height(skritter.settings.get(&#x27;appHeight&#x27;) - $(&#x27;.navbar&#x27;).height() - canvasSize - 8);
             } else {
                 this.$(&#x27;#info-container&#x27;).height(&#x27;&#x27;);
             }
@@ -304,7 +306,7 @@ define([
          * @returns {Backbone.View}
          */
         set: function(vocabs, item) {
-            console.log(&#x27;PROMPT&#x27;, vocabs[0].get(&#x27;writing&#x27;));
+            console.log(&#x27;PROMPT&#x27;, vocabs[0].get(&#x27;writing&#x27;), item, vocabs);
             Prompt.contained = item.getContained();
             Prompt.definition = vocabs[0].get(&#x27;definitions&#x27;)[skritter.user.getSetting(&#x27;sourceLang&#x27;)];
             Prompt.item = item;
@@ -312,6 +314,7 @@ define([
             Prompt.sentence = vocabs[0].getSentence();
             Prompt.vocabs = vocabs;
             Prompt.writing = vocabs[0].get(&#x27;writing&#x27;);
+            skritter.timer.reset();
             return this;
         },
         /**

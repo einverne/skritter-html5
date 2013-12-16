@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -224,7 +226,7 @@ define([
             Rune.canvas = new Canvas();
             Rune.failedAttempts = 0;
             Rune.maxFailedAttempts = 3;
-            Rune.minStrokeDistance = 25;
+            Rune.minStrokeDistance = 15;
             Rune.strokeCount = 0;
             Rune.userCharacter = null;
             this.listenTo(Rune.canvas, &#x27;mousedown&#x27;, this.handleInputDown);
@@ -267,19 +269,15 @@ define([
         handleCharacterComplete: function() {
             //stop the lap timer
             skritter.timer.stop();
-            //input should all be stopped once the character has been completed
-            Rune.canvas.disableInput();
             //mark the prompt as finished while the answer is shown
             Prompt.finished = true;
             //checks if we should snap or just glow the result
             if (skritter.user.getSetting(&#x27;squigs&#x27;)) {
                 for (var i in Rune.userCharacter.models) {
                     var stroke = Rune.userCharacter.models[i];
-                    Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), &#x27;stroke&#x27;, this.filterCharacter);
+                    Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), &#x27;stroke&#x27;);
                     Rune.canvas.setLayerAlpha(&#x27;overlay&#x27;, 0.3);
                 }
-            } else {
-                this.filterCharacter();
             }
             this.showAnswer();
         },
@@ -410,7 +408,6 @@ define([
                     //ISSUE #63: show the grading buttons and grade color preemptively
                     if (Rune.userCharacter.getStrokeCount(false) &gt;= Rune.userCharacter.getTargetStrokeCount()) {
                         Prompt.gradingButtons.select().collapse();
-                        //this.filterCharacter();
                     }
                 } else {
                     Rune.failedAttempts++;
@@ -441,7 +438,7 @@ define([
             this.$(&#x27;.prompt-definition&#x27;).text(Prompt.definition);
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             if (Prompt.sentence)
-                this.$(&#x27;.prompt-sentence&#x27;).text(skritter.fn.maskCharacters(Prompt.sentence.get(&#x27;writing&#x27;), Prompt.writing, &#x27; _ &#x27;));
+                this.$(&#x27;.prompt-sentence&#x27;).text(skritter.fn.maskCharacters(Prompt.sentence.noWhiteSpaces(), Prompt.writing, &#x27; _ &#x27;));
             //ISSUE #74: redraws existing character when switching between pages
             if (Rune.userCharacter) {
                 Rune.canvas.drawCharacter(Rune.userCharacter.getCharacterSprite(), &#x27;stroke&#x27;);
@@ -449,15 +446,18 @@ define([
                 Rune.userCharacter = new CanvasCharacter();
             }
             Rune.userCharacter.targets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, &#x27;rune&#x27;);
+            console.log(Rune.userCharacter.targets);
             Rune.canvas.enableInput();
         },
         /**
          * @method showAnswer
          */
         showAnswer: function() {
+            Rune.canvas.disableInput();
+            Prompt.gradingButtons.select().collapse();
             this.$(&#x27;.prompt-writing&#x27;).html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
             if (this.isLast() &amp;&amp; Prompt.sentence)
-                this.$(&#x27;.prompt-sentence&#x27;).text(Prompt.sentence.get(&#x27;writing&#x27;));
+                this.$(&#x27;.prompt-sentence&#x27;).text(Prompt.sentence.noWhiteSpaces());
         },
         /**
          * @method showTarget

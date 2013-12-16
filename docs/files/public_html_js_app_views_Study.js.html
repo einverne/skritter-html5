@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -210,7 +212,6 @@ define([
     var Study = Backbone.View.extend({
         initialize: function() {
             Study.current = {prompt: null, item: null, vocabs: null};
-            Study.items = null;
             skritter.timer.sync(true);
         },
         render: function() {
@@ -218,11 +219,6 @@ define([
             this.$(&#x27;#avatar&#x27;).html(skritter.user.getAvatar(&#x27;avatar&#x27;));
             this.$(&#x27;#username&#x27;).text(skritter.user.getSetting(&#x27;name&#x27;));
             skritter.timer.setElement(this.$(&#x27;#timer&#x27;)).render();
-            
-            //this.loadItems(&#x27;id&#x27;, [&#x27;mcfarljwtest1-zh-啊-0-tone&#x27;]);
-            //this.loadItems(&#x27;part&#x27;, [&#x27;tone&#x27;]);
-            this.loadItems();
-            
             if (Study.current.prompt) {
                 this.loadPrompt();
             } else {
@@ -245,7 +241,7 @@ define([
         addItems: function() {
             var self = this;
             skritter.modal.show(&#x27;progress&#x27;).setTitle(&#x27;Adding Items&#x27;).setProgress(100);
-            skritter.user.addItems(1, function() {
+            skritter.user.addItems(5, function() {
                 self.loadItems();
                 self.updateDueCount();
                 skritter.modal.hide();
@@ -288,6 +284,9 @@ define([
             }
             console.log(&#x27;PROMPT COMPLETE&#x27;, results);
             Study.current.prompt.undelegateEvents();
+            //keep an updated display of items due
+            this.updateDueCount();
+            //get the next item
             this.nextItem();
         },
         /**
@@ -306,7 +305,7 @@ define([
                     this.nextItem();
             } else {
                 Study.items = skritter.data.items.getActive();
-                
+
             }
             return Study.items;
         },
@@ -350,12 +349,11 @@ define([
          * @returns {Object}
          */
         nextItem: function() {
-            //resort the items based on the new readiness values
-            Study.items.sort();
-            //keep an updated display of items due
-            this.updateDueCount();
+            //sort the items collection to put a new item on top
+            skritter.data.items.sort();
             //gets the next item that should be studied and loads it
-            Study.current.item = Study.items.at(0);
+            Study.current.item = skritter.data.items.getActive()[0];
+            //Study.current.item = skritter.data.items.findWhere({id: &#x27;mcfarljwtest1-zh-的-0-tone&#x27;});
             Study.current.vocabs = Study.current.item.getVocabs();
             //load the basd on the items part
             switch (Study.current.item.get(&#x27;part&#x27;)) {
@@ -406,7 +404,7 @@ define([
          * @method updateDueCount
          */
         updateDueCount: function() {
-           this.$(&#x27;#items-due&#x27;).text(Study.items.getDue().length); 
+            this.$(&#x27;#items-due&#x27;).text(skritter.data.items.getDue().length);
         }
     });
 

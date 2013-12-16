@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,8 @@
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Sync.html">Sync</a></li>
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
@@ -250,10 +252,11 @@ define([
         showAnswer: function() {
             skritter.timer.stop();
             Prompt.finished = true;
+            Prompt.gradingButtons.show();
             this.$(&#x27;.prompt-reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));
             this.$(&#x27;#prompt-text .prompt-definition&#x27;).text(Prompt.definition);
             if (Prompt.sentence)
-                this.$(&#x27;.prompt-sentence&#x27;).text(Prompt.sentence.get(&#x27;writing&#x27;).replace(&#x27; &#x27;, &#x27;&#x27;));
+                this.$(&#x27;.prompt-sentence&#x27;).text(Prompt.sentence.noWhiteSpaces());
             this.$(&#x27;#tip&#x27;).hide();
         }
     });

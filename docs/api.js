@@ -43,6 +43,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "StudyStrokes",
         "StudyVocab",
         "StudyVocabs",
+        "Sync",
         "Timer",
         "User",
         "Vocabs"

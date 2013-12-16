@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,8 @@
                 <li><a href="../classes/StudyVocab.html">StudyVocab</a></li>
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
+            
+                <li><a href="../classes/Sync.html">Sync</a></li>
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
@@ -308,8 +310,10 @@ define([
          * @returns {Backbone.View}
          */
         setProgress: function(percent, text) {
-            this.$(&#x27;#&#x27; + Modal.id + &#x27; .progress-bar&#x27;).width(percent + &#x27;%&#x27;);
-            this.$(&#x27;#&#x27; + Modal.id + &#x27; .progress-bar .sr-only&#x27;).text(percent + &#x27;% Complete&#x27;);
+            if (percent)
+                this.$(&#x27;#&#x27; + Modal.id + &#x27; .progress-bar&#x27;).width(percent + &#x27;%&#x27;);
+            if (text)
+                this.$(&#x27;#&#x27; + Modal.id + &#x27; .progress-bar .sr-only&#x27;).text(percent + &#x27;% Complete&#x27;);
             this.$(&#x27;#&#x27; + Modal.id + &#x27; .modal-progress-text&#x27;).text(text);
             return this;
         },

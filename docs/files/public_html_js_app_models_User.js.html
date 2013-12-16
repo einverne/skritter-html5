@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -193,6 +195,7 @@
 /**
  * @module Skritter
  * @submodule Model
+ * @param Sync
  * @param StudyDecomps
  * @param StudyItems
  * @param StudyParams
@@ -204,6 +207,7 @@
  * @author Joshua McFarland
  */
 define([
+    &#x27;Sync&#x27;,
     &#x27;collections/StudyDecomps&#x27;,
     &#x27;collections/StudyItems&#x27;,
     &#x27;collections/StudyParams&#x27;,
@@ -214,7 +218,7 @@ define([
     &#x27;collections/StudyVocabs&#x27;,
     &#x27;backbone&#x27;,
     &#x27;lz-string&#x27;
-], function(StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
+], function(Sync, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
     /**
      * @class User
      */
@@ -258,6 +262,7 @@ define([
             lastSyncJapanese: null,
             refresh_token: null,
             settings: null,
+            syncMethod: &#x27;full&#x27;,
             token_type: null,
             user_id: null
         },
@@ -292,24 +297,15 @@ define([
             skritter.async.waterfall([
                 //request the new items using a batch request
                 function(callback) {
-                    requestBatch();
                     skritter.modal.setProgress(100, &#x27;Requesting Items&#x27;);
-                    function requestBatch() {
-                        skritter.api.requestBatch(requests, function(result) {
-                            if (result) {
-                                setTimeout(function() {
-                                    callback(null, result);
-                                }, 5000);
-                            } else {
-                                requestBatch();
-                            }
-                        });
-                    }
+                    skritter.api.requestBatch(requests, function(result) {
+                        callback(null, result);
+                    });
                 },
                 //start fetching the new items as they are completed
                 function(result, callback) {
                     skritter.modal.setProgress(100, &#x27;Getting Items&#x27;);
-                    skritter.api.getCompleteBatch(result.id, function(result) {
+                    skritter.api.getBatchCombined(result.id, function(result) {
                         console.log(&#x27;added items&#x27;, result);
                     }, function() {
                         callback();
@@ -530,7 +526,7 @@ define([
         logout: function() {
             if (this.isLoggedIn()) {
                 skritter.modal.show().setBody(&#x27;Logging Out&#x27;).noHeader();
-                skritter.storage.deleteDatabase(function() {
+                skritter.storage.deleteAllDatabases(function() {
                     localStorage.removeItem(&#x27;activeUser&#x27;);
                     skritter.router.navigate(&#x27;&#x27;, {trigger: true, replace: true});
                     document.location.reload();
@@ -568,119 +564,55 @@ define([
         /**
          * @method sync
          * @param {Function} callback
-         * @param {Number} offset
          */
-        sync: function(callback, offset) {
+        sync: function(callback) {
             var self = this;
-            offset = (offset &gt; -1) ? offset : this.getLastSync();
-            var size = 0;
-            var requests = [
-                {
-                    path: &#x27;api/v&#x27; + skritter.api.version + &#x27;/items&#x27;,
-                    method: &#x27;GET&#x27;,
-                    params: {
-                        sort: &#x27;changed&#x27;,
-                        offset: offset,
-                        include_vocabs: &#x27;true&#x27;,
-                        include_strokes: &#x27;true&#x27;,
-                        include_sentences: &#x27;true&#x27;,
-                        include_heisigs: &#x27;true&#x27;,
-                        include_top_mnemonics: &#x27;true&#x27;,
-                        include_decomps: &#x27;true&#x27;
-                    },
-                    spawner: true
-                },
-                {
-                    path: &#x27;api/v&#x27; + skritter.api.version + &#x27;/srsconfigs&#x27;,
-                    method: &#x27;GET&#x27;,
-                    params: {
-                        bearer_token: this.token,
-                        lang: this.getSetting(&#x27;targetLang&#x27;)
+            console.log(&#x27;syncing from&#x27;, skritter.moment(this.getLastSync() * 1000).format(&#x27;YYYY[-]MM[-]DD h:mm:ss a&#x27;));
+            skritter.async.waterfall([
+                /*function(callback) {
+                 skritter.modal.setProgress(100, &#x27;Getting Schedule&#x27;);
+                 skritter.api.getItemsCondensed(function(result) {
+                 console.log(&#x27;condensed&#x27;, result);
+                 callback(null, result);
+                 });
+                 },
+                 function(result, callback) {
+                 skritter.modal.setProgress(100, &#x27;Saving Schedule&#x27;);
+                 skritter.data.items.add(result.Items, {merge: true});
+                 skritter.data.items.cache(callback);
+                 },*/
+                function() {
+                    switch (self.get(&#x27;syncMethod&#x27;)) {
+                        case &#x27;flash&#x27;:
+                            Sync.methodFlash(callback);
+                            break;
+                        case &#x27;full&#x27;:
+                            Sync.methodFull(callback);
+                            break;
+                        case &#x27;partial&#x27;:
+                            Sync.methodPartial(callback);
+                            break;
                     }
                 }
-            ];
-            var startSync = function() {
-                skritter.async.waterfall([
-                    //make the initial batch request for changed items
-                    function(callback) {
-                        skritter.modal.setProgress(100, &#x27;Requesting Batch&#x27;);
-                        requestBatch();
-                        function requestBatch() {
-                            skritter.api.requestBatch(requests, function(batch) {
-                                if (batch) {
-                                    setTimeout(function() {
-                                        callback(null, batch);
-                                    }, 5000);
-                                } else {
-                                    console.log(&#x27;re-requesting batch&#x27;);
-                                    requestBatch();
-                                }
-                            });
-                        }
-                    },
-                    //download requested batch and then store it locally
-                    function(batch, callback) {
-                        nextBatch();
-                        function nextBatch() {
-                            skritter.api.getBatch(batch.id, function(result) {
-                                if (result) {
-                                    size += result.responseSize;
-                                    if (result.responseSize &gt; 100)
-                                        skritter.modal.setProgress(100, skritter.fn.bytesToSize(size));
-                                    skritter.data.decomps.add(result.Decomps);
-                                    skritter.data.items.add(result.Items);
-                                    skritter.data.srsconfigs.add(result.SRSConfigs);
-                                    skritter.data.sentences.add(result.Sentences);
-                                    skritter.data.strokes.add(result.Strokes);
-                                    skritter.data.vocabs.add(result.Vocabs);
-                                    setTimeout(function() {
-                                        nextBatch();
-                                    }, 2000);
-                                } else {
-                                    skritter.modal.setProgress(100, &#x27;Storing Data&#x27;);
-                                    skritter.async.series([
-                                        function(callback) {
-                                            skritter.data.decomps.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.items.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.srsconfigs.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.sentences.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.strokes.cache(callback);
-                                        },
-                                        function(callback) {
-                                            skritter.data.vocabs.cache(callback);
-                                        }
-                                    ], function() {
-                                        callback();
-                                    });
-                                }
-                            });
-                        }
-                    },
-                    //post reviews to the server and remove them locally
-                    function(callback) {
-                        if (skritter.data.reviews.length &gt; 0) {
-                            skritter.modal.setTitle(&#x27;Posting Reviews&#x27;).setProgress(100, &#x27;&#x27;);
-                            skritter.data.reviews.sync(function() {
-                                callback();
-                            });
-                        } else {
-                            callback();
-                        }
-                    }
-                ], function() {
-                    self.setLastSync();
-                    callback();
-                });
-            };
-            startSync();
+            ], function() {
+                self.setLastSync();
+                callback();
+            });
+
+            /*skritter.api.getItemsCondensed(function(items) {
+             console.log(&#x27;condensed items&#x27;, items);
+             switch (self.get(&#x27;syncMethod&#x27;)) {
+             case &#x27;flash&#x27;:
+             Sync.methodFlash(callback);
+             break;
+             case &#x27;full&#x27;:
+             Sync.methodFull(callback);
+             break;
+             case &#x27;partial&#x27;:
+             Sync.methodPartial(callback);
+             break;
+             }
+             }, this.getLastSync());*/
         },
         /**
          * A shortcut method for removing user server settings.

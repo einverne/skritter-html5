@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.97</em>
+            <em>API Docs for: 0.0.108</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,8 @@
             
                 <li><a href="../classes/StudyVocabs.html">StudyVocabs</a></li>
             
+                <li><a href="../classes/Sync.html">Sync</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/User.html">User</a></li>
@@ -214,6 +216,9 @@ define([
             this.on(&#x27;change&#x27;, function(review) {
                 review.cache();
             });
+            this.on(&#x27;remove&#x27;, function(review) {
+                skritter.storage.removeItems(&#x27;reviews&#x27;, [[review.get(&#x27;itemId&#x27;), review.get(&#x27;submitTime&#x27;)]]);
+            });
         },
         /**
          * @property {StudyReview} model
@@ -237,29 +242,14 @@ define([
             return -review.get(&#x27;submitTime&#x27;);
         },
         /**
-         * @method filterBy
-         * @param {String} attribute
-         * @param {String} value
-         * @param {Boolean} checkSubString
-         * @returns {Array}
-         */
-        filterBy: function(attribute, value, checkSubString) {
-            var filtered = this.filter(function(items) {
-                if (checkSubString)
-                    return (items.get(attribute).indexOf(value) &gt; -1) ? true : false;
-                return _.contains(value, items.get(attribute));
-            });
-            return new StudyReviews(filtered);
-        },
-        /**
          * @method getTotalTime
          * @returns {Number}
          */
         getTotalTime: function() {
             var time = 0;
-            var filtered = this.filterBy(&#x27;bearTime&#x27;, true);
-            for (var i in filtered.models)
-                time += parseInt(filtered.models[i].get(&#x27;reviewTime&#x27;), 10);
+            for (var i in this.models)
+                if (this.models[i].get(&#x27;bearTime&#x27;) &amp;&amp; skritter.moment(this.models[0].submitTime).format(&#x27;YYYY[-]MM[-]DD&#x27;) === skritter.settings.get(&#x27;date&#x27;))
+                    time += parseInt(this.models[i].get(&#x27;reviewTime&#x27;), 10);
             return time * 1000;
         },
         /**
@@ -281,6 +271,7 @@ define([
         sync: function(callback) {
             if (this.length &gt; 0) {
                 skritter.api.postReviews(this.toJSON(), function(reviews) {
+                    console.log(&#x27;submitted reviews&#x27;, reviews);
                     skritter.data.reviews.remove(reviews);
                     callback();
                 });
