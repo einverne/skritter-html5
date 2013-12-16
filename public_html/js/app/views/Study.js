@@ -167,7 +167,7 @@ define([
                 this.nextItem();
                 return false;
             }
-            //load the basd on the items part
+            //load the based on the items part
             switch (Study.current.item.get('part')) {
                 case 'rune':
                     Study.current.prompt = new Rune();

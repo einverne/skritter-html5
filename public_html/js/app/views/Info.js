@@ -32,7 +32,8 @@ define([
             this.$('#reading').text(PinyinConverter.toTone(Info.vocab.get('reading')));
             this.$('#definition').text(Info.vocab.get('definitions')[skritter.user.getSetting('sourceLang')]);
             this.$('#mnemonic').text(Info.vocab.get('mnemonic'));
-            this.$('#sentence').text(Info.sentence.get('writing').replace(/\s+/g, ''));
+            if (Info.sentence)
+                this.$('#sentence').text(Info.sentence.get('writing').replace(/\s+/g, ''));
             this.$('#sentence').addClass(skritter.user.getTextStyle());
 
             //contained characters

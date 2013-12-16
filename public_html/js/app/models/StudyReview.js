@@ -19,6 +19,14 @@ define([
                 if (typeof callback === 'function')
                     callback();
             });
+        },
+        /**
+         * @method comparator
+         * @param {Object} review
+         * @returns {Number}
+         */
+        comparator: function(review) {
+            return review.get('submitTime');
         }
     });
 

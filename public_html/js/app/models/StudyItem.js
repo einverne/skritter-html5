@@ -165,7 +165,7 @@ define([
                 previousSuccess: (grade > 1) ? true : false,
                 reviews: this.get('reviews') + 1,
                 successes: (grade > 1) ? this.get('successes') + 1 : this.get('successes')
-            });
+            }, {sort: false});
             skritter.data.reviews.add(review);
             return this;
         },

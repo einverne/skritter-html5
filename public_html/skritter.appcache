@@ -120,6 +120,7 @@ tests/libs/jasmine.js
 tests/specs/Functions.js
 fonts/FontAwesome.otf
 images/feature-icons.png
+images/github-logo.png
 images/grading/grade1.png
 images/grading/grade2.png
 images/grading/grade3.png
