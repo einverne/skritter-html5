@@ -37,7 +37,7 @@ define([
 
             //contained characters
             var contained = _.uniq(Info.vocab.get('containedVocabIds'));
-            if (contained.length > 0) {
+            if (contained.length > 1) {
                 this.$('#contained-characters tbody').html('');
                 for (var a in contained) {
                     var containedVocab = skritter.data.vocabs.findWhere({id: contained[a]});

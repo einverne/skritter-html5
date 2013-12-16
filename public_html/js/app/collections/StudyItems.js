@@ -116,7 +116,7 @@ define([
          * @returns {Backbone.Collection}
          */
         insert: function(items, callback) {
-            this.add(items, {merge: true});
+            this.add(items, {merge: true, sort: false});
             skritter.storage.setItems('items', items, callback);
             return this;
         },

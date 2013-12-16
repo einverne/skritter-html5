@@ -124,7 +124,7 @@ define([
                 return false;
             var writings = [];
             var decomp = skritter.data.decomps.findWhere({writing: this.getCharacterAt(0)});
-            if (!decomp.get('atomic')) {
+            if (decomp && decomp.has('atomic')) {
                 var children = decomp.get('Children');
                 if (returnDuplicates)
                     return children;

@@ -33,13 +33,14 @@ define([
          */
         getContained: function() {
             var items = [];
-            var contained = this.getVocabs()[0].get('containedVocabIds');
-            for (var i in contained)
-            {
-                var id = skritter.user.get('user_id') + '-' + contained[i] + '-' + this.get('part');
-                var item = skritter.data.items.findWhere({id: id});
-                if (item)
-                    items.push(item);
+            if (this.get('vocabIds').length > 0) {
+                var contained = this.getVocabs()[0].get('containedVocabIds');
+                for (var i in contained) {
+                    var id = skritter.user.get('user_id') + '-' + contained[i] + '-' + this.get('part');
+                    var item = skritter.data.items.findWhere({id: id});
+                    if (item)
+                        items.push(item);
+                }
             }
             return items;
         },
@@ -48,7 +49,9 @@ define([
          * @returns {Number}
          */
         getCharacterCount: function() {
-            return this.get('id').match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]|[\u20000-\u2a6d6]|[\u2a700-\u2b734]|[\u2b740-\u2b81d]/g).length;
+            if (this.get('vocabIds').length > 0)
+                return this.getVocabs()[0].getCharacterCount();
+            return 0;
         },
         /**
          * @method getReadiness
@@ -97,6 +100,23 @@ define([
             for (var i in containedIds)
                 containedVocabs.push(skritter.data.vocabs.findWhere({id: containedIds[i]}));
             return containedVocabs;
+        },
+        /**
+         * This check should be used to try and catch common errors with data that could prevent studying
+         * certain items.
+         * 
+         * @method integrityCheck
+         * @returns {Boolean}
+         */
+        integrityCheck: function() {
+           //error logs show that in rare instances active items exist but don't contain the required contained item ids to create reviews
+           if (this.getCharacterCount() > 1 && _.contains(['rune', 'tone'], this.get('part')) && this.getContained() && this.getContained().length !== this.getCharacterCount()) {
+               this.set('vocabIds', []);
+               this.set('flag', true);
+               this.set('flagMessage', 'Missing contained item ids.');
+               return false;
+           }
+           return true;
         },
         /**
          * @method isNew

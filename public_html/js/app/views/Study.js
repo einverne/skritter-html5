@@ -160,7 +160,13 @@ define([
             //gets the next item that should be studied and loads it
             Study.current.item = skritter.data.items.getActive()[0];
             //Study.current.item = skritter.data.items.findWhere({id: 'mcfarljwtest1-zh-的-0-tone'});
-            Study.current.vocabs = Study.current.item.getVocabs();
+            Study.current.vocabs = Study.current.item.getVocabs();    
+            //runs an integrity check on the item to catch errors that might prevent completion
+            if (!Study.current.item.integrityCheck()) {
+                console.log(Study.current.item.get('id'), 'failed an integrity check');
+                this.nextItem();
+                return false;
+            }
             //load the basd on the items part
             switch (Study.current.item.get('part')) {
                 case 'rune':
