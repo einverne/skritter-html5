@@ -8,8 +8,48 @@ define(function() {
      * 
      * @class Scheduler
      */
-    function Scheduler() {}
-
+    function Scheduler() {
+        this.schedule = [];
+    }
+    
+    /**
+     * @method getDue
+     * @returns {Array}
+     */
+    Scheduler.prototype.getDue = function() {
+        var now = skritter.fn.getUnixTime();
+        return this.sort().filter(function(item) {
+            if (item.vocabIds.length === 0)
+                return false;
+            if (!item.last && (item.next - now) > 600)
+                return false;
+            if (!item.last || (item.next - item.last) === 1)
+                return 90019001;
+            //var lengthPenalty = (this.getCharacterCount() > 1) ? 0 : -0.02;
+            var seenAgo = now - item.last;
+            var rtd = item.next - item.last;
+            var readiness = seenAgo / rtd;
+            
+            if (readiness > 0 && seenAgo > 9000) {
+                var dayBonus = 1;
+                var ageBonus = 0.1 * Math.log(dayBonus + (dayBonus * dayBonus * seenAgo) * (1 / 86400));
+                var readiness2 = (readiness > 1) ? 0.0 : 1 - readiness;
+                ageBonus *= readiness2 * readiness2;
+                readiness += ageBonus;
+            }
+            if (readiness >= 1.0)
+                return true;
+        });
+    };
+    
+    /**
+     * @method getDueCount
+     * @returns {Number}
+     */
+    Scheduler.prototype.getDueCount = function() {
+        return this.getDue().length;
+    };
+    
     /**
      * Returns a calculated interval based on the grade and other details about the item.
      * 
@@ -109,6 +149,47 @@ define(function() {
         }
         return newInterval;
     };
-
+    
+    /**
+     * @method sort
+     * @returns {Array}
+     */
+    Scheduler.prototype.sort = function() {
+        var now = skritter.fn.getUnixTime();
+        this.schedule = _.sortBy(this.schedule, function(item) {
+            if (item.vocabIds.length === 0)
+                return 0;
+            if (!item.last && (item.next - now) > 600)
+                return 0.2;
+            if (!item.last || (item.next - item.last) === 1)
+                return 90019001;
+            //var lengthPenalty = (this.getCharacterCount() > 1) ? 0 : -0.02;
+            var seenAgo = now - item.last;
+            var rtd = item.next - item.last;
+            var readiness = seenAgo / rtd;
+            if (readiness > 0 && seenAgo > 9000) {
+                var dayBonus = 1;
+                var ageBonus = 0.1 * Math.log(dayBonus + (dayBonus * dayBonus * seenAgo) * (1 / 86400));
+                var readiness2 = (readiness > 1) ? 0.0 : 1 - readiness;
+                ageBonus *= readiness2 * readiness2;
+                readiness += ageBonus;
+            }
+            return -readiness;
+        });
+        return this.schedule;
+    };
+    
+    /**
+     * @method updateItem
+     * @param {Object} item
+     */
+    Scheduler.prototype.updateItem = function(item) {
+        this.schedule[_.findIndex(this.schedule, {id: item.get('id')})] = {
+            last: item.get('last'),
+            next: item.get('next'),
+            vocabIds: item.get('vocabIds')
+        };
+    };
+    
     return Scheduler;
 });

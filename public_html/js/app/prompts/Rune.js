@@ -252,7 +252,7 @@ define([
                 Rune.userCharacter = new CanvasCharacter();
             }
             Rune.userCharacter.targets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'rune');
-            console.log(Rune.userCharacter.targets);
+            console.log('variations', Rune.userCharacter.targets);
             Rune.canvas.enableInput();
         },
         /**

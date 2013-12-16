@@ -30,7 +30,7 @@ define([
                 this.$el.html(templateLoggedIn);
                 this.$('#user-avatar').html(skritter.user.getAvatar('img-circle'));
                 this.$('.user-name').text(skritter.user.getSetting('name'));
-                this.$('#user-items-due').text(skritter.data.items.getDue().length);
+                this.$('#user-items-due').text(skritter.scheduler.getDueCount());
                 if (skritter.data.reviews.length > 0)
                     this.$('#user-unsynced-reviews').text('(' + skritter.data.reviews.length + ')');
             } else {

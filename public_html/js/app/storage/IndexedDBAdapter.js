@@ -190,6 +190,25 @@ define([
         }
     };
     
+    IndexedDBAdapter.prototype.getSchedule = function(callback) {
+        var schedule = [];
+        var table = this.database.objectStore('items');
+        var promise = table.each(function(item) {
+            schedule.push({
+                id: item.value.id,
+                last: item.value.last,
+                next: item.value.next,
+                vocabIds: item.value.vocabIds
+            });
+        });
+        promise.done(function() {
+            callback(schedule);
+        });
+        promise.fail(function(error) {
+            console.error('schedule', error);
+        });
+    };
+    
     /**
      * @method setItems
      * @param {String} tableName

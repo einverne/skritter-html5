@@ -40,9 +40,9 @@ define([
          * @param {StudyItem} item
          * @returns {StudyItem}
          */
-        comparator: function(item) {
+        /*comparator: function(item) {
             return -item.getReadiness();
-        },
+        },*/
         /**
          * @method filterBy
          * @param {String} attribute
@@ -77,6 +77,18 @@ define([
                     activeItems.push(item);
             }
             return activeItems;
+        },
+        /**
+         * @method getContainedIds
+         */
+        getContainedIds: function() {
+            var containedItems = [];
+            for (var i in this.models) {
+                var contained = this.models[i].getContainedIds();
+                if (contained.length > 0)
+                    containedItems = containedItems.concat(contained);
+            }
+            return _.uniq(containedItems);
         },
         /**
          * @method getDue
@@ -126,8 +138,36 @@ define([
          */
         loadAll: function(callback) {
             skritter.storage.getAll('items', function(items) {
-                skritter.data.items.add(items, {silent: true});
+                skritter.data.items.add(items, {silent: true, sort: false});
                 callback(null, items);
+            });
+        },
+        /**
+         * @method loadItem
+         * @param {String} ids
+         * @param {Number} limit
+         * @param {Function} callback
+         * @returns {Backbone.Model}
+         */
+        loadItems: function(ids, limit, callback) {
+            ids = Array.isArray(ids) ? ids : [ids];
+            if (limit)
+                ids = ids.slice(0, limit);
+            skritter.async.series([
+                function(callback) {
+                    skritter.storage.getItems('items', _.pluck(ids, 'id'), function(items) {
+                        skritter.data.items.add(items, {silent: true, sort: false});
+                        callback();
+                    });
+                },
+                function(callback) {
+                    skritter.storage.getItems('items', skritter.data.items.getContainedIds(), function(items) {
+                        skritter.data.items.add(items, {silent: true, sort: false});
+                        callback();
+                    });
+                }
+            ], function() {
+                callback();
             });
         }
     });

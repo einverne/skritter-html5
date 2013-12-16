@@ -1,15 +1,13 @@
 /**
  * @module Skritter
  * @submodule Model
- * @param Scheduler
  * @param StudyReview
  * @author Joshua McFarland
  */
 define([
-    'Scheduler',
     'models/StudyReview',
     'backbone'
-], function(Scheduler, StudyReview) {
+], function(StudyReview) {
     /**
      * @class StudyItem
      */
@@ -45,6 +43,25 @@ define([
             return items;
         },
         /**
+         * Returns the contained items for multi-character words. Data is stored for
+         * the contained characters regardsless of whether they are being studied or not.
+         * 
+         * @method getContainedIds
+         * @return {Array}
+         */
+        getContainedIds: function() {
+            var items = [];
+            if (this.get('vocabIds').length > 0) {
+                var contained = this.getVocabs()[0].get('containedVocabIds');
+                for (var i in contained) {
+                    var id = skritter.user.get('user_id') + '-' + contained[i] + '-' + this.get('part');
+                    if (id)
+                        items.push(id);
+                }
+            }
+            return items;
+        },
+        /**
          * @method getCharacterCount
          * @returns {Number}
          */
@@ -60,8 +77,6 @@ define([
          */
         getReadiness: function(deprioritizeLongShots) {
             var now = skritter.fn.getUnixTime();
-            if (this.get('vocabIds').length === 0)
-                return false;
             if (!this.has('last') && (this.get('next') - now) > 600)
                 return 0.2;
             if (!this.has('last') || (this.get('next') - this.get('last')) === 1)
@@ -111,9 +126,9 @@ define([
         integrityCheck: function() {
            //error logs show that in rare instances active items exist but don't contain the required contained item ids to create reviews
            if (this.getCharacterCount() > 1 && _.contains(['rune', 'tone'], this.get('part')) && this.getContained() && this.getContained().length !== this.getCharacterCount()) {
-               this.set('vocabIds', []);
-               this.set('flag', true);
-               this.set('flagMessage', 'Missing contained item ids.');
+               //this.set('vocabIds', []);
+               //this.set('flag', true);
+               //this.set('flagMessage', 'Missing contained item ids.');
                return false;
            }
            return true;
@@ -151,7 +166,7 @@ define([
                 thinkingTime: thinkingTime,
                 currentInterval: this.has('interval') ? this.get('interval') : 0,
                 actualInterval: this.has('last') ? startTime - this.get('last') : 0,
-                newInterval: new Scheduler().getInterval(this, grade),
+                newInterval: skritter.scheduler.getInterval(this, grade),
                 wordGroup: wordGroup,
                 previousInterval: this.has('previousInterval') ? this.get('previousInterval') : 0,
                 previousSuccess: this.has('previousSuccess') ? this.get('previousSuccess') : false
@@ -165,7 +180,8 @@ define([
                 previousSuccess: (grade > 1) ? true : false,
                 reviews: this.get('reviews') + 1,
                 successes: (grade > 1) ? this.get('successes') + 1 : this.get('successes')
-            }, {sort: false});
+            });
+            skritter.scheduler.updateItem(this);
             skritter.data.reviews.add(review);
             return this;
         },

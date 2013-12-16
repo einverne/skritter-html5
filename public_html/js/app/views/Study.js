@@ -155,42 +155,44 @@ define([
          * @returns {Object}
          */
         nextItem: function() {
-            //sort the items collection to put a new item on top
-            skritter.data.items.sort();
-            //gets the next item that should be studied and loads it
-            Study.current.item = skritter.data.items.getActive()[0];
-            //Study.current.item = skritter.data.items.findWhere({id: 'mcfarljwtest1-zh-的-0-tone'});
-            Study.current.vocabs = Study.current.item.getVocabs();    
-            //runs an integrity check on the item to catch errors that might prevent completion
-            if (!Study.current.item.integrityCheck()) {
-                console.log(Study.current.item.get('id'), 'failed an integrity check');
-                this.nextItem();
-                return false;
-            }
-            //load the based on the items part
-            switch (Study.current.item.get('part')) {
-                case 'rune':
-                    Study.current.prompt = new Rune();
-                    Study.current.prompt.setElement(this.$('#prompt-container')).render();
-                    break;
-                case 'tone':
-                    Study.current.prompt = new Tone();
-                    Study.current.prompt.setElement(this.$('#prompt-container')).render();
-                    break;
-                case 'defn':
-                    Study.current.prompt = new Defn();
-                    Study.current.prompt.setElement(this.$('#prompt-container')).render();
-                    break;
-                case 'rdng':
-                    Study.current.prompt = new Rdng();
-                    Study.current.prompt.setElement(this.$('#prompt-container')).render();
-                    break;
-            }
-            //toggle the audio button display
-            this.toggleAudioButton();
-            //set the prompt values and start listening for completion
-            Study.current.prompt.set(Study.current.vocabs, Study.current.item).show();
-            this.listenToOnce(Study.current.prompt, 'complete', this.handlePromptComplete);
+            var self = this;
+            var item = skritter.scheduler.getDue()[0];
+            skritter.data.items.loadItems(item, false, function() {
+                //gets the next item that should be studied and loads it
+                Study.current.item = skritter.data.items.findWhere({id: item.id});
+                //Study.current.item = skritter.data.items.findWhere({id: 'mcfarljwtest1-zh-的-0-tone'});
+                Study.current.vocabs = Study.current.item.getVocabs();
+                //runs an integrity check on the item to catch errors that might prevent completion
+                if (!Study.current.item.integrityCheck()) {
+                    console.log(Study.current.item.get('id'), 'failed an integrity check');
+                    //self.nextItem();
+                    //return false;
+                }
+                //load the based on the items part
+                switch (Study.current.item.get('part')) {
+                    case 'rune':
+                        Study.current.prompt = new Rune();
+                        Study.current.prompt.setElement(this.$('#prompt-container')).render();
+                        break;
+                    case 'tone':
+                        Study.current.prompt = new Tone();
+                        Study.current.prompt.setElement(this.$('#prompt-container')).render();
+                        break;
+                    case 'defn':
+                        Study.current.prompt = new Defn();
+                        Study.current.prompt.setElement(this.$('#prompt-container')).render();
+                        break;
+                    case 'rdng':
+                        Study.current.prompt = new Rdng();
+                        Study.current.prompt.setElement(this.$('#prompt-container')).render();
+                        break;
+                }
+                //toggle the audio button display
+                self.toggleAudioButton();
+                //set the prompt values and start listening for completion
+                Study.current.prompt.set(Study.current.vocabs, Study.current.item).show();
+                self.listenToOnce(Study.current.prompt, 'complete', self.handlePromptComplete);
+            });
             return Study.current;
         },
         /**
@@ -216,7 +218,7 @@ define([
          * @method updateDueCount
          */
         updateDueCount: function() {
-            this.$('#items-due').text(skritter.data.items.getDue().length);
+            this.$('#items-due').text(skritter.scheduler.getDueCount());
         }
     });
 

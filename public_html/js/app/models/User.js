@@ -1,6 +1,7 @@
 /**
  * @module Skritter
  * @submodule Model
+ * @param Scheduler
  * @param Sync
  * @param StudyDecomps
  * @param StudyItems
@@ -13,6 +14,7 @@
  * @author Joshua McFarland
  */
 define([
+    'Scheduler',
     'Sync',
     'collections/StudyDecomps',
     'collections/StudyItems',
@@ -24,7 +26,7 @@ define([
     'collections/StudyVocabs',
     'backbone',
     'lz-string'
-], function(Sync, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
+], function(Scheduler, Sync, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
     /**
      * @class User
      */
@@ -33,6 +35,8 @@ define([
          * @method initialize
          */
         initialize: function() {
+            //load the scheduler for faster scheduling
+            skritter.scheduler = new Scheduler();
             //initializes all of the required data collections
             skritter.data = {
                 decomps: new StudyDecomps(),
@@ -289,16 +293,19 @@ define([
          * @param {Function} callback
          */
         loadAllData: function(callback) {
-            skritter.async.series([
-                skritter.async.apply(skritter.data.decomps.loadAll),
-                skritter.async.apply(skritter.data.params.loadAll),
-                skritter.async.apply(skritter.data.reviews.loadAll),
-                skritter.async.apply(skritter.data.srsconfigs.loadAll),
-                skritter.async.apply(skritter.data.sentences.loadAll),
-                skritter.async.apply(skritter.data.strokes.loadAll),
-                skritter.async.apply(skritter.data.vocabs.loadAll),
-                skritter.async.apply(skritter.data.items.loadAll)
-            ], callback);
+            skritter.storage.getSchedule(function(schedule) {
+                skritter.scheduler.schedule = schedule;
+                skritter.async.series([
+                    skritter.async.apply(skritter.data.decomps.loadAll),
+                    skritter.async.apply(skritter.data.params.loadAll),
+                    skritter.async.apply(skritter.data.reviews.loadAll),
+                    skritter.async.apply(skritter.data.srsconfigs.loadAll),
+                    skritter.async.apply(skritter.data.sentences.loadAll),
+                    skritter.async.apply(skritter.data.strokes.loadAll),
+                    skritter.async.apply(skritter.data.vocabs.loadAll)
+                ], callback);
+
+            });
         },
         /**
          * @method login
