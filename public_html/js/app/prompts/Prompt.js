@@ -79,6 +79,9 @@ define([
                 return true;
             return false;
         },
+        /**
+         * @method next
+         */
         next: function() {
             //store the results for the item or subitem
             Prompt.results.push({

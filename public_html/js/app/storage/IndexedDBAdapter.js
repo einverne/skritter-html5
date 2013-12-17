@@ -149,7 +149,8 @@ define([
                 var promise = table.get(keys[position]);
                 promise.done(function(item) {
                     position++;
-                    items.push(item);
+                    if (item)
+                        items.push(item);
                     getNext();
                 });
                 promise.fail(function(error) {

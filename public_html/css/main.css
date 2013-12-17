@@ -19,10 +19,10 @@ html, body {
 #skritter-container {
     height: 100%;
 }
-.chinese-text {font-family: "simkai";}
+.chinese-text {font-family: "simkai", "SimSun", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
 .cursor {cursor:pointer}
 .fa-navbar {font-size: 18px;}
-.japanese-text {font-family: "kaisho";}
+.japanese-text {font-family: "kaisho", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
 .link-button {cursor: pointer;}
 .view {
     height: 100%;

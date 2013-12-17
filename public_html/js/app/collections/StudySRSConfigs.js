@@ -16,6 +16,9 @@ define([
          * @method initialize
          */
         initialize: function() {
+            this.on('add', function(srsconfig) {
+                srsconfig.cache();
+            });
             this.on('change', function(srsconfig) {
                 srsconfig.cache();
             });
@@ -32,6 +35,17 @@ define([
             skritter.storage.setItems('srsconfigs', this.toJSON(), function() {
                 if (typeof callback === 'function')
                     callback();
+            });
+        },
+        /**
+         * @method fetch
+         * @param {Function} callback
+         */
+        fetch: function(callback) {
+            skritter.api.getSRSConfigs(function(configs) {
+                console.log(configs);
+                skritter.data.srsconfigs.add(configs);
+                callback();
             });
         },
         /**

@@ -162,7 +162,7 @@ define([
                 },
                 function(callback) {
                     skritter.storage.getItems('items', skritter.data.items.getContainedIds(), function(items) {
-                        skritter.data.items.add(items, {silent: true, sort: false});
+                        skritter.data.items.add(_.remove(items, undefined), {silent: true, sort: false});
                         callback();
                     });
                 }

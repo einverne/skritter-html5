@@ -295,7 +295,7 @@ define([
         loadAllData: function(callback) {
             skritter.storage.getSchedule(function(schedule) {
                 skritter.scheduler.schedule = schedule;
-                skritter.async.series([
+                skritter.async.parallel([
                     skritter.async.apply(skritter.data.decomps.loadAll),
                     skritter.async.apply(skritter.data.params.loadAll),
                     skritter.async.apply(skritter.data.reviews.loadAll),

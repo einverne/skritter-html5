@@ -117,23 +117,6 @@ define([
             return containedVocabs;
         },
         /**
-         * This check should be used to try and catch common errors with data that could prevent studying
-         * certain items.
-         * 
-         * @method integrityCheck
-         * @returns {Boolean}
-         */
-        integrityCheck: function() {
-           //error logs show that in rare instances active items exist but don't contain the required contained item ids to create reviews
-           if (this.getCharacterCount() > 1 && _.contains(['rune', 'tone'], this.get('part')) && this.getContained() && this.getContained().length !== this.getCharacterCount()) {
-               //this.set('vocabIds', []);
-               //this.set('flag', true);
-               //this.set('flagMessage', 'Missing contained item ids.');
-               return false;
-           }
-           return true;
-        },
-        /**
          * @method isNew
          * @returns {Boolean}
          */

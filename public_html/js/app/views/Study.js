@@ -58,35 +58,43 @@ define([
          * @param {Object} results
          */
         handlePromptComplete: function(results) {
-            var finalGrade = 3;
-            var totalGrade = 0;
-            var totalWrong = 0;
-            var totalReviewTime = 0;
-            var totalThinkingTime = 0;
-            //create a unique word group for all of the prompt items to share
-            var wordGroup = Study.current.item.get('id') + '_' + results[0].startTime;
-            //update and calculate subitems
-            if (results.length > 1) {
-                for (var i in results) {
-                    var result = results[i];
-                    if (result.grade < 2)
-                        totalWrong++;
-                    totalGrade += result.grade;
-                    totalReviewTime += result.reviewTime;
-                    totalThinkingTime += result.thinkingTime;
-                    result.item.update(result.grade, result.reviewTime, result.startTime, result.thinkingTime, wordGroup, false);
-                }
-                //adjust the grade for multiple character items or get rounded down average
-                if (Study.current.vocabs[0].getCharacterCount() === 2 && totalWrong === 1) {
-                    finalGrade = 1;
-                } else if (totalWrong >= 2) {
-                    finalGrade = 1;
-                } else {
-                    finalGrade = Math.floor(totalGrade / results.length);
-                }
-                Study.current.item.update(finalGrade, totalReviewTime, results[0].startTime, totalThinkingTime, wordGroup, true);
+            //runs a check to make sure multi-character reviews have contained items
+            if (results.length > 1 && _.contains(_.pluck(results, 'item'), undefined)) {
+                console.log('review error', results);
+                Study.current.item.set('vocabIds', []);
+                Study.current.item.set('flag', true);
+                Study.current.item.set('flagMessage', "Missing the required contained item ids.");
             } else {
-                Study.current.item.update(results[0].grade, results[0].reviewTime, results[0].startTime, results[0].thinkingTime, wordGroup, true);
+                var finalGrade = 3;
+                var totalGrade = 0;
+                var totalWrong = 0;
+                var totalReviewTime = 0;
+                var totalThinkingTime = 0;
+                //create a unique word group for all of the prompt items to share
+                var wordGroup = Study.current.item.get('id') + '_' + results[0].startTime;
+                //update and calculate subitems
+                if (results.length > 1) {
+                    for (var i in results) {
+                        var result = results[i];
+                        if (result.grade < 2)
+                            totalWrong++;
+                        totalGrade += result.grade;
+                        totalReviewTime += result.reviewTime;
+                        totalThinkingTime += result.thinkingTime;
+                        result.item.update(result.grade, result.reviewTime, result.startTime, result.thinkingTime, wordGroup, false);
+                    }
+                    //adjust the grade for multiple character items or get rounded down average
+                    if (Study.current.vocabs[0].getCharacterCount() === 2 && totalWrong === 1) {
+                        finalGrade = 1;
+                    } else if (totalWrong >= 2) {
+                        finalGrade = 1;
+                    } else {
+                        finalGrade = Math.floor(totalGrade / results.length);
+                    }
+                    Study.current.item.update(finalGrade, totalReviewTime, results[0].startTime, totalThinkingTime, wordGroup, true);
+                } else {
+                    Study.current.item.update(results[0].grade, results[0].reviewTime, results[0].startTime, results[0].thinkingTime, wordGroup, true);
+                }
             }
             console.log('PROMPT COMPLETE', results);
             Study.current.prompt.undelegateEvents();
@@ -162,12 +170,6 @@ define([
                 Study.current.item = skritter.data.items.findWhere({id: item.id});
                 //Study.current.item = skritter.data.items.findWhere({id: 'mcfarljwtest1-zh-的-0-tone'});
                 Study.current.vocabs = Study.current.item.getVocabs();
-                //runs an integrity check on the item to catch errors that might prevent completion
-                if (!Study.current.item.integrityCheck()) {
-                    console.log(Study.current.item.get('id'), 'failed an integrity check');
-                    //self.nextItem();
-                    //return false;
-                }
                 //load the based on the items part
                 switch (Study.current.item.get('part')) {
                     case 'rune':

@@ -161,8 +161,10 @@ define([
                 var requests = batch.Requests;
                 retryCount = 0;
                 for (var i in requests) {
-                    _.merge(result, requests[i].response, merge);
-                    responseSize += requests[i].responseSize;
+                    if (requests[i].response.statusCode === 200) {
+                        _.merge(result, requests[i].response, merge);
+                        responseSize += requests[i].responseSize;
+                    }
                 }
                 if (typeof callback1 === 'function')
                     callback1(responseSize);
@@ -427,7 +429,31 @@ define([
         };
         getNext();
     };
-
+    
+    /**
+     * Returns the SRSConfig values for the current active user. These should be updated
+     * somewhat frequently to keep SRS calculations accurate.
+     * 
+     * @method getSRSConfigs
+     * @param {Function} callback
+     */
+    Api.prototype.getSRSConfigs = function(callback) {
+        var promise = $.ajax({
+            url: this.root + '.' + this.domain + '/api/v' + this.version + '/srsconfigs',
+            type: 'GET',
+            data: {
+                bearer_token: this.token
+            }
+        });
+        promise.done(function(data) {
+            callback(data.SRSConfigs);
+        });
+        promise.fail(function(error) {
+            console.error(error);
+            callback(error);
+        });
+    };
+    
     /**
      * Returns basic informatiom about a user or detailed information if its a request
      * for the current active user.
