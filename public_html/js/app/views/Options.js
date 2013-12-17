@@ -40,6 +40,13 @@ define([
             if (_.contains(activeParts, 'rdng'))
                 this.$('#parts #rdng').addClass('active');
             
+           //hide reading
+            if (skritter.user.getSetting('hideReading')) {
+                this.$('#hide-reading #on').addClass('active');
+            } else {
+                this.$('#hide-reading #off').addClass('active');
+            } 
+            
             //audio
             if (skritter.user.get('audio')) {
                 this.$('#audio #on').addClass('active');
@@ -101,6 +108,13 @@ define([
                 } else {
                     skritter.user.setSetting('japaneseStudyParts', parts);
                 }
+            }
+            
+            //hide reading
+            if (this.$('#hide-reading #on').hasClass('active')) {
+                skritter.user.setSetting('hideReading', true);
+            } else {
+                skritter.user.setSetting('hideReading', false);
             }
             
             //audio

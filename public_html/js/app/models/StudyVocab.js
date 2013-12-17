@@ -144,7 +144,7 @@ define([
         getDefinition: function() {
             var definition = this.get('definitions')[skritter.user.getSetting('sourceLang')];
             if (typeof definition === 'undefined')
-                return this.get('definitions')['en'];
+                return this.get('definitions').en;
             return definition;
         },
         /**

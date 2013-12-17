@@ -247,6 +247,14 @@ html, body {
     padding-top: 20%;
     text-align: center;
 }
+#prompt-container .hidden-reading {
+    border: 1px #000000 dashed;
+    border-radius: 15px;
+    cursor: pointer;
+    height: 55px;
+    padding: 5px;
+    width: 95px;
+}
 #prompt-container .prompt-rune-display {
     display: inline-block;
     height: 50px;

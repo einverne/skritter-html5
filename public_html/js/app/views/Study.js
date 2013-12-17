@@ -165,10 +165,11 @@ define([
         nextItem: function() {
             var self = this;
             var item = skritter.scheduler.getDue()[0];
+            //gets the next item and vocab that should be studied and loads it
+            //item = {id: '277798779-zh-再见-0-tone'};
             skritter.data.items.loadItems(item, false, function() {
-                //gets the next item that should be studied and loads it
+                //sets the item and vocab for the current prompt
                 Study.current.item = skritter.data.items.findWhere({id: item.id});
-                //Study.current.item = skritter.data.items.findWhere({id: 'mcfarljwtest1-zh-的-0-tone'});
                 Study.current.vocabs = Study.current.item.getVocabs();
                 //load the based on the items part
                 switch (Study.current.item.get('part')) {

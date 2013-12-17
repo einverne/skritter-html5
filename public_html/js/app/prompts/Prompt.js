@@ -1,14 +1,22 @@
 /**
  * @module Skritter
  * @submodule Prompts
+ * @param PinyinConverter
  * @param GradingButtons
  * @author Joshua McFarland
  */
 define([
+    'PinyinConverter',
     'components/GradingButtons',
     'backbone'
-], function(GradingButtons) {
+], function(PinyinConverter, GradingButtons) {
+    /**
+     * @class Prompt
+     */
     var Prompt = Backbone.View.extend({
+        /**
+         * @method initialize
+         */
         initialize: function() {
             Prompt.contained = [];
             Prompt.definition = '';
@@ -27,6 +35,7 @@ define([
                 4: new createjs.ColorFilter(0, 0, 0, 1, 112, 218, 112, 1)
             };
             Prompt.item = null;
+            Prompt.part = null;
             Prompt.position = 1;
             Prompt.reading = '';
             Prompt.results = [];
@@ -36,17 +45,48 @@ define([
             this.listenTo(skritter.settings, 'resize', this.resize);
             this.listenTo(Prompt.gradingButtons, 'selected', this.handleGradeSelected);
         },
+        /**
+         * @method render
+         */
         render: function() {
             Prompt.gradingButtons.setElement(this.$('#grading-container')).render();
             this.$('.prompt-writing').addClass(skritter.user.getTextStyle());
             this.$('.prompt-sentence').addClass(skritter.user.getTextStyle());
             this.resize();
         },
+        /**
+         * @property {Object} events
+         */
+        events: {
+            'click.Prompt #info-container .hidden-reading': 'handleHiddenReadingClicked'
+        },
+        /**
+         * @method handleGradeSelected
+         * @param {Number} selected
+         */
         handleGradeSelected: function(selected) {
             Prompt.grade = selected;
             if (Prompt.finished) {
                 this.next();
             }
+        },
+        /**
+         * @method handleHiddenReadingClicked
+         */
+        handleHiddenReadingClicked: function() {
+            this.$('.prompt-reading').removeClass('hidden-reading');
+            if (Prompt.part === 'rune') {
+                this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
+            } else if (Prompt.part === 'tone') {
+                this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
+            }
+        },
+        /**
+         * @method hideReading
+         */
+        hideReading: function() {
+            this.$('.prompt-reading').addClass('hidden-reading');
+            this.$('.prompt-reading').text('show');
         },
         /**
          * @method isFinished
@@ -119,6 +159,7 @@ define([
             Prompt.contained = item.getContained();
             Prompt.definition = vocabs[0].getDefinition();
             Prompt.item = item;
+            Prompt.part = item.get('part');
             Prompt.reading = vocabs[0].get('reading');
             Prompt.sentence = vocabs[0].getSentence();
             Prompt.vocabs = vocabs;

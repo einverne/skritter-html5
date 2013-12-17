@@ -183,6 +183,8 @@ define([
         showAnswer: function() {
             skritter.timer.stop();
             Tone.canvas.disableInput();
+            if (skritter.user.get('audio'))
+                Prompt.contained[Prompt.position - 1].getVocabs()[0].play();
             if (Prompt.vocabs[0].has('audio') && this.isLast() && skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
             Prompt.gradingButtons.select().collapse();

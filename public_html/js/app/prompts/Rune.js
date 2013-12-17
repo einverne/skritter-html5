@@ -240,7 +240,11 @@ define([
                 Prompt.vocabs[0].play();
             if (skritter.user.isChinese())
                 this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
-            this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
+            if (skritter.user.getSetting('hideReading')) {
+                this.hideReading();
+            } else {
+                this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
+            }
             this.$('.prompt-definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence)
@@ -262,8 +266,14 @@ define([
             Rune.canvas.disableInput();
             Prompt.gradingButtons.select().collapse();
             this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            if (this.isLast() && Prompt.sentence)
-                this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
+            if (skritter.user.get('audio'))
+                Prompt.contained[Prompt.position - 1].getVocabs()[0].play();
+            if (this.isLast()) {
+                this.$('.prompt-reading').removeClass('hidden-reading');
+                this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
+                if (Prompt.sentence)
+                    this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
+            }
         },
         /**
          * @method showTarget
