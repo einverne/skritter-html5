@@ -5,14 +5,6 @@
  */
 define(function() {
     /**
-     * @method methodFlash
-     * @param {Function} callback
-     */
-    var methodFlash = function(callback) {
-        //TODO: implement a system for flash style loading and syncing
-        callback();
-    };
-    /**
      * @method methodFull
      * @param {Function} callback
      */
@@ -46,9 +38,12 @@ define(function() {
             function(callback) {
                 skritter.modal.setProgress(100, 'Requesting Batch');
                 skritter.api.requestBatch(requests, function(batch) {
-                    callback(null, batch);
+                    if (batch.status === 404) {
+                        callback(batch, null);
+                    } else {
+                        callback(null, batch);
+                    }
                 });
-                
             },
             //download requested batch and then store it locally
             function(batch, callback) {
@@ -99,73 +94,17 @@ define(function() {
                     callback();
                 }
             }
-        ], function() {
-            skritter.user.setLastSync();
-            callback();
-        });
-    };
-    /**
-     * @method methodPartial
-     * @param {Function} callback
-     */
-    var methodPartial = function(callback) {
-        skritter.async.waterfall([
-            //fetch the condensed items and store them into the database
-            function(callback) {
-                skritter.api.getItemsCondensed(function(items) {
-                    skritter.data.items.add(items, {merge: true, silent: true});
-                    skritter.data.items.cache(callback);
-
-                });
-            },
-            //fetch full records for a limited number of next items
-            function(callback) {
-                skritter.api.getItemsById(skritter.data.items.getNextIds(), function(data) {
-                    callback(null, data);
-                });
-            },
-            //store the data in in collections and the database
-            function(data, callback) {
-                skritter.data.decomps.add(data.Decomps, {merge: true});
-                skritter.data.items.add(data.Items, {merge: true});
-                skritter.data.srsconfigs.add(data.SRSConfigs, {merge: true});
-                skritter.data.sentences.add(data.Sentences, {merge: true});
-                skritter.data.strokes.add(data.Strokes, {merge: true});
-                skritter.data.vocabs.add(data.Vocabs, {merge: true});
+        ], function(error) {
+            if (error) {
+                callback(error);
+            } else {
+                skritter.user.setLastSync();
                 callback();
-            },
-            //cache all of the data and callback finished
-            function(callback) {
-                skritter.async.parallel([
-                    function(callback) {
-                        skritter.data.decomps.cache(callback);
-                    },
-                    function(callback) {
-                        skritter.data.items.cache(callback);
-                    },
-                    function(callback) {
-                        skritter.data.srsconfigs.cache(callback);
-                    },
-                    function(callback) {
-                        skritter.data.sentences.cache(callback);
-                    },
-                    function(callback) {
-                        skritter.data.strokes.cache(callback);
-                    },
-                    function(callback) {
-                        skritter.data.vocabs.cache(callback);
-                    }
-                ], callback);
             }
-        ], function() {
-            skritter.user.setLastSync();
-            callback();
         });
     };
 
     return {
-        methodFlash: methodFlash,
-        methodFull: methodFull,
-        methodpartial: methodPartial
+        methodFull: methodFull
     };
 });

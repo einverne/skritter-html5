@@ -109,7 +109,11 @@ define([
                 function(callback) {
                     skritter.modal.setProgress(100, 'Requesting Items');
                     skritter.api.requestBatch(requests, function(result) {
-                        callback(null, result);
+                        if (result.status === 404) {
+                            callback(result, null);
+                        } else {
+                            callback(null, result);
+                        }
                     });
                 },
                 //start fetching the new items as they are completed
@@ -126,9 +130,14 @@ define([
                     self.set('addOffset', offset + 1);
                     self.sync(callback);
                 }
-            ], function() {
-                if (typeof callback === 'function')
-                    callback();
+            ], function(error) {
+                if (error) {
+                    if (typeof callback === 'function')
+                        callback(error);
+                } else {
+                    if (typeof callback === 'function')
+                        callback();
+                }
             });
         },
         /**
@@ -379,53 +388,10 @@ define([
          * @param {Function} callback
          */
         sync: function(callback) {
-            var self = this;
             console.log('syncing from', skritter.moment(this.getLastSync() * 1000).format('YYYY[-]MM[-]DD h:mm:ss a'));
-            skritter.async.waterfall([
-                /*function(callback) {
-                 skritter.modal.setProgress(100, 'Getting Schedule');
-                 skritter.api.getItemsCondensed(function(result) {
-                 console.log('condensed', result);
-                 callback(null, result);
-                 });
-                 },
-                 function(result, callback) {
-                 skritter.modal.setProgress(100, 'Saving Schedule');
-                 skritter.data.items.add(result.Items, {merge: true});
-                 skritter.data.items.cache(callback);
-                 },*/
-                function() {
-                    switch (self.get('syncMethod')) {
-                        case 'flash':
-                            Sync.methodFlash(callback);
-                            break;
-                        case 'full':
-                            Sync.methodFull(callback);
-                            break;
-                        case 'partial':
-                            Sync.methodPartial(callback);
-                            break;
-                    }
-                }
-            ], function() {
-                self.setLastSync();
-                callback();
+            Sync.methodFull(function(error) {
+                callback(error);
             });
-
-            /*skritter.api.getItemsCondensed(function(items) {
-             console.log('condensed items', items);
-             switch (self.get('syncMethod')) {
-             case 'flash':
-             Sync.methodFlash(callback);
-             break;
-             case 'full':
-             Sync.methodFull(callback);
-             break;
-             case 'partial':
-             Sync.methodPartial(callback);
-             break;
-             }
-             }, this.getLastSync());*/
         },
         /**
          * A shortcut method for removing user server settings.
