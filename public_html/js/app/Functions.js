@@ -164,14 +164,18 @@ define(function() {
     };
 
     /**
+     * Takes a the first character from a string and return whether it is a kana character.
+     * 
+     * NOTE: It's also currently checking for the unicode tilde because those need to be filtered
+     * out of Japanese writings as well.
+     * 
      * @method isKana
      * @param {String} character
      * @returns {Boolean}
      */
     var isKana = function(character) {
-        //return !!character.match(/^[\u3040-\u3096]+$/) || !!character.match(/^[\u30A1-\u30FA]+$/);
         var charCode = character.charCodeAt(0);
-        return (charCode > 12352 && charCode < 12438) || (charCode > 12449 && charCode < 12538);
+        return (charCode > 12352 && charCode < 12438) || (charCode > 12449 && charCode < 12538) || charCode === 65374;
     };
     
     /**
