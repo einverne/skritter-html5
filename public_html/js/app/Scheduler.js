@@ -18,7 +18,10 @@ define(function() {
      */
     Scheduler.prototype.getDue = function() {
         var now = skritter.fn.getUnixTime();
+        var activeParts = skritter.user.getActiveStudyParts();
         return this.sort().filter(function(item) {
+            if (!_.contains(activeParts, item.part))
+                return false;
             if (item.vocabIds.length === 0)
                 return false;
             if (!item.last && (item.next - now) > 600)

@@ -199,6 +199,7 @@ define([
                 id: item.value.id,
                 last: item.value.last,
                 next: item.value.next,
+                part: item.value.part,
                 vocabIds: item.value.vocabIds
             });
         });

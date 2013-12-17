@@ -26,7 +26,7 @@ define(function() {
      * @returns {Array}
      */
     var extractCJK = function(value) {
-        return value.match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]|[\u20000-\u2a6d6]|[\u2a700-\u2b734]|[\u2b740-\u2b81d]/g);
+        return value.match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]/gi);
     };
     
     /**

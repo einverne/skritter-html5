@@ -117,7 +117,7 @@ define([
         set: function(vocabs, item) {
             console.log('PROMPT', vocabs[0].get('writing'), item, vocabs);
             Prompt.contained = item.getContained();
-            Prompt.definition = vocabs[0].get('definitions')[skritter.user.getSetting('sourceLang')];
+            Prompt.definition = vocabs[0].getDefinition();
             Prompt.item = item;
             Prompt.reading = vocabs[0].get('reading');
             Prompt.sentence = vocabs[0].getSentence();
