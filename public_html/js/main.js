@@ -48,7 +48,8 @@ requirejs.config({
         lodash: {
             exports: '_'
         }
-    }
+    },
+    waitSeconds: 30
 });
 
 if (document.location.pathname.indexOf('tests.html') > -1) {
