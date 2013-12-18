@@ -53,7 +53,7 @@ define(function() {
                     skritter.api.getBatch(batch.id, function(result) {
                         if (result) {
                             size += result.responseSize;
-                            skritter.async.parallel([
+                            skritter.async.series([
                                 function(callback) {
                                     skritter.data.decomps.insert(result.Decomps, callback);
                                 },

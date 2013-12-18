@@ -20,7 +20,7 @@ define([
         this.clientId = 'mcfarljwapiclient';
         this.clientSecret = 'e3872517fed90a820e441531548b8c';
         this.credentials = 'basic ' + Base64.encode(this.clientId + ':' + this.clientSecret);
-        this.domain = 'com';
+        this.domain = (document.location.host.indexOf('cn')) ? 'cn' : 'com';
         this.root = 'https://beta.skritter';
         this.token = null;
         this.version = 0;

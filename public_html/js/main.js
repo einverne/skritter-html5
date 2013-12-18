@@ -45,7 +45,8 @@ requirejs.config({
         jquery: {
             exports: '$'
         },
-        'jquery.indexeddb': ['jquery'],
+        'jquery.hammer': ['jquery'],
+        'jquery.indexeddb': ['indexeddb.shim', 'jquery'],
         lodash: {
             exports: '_'
         }

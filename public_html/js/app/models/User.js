@@ -304,7 +304,7 @@ define([
         loadAllData: function(callback) {
             skritter.storage.getSchedule(function(schedule) {
                 skritter.scheduler.schedule = schedule;
-                skritter.async.parallel([
+                skritter.async.series([
                     skritter.async.apply(skritter.data.decomps.loadAll),
                     skritter.async.apply(skritter.data.params.loadAll),
                     skritter.async.apply(skritter.data.reviews.loadAll),
@@ -313,7 +313,6 @@ define([
                     skritter.async.apply(skritter.data.strokes.loadAll),
                     skritter.async.apply(skritter.data.vocabs.loadAll)
                 ], callback);
-
             });
         },
         /**

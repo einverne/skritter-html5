@@ -164,7 +164,7 @@ define([
          */
         nextItem: function() {
             var self = this;
-            var item = skritter.scheduler.getDue()[0];
+            var item = skritter.scheduler.getNext();
             //gets the next item and vocab that should be studied and loads it
             //item = {id: 'itaju-zh-法律-0-rune'};
             skritter.data.items.loadItems(item, false, function() {

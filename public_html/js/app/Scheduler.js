@@ -154,6 +154,15 @@ define(function() {
     };
     
     /**
+     * @method getNext
+     * @returns {Object}
+     */
+    Scheduler.prototype.getNext = function() {
+        var items = this.sort();
+        return items[0];
+    };
+    
+    /**
      * @method sort
      * @returns {Array}
      */
