@@ -97,7 +97,7 @@ module.exports = function(grunt) {
                     network: ["*"],
                     preferOnline: false,
                     verbose: false,
-                    timestamp: false
+                    timestamp: true
                 },
                 src: [
                     "*.*",

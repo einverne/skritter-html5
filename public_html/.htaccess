@@ -1,7 +1,13 @@
 <IfModule mod_expires.c>
-    <FilesMatch "\.(appcache|css|js)$">
-        ExpiresActive On
-        ExpiresDefault "access plus 1 hours"
+    ExpiresActive On
+    <FilesMatch "\.(appcache)$">    
+        ExpiresDefault "access plus 1 seconds"
+    </FilesMatch>
+    <FilesMatch "\.(css|html|js)$">    
+        ExpiresDefault "access plus 1 hour"
+    </FilesMatch>
+    <FilesMatch "\.(eot|ico|otf|png|svg|ttf|woff)$">
+        ExpiresDefault "access plus 1 month"
     </FilesMatch>
 </IfModule>
 <ifModule mod_rewrite.c>

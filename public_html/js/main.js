@@ -21,6 +21,7 @@ requirejs.config({
         bootstrap: '../../bootstrap/js/bootstrap',
         'createjs.easel': '../libs/createjs.easel-NEXT.min',
         'createjs.tween': '../libs/createjs.tween-NEXT.min',
+        'indexeddb.shim': '../libs/indexeddb.shim',
         jasmine: '../../tests/libs/jasmine',
         'jasmine-html': '../../tests/libs/jasmine-html',
         jquery: '../libs/jquery-2.0.3',
@@ -52,6 +53,14 @@ requirejs.config({
     waitSeconds: 30
 });
 
+if (window.applicationCache) {
+    //checks for an appcache update and refreshes the browser
+    applicationCache.addEventListener('updateready', function() {
+        console.log('called');
+        window.location.reload();
+    });
+}
+
 if (document.location.pathname.indexOf('tests.html') > -1) {
     /**
      * Loads the jasmine test cases.
@@ -61,7 +70,7 @@ if (document.location.pathname.indexOf('tests.html') > -1) {
         jasmineEnv.updateInterval = 1000;
         var htmlReporter = new jasmine.HtmlReporter();
         jasmineEnv.addReporter(htmlReporter);
-        jasmineEnv.specFilter = function(spec) { 
+        jasmineEnv.specFilter = function(spec) {
             return htmlReporter.specFilter(spec);
         };
         var specs = [];
