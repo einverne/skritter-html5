@@ -4,6 +4,7 @@
  * @author Joshua McFarland
  */
 define([
+    'indexeddb.shim',
     'jquery.indexeddb'
 ], function() {
     /**

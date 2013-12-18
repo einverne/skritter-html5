@@ -155,7 +155,9 @@ define([
                 ids = ids.slice(0, limit);
             skritter.async.series([
                 function(callback) {
+                    console.log('test1', ids);
                     skritter.storage.getItems('items', _.pluck(ids, 'id'), function(items) {
+                        console.log('test2', items);
                         skritter.data.items.add(items, {silent: true, sort: false});
                         callback();
                     });

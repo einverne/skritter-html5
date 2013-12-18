@@ -266,7 +266,8 @@ define([
             Rune.canvas.disableInput();
             Prompt.gradingButtons.select().collapse();
             this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            if (skritter.user.get('audio'))
+            console.log(Prompt.contained);
+            if (skritter.user.get('audio') && Prompt.contained[Prompt.position - 1] && Prompt.contained[Prompt.position - 1].getVocabs().length > 0)
                 Prompt.contained[Prompt.position - 1].getVocabs()[0].play();
             if (this.isLast()) {
                 this.$('.prompt-reading').removeClass('hidden-reading');

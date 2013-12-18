@@ -106,6 +106,7 @@ js/libs/backbone-1.1.0.js
 js/libs/base64.js
 js/libs/createjs.easel-NEXT.min.js
 js/libs/createjs.tween-NEXT.min.js
+js/libs/indexeddb.shim.js
 js/libs/jquery-2.0.3.js
 js/libs/jquery.hammer-1.0.5.js
 js/libs/jquery.indexeddb.js

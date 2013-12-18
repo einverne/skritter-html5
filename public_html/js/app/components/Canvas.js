@@ -19,7 +19,6 @@ define([
             Canvas.grid = false;
             Canvas.gridColor = 'grey';
             Canvas.gridLineWidth = 1;
-            Canvas.points = [];
             Canvas.size = skritter.settings.get('canvasSize');
             Canvas.strokeColor = '#000000';
             Canvas.strokeSize = 12;
@@ -415,7 +414,6 @@ define([
                 oldPt = new createjs.Point(stage.mouseX, stage.mouseY);
                 self.triggerMouseDown(oldPt);
                 oldMidPt = oldPt;
-                Canvas.points.push(oldPt.clone());
                 marker.graphics.beginStroke(Canvas.strokeColor);
                 stage.addEventListener('stagemousemove', move);
                 stage.addEventListener('stagemouseup', up);

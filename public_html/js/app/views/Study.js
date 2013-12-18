@@ -166,7 +166,7 @@ define([
             var self = this;
             var item = skritter.scheduler.getDue()[0];
             //gets the next item and vocab that should be studied and loads it
-            //item = {id: '277798779-zh-再见-0-tone'};
+            //item = {id: 'itaju-zh-法律-0-rune'};
             skritter.data.items.loadItems(item, false, function() {
                 //sets the item and vocab for the current prompt
                 Study.current.item = skritter.data.items.findWhere({id: item.id});

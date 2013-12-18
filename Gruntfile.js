@@ -14,6 +14,7 @@ var paths = {
     bootstrap: '../../bootstrap/js/bootstrap',
     'createjs.easel': '../libs/createjs.easel-NEXT.min',
     'createjs.tween': '../libs/createjs.tween-NEXT.min',
+    'indexeddb.shim': '../libs/indexeddb.shim',
     jasmine: '../../tests/libs/jasmine',
     'jasmine-html': '../../tests/libs/jasmine-html',
     jquery: '../libs/jquery-2.0.3',

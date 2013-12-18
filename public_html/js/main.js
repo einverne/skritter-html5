@@ -53,14 +53,6 @@ requirejs.config({
     waitSeconds: 30
 });
 
-if (window.applicationCache) {
-    //checks for an appcache update and refreshes the browser
-    applicationCache.addEventListener('updateready', function() {
-        console.log('called');
-        window.location.reload();
-    });
-}
-
 if (document.location.pathname.indexOf('tests.html') > -1) {
     /**
      * Loads the jasmine test cases.
