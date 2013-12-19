@@ -28,7 +28,7 @@ define([
             if (Study.current.prompt) {
                 this.loadPrompt();
             } else {
-                this.nextItem();
+                this.nextPrompt();
             }
             this.updateDueCount();
             return this;
@@ -37,9 +37,9 @@ define([
          * @property {Object} events
          */
         events: {
-            'click.Study #add-button': 'addItems',
-            'click.Study #audio-button': 'playAudio',
-            'click.Study #info-button': 'navigateInfo'
+            'click.Study #study-view #add-button': 'addItems',
+            'click.Study #study-view #audio-button': 'playAudio',
+            'click.Study #study-view #info-button': 'navigateInfo'
         },
         /**
          * @method addItem
@@ -61,9 +61,11 @@ define([
             //runs a check to make sure multi-character reviews have contained items
             if (results.length > 1 && _.contains(_.pluck(results, 'item'), undefined)) {
                 console.log('review error', results);
-                Study.current.item.set('vocabIds', []);
-                Study.current.item.set('flag', true);
-                Study.current.item.set('flagMessage', "Missing the required contained item ids.");
+                Study.current.item.set({
+                    flag: true,
+                    flagMessage: "The contained items for this character don't exist.",
+                    vocabIds: []
+                });
             } else {
                 var finalGrade = 3;
                 var totalGrade = 0;
@@ -101,27 +103,7 @@ define([
             //keep an updated display of items due
             this.updateDueCount();
             //get the next item
-            this.nextItem();
-        },
-        /**
-         * @method loadItems
-         * @param {String} attribute
-         * @param {Array} values
-         * @param {Boolean} autoLoad
-         * @returns {Backbone.Collection}
-         */
-        loadItems: function(attribute, values, autoLoad) {
-            if (attribute && values) {
-                Study.items = skritter.data.items.filterBy(attribute, values).filterBy('lang', skritter.user.getSetting('targetLang'));
-                if (Study.items.length < 1)
-                    return false;
-                if (autoLoad)
-                    this.nextItem();
-            } else {
-                Study.items = skritter.data.items.getActive();
-
-            }
-            return Study.items;
+            this.nextPrompt();
         },
         /**
          * @method loadPrompt
@@ -160,17 +142,17 @@ define([
         },
         /**
          * @method nextItem
-         * @returns {Object}
+         * @returns {Backbone.View}
          */
-        nextItem: function() {
+        nextPrompt: function() {
             var self = this;
-            var item = skritter.scheduler.getNext();
-            //gets the next item and vocab that should be studied and loads it
-            //item = {id: 'itaju-zh-法律-0-rune'};
-            skritter.data.items.loadItems(item, false, function() {
-                //sets the item and vocab for the current prompt
-                Study.current.item = skritter.data.items.findWhere({id: item.id});
+            skritter.scheduler.getNext(function(item) {
+                //gets the next item and vocab that should be studied and loads it
+                //item = {id: 'itaju-zh-法律-0-rune'};
+                //load the new item and vocabs into the study view
+                Study.current.item = item;
                 Study.current.vocabs = Study.current.item.getVocabs();
+                console.log(Study.current);
                 //load the based on the items part
                 switch (Study.current.item.get('part')) {
                     case 'rune':
@@ -196,7 +178,7 @@ define([
                 Study.current.prompt.set(Study.current.vocabs, Study.current.item).show();
                 self.listenToOnce(Study.current.prompt, 'complete', self.handlePromptComplete);
             });
-            return Study.current;
+            return this;
         },
         /**
          * @method playAudio

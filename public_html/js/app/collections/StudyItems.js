@@ -144,7 +144,7 @@ define([
         },
         /**
          * @method loadItem
-         * @param {String} ids
+         * @param {Array} ids
          * @param {Number} limit
          * @param {Function} callback
          * @returns {Backbone.Model}
@@ -155,9 +155,7 @@ define([
                 ids = ids.slice(0, limit);
             skritter.async.series([
                 function(callback) {
-                    console.log('test1', ids);
-                    skritter.storage.getItems('items', _.pluck(ids, 'id'), function(items) {
-                        console.log('test2', items);
+                    skritter.storage.getItems('items', _.remove(_.pluck(ids, 'id'), undefined), function(items) {
                         skritter.data.items.add(items, {silent: true, sort: false});
                         callback();
                     });

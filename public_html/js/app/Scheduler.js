@@ -17,31 +17,11 @@ define(function() {
      * @returns {Array}
      */
     Scheduler.prototype.getDue = function() {
-        var now = skritter.fn.getUnixTime();
         var activeParts = skritter.user.getActiveStudyParts();
         return this.sort().filter(function(item) {
-            if (!_.contains(activeParts, item.part))
-                return false;
-            if (item.vocabIds.length === 0)
-                return false;
-            if (!item.last && (item.next - now) > 600)
-                return false;
-            if (!item.last || (item.next - item.last) === 1)
-                return 90019001;
-            //var lengthPenalty = (this.getCharacterCount() > 1) ? 0 : -0.02;
-            var seenAgo = now - item.last;
-            var rtd = item.next - item.last;
-            var readiness = seenAgo / rtd;
-            
-            if (readiness > 0 && seenAgo > 9000) {
-                var dayBonus = 1;
-                var ageBonus = 0.1 * Math.log(dayBonus + (dayBonus * dayBonus * seenAgo) * (1 / 86400));
-                var readiness2 = (readiness > 1) ? 0.0 : 1 - readiness;
-                ageBonus *= readiness2 * readiness2;
-                readiness += ageBonus;
-            }
-            if (readiness >= 1.0)
+            if (_.contains(activeParts, item.part) && item.readiness >= 1.0)
                 return true;
+            return false;
         });
     };
     
@@ -155,11 +135,25 @@ define(function() {
     
     /**
      * @method getNext
-     * @returns {Object}
+     * @param {Function} callback
      */
-    Scheduler.prototype.getNext = function() {
+    Scheduler.prototype.getNext = function(callback) {
         var items = this.sort();
-        return items[0];
+        var position = 0;
+        next();
+        function next() {
+            var item = items[position];
+            skritter.data.items.loadItems(item, false, function() {
+                item = skritter.data.items.findWhere({id: item.id});
+                if (item.checkIntegrity()) {
+                    callback(item);
+                } else {
+                    console.log(item, 'failed an integrity check');
+                    position++;
+                    next();
+                }
+            });
+        }
     };
     
     /**
@@ -169,13 +163,18 @@ define(function() {
     Scheduler.prototype.sort = function() {
         var now = skritter.fn.getUnixTime();
         this.schedule = _.sortBy(this.schedule, function(item) {
-            if (item.vocabIds.length === 0)
-                return 0;
-            if (!item.last && (item.next - now) > 600)
-                return 0.2;
-            if (!item.last || (item.next - item.last) === 1)
-                return 90019001;
-            //var lengthPenalty = (this.getCharacterCount() > 1) ? 0 : -0.02;
+            if (item.vocabIds.length === 0) {
+                item.readiness = 0;
+                return -item.readiness;
+            }
+            if (!item.last && (item.next - now) > 600) {
+                item.readiness = 0.2;
+                return -item.readiness;
+            }
+            if (!item.last || (item.next - item.last) === 1) {
+                item.readiness = 90019001;
+                return -item.readiness;
+            }
             var seenAgo = now - item.last;
             var rtd = item.next - item.last;
             var readiness = seenAgo / rtd;
@@ -186,7 +185,8 @@ define(function() {
                 ageBonus *= readiness2 * readiness2;
                 readiness += ageBonus;
             }
-            return -readiness;
+            item.readiness = readiness;
+            return -item.readiness;
         });
         return this.schedule;
     };
@@ -196,7 +196,9 @@ define(function() {
      * @param {Object} item
      */
     Scheduler.prototype.updateItem = function(item) {
-        this.schedule[_.findIndex(this.schedule, {id: item.get('id')})] = {
+        var id = item.get('id');
+        this.schedule[_.findIndex(this.schedule, {id: id})] = {
+            id: id,
             last: item.get('last'),
             next: item.get('next'),
             vocabIds: item.get('vocabIds')

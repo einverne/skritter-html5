@@ -192,6 +192,10 @@ define([
         }
     };
     
+    /**
+     * @method getSchedule
+     * @param {Function} callback
+     */
     IndexedDBAdapter.prototype.getSchedule = function(callback) {
         var schedule = [];
         var table = this.database.objectStore('items');

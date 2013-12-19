@@ -23,6 +23,39 @@ define([
             });
         },
         /**
+         * @method checkIntegiry
+         * @returns {Boolean}
+         */
+        checkIntegrity: function() {
+            var characterCount = this.getCharacterCount();
+            var contained = this.getContained();
+            var part = this.get('part');
+            if (_.contains(['rune', 'tone'], part) && characterCount > 1 && contained.length < characterCount) {
+                this.set({
+                    flag: true,
+                    flagMessage: "The contained items for this character don't exist.",
+                    vocabIds: []
+                });
+                skritter.scheduler.updateItem(this);
+                return false;
+            }
+            if (part === 'rune' && this.get('vocabIds').length > 0) {
+                var characters = this.getVocabs()[0].getCharacters();
+                for (var i in characters) {
+                    if (!skritter.data.strokes.findWhere({rune: characters[i]})) {
+                        this.set({
+                           flag: true ,
+                           flagMessage: "This item doesn't have the required stroke data.",
+                           vocabIds: []
+                        });
+                        skritter.scheduler.updateItem(this);
+                        return false;
+                    }
+                }
+            }
+            return true;
+        },
+        /**
          * Returns the contained items for multi-character words. Data is stored for
          * the contained characters regardsless of whether they are being studied or not.
          * 
@@ -104,6 +137,13 @@ define([
                     readiness = Math.pow(readiness, 1 + lengthPenalty);
             }
             return readiness;
+        },
+        /**
+         * @method getVariations
+         * @returns {Array}
+         */
+        getVariations: function() {
+            
         },
         /**
          * @method getVocabs
