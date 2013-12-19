@@ -51,7 +51,11 @@ define(function() {
                 nextBatch();
                 function nextBatch() {
                     skritter.api.getBatch(batch.id, function(result) {
-                        if (result) {
+                        if (result && _.contains([404, 408], result.status)) {
+                            window.setTimeout(function() {
+                                nextBatch();
+                            }, 5000);
+                        } else if (result) {
                             size += result.responseSize;
                             skritter.async.series([
                                 function(callback) {
@@ -75,7 +79,9 @@ define(function() {
                             ], function() {
                                 if (size > 1024)
                                     skritter.modal.setProgress(100, skritter.fn.bytesToSize(size));
-                                nextBatch();
+                                window.setTimeout(function() {
+                                    nextBatch();
+                                }, 1000);
                             });
                         } else {
                             callback();

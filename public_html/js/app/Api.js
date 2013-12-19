@@ -129,7 +129,7 @@ define([
         });
         promise.fail(function(error) {
             console.error(error);
-            callback();
+            callback(error);
         });
     };
 
