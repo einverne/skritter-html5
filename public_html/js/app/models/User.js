@@ -49,8 +49,16 @@ define([
                 vocabs: new StudyVocabs()
             };
             //loads the user from localStorage if exists
-            if (localStorage.getItem('activeUser'))
-                this.set(JSON.parse(LZString.decompress(localStorage.getItem(localStorage.getItem('activeUser')))));
+            if (localStorage.getItem('activeUser')) {
+                try {
+                    this.set(JSON.parse(localStorage.getItem(localStorage.getItem('activeUser'))));
+                } catch (error) {
+                    if (error instanceof SyntaxError) {
+                        //TODO: remove this because using lzstring is being phased out for compatibility reasons
+                        this.set(JSON.parse(LZString.decompress(localStorage.getItem(localStorage.getItem('activeUser'))))).cache();
+                    }
+                }
+            }
             //perform tasks based login status
             if (this.isLoggedIn()) {
                 //sets the api token required for calls
@@ -81,7 +89,7 @@ define([
          */
         cache: function() {
             if (this.isLoggedIn())
-                localStorage.setItem(this.get('user_id'), LZString.compress(JSON.stringify(this)));
+                localStorage.setItem(this.get('user_id'), JSON.stringify(this));
         },
         /**
          * @method addItems
