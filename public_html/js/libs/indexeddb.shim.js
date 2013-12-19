@@ -1,11 +1,8 @@
-/*jshint globalstrict: true*/
-'use strict';
 /**
  * An initialization file that checks for conditions, removes console.log and warn, etc
  */
 var idbModules = {};
-/*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules) {
     /**
      * A utility method to callback onsuccess, onerror, etc as soon as the calling function's context is over
