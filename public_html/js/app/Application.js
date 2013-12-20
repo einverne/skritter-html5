@@ -19,7 +19,7 @@
 define([
     'Api',
     'Functions',
-    //'Log',
+    'Log',
     'Router',
     'components/Modal',
     'components/Timer',
@@ -30,7 +30,7 @@ define([
     'async',
     'moment',
     'bootstrap'
-], function(Api, Functions, Router, Modal, Timer, Assets, Settings, User, IndexedDBAdapter, async, moment) {
+], function(Api, Functions, Log, Router, Modal, Timer, Assets, Settings, User, IndexedDBAdapter, async, moment) {
     /**
      * @method loadAssets
      * @param {Function} callback
@@ -67,7 +67,7 @@ define([
      * @param {Function} callback
      */
     var loadLog = function(callback) {
-        //skritter.log = new Log();
+        skritter.log = new Log();
         callback();
     };
 

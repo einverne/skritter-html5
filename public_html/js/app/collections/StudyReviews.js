@@ -79,10 +79,10 @@ define([
                 skritter.api.postReviews(this.toJSON(), function(reviews) {
                     console.log('submitted reviews', reviews);
                     skritter.data.reviews.remove(reviews);
-                    callback();
+                    callback(reviews.length);
                 });
             } else {
-                callback();
+                callback(0);
             }
         }
     });

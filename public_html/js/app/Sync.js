@@ -89,11 +89,21 @@ define(function() {
                     });
                 }
             },
+            //check for previous review errors before posting new reviews
+            function(callback) {
+                skritter.user.checkReviewErrors(function(errors) {
+                    var now = skritter.moment().format('YYYY-MM-DD hh:mm:ss');
+                    for (var i in errors)
+                        skritter.log.reviewError(now, errors[i]);
+                    callback();
+                }, skritter.user.getLastSync());
+            },
             //post reviews to the server and remove them locally
             function(callback) {
                 if (skritter.data.reviews.length > 0 && skritter.user.getLastSync()) {
                     skritter.modal.setProgress(100, 'Posting Reviews');
-                    skritter.data.reviews.sync(function() {
+                    skritter.data.reviews.sync(function(quantity) {
+                        skritter.log.review(quantity);
                         callback();
                     });
                 } else {

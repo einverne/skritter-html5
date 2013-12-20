@@ -156,7 +156,7 @@ define([
         checkReviewErrors: function(callback, offset) {
             offset = (offset && offset > -1) ? offset : this.getLastSync();
             skritter.api.getReviewErrors(offset, function(errors) {
-                console.log('Review Errors', errors);
+                console.log('review errors', errors);
                 if (typeof callback === 'function')
                     callback(errors);
             });
