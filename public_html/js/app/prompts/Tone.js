@@ -74,10 +74,11 @@ define([
         },
         /**
          * @method handleInputRecieved
+         * @param {CreateJS.Shape} marker
          * @param {Array} points
          */
-        handleInputRecieved: function(points) {
-            this.processInput(points, null, false);
+        handleInputRecieved: function(points, marker) {
+            this.processInput(points, marker, null, false);
         },
         /**
          * @method handleSwipeLeft
@@ -120,10 +121,11 @@ define([
         /**
          * @method processInput
          * @param {Array} points
+         * @param {CreateJS.Shape} marker
          * @param {Array} ignoreCheck
          * @param {Boolean} enforceOrder
          */
-        processInput: function(points, ignoreCheck, enforceOrder) {
+        processInput: function(points, marker, ignoreCheck, enforceOrder) {
             if (points.length > 1) {
                 //check that a minimum distance is met
                 if (skritter.fn.getDistance(points[0], points[points.length - 1]) > Tone.minStrokeDistance) {
@@ -140,6 +142,8 @@ define([
                         Tone.canvas.drawStroke(result.getInflatedSprite(), 'stroke');
                     } else {
                         Prompt.gradingButtons.select(1).collapse();
+                        //fade incorrect strokes out
+                        Tone.canvas.fadeShape('background', marker);
                         //select the first possible tone and display it as wrong
                         Tone.canvas.drawStroke(Tone.userCharacter.targets[0].at(0).getInflatedSprite(), 'stroke');
                     }

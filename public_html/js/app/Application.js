@@ -3,6 +3,7 @@
  * @class Application
  * @param Api
  * @param Functions
+ * @param Log
  * @param Router
  * @param Modal
  * @param Timer
@@ -18,6 +19,7 @@
 define([
     'Api',
     'Functions',
+    //'Log',
     'Router',
     'components/Modal',
     'components/Timer',
@@ -57,6 +59,15 @@ define([
      */
     var loadFunctions = function(callback) {
         skritter.fn = Functions;
+        callback();
+    };
+    
+    /**
+     * @method loadLog
+     * @param {Function} callback
+     */
+    var loadLog = function(callback) {
+        //skritter.log = new Log();
         callback();
     };
 
@@ -151,6 +162,7 @@ define([
             skritter.async.apply(loadApi),
             skritter.async.apply(loadAssets),
             skritter.async.apply(loadFunctions),
+            skritter.async.apply(loadLog),
             skritter.async.apply(loadModal),
             skritter.async.apply(loadSettings),
             skritter.async.apply(loadStorage),

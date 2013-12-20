@@ -116,8 +116,8 @@ define([
          * @method handleInputRecieved
          * @param {Array} points
          */
-        handleInputRecieved: function(points) {
-            this.processInput(points, null, false);
+        handleInputRecieved: function(points, marker) {
+            this.processInput(points, marker, null, false);
         },
         /**
          * @method handleLeapRecieved
@@ -178,10 +178,11 @@ define([
         /**
          * @method processInput
          * @param {Array} points
+         * @param {CreateJS.Shape} marker
          * @param {Array} ignoreCheck
          * @param {Boolean} enforceOrder
          */
-        processInput: function(points, ignoreCheck, enforceOrder) {
+        processInput: function(points, marker, ignoreCheck, enforceOrder) {
             //only strokes of an adaquate distance should be processed
             if (points.length > 0 && skritter.fn.getDistance(points[0], points[points.length - 1]) > Rune.minStrokeDistance) {
                 //create the stroke from the points to analyze
@@ -217,6 +218,8 @@ define([
                     }
                 } else {
                     Rune.failedAttempts++;
+                    //fade the shape out 
+                    Rune.canvas.fadeShape('background', marker);
                     //if failed too many times show a hint
                     if (Rune.failedAttempts > Rune.maxFailedAttempts) {
                         //ISSUE #64: display grading buttons immediately when failed

@@ -217,11 +217,9 @@ define([
          * @returns {Bitmap}
          */
         drawPhantomStroke: function(bitmap, layerName, callback) {
-            bitmap.filters = [new createjs.ColorFilter(0, 0, 0, 1, 135, 206, 250, 0)];
-            bitmap.cache(0, 0, Canvas.size, Canvas.size);
             var layer = this.getLayer(layerName);
             layer.addChild(bitmap);
-            createjs.Tween.get(bitmap).wait(500).to({alpha: 0}, 1000).call(function() {
+            createjs.Tween.get(bitmap).wait(300).to({alpha: 0}, 1000).call(function() {
                 layer.removeChild(bitmap);
                 if (typeof callback === 'function')
                     callback();
@@ -339,57 +337,6 @@ define([
             return toBitmap;
         },
         /**
-         * @method fadeLayer
-         * @param {String} layerName
-         * @param {Function} callback
-         * @returns {Container}
-         */
-        fadeLayer: function(layerName, callback) {
-            var layer = this.getLayer(layerName);
-            if (layer.getNumChildren() > 0) {
-                createjs.Tween.get(layer).to({alpha: 0}, 750).call(function() {
-                    layer.removeAllChildren();
-                    layer.alpha = 1.0;
-                    if (typeof callback === 'function')
-                        callback(layer);
-                });
-            }
-            return layer;
-        },
-        /**
-         * @method filterLayerColor
-         * @param {String} layerName
-         * @param {ColorFilter} filter
-         * @returns {Container}
-         */
-        filterLayerColor: function(layerName, filter) {
-            var layer = this.getLayer(layerName);
-            layer.filters = [filter];
-            layer.cache(0, 0, Canvas.size, Canvas.size);
-            return layer;
-        },
-        /**
-         * @method getLayer
-         * @param {String} name
-         * @returns {Container}
-         */
-        getLayer: function(name) {
-            return Canvas.stage.getChildByName('layer-' + name);
-        },
-        /**
-         * @method getLayers
-         * @returns {Array}
-         */
-        getLayers: function() {
-            var layers = [];
-            for (var i in Canvas.stage.children) {
-                var child = Canvas.stage.children[i];
-                if (child.name && child.name.indexOf('layer-') > -1)
-                    layers.push(Canvas.stage.children[i]);
-            }
-            return layers;
-        },
-        /**
          * @method enableGrid
          * @returns {undefined}
          */
@@ -443,7 +390,7 @@ define([
             var up = function up(event) {
                 marker.graphics.endStroke();
                 if (isOnCanvas(event)) {
-                    self.triggerMouseUp(points);
+                    self.triggerMouseUp(points, marker.clone(true));
                 }
                 stage.removeEventListener('stagemousemove', move);
                 stage.removeEventListener('stagemouseup', up);
@@ -457,6 +404,76 @@ define([
             };
             if (!stage.hasEventListener('stagemousedown'))
                 stage.addEventListener('stagemousedown', down);
+        },
+        /**
+         * @method fadeLayer
+         * @param {String} layerName
+         * @param {Function} callback
+         * @returns {Container}
+         */
+        fadeLayer: function(layerName, callback) {
+            var layer = this.getLayer(layerName);
+            if (layer.getNumChildren() > 0) {
+                createjs.Tween.get(layer).to({alpha: 0}, 750).call(function() {
+                    layer.removeAllChildren();
+                    layer.alpha = 1.0;
+                    if (typeof callback === 'function')
+                        callback(layer);
+                });
+            }
+            return layer;
+        },
+        /**
+         * @method fadeShape
+         * @param {String} layerName
+         * @param {CreateJS.Shape} shape
+         * @param {Function} callback
+         * @returns {Container}
+         */
+        fadeShape: function(layerName, shape, callback) {
+            var layer = this.getLayer(layerName);
+            layer.addChild(shape);
+            shape.cache(0, 0, Canvas.size, Canvas.size);
+            createjs.Tween.get(shape).to({alpha: 0}, 300, createjs.Ease.quadOut).call(function() {
+                shape.uncache();
+                layer.removeChild(shape);
+                if (typeof callback === 'function')
+                    callback();
+            });
+            return layer;
+        },
+        /**
+         * @method filterLayerColor
+         * @param {String} layerName
+         * @param {ColorFilter} filter
+         * @returns {Container}
+         */
+        filterLayerColor: function(layerName, filter) {
+            var layer = this.getLayer(layerName);
+            layer.filters = [filter];
+            layer.cache(0, 0, Canvas.size, Canvas.size);
+            return layer;
+        },
+        /**
+         * @method getLayer
+         * @param {String} name
+         * @returns {Container}
+         */
+        getLayer: function(name) {
+            return Canvas.stage.getChildByName('layer-' + name);
+        },
+        /**
+         * @method getLayers
+         * @returns {Array}
+         */
+        getLayers: function() {
+            var layers = [];
+            for (var i in Canvas.stage.children) {
+                var child = Canvas.stage.children[i];
+                if (child.name && child.name.indexOf('layer-') > -1)
+                    layers.push(Canvas.stage.children[i]);
+            }
+            return layers;
         },
         /**
          * @method setLayerAlpha
@@ -503,8 +520,8 @@ define([
          * @method triggerMouseUp
          * @param {Array} points
          */
-        triggerMouseUp: function(points) {
-            this.trigger('mouseup', points);
+        triggerMouseUp: function(points, marker) {
+            this.trigger('mouseup', points, marker);
         }
     });
 

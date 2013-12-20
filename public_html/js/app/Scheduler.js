@@ -9,6 +9,7 @@ define(function() {
      * @class Scheduler
      */
     function Scheduler() {
+        this.history = [];
         this.schedule = [];
     }
     
@@ -138,10 +139,15 @@ define(function() {
      * @param {Function} callback
      */
     Scheduler.prototype.getNext = function(callback) {
-        var items = this.sort();
+        var activeParts = skritter.user.getActiveStudyParts();
+        var items = this.sort().filter(function(item) {
+            if (_.contains(activeParts, item.part))
+                return true;
+            return false;
+        });
         var position = 0;
         next();
-        function next() {
+        function next() {            
             var item = items[position];
             skritter.data.items.loadItems(item, false, function() {
                 item = skritter.data.items.findWhere({id: item.id});
@@ -201,6 +207,7 @@ define(function() {
             id: id,
             last: item.get('last'),
             next: item.get('next'),
+            part: item.get('part'),
             vocabIds: item.get('vocabIds')
         };
     };

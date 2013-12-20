@@ -150,15 +150,19 @@ define([
          * @returns {Backbone.Model}
          */
         loadItems: function(ids, limit, callback) {
-            ids = Array.isArray(ids) ? ids : [ids];
+            if (ids) {
+                ids = Array.isArray(ids) ? ids : [ids];
+            } else {
+                ids = [];
+            }
             if (limit)
                 ids = ids.slice(0, limit);
             skritter.async.series([
                 function(callback) {
-                    skritter.storage.getItems('items', _.remove(_.pluck(ids, 'id'), undefined), function(items) {
-                        skritter.data.items.add(items, {silent: true, sort: false});
-                        callback();
-                    });
+                        skritter.storage.getItems('items', _.pluck(ids, 'id'), function(items) {
+                            skritter.data.items.add(_.remove(items, undefined), {silent: true, sort: false});
+                            callback();
+                        });
                 },
                 function(callback) {
                     skritter.storage.getItems('items', skritter.data.items.getContainedIds(), function(items) {
