@@ -91,12 +91,18 @@ define(function() {
             },
             //check for previous review errors before posting new reviews
             function(callback) {
-                skritter.user.checkReviewErrors(function(errors) {
-                    var now = skritter.moment().format('YYYY-MM-DD hh:mm:ss');
-                    for (var i in errors)
-                        skritter.log.reviewError(now, errors[i]);
+                if (skritter.user.getLastSync() > 0) {
+                    skritter.user.checkReviewErrors(function(errors) {
+                        if (errors && errors.status !== 403) {
+                            var now = skritter.moment().format('YYYY-MM-DD hh:mm:ss');
+                            for (var i in errors)
+                                skritter.log.reviewError(now, errors[i]);
+                        }
+                        callback();
+                    }, skritter.user.getLastSync());
+                } else {
                     callback();
-                }, skritter.user.getLastSync());
+                }
             },
             //post reviews to the server and remove them locally
             function(callback) {

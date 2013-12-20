@@ -128,8 +128,12 @@ define([
          * @returns {Backbone.Collection}
          */
         insert: function(items, callback) {
-            this.add(items, {merge: true, sort: false});
-            skritter.storage.setItems('items', items, callback);
+            if (items) {
+                this.add(items, {merge: true, sort: false});
+                skritter.storage.setItems('items', items, callback);
+            } else {
+                callback();
+            }
             return this;
         },
         /**

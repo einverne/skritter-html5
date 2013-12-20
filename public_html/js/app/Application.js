@@ -61,7 +61,7 @@ define([
         skritter.fn = Functions;
         callback();
     };
-    
+
     /**
      * @method loadLog
      * @param {Function} callback

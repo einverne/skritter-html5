@@ -7,7 +7,7 @@ requirejs.config({
     urlArgs: function() {
         //removes the added url args from testing environment 
         var hostname = document.location.hostname || window.location.hostname || location.hostname;
-        if (hostname === 'localhost')
+        if (hostname === 'localhost' || hostname === '192.168.1.10')
             return 'cb=' + Math.random();
     }(),
     paths: {

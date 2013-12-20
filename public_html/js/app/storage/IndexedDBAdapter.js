@@ -16,7 +16,7 @@ define([
         this.databaseName = null;
         this.databaseVersion = 1;
     }
-    
+
     /**
      * @method count
      * @param {String} tableName
@@ -32,7 +32,7 @@ define([
             console.error(tableName, error);
         });
     };
-    
+
     /**
      * @method deleteAllDatabases
      * @param {Function} callback
@@ -63,7 +63,7 @@ define([
             callback();
         }
     };
-    
+
     /**
      * @method deleteDatabase
      * @param {Function} callback
@@ -79,7 +79,7 @@ define([
             console.error(error);
         });
     };
-    
+
     /**
      * @method openDatabase
      * @param {String} databaseName
@@ -115,7 +115,7 @@ define([
             console.error(databaseName, error);
         });
     };
-    
+
     /**
      * @method getAll
      * @param {String} tableName
@@ -135,7 +135,7 @@ define([
             console.error(tableName, error);
         });
     };
-    
+
     /**
      * @method getItems
      * @param {String} tableName
@@ -166,7 +166,7 @@ define([
             }
         }
     };
-    
+
     /**
      * @method removeItems
      * @param {String} tableName
@@ -195,7 +195,7 @@ define([
             }
         }
     };
-    
+
     /**
      * @method getSchedule
      * @param {Function} callback
@@ -219,7 +219,7 @@ define([
             console.error('schedule', error);
         });
     };
-    
+
     /**
      * @method setItems
      * @param {String} tableName
@@ -230,7 +230,9 @@ define([
     IndexedDBAdapter.prototype.setItems = function(tableName, items, callback) {
         var position = 0;
         var table = this.database.objectStore(tableName);
-        var setNext = function() {
+        items = Array.isArray(items) ? items : [items];
+        setNext();
+        function setNext() {
             if (position < items.length) {
                 var promise = table.put(items[position]);
                 promise.done(function() {
@@ -244,13 +246,6 @@ define([
                 if (typeof callback === 'function')
                     callback();
             }
-        };
-        
-        if (items) {
-            items = Array.isArray(items) ? items : [items];
-            setNext();
-        } else {
-            callback();
         }
     };
 

@@ -464,24 +464,36 @@ define([
      */
     Api.prototype.getUser = function(userId, callback) {
         var self = this;
-        var promise = $.ajax({
-            url: this.root + '.' + this.domain + '/api/v' + this.version + '/users/' + userId,
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader('AUTHORIZATION', self.credentials);
-            },
-            type: 'GET',
-            data: {
-                bearer_token: this.token,
-                detailed: true
-            }
-        });
-        promise.done(function(data) {
-            callback(data.User);
-        });
-        promise.fail(function(error) {
-            console.error(error);
-            callback(error);
-        });
+        var tryCount = 0;
+        request();
+        function request() {
+            var promise = $.ajax({
+                url: self.root + '.' + self.domain + '/api/v' + self.version + '/users/' + userId,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('AUTHORIZATION', self.credentials);
+                },
+                type: 'GET',
+                data: {
+                    bearer_token: self.token,
+                    detailed: true
+                }
+            });
+            promise.done(function(data) {
+                callback(data.User);
+            });
+            promise.fail(function(error) {
+                console.error(error);
+                if (tryCount > 2) {
+                    callback(error);
+                } else {
+                    tryCount++;
+                    console.log('retrying to get user');
+                    window.setTimeout(function() {
+                        request();
+                    }, 1000);
+                }
+            });
+        }        
     };
 
     /**

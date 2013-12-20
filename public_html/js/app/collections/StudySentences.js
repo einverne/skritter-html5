@@ -41,8 +41,12 @@ define([
          * @returns {Backbone.Collection}
          */
         insert: function(sentences, callback) {
-            this.add(sentences, {merge: true});
-            skritter.storage.setItems('sentences', sentences, callback);
+            if (sentences) {
+                this.add(sentences, {merge: true});
+                skritter.storage.setItems('sentences', sentences, callback);
+            } else {
+                callback();
+            }
             return this;
         },
         /**

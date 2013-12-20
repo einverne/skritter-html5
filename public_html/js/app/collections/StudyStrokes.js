@@ -42,8 +42,12 @@ define([
          * @returns {Backbone.Collection}
          */
         insert: function(strokes, callback) {
-            this.add(strokes, {merge: true});
-            skritter.storage.setItems('strokes', strokes, callback);
+            if (strokes) {
+                this.add(strokes, {merge: true});
+                skritter.storage.setItems('strokes', strokes, callback);
+            } else {
+                callback();
+            }
             return this;
         },
         /**

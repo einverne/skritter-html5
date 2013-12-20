@@ -55,8 +55,12 @@ define([
          * @returns {Backbone.Collection}
          */
         insert: function(srsconfigs, callback) {
-            this.add(srsconfigs, {merge: true});
-            skritter.storage.setItems('srsconfigs', srsconfigs, callback);
+            if (srsconfigs) {
+                this.add(srsconfigs, {merge: true});
+                skritter.storage.setItems('srsconfigs', srsconfigs, callback);
+            } else {
+                callback();
+            }
             return this;
         },
         /**
