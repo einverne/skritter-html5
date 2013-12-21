@@ -240,37 +240,15 @@ define([
         },
         /**
          * @method drawSquig
-         * @param {Array} points
+         * @param {CreateJS.Shape} marker
          * @param {String} layerName
          * @param {Number} alpha
-         * @returns {Shape}
+         * @returns {CreateJS.Container}
          */
-        drawSquig: function(points, layerName, alpha) {
-            var marker = new createjs.Shape();
-            var oldPt, oldMidPt;
-            oldPt = new createjs.Point(points[0].x, points[0].y);
-            oldMidPt = oldPt;
-            marker.graphics.beginStroke(Canvas.squigColor).setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle);
-            for (var i in points) {
-                var point = new createjs.Point(points[i].x, points[i].y);
-                var midPt = new createjs.Point(oldPt.x + point.x >> 1, oldPt.y + point.y >> 1);
-                marker.graphics
-                        .moveTo(midPt.x, midPt.y)
-                        .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
-                oldPt.x = point.x;
-                oldPt.y = point.y;
-                oldMidPt.x = midPt.x;
-                oldMidPt.y = midPt.y;
-            }
-            marker.graphics
-                    .moveTo(points[points.length - 1].x, points[points.length - 1].y)
-                    .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
-            if (alpha)
-                marker.alpha = alpha;
-            marker.graphics.endStroke();
-            this.getLayer(layerName).addChild(marker);
-
-            return marker;
+        drawSquig: function(marker, layerName) {
+            var layer = this.getLayer(layerName);
+            layer.addChild(marker);
+            return layer;
         },
         /**
          * @method drawStroke
@@ -361,7 +339,11 @@ define([
                 oldPt = new createjs.Point(stage.mouseX, stage.mouseY);
                 self.triggerMouseDown(oldPt);
                 oldMidPt = oldPt;
-                marker.graphics.beginStroke(Canvas.strokeColor);
+                if (skritter.user.getSetting('squigs')) {
+                    marker.graphics.beginStroke(Canvas.squigColor);
+                } else {
+                    marker.graphics.beginStroke(Canvas.strokeColor);
+                }
                 stage.addEventListener('stagemousemove', move);
                 stage.addEventListener('stagemouseup', up);
             };
@@ -483,6 +465,7 @@ define([
          */
         setLayerAlpha: function(layerName, alpha) {
             var layer = this.getLayer(layerName);
+            layer.cache(0, 0, Canvas.size, Canvas.size);
             layer.alpha = alpha;
             return layer;
         },
@@ -519,9 +502,21 @@ define([
          * 
          * @method triggerMouseUp
          * @param {Array} points
+         * @param {CreateJS.Shape} marker
          */
         triggerMouseUp: function(points, marker) {
             this.trigger('mouseup', points, marker);
+        },
+        /**
+         * @method uncacheLayer
+         * @param {String} layerName
+         * @returns {CreateJS.Container}
+         */
+        uncacheLayer: function(layerName) {
+            var layer = this.getLayer(layerName);
+            if (layer.cacheCanvas)
+                layer.uncache();
+            return layer;
         }
     });
 

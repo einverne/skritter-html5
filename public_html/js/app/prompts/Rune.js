@@ -61,6 +61,7 @@ define([
             Rune.canvas.clear('overlay');
             Rune.canvas.clear('stroke');
             Rune.canvas.setLayerAlpha('overlay', 1);
+            Rune.canvas.uncacheLayer('overlay');
             Rune.failedAttempts = 0;
             Rune.userCharacter.reset();
             Rune.userTargets = [];
@@ -79,11 +80,13 @@ define([
             Prompt.finished = true;
             //checks if we should snap or just glow the result
             if (skritter.user.getSetting('squigs')) {
-                for (var i in Rune.userCharacter.models) {
-                    var stroke = Rune.userCharacter.models[i];
-                    Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), 'stroke');
-                    Rune.canvas.setLayerAlpha('overlay', 0.3);
-                }
+                Rune.canvas.setLayerAlpha('overlay', 0.3);
+                window.setTimeout(function() {
+                    for (var i in Rune.userCharacter.models) {
+                        var stroke = Rune.userCharacter.models[i];
+                        Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), 'stroke');
+                    }
+                }, 100);
             }
             this.showAnswer();
         },
@@ -115,6 +118,7 @@ define([
         /**
          * @method handleInputRecieved
          * @param {Array} points
+         * @param {CreateJS.Shape} marker
          */
         handleInputRecieved: function(points, marker) {
             this.processInput(points, marker, null, false);
@@ -199,7 +203,7 @@ define([
                     Rune.failedAttempts = 0;
                     //choose whether to draw the stroke normally or using raw squigs
                     if (skritter.user.getSetting('squigs')) {
-                        Rune.canvas.drawSquig(result.get('points'), 'overlay');
+                        Rune.canvas.drawSquig(marker, 'overlay');
                         this.handleStrokeRecognized(result);
                     } else {
                         //display feedback if it exists
