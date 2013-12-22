@@ -80,7 +80,6 @@ define([
             lastSyncJapanese: null,
             refresh_token: null,
             settings: null,
-            syncMethod: 'full',
             token_type: null,
             user_id: null
         },
@@ -246,17 +245,17 @@ define([
          * simplified or traditional.
          * 
          * @method getStyle
-         * @returns {String}
+         * @returns {Array}
          */
         getStyle: function() {
             if (this.isJapanese()) {
-                return 'ja';
-            } else if (this.isChinese() && this.getSetting('addSimplified') && this.getSetting('addTraditional')) {
-                return 'zh-both';
-            } else if (this.isChinese() && this.getSetting('addSimplified') && !this.getSetting('addTraditional')) {
-                return 'zh-simp';
+                return [];
+            } else if (this.isChinese() && this.getSetting('reviewSimplified') && this.getSetting('reviewTraditional')) {
+                return ['both', 'simp', 'trad'];
+            } else if (this.isChinese() && this.getSetting('reviewSimplified') && !this.getSetting('reviewTraditional')) {
+                return ['both', 'simp'];
             } else {
-                return 'zh-trad';
+                return ['both', 'trad'];
             }
         },
         /**
@@ -310,17 +309,17 @@ define([
          * @param {Function} callback
          */
         loadAllData: function(callback) {
-            skritter.storage.getSchedule(function(schedule) {
-                skritter.scheduler.schedule = schedule;
-                skritter.async.series([
-                    skritter.async.apply(skritter.data.decomps.loadAll),
-                    skritter.async.apply(skritter.data.params.loadAll),
-                    skritter.async.apply(skritter.data.reviews.loadAll),
-                    skritter.async.apply(skritter.data.srsconfigs.loadAll),
-                    skritter.async.apply(skritter.data.sentences.loadAll),
-                    skritter.async.apply(skritter.data.strokes.loadAll),
-                    skritter.async.apply(skritter.data.vocabs.loadAll)
-                ], callback);
+            skritter.async.series([
+                skritter.async.apply(skritter.data.decomps.loadAll),
+                skritter.async.apply(skritter.data.params.loadAll),
+                skritter.async.apply(skritter.data.reviews.loadAll),
+                skritter.async.apply(skritter.data.srsconfigs.loadAll),
+                skritter.async.apply(skritter.data.sentences.loadAll),
+                skritter.async.apply(skritter.data.strokes.loadAll),
+                skritter.async.apply(skritter.data.vocabs.loadAll),
+                skritter.async.apply(skritter.scheduler.loadFromDatabase)
+            ], function() {
+                callback();
             });
         },
         /**

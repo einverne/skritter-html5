@@ -201,22 +201,26 @@ define([
      * @param {Function} callback
      */
     IndexedDBAdapter.prototype.getSchedule = function(callback) {
-        var schedule = [];
+        var items = [];
         var table = this.database.objectStore('items');
         var promise = table.each(function(item) {
-            schedule.push({
-                id: item.value.id,
-                last: item.value.last,
-                next: item.value.next,
-                part: item.value.part,
-                vocabIds: item.value.vocabIds
-            });
+            if (item.value.vocabIds.length > 0) {
+                items.push({
+                    id: item.value.id,
+                    last: item.value.last,
+                    next: item.value.next,
+                    part: item.value.part,
+                    style: item.value.style,
+                    vocabIds: item.value.vocabIds
+                });
+            }
         });
         promise.done(function() {
-            callback(schedule);
+            callback(items);
         });
         promise.fail(function(error) {
             console.error('schedule', error);
+            callback();
         });
     };
 

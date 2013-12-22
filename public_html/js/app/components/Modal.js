@@ -116,6 +116,7 @@ define([
          * @returns {Backbone.View}
          */
         setProgress: function(percent, text) {
+            percent = (percent === 0) ? '0' : percent;
             if (percent)
                 this.$('#' + Modal.id + ' .progress-bar').width(percent + '%');
             if (text)

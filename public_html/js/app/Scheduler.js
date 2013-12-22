@@ -9,23 +9,42 @@ define(function() {
      * @class Scheduler
      */
     function Scheduler() {
-        this.history = [];
         this.schedule = [];
     }
+    
+    /**
+     * @method filter
+     * @param {Array} parts
+     * @param {Array} styles
+     * @returns {Array}
+     */
+    Scheduler.prototype.filter = function(parts, styles) {
+        parts = (parts) ? parts : skritter.user.getActiveStudyParts();
+        styles = (styles) ? styles : skritter.user.getStyle();  
+        this.schedule = this.schedule.filter(function(item) {
+            if (item.vocabIds.length === 0)
+                return false;
+            if (!_.contains(parts, item.part))
+                return false;
+            if (styles.length > 0 && !_.contains(styles, item.style))
+                return false;
+            return true;
+        });
+        return this.schedule;
+    };
     
     /**
      * @method getDue
      * @returns {Array}
      */
     Scheduler.prototype.getDue = function() {
-        var activeParts = skritter.user.getActiveStudyParts();
         return this.sort().filter(function(item) {
-            if (_.contains(activeParts, item.part) && item.readiness >= 1.0)
+            if (item.readiness >= 1.0)
                 return true;
             return false;
         });
     };
-    
+
     /**
      * @method getDueCount
      * @returns {Number}
@@ -33,7 +52,7 @@ define(function() {
     Scheduler.prototype.getDueCount = function() {
         return this.getDue().length;
     };
-    
+
     /**
      * Returns a calculated interval based on the grade and other details about the item.
      * 
@@ -133,21 +152,16 @@ define(function() {
         }
         return newInterval;
     };
-    
+
     /**
      * @method getNext
      * @param {Function} callback
      */
     Scheduler.prototype.getNext = function(callback) {
-        var activeParts = skritter.user.getActiveStudyParts();
-        var items = this.sort().filter(function(item) {
-            if (_.contains(activeParts, item.part))
-                return true;
-            return false;
-        });
+        var items = this.sort();
         var position = 0;
         next();
-        function next() {            
+        function next() {
             var item = items[position];
             skritter.data.items.loadItems(item, false, function() {
                 item = skritter.data.items.findWhere({id: item.id});
@@ -161,12 +175,26 @@ define(function() {
             });
         }
     };
-    
+
+    /**
+     * @method loadFromDatabase
+     * @param {Function} callback
+     */
+    Scheduler.prototype.loadFromDatabase = function(callback) {
+        skritter.storage.getSchedule(function(schedule) {
+            skritter.scheduler.schedule = schedule;
+            skritter.scheduler.filter();
+            callback();
+        });
+    };
+
     /**
      * @method sort
+     * @param {Boolean} deprioritizeLongShots
      * @returns {Array}
      */
-    Scheduler.prototype.sort = function() {
+    Scheduler.prototype.sort = function(deprioritizeLongShots) {
+        deprioritizeLongShots = deprioritizeLongShots ? deprioritizeLongShots : true;
         var now = skritter.fn.getUnixTime();
         this.schedule = _.sortBy(this.schedule, function(item) {
             if (item.vocabIds.length === 0) {
@@ -181,6 +209,7 @@ define(function() {
                 item.readiness = 90019001;
                 return -item.readiness;
             }
+            var lengthPenalty;
             var seenAgo = now - item.last;
             var rtd = item.next - item.last;
             var readiness = seenAgo / rtd;
@@ -191,12 +220,23 @@ define(function() {
                 ageBonus *= readiness2 * readiness2;
                 readiness += ageBonus;
             }
+            if (deprioritizeLongShots) {
+                if (readiness > 2.5 && rtd > 600) {
+                    if (readiness > 20) {
+                        readiness = 1.5;
+                    } else {
+                        readiness = 3.5 - Math.pow(readiness * 0.4, 0.33333);
+                    }
+                }
+                if (lengthPenalty && readiness > 1)
+                    readiness = Math.pow(readiness, 1 + lengthPenalty);
+            }
             item.readiness = readiness;
             return -item.readiness;
         });
         return this.schedule;
     };
-    
+
     /**
      * @method updateItem
      * @param {Object} item
@@ -208,9 +248,10 @@ define(function() {
             last: item.get('last'),
             next: item.get('next'),
             part: item.get('part'),
+            style: item.get('style'),
             vocabIds: item.get('vocabIds')
         };
     };
-    
+
     return Scheduler;
 });
