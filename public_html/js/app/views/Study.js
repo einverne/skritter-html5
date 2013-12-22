@@ -48,7 +48,6 @@ define([
             var self = this;
             skritter.modal.show('progress').setTitle('Adding Items').setProgress(100);
             skritter.user.addItems(5, function() {
-                self.loadItems();
                 self.updateDueCount();
                 skritter.modal.hide();
             });

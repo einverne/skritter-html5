@@ -95,10 +95,10 @@ define([
                 1: function(transaction) {
                     transaction.createObjectStore('decomps', {keyPath: 'writing'});
                     transaction.createObjectStore('items', {keyPath: 'id'});
-                    transaction.createObjectStore('reviews', {keyPath: ['itemId', 'submitTime']});
+                    transaction.createObjectStore('reviews', {keyPath: 'id'});
                     transaction.createObjectStore('sentences', {keyPath: 'id'});
                     transaction.createObjectStore('strokes', {keyPath: 'rune'});
-                    transaction.createObjectStore('srsconfigs', {keyPath: ['part', 'lang']});
+                    transaction.createObjectStore('srsconfigs', {keyPath: 'part'});
                     transaction.createObjectStore('vocabs', {keyPath: 'id'});
                 }
             }

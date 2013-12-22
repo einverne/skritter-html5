@@ -585,12 +585,12 @@ define([
                 type: 'POST',
                 data: JSON.stringify(batch)
             });
-            promise.done(function(data) {
+            promise.done(function() {
                 postedReviews = postedReviews.concat(batch);
                 if (reviews.length > 0) {
                     postBatch(reviews.splice(0, 499));
                 } else {
-                    callback(postedReviews, data);
+                    callback(postedReviews);
                 }
             });
             promise.fail(function(error) {

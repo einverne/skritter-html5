@@ -23,7 +23,7 @@ define([
                 review.cache();
             });
             this.on('remove', function(review) {
-                skritter.storage.removeItems('reviews', [[review.get('itemId'), review.get('submitTime')]]);
+                skritter.storage.removeItems('reviews', review.get('id'));
             });
         },
         /**
