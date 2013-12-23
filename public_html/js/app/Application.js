@@ -131,7 +131,6 @@ define([
                         if (!skritter.user.getLastSync()) {
                             skritter.modal.show('progress').setTitle('Initial Download').setProgress('100');
                             skritter.user.sync(function() {
-                                //TODO: it'd be nice if it just started rather that having to reload
                                 document.location.reload(true);
                                 skritter.modal.hide();
                                 callback();

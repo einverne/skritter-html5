@@ -189,7 +189,7 @@ define(function() {
         var now = skritter.fn.getUnixTime();
         this.schedule = _.sortBy(this.schedule, function(item) {
             var historicItem = _.find(self.history, {base: item.base});
-            if (!historicItem || historicItem.part === item.part || (now - historicItem.last) >= 300) {
+            if (!historicItem || (now - historicItem.last) >= 300) {
                 if (!item.last && (item.next - now) > 600) {
                     item.readiness = 0.2;
                     return -item.readiness;

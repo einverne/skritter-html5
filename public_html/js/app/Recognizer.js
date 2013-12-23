@@ -58,11 +58,11 @@ define([
                     continue;
             }
 
-            if (!_.contains(ignoreCheck, 'offset')) {
+            /*if (!_.contains(ignoreCheck, 'offset')) {
                 var orderOffset = result.position - this.currentPosition;
                 if (_.contains(ignoreCheck, 'offset') || orderOffset > this.orderStrictness)
                     continue;
-            }
+            }*/
 
             var total = 0;
             for (var s in scores)
@@ -99,31 +99,39 @@ define([
      */
     Recognizer.prototype.getResultSet = function() {
         var results = [];
-        for (var a in this.targets)
-        {
+        var maxPosition = this.currentPosition + this.orderStrictness;
+        var minPosition = this.currentPosition - this.orderStrictness;
+        for (var a in this.targets) {
             var variations = this.targets[a];
-            for (var b in variations.models)
-            {
-                var bitmapId = variations.at(b).get('bitmapId');
-                var data = variations.at(b).get('data');
-                var id = variations.at(b).get('id');
-                var params = variations.at(b).getInflatedParams();
-                var part = variations.at(b).get('part');
-                var position = variations.at(b).get('position');
-                var variation = variations.at(b).get('variation');
-                var rune = variations.at(b).get('rune');
-                var sprite = variations.at(b).get('sprite');
+            for (var b in variations.models) {
+                var stroke = variations.at(b);
+                var position = stroke.get('position');
+                //filters out items not possible based on strictness settings
+                if (minPosition > position || position > maxPosition)
+                    continue;
+                //sets the remaining values to be passed to resultset
+                var bitmapId = stroke.get('bitmapId');
+                var data = stroke.get('data');
+                var id = stroke.get('id');
+                var params = stroke.getInflatedParams();
+                var part = stroke.get('part');
+                var variation = stroke.get('variation');
+                var rune = stroke.get('rune');
+                var sprite = stroke.get('sprite');
 
                 //TODO: update this backwards check to use the new params concept
                 //right now it's just a hack to manually inject params backwards
-                var reverseCorners = _.cloneDeep(params[0].get('corners')).reverse();
-                var reverseDeviations = _.cloneDeep(params[0].get('deviations')).reverse();
-                params.push(new StudyParam({
-                    bitmapId: bitmapId,
-                    corners: reverseCorners,
-                    deviations: reverseDeviations,
-                    feedback: 'backwards'
-                }));
+                //don't check accept anything backwards when studying squigs
+                if (!skritter.user.getSetting('squigs')) {
+                    var reverseCorners = _.cloneDeep(params[0].get('corners')).reverse();
+                    var reverseDeviations = _.cloneDeep(params[0].get('deviations')).reverse();
+                    params.push(new StudyParam({
+                        bitmapId: bitmapId,
+                        corners: reverseCorners,
+                        deviations: reverseDeviations,
+                        feedback: 'backwards'
+                    }));
+                }
 
                 for (var p in params) {
                     var result = [];

@@ -233,7 +233,7 @@ define([
                         //ISSUE #28: if the find the next stroke then don't try to show a hint
                         var nextStroke = Rune.userCharacter.getNextStroke();
                         if (nextStroke)
-                            Rune.canvas.drawPhantomStroke(nextStroke.getInflatedSprite(), 'hint');
+                            Rune.canvas.drawPhantomStroke(nextStroke.getInflatedSprite('#87cefa'), 'hint');
                     }
                 }
             }

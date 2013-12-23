@@ -148,8 +148,6 @@ define([
                 //keep an updated display of items due
                 self.updateDueCount();
                 //gets the next item and vocab that should be studied and loads it
-                //item = {id: 'itaju-zh-法律-0-rune'};
-                //load the new item and vocabs into the study view
                 Study.current.item = item;
                 Study.current.vocabs = Study.current.item.getVocabs();
                 console.log(Study.current);
