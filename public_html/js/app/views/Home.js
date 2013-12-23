@@ -28,6 +28,7 @@ define([
         render: function() {
             if (skritter.user.isLoggedIn()) {
                 this.$el.html(templateLoggedIn);
+                skritter.scheduler.sort();
                 this.$('#user-avatar').html(skritter.user.getAvatar('img-circle'));
                 this.$('.user-name').text(skritter.user.getSetting('name'));
                 this.$('#user-items-due').text(skritter.scheduler.getDueCount());

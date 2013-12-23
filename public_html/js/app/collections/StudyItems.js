@@ -36,14 +36,6 @@ define([
             });
         },
         /**
-         * @method comparator
-         * @param {StudyItem} item
-         * @returns {StudyItem}
-         */
-        /*comparator: function(item) {
-            return -item.getReadiness();
-        },*/
-        /**
          * @method filterBy
          * @param {String} attribute
          * @param {String} value

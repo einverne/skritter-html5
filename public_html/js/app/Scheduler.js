@@ -9,6 +9,7 @@ define(function() {
      * @class Scheduler
      */
     function Scheduler() {
+        this.history = [];
         this.schedule = [];
     }
     
@@ -38,7 +39,7 @@ define(function() {
      * @returns {Array}
      */
     Scheduler.prototype.getDue = function() {
-        return this.sort().filter(function(item) {
+        return this.schedule.filter(function(item) {
             if (item.readiness >= 1.0)
                 return true;
             return false;
@@ -67,7 +68,6 @@ define(function() {
         var getRandomizedInterval = function(interval) {
             return Math.round(interval * (0.925 + (Math.random() * 0.15)));
         };
-
         //return new items with randomized default config values
         if (!item.has('last')) {
             switch (grade) {
@@ -86,13 +86,11 @@ define(function() {
             }
             return getRandomizedInterval(newInterval);
         }
-
         //set values for further calculations
         var actualInterval = skritter.fn.getUnixTime() - item.get('last');
         var factor;
         var pctRight = item.get('successes') / item.get('reviews');
         var scheduledInterval = item.get('next') - item.get('last');
-
         //get the factor 
         if (grade === 2) {
             factor = 0.9;
@@ -110,30 +108,23 @@ define(function() {
             }
             factor = factorsList[index];
         }
-
         //adjust the factor based on readiness
         if (grade > 2) {
             factor -= 1;
             factor *= actualInterval / scheduledInterval;
             factor += 1;
         }
-
         //accelerate new items that appear to be known
         if (item.get('successes') === item.get('reviews') && item.get('reviews') < 5) {
             factor *= 1.5;
         }
-
         //decelerate hard items consistently marked wrong
         if (item.get('reviews') > 8) {
             if (pctRight < 0.5)
                 factor *= Math.pow(pctRight, 0.7);
         }
-
-        //console.log('FACTOR', factor);
-
         //multiple by the factor and randomize the interval
         newInterval = getRandomizedInterval(item.get('interval') * factor);
-
         //bound the interval
         if (grade === 1) {
             if (newInterval > 604800) {
@@ -168,7 +159,6 @@ define(function() {
                 if (item.checkIntegrity()) {
                     callback(item);
                 } else {
-                    console.log(item, 'failed an integrity check');
                     position++;
                     next();
                 }
@@ -194,22 +184,21 @@ define(function() {
      * @returns {Array}
      */
     Scheduler.prototype.sort = function(deprioritizeLongShots) {
-        deprioritizeLongShots = deprioritizeLongShots ? deprioritizeLongShots : true;
+        var self = this;
+        deprioritizeLongShots = deprioritizeLongShots ? deprioritizeLongShots : false;
         var now = skritter.fn.getUnixTime();
         this.schedule = _.sortBy(this.schedule, function(item) {
-            if (item.vocabIds.length === 0) {
-                item.readiness = 0;
-                return -item.readiness;
+            var historicItem = _.find(self.history, {base: item.base});
+            if (!historicItem || historicItem.part === item.part || (now - historicItem.last) >= 300) {
+                if (!item.last && (item.next - now) > 600) {
+                    item.readiness = 0.2;
+                    return -item.readiness;
+                }
+                if (!item.last || (item.next - item.last) === 1) {
+                    item.readiness = 90019001;
+                    return -item.readiness;
+                }
             }
-            if (!item.last && (item.next - now) > 600) {
-                item.readiness = 0.2;
-                return -item.readiness;
-            }
-            if (!item.last || (item.next - item.last) === 1) {
-                item.readiness = 90019001;
-                return -item.readiness;
-            }
-            var lengthPenalty;
             var seenAgo = now - item.last;
             var rtd = item.next - item.last;
             var readiness = seenAgo / rtd;
@@ -221,6 +210,7 @@ define(function() {
                 readiness += ageBonus;
             }
             if (deprioritizeLongShots) {
+                var lengthPenalty;
                 if (readiness > 2.5 && rtd > 600) {
                     if (readiness > 20) {
                         readiness = 1.5;
@@ -234,16 +224,21 @@ define(function() {
             item.readiness = readiness;
             return -item.readiness;
         });
+        /*console.log('READINESS ORDER');
+        for (var i in this.schedule)
+                console.log(this.schedule[i].readiness, this.schedule[i].id);*/
         return this.schedule;
     };
-
+    
     /**
      * @method updateItem
-     * @param {Object} item
+     * @param {Backbone.Model} item
      */
     Scheduler.prototype.updateItem = function(item) {
         var id = item.get('id');
-        this.schedule[_.findIndex(this.schedule, {id: id})] = {
+        var splitId = id.split('-');
+        var scheduleItem = {
+            base: splitId[1] + '-' + splitId[2] + '-' + splitId[3],
             id: id,
             last: item.get('last'),
             next: item.get('next'),
@@ -251,6 +246,13 @@ define(function() {
             style: item.get('style'),
             vocabIds: item.get('vocabIds')
         };
+        this.schedule[_.findIndex(this.schedule, {id: id})] = scheduleItem;
+        var historicIndex = _.findIndex(this.history, {base: scheduleItem.base});
+        if (historicIndex > -1) {
+            this.history[historicIndex] = scheduleItem;
+        } else {
+            this.history.push(scheduleItem);
+        }
     };
 
     return Scheduler;

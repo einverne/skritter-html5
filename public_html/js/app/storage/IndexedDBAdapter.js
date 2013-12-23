@@ -205,9 +205,11 @@ define([
         var table = this.database.objectStore('items');
         var promise = table.each(function(item) {
             if (item.value.vocabIds.length > 0) {
+                var splitId = item.value.id.split('-');
                 items.push({
+                    base: splitId[1] + '-' + splitId[2] + '-' + splitId[3],
                     id: item.value.id,
-                    last: item.value.last,
+                    last: (item.value.last) ? item.value.last : 0,
                     next: item.value.next,
                     part: item.value.part,
                     style: item.value.style,

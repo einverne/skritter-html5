@@ -99,8 +99,7 @@ define([
             }
             console.log('PROMPT COMPLETE', results);
             Study.current.prompt.undelegateEvents();
-            //keep an updated display of items due
-            this.updateDueCount();
+            
             //get the next item
             this.nextPrompt();
         },
@@ -146,6 +145,8 @@ define([
         nextPrompt: function() {
             var self = this;
             skritter.scheduler.getNext(function(item) {
+                //keep an updated display of items due
+                self.updateDueCount();
                 //gets the next item and vocab that should be studied and loads it
                 //item = {id: 'itaju-zh-法律-0-rune'};
                 //load the new item and vocabs into the study view

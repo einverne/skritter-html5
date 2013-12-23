@@ -161,7 +161,7 @@ define([
          * @returns {Boolean}
          */
         isNew: function() {
-            if (this.get('reviews') < 1)
+            if (this.has('last'))
                 return true;
             return false;
         },
