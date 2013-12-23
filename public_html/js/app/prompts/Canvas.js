@@ -26,13 +26,14 @@ define([
          * @returns {PromptCanvas}
          */
         render: function() {
-            Canvas.prototype.render.call(this);
+            this.createLayer('grid');
             this.createLayer('background');
             this.createLayer('hint');
             this.createLayer('stroke');
             this.createLayer('overlay');
             this.createLayer('indicator');
             this.createLayer('feedback');
+            Canvas.prototype.render.call(this);
             return this;
         }
     });

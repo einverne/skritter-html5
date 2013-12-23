@@ -20,7 +20,8 @@ define([
          */
         initialize: function() {
             this.on('change:points', function(stroke) {
-                stroke.set('corners', Shortstraw(_.clone(stroke.get('points'))));
+                var points = _.clone(stroke.get('points'));
+                stroke.set('corners', Shortstraw(points));
             });
         },
         /**
@@ -79,10 +80,11 @@ define([
          * Returns the sprite transformed to fit the stroke data and canvas size.
          * 
          * @method getInflatedSprite
+         * @param {String} color
          * @return {unresolved}
          */
-        getInflatedSprite: function() {
-            var sprite = this.get('sprite').clone();
+        getInflatedSprite: function(color) {
+            var sprite = skritter.assets.getStroke(this.get('bitmapId'), color);
             var spriteBounds = sprite.getBounds();
             var data = this.getInflatedData();         
             var ms = sprite.getMatrix();
@@ -177,19 +179,21 @@ define([
          * Returns the raw sprite without any transformations or positioning.
          * 
          * @method getSprite
+         * @param {String} color
          * @returns {Bitmap}
          */
-        getSprite: function() {
-            return this.get('sprite');
+        getSprite: function(color) {
+            return skritter.assets.getStroke(this.get('bitmapId', color));
         },
         /**
          * Returns a sprite of the target stroke that has been altered based on the users input.
          * 
          * @method getUserSprite
+         * @param {String} color
          * @return {Bitmap}
          */
-        getUserSprite: function() {
-            var sprite = this.getInflatedSprite();
+        getUserSprite: function(color) {
+            var sprite = this.getInflatedSprite(color);
             var rect = this.getRectangle();
             sprite.x = rect.x;
             sprite.y = rect.y;

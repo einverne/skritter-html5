@@ -135,10 +135,16 @@ define([
          * Returns the next stroke based on the predicted variation.
          * 
          * @method getNextStroke
+         * @param {Boolean} forceLast
          * @returns {CanvasStroke}
          */
-        getNextStroke: function() {
-            var index = this.getVariationIndex();
+        getNextStroke: function(forceLast) {
+            var index;
+            if (forceLast) {
+                index = this.targets.length - 1;
+            } else {
+                index = this.getVariationIndex();
+            }
             var position = this.getConsecutiveStrokeCount() + 1;
             var stroke = this.targets[index].findWhere({position: position});
             if (stroke)

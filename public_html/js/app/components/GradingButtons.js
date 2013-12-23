@@ -81,9 +81,14 @@ define([
         },
         /**
          * @method hide
+         * @param {Boolean} skipAnimation
          */
-        hide: function() {
-            this.$('#grading-buttons').hide(GradingButtons.animationSpeed);
+        hide: function(skipAnimation) {
+            if (skipAnimation) {
+                this.$('#grading-buttons').hide();
+            } else {
+                this.$('#grading-buttons').hide(GradingButtons.animationSpeed);
+            }
             return this;
         },
         /**

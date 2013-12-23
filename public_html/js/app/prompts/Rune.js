@@ -34,6 +34,7 @@ define([
             Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 15;
             Rune.strokeCount = 0;
+            Rune.teachingMode = false;
             Rune.userCharacter = null;
             this.listenTo(Rune.canvas, 'mousedown', this.handleInputDown);
             this.listenTo(Rune.canvas, 'mouseup', this.handleInputRecieved);
@@ -54,7 +55,7 @@ define([
          * @return {Backbone.View}
          */
         clear: function() {
-            Prompt.gradingButtons.hide();
+            Prompt.gradingButtons.hide(true);
             Prompt.finished = false;
             Rune.canvas.clear('background');
             Rune.canvas.clear('hint');
@@ -208,7 +209,7 @@ define([
                     } else {
                         //display feedback if it exists
                         if (result.get('feedback'))
-                            Rune.canvas.drawText(result.get('feedback'), 'feedback', 'orange', '24px Arial', 10, 10);
+                            Rune.canvas.showMessage(result.get('feedback').toUpperCase());
                         //mark the result as tweening and snap it
                         result.set('isTweening', true);
                         Rune.canvas.drawTweenedStroke(result.getUserSprite(), result.getInflatedSprite(), 'stroke', _.bind(this.handleStrokeRecognized, this, result));
@@ -217,9 +218,10 @@ define([
                             Rune.canvas.drawPhantomStroke(Rune.userCharacter.getExpectedStroke().getInflatedSprite(), 'hint');
                     }
                     //ISSUE #63: show the grading buttons and grade color preemptively
-                    if (Rune.userCharacter.getStrokeCount(false) >= Rune.userCharacter.getTargetStrokeCount()) {
+                    if (Rune.userCharacter.getStrokeCount(false) >= Rune.userCharacter.getTargetStrokeCount())
                         Prompt.gradingButtons.select().collapse();
-                    }
+                    if (Rune.teachingMode)
+                        this.teach();
                 } else {
                     Rune.failedAttempts++;
                     //fade the shape out 
@@ -263,6 +265,9 @@ define([
                 Rune.userCharacter = new CanvasCharacter();
             }
             Rune.userCharacter.targets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'rune');
+            if (Rune.teachingMode) {
+                this.teach();
+            }
             console.log('variations', Rune.userCharacter.targets);
             Rune.canvas.enableInput();
         },
@@ -289,6 +294,24 @@ define([
         showTarget: function(alpha) {
             if (!Prompt.finished)
                 Rune.canvas.drawCharacter(Rune.userCharacter.targets[Rune.userCharacter.getVariationIndex()].getCharacterSprite(), 'hint', alpha);
+        },
+        /**
+         * @method teach
+         */
+        teach: function() {
+            Rune.teachingMode = true;
+            if (Rune.userCharacter.getStrokeCount() === 0)
+                this.showTarget(0.5);
+            var nextStroke = Rune.userCharacter.getNextStroke(true);
+            Rune.canvas.clear('overlay');
+            if (nextStroke) {
+                Rune.canvas.drawStroke(nextStroke.getInflatedSprite('#87cefa'), 'overlay', 0.8);
+            } else {
+                this.clear();
+                Prompt.gradingButtons.grade(1);
+                Rune.teachingMode = false;
+                Rune.canvas.showMessage('Now you give it a try!');
+            }
         }
     });
 

@@ -22,7 +22,6 @@ define([
         this.canvasSize = skritter.settings.get('canvasSize');
         //set the scaled threshold values
         this.angleThreshold = 30;
-        //TODO: hook these settings into the users
         this.distanceThreshold = 150 * (this.canvasSize / 600);
         this.lengthThreshold = 300 * (this.canvasSize / 600);
         this.orderStrictness = 0;
@@ -42,7 +41,10 @@ define([
         {
             var result = results[i];
             var scores = result.scores;
-
+            if (!_.contains(ignoreCheck, 'corners')) {
+                if (scores.corners === false)
+                    continue;
+            }
             if (!_.contains(ignoreCheck, 'angle')) {
                 if (scores.angle > this.angleThreshold)
                     continue;
@@ -170,7 +172,10 @@ define([
      */
     Recognizer.prototype.checkCorners = function(param) {
         var cornerPenalty = 200;
-        return Math.abs(param.get('corners').length - this.stroke.get('corners').length) * cornerPenalty;
+        var cornerDiff = Math.abs(param.get('corners').length - this.stroke.get('corners').length);
+        if (cornerDiff > 1)
+            return false;
+        return cornerDiff * cornerPenalty;
     };
 
     /**

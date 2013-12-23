@@ -39,7 +39,6 @@ define([
          */
         render: function() {
             this.$el.html(Canvas.element);
-            this.createLayer('grid');
             this.createLayer('input');
             if (Canvas.grid)
                 this.drawGrid('grid');
@@ -242,7 +241,6 @@ define([
          * @method drawSquig
          * @param {CreateJS.Shape} marker
          * @param {String} layerName
-         * @param {Number} alpha
          * @returns {CreateJS.Container}
          */
         drawSquig: function(marker, layerName) {
@@ -458,6 +456,18 @@ define([
             return layers;
         },
         /**
+         * @method pulseStroke
+         * @param {CreateJS.Shape} stroke
+         * @param {String} layerName
+         * @returns {CreateJS.Container}
+         */
+        pulseStroke: function(stroke, layerName) {
+            var layer = this.getLayer(layerName);
+            layer.addChild(stroke);
+            createjs.Tween.get(stroke, {loop: true}).to({alpha: 0.4}, 1000).wait(500).to({alpha:1}, 1000);
+            return layer;
+        },
+        /**
          * @method setLayerAlpha
          * @param {String} layerName
          * @param {Number} alpha
@@ -465,9 +475,32 @@ define([
          */
         setLayerAlpha: function(layerName, alpha) {
             var layer = this.getLayer(layerName);
-            layer.cache(0, 0, Canvas.size, Canvas.size);
             layer.alpha = alpha;
+            layer.cache(0, 0, Canvas.size, Canvas.size);
             return layer;
+        },
+        /**
+         * @method showMessage
+         * @param {String} text
+         * @returns {Backbone.View}
+         */
+        showMessage: function(text) {
+            var layer = this.getLayer('feedback');
+            var message = new createjs.Container();
+            var box = new createjs.Shape(new createjs.Graphics().beginFill('grey').drawRect(0, 0, Canvas.size, 30));
+            var line = new createjs.Shape(new createjs.Graphics().beginStroke('black').moveTo(0, 30).lineTo(Canvas.size, 30));
+            message.y = -30;
+            message.addChild(box);
+            message.addChild(line);
+            text = new createjs.Text(text, '20px Arial', '#ffffff');
+            text.x = (Canvas.size / 2) - (text.getMeasuredWidth() / 2);
+            text.y = 2.5;
+            message.addChild(text);
+            createjs.Tween.get(message).to({y: 0}, 200, createjs.Ease.sineOut).wait(2000).to({y: -30}, 1000, createjs.Ease.bounceOut).call(function() {
+                layer.removeChild(message);
+            });
+            layer.addChild(message);
+            return this;
         },
         /**
          * @method resize

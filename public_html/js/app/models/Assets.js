@@ -38,20 +38,12 @@ define([
          * 
          * @method getStroke
          * @param {String} bitmapId
+         * @param {String} color
          * @return {Sprite}
          */
-        getStroke: function(bitmapId) {
-            if (skritter.settings.get('strokeFormat') === 'vector')
-                return Assets.strokeShapes[bitmapId].clone();
-            return Assets.strokeSprites[bitmapId].clone();
-        },
-        /**
-         * @method loadStrokeShapes
-         * @param {Function} callback
-         */
-        loadStrokeShapes: function(callback) {
-            Assets.strokeShapes = Strokes.getStrokeShapes();
-            callback();
+        getStroke: function(bitmapId, color) {
+            color = (color) ? color : '#000000';
+            return Strokes[bitmapId](color).clone();
         }
     });
 

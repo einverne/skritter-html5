@@ -37,11 +37,7 @@ define([
      */
     var loadAssets = function(callback) {
         skritter.assets = new Assets();
-        skritter.async.parallel([
-            skritter.async.apply(skritter.assets.loadStrokeShapes)
-        ], function() {
-            callback();
-        });
+        callback();
     };
 
     /**
