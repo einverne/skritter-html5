@@ -77,9 +77,13 @@ define([
         sync: function(callback) {
             if (this.length > 0) {
                 skritter.api.postReviews(this.toJSON(), function(reviews) {
-                    console.log('submitted reviews', reviews);
-                    skritter.data.reviews.remove(reviews);
-                    callback(reviews.length);
+                    if (reviews) {
+                        console.log('submitted reviews', reviews);
+                        skritter.data.reviews.remove(reviews);
+                        callback(reviews.length);
+                    } else {
+                        callback(0);
+                    }
                 });
             } else {
                 callback(0);

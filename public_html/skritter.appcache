@@ -53,6 +53,7 @@ js/app/Api.js
 js/app/Application.js
 js/app/Functions.js
 js/app/Jasmine.js
+js/app/Log.js
 js/app/Mauler.js
 js/app/Params.js
 js/app/PinyinConverter.js

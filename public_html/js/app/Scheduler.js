@@ -224,9 +224,10 @@ define(function() {
             item.readiness = readiness;
             return -item.readiness;
         });
-        /*console.log('READINESS ORDER');
-        for (var i in this.schedule)
-                console.log(this.schedule[i].readiness, this.schedule[i].id);*/
+        console.log('READINESS ORDER');
+        var top = this.schedule.slice(0, 9);
+        for (var i in top)
+                console.log(top[i].readiness, top[i].id);
         return this.schedule;
     };
     

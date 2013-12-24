@@ -55,7 +55,7 @@ define([
 
             //decompositions
             var decomps = Info.vocab.getDecomps();
-            if (decomps.length > 0) {
+            if (decomps && decomps.length > 0) {
                 this.$('#decompositions tbody').html('');
                 for (var c in decomps) {
                     var decomp = decomps[c];

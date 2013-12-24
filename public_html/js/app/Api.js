@@ -595,7 +595,7 @@ define([
             });
             promise.fail(function(error) {
                 console.error(error);
-                callback();
+                callback(postedReviews);
             });
         };
         postBatch(reviews.splice(0, 499));
