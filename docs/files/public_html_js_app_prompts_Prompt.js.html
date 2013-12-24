@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -195,14 +197,22 @@
 /**
  * @module Skritter
  * @submodule Prompts
+ * @param PinyinConverter
  * @param GradingButtons
  * @author Joshua McFarland
  */
 define([
+    &#x27;PinyinConverter&#x27;,
     &#x27;components/GradingButtons&#x27;,
     &#x27;backbone&#x27;
-], function(GradingButtons) {
+], function(PinyinConverter, GradingButtons) {
+    /**
+     * @class Prompt
+     */
     var Prompt = Backbone.View.extend({
+        /**
+         * @method initialize
+         */
         initialize: function() {
             Prompt.contained = [];
             Prompt.definition = &#x27;&#x27;;
@@ -221,6 +231,7 @@ define([
                 4: new createjs.ColorFilter(0, 0, 0, 1, 112, 218, 112, 1)
             };
             Prompt.item = null;
+            Prompt.part = null;
             Prompt.position = 1;
             Prompt.reading = &#x27;&#x27;;
             Prompt.results = [];
@@ -230,17 +241,48 @@ define([
             this.listenTo(skritter.settings, &#x27;resize&#x27;, this.resize);
             this.listenTo(Prompt.gradingButtons, &#x27;selected&#x27;, this.handleGradeSelected);
         },
+        /**
+         * @method render
+         */
         render: function() {
             Prompt.gradingButtons.setElement(this.$(&#x27;#grading-container&#x27;)).render();
             this.$(&#x27;.prompt-writing&#x27;).addClass(skritter.user.getTextStyle());
             this.$(&#x27;.prompt-sentence&#x27;).addClass(skritter.user.getTextStyle());
             this.resize();
         },
+        /**
+         * @property {Object} events
+         */
+        events: {
+            &#x27;click.Prompt #info-container .hidden-reading&#x27;: &#x27;handleHiddenReadingClicked&#x27;
+        },
+        /**
+         * @method handleGradeSelected
+         * @param {Number} selected
+         */
         handleGradeSelected: function(selected) {
             Prompt.grade = selected;
             if (Prompt.finished) {
                 this.next();
             }
+        },
+        /**
+         * @method handleHiddenReadingClicked
+         */
+        handleHiddenReadingClicked: function() {
+            this.$(&#x27;.prompt-reading&#x27;).removeClass(&#x27;hidden-reading&#x27;);
+            if (Prompt.part === &#x27;rune&#x27;) {
+                this.$(&#x27;.prompt-reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));
+            } else if (Prompt.part === &#x27;tone&#x27;) {
+                this.$(&#x27;.prompt-reading&#x27;).html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
+            }
+        },
+        /**
+         * @method hideReading
+         */
+        hideReading: function() {
+            this.$(&#x27;.prompt-reading&#x27;).addClass(&#x27;hidden-reading&#x27;);
+            this.$(&#x27;.prompt-reading&#x27;).text(&#x27;show&#x27;);
         },
         /**
          * @method isFinished
@@ -273,6 +315,9 @@ define([
                 return true;
             return false;
         },
+        /**
+         * @method next
+         */
         next: function() {
             //store the results for the item or subitem
             Prompt.results.push({
@@ -308,8 +353,9 @@ define([
         set: function(vocabs, item) {
             console.log(&#x27;PROMPT&#x27;, vocabs[0].get(&#x27;writing&#x27;), item, vocabs);
             Prompt.contained = item.getContained();
-            Prompt.definition = vocabs[0].get(&#x27;definitions&#x27;)[skritter.user.getSetting(&#x27;sourceLang&#x27;)];
+            Prompt.definition = vocabs[0].getDefinition();
             Prompt.item = item;
+            Prompt.part = item.get(&#x27;part&#x27;);
             Prompt.reading = vocabs[0].get(&#x27;reading&#x27;);
             Prompt.sentence = vocabs[0].getSentence();
             Prompt.vocabs = vocabs;

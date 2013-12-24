@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -213,6 +215,14 @@ define([
                 if (typeof callback === &#x27;function&#x27;)
                     callback();
             });
+        },
+        /**
+         * @method comparator
+         * @param {Object} review
+         * @returns {Number}
+         */
+        comparator: function(review) {
+            return review.get(&#x27;submitTime&#x27;);
         }
     });
 

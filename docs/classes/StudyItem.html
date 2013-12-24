@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -196,7 +198,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/public_html_js_app_models_StudyItem.js.html#l13"><code>public_html\js\app\models\StudyItem.js:13</code></a>
+            Defined in: <a href="../files/public_html_js_app_models_StudyItem.js.html#l11"><code>public_html\js\app\models\StudyItem.js:11</code></a>
         </div>
     
 
@@ -248,6 +250,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_checkIntegiry">checkIntegiry</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_getCharacterCount">getCharacterCount</a>
 
                                 
@@ -262,6 +271,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_getContainedIds">getContainedIds</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_getReadiness">getReadiness</a>
 
                                 
@@ -269,14 +285,14 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getVocabs">getVocabs</a>
+                                <a href="#method_getVariations">getVariations</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_integrityCheck">integrityCheck</a>
+                                <a href="#method_getVocabs">getVocabs</a>
 
                                 
                                 
@@ -361,7 +377,7 @@
             
         
         
-        <a href="../files/public_html_js_app_models_StudyItem.js.html#l17"><code>public_html\js\app\models\StudyItem.js:17</code></a>
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l15"><code>public_html\js\app\models\StudyItem.js:15</code></a>
         
         </p>
 
@@ -406,6 +422,76 @@
 </div>
 
                 
+                    <div id="method_checkIntegiry" class="method item">
+    <h3 class="name"><code>checkIntegiry</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l25"><code>public_html\js\app\models\StudyItem.js:25</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_getCharacterCount" class="method item">
     <h3 class="name"><code>getCharacterCount</code></h3>
 
@@ -442,7 +528,7 @@
             
         
         
-        <a href="../files/public_html_js_app_models_StudyItem.js.html#l47"><code>public_html\js\app\models\StudyItem.js:47</code></a>
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l97"><code>public_html\js\app\models\StudyItem.js:97</code></a>
         
         </p>
 
@@ -512,7 +598,79 @@
             
         
         
-        <a href="../files/public_html_js_app_models_StudyItem.js.html#l27"><code>public_html\js\app\models\StudyItem.js:27</code></a>
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l58"><code>public_html\js\app\models\StudyItem.js:58</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the contained items for multi-character words. Data is stored for
+the contained characters regardsless of whether they are being studied or not.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getContainedIds" class="method item">
+    <h3 class="name"><code>getContainedIds</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l78"><code>public_html\js\app\models\StudyItem.js:78</code></a>
         
         </p>
 
@@ -594,7 +752,7 @@ the contained characters regardsless of whether they are being studied or not.</
             
         
         
-        <a href="../files/public_html_js_app_models_StudyItem.js.html#l56"><code>public_html\js\app\models\StudyItem.js:56</code></a>
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l106"><code>public_html\js\app\models\StudyItem.js:106</code></a>
         
         </p>
 
@@ -651,6 +809,76 @@ the contained characters regardsless of whether they are being studied or not.</
 </div>
 
                 
+                    <div id="method_getVariations" class="method item">
+    <h3 class="name"><code>getVariations</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l141"><code>public_html\js\app\models\StudyItem.js:141</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_getVocabs" class="method item">
     <h3 class="name"><code>getVocabs</code></h3>
 
@@ -687,7 +915,7 @@ the contained characters regardsless of whether they are being studied or not.</
             
         
         
-        <a href="../files/public_html_js_app_models_StudyItem.js.html#l93"><code>public_html\js\app\models\StudyItem.js:93</code></a>
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l148"><code>public_html\js\app\models\StudyItem.js:148</code></a>
         
         </p>
 
@@ -711,78 +939,6 @@ the contained characters regardsless of whether they are being studied or not.</
                 
                     
                         <span class="type">Array</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_integrityCheck" class="method item">
-    <h3 class="name"><code>integrityCheck</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/public_html_js_app_models_StudyItem.js.html#l104"><code>public_html\js\app\models\StudyItem.js:104</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>This check should be used to try and catch common errors with data that could prevent studying
-certain items.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
                     
                 
             </div>
@@ -829,7 +985,7 @@ certain items.</p>
             
         
         
-        <a href="../files/public_html_js_app_models_StudyItem.js.html#l121"><code>public_html\js\app\models\StudyItem.js:121</code></a>
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l159"><code>public_html\js\app\models\StudyItem.js:159</code></a>
         
         </p>
 
@@ -939,7 +1095,7 @@ certain items.</p>
             
         
         
-        <a href="../files/public_html_js_app_models_StudyItem.js.html#l130"><code>public_html\js\app\models\StudyItem.js:130</code></a>
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l168"><code>public_html\js\app\models\StudyItem.js:168</code></a>
         
         </p>
 
@@ -1114,7 +1270,7 @@ certain items.</p>
             
         
         
-        <a href="../files/public_html_js_app_models_StudyItem.js.html#l172"><code>public_html\js\app\models\StudyItem.js:172</code></a>
+        <a href="../files/public_html_js_app_models_StudyItem.js.html#l211"><code>public_html\js\app\models\StudyItem.js:211</code></a>
         
         </p>
 

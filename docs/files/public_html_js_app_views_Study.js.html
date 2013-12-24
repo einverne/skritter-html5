@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -222,7 +224,7 @@ define([
             if (Study.current.prompt) {
                 this.loadPrompt();
             } else {
-                this.nextItem();
+                this.nextPrompt();
             }
             this.updateDueCount();
             return this;
@@ -231,9 +233,9 @@ define([
          * @property {Object} events
          */
         events: {
-            &#x27;click.Study #add-button&#x27;: &#x27;addItems&#x27;,
-            &#x27;click.Study #audio-button&#x27;: &#x27;playAudio&#x27;,
-            &#x27;click.Study #info-button&#x27;: &#x27;navigateInfo&#x27;
+            &#x27;click.Study #study-view #add-button&#x27;: &#x27;addItems&#x27;,
+            &#x27;click.Study #study-view #audio-button&#x27;: &#x27;playAudio&#x27;,
+            &#x27;click.Study #study-view #info-button&#x27;: &#x27;navigateInfo&#x27;
         },
         /**
          * @method addItem
@@ -242,7 +244,6 @@ define([
             var self = this;
             skritter.modal.show(&#x27;progress&#x27;).setTitle(&#x27;Adding Items&#x27;).setProgress(100);
             skritter.user.addItems(5, function() {
-                self.loadItems();
                 self.updateDueCount();
                 skritter.modal.hide();
             });
@@ -252,62 +253,51 @@ define([
          * @param {Object} results
          */
         handlePromptComplete: function(results) {
-            var finalGrade = 3;
-            var totalGrade = 0;
-            var totalWrong = 0;
-            var totalReviewTime = 0;
-            var totalThinkingTime = 0;
-            //create a unique word group for all of the prompt items to share
-            var wordGroup = Study.current.item.get(&#x27;id&#x27;) + &#x27;_&#x27; + results[0].startTime;
-            //update and calculate subitems
-            if (results.length &gt; 1) {
-                for (var i in results) {
-                    var result = results[i];
-                    if (result.grade &lt; 2)
-                        totalWrong++;
-                    totalGrade += result.grade;
-                    totalReviewTime += result.reviewTime;
-                    totalThinkingTime += result.thinkingTime;
-                    result.item.update(result.grade, result.reviewTime, result.startTime, result.thinkingTime, wordGroup, false);
-                }
-                //adjust the grade for multiple character items or get rounded down average
-                if (Study.current.vocabs[0].getCharacterCount() === 2 &amp;&amp; totalWrong === 1) {
-                    finalGrade = 1;
-                } else if (totalWrong &gt;= 2) {
-                    finalGrade = 1;
-                } else {
-                    finalGrade = Math.floor(totalGrade / results.length);
-                }
-                Study.current.item.update(finalGrade, totalReviewTime, results[0].startTime, totalThinkingTime, wordGroup, true);
+            //runs a check to make sure multi-character reviews have contained items
+            if (results.length &gt; 1 &amp;&amp; _.contains(_.pluck(results, &#x27;item&#x27;), undefined)) {
+                console.log(&#x27;review error&#x27;, results);
+                Study.current.item.set({
+                    flag: true,
+                    flagMessage: &quot;The contained items for this character don&#x27;t exist.&quot;,
+                    vocabIds: []
+                });
             } else {
-                Study.current.item.update(results[0].grade, results[0].reviewTime, results[0].startTime, results[0].thinkingTime, wordGroup, true);
+                var finalGrade = 3;
+                var totalGrade = 0;
+                var totalWrong = 0;
+                var totalReviewTime = 0;
+                var totalThinkingTime = 0;
+                //create a unique word group for all of the prompt items to share
+                var wordGroup = Study.current.item.get(&#x27;id&#x27;) + &#x27;_&#x27; + results[0].startTime;
+                //update and calculate subitems
+                if (results.length &gt; 1) {
+                    for (var i in results) {
+                        var result = results[i];
+                        if (result.grade &lt; 2)
+                            totalWrong++;
+                        totalGrade += result.grade;
+                        totalReviewTime += result.reviewTime;
+                        totalThinkingTime += result.thinkingTime;
+                        result.item.update(result.grade, result.reviewTime, result.startTime, result.thinkingTime, wordGroup, false);
+                    }
+                    //adjust the grade for multiple character items or get rounded down average
+                    if (Study.current.vocabs[0].getCharacterCount() === 2 &amp;&amp; totalWrong === 1) {
+                        finalGrade = 1;
+                    } else if (totalWrong &gt;= 2) {
+                        finalGrade = 1;
+                    } else {
+                        finalGrade = Math.floor(totalGrade / results.length);
+                    }
+                    Study.current.item.update(finalGrade, totalReviewTime, results[0].startTime, totalThinkingTime, wordGroup, true);
+                } else {
+                    Study.current.item.update(results[0].grade, results[0].reviewTime, results[0].startTime, results[0].thinkingTime, wordGroup, true);
+                }
             }
             console.log(&#x27;PROMPT COMPLETE&#x27;, results);
             Study.current.prompt.undelegateEvents();
-            //keep an updated display of items due
-            this.updateDueCount();
+            
             //get the next item
-            this.nextItem();
-        },
-        /**
-         * @method loadItems
-         * @param {String} attribute
-         * @param {Array} values
-         * @param {Boolean} autoLoad
-         * @returns {Backbone.Collection}
-         */
-        loadItems: function(attribute, values, autoLoad) {
-            if (attribute &amp;&amp; values) {
-                Study.items = skritter.data.items.filterBy(attribute, values).filterBy(&#x27;lang&#x27;, skritter.user.getSetting(&#x27;targetLang&#x27;));
-                if (Study.items.length &lt; 1)
-                    return false;
-                if (autoLoad)
-                    this.nextItem();
-            } else {
-                Study.items = skritter.data.items.getActive();
-
-            }
-            return Study.items;
+            this.nextPrompt();
         },
         /**
          * @method loadPrompt
@@ -346,46 +336,43 @@ define([
         },
         /**
          * @method nextItem
-         * @returns {Object}
+         * @returns {Backbone.View}
          */
-        nextItem: function() {
-            //sort the items collection to put a new item on top
-            skritter.data.items.sort();
-            //gets the next item that should be studied and loads it
-            Study.current.item = skritter.data.items.getActive()[0];
-            //Study.current.item = skritter.data.items.findWhere({id: &#x27;mcfarljwtest1-zh-的-0-tone&#x27;});
-            Study.current.vocabs = Study.current.item.getVocabs();    
-            //runs an integrity check on the item to catch errors that might prevent completion
-            if (!Study.current.item.integrityCheck()) {
-                console.log(Study.current.item.get(&#x27;id&#x27;), &#x27;failed an integrity check&#x27;);
-                this.nextItem();
-                return false;
-            }
-            //load the basd on the items part
-            switch (Study.current.item.get(&#x27;part&#x27;)) {
-                case &#x27;rune&#x27;:
-                    Study.current.prompt = new Rune();
-                    Study.current.prompt.setElement(this.$(&#x27;#prompt-container&#x27;)).render();
-                    break;
-                case &#x27;tone&#x27;:
-                    Study.current.prompt = new Tone();
-                    Study.current.prompt.setElement(this.$(&#x27;#prompt-container&#x27;)).render();
-                    break;
-                case &#x27;defn&#x27;:
-                    Study.current.prompt = new Defn();
-                    Study.current.prompt.setElement(this.$(&#x27;#prompt-container&#x27;)).render();
-                    break;
-                case &#x27;rdng&#x27;:
-                    Study.current.prompt = new Rdng();
-                    Study.current.prompt.setElement(this.$(&#x27;#prompt-container&#x27;)).render();
-                    break;
-            }
-            //toggle the audio button display
-            this.toggleAudioButton();
-            //set the prompt values and start listening for completion
-            Study.current.prompt.set(Study.current.vocabs, Study.current.item).show();
-            this.listenToOnce(Study.current.prompt, &#x27;complete&#x27;, this.handlePromptComplete);
-            return Study.current;
+        nextPrompt: function() {
+            var self = this;
+            skritter.scheduler.getNext(function(item) {
+                //keep an updated display of items due
+                self.updateDueCount();
+                //gets the next item and vocab that should be studied and loads it
+                Study.current.item = item;
+                Study.current.vocabs = Study.current.item.getVocabs();
+                console.log(Study.current);
+                //load the based on the items part
+                switch (Study.current.item.get(&#x27;part&#x27;)) {
+                    case &#x27;rune&#x27;:
+                        Study.current.prompt = new Rune();
+                        Study.current.prompt.setElement(this.$(&#x27;#prompt-container&#x27;)).render();
+                        break;
+                    case &#x27;tone&#x27;:
+                        Study.current.prompt = new Tone();
+                        Study.current.prompt.setElement(this.$(&#x27;#prompt-container&#x27;)).render();
+                        break;
+                    case &#x27;defn&#x27;:
+                        Study.current.prompt = new Defn();
+                        Study.current.prompt.setElement(this.$(&#x27;#prompt-container&#x27;)).render();
+                        break;
+                    case &#x27;rdng&#x27;:
+                        Study.current.prompt = new Rdng();
+                        Study.current.prompt.setElement(this.$(&#x27;#prompt-container&#x27;)).render();
+                        break;
+                }
+                //toggle the audio button display
+                self.toggleAudioButton();
+                //set the prompt values and start listening for completion
+                Study.current.prompt.set(Study.current.vocabs, Study.current.item).show();
+                self.listenToOnce(Study.current.prompt, &#x27;complete&#x27;, self.handlePromptComplete);
+            });
+            return this;
         },
         /**
          * @method playAudio
@@ -410,7 +397,7 @@ define([
          * @method updateDueCount
          */
         updateDueCount: function() {
-            this.$(&#x27;#items-due&#x27;).text(skritter.data.items.getDue().length);
+            this.$(&#x27;#items-due&#x27;).text(skritter.scheduler.getDueCount());
         }
     });
 

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -199,14 +201,6 @@
  */
 define(function() {
     /**
-     * @method methodFlash
-     * @param {Function} callback
-     */
-    var methodFlash = function(callback) {
-        //TODO: implement a system for flash style loading and syncing
-        callback();
-    };
-    /**
      * @method methodFull
      * @param {Function} callback
      */
@@ -240,9 +234,12 @@ define(function() {
             function(callback) {
                 skritter.modal.setProgress(100, &#x27;Requesting Batch&#x27;);
                 skritter.api.requestBatch(requests, function(batch) {
-                    callback(null, batch);
+                    if (batch.status === 404) {
+                        callback(batch, null);
+                    } else {
+                        callback(null, batch);
+                    }
                 });
-                
             },
             //download requested batch and then store it locally
             function(batch, callback) {
@@ -250,9 +247,13 @@ define(function() {
                 nextBatch();
                 function nextBatch() {
                     skritter.api.getBatch(batch.id, function(result) {
-                        if (result) {
+                        if (result &amp;&amp; _.contains([404, 408], result.status)) {
+                            window.setTimeout(function() {
+                                nextBatch();
+                            }, 5000);
+                        } else if (result) {
                             size += result.responseSize;
-                            skritter.async.parallel([
+                            skritter.async.series([
                                 function(callback) {
                                     skritter.data.decomps.insert(result.Decomps, callback);
                                 },
@@ -274,7 +275,9 @@ define(function() {
                             ], function() {
                                 if (size &gt; 1024)
                                     skritter.modal.setProgress(100, skritter.fn.bytesToSize(size));
-                                nextBatch();
+                                window.setTimeout(function() {
+                                    nextBatch();
+                                }, 1000);
                             });
                         } else {
                             callback();
@@ -282,85 +285,45 @@ define(function() {
                     });
                 }
             },
+            //check for previous review errors before posting new reviews
+            function(callback) {
+                if (skritter.user.getLastSync() &gt; 0) {
+                    skritter.user.checkReviewErrors(function(errors) {
+                        if (errors &amp;&amp; errors.status !== 403) {
+                            var now = skritter.moment().format(&#x27;YYYY-MM-DD hh:mm:ss&#x27;);
+                            for (var i in errors)
+                                skritter.log.reviewError(now, errors[i]);
+                        }
+                        callback();
+                    }, skritter.user.getLastSync());
+                } else {
+                    callback();
+                }
+            },
             //post reviews to the server and remove them locally
             function(callback) {
                 if (skritter.data.reviews.length &gt; 0 &amp;&amp; skritter.user.getLastSync()) {
                     skritter.modal.setProgress(100, &#x27;Posting Reviews&#x27;);
-                    skritter.data.reviews.sync(function() {
+                    skritter.data.reviews.sync(function(quantity) {
+                        skritter.log.review(quantity);
                         callback();
                     });
                 } else {
                     callback();
                 }
             }
-        ], function() {
-            skritter.user.setLastSync();
-            callback();
-        });
-    };
-    /**
-     * @method methodPartial
-     * @param {Function} callback
-     */
-    var methodPartial = function(callback) {
-        skritter.async.waterfall([
-            //fetch the condensed items and store them into the database
-            function(callback) {
-                skritter.api.getItemsCondensed(function(items) {
-                    skritter.data.items.add(items, {merge: true, silent: true});
-                    skritter.data.items.cache(callback);
-
-                });
-            },
-            //fetch full records for a limited number of next items
-            function(callback) {
-                skritter.api.getItemsById(skritter.data.items.getNextIds(), function(data) {
-                    callback(null, data);
-                });
-            },
-            //store the data in in collections and the database
-            function(data, callback) {
-                skritter.data.decomps.add(data.Decomps, {merge: true});
-                skritter.data.items.add(data.Items, {merge: true});
-                skritter.data.srsconfigs.add(data.SRSConfigs, {merge: true});
-                skritter.data.sentences.add(data.Sentences, {merge: true});
-                skritter.data.strokes.add(data.Strokes, {merge: true});
-                skritter.data.vocabs.add(data.Vocabs, {merge: true});
+        ], function(error) {
+            if (error) {
+                callback(error);
+            } else {
+                skritter.user.setLastSync();
                 callback();
-            },
-            //cache all of the data and callback finished
-            function(callback) {
-                skritter.async.parallel([
-                    function(callback) {
-                        skritter.data.decomps.cache(callback);
-                    },
-                    function(callback) {
-                        skritter.data.items.cache(callback);
-                    },
-                    function(callback) {
-                        skritter.data.srsconfigs.cache(callback);
-                    },
-                    function(callback) {
-                        skritter.data.sentences.cache(callback);
-                    },
-                    function(callback) {
-                        skritter.data.strokes.cache(callback);
-                    },
-                    function(callback) {
-                        skritter.data.vocabs.cache(callback);
-                    }
-                ], callback);
             }
-        ], function() {
-            skritter.user.setLastSync();
-            callback();
         });
     };
 
     return {
-        methodFlash: methodFlash,
-        methodFull: methodFull,
-        methodpartial: methodPartial
+        methodFull: methodFull
     };
 });
     </pre>

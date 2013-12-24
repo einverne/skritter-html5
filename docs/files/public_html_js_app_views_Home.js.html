@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -222,9 +224,10 @@ define([
         render: function() {
             if (skritter.user.isLoggedIn()) {
                 this.$el.html(templateLoggedIn);
+                skritter.scheduler.sort();
                 this.$(&#x27;#user-avatar&#x27;).html(skritter.user.getAvatar(&#x27;img-circle&#x27;));
                 this.$(&#x27;.user-name&#x27;).text(skritter.user.getSetting(&#x27;name&#x27;));
-                this.$(&#x27;#user-items-due&#x27;).text(skritter.data.items.getDue().length);
+                this.$(&#x27;#user-items-due&#x27;).text(skritter.scheduler.getDueCount());
                 if (skritter.data.reviews.length &gt; 0)
                     this.$(&#x27;#user-unsynced-reviews&#x27;).text(&#x27;(&#x27; + skritter.data.reviews.length + &#x27;)&#x27;);
             } else {

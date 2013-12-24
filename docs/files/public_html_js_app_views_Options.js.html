@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -234,6 +236,13 @@ define([
             if (_.contains(activeParts, &#x27;rdng&#x27;))
                 this.$(&#x27;#parts #rdng&#x27;).addClass(&#x27;active&#x27;);
             
+           //hide reading
+            if (skritter.user.getSetting(&#x27;hideReading&#x27;)) {
+                this.$(&#x27;#hide-reading #on&#x27;).addClass(&#x27;active&#x27;);
+            } else {
+                this.$(&#x27;#hide-reading #off&#x27;).addClass(&#x27;active&#x27;);
+            } 
+            
             //audio
             if (skritter.user.get(&#x27;audio&#x27;)) {
                 this.$(&#x27;#audio #on&#x27;).addClass(&#x27;active&#x27;);
@@ -295,6 +304,13 @@ define([
                 } else {
                     skritter.user.setSetting(&#x27;japaneseStudyParts&#x27;, parts);
                 }
+            }
+            
+            //hide reading
+            if (this.$(&#x27;#hide-reading #on&#x27;).hasClass(&#x27;active&#x27;)) {
+                skritter.user.setSetting(&#x27;hideReading&#x27;, true);
+            } else {
+                skritter.user.setSetting(&#x27;hideReading&#x27;, false);
             }
             
             //audio

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -232,20 +234,12 @@ define([
          * 
          * @method getStroke
          * @param {String} bitmapId
+         * @param {String} color
          * @return {Sprite}
          */
-        getStroke: function(bitmapId) {
-            if (skritter.settings.get(&#x27;strokeFormat&#x27;) === &#x27;vector&#x27;)
-                return Assets.strokeShapes[bitmapId].clone();
-            return Assets.strokeSprites[bitmapId].clone();
-        },
-        /**
-         * @method loadStrokeShapes
-         * @param {Function} callback
-         */
-        loadStrokeShapes: function(callback) {
-            Assets.strokeShapes = Strokes.getStrokeShapes();
-            callback();
+        getStroke: function(bitmapId, color) {
+            color = (color) ? color : &#x27;#000000&#x27;;
+            return Strokes[bitmapId](color).clone();
         }
     });
 

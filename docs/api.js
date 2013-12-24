@@ -16,6 +16,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Mauler",
         "Modal",
         "PinyinConverter",
+        "Prompt",
         "PromptCanvas",
         "PromptDefn",
         "PromptRdng",

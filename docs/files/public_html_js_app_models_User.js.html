@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -195,6 +197,7 @@
 /**
  * @module Skritter
  * @submodule Model
+ * @param Scheduler
  * @param Sync
  * @param StudyDecomps
  * @param StudyItems
@@ -207,6 +210,7 @@
  * @author Joshua McFarland
  */
 define([
+    &#x27;Scheduler&#x27;,
     &#x27;Sync&#x27;,
     &#x27;collections/StudyDecomps&#x27;,
     &#x27;collections/StudyItems&#x27;,
@@ -218,7 +222,7 @@ define([
     &#x27;collections/StudyVocabs&#x27;,
     &#x27;backbone&#x27;,
     &#x27;lz-string&#x27;
-], function(Sync, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
+], function(Scheduler, Sync, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
     /**
      * @class User
      */
@@ -227,6 +231,8 @@ define([
          * @method initialize
          */
         initialize: function() {
+            //load the scheduler for faster scheduling
+            skritter.scheduler = new Scheduler();
             //initializes all of the required data collections
             skritter.data = {
                 decomps: new StudyDecomps(),
@@ -239,8 +245,16 @@ define([
                 vocabs: new StudyVocabs()
             };
             //loads the user from localStorage if exists
-            if (localStorage.getItem(&#x27;activeUser&#x27;))
-                this.set(JSON.parse(LZString.decompress(localStorage.getItem(localStorage.getItem(&#x27;activeUser&#x27;)))));
+            if (localStorage.getItem(&#x27;activeUser&#x27;)) {
+                try {
+                    this.set(JSON.parse(localStorage.getItem(localStorage.getItem(&#x27;activeUser&#x27;))));
+                } catch (error) {
+                    if (error instanceof SyntaxError) {
+                        //TODO: remove this because using lzstring is being phased out for compatibility reasons
+                        this.set(JSON.parse(LZString.decompress(localStorage.getItem(localStorage.getItem(&#x27;activeUser&#x27;))))).cache();
+                    }
+                }
+            }
             //perform tasks based login status
             if (this.isLoggedIn()) {
                 //sets the api token required for calls
@@ -262,7 +276,6 @@ define([
             lastSyncJapanese: null,
             refresh_token: null,
             settings: null,
-            syncMethod: &#x27;full&#x27;,
             token_type: null,
             user_id: null
         },
@@ -271,7 +284,7 @@ define([
          */
         cache: function() {
             if (this.isLoggedIn())
-                localStorage.setItem(this.get(&#x27;user_id&#x27;), LZString.compress(JSON.stringify(this)));
+                localStorage.setItem(this.get(&#x27;user_id&#x27;), JSON.stringify(this));
         },
         /**
          * @method addItems
@@ -299,7 +312,11 @@ define([
                 function(callback) {
                     skritter.modal.setProgress(100, &#x27;Requesting Items&#x27;);
                     skritter.api.requestBatch(requests, function(result) {
-                        callback(null, result);
+                        if (result.status === 404) {
+                            callback(result, null);
+                        } else {
+                            callback(null, result);
+                        }
                     });
                 },
                 //start fetching the new items as they are completed
@@ -316,9 +333,14 @@ define([
                     self.set(&#x27;addOffset&#x27;, offset + 1);
                     self.sync(callback);
                 }
-            ], function() {
-                if (typeof callback === &#x27;function&#x27;)
-                    callback();
+            ], function(error) {
+                if (error) {
+                    if (typeof callback === &#x27;function&#x27;)
+                        callback(error);
+                } else {
+                    if (typeof callback === &#x27;function&#x27;)
+                        callback();
+                }
             });
         },
         /**
@@ -329,7 +351,7 @@ define([
         checkReviewErrors: function(callback, offset) {
             offset = (offset &amp;&amp; offset &gt; -1) ? offset : this.getLastSync();
             skritter.api.getReviewErrors(offset, function(errors) {
-                console.log(&#x27;Review Errors&#x27;, errors);
+                console.log(&#x27;review errors&#x27;, errors);
                 if (typeof callback === &#x27;function&#x27;)
                     callback(errors);
             });
@@ -419,17 +441,17 @@ define([
          * simplified or traditional.
          * 
          * @method getStyle
-         * @returns {String}
+         * @returns {Array}
          */
         getStyle: function() {
             if (this.isJapanese()) {
-                return &#x27;ja&#x27;;
-            } else if (this.isChinese() &amp;&amp; this.getSetting(&#x27;addSimplified&#x27;) &amp;&amp; this.getSetting(&#x27;addTraditional&#x27;)) {
-                return &#x27;zh-both&#x27;;
-            } else if (this.isChinese() &amp;&amp; this.getSetting(&#x27;addSimplified&#x27;) &amp;&amp; !this.getSetting(&#x27;addTraditional&#x27;)) {
-                return &#x27;zh-simp&#x27;;
+                return [];
+            } else if (this.isChinese() &amp;&amp; this.getSetting(&#x27;reviewSimplified&#x27;) &amp;&amp; this.getSetting(&#x27;reviewTraditional&#x27;)) {
+                return [&#x27;both&#x27;, &#x27;simp&#x27;, &#x27;trad&#x27;];
+            } else if (this.isChinese() &amp;&amp; this.getSetting(&#x27;reviewSimplified&#x27;) &amp;&amp; !this.getSetting(&#x27;reviewTraditional&#x27;)) {
+                return [&#x27;both&#x27;, &#x27;simp&#x27;];
             } else {
-                return &#x27;zh-trad&#x27;;
+                return [&#x27;both&#x27;, &#x27;trad&#x27;];
             }
         },
         /**
@@ -491,8 +513,10 @@ define([
                 skritter.async.apply(skritter.data.sentences.loadAll),
                 skritter.async.apply(skritter.data.strokes.loadAll),
                 skritter.async.apply(skritter.data.vocabs.loadAll),
-                skritter.async.apply(skritter.data.items.loadAll)
-            ], callback);
+                skritter.async.apply(skritter.scheduler.loadFromDatabase)
+            ], function() {
+                callback();
+            });
         },
         /**
          * @method login
@@ -566,53 +590,10 @@ define([
          * @param {Function} callback
          */
         sync: function(callback) {
-            var self = this;
             console.log(&#x27;syncing from&#x27;, skritter.moment(this.getLastSync() * 1000).format(&#x27;YYYY[-]MM[-]DD h:mm:ss a&#x27;));
-            skritter.async.waterfall([
-                /*function(callback) {
-                 skritter.modal.setProgress(100, &#x27;Getting Schedule&#x27;);
-                 skritter.api.getItemsCondensed(function(result) {
-                 console.log(&#x27;condensed&#x27;, result);
-                 callback(null, result);
-                 });
-                 },
-                 function(result, callback) {
-                 skritter.modal.setProgress(100, &#x27;Saving Schedule&#x27;);
-                 skritter.data.items.add(result.Items, {merge: true});
-                 skritter.data.items.cache(callback);
-                 },*/
-                function() {
-                    switch (self.get(&#x27;syncMethod&#x27;)) {
-                        case &#x27;flash&#x27;:
-                            Sync.methodFlash(callback);
-                            break;
-                        case &#x27;full&#x27;:
-                            Sync.methodFull(callback);
-                            break;
-                        case &#x27;partial&#x27;:
-                            Sync.methodPartial(callback);
-                            break;
-                    }
-                }
-            ], function() {
-                self.setLastSync();
-                callback();
+            Sync.methodFull(function(error) {
+                callback(error);
             });
-
-            /*skritter.api.getItemsCondensed(function(items) {
-             console.log(&#x27;condensed items&#x27;, items);
-             switch (self.get(&#x27;syncMethod&#x27;)) {
-             case &#x27;flash&#x27;:
-             Sync.methodFlash(callback);
-             break;
-             case &#x27;full&#x27;:
-             Sync.methodFull(callback);
-             break;
-             case &#x27;partial&#x27;:
-             Sync.methodPartial(callback);
-             break;
-             }
-             }, this.getLastSync());*/
         },
         /**
          * A shortcut method for removing user server settings.

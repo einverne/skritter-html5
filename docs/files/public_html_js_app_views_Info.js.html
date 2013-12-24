@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -224,9 +226,10 @@ define([
             this.$(&#x27;.writing&#x27;).text(Info.vocab.get(&#x27;writing&#x27;));
             this.$(&#x27;.writing&#x27;).addClass(skritter.user.getTextStyle());
             this.$(&#x27;#reading&#x27;).text(PinyinConverter.toTone(Info.vocab.get(&#x27;reading&#x27;)));
-            this.$(&#x27;#definition&#x27;).text(Info.vocab.get(&#x27;definitions&#x27;)[skritter.user.getSetting(&#x27;sourceLang&#x27;)]);
+            this.$(&#x27;#definition&#x27;).text(Info.vocab.getDefinition());
             this.$(&#x27;#mnemonic&#x27;).text(Info.vocab.get(&#x27;mnemonic&#x27;));
-            this.$(&#x27;#sentence&#x27;).text(Info.sentence.get(&#x27;writing&#x27;).replace(/\s+/g, &#x27;&#x27;));
+            if (Info.sentence)
+                this.$(&#x27;#sentence&#x27;).text(Info.sentence.get(&#x27;writing&#x27;).replace(/\s+/g, &#x27;&#x27;));
             this.$(&#x27;#sentence&#x27;).addClass(skritter.user.getTextStyle());
 
             //contained characters
@@ -248,7 +251,7 @@ define([
 
             //decompositions
             var decomps = Info.vocab.getDecomps();
-            if (decomps) {
+            if (decomps &amp;&amp; decomps.length &gt; 0) {
                 this.$(&#x27;#decompositions tbody&#x27;).html(&#x27;&#x27;);
                 for (var c in decomps) {
                     var decomp = decomps[c];

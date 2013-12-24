@@ -7,7 +7,7 @@ requirejs.config({
     urlArgs: function() {
         //removes the added url args from testing environment 
         var hostname = document.location.hostname || window.location.hostname || location.hostname;
-        if (hostname === 'localhost')
+        if (hostname === 'localhost' || hostname === '192.168.1.10')
             return 'cb=' + Math.random();
     }(),
     paths: {
@@ -21,6 +21,7 @@ requirejs.config({
         bootstrap: '../../bootstrap/js/bootstrap',
         'createjs.easel': '../libs/createjs.easel-NEXT.min',
         'createjs.tween': '../libs/createjs.tween-NEXT.min',
+        'indexeddb.shim': '../libs/indexeddb.shim',
         jasmine: '../../tests/libs/jasmine',
         'jasmine-html': '../../tests/libs/jasmine-html',
         jquery: '../libs/jquery-2.0.3',
@@ -44,11 +45,13 @@ requirejs.config({
         jquery: {
             exports: '$'
         },
-        'jquery.indexeddb': ['jquery'],
+        'jquery.hammer': ['jquery'],
+        'jquery.indexeddb': ['indexeddb.shim', 'jquery'],
         lodash: {
             exports: '_'
         }
-    }
+    },
+    waitSeconds: 30
 });
 
 if (document.location.pathname.indexOf('tests.html') > -1) {
@@ -60,7 +63,7 @@ if (document.location.pathname.indexOf('tests.html') > -1) {
         jasmineEnv.updateInterval = 1000;
         var htmlReporter = new jasmine.HtmlReporter();
         jasmineEnv.addReporter(htmlReporter);
-        jasmineEnv.specFilter = function(spec) { 
+        jasmineEnv.specFilter = function(spec) {
             return htmlReporter.specFilter(spec);
         };
         var specs = [];

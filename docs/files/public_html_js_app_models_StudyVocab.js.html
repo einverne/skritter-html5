@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -330,6 +332,16 @@ define([
                     return true;
                 });
             }
+        },
+        /**
+         * @method getDefinition
+         * @returns {String}
+         */
+        getDefinition: function() {
+            var definition = this.get(&#x27;definitions&#x27;)[skritter.user.getSetting(&#x27;sourceLang&#x27;)];
+            if (typeof definition === &#x27;undefined&#x27;)
+                return this.get(&#x27;definitions&#x27;).en;
+            return definition;
         },
         /**
          * @method getPinyinAt

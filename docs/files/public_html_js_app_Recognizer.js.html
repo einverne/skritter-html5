@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -216,7 +218,6 @@ define([
         this.canvasSize = skritter.settings.get(&#x27;canvasSize&#x27;);
         //set the scaled threshold values
         this.angleThreshold = 30;
-        //TODO: hook these settings into the users
         this.distanceThreshold = 150 * (this.canvasSize / 600);
         this.lengthThreshold = 300 * (this.canvasSize / 600);
         this.orderStrictness = 0;
@@ -236,7 +237,10 @@ define([
         {
             var result = results[i];
             var scores = result.scores;
-
+            if (!_.contains(ignoreCheck, &#x27;corners&#x27;)) {
+                if (scores.corners === false)
+                    continue;
+            }
             if (!_.contains(ignoreCheck, &#x27;angle&#x27;)) {
                 if (scores.angle &gt; this.angleThreshold)
                     continue;
@@ -250,11 +254,11 @@ define([
                     continue;
             }
 
-            if (!_.contains(ignoreCheck, &#x27;offset&#x27;)) {
+            /*if (!_.contains(ignoreCheck, &#x27;offset&#x27;)) {
                 var orderOffset = result.position - this.currentPosition;
                 if (_.contains(ignoreCheck, &#x27;offset&#x27;) || orderOffset &gt; this.orderStrictness)
                     continue;
-            }
+            }*/
 
             var total = 0;
             for (var s in scores)
@@ -291,31 +295,39 @@ define([
      */
     Recognizer.prototype.getResultSet = function() {
         var results = [];
-        for (var a in this.targets)
-        {
+        var maxPosition = this.currentPosition + this.orderStrictness;
+        var minPosition = this.currentPosition - this.orderStrictness;
+        for (var a in this.targets) {
             var variations = this.targets[a];
-            for (var b in variations.models)
-            {
-                var bitmapId = variations.at(b).get(&#x27;bitmapId&#x27;);
-                var data = variations.at(b).get(&#x27;data&#x27;);
-                var id = variations.at(b).get(&#x27;id&#x27;);
-                var params = variations.at(b).getInflatedParams();
-                var part = variations.at(b).get(&#x27;part&#x27;);
-                var position = variations.at(b).get(&#x27;position&#x27;);
-                var variation = variations.at(b).get(&#x27;variation&#x27;);
-                var rune = variations.at(b).get(&#x27;rune&#x27;);
-                var sprite = variations.at(b).get(&#x27;sprite&#x27;);
+            for (var b in variations.models) {
+                var stroke = variations.at(b);
+                var position = stroke.get(&#x27;position&#x27;);
+                //filters out items not possible based on strictness settings
+                if (minPosition &gt; position || position &gt; maxPosition)
+                    continue;
+                //sets the remaining values to be passed to resultset
+                var bitmapId = stroke.get(&#x27;bitmapId&#x27;);
+                var data = stroke.get(&#x27;data&#x27;);
+                var id = stroke.get(&#x27;id&#x27;);
+                var params = stroke.getInflatedParams();
+                var part = stroke.get(&#x27;part&#x27;);
+                var variation = stroke.get(&#x27;variation&#x27;);
+                var rune = stroke.get(&#x27;rune&#x27;);
+                var sprite = stroke.get(&#x27;sprite&#x27;);
 
                 //TODO: update this backwards check to use the new params concept
                 //right now it&#x27;s just a hack to manually inject params backwards
-                var reverseCorners = _.cloneDeep(params[0].get(&#x27;corners&#x27;)).reverse();
-                var reverseDeviations = _.cloneDeep(params[0].get(&#x27;deviations&#x27;)).reverse();
-                params.push(new StudyParam({
-                    bitmapId: bitmapId,
-                    corners: reverseCorners,
-                    deviations: reverseDeviations,
-                    feedback: &#x27;backwards&#x27;
-                }));
+                //don&#x27;t check accept anything backwards when studying squigs
+                if (!skritter.user.getSetting(&#x27;squigs&#x27;)) {
+                    var reverseCorners = _.cloneDeep(params[0].get(&#x27;corners&#x27;)).reverse();
+                    var reverseDeviations = _.cloneDeep(params[0].get(&#x27;deviations&#x27;)).reverse();
+                    params.push(new StudyParam({
+                        bitmapId: bitmapId,
+                        corners: reverseCorners,
+                        deviations: reverseDeviations,
+                        feedback: &#x27;backwards&#x27;
+                    }));
+                }
 
                 for (var p in params) {
                     var result = [];
@@ -364,7 +376,10 @@ define([
      */
     Recognizer.prototype.checkCorners = function(param) {
         var cornerPenalty = 200;
-        return Math.abs(param.get(&#x27;corners&#x27;).length - this.stroke.get(&#x27;corners&#x27;).length) * cornerPenalty;
+        var cornerDiff = Math.abs(param.get(&#x27;corners&#x27;).length - this.stroke.get(&#x27;corners&#x27;).length);
+        if (cornerDiff &gt; 1)
+            return false;
+        return cornerDiff * cornerPenalty;
     };
 
     /**

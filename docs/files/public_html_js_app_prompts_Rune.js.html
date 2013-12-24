@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -228,6 +230,7 @@ define([
             Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 15;
             Rune.strokeCount = 0;
+            Rune.teachingMode = false;
             Rune.userCharacter = null;
             this.listenTo(Rune.canvas, &#x27;mousedown&#x27;, this.handleInputDown);
             this.listenTo(Rune.canvas, &#x27;mouseup&#x27;, this.handleInputRecieved);
@@ -248,13 +251,14 @@ define([
          * @return {Backbone.View}
          */
         clear: function() {
-            Prompt.gradingButtons.hide();
+            Prompt.gradingButtons.hide(true);
             Prompt.finished = false;
             Rune.canvas.clear(&#x27;background&#x27;);
             Rune.canvas.clear(&#x27;hint&#x27;);
             Rune.canvas.clear(&#x27;overlay&#x27;);
             Rune.canvas.clear(&#x27;stroke&#x27;);
             Rune.canvas.setLayerAlpha(&#x27;overlay&#x27;, 1);
+            Rune.canvas.uncacheLayer(&#x27;overlay&#x27;);
             Rune.failedAttempts = 0;
             Rune.userCharacter.reset();
             Rune.userTargets = [];
@@ -273,11 +277,13 @@ define([
             Prompt.finished = true;
             //checks if we should snap or just glow the result
             if (skritter.user.getSetting(&#x27;squigs&#x27;)) {
-                for (var i in Rune.userCharacter.models) {
-                    var stroke = Rune.userCharacter.models[i];
-                    Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), &#x27;stroke&#x27;);
-                    Rune.canvas.setLayerAlpha(&#x27;overlay&#x27;, 0.3);
-                }
+                Rune.canvas.setLayerAlpha(&#x27;overlay&#x27;, 0.3);
+                window.setTimeout(function() {
+                    for (var i in Rune.userCharacter.models) {
+                        var stroke = Rune.userCharacter.models[i];
+                        Rune.canvas.drawTweenedStroke(stroke.getUserSprite(), stroke.getInflatedSprite(), &#x27;stroke&#x27;);
+                    }
+                }, 100);
             }
             this.showAnswer();
         },
@@ -309,9 +315,10 @@ define([
         /**
          * @method handleInputRecieved
          * @param {Array} points
+         * @param {CreateJS.Shape} marker
          */
-        handleInputRecieved: function(points) {
-            this.processInput(points, null, false);
+        handleInputRecieved: function(points, marker) {
+            this.processInput(points, marker, null, false);
         },
         /**
          * @method handleLeapRecieved
@@ -372,10 +379,11 @@ define([
         /**
          * @method processInput
          * @param {Array} points
+         * @param {CreateJS.Shape} marker
          * @param {Array} ignoreCheck
          * @param {Boolean} enforceOrder
          */
-        processInput: function(points, ignoreCheck, enforceOrder) {
+        processInput: function(points, marker, ignoreCheck, enforceOrder) {
             //only strokes of an adaquate distance should be processed
             if (points.length &gt; 0 &amp;&amp; skritter.fn.getDistance(points[0], points[points.length - 1]) &gt; Rune.minStrokeDistance) {
                 //create the stroke from the points to analyze
@@ -392,12 +400,12 @@ define([
                     Rune.failedAttempts = 0;
                     //choose whether to draw the stroke normally or using raw squigs
                     if (skritter.user.getSetting(&#x27;squigs&#x27;)) {
-                        Rune.canvas.drawSquig(result.get(&#x27;points&#x27;), &#x27;overlay&#x27;);
+                        Rune.canvas.drawSquig(marker, &#x27;overlay&#x27;);
                         this.handleStrokeRecognized(result);
                     } else {
                         //display feedback if it exists
                         if (result.get(&#x27;feedback&#x27;))
-                            Rune.canvas.drawText(result.get(&#x27;feedback&#x27;), &#x27;feedback&#x27;, &#x27;orange&#x27;, &#x27;24px Arial&#x27;, 10, 10);
+                            Rune.canvas.showMessage(result.get(&#x27;feedback&#x27;).toUpperCase());
                         //mark the result as tweening and snap it
                         result.set(&#x27;isTweening&#x27;, true);
                         Rune.canvas.drawTweenedStroke(result.getUserSprite(), result.getInflatedSprite(), &#x27;stroke&#x27;, _.bind(this.handleStrokeRecognized, this, result));
@@ -406,11 +414,14 @@ define([
                             Rune.canvas.drawPhantomStroke(Rune.userCharacter.getExpectedStroke().getInflatedSprite(), &#x27;hint&#x27;);
                     }
                     //ISSUE #63: show the grading buttons and grade color preemptively
-                    if (Rune.userCharacter.getStrokeCount(false) &gt;= Rune.userCharacter.getTargetStrokeCount()) {
+                    if (Rune.userCharacter.getStrokeCount(false) &gt;= Rune.userCharacter.getTargetStrokeCount())
                         Prompt.gradingButtons.select().collapse();
-                    }
+                    if (Rune.teachingMode)
+                        this.teach();
                 } else {
                     Rune.failedAttempts++;
+                    //fade the shape out 
+                    Rune.canvas.fadeShape(&#x27;background&#x27;, marker);
                     //if failed too many times show a hint
                     if (Rune.failedAttempts &gt; Rune.maxFailedAttempts) {
                         //ISSUE #64: display grading buttons immediately when failed
@@ -418,7 +429,7 @@ define([
                         //ISSUE #28: if the find the next stroke then don&#x27;t try to show a hint
                         var nextStroke = Rune.userCharacter.getNextStroke();
                         if (nextStroke)
-                            Rune.canvas.drawPhantomStroke(nextStroke.getInflatedSprite(), &#x27;hint&#x27;);
+                            Rune.canvas.drawPhantomStroke(nextStroke.getInflatedSprite(&#x27;#87cefa&#x27;), &#x27;hint&#x27;);
                     }
                 }
             }
@@ -434,7 +445,11 @@ define([
                 Prompt.vocabs[0].play();
             if (skritter.user.isChinese())
                 this.$(&#x27;.prompt-style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
-            this.$(&#x27;.prompt-reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));
+            if (skritter.user.getSetting(&#x27;hideReading&#x27;)) {
+                this.hideReading();
+            } else {
+                this.$(&#x27;.prompt-reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));
+            }
             this.$(&#x27;.prompt-definition&#x27;).text(Prompt.definition);
             this.$(&#x27;#style&#x27;).text(Prompt.vocabs[0].get(&#x27;style&#x27;));
             if (Prompt.sentence)
@@ -446,7 +461,10 @@ define([
                 Rune.userCharacter = new CanvasCharacter();
             }
             Rune.userCharacter.targets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, &#x27;rune&#x27;);
-            console.log(Rune.userCharacter.targets);
+            if (Rune.teachingMode) {
+                this.teach();
+            }
+            console.log(&#x27;variations&#x27;, Rune.userCharacter.targets);
             Rune.canvas.enableInput();
         },
         /**
@@ -456,8 +474,14 @@ define([
             Rune.canvas.disableInput();
             Prompt.gradingButtons.select().collapse();
             this.$(&#x27;.prompt-writing&#x27;).html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            if (this.isLast() &amp;&amp; Prompt.sentence)
-                this.$(&#x27;.prompt-sentence&#x27;).text(Prompt.sentence.noWhiteSpaces());
+            if (skritter.user.get(&#x27;audio&#x27;) &amp;&amp; Prompt.contained[Prompt.position - 1] &amp;&amp; Prompt.contained[Prompt.position - 1].getVocabs().length &gt; 0)
+                Prompt.contained[Prompt.position - 1].getVocabs()[0].play();
+            if (this.isLast()) {
+                this.$(&#x27;.prompt-reading&#x27;).removeClass(&#x27;hidden-reading&#x27;);
+                this.$(&#x27;.prompt-reading&#x27;).text(PinyinConverter.toTone(Prompt.reading));
+                if (Prompt.sentence)
+                    this.$(&#x27;.prompt-sentence&#x27;).text(Prompt.sentence.noWhiteSpaces());
+            }
         },
         /**
          * @method showTarget
@@ -466,6 +490,24 @@ define([
         showTarget: function(alpha) {
             if (!Prompt.finished)
                 Rune.canvas.drawCharacter(Rune.userCharacter.targets[Rune.userCharacter.getVariationIndex()].getCharacterSprite(), &#x27;hint&#x27;, alpha);
+        },
+        /**
+         * @method teach
+         */
+        teach: function() {
+            Rune.teachingMode = true;
+            if (Rune.userCharacter.getStrokeCount() === 0)
+                this.showTarget(0.5);
+            var nextStroke = Rune.userCharacter.getNextStroke(true);
+            Rune.canvas.clear(&#x27;overlay&#x27;);
+            if (nextStroke) {
+                Rune.canvas.drawStroke(nextStroke.getInflatedSprite(&#x27;#87cefa&#x27;), &#x27;overlay&#x27;, 0.8);
+            } else {
+                this.clear();
+                Prompt.gradingButtons.grade(1);
+                Rune.teachingMode = false;
+                Rune.canvas.showMessage(&#x27;Now you give it a try!&#x27;);
+            }
         }
     });
 

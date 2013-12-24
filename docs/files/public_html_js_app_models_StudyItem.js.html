@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -195,15 +197,13 @@
 /**
  * @module Skritter
  * @submodule Model
- * @param Scheduler
  * @param StudyReview
  * @author Joshua McFarland
  */
 define([
-    &#x27;Scheduler&#x27;,
     &#x27;models/StudyReview&#x27;,
     &#x27;backbone&#x27;
-], function(Scheduler, StudyReview) {
+], function(StudyReview) {
     /**
      * @class StudyItem
      */
@@ -217,6 +217,39 @@ define([
                 if (typeof callback === &#x27;function&#x27;)
                     callback();
             });
+        },
+        /**
+         * @method checkIntegiry
+         * @returns {Boolean}
+         */
+        checkIntegrity: function() {
+            var characterCount = this.getCharacterCount();
+            var contained = this.getContained();
+            var part = this.get(&#x27;part&#x27;);
+            if (_.contains([&#x27;rune&#x27;, &#x27;tone&#x27;], part) &amp;&amp; characterCount &gt; 1 &amp;&amp; contained.length &lt; characterCount) {
+                this.set({
+                    flag: true,
+                    flagMessage: &quot;The contained items for this character don&#x27;t exist.&quot;,
+                    vocabIds: []
+                });
+                skritter.scheduler.updateItem(this);
+                return false;
+            }
+            if (part === &#x27;rune&#x27; &amp;&amp; this.get(&#x27;vocabIds&#x27;).length &gt; 0) {
+                var characters = this.getVocabs()[0].getCharacters();
+                for (var i in characters) {
+                    if (!skritter.data.strokes.findWhere({rune: characters[i]})) {
+                        this.set({
+                           flag: true ,
+                           flagMessage: &quot;This item doesn&#x27;t have the required stroke data.&quot;,
+                           vocabIds: []
+                        });
+                        skritter.scheduler.updateItem(this);
+                        return false;
+                    }
+                }
+            }
+            return true;
         },
         /**
          * Returns the contained items for multi-character words. Data is stored for
@@ -239,6 +272,25 @@ define([
             return items;
         },
         /**
+         * Returns the contained items for multi-character words. Data is stored for
+         * the contained characters regardsless of whether they are being studied or not.
+         * 
+         * @method getContainedIds
+         * @return {Array}
+         */
+        getContainedIds: function() {
+            var items = [];
+            if (this.get(&#x27;vocabIds&#x27;).length &gt; 0) {
+                var contained = this.getVocabs()[0].get(&#x27;containedVocabIds&#x27;);
+                for (var i in contained) {
+                    var id = skritter.user.get(&#x27;user_id&#x27;) + &#x27;-&#x27; + contained[i] + &#x27;-&#x27; + this.get(&#x27;part&#x27;);
+                    if (id)
+                        items.push(id);
+                }
+            }
+            return items;
+        },
+        /**
          * @method getCharacterCount
          * @returns {Number}
          */
@@ -254,8 +306,6 @@ define([
          */
         getReadiness: function(deprioritizeLongShots) {
             var now = skritter.fn.getUnixTime();
-            if (this.get(&#x27;vocabIds&#x27;).length === 0)
-                return false;
             if (!this.has(&#x27;last&#x27;) &amp;&amp; (this.get(&#x27;next&#x27;) - now) &gt; 600)
                 return 0.2;
             if (!this.has(&#x27;last&#x27;) || (this.get(&#x27;next&#x27;) - this.get(&#x27;last&#x27;)) === 1)
@@ -285,6 +335,13 @@ define([
             return readiness;
         },
         /**
+         * @method getVariations
+         * @returns {Array}
+         */
+        getVariations: function() {
+            
+        },
+        /**
          * @method getVocabs
          * @return {Array}
          */
@@ -296,28 +353,11 @@ define([
             return containedVocabs;
         },
         /**
-         * This check should be used to try and catch common errors with data that could prevent studying
-         * certain items.
-         * 
-         * @method integrityCheck
-         * @returns {Boolean}
-         */
-        integrityCheck: function() {
-           //error logs show that in rare instances active items exist but don&#x27;t contain the required contained item ids to create reviews
-           if (this.getCharacterCount() &gt; 1 &amp;&amp; _.contains([&#x27;rune&#x27;, &#x27;tone&#x27;], this.get(&#x27;part&#x27;)) &amp;&amp; this.getContained() &amp;&amp; this.getContained().length !== this.getCharacterCount()) {
-               this.set(&#x27;vocabIds&#x27;, []);
-               this.set(&#x27;flag&#x27;, true);
-               this.set(&#x27;flagMessage&#x27;, &#x27;Missing contained item ids.&#x27;);
-               return false;
-           }
-           return true;
-        },
-        /**
          * @method isNew
          * @returns {Boolean}
          */
         isNew: function() {
-            if (this.get(&#x27;reviews&#x27;) &lt; 1)
+            if (this.has(&#x27;last&#x27;))
                 return true;
             return false;
         },
@@ -345,7 +385,7 @@ define([
                 thinkingTime: thinkingTime,
                 currentInterval: this.has(&#x27;interval&#x27;) ? this.get(&#x27;interval&#x27;) : 0,
                 actualInterval: this.has(&#x27;last&#x27;) ? startTime - this.get(&#x27;last&#x27;) : 0,
-                newInterval: new Scheduler().getInterval(this, grade),
+                newInterval: skritter.scheduler.getInterval(this, grade),
                 wordGroup: wordGroup,
                 previousInterval: this.has(&#x27;previousInterval&#x27;) ? this.get(&#x27;previousInterval&#x27;) : 0,
                 previousSuccess: this.has(&#x27;previousSuccess&#x27;) ? this.get(&#x27;previousSuccess&#x27;) : false
@@ -360,6 +400,7 @@ define([
                 reviews: this.get(&#x27;reviews&#x27;) + 1,
                 successes: (grade &gt; 1) ? this.get(&#x27;successes&#x27;) + 1 : this.get(&#x27;successes&#x27;)
             });
+            skritter.scheduler.updateItem(this);
             skritter.data.reviews.add(review);
             return this;
         },

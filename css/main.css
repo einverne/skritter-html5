@@ -1,1 +1,335 @@
- @font-face {font-family: "kaisho"; src: url('../fonts/DFPKaiSho-Md.ttf');} @font-face {font-family: "simkai"; src: url('../fonts/simkai.ttf');} html, body {background-image: url('../images/textures/rice-paper1.png'); background-repeat: repeat; height: 100%; overflow-x: hidden;} #skritter-container {height: 100%;} .chinese-text {font-family: "simkai";} .cursor {cursor:pointer} .fa-navbar {font-size: 18px;} .japanese-text {font-family: "kaisho";} .link-button {cursor: pointer;} .view {height: 100%; padding-top: 60px;} .view .content {border: 2px #e7e7e7 solid; background: #ffffff; margin-bottom: 25px; padding: 15px;} @media (max-width:767px) {.view {padding-top: 40px;}} #grading-buttons {bottom: 0; margin: 0; position: absolute; width: 100%;} #grading-buttons div {background-repeat: no-repeat; background-size: contain; background-position: center; cursor: pointer; display: inline-block; min-height: 50px; margin: 0 0 5px 0; opacity: 0.8; padding: 15px 12%; text-align: center; width: 14%;} #grading-buttons div:hover {opacity: 1.0;} #grading-buttons #grade1 {background-image: url('../images/grading/grade1.png');} #grading-buttons #grade2 {background-image: url('../images/grading/grade2.png');} #grading-buttons #grade3 {background-image: url('../images/grading/grade3.png');} #grading-buttons #grade4 {background-image: url('../images/grading/grade4.png');} #home-view #features .media {padding: 15px 0;} #home-view .feature-icon {background: url('../images/feature-icons.png') no-repeat; height: 50px; left: 0; margin-right: 5px; top: 0; width: 60px;} #home-view #github-logo {height: 108px;} #home-view #features #brush {background-position: 0 -150px;} #home-view #features #plane {background-position: 0 -100px;} #home-view #features #book {background-position: 0 -50px;} #home-view #features #clock {background-position: 0 0;} @media (max-width:767px) {#home-view #overview {text-align: center;} #home-view #introduction {text-align: center;}} #info-view #writing {font-size: 86px; text-align: center;} #info-view #definition-reading {padding: 40px 2% 0 2%;} #info-view #reading {font-size: xx-large;} #info-view #definition {font-size: x-large;} #info-view #mnemonic {font-size: x-large; padding-top: 20px;} #info-view #sentence {font-size: x-large; padding-top: 20px;} #info-view #contained-characters, #info-view #decompositions {padding: 20px 15% 0 15%;} @media (max-width:767px) {#info-view #definition-reading {text-align: center;} #info-view #contained-characters, #info-view #decompositions {padding: 20px 5% 0 5%;} #info-view #sentence {text-align: center;}} .form-signin {max-width: 330px; padding: 15px; margin: 0 auto;} .form-signin .form-signin-heading, .form-signin .checkbox {margin-bottom: 10px;} .form-signin .checkbox {font-weight: normal;} .form-signin .form-control {position: relative; font-size: 16px; height: auto; padding: 10px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;} .form-signin .form-control:focus {z-index: 2;} .form-signin input[type="text"] {margin-bottom: -1px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;} .form-signin input[type="password"] {margin-bottom: 10px; border-top-left-radius: 0; border-top-right-radius: 0;} .modal {overflow-y: hidden;} .model #slider {width: 100%;} .modal #error-message {padding-top: 20px;} .modal-vertical-centered {outline: 0; transform: translate(0, 20%) !important; -ms-transform: translate(0, 20%) !important; -webkit-transform: translate(0, 20%) !important;} .navbar .navbar-nav {margin: 0;} .navbar .navbar-btn {margin-top: 0; margin-bottom: 0;} @media (max-width:767px) {.navbar .navbar-collapse .navbar-nav > li {padding-left:15px!important;} .navbar .user-dropdown > .dropdown-menu {border-top: 1px solid #e7e7e7;} .navbar .user-dropdown > .dropdown-menu > li {padding-left:5px!important;}} #prompt-container .prompt {height: 100%; margin-left: 30%;} #prompt-container #info-container {background: #ffffff; border: 2px black solid; height: 100%; left: 0; overflow-y: auto; padding: 5px 30px 0 30px; position: fixed; top: 40px; width: 30%;} #prompt-container #input-container {padding-top: 20%;} #prompt-container .prompt-row {clear: both; padding-bottom: 20px;} #prompt-container .prompt-writing {font-size: 4.5em;} #prompt-container .prompt-reading {font-size: x-large;} #prompt-container .prompt-definition {font-size: x-large;} #prompt-container .prompt-sentence {font-size: x-large;} #prompt-container #mnemonic {font-size: x-large;} #prompt-container #prompt-text {height: 100%; padding-top: 20%; text-align: center;} #prompt-container .prompt-rune-display {display: inline-block; height: 50px; min-width: 50px; margin: 0 5px 0 0; text-align: center;} #prompt-container .prompt-rune-hidden {border: 2px blue dotted; display: inline-block; height: 60px; min-width: 50px; margin: 0 5px 0 0; text-align: center; width: auto;} #prompt-container .prompt-tone-display {display: inline-block; height: 50px; min-width: 50px; margin: 0 5px 0 0; padding: 10px 2px 0 2px; text-align: center;} #prompt-container .prompt-tone-hidden {border: 2px blue dotted; display: inline-block; height: 60px; min-width: 50px; margin: 0 5px 0 0; padding: 10px 2px 0 2px; text-align: center; width: auto;} @media (max-width: 601px) {#prompt-container .prompt{margin: 0; overflow: hidden;} #prompt-container #info-container {border: none; border-bottom: 2px #000000 solid; height: auto; overflow-y: auto; position: relative; top: 0; width: auto;} #prompt-container #input-container {padding: 0;}} #prompt-container #input-container {-moz-box-shadow: 5px 5px 5px rgba(68,68,68,0.6); -webkit-box-shadow: 5px 5px 5px rgba(68,68,68,0.6); box-shadow: 5px 5px 5px rgba(68,68,68,0.6); background: #ffffff; border-width: 2px; border-style: solid; border-color: black; cursor: pointer; margin: 50px auto; padding: 0; position: relative;} @media (max-width: 601px) {#prompt-container #input-container {box-shadow: none; border: none; bottom: 0; margin: 0; padding-bottom: 5px; position: absolute;}}
+/*** FONTS ***/
+@font-face {
+    font-family: "kaisho";
+    src: url('../fonts/DFPKaiSho-Md.ttf');
+}
+@font-face {
+    font-family: "simkai";
+    src: url('../fonts/simkai.ttf');
+}
+
+
+/*** MAIN ***/
+html, body {
+    background-image: url('../images/textures/rice-paper1.png');
+    background-repeat: repeat;
+    height: 100%;
+    overflow-x: hidden;
+}
+#skritter-container {
+    height: 100%;
+}
+.chinese-text {font-family: "simkai", "SimSun", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.cursor {cursor:pointer}
+.fa-navbar {font-size: 18px;}
+.japanese-text {font-family: "kaisho", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.link-button {cursor: pointer;}
+.view {
+    height: 100%;
+    padding-top: 60px;
+}
+.view .content {
+    border: 2px #e7e7e7 solid;
+    background: #ffffff;
+    margin-bottom: 25px;
+    padding: 15px;
+}
+@media (max-width:767px) {
+    .view {
+        padding-top: 40px;
+    }
+}
+
+/*** GRADING BUTTONS ***/
+#grading-buttons {
+    bottom: 0;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+}
+#grading-buttons div {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    cursor: pointer;
+    display: inline-block;
+    min-height: 50px;
+    margin: 0 0 5px 0;
+    opacity: 0.8;
+    padding: 15px 12%;
+    text-align:  center;
+    width: 14%;
+}
+#grading-buttons div:hover { opacity: 1.0; }
+#grading-buttons #grade1 { background-image: url('../images/grading/grade1.png'); }
+#grading-buttons #grade2 { background-image: url('../images/grading/grade2.png'); }
+#grading-buttons #grade3 { background-image: url('../images/grading/grade3.png'); }
+#grading-buttons #grade4 { background-image: url('../images/grading/grade4.png'); }
+
+
+/*** HOME.HTML ***/
+#home-view #features .media {
+    padding: 15px 0;
+}
+#home-view .feature-icon {
+    background: url('../images/feature-icons.png') no-repeat;
+    height: 50px;
+    left: 0;
+    margin-right: 5px;
+    top: 0;
+    width: 60px;
+}
+#home-view #github-logo {
+    height: 108px;
+}
+#home-view #features #brush { background-position: 0 -150px; }
+#home-view #features #plane { background-position: 0 -100px; }
+#home-view #features #book { background-position: 0 -50px; }
+#home-view #features #clock { background-position: 0 0; }
+@media (max-width:767px) {
+    #home-view #overview {
+        text-align: center;
+    }
+    #home-view #introduction {
+        text-align: center;
+    }
+}
+
+
+/*** INFO.HTML ***/
+#info-view #writing {
+    font-size: 86px;
+    text-align: center;
+}
+#info-view #definition-reading {
+    padding: 40px 2% 0 2%;
+}
+#info-view #reading {
+    font-size: xx-large;
+}
+#info-view #definition {
+    font-size: x-large;
+}
+#info-view #mnemonic {
+    font-size: x-large;
+    padding-top: 20px;
+}
+#info-view #sentence {
+    font-size: x-large;
+    padding-top: 20px;
+}
+#info-view #contained-characters, #info-view #decompositions {
+    padding: 20px 15% 0 15%;
+}
+@media (max-width:767px) {
+    #info-view #definition-reading {
+        text-align: center;
+    }
+    #info-view #contained-characters, #info-view #decompositions {
+        padding: 20px 5% 0 5%;
+    }
+    #info-view #sentence {
+        text-align: center;
+    }
+}
+
+
+/*** LOGIN.HTML ***/
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+/*** MODALS.HTML ***/
+.modal { overflow-y: hidden; }
+.model #slider { width: 100%; }
+.modal #error-message { padding-top: 20px; }
+.modal-vertical-centered {
+    outline: 0;
+    transform: translate(0, 20%) !important;
+    -ms-transform: translate(0, 20%) !important;
+    -webkit-transform: translate(0, 20%) !important;
+}
+
+
+/*** NAVBAR ***/
+.navbar .navbar-nav {
+    margin: 0;
+}
+.navbar .navbar-btn {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+@media (max-width:767px) {
+    .navbar .navbar-collapse .navbar-nav > li {
+        padding-left:15px!important;
+    }
+    .navbar .user-dropdown > .dropdown-menu {
+        border-top: 1px solid #e7e7e7;
+    }
+    .navbar .user-dropdown > .dropdown-menu > li {
+        padding-left:5px!important;
+    }
+}
+
+
+/*** PROMPT ***/
+#prompt-container .prompt {
+    height: 100%;
+    margin-left: 30%;
+}
+#prompt-container #info-container {
+    background: #ffffff;
+    border: 2px black solid;
+    height: 100%;
+    left: 0;
+    overflow-y: auto;
+    padding: 5px 30px 0 30px;
+    position: fixed;
+    top: 40px;
+    width: 30%;
+}
+#prompt-container #input-container {
+    padding-top: 20%;
+}
+#prompt-container .prompt-row {
+    clear: both;
+    padding-bottom: 20px;
+}
+#prompt-container .prompt-writing {
+    font-size: 4.5em;
+}
+#prompt-container .prompt-reading {
+    font-size: x-large;
+}
+#prompt-container .prompt-definition {
+    font-size: x-large;
+}
+#prompt-container .prompt-sentence {
+    font-size: x-large;
+}
+#prompt-container #mnemonic {
+    font-size: x-large;
+}
+#prompt-container #prompt-text {
+    height: 100%;
+    padding-top: 20%;
+    text-align: center;
+}
+#prompt-container .hidden-reading {
+    border: 1px #000000 dashed;
+    border-radius: 15px;
+    cursor: pointer;
+    height: 55px;
+    padding: 5px;
+    width: 95px;
+}
+#prompt-container .prompt-rune-display {
+    display: inline-block;
+    height: 50px;
+    min-width: 50px;
+    margin: 0 5px 0 0;
+    text-align: center;
+}
+#prompt-container .prompt-rune-hidden {
+    border: 2px blue dotted;
+    display: inline-block;
+    height: 60px;
+    min-width: 50px;
+    margin: 0 5px 0 0;
+    text-align: center;
+    width: auto;
+}
+#prompt-container .prompt-tone-display {
+    display: inline-block;
+    height: 50px;
+    min-width: 50px;
+    margin: 0 5px 0 0;
+    padding: 10px 2px 0 2px;
+    text-align: center;
+}
+#prompt-container .prompt-tone-hidden {
+    border: 2px blue dotted;
+    display: inline-block;
+    height: 60px;
+    min-width: 50px;
+    margin: 0 5px 0 0;
+    padding: 10px 2px 0 2px;
+    text-align: center;
+    width: auto;
+}
+@media (max-width: 601px) {
+    #prompt-container .prompt{
+        margin: 0;
+        overflow: hidden;
+    }
+    #prompt-container #info-container {
+        border: none;
+        border-bottom: 2px #000000 solid;
+        height: auto;
+        overflow-y: auto;
+        position: relative;
+        top: 0;
+        width: auto;
+    }
+    #prompt-container #input-container {
+        padding: 0;
+    }
+}
+
+
+/*** PROMPT CANVAS ***/
+#prompt-container #input-container {
+    -moz-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
+    -webkit-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
+    box-shadow: 5px 5px 5px rgba(68,68,68,0.6);  
+    background: #ffffff;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    cursor: pointer;
+    margin: 50px auto;
+    padding: 0;
+    position: relative;
+}
+@media (max-width: 601px) {
+    #prompt-container #input-container {
+        box-shadow: none;
+        border: none;
+        bottom: 0;
+        margin: 0;
+        padding-bottom: 5px;
+        position: absolute;
+    }
+}

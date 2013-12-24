@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -310,6 +312,7 @@ define([
          * @returns {Backbone.View}
          */
         setProgress: function(percent, text) {
+            percent = (percent === 0) ? &#x27;0&#x27; : percent;
             if (percent)
                 this.$(&#x27;#&#x27; + Modal.id + &#x27; .progress-bar&#x27;).width(percent + &#x27;%&#x27;);
             if (text)

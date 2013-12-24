@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -198,6 +200,7 @@
  * @author Joshua McFarland
  */
 define([
+    &#x27;indexeddb.shim&#x27;,
     &#x27;jquery.indexeddb&#x27;
 ], function() {
     /**
@@ -209,7 +212,7 @@ define([
         this.databaseName = null;
         this.databaseVersion = 1;
     }
-    
+
     /**
      * @method count
      * @param {String} tableName
@@ -225,7 +228,7 @@ define([
             console.error(tableName, error);
         });
     };
-    
+
     /**
      * @method deleteAllDatabases
      * @param {Function} callback
@@ -233,26 +236,30 @@ define([
      */
     IndexedDBAdapter.prototype.deleteAllDatabases = function(callback) {
         var position = 0;
-        var request = window.indexedDB.webkitGetDatabaseNames();
-        request.onsuccess = function(event) {
-            next();
-            function next() {
-                var promise = $.indexedDB(event.target.result[position]).deleteDatabase();
-                promise.done(function() {
-                    if (position &lt; event.target.result.length) {
-                        position++;
-                        next();
-                    } else {
-                        callback();
-                    }
-                });
-                promise.fail(function(error) {
-                    console.error(error);
-                });
-            }
-        };
+        if (window.indexedDB.webkitGetDatabaseNames) {
+            var request = window.indexedDB.webkitGetDatabaseNames();
+            request.onsuccess = function(event) {
+                next();
+                function next() {
+                    var promise = $.indexedDB(event.target.result[position]).deleteDatabase();
+                    promise.done(function() {
+                        if (position &lt; event.target.result.length) {
+                            position++;
+                            next();
+                        } else {
+                            callback();
+                        }
+                    });
+                    promise.fail(function(error) {
+                        console.error(error);
+                    });
+                }
+            };
+        } else {
+            callback();
+        }
     };
-    
+
     /**
      * @method deleteDatabase
      * @param {Function} callback
@@ -268,7 +275,7 @@ define([
             console.error(error);
         });
     };
-    
+
     /**
      * @method openDatabase
      * @param {String} databaseName
@@ -284,10 +291,10 @@ define([
                 1: function(transaction) {
                     transaction.createObjectStore(&#x27;decomps&#x27;, {keyPath: &#x27;writing&#x27;});
                     transaction.createObjectStore(&#x27;items&#x27;, {keyPath: &#x27;id&#x27;});
-                    transaction.createObjectStore(&#x27;reviews&#x27;, {keyPath: [&#x27;itemId&#x27;, &#x27;submitTime&#x27;]});
+                    transaction.createObjectStore(&#x27;reviews&#x27;, {keyPath: &#x27;id&#x27;});
                     transaction.createObjectStore(&#x27;sentences&#x27;, {keyPath: &#x27;id&#x27;});
                     transaction.createObjectStore(&#x27;strokes&#x27;, {keyPath: &#x27;rune&#x27;});
-                    transaction.createObjectStore(&#x27;srsconfigs&#x27;, {keyPath: [&#x27;part&#x27;, &#x27;lang&#x27;]});
+                    transaction.createObjectStore(&#x27;srsconfigs&#x27;, {keyPath: &#x27;part&#x27;});
                     transaction.createObjectStore(&#x27;vocabs&#x27;, {keyPath: &#x27;id&#x27;});
                 }
             }
@@ -304,7 +311,7 @@ define([
             console.error(databaseName, error);
         });
     };
-    
+
     /**
      * @method getAll
      * @param {String} tableName
@@ -324,7 +331,7 @@ define([
             console.error(tableName, error);
         });
     };
-    
+
     /**
      * @method getItems
      * @param {String} tableName
@@ -343,7 +350,8 @@ define([
                 var promise = table.get(keys[position]);
                 promise.done(function(item) {
                     position++;
-                    items.push(item);
+                    if (item)
+                        items.push(item);
                     getNext();
                 });
                 promise.fail(function(error) {
@@ -354,7 +362,7 @@ define([
             }
         }
     };
-    
+
     /**
      * @method removeItems
      * @param {String} tableName
@@ -383,7 +391,37 @@ define([
             }
         }
     };
-    
+
+    /**
+     * @method getSchedule
+     * @param {Function} callback
+     */
+    IndexedDBAdapter.prototype.getSchedule = function(callback) {
+        var items = [];
+        var table = this.database.objectStore(&#x27;items&#x27;);
+        var promise = table.each(function(item) {
+            if (item.value.vocabIds.length &gt; 0) {
+                var splitId = item.value.id.split(&#x27;-&#x27;);
+                items.push({
+                    base: splitId[1] + &#x27;-&#x27; + splitId[2] + &#x27;-&#x27; + splitId[3],
+                    id: item.value.id,
+                    last: (item.value.last) ? item.value.last : 0,
+                    next: item.value.next,
+                    part: item.value.part,
+                    style: item.value.style,
+                    vocabIds: item.value.vocabIds
+                });
+            }
+        });
+        promise.done(function() {
+            callback(items);
+        });
+        promise.fail(function(error) {
+            console.error(&#x27;schedule&#x27;, error);
+            callback();
+        });
+    };
+
     /**
      * @method setItems
      * @param {String} tableName
@@ -394,7 +432,9 @@ define([
     IndexedDBAdapter.prototype.setItems = function(tableName, items, callback) {
         var position = 0;
         var table = this.database.objectStore(tableName);
-        var setNext = function() {
+        items = Array.isArray(items) ? items : [items];
+        setNext();
+        function setNext() {
             if (position &lt; items.length) {
                 var promise = table.put(items[position]);
                 promise.done(function() {
@@ -408,13 +448,6 @@ define([
                 if (typeof callback === &#x27;function&#x27;)
                     callback();
             }
-        };
-        
-        if (items) {
-            items = Array.isArray(items) ? items : [items];
-            setNext();
-        } else {
-            callback();
         }
     };
 

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -214,7 +216,7 @@ define([
         this.clientId = &#x27;mcfarljwapiclient&#x27;;
         this.clientSecret = &#x27;e3872517fed90a820e441531548b8c&#x27;;
         this.credentials = &#x27;basic &#x27; + Base64.encode(this.clientId + &#x27;:&#x27; + this.clientSecret);
-        this.domain = &#x27;com&#x27;;
+        this.domain = (document.location.host.indexOf(&#x27;cn&#x27;) &gt; -1) ? &#x27;cn&#x27; : &#x27;com&#x27;;
         this.root = &#x27;https://beta.skritter&#x27;;
         this.token = null;
         this.version = 0;
@@ -323,7 +325,7 @@ define([
         });
         promise.fail(function(error) {
             console.error(error);
-            callback();
+            callback(error);
         });
     };
 
@@ -355,8 +357,10 @@ define([
                 var requests = batch.Requests;
                 retryCount = 0;
                 for (var i in requests) {
-                    _.merge(result, requests[i].response, merge);
-                    responseSize += requests[i].responseSize;
+                    if (requests[i].response.statusCode === 200) {
+                        _.merge(result, requests[i].response, merge);
+                        responseSize += requests[i].responseSize;
+                    }
                 }
                 if (typeof callback1 === &#x27;function&#x27;)
                     callback1(responseSize);
@@ -621,7 +625,31 @@ define([
         };
         getNext();
     };
-
+    
+    /**
+     * Returns the SRSConfig values for the current active user. These should be updated
+     * somewhat frequently to keep SRS calculations accurate.
+     * 
+     * @method getSRSConfigs
+     * @param {Function} callback
+     */
+    Api.prototype.getSRSConfigs = function(callback) {
+        var promise = $.ajax({
+            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/srsconfigs&#x27;,
+            type: &#x27;GET&#x27;,
+            data: {
+                bearer_token: this.token
+            }
+        });
+        promise.done(function(data) {
+            callback(data.SRSConfigs);
+        });
+        promise.fail(function(error) {
+            console.error(error);
+            callback(error);
+        });
+    };
+    
     /**
      * Returns basic informatiom about a user or detailed information if its a request
      * for the current active user.
@@ -632,24 +660,36 @@ define([
      */
     Api.prototype.getUser = function(userId, callback) {
         var self = this;
-        var promise = $.ajax({
-            url: this.root + &#x27;.&#x27; + this.domain + &#x27;/api/v&#x27; + this.version + &#x27;/users/&#x27; + userId,
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, self.credentials);
-            },
-            type: &#x27;GET&#x27;,
-            data: {
-                bearer_token: this.token,
-                detailed: true
-            }
-        });
-        promise.done(function(data) {
-            callback(data.User);
-        });
-        promise.fail(function(error) {
-            console.error(error);
-            callback(error);
-        });
+        var tryCount = 0;
+        request();
+        function request() {
+            var promise = $.ajax({
+                url: self.root + &#x27;.&#x27; + self.domain + &#x27;/api/v&#x27; + self.version + &#x27;/users/&#x27; + userId,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(&#x27;AUTHORIZATION&#x27;, self.credentials);
+                },
+                type: &#x27;GET&#x27;,
+                data: {
+                    bearer_token: self.token,
+                    detailed: true
+                }
+            });
+            promise.done(function(data) {
+                callback(data.User);
+            });
+            promise.fail(function(error) {
+                console.error(error);
+                if (tryCount &gt; 2) {
+                    callback(error);
+                } else {
+                    tryCount++;
+                    console.log(&#x27;retrying to get user&#x27;);
+                    window.setTimeout(function() {
+                        request();
+                    }, 1000);
+                }
+            });
+        }        
     };
 
     /**
@@ -741,17 +781,17 @@ define([
                 type: &#x27;POST&#x27;,
                 data: JSON.stringify(batch)
             });
-            promise.done(function(data) {
+            promise.done(function() {
                 postedReviews = postedReviews.concat(batch);
                 if (reviews.length &gt; 0) {
                     postBatch(reviews.splice(0, 499));
                 } else {
-                    callback(postedReviews, data);
+                    callback(postedReviews);
                 }
             });
             promise.fail(function(error) {
                 console.error(error);
-                callback();
+                callback(postedReviews);
             });
         };
         postBatch(reviews.splice(0, 499));
@@ -781,7 +821,7 @@ define([
         });
         promise.fail(function(error) {
             console.error(error);
-            callback();
+            callback(error);
         });
     };
 

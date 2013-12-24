@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -213,7 +215,6 @@ define([
             Canvas.grid = false;
             Canvas.gridColor = &#x27;grey&#x27;;
             Canvas.gridLineWidth = 1;
-            Canvas.points = [];
             Canvas.size = skritter.settings.get(&#x27;canvasSize&#x27;);
             Canvas.strokeColor = &#x27;#000000&#x27;;
             Canvas.strokeSize = 12;
@@ -234,7 +235,6 @@ define([
          */
         render: function() {
             this.$el.html(Canvas.element);
-            this.createLayer(&#x27;grid&#x27;);
             this.createLayer(&#x27;input&#x27;);
             if (Canvas.grid)
                 this.drawGrid(&#x27;grid&#x27;);
@@ -412,11 +412,9 @@ define([
          * @returns {Bitmap}
          */
         drawPhantomStroke: function(bitmap, layerName, callback) {
-            bitmap.filters = [new createjs.ColorFilter(0, 0, 0, 1, 135, 206, 250, 0)];
-            bitmap.cache(0, 0, Canvas.size, Canvas.size);
             var layer = this.getLayer(layerName);
             layer.addChild(bitmap);
-            createjs.Tween.get(bitmap).wait(500).to({alpha: 0}, 1000).call(function() {
+            createjs.Tween.get(bitmap).wait(300).to({alpha: 0}, 1000).call(function() {
                 layer.removeChild(bitmap);
                 if (typeof callback === &#x27;function&#x27;)
                     callback();
@@ -437,37 +435,14 @@ define([
         },
         /**
          * @method drawSquig
-         * @param {Array} points
+         * @param {CreateJS.Shape} marker
          * @param {String} layerName
-         * @param {Number} alpha
-         * @returns {Shape}
+         * @returns {CreateJS.Container}
          */
-        drawSquig: function(points, layerName, alpha) {
-            var marker = new createjs.Shape();
-            var oldPt, oldMidPt;
-            oldPt = new createjs.Point(points[0].x, points[0].y);
-            oldMidPt = oldPt;
-            marker.graphics.beginStroke(Canvas.squigColor).setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle);
-            for (var i in points) {
-                var point = new createjs.Point(points[i].x, points[i].y);
-                var midPt = new createjs.Point(oldPt.x + point.x &gt;&gt; 1, oldPt.y + point.y &gt;&gt; 1);
-                marker.graphics
-                        .moveTo(midPt.x, midPt.y)
-                        .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
-                oldPt.x = point.x;
-                oldPt.y = point.y;
-                oldMidPt.x = midPt.x;
-                oldMidPt.y = midPt.y;
-            }
-            marker.graphics
-                    .moveTo(points[points.length - 1].x, points[points.length - 1].y)
-                    .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
-            if (alpha)
-                marker.alpha = alpha;
-            marker.graphics.endStroke();
-            this.getLayer(layerName).addChild(marker);
-
-            return marker;
+        drawSquig: function(marker, layerName) {
+            var layer = this.getLayer(layerName);
+            layer.addChild(marker);
+            return layer;
         },
         /**
          * @method drawStroke
@@ -534,6 +509,79 @@ define([
             return toBitmap;
         },
         /**
+         * @method enableGrid
+         * @returns {undefined}
+         */
+        enableGrid: function() {
+            Canvas.grid = true;
+        },
+        /**
+         * Enables touch input and drawing on the canvas. It also handles the immediate ink
+         * traced by the finger.
+         * 
+         * @method enableInput
+         */
+        enableInput: function() {
+            var self = this;
+            var layer = this.getLayer(&#x27;input&#x27;);
+            var oldPt, oldMidPt, points;
+            var stage = Canvas.stage;
+            var marker = new createjs.Shape();
+            layer.addChild(marker);
+            var down = function() {
+                points = [];
+                oldPt = new createjs.Point(stage.mouseX, stage.mouseY);
+                self.triggerMouseDown(oldPt);
+                oldMidPt = oldPt;
+                if (skritter.user.getSetting(&#x27;squigs&#x27;)) {
+                    marker.graphics.beginStroke(Canvas.squigColor);
+                } else {
+                    marker.graphics.beginStroke(Canvas.strokeColor);
+                }
+                stage.addEventListener(&#x27;stagemousemove&#x27;, move);
+                stage.addEventListener(&#x27;stagemouseup&#x27;, up);
+            };
+            var move = function() {
+                var point = new createjs.Point(stage.mouseX, stage.mouseY);
+                var midPt = new createjs.Point(oldPt.x + point.x &gt;&gt; 1, oldPt.y + point.y &gt;&gt; 1);
+                //disable the pressurized stroke size on mobile to help speed things up
+                if (skritter.fn.isMobile()) {
+                    marker.graphics
+                            .setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                            .moveTo(midPt.x, midPt.y)
+                            .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                } else {
+                    marker.graphics
+                            .setStrokeStyle(skritter.fn.getPressurizedStrokeSize(point, oldPt), Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                            .moveTo(midPt.x, midPt.y)
+                            .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                }
+                oldPt.x = point.x;
+                oldPt.y = point.y;
+                oldMidPt.x = midPt.x;
+                oldMidPt.y = midPt.y;
+                points.push(oldPt.clone());
+                stage.update();
+            };
+            var up = function up(event) {
+                marker.graphics.endStroke();
+                if (isOnCanvas(event)) {
+                    self.triggerMouseUp(points, marker.clone(true));
+                }
+                stage.removeEventListener(&#x27;stagemousemove&#x27;, move);
+                stage.removeEventListener(&#x27;stagemouseup&#x27;, up);
+                marker.graphics.clear();
+            };
+            var isOnCanvas = function(event) {
+                var x = event.rawX;
+                var y = event.rawY;
+                if (x &gt;= 0 &amp;&amp; x &lt; Canvas.size &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; Canvas.size)
+                    return true;
+            };
+            if (!stage.hasEventListener(&#x27;stagemousedown&#x27;))
+                stage.addEventListener(&#x27;stagemousedown&#x27;, down);
+        },
+        /**
          * @method fadeLayer
          * @param {String} layerName
          * @param {Function} callback
@@ -549,6 +597,25 @@ define([
                         callback(layer);
                 });
             }
+            return layer;
+        },
+        /**
+         * @method fadeShape
+         * @param {String} layerName
+         * @param {CreateJS.Shape} shape
+         * @param {Function} callback
+         * @returns {Container}
+         */
+        fadeShape: function(layerName, shape, callback) {
+            var layer = this.getLayer(layerName);
+            layer.addChild(shape);
+            shape.cache(0, 0, Canvas.size, Canvas.size);
+            createjs.Tween.get(shape).to({alpha: 0}, 300, createjs.Ease.quadOut).call(function() {
+                shape.uncache();
+                layer.removeChild(shape);
+                if (typeof callback === &#x27;function&#x27;)
+                    callback();
+            });
             return layer;
         },
         /**
@@ -585,74 +652,16 @@ define([
             return layers;
         },
         /**
-         * @method enableGrid
-         * @returns {undefined}
+         * @method pulseStroke
+         * @param {CreateJS.Shape} stroke
+         * @param {String} layerName
+         * @returns {CreateJS.Container}
          */
-        enableGrid: function() {
-            Canvas.grid = true;
-        },
-        /**
-         * Enables touch input and drawing on the canvas. It also handles the immediate ink
-         * traced by the finger.
-         * 
-         * @method enableInput
-         */
-        enableInput: function() {
-            var self = this;
-            var layer = this.getLayer(&#x27;input&#x27;);
-            var oldPt, oldMidPt, points;
-            var stage = Canvas.stage;
-            var marker = new createjs.Shape();
-            layer.addChild(marker);
-            var down = function() {
-                points = [];
-                oldPt = new createjs.Point(stage.mouseX, stage.mouseY);
-                self.triggerMouseDown(oldPt);
-                oldMidPt = oldPt;
-                Canvas.points.push(oldPt.clone());
-                marker.graphics.beginStroke(Canvas.strokeColor);
-                stage.addEventListener(&#x27;stagemousemove&#x27;, move);
-                stage.addEventListener(&#x27;stagemouseup&#x27;, up);
-            };
-            var move = function() {
-                var point = new createjs.Point(stage.mouseX, stage.mouseY);
-                var midPt = new createjs.Point(oldPt.x + point.x &gt;&gt; 1, oldPt.y + point.y &gt;&gt; 1);
-                //disable the pressurized stroke size on mobile to help speed things up
-                if (skritter.fn.isMobile()) {
-                    marker.graphics
-                            .setStrokeStyle(Canvas.strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle)
-                            .moveTo(midPt.x, midPt.y)
-                            .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
-                } else {
-                    marker.graphics
-                            .setStrokeStyle(skritter.fn.getPressurizedStrokeSize(point, oldPt), Canvas.strokeCapStyle, Canvas.strokeJointStyle)
-                            .moveTo(midPt.x, midPt.y)
-                            .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
-                }
-                oldPt.x = point.x;
-                oldPt.y = point.y;
-                oldMidPt.x = midPt.x;
-                oldMidPt.y = midPt.y;
-                points.push(oldPt.clone());
-                stage.update();
-            };
-            var up = function up(event) {
-                marker.graphics.endStroke();
-                if (isOnCanvas(event)) {
-                    self.triggerMouseUp(points);
-                }
-                stage.removeEventListener(&#x27;stagemousemove&#x27;, move);
-                stage.removeEventListener(&#x27;stagemouseup&#x27;, up);
-                marker.graphics.clear();
-            };
-            var isOnCanvas = function(event) {
-                var x = event.rawX;
-                var y = event.rawY;
-                if (x &gt;= 0 &amp;&amp; x &lt; Canvas.size &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; Canvas.size)
-                    return true;
-            };
-            if (!stage.hasEventListener(&#x27;stagemousedown&#x27;))
-                stage.addEventListener(&#x27;stagemousedown&#x27;, down);
+        pulseStroke: function(stroke, layerName) {
+            var layer = this.getLayer(layerName);
+            layer.addChild(stroke);
+            createjs.Tween.get(stroke, {loop: true}).to({alpha: 0.4}, 1000).wait(500).to({alpha:1}, 1000);
+            return layer;
         },
         /**
          * @method setLayerAlpha
@@ -663,7 +672,31 @@ define([
         setLayerAlpha: function(layerName, alpha) {
             var layer = this.getLayer(layerName);
             layer.alpha = alpha;
+            layer.cache(0, 0, Canvas.size, Canvas.size);
             return layer;
+        },
+        /**
+         * @method showMessage
+         * @param {String} text
+         * @returns {Backbone.View}
+         */
+        showMessage: function(text) {
+            var layer = this.getLayer(&#x27;feedback&#x27;);
+            var message = new createjs.Container();
+            var box = new createjs.Shape(new createjs.Graphics().beginFill(&#x27;grey&#x27;).drawRect(0, 0, Canvas.size, 30));
+            var line = new createjs.Shape(new createjs.Graphics().beginStroke(&#x27;black&#x27;).moveTo(0, 30).lineTo(Canvas.size, 30));
+            message.y = -30;
+            message.addChild(box);
+            message.addChild(line);
+            text = new createjs.Text(text, &#x27;20px Arial&#x27;, &#x27;#ffffff&#x27;);
+            text.x = (Canvas.size / 2) - (text.getMeasuredWidth() / 2);
+            text.y = 2.5;
+            message.addChild(text);
+            createjs.Tween.get(message).to({y: 0}, 200, createjs.Ease.sineOut).wait(2000).to({y: -30}, 1000, createjs.Ease.bounceOut).call(function() {
+                layer.removeChild(message);
+            });
+            layer.addChild(message);
+            return this;
         },
         /**
          * @method resize
@@ -698,9 +731,21 @@ define([
          * 
          * @method triggerMouseUp
          * @param {Array} points
+         * @param {CreateJS.Shape} marker
          */
-        triggerMouseUp: function(points) {
-            this.trigger(&#x27;mouseup&#x27;, points);
+        triggerMouseUp: function(points, marker) {
+            this.trigger(&#x27;mouseup&#x27;, points, marker);
+        },
+        /**
+         * @method uncacheLayer
+         * @param {String} layerName
+         * @returns {CreateJS.Container}
+         */
+        uncacheLayer: function(layerName) {
+            var layer = this.getLayer(layerName);
+            if (layer.cacheCanvas)
+                layer.uncache();
+            return layer;
         }
     });
 

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -220,7 +222,7 @@ define(function() {
      * @returns {Array}
      */
     var extractCJK = function(value) {
-        return value.match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]|[\u20000-\u2a6d6]|[\u2a700-\u2b734]|[\u2b740-\u2b81d]/g);
+        return value.match(/[\u4e00-\u9fcc]|[\u3400-\u4db5]/gi);
     };
     
     /**
@@ -358,14 +360,18 @@ define(function() {
     };
 
     /**
+     * Takes a the first character from a string and return whether it is a kana character.
+     * 
+     * NOTE: It&#x27;s also currently checking for the unicode tilde because those need to be filtered
+     * out of Japanese writings as well.
+     * 
      * @method isKana
      * @param {String} character
      * @returns {Boolean}
      */
     var isKana = function(character) {
-        //return !!character.match(/^[\u3040-\u3096]+$/) || !!character.match(/^[\u30A1-\u30FA]+$/);
         var charCode = character.charCodeAt(0);
-        return (charCode &gt; 12352 &amp;&amp; charCode &lt; 12438) || (charCode &gt; 12449 &amp;&amp; charCode &lt; 12538);
+        return (charCode &gt; 12352 &amp;&amp; charCode &lt; 12438) || (charCode &gt; 12449 &amp;&amp; charCode &lt; 12538) || charCode === 65374;
     };
     
     /**

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -197,6 +199,7 @@
  * @class Application
  * @param Api
  * @param Functions
+ * @param Log
  * @param Router
  * @param Modal
  * @param Timer
@@ -212,6 +215,7 @@
 define([
     &#x27;Api&#x27;,
     &#x27;Functions&#x27;,
+    &#x27;Log&#x27;,
     &#x27;Router&#x27;,
     &#x27;components/Modal&#x27;,
     &#x27;components/Timer&#x27;,
@@ -222,18 +226,14 @@ define([
     &#x27;async&#x27;,
     &#x27;moment&#x27;,
     &#x27;bootstrap&#x27;
-], function(Api, Functions, Router, Modal, Timer, Assets, Settings, User, IndexedDBAdapter, async, moment) {
+], function(Api, Functions, Log, Router, Modal, Timer, Assets, Settings, User, IndexedDBAdapter, async, moment) {
     /**
      * @method loadAssets
      * @param {Function} callback
      */
     var loadAssets = function(callback) {
         skritter.assets = new Assets();
-        skritter.async.parallel([
-            skritter.async.apply(skritter.assets.loadStrokeShapes)
-        ], function() {
-            callback();
-        });
+        callback();
     };
 
     /**
@@ -251,6 +251,15 @@ define([
      */
     var loadFunctions = function(callback) {
         skritter.fn = Functions;
+        callback();
+    };
+
+    /**
+     * @method loadLog
+     * @param {Function} callback
+     */
+    var loadLog = function(callback) {
+        skritter.log = new Log();
         callback();
     };
 
@@ -318,6 +327,7 @@ define([
                         if (!skritter.user.getLastSync()) {
                             skritter.modal.show(&#x27;progress&#x27;).setTitle(&#x27;Initial Download&#x27;).setProgress(&#x27;100&#x27;);
                             skritter.user.sync(function() {
+                                document.location.reload(true);
                                 skritter.modal.hide();
                                 callback();
                             });
@@ -343,6 +353,7 @@ define([
             skritter.async.apply(loadApi),
             skritter.async.apply(loadAssets),
             skritter.async.apply(loadFunctions),
+            skritter.async.apply(loadLog),
             skritter.async.apply(loadModal),
             skritter.async.apply(loadSettings),
             skritter.async.apply(loadStorage),

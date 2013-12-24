@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.109</em>
+            <em>API Docs for: 0.0.137</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Modal.html">Modal</a></li>
             
                 <li><a href="../classes/PinyinConverter.html">PinyinConverter</a></li>
+            
+                <li><a href="../classes/Prompt.html">Prompt</a></li>
             
                 <li><a href="../classes/PromptCanvas.html">PromptCanvas</a></li>
             
@@ -268,10 +270,11 @@ define([
         },
         /**
          * @method handleInputRecieved
+         * @param {CreateJS.Shape} marker
          * @param {Array} points
          */
-        handleInputRecieved: function(points) {
-            this.processInput(points, null, false);
+        handleInputRecieved: function(points, marker) {
+            this.processInput(points, marker, null, false);
         },
         /**
          * @method handleSwipeLeft
@@ -314,10 +317,11 @@ define([
         /**
          * @method processInput
          * @param {Array} points
+         * @param {CreateJS.Shape} marker
          * @param {Array} ignoreCheck
          * @param {Boolean} enforceOrder
          */
-        processInput: function(points, ignoreCheck, enforceOrder) {
+        processInput: function(points, marker, ignoreCheck, enforceOrder) {
             if (points.length &gt; 1) {
                 //check that a minimum distance is met
                 if (skritter.fn.getDistance(points[0], points[points.length - 1]) &gt; Tone.minStrokeDistance) {
@@ -334,6 +338,8 @@ define([
                         Tone.canvas.drawStroke(result.getInflatedSprite(), &#x27;stroke&#x27;);
                     } else {
                         Prompt.gradingButtons.select(1).collapse();
+                        //fade incorrect strokes out
+                        Tone.canvas.fadeShape(&#x27;background&#x27;, marker);
                         //select the first possible tone and display it as wrong
                         Tone.canvas.drawStroke(Tone.userCharacter.targets[0].at(0).getInflatedSprite(), &#x27;stroke&#x27;);
                     }
@@ -377,6 +383,8 @@ define([
         showAnswer: function() {
             skritter.timer.stop();
             Tone.canvas.disableInput();
+            if (skritter.user.get(&#x27;audio&#x27;) &amp;&amp; Prompt.contained[Prompt.position - 1] &amp;&amp; Prompt.contained[Prompt.position - 1].getVocabs().length &gt; 0)
+                Prompt.contained[Prompt.position - 1].getVocabs()[0].play();
             if (Prompt.vocabs[0].has(&#x27;audio&#x27;) &amp;&amp; this.isLast() &amp;&amp; skritter.user.get(&#x27;audio&#x27;))
                 Prompt.vocabs[0].play();
             Prompt.gradingButtons.select().collapse();
