@@ -63,7 +63,7 @@ define(function() {
      * @returns {Number}
      */
     Scheduler.prototype.getInterval = function(item, grade) {
-        var config = skritter.data.srsconfigs.findWhere({lang: skritter.user.getSetting('targetLang'), part: item.get('part')});
+        var config = skritter.data.srsconfigs.findWhere({part: item.get('part')});
         var newInterval;
         var getRandomizedInterval = function(interval) {
             return Math.round(interval * (0.925 + (Math.random() * 0.15)));
@@ -81,7 +81,7 @@ define(function() {
                     newInterval = config.get('initialRightInterval');
                     break;
                 case 4:
-                    newInterval = config.get('initialRightInterval' * 4);
+                    newInterval = config.get('initialRightInterval') * 4;
                     break;
             }
             return getRandomizedInterval(newInterval);
@@ -224,10 +224,10 @@ define(function() {
             item.readiness = readiness;
             return -item.readiness;
         });
-        console.log('READINESS ORDER');
+        /*console.log('READINESS ORDER');
         var top = this.schedule.slice(0, 9);
         for (var i in top)
-                console.log(top[i].readiness, top[i].id);
+                console.log(top[i].readiness, top[i].id);*/
         return this.schedule;
     };
     
