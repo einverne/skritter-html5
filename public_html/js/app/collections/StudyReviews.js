@@ -41,6 +41,21 @@ define([
             });
         },
         /**
+         * @method checkAll
+         * @returns {Backbone.Collection}
+         */
+        checkAll: function() {
+            for (var a in this.models) {
+                var review = this.models[a];
+                if (!review.checkIntegrity()) {
+                    var wordGroup = this.where({wordGroup: review.get('wordGroup')});
+                    for (var b in wordGroup)
+                        this.remove(wordGroup[b]);
+                }
+            }
+            return this;
+        },
+        /**
          * @method comparator
          * @param {Backbone.Model} review
          */
@@ -76,7 +91,7 @@ define([
          */
         sync: function(callback) {
             if (this.length > 0) {
-                skritter.api.postReviews(this.toJSON(), function(reviews) {
+                skritter.api.postReviews(this.checkAll().toJSON(), function(reviews) {
                     if (reviews) {
                         console.log('submitted reviews', reviews);
                         skritter.data.reviews.remove(reviews);
