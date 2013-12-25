@@ -2,7 +2,6 @@
  * @module Skritter
  * @submodule Model
  * @param Scheduler
- * @param Sync
  * @param StudyDecomps
  * @param StudyItems
  * @param StudyParams
@@ -11,11 +10,11 @@
  * @param StudySentences
  * @param StudyStrokes
  * @param StudyVocabs
+ * @param Sync
  * @author Joshua McFarland
  */
 define([
     'Scheduler',
-    'Sync',
     'collections/StudyDecomps',
     'collections/StudyItems',
     'collections/StudyParams',
@@ -24,9 +23,10 @@ define([
     'collections/StudySentences',
     'collections/StudyStrokes',
     'collections/StudyVocabs',
+    'models/Sync',
     'backbone',
     'lz-string'
-], function(Scheduler, Sync, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs) {
+], function(Scheduler, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs, Sync) {
     /**
      * @class User
      */
@@ -35,6 +35,8 @@ define([
          * @method initialize
          */
         initialize: function() {
+            //loads the sync model for the user
+            User.sync = new Sync();
             //load the scheduler for faster scheduling
             skritter.scheduler = new Scheduler();
             //initializes all of the required data collections
@@ -74,6 +76,8 @@ define([
             access_token: null,
             addOffset: 0,
             audio: true,
+            autoSync: true,
+            autoSyncThreshold: 10,
             expires_in: null,
             lastLogin: null,
             lastSyncChinese: null,
@@ -394,9 +398,9 @@ define([
          * @param {Function} callback
          */
         sync: function(callback) {
-            console.log('syncing from', skritter.moment(this.getLastSync() * 1000).format('YYYY[-]MM[-]DD h:mm:ss a'));
-            Sync.methodFull(function(error) {
-                callback(error);
+            User.sync.full(function(error) {
+                if (typeof callback === 'function')
+                    callback(error);
             });
         },
         /**

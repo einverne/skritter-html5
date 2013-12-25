@@ -143,6 +143,10 @@ define([
          */
         nextPrompt: function() {
             var self = this;
+            //start a background sync if enabled and meets the threshold
+            if (skritter.user.get('autoSync') && skritter.data.reviews.length > skritter.user.get('autoSyncThreshold'))
+                skritter.user.sync();
+            //load up the next item into the collections
             skritter.scheduler.getNext(function(item) {
                 //keep an updated display of items due
                 self.updateDueCount();
