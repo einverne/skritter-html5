@@ -9,7 +9,6 @@ icon-196x196.png
 index.html
 manifest.webapp
 package.json
-skritter.appcache
 tests.html
 bootstrap/css/bootstrap-theme.css
 bootstrap/css/bootstrap-theme.min.css

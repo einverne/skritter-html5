@@ -107,7 +107,6 @@ define([
          * @method loadPrompt
          */
         loadPrompt: function() {
-            console.log('Resuming', Study.current.vocabs[0].get('writing'));
             switch (Study.current.item.get('part')) {
                 case 'rune':
                     Study.current.prompt.setElement(this.$('#prompt-container')).render();
@@ -150,31 +149,25 @@ define([
                 //gets the next item and vocab that should be studied and loads it
                 Study.current.item = item;
                 Study.current.vocabs = Study.current.item.getVocabs();
-                console.log(Study.current);
                 //load the based on the items part
                 switch (Study.current.item.get('part')) {
                     case 'rune':
                         Study.current.prompt = new Rune();
-                        Study.current.prompt.setElement(this.$('#prompt-container')).render();
                         break;
                     case 'tone':
                         Study.current.prompt = new Tone();
-                        Study.current.prompt.setElement(this.$('#prompt-container')).render();
                         break;
                     case 'defn':
                         Study.current.prompt = new Defn();
-                        Study.current.prompt.setElement(this.$('#prompt-container')).render();
                         break;
                     case 'rdng':
                         Study.current.prompt = new Rdng();
-                        Study.current.prompt.setElement(this.$('#prompt-container')).render();
                         break;
                 }
-                //toggle the audio button display
-                self.toggleAudioButton();
                 //set the prompt values and start listening for completion
-                Study.current.prompt.set(Study.current.vocabs, Study.current.item).show();
+                Study.current.prompt.set(Study.current.vocabs, Study.current.item);
                 self.listenToOnce(Study.current.prompt, 'complete', self.handlePromptComplete);
+                self.loadPrompt();
             });
             return this;
         },

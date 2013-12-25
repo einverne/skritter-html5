@@ -77,7 +77,8 @@ module.exports = function(grunt) {
                     network: ["*"],
                     preferOnline: false,
                     verbose: false,
-                    timestamp: false
+                    timestamp: false,
+                    exclude: ['skritter.appcache']
                 },
                 src: [
                     "*.*",
@@ -92,14 +93,15 @@ module.exports = function(grunt) {
                 ],
                 dest: "public_html/skritter.appcache"
             },
-            'optimized': {
+            optimized: {
                 options: {
                     basePath: "build/www/",
                     cache: ["index.html"],
                     network: ["*"],
                     preferOnline: false,
                     verbose: false,
-                    timestamp: true
+                    timestamp: true,
+                    exclude: ['skritter.appcache']
                 },
                 src: [
                     "*.*",
@@ -220,10 +222,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-replace');
     grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask('appcache', ['manifest']);
+    grunt.registerTask('appcache', ['manifest:generate']);
     grunt.registerTask('docs', ['yuidoc']);
     grunt.registerTask('hint', ['jshint']);
     grunt.registerTask('build-combined', ['jshint', 'clean:build', 'requirejs:combined', 'replace:compiled-version', 'manifest:optimized', 'yuidoc:www']);
     grunt.registerTask('build-optimized', ['jshint', 'clean:build', 'requirejs', 'replace:compiled-version', 'manifest:optimized', 'yuidoc:www']);
-    grunt.registerTask('build-copy', ['jshint', 'clean:build', 'copy:public_html', 'replace:copy-version', 'yuidoc:www']);
+    grunt.registerTask('build-copy', ['jshint', 'clean:build', 'copy:public_html', 'replace:copy-version', 'manifest:optimized', 'yuidoc:www']);
 };
