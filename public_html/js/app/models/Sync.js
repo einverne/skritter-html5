@@ -52,6 +52,10 @@ define([
                     }
                 }
             ];
+            var started, completed;
+            var received = 0;
+            var sent = 0;
+            started = skritter.moment().format('YYYY-MM-DD hh:mm:ss');
             skritter.async.waterfall([
                 //make the initial batch request for changed items
                 function(callback) {
@@ -77,6 +81,8 @@ define([
                                 }, 5000);
                             } else if (result) {
                                 size += result.responseSize;
+                                if (result.Items)
+                                    received += result.Items.length;
                                 skritter.async.series([
                                     function(callback) {
                                         skritter.data.decomps.insert(result.Decomps, callback);
@@ -109,27 +115,12 @@ define([
                         });
                     }
                 },
-                //check for previous review errors before posting new reviews
-                function(callback) {
-                    if (skritter.user.getLastSync() > 0) {
-                        skritter.user.checkReviewErrors(function(errors) {
-                            if (errors && errors.status !== 403) {
-                                var now = skritter.moment().format('YYYY-MM-DD hh:mm:ss');
-                                for (var i in errors)
-                                    skritter.log.reviewError(now, errors[i]);
-                            }
-                            callback();
-                        }, skritter.user.getLastSync());
-                    } else {
-                        callback();
-                    }
-                },
                 //post reviews to the server and remove them locally
                 function(callback) {
                     if (skritter.data.reviews.length > 0 && skritter.user.getLastSync()) {
                         skritter.modal.setProgress(100, 'Posting Reviews');
                         skritter.data.reviews.sync(function(quantity) {
-                            skritter.log.review(quantity);
+                            sent = quantity;
                             callback();
                         });
                     } else {
@@ -141,6 +132,8 @@ define([
                 if (error) {
                     callback(error);
                 } else {
+                    completed = skritter.moment().format('YYYY-MM-DD hh:mm:ss');
+                    skritter.log.sync(started, completed, received, sent);
                     skritter.user.setLastSync();
                     callback();
                 }

@@ -263,6 +263,21 @@ define([
             }
         },
         /**
+         * @method getStyleString
+         * @returns {String}
+         */
+        getStyleString: function() {
+            if (this.isJapanese()) {
+                return 'all';
+            } else if (this.isChinese() && this.getSetting('reviewSimplified') && this.getSetting('reviewTraditional')) {
+                return 'both';
+            } else if (this.isChinese() && this.getSetting('reviewSimplified') && !this.getSetting('reviewTraditional')) {
+                return 'simp';
+            } else {
+                return 'trad';
+            }
+        },
+        /**
          * @method getTextStyle
          * @returns {String}
          */
