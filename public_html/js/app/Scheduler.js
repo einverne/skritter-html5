@@ -188,6 +188,8 @@ define(function() {
         deprioritizeLongShots = deprioritizeLongShots ? deprioritizeLongShots : false;
         var now = skritter.fn.getUnixTime();
         this.schedule = _.sortBy(this.schedule, function(item) {
+            if (item.vocabIds.length === 0)
+                return false;
             var historicItem = _.find(self.history, {base: item.base});
             if (!historicItem || (now - historicItem.last) >= 300) {
                 if (!item.last && (item.next - now) > 600) {
@@ -224,10 +226,10 @@ define(function() {
             item.readiness = readiness;
             return -item.readiness;
         });
-        /*console.log('READINESS ORDER');
+        /**console.log('READINESS ORDER');
         var top = this.schedule.slice(0, 9);
         for (var i in top)
-                console.log(top[i].readiness, top[i].id);*/
+                console.log(top[i].readiness, top[i].id);**/
         return this.schedule;
     };
     
