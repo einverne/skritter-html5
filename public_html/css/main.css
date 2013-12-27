@@ -298,6 +298,57 @@ html, body {
     text-align: center;
     width: auto;
 }
+/**
+ * TODO: implement a better system of resizing the prompts
+ **/
+@media (max-width: 992px) {
+    #prompt-container .prompt-writing {
+        font-size: 2.5em;
+    }
+    #prompt-container .prompt-reading {
+        font-size: large;
+    }
+    #prompt-container .prompt-definition {
+        font-size: large;
+    }
+    #prompt-container .prompt-sentence {
+        font-size: large;
+    }
+    #prompt-container .prompt-rune-display {
+        display: inline-block;
+        height: 30px;
+        min-width: 30px;
+        margin: 0 5px 0 0;
+        text-align: center;
+    }
+    #prompt-container .prompt-rune-hidden {
+        border: 2px blue dotted;
+        display: inline-block;
+        height: 40px;
+        min-width: 30px;
+        margin: 0 5px 0 0;
+        text-align: center;
+        width: auto;
+    }
+    #prompt-container .prompt-tone-display {
+        display: inline-block;
+        height: 30px;
+        min-width: 30px;
+        margin: 0 5px 0 0;
+        padding: 10px 2px 0 2px;
+        text-align: center;
+    }
+    #prompt-container .prompt-tone-hidden {
+        border: 2px blue dotted;
+        display: inline-block;
+        height: 40px;
+        min-width: 30px;
+        margin: 0 5px 0 0;
+        padding: 10px 2px 0 2px;
+        text-align: center;
+        width: auto;
+    }
+}
 @media (max-width: 601px) {
     #prompt-container .prompt{
         margin: 0;
