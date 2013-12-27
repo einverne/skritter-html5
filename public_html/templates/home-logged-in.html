@@ -1,36 +1,21 @@
 <div id="home-view" class="view">
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
-            <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>-->
-            <a class="navbar-brand hidden-xs" href="#">Skritter</a>
-            <div class="navbar-right navbar-text cursor" data-toggle="dropdown" data-target=".user-dropdown">
-                <span class="user-name"></span> <b class="caret"></b>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-            </div>
-            <ul class="nav navbar-nav navbar-user navbar-right">
-                <li class="dropdown user-dropdown">
-                    <ul class="dropdown-menu">
-                        <!--<li><a class="link-button" data-fragment="account"><i class="fa fa-user"></i> Account</a></li>-->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Skritter</a>
+                <div class="navbar-text">   
+                    <ul class="navbar-nav list-inline">
                         <li><a class="link-button" data-fragment="options"><i class="fa fa-gear"></i> Options</a></li>
-                        <li class="divider"></li>
                         <li><a class="link-button" data-fragment="logout"><i class="fa fa-power-off"></i> Log Out</a></li>
                     </ul>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 content">
+        <div class="row content">
+            <div class="col-md-6">
                 <div class="media">
                     <a class="pull-left" href="#">
                         <span id="user-avatar" class="media-object"></span>
@@ -45,6 +30,25 @@
                     </div>
                 </div>
             </div>
+            <div id="active-lists" class="col-md-6">
+                <h4><span class="fa fa-edit"></span>My Lists</h4>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div id="lists-message" class="text-center" style="display: none;"></div>
+                <div class="loader text-center"><img src="images/ajax-loader.gif" alt=""></div>
+            </div>
+
+        </div>
+        <div class="row">
             <div class="col-md-6 content">
                 <div class="media">
                     <a class="pull-left" href="https://github.com/mcfarljw/skritter-html5">
@@ -56,6 +60,7 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6"></div>
         </div>
     </div>
 </div>

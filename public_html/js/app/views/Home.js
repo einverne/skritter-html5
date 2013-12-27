@@ -29,6 +29,7 @@ define([
             if (skritter.user.isLoggedIn()) {
                 this.$el.html(templateLoggedIn);
                 skritter.scheduler.sort();
+                this.loadActiveLists();
                 this.$('#user-avatar').html(skritter.user.getAvatar('img-circle'));
                 this.$('.user-name').text(skritter.user.getSetting('name'));
                 this.$('#user-items-due').text(skritter.scheduler.getDueCount());
@@ -45,6 +46,7 @@ define([
          */
         events: {
             'click.Home .link-button': 'handleLinkClicked',
+            'click.Home #home-view #active-lists tbody tr': 'toggleList',
             'click.Home #home-view .login-button': 'handleLogin',
             'click.Home #home-view .logout-button': 'handleLogout',
             'click.Home #home-view .sync-button': 'handleSync'
@@ -88,8 +90,66 @@ define([
                 skritter.modal.hide();
                 self.render();
             });
+        },
+        /**
+         * @method loadActiveLists
+         * @param {Function} callback
+         */
+        loadActiveLists: function(callback) {
+            var self = this;
+            skritter.api.getVocabLists('studying', 'id,name,studyingMode', function(lists) {
+                var div = '';
+                self.$('#active-lists #lists-message').hide();
+                self.$('#active-lists .loader').show();
+                self.$('#active-lists tbody').html(div);
+                if (lists.status === 404) {
+                    self.$('#active-lists #lists-message').show().text("Unable to load lists due to being offline.");
+                } else if (lists.length > 0) {
+                    var activeCount = 0;
+                    for (var i in lists) {
+                        var list = lists[i];
+                        if (list.studyingMode === 'adding' || list.studyingMode === 'reviewing') {
+                            div += "<tr id='list-" + list.id + "' class='cursor'>";
+                            div += "<td>" + list.name + "</td>";
+                            if (list.studyingMode === 'adding') {
+                                div += "<td>Adding</td>";
+                            } else {
+                                div += "<td>Paused</td>";
+                            }
+                            div += "</tr>";
+                            activeCount++;
+                        }
+                    }
+                    if (activeCount === 0)
+                        self.$('#active-lists #lists-message').show().text("All of your lists have been added into your studies.");
+                } else {
+                    self.$('#active-lists #lists-message').show().text("You haven't added any lists yet!");
+                }
+                self.$('#active-lists tbody').html(div);
+                self.$('#active-lists .loader').hide();
+                if (typeof callback === 'function')
+                    callback(lists);
+            });
+        },
+        /**
+         * @method 
+         * @param {type} event
+         * @returns {undefined}
+         */
+        toggleList: function(event) {
+            var self = this;
+            var listId = event.currentTarget.id.replace('list-', '');
+            var status = (event.currentTarget.children[1].innerText === 'Adding') ? 'reviewing' : 'adding';
+            self.$('#active-lists .loader').show();
+            self.$('#active-lists tbody').html('');
+            skritter.api.updateVocabList({
+                id: listId,
+                studyingMode: status
+            }, function() {
+                self.loadActiveLists();
+            });
         }
     });
-    
+
     return Home;
 });

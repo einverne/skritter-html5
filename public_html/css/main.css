@@ -68,9 +68,6 @@ html, body {
 
 
 /*** HOME.HTML ***/
-#home-view #features .media {
-    padding: 15px 0;
-}
 #home-view .feature-icon {
     background: url('../images/feature-icons.png') no-repeat;
     height: 50px;
@@ -79,13 +76,25 @@ html, body {
     top: 0;
     width: 60px;
 }
-#home-view #github-logo {
-    height: 108px;
+#home-view #active-lists .table-container {
+    max-height: 200px;
+    overflow-y: auto;
+}
+#home-view #features .media {
+    padding: 15px 0;
 }
 #home-view #features #brush { background-position: 0 -150px; }
 #home-view #features #plane { background-position: 0 -100px; }
 #home-view #features #book { background-position: 0 -50px; }
 #home-view #features #clock { background-position: 0 0; }
+#home-view #github-logo {
+    height: 108px;
+}
+@media (max-width: 992px) {
+    #home-view #active-lists {
+        margin-top: 40px;
+    }
+}
 @media (max-width:767px) {
     #home-view #overview {
         text-align: center;

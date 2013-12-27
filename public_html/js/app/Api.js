@@ -530,11 +530,13 @@ define([
      * 
      * @method getVocabLists
      * @param {String} sort
+     * @param {String} fields
      * @param {Function} callback
      */
-    Api.prototype.getVocabLists = function(sort, callback) {
+    Api.prototype.getVocabLists = function(sort, fields, callback) {
         var self = this;
         var lists = [];
+        fields = (fields) ? fields : '';
         var getNext = function(cursor) {
             var promise = $.ajax({
                 url: self.root + '.' + self.domain + '/api/v' + self.version + '/vocablists',
@@ -545,7 +547,8 @@ define([
                 data: {
                     bearer_token: self.token,
                     sort: sort,
-                    cursor: cursor
+                    cursor: cursor,
+                    fields: fields
                 }
             });
             promise.done(function(data) {
@@ -553,7 +556,7 @@ define([
                 if (data.cursor) {
                     setTimeout(function() {
                         getNext(data.cursor);
-                    }, 2000);
+                    }, 500);
                 } else {
                     callback(lists, data.cursor);
                 }
@@ -565,7 +568,34 @@ define([
         };
         getNext();
     };
-
+    
+    /**
+     * @method getVocabListSection
+     * @param {String} listId
+     * @param {String} sectionId
+     * @param {Function} callback
+     */
+    Api.prototype.getVocabListSection = function(listId, sectionId, callback) {
+        var self = this;
+        var promise = $.ajax({
+            url: this.root + '.' + this.domain + '/api/v' + this.version + '/vocablists/' + listId + '/sections/' + sectionId,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('AUTHORIZATION', self.credentials);
+            },
+            type: 'GET',
+            data: {
+                bearer_token: this.token
+            }
+        });
+        promise.done(function(data) {
+            callback(data);
+        });
+        promise.fail(function(error) {
+            console.error(error);
+            callback(error);
+        });
+    };
+    
     /**
      * Posts batches of reviews in groups of 500 and then returns an array of the posted objects.
      * 
@@ -628,6 +658,54 @@ define([
             callback(error);
         });
     };
-
+    
+    /**
+     * @method updateVocabList
+     * @param {Object} list
+     * @param {Function} callback
+     */
+    Api.prototype.updateVocabList = function(list, callback) {
+        var self = this;
+        var promise = $.ajax({
+            url: this.root + '.' + this.domain + '/api/v' + this.version + '/vocablists/' + list.id + '?bearer_token=' + this.token,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('AUTHORIZATION', self.credentials);
+            },
+            type: 'PUT',
+            data: JSON.stringify(list)
+        });
+        promise.done(function(data) {
+            callback(data);
+        });
+        promise.fail(function(error) {
+            console.error(error);
+            callback(error);
+        });
+    };
+    
+    /**
+     * @method updateUser
+     * @param {Object} user
+     * @param {Function} callback
+     */
+    Api.prototype.updateUser = function(user, callback) {
+        var self = this;
+        var promise = $.ajax({
+            url: this.root + '.' + this.domain + '/api/v' + this.version + '/users/' + user.id + '?bearer_token=' + this.token,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('AUTHORIZATION', self.credentials);
+            },
+            type: 'PUT',
+            data: JSON.stringify(user)
+        });
+        promise.done(function(data) {
+            callback(data);
+        });
+        promise.fail(function(error) {
+            console.error(error);
+            callback(error);
+        });
+    };
+    
     return Api;
 });
