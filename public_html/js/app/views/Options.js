@@ -132,6 +132,7 @@ define([
             }
             
             skritter.user.cache();
+            //skritter.user.save();
             skritter.router.navigate('/', {trigger: true, replace: true});
         },
         toggleLanguage: function(event) {

@@ -121,7 +121,6 @@ define([
          */
         insert: function(items, callback) {
             if (items) {
-                this.add(items, {merge: true, sort: false});
                 skritter.storage.setItems('items', items, callback);
             } else {
                 callback();

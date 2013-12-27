@@ -42,7 +42,6 @@ define([
          */
         insert: function(sentences, callback) {
             if (sentences) {
-                this.add(sentences, {merge: true});
                 skritter.storage.setItems('sentences', sentences, callback);
             } else {
                 callback();

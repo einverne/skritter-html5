@@ -56,7 +56,6 @@ define([
          */
         insert: function(srsconfigs, callback) {
             if (srsconfigs) {
-                this.add(srsconfigs, {merge: true});
                 skritter.storage.setItems('srsconfigs', srsconfigs, callback);
             } else {
                 callback();

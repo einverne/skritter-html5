@@ -125,8 +125,6 @@ define([
                 skritter.modal.show('progress').setTitle('Loading Account');
             skritter.storage.openDatabase(skritter.user.get('user_id'), function() {
                 skritter.async.series([
-                    skritter.async.apply(skritter.settings.refreshDate),
-                    skritter.async.apply(skritter.user.loadAllData),
                     function(callback) {
                         if (!skritter.user.getLastSync()) {
                             skritter.modal.show('progress').setTitle('Initial Download').setProgress('100');
@@ -136,11 +134,16 @@ define([
                                 callback();
                             });
                         } else {
-                            skritter.modal.hide();
+                            skritter.user.sync();
                             callback();
                         }
-                    }
-                ], callback);
+                    },
+                    skritter.async.apply(skritter.user.loadAllData),
+                    skritter.async.apply(skritter.settings.refreshDate)
+                ], function() {
+                    skritter.modal.hide();
+                    callback();
+                });
             });
         } else {
             callback();

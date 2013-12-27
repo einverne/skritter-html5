@@ -381,6 +381,22 @@ define([
             }
         },
         /**
+         * @method save
+         * @param {Function} callback
+         */
+        save: function(callback) {
+            skritter.api.updateUser({
+                id: this.get('user_id'),
+                chineseStudyParts: this.getSetting('chineseStudyParts'),
+                hideReading: this.getSetting('hideReading'),
+                japaneseStudyParts: this.getSetting('japaneseStudyParts'),
+                squigs: this.getSetting('squigs')
+            }, function() {
+                if (typeof callback === 'function')
+                    callback();
+            });
+        },
+        /**
          * @method setLastSync
          * @param {Number} time
          * @returns {Number}
