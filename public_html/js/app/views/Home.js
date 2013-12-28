@@ -20,6 +20,9 @@ define([
          * @method initialize
          */
         initialize: function() {
+            this.listenTo(skritter.sync, 'complete', function() {
+                this.$('#user-items-due').text(skritter.scheduler.getDueCount());
+            });
         },
         /**
          * @method render

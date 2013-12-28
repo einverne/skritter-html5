@@ -19,6 +19,7 @@ define([
         initialize: function() {
             Study.current = {prompt: null, item: null, vocabs: null};
             skritter.timer.sync(true);
+            this.listenTo(skritter.sync, 'complete', this.updateDueCount);
         },
         render: function() {
             this.$el.html(templateStudy);
@@ -45,12 +46,8 @@ define([
          * @method addItem
          */
         addItems: function() {
-            var self = this;
             skritter.modal.show('progress').setTitle('Adding Items').setProgress(100);
-            skritter.user.addItems(5, function() {
-                self.updateDueCount();
-                skritter.modal.hide();
-            });
+            skritter.user.addItems(5, skritter.modal.hide);
         },
         /**
          * @method handlePromptComplete

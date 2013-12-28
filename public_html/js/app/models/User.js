@@ -36,7 +36,7 @@ define([
          */
         initialize: function() {
             //loads the sync model for the user
-            User.sync = new Sync();
+            skritter.sync = new Sync();
             //load the scheduler for faster scheduling
             skritter.scheduler = new Scheduler();
             //initializes all of the required data collections
@@ -427,9 +427,10 @@ define([
         /**
          * @method sync
          * @param {Function} callback
+         * @returns {Backbone.Model}
          */
         sync: function(callback) {
-            User.sync.full(function(error) {
+            skritter.sync.full(function(error) {
                 if (typeof callback === 'function')
                     callback(error);
             });
