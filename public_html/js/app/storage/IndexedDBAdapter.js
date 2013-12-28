@@ -168,6 +168,28 @@ define([
     };
 
     /**
+     * @method getItemsWhere
+     * @param {String} tableName
+     * @param {String} attribute
+     * @param {String} value
+     * @param {Function} callback
+     */
+    IndexedDBAdapter.prototype.getItemsWhere = function(tableName, attribute, value, callback) {
+        var items = [];
+        var table = this.database.objectStore(tableName);
+        var promise = table.each(function(item) {
+            if (item.value[attribute] === value)
+                items.push(item.value);
+        });
+        promise.done(function() {
+            callback(items);
+        });
+        promise.fail(function(error) {
+            console.error(tableName, error);
+        });
+    };
+
+    /**
      * @method removeItems
      * @param {String} tableName
      * @param {Array} keys
