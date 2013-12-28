@@ -691,7 +691,7 @@ define([
     Api.prototype.updateUser = function(user, callback) {
         var self = this;
         var promise = $.ajax({
-            url: this.root + '.' + this.domain + '/api/v' + this.version + '/users/' + user.id + '?bearer_token=' + this.token,
+            url: this.root + '.' + this.domain + '/api/v' + this.version + '/users?bearer_token=' + this.token,
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('AUTHORIZATION', self.credentials);
             },
