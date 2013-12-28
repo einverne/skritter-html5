@@ -40,6 +40,23 @@ html, body {
     }
 }
 
+
+/*** ADMIN ***/
+#admin-recog-editor-view #prompt-canvas {
+    -moz-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
+    -webkit-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
+    box-shadow: 5px 5px 5px rgba(68,68,68,0.6);  
+    background: #ffffff;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    cursor: pointer;
+    margin: 50px auto;
+    padding: 0;
+    position: relative;
+}
+
+
 /*** GRADING BUTTONS ***/
 #grading-buttons {
     bottom: 0;

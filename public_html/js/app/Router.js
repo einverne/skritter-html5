@@ -7,6 +7,7 @@
  * @param ReviewsView
  * @param StudyView
  * @param VocabsView
+ * @param AdminRecogEditorView
  * @author Joshua McFarland
  */
 define([
@@ -17,8 +18,9 @@ define([
     'views/Reviews',
     'views/Study',
     'views/Vocabs',
+    'views/admin/RecogEditor',
     'backbone'
-], function(HomeView, InfoView, ListsView, OptionsView, ReviewsView, StudyView, VocabsView) {
+], function(HomeView, InfoView, ListsView, OptionsView, ReviewsView, StudyView, VocabsView, AdminRecogEditorView) {
     /**
      * @class Router
      */
@@ -40,6 +42,7 @@ define([
          */
         routes: {
             '': 'homeView',
+            'admin/recog/editor': 'adminRecogEditorView',
             'info/:vocabId': 'infoView',
             'lists': 'listsView',
             'lists/:listId': 'listsView',
@@ -68,6 +71,16 @@ define([
          */
         defaultRoute: function() {
             this.navigate('/', {trigger: true});
+        },
+        /**
+         * @method adminRecogEditorView
+         */
+        adminRecogEditorView: function() {
+            if (!Router.adminRecogEditorView) {
+                Router.adminRecogEditorView = new AdminRecogEditorView({el: $(skritter.settings.get('container'))}).render();
+            } else {
+                Router.adminRecogEditorView.setElement($(skritter.settings.get('container'))).render();
+            }
         },
         /**
          * @method homeView
