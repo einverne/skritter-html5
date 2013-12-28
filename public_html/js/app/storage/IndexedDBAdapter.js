@@ -188,36 +188,7 @@ define([
             console.error(tableName, error);
         });
     };
-
-    /**
-     * @method removeItems
-     * @param {String} tableName
-     * @param {Array} keys
-     * @param {Function} callback
-     * @returns {undefined}
-     */
-    IndexedDBAdapter.prototype.removeItems = function(tableName, keys, callback) {
-        var position = 0;
-        var table = this.database.objectStore(tableName);
-        keys = Array.isArray(keys) ? keys : [keys];
-        removeNext();
-        function removeNext() {
-            if (position < keys.length) {
-                var promise = table.delete(keys[position]);
-                promise.done(function() {
-                    position++;
-                    removeNext();
-                });
-                promise.fail(function(error) {
-                    console.error(tableName, keys[position], error);
-                });
-            } else {
-                if (typeof callback === 'function')
-                    callback();
-            }
-        }
-    };
-
+    
     /**
      * @method getSchedule
      * @param {Function} callback
@@ -246,6 +217,35 @@ define([
             console.error('schedule', error);
             callback();
         });
+    };
+    
+    /**
+     * @method removeItems
+     * @param {String} tableName
+     * @param {Array} keys
+     * @param {Function} callback
+     * @returns {undefined}
+     */
+    IndexedDBAdapter.prototype.removeItems = function(tableName, keys, callback) {
+        var position = 0;
+        var table = this.database.objectStore(tableName);
+        keys = Array.isArray(keys) ? keys : [keys];
+        removeNext();
+        function removeNext() {
+            if (position < keys.length) {
+                var promise = table.delete(keys[position]);
+                promise.done(function() {
+                    position++;
+                    removeNext();
+                });
+                promise.fail(function(error) {
+                    console.error(tableName, keys[position], error);
+                });
+            } else {
+                if (typeof callback === 'function')
+                    callback();
+            }
+        }
     };
 
     /**

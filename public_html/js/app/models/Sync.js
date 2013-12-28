@@ -135,9 +135,16 @@ define([
                     completed = skritter.moment().format('YYYY-MM-DD hh:mm:ss');
                     skritter.log.sync(started, completed, received, sent);
                     skritter.user.setLastSync();
+                    self.triggerComplete();
                     callback();
                 }
             });
+        },
+        /**
+         * @method triggerComplete
+         */
+        triggerComplete: function() {
+            this.trigger('complete');
         }
     });
 
