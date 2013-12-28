@@ -156,7 +156,8 @@ define([
             index = (index) ? index : 0;
             var reading = _.clone(this.get('reading').toLowerCase());
             var syllable = _.clone(reading);
-            var tone = _.clone(reading);
+            //TODO: figure out all variations of periods in reading prompts
+            var tone = _.clone(reading).replace(' ... ', '');
             if (this.getCharacterCount() === 1) {
                 syllable = syllable.replace(/[0-9]+/g, '');
                 tone = tone.replace(/[a-z]+/g, '');
