@@ -142,7 +142,7 @@ define([
             this.$('#input-container').width(canvasSize);
             this.$('#input-container').height(canvasSize);
             //manually resizes the info section to fill the space mobile devices
-            if (skritter.settings.get('appWidth') <= 768) {
+            if (skritter.settings.get('appWidth') <= 601) {
                 this.$('#info-container').height(skritter.settings.get('appHeight') - $('.navbar').height() - canvasSize - 8);
             } else {
                 this.$('#info-container').height('');

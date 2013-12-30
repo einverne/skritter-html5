@@ -230,164 +230,52 @@ html, body {
 }
 
 
-/*** PROMPT ***/
-#prompt-container .prompt {
-    height: 100%;
-    margin-left: 30%;
-}
-#prompt-container #info-container {
+/*** PROMPT: INFO ***/
+#info-container {
     background: #ffffff;
-    border: 2px black solid;
-    height: 100%;
-    left: 0;
-    overflow-y: auto;
-    padding: 5px 30px 0 30px;
-    position: fixed;
-    top: 40px;
-    width: 30%;
+    margin-top: 50px;
 }
-#prompt-container #input-container {
-    padding-top: 20%;
+#info-container #prompt-writing-row {
+    border-left: 20px #008cba solid;
+    min-height: 60px;
 }
-#prompt-container .prompt-row {
-    clear: both;
-    padding-bottom: 20px;
+#info-container .prompt-writing {
+    font-size: 56px;
+    margin-top: -10px;
 }
-#prompt-container .prompt-writing {
-    font-size: 4.5em;
+#info-container #prompt-reading-row {
+    border-left: 20px #00ce46 solid;
+    min-height: 60px;
+    padding: 15px 5px 15px 30px;
 }
-#prompt-container .prompt-reading {
-    font-size: x-large;
+#info-container .prompt-reading{
+    font-size: 18px;
 }
-#prompt-container .prompt-definition {
-    font-size: x-large;
+#info-container #prompt-definition-row {
+    border-left: 20px #ff8300 solid;
+    min-height: 60px;
+    padding: 15px 5px 15px 30px;
 }
-#prompt-container .prompt-sentence {
-    font-size: x-large;
+#info-container .prompt-definition{
+    font-size: 18px;
 }
-#prompt-container #mnemonic {
-    font-size: x-large;
+#info-container #prompt-sentence-row {
+    border-left: 20px orange solid;
+    min-height: 60px;
+    padding: 15px 5px 15px 30px;
 }
-#prompt-container #prompt-text {
-    height: 100%;
-    padding-top: 20%;
-    text-align: center;
+#info-container .prompt-sentence{
+    font-size: 24px;
 }
-#prompt-container .hidden-reading {
-    border: 1px #000000 dashed;
-    border-radius: 15px;
-    cursor: pointer;
-    height: 55px;
-    padding: 5px;
-    width: 95px;
-}
-#prompt-container .prompt-rune-display {
-    display: inline-block;
-    height: 50px;
-    min-width: 50px;
-    margin: 0 5px 0 0;
-    text-align: center;
-}
-#prompt-container .prompt-rune-hidden {
-    border: 2px blue dotted;
-    display: inline-block;
-    height: 60px;
-    min-width: 50px;
-    margin: 0 5px 0 0;
-    text-align: center;
-    width: auto;
-}
-#prompt-container .prompt-tone-display {
-    display: inline-block;
-    height: 50px;
-    min-width: 50px;
-    margin: 0 5px 0 0;
-    padding: 10px 2px 0 2px;
-    text-align: center;
-}
-#prompt-container .prompt-tone-hidden {
-    border: 2px blue dotted;
-    display: inline-block;
-    height: 60px;
-    min-width: 50px;
-    margin: 0 5px 0 0;
-    padding: 10px 2px 0 2px;
-    text-align: center;
-    width: auto;
-}
-/**
- * TODO: implement a better system of resizing the prompts
- **/
 @media (max-width: 992px) {
-    #prompt-container .prompt-writing {
-        font-size: 2.5em;
-    }
-    #prompt-container .prompt-reading {
-        font-size: large;
-    }
-    #prompt-container .prompt-definition {
-        font-size: large;
-    }
-    #prompt-container .prompt-sentence {
-        font-size: large;
-    }
-    #prompt-container .prompt-rune-display {
-        display: inline-block;
-        height: 30px;
-        min-width: 30px;
-        margin: 0 5px 0 0;
-        text-align: center;
-    }
-    #prompt-container .prompt-rune-hidden {
-        border: 2px blue dotted;
-        display: inline-block;
-        height: 40px;
-        min-width: 30px;
-        margin: 0 5px 0 0;
-        text-align: center;
-        width: auto;
-    }
-    #prompt-container .prompt-tone-display {
-        display: inline-block;
-        height: 30px;
-        min-width: 30px;
-        margin: 0 5px 0 0;
-        padding: 10px 2px 0 2px;
-        text-align: center;
-    }
-    #prompt-container .prompt-tone-hidden {
-        border: 2px blue dotted;
-        display: inline-block;
-        height: 40px;
-        min-width: 30px;
-        margin: 0 5px 0 0;
-        padding: 10px 2px 0 2px;
-        text-align: center;
-        width: auto;
-    }
-}
-@media (max-width: 601px) {
-    #prompt-container .prompt{
-        margin: 0;
-        overflow: hidden;
-    }
-    #prompt-container #info-container {
-        border: none;
-        border-bottom: 2px #000000 solid;
-        height: auto;
-        overflow-y: auto;
-        position: relative;
-        top: 0;
-        width: auto;
-    }
-    #prompt-container #input-container {
-        padding: 0;
+    #info-container {
+        margin-top: 0;
     }
 }
 
 
-/*** PROMPT CANVAS ***/
-#prompt-container #input-container {
+/*** PROMPT: INPUT ***/
+#input-container {
     -moz-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
     -webkit-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
     box-shadow: 5px 5px 5px rgba(68,68,68,0.6);  
@@ -396,16 +284,29 @@ html, body {
     border-style: solid;
     border-color: black;
     cursor: pointer;
-    margin: 50px auto;
+    margin: 50px auto 0 auto;
     padding: 0;
     position: relative;
 }
+#input-container .prompt-writing {
+    font-size: 56px;
+}
+#input-container .prompt-definition {
+    padding: 0 10%;
+}
+#input-container #prompt-text {
+    text-align: center;
+    padding-top: 20%;
+}
+@media (max-width: 992px) {
+    #input-container {
+        margin: 0 auto;
+    }
+}
 @media (max-width: 601px) {
-    #prompt-container #input-container {
+    #input-container {
         box-shadow: none;
         border: none;
-        bottom: 0;
-        margin: 0;
         padding-bottom: 5px;
         position: absolute;
     }
