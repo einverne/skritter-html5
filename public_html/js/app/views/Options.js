@@ -133,7 +133,13 @@ define([
             
             skritter.user.cache();
             skritter.user.save();
-            skritter.router.navigate('/', {trigger: true, replace: true});
+            //ISSUE #117: scheduler needs to be reloaded on options save
+            skritter.scheduler.loadFromDatabase(function() {
+                //clears the current study prompt to force part changes
+                if (skritter.view.study)
+                    skritter.view.study.clearPrompt();
+                skritter.router.navigate('/', {trigger: true, replace: true});
+            });
         },
         toggleLanguage: function(event) {
             if (event)

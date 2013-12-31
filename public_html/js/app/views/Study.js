@@ -15,12 +15,22 @@ define([
     'require.text!templates/study.html',
     'backbone'
 ], function(Defn, Rdng, Rune, Tone, templateStudy) {
+    /**
+     * @class Study
+     */
     var Study = Backbone.View.extend({
+        /**
+         * @method initialize
+         */
         initialize: function() {
             Study.current = {prompt: null, item: null, vocabs: null};
             skritter.timer.sync(true);
             this.listenTo(skritter.sync, 'complete', this.updateDueCount);
         },
+        /**
+         * @method render
+         * @returns {Backbone.View}
+         */
         render: function() {
             this.$el.html(templateStudy);
             this.$('#avatar').html(skritter.user.getAvatar('avatar'));
@@ -48,6 +58,14 @@ define([
         addItems: function() {
             skritter.modal.show('progress').setTitle('Adding Items').setProgress(100);
             skritter.user.addItems(5, skritter.modal.hide);
+        },
+        /**
+         * @method clearPrompt
+         * @returns {Backbone.View}
+         */
+        clearPrompt: function() {
+            Study.current = {prompt: null, item: null, vocabs: null};
+            return Study;
         },
         /**
          * @method handlePromptComplete

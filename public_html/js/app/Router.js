@@ -31,6 +31,8 @@ define([
         initialize: function() {
             //load up the home since it contains a global click event
             Router.homeView = new HomeView({el: $(skritter.settings.get('container'))});
+            //creates the namespace for accessing views directly
+            skritter.view = {};
             //stop the timer when the view has moved from study
             this.on('route', function(route) {
                 if (route !== 'studyView')
@@ -158,6 +160,7 @@ define([
         studyView: function() {
             if (!Router.studyView) {
                 Router.studyView = new StudyView({el: $(skritter.settings.get('container'))}).render();
+                skritter.view.study = Router.studyView;
             } else {
                 Router.studyView.setElement($(skritter.settings.get('container'))).render();
             }
