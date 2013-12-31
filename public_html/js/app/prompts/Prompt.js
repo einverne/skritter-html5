@@ -141,11 +141,17 @@ define([
             var canvasSize = skritter.settings.get('canvasSize');
             this.$('#input-container').width(canvasSize);
             this.$('#input-container').height(canvasSize);
-            //manually resizes the info section to fill the space mobile devices
-            if (skritter.settings.get('appWidth') <= 601) {
+            //manually resizes the info section to fill vertical mobile devices
+            if (skritter.settings.get('appWidth') <= 601 && skritter.settings.get('orientation') === 'vertical') {
                 this.$('#info-container').height(skritter.settings.get('appHeight') - $('.navbar').height() - canvasSize - 8);
             } else {
-                this.$('#info-container').height('');
+                //manually resizes the info section to fill horizontal mobile devices
+                if (skritter.settings.get('appHeight') <= 601 && skritter.settings.get('appWidth') > 601) {
+                    this.$('#info-container').height(canvasSize);
+                    this.$('#info-container').width(skritter.settings.get('appWidth') - canvasSize - 32);
+                } else {
+                    this.$('#info-container').height('');
+                }
             }
         },
         /**

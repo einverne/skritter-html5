@@ -16,6 +16,11 @@ html, body {
     height: 100%;
     overflow-x: hidden;
 }
+body {
+    -webkit-touch-callout: none;
+    -webkit-text-size-adjust: none;
+    -webkit-user-select: text;
+}
 #skritter-container {
     height: 100%;
 }
@@ -233,7 +238,7 @@ html, body {
 /*** PROMPT: INFO ***/
 #info-container {
     background: #ffffff;
-    margin-top: 50px;
+    margin-top: 45px;
     overflow-y: auto;
     border-bottom: 2px black solid;
     border-top: 2px black solid;
@@ -293,7 +298,7 @@ html, body {
 #info-container .prompt-sentence{
     font-size: 24px;
 }
-@media (max-width: 1200px) {
+@media (max-width: 992px) {
     #info-container {
         border: 2px #000000 solid;
         margin-top: 0;
@@ -324,7 +329,7 @@ html, body {
     background: #ffffff;
     border: 2px #000000 solid;
     cursor: pointer;
-    margin: 50px auto 0 auto;
+    margin: 45px auto 0 auto;
     padding: 0;
     position: relative;
 }
@@ -364,5 +369,32 @@ html, body {
         margin: 0;
         padding-bottom: 5px;
         position: absolute;
+    }
+}
+
+
+/*** PROMPT: HORIZONTAL ***/
+@media (max-height: 601px) and (min-width: 601px) {
+    html {
+        overflow-y: hidden;
+    }
+    .container {
+        width: 100%;
+    }
+    #info-container {
+        bottom: 0;
+        border-bottom: none;
+        border-left: none;
+        border-top: none;
+        position: absolute;
+        margin: 45px 0 0 0;
+        top: 0;
+    }
+    #input-container {
+        border: none;
+        right: 0;
+        margin: 45px 0 0 0;
+        position: absolute;
+        top: 0;
     }
 }

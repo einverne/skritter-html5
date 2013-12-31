@@ -30,7 +30,7 @@ define([
             canvasMaxSize: 600,
             canvasSize: 600,
             container: '#skritter-container',
-            orientation: 'vertical',
+            orientation: null,
             strokeFormat: 'vector',
             transitionSpeed: 200,
             version: '@@version'
@@ -45,14 +45,21 @@ define([
             //sets the orientation of the application area
             if (this.get('appWidth') > this.get('appHeight')) {
                 this.set('orientation', 'horizontal');
+                //sets max dimensions of the canvas element
+                var offsetHeight = this.get('appHeight') - 45;
+                if (offsetHeight > this.get('canvasMaxSize')) {
+                    this.set('canvasSize', this.get('canvasMaxSize'));
+                } else {
+                    this.set('canvasSize', offsetHeight);
+                }
             } else {
                 this.set('orientation', 'vertical');
-            }
-            //sets max dimensions of the canvas element
-            if (this.get('appWidth') > this.get('canvasMaxSize')) {
-                this.set('canvasSize', this.get('canvasMaxSize'));
-            } else {
-                this.set('canvasSize', this.get('appWidth'));
+                //sets max dimensions of the canvas element
+                if (this.get('appWidth') > this.get('canvasMaxSize')) {
+                    this.set('canvasSize', this.get('canvasMaxSize'));
+                } else {
+                    this.set('canvasSize', this.get('appWidth'));
+                }
             }
             this.triggerResize();
         },
