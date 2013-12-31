@@ -234,27 +234,53 @@ html, body {
 #info-container {
     background: #ffffff;
     margin-top: 50px;
+    overflow-y: auto;
+    border-bottom: 2px black solid;
+    border-top: 2px black solid;
+    border-left: 2px black solid;
 }
 #info-container #prompt-writing-row {
     border-left: 20px #008cba solid;
     min-height: 60px;
+    padding: 10px 0 10px 15px;
 }
 #info-container .prompt-writing {
-    font-size: 56px;
+    font-size: 42px;
+}
+#info-container .prompt-rune-hidden {
+    border: 2px blue dashed;
+    float: left;
+    height: 40px;
+    margin-bottom: 2px;
+    margin-right: 2px;
+    width: 40px;
+}
+#info-container .prompt-rune-shown {
+    float: left;
     margin-top: -10px;
 }
 #info-container #prompt-reading-row {
     border-left: 20px #00ce46 solid;
     min-height: 60px;
-    padding: 15px 5px 15px 30px;
+    padding: 15px;
 }
-#info-container .prompt-reading{
+#info-container .prompt-reading {
     font-size: 18px;
+}
+#info-container .prompt-tone-hidden {
+    border: 2px blue dashed;
+    float: left;
+    margin: -5px 5px;
+    padding: 5px;
+}
+#info-container .prompt-tone-shown {
+    float: left;
+    padding-right: 5px;
 }
 #info-container #prompt-definition-row {
     border-left: 20px #ff8300 solid;
     min-height: 60px;
-    padding: 15px 5px 15px 30px;
+    padding: 20px 15px 15px 15px;
 }
 #info-container .prompt-definition{
     font-size: 18px;
@@ -262,31 +288,59 @@ html, body {
 #info-container #prompt-sentence-row {
     border-left: 20px orange solid;
     min-height: 60px;
-    padding: 15px 5px 15px 30px;
+    padding: 20px 15px 15px 15px;
 }
 #info-container .prompt-sentence{
     font-size: 24px;
 }
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
     #info-container {
+        border: 2px #000000 solid;
         margin-top: 0;
+    }
+}
+@media (max-width: 601px) {
+    #info-container {
+        border-bottom: 2px #000000 solid;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+    }
+    #info-container .prompt-writing {
+        font-size: 32px;
+    }
+    #info-container .prompt-rune-hidden {
+        height: 30px;
+        width: 30px;
+    }
+    #info-container .prompt-rune-shown {
+        margin-top: -8px;
     }
 }
 
 
 /*** PROMPT: INPUT ***/
 #input-container {
-    -moz-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
-    -webkit-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
-    box-shadow: 5px 5px 5px rgba(68,68,68,0.6);  
     background: #ffffff;
-    border-width: 2px;
-    border-style: solid;
-    border-color: black;
+    border: 2px #000000 solid;
     cursor: pointer;
     margin: 50px auto 0 auto;
     padding: 0;
     position: relative;
+}
+#input-container .prompt-style {
+    left: 0;
+    padding: 2px;
+    position: absolute;
+    top: 0;
+}
+#input-container .prompt-style-simp {
+    background: #ffffff;
+    color: green;
+}
+#input-container .prompt-style-trad {
+    background: #ffffff;
+    color: red;
 }
 #input-container .prompt-writing {
     font-size: 56px;
@@ -300,13 +354,14 @@ html, body {
 }
 @media (max-width: 992px) {
     #input-container {
-        margin: 0 auto;
+        margin: 15px auto 0 auto;
     }
 }
 @media (max-width: 601px) {
     #input-container {
         box-shadow: none;
         border: none;
+        margin: 0;
         padding-bottom: 5px;
         position: absolute;
     }

@@ -247,8 +247,18 @@ define([
             this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position - 1));
             if (Prompt.vocabs[0].has('audio') && this.isFirst() && skritter.user.get('audio'))
                 Prompt.vocabs[0].play();
-            if (skritter.user.isChinese())
-                this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
+            if (skritter.user.isChinese()) {
+                var style = Prompt.vocabs[0].get('style').toUpperCase();
+                if (style === 'SIMP') {
+                    this.$('.prompt-style').addClass('prompt-style-simp');
+                    this.$('.prompt-style').text(style);
+                } else if (style === 'TRAD') {
+                    this.$('.prompt-style').addClass('prompt-style-trad');
+                    this.$('.prompt-style').text(style);
+                } else {
+                    
+                }
+            }
             if (skritter.user.getSetting('hideReading')) {
                 this.hideReading();
             } else {
@@ -256,8 +266,11 @@ define([
             }
             this.$('.prompt-definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
-            if (Prompt.sentence)
-                this.$('.prompt-sentence').text(skritter.fn.maskCharacters(Prompt.sentence.noWhiteSpaces(), Prompt.writing, ' _ '));
+            if (Prompt.sentence) {
+                this.$('.prompt-sentence').text(skritter.fn.maskCharacters(Prompt.sentence.noWhiteSpaces(), Prompt.writing, '__'));
+            } else {
+                this.$('#prompt-sentence-row').hide();
+            }
             //ISSUE #74: redraws existing character when switching between pages
             if (Rune.userCharacter) {
                 Rune.canvas.drawCharacter(Rune.userCharacter.getCharacterSprite(), 'stroke');

@@ -51,8 +51,11 @@ define([
             if (skritter.user.isChinese())
                 this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
             this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
-            if (Prompt.sentence)
+            if (Prompt.sentence) {
                 this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
+            } else {
+                this.$('#prompt-sentence-row').hide();
+            }
             this.$('#prompt-text .prompt-reading').text("What's the reading?");
             this.$('#tip').text("(Click to show answer)");
         },

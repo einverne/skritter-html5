@@ -173,8 +173,11 @@ define([
             this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
             this.$('.prompt-definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
-            if (Prompt.sentence)
+            if (Prompt.sentence) {
                 this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
+            } else {
+                this.$('#prompt-sentence-row').hide();
+            }
             //ISSUE #74: redraws existing character when switching between pages
             if (Tone.userCharacter) {
                 Tone.canvas.drawCharacter(Tone.userCharacter.getCharacterSprite(), 'stroke');

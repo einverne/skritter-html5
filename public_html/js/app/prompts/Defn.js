@@ -61,8 +61,11 @@ define([
             Prompt.gradingButtons.show();
             this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             this.$('#prompt-text .prompt-definition').text(Prompt.definition);
-            if (Prompt.sentence)
+            if (Prompt.sentence) {
                 this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
+            } else {
+                this.$('#prompt-sentence-row').hide();
+            }
             this.$('#tip').hide();
         }
     });

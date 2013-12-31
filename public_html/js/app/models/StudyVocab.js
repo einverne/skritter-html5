@@ -63,13 +63,13 @@ define([
                     var params = skritter.data.params.findWhere({bitmapId: bitmapId});
                     character.name = (part === 'rune') ? rune : 'tone' + tones[v].trim();
                     stroke.set({
-                       bitmapId: bitmapId,
-                       data: strokes[s],
-                       id: position + '|' + bitmapId,
-                       part: part,
-                       position: position,
-                       rune: rune,
-                       sprite: skritter.assets.getStroke(bitmapId)
+                        bitmapId: bitmapId,
+                        data: strokes[s],
+                        id: position + '|' + bitmapId,
+                        part: part,
+                        position: position,
+                        rune: rune,
+                        sprite: skritter.assets.getStroke(bitmapId)
                     });
 
                     //adjusts the relative position for double strokes and sets contained strokes
@@ -179,14 +179,14 @@ define([
                 if (index > i) {
                     //checks for characters with multiple tone answers
                     if (this.getPinyinAt(i).syllable.split(',').length > 1) {
-                        element += "<div class='prompt-tone-display'>" + PinyinConverter.toTone(this.getPinyinAt(i).reading) + "</div>";
+                        element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + PinyinConverter.toTone(this.getPinyinAt(i).reading) + "</div>";
                     } else {
-                        element += "<div class='prompt-tone-display'>" + PinyinConverter.toTone(this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone) + "</div>";
+                        element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + PinyinConverter.toTone(this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone) + "</div>";
                     }
                 } else if (index === i) {
-                    element += "<div class='prompt-tone-hidden'>" + this.getPinyinAt(i).syllable + "</div>";
+                    element += "<div id='reading-" + i + "' class='prompt-tone-hidden'>" + this.getPinyinAt(i).syllable + "</div>";
                 } else {
-                    element += "<div class='prompt-tone-display'>" + this.getPinyinAt(i).syllable + "</div>";
+                    element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + this.getPinyinAt(i).syllable + "</div>";
                 }
             }
             return element;
@@ -211,12 +211,12 @@ define([
             for (var i = 0; i < characters.length; i++) {
                 var character = characters[i];
                 if (skritter.fn.isKana(character)) {
-                    element += "<div class='prompt-rune-display'>" + character + "</div>";
+                    element += "<div id='writing-" + i + "' class='prompt-rune-shown'>" + character + "</div>";
                 } else {
                     if (index > characterIndex) {
-                        element += "<div class='prompt-rune-display'>" + character + "</div>";
+                        element += "<div id='writing-" + i + "' class='prompt-rune-shown'>" + character + "</div>";
                     } else {
-                        element += "<div class='prompt-rune-hidden'></div>";
+                        element += "<div id='writing-" + i + "' class='prompt-rune-hidden'></div>";
                     }
                     characterIndex++;
                 }
