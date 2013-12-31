@@ -138,7 +138,7 @@ define([
             });
         },
         /**
-         * @method loadItem
+         * @method loadItems
          * @param {Array} ids
          * @param {Number} limit
          * @param {Function} callback

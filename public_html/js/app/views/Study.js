@@ -65,7 +65,7 @@ define([
          */
         clearPrompt: function() {
             Study.current = {prompt: null, item: null, vocabs: null};
-            return Study;
+            return this;
         },
         /**
          * @method handlePromptComplete
