@@ -32,9 +32,12 @@ define([
             this.$('#reading').text(PinyinConverter.toTone(Info.vocab.get('reading')));
             this.$('#definition').text(Info.vocab.getDefinition());
             this.$('#mnemonic').text(Info.vocab.get('mnemonic'));
-            if (Info.sentence)
-                this.$('#sentence').text(Info.sentence.get('writing').replace(/\s+/g, ''));
-            this.$('#sentence').addClass(skritter.user.getTextStyle());
+            if (Info.sentence) {
+                this.$('#sentence-writing').addClass(skritter.user.getTextStyle());
+                this.$('#sentence-writing').text(Info.sentence.noWhiteSpaces());
+                this.$('#sentence-reading').text(PinyinConverter.toTone(Info.sentence.get('reading')));
+                this.$('#sentence-definition').text(PinyinConverter.toTone(Info.sentence.getDefinition()));
+            }
 
             //contained characters
             var contained = _.uniq(Info.vocab.get('containedVocabIds'));

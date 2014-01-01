@@ -381,15 +381,17 @@ define([
             }
         },
         /**
+         * Saves all of the user settings to the server using the api.
+         * 
          * @method save
          * @param {Function} callback
          */
         save: function(callback) {
             skritter.api.updateUser({
                 id: this.get('user_id'),
-                chineseStudyParts: this.getSetting('chineseStudyParts'),
+                /*chineseStudyParts: this.getSetting('chineseStudyParts'),*/
                 hideReading: this.getSetting('hideReading'),
-                japaneseStudyParts: this.getSetting('japaneseStudyParts'),
+                /*japaneseStudyParts: this.getSetting('japaneseStudyParts'),*/
                 squigs: this.getSetting('squigs')
             }, function() {
                 if (typeof callback === 'function')
