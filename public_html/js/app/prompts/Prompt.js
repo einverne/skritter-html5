@@ -158,7 +158,8 @@ define([
                 }
             }
             //ISSUE #114: redraws the canvas on save and orientation changes
-            this.redraw();
+            if (Prompt.part === 'rune' || Prompt.part === 'tone')
+                this.redraw();
         },
         /**
          * @method set
