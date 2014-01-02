@@ -170,7 +170,11 @@ define([
             this.$('.prompt-writing').text(Prompt.writing);
             if (skritter.user.isChinese())
                 this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
-            this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
+            if (skritter.user.getSetting('hideReading')) {
+                this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1), true);
+            } else {
+                this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
+            }
             this.$('.prompt-definition').text(Prompt.definition);
             this.$('#style').text(Prompt.vocabs[0].get('style'));
             if (Prompt.sentence) {

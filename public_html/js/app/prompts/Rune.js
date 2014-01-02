@@ -245,7 +245,7 @@ define([
             skritter.timer.start();
             //displays the prompt information based on the current position
             this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position - 1));
-            if (Prompt.vocabs[0].has('audio') && this.isFirst() && skritter.user.get('audio'))
+            if (Prompt.vocabs[0].has('audio') && this.isFirst() && skritter.user.get('audio') && !skritter.user.getSetting('hideReading'))
                 Prompt.vocabs[0].play();
             if (skritter.user.isChinese()) {
                 var style = Prompt.vocabs[0].get('style').toUpperCase();
@@ -296,11 +296,13 @@ define([
             Rune.canvas.disableInput();
             Prompt.gradingButtons.select().collapse();
             this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            if (skritter.user.get('audio') && Prompt.contained[Prompt.position - 1] && Prompt.contained[Prompt.position - 1].getVocabs().length > 0)
+            if (!this.isLast() && skritter.user.get('audio') && Prompt.contained[Prompt.position - 1] && Prompt.contained[Prompt.position - 1].getVocabs().length > 0)
                 Prompt.contained[Prompt.position - 1].getVocabs()[0].play();
             if (this.isLast()) {
                 this.$('.prompt-reading').removeClass('hidden-reading');
                 this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
+                if (Prompt.vocabs[0].has('audio') && this.isFirst() && skritter.user.get('audio') && skritter.user.getSetting('hideReading'))
+                    Prompt.vocabs[0].play();
                 if (Prompt.sentence)
                     this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             }

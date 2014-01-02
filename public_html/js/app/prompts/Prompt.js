@@ -19,6 +19,7 @@ define([
          */
         initialize: function() {
             Prompt.contained = [];
+            Prompt.count = 0;
             Prompt.definition = '';
             Prompt.finished = false;
             Prompt.gradingButtons = new GradingButtons();
@@ -75,11 +76,12 @@ define([
          * @method handleHiddenReadingClicked
          */
         handleHiddenReadingClicked: function() {
-            this.$('.prompt-reading').removeClass('hidden-reading');
             if (Prompt.part === 'rune') {
+                this.$('.prompt-reading').removeClass('hidden-reading');
                 this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             } else if (Prompt.part === 'tone') {
-                this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
+                this.$('.prompt-reading').removeClass('hidden-reading');
+                this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.count));
             }
         },
         /**
@@ -164,6 +166,7 @@ define([
         set: function(vocabs, item) {
             console.log('PROMPT', vocabs[0].get('writing'), item, vocabs);
             Prompt.contained = item.getContained();
+            Prompt.count = vocabs[0].getCharacterCount();
             Prompt.definition = vocabs[0].getDefinition();
             Prompt.item = item;
             Prompt.mnemonic = vocabs[0].get('mnemonic');

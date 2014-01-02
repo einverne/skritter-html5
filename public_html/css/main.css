@@ -244,18 +244,29 @@ body {
     border-top: 2px black solid;
     border-left: 2px black solid;
 }
+#info-container .hidden-reading {
+    border: 1px black solid;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    min-width: 40px;
+    padding: 2px;
+    text-align: center;
+}
 #info-container .prompt-box {
+    border-left-width: 15px;
     min-height: 60px;
 }
 #info-container #prompt-writing-box {
-    border-left: 20px #008cba solid;
+    border-left-color: #008cba;
+    border-left-style: solid;
     padding: 10px 10px 0 15px;
 }
 #info-container .prompt-writing {
     font-size: 42px;
 }
 #info-container .prompt-rune-hidden {
-    border: 2px blue dashed;
+    border: 1px blue dashed;
     float: left;
     height: 40px;
     margin-bottom: 2px;
@@ -267,38 +278,43 @@ body {
     margin-top: -10px;
 }
 #info-container #prompt-reading-box {
-    border-left: 20px #00ce46 solid;
+    border-left-color: #00ce46;
+    border-left-style: solid;    
     padding: 15px 15px 0 15px;
 }
 #info-container .prompt-reading {
     font-size: 18px;
 }
 #info-container .prompt-tone-hidden {
-    border: 2px blue dashed;
+    border: 1px blue dashed;
     float: left;
     margin: -5px 5px;
     padding: 5px;
 }
 #info-container .prompt-tone-shown {
     float: left;
+    margin-top: 3px;
     padding-right: 5px;
 }
 #info-container #prompt-definition-box {
-    border-left: 20px #ff8300 solid;
+    border-left-color: #ff8300;
+    border-left-style: solid;
     padding: 10px 10px 10px 15px;
 }
 #info-container .prompt-definition {
     font-size: 18px;
 }
 #info-container #prompt-sentence-box {
-    border-left: 20px orange solid;
+    border-left-color: orange;
+    border-left-style: solid;
     padding: 10px 10px 10px 15px;
 }
 #info-container .prompt-sentence{
     font-size: 24px;
 }
 #info-container #prompt-mnemonic-box {
-    border-left: 20px yellow solid;
+    border-left-color: yellow;
+    border-left-style: solid;
     padding: 10px 10px 10px 15px;
 }
 #info-container .prompt-mnemonic {
@@ -318,20 +334,22 @@ body {
         border-top: none;
     }
     #info-container .prompt-box {
+        border-left-width: 10px;
         min-height: 40px;
     }
     #info-container #prompt-writing-box {
-        padding: 7px 7px 0 15px;
+        padding: 0 7px 0 15px;
     }
     #info-container .prompt-writing {
-        font-size: 32px;   
+        font-size: 28px;   
     }
     #info-container .prompt-rune-hidden {
         height: 30px;
+        margin-top: 7px;
         width: 30px;
     }
     #info-container .prompt-rune-shown {
-        margin-top: -8px;
+        margin-top: 0;
     }
     #info-container #prompt-reading-box {
         padding: 10px 10px 0 15px;

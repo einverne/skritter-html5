@@ -171,22 +171,36 @@ define([
         /**
          * @method getReadingDisplayAt
          * @param {Number} index
+         * @param {Boolean} hidden
          * @return {String}
          */
-        getReadingDisplayAt: function(index) {
+        getReadingDisplayAt: function(index, hidden) {
             var element = '';
             for (var i = 0; i < this.getCharacterCount(); i++) {
-                if (index > i) {
-                    //checks for characters with multiple tone answers
-                    if (this.getPinyinAt(i).syllable.split(',').length > 1) {
-                        element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + PinyinConverter.toTone(this.getPinyinAt(i).reading) + "</div>";
+                if (hidden) {
+                    if (index > i) {
+                        //checks for characters with multiple tone answers
+                        if (this.getPinyinAt(i).syllable.split(',').length > 1) {
+                            element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + PinyinConverter.toTone(this.getPinyinAt(i).reading) + "</div>";
+                        } else {
+                            element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + PinyinConverter.toTone(this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone) + "</div>";
+                        }
+                    } else if (index === i) {
+                        element += "<div id='reading-" + i + "' class='prompt-tone-hidden'>" + this.getPinyinAt(i).syllable + "</div>";
                     } else {
-                        element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + PinyinConverter.toTone(this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone) + "</div>";
+                        element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + this.getPinyinAt(i).syllable + "</div>";
                     }
-                } else if (index === i) {
-                    element += "<div id='reading-" + i + "' class='prompt-tone-hidden'>" + this.getPinyinAt(i).syllable + "</div>";
                 } else {
-                    element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + this.getPinyinAt(i).syllable + "</div>";
+                    if (index > i) {
+                        if (this.getPinyinAt(i).syllable.split(',').length > 1) {
+                            element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + PinyinConverter.toTone(this.getPinyinAt(i).reading) + "</div>";
+                        } else {
+                            element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + PinyinConverter.toTone(this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone) + "</div>";
+                        }
+                    } else {
+                        element += "<div id='reading-" + i + "' class='hidden-reading'>show</div>";
+                        break;
+                    }
                 }
             }
             return element;
