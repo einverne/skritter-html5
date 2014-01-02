@@ -244,10 +244,12 @@ body {
     border-top: 2px black solid;
     border-left: 2px black solid;
 }
-#info-container #prompt-writing-row {
-    border-left: 20px #008cba solid;
+#info-container .prompt-box {
     min-height: 60px;
-    padding: 10px 0 10px 15px;
+}
+#info-container #prompt-writing-box {
+    border-left: 20px #008cba solid;
+    padding: 10px 10px 0 15px;
 }
 #info-container .prompt-writing {
     font-size: 42px;
@@ -264,10 +266,9 @@ body {
     float: left;
     margin-top: -10px;
 }
-#info-container #prompt-reading-row {
+#info-container #prompt-reading-box {
     border-left: 20px #00ce46 solid;
-    min-height: 60px;
-    padding: 15px;
+    padding: 15px 15px 0 15px;
 }
 #info-container .prompt-reading {
     font-size: 18px;
@@ -282,18 +283,16 @@ body {
     float: left;
     padding-right: 5px;
 }
-#info-container #prompt-definition-row {
+#info-container #prompt-definition-box {
     border-left: 20px #ff8300 solid;
-    min-height: 60px;
-    padding: 20px 15px 15px 15px;
+    padding: 10px 10px 10px 15px;
 }
 #info-container .prompt-definition {
     font-size: 18px;
 }
-#info-container #prompt-sentence-row {
+#info-container #prompt-sentence-box {
     border-left: 20px orange solid;
-    min-height: 60px;
-    padding: 20px 15px 15px 15px;
+    padding: 10px 10px 10px 15px;
 }
 #info-container .prompt-sentence{
     font-size: 24px;
@@ -311,8 +310,14 @@ body {
         border-right: none;
         border-top: none;
     }
+    #info-container .prompt-box {
+        min-height: 40px;
+    }
+    #info-container #prompt-writing-box {
+        padding: 7px 7px 0 15px;
+    }
     #info-container .prompt-writing {
-        font-size: 32px;
+        font-size: 32px;   
     }
     #info-container .prompt-rune-hidden {
         height: 30px;
@@ -321,11 +326,20 @@ body {
     #info-container .prompt-rune-shown {
         margin-top: -8px;
     }
+    #info-container #prompt-reading-box {
+        padding: 10px 10px 0 15px;
+    }
     #info-container .prompt-reading {
         font-size: 14px;
     }
+    #info-container #prompt-definition-box {
+        padding: 5px 5px 5px 15px;
+    }
     #info-container .prompt-definition {
         font-size: 14px;
+    }
+    #info-container #prompt-sentence-box {
+        padding: 5px 5px 5px 15px;
     }
     #info-container .prompt-sentence{
         font-size: 18px;

@@ -161,7 +161,7 @@ define([
                 var requests = batch.Requests;
                 retryCount = 0;
                 for (var i in requests) {
-                    if (requests[i].response.statusCode === 200) {
+                    if (requests[i].response && requests[i].response.statusCode === 200) {
                         _.merge(result, requests[i].response, merge);
                         responseSize += requests[i].responseSize;
                     }

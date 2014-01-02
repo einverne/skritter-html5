@@ -111,7 +111,7 @@ define([
                     var activeCount = 0;
                     for (var i in lists) {
                         var list = lists[i];
-                        if (list.studyingMode === 'adding' || list.studyingMode === 'reviewing') {
+                        if (list.studyingMode && (list.studyingMode === 'adding' || list.studyingMode === 'reviewing')) {
                             div += "<tr id='list-" + list.id + "' class='cursor'>";
                             div += "<td>" + list.name + "</td>";
                             if (list.studyingMode === 'adding') {
