@@ -94,7 +94,6 @@ define([
             if (Prompt.finished)
                 this.next();
         },
-        
         /**
          * @method next
          */
@@ -117,7 +116,6 @@ define([
                 this.show();
             }
         },
-        
         /**
          * @method processInput
          * @param {Array} points
@@ -134,18 +132,28 @@ define([
                     //recognize a stroke based on user input and targets
                     var result = new Recognizer(Tone.userCharacter, stroke, Tone.userCharacter.targets).recognize(ignoreCheck, enforceOrder);
                     //check if a result exists and that it's not a duplicate
+                    //store the result for resizing later if needed
+                    Tone.result = result;
                     if (result && !Tone.userCharacter.containsStroke(result)) {
+                        //store the result for resizing later if needed
+                        Tone.result = result;
+                        //select the grade as 3 for a corrent answer
                         Prompt.gradingButtons.select(3);
                         //add the stroke to the users character
                         Tone.userCharacter.add(result);
                         //draw the stroke on the canvas without tweening
                         Tone.canvas.drawStroke(result.getInflatedSprite(), 'stroke');
+
                     } else {
+                        //store the result for resizing later if needed
+                        Tone.result = Tone.userCharacter.targets[0].at(0);
+                        //markes the incorrect answer as grade 1
                         Prompt.gradingButtons.select(1).collapse();
                         //fade incorrect strokes out
                         Tone.canvas.fadeShape('background', marker);
                         //select the first possible tone and display it as wrong
-                        Tone.canvas.drawStroke(Tone.userCharacter.targets[0].at(0).getInflatedSprite(), 'stroke');
+                        Tone.canvas.drawStroke(Tone.result.getInflatedSprite(), 'stroke');
+
                     }
                 }
             } else {
@@ -153,13 +161,27 @@ define([
                 var index = _.pluck(Tone.userCharacter.targets, 'name').indexOf('tone5');
                 if (index >= 0) {
                     Prompt.gradingButtons.select(3).collapse();
-                    Tone.canvas.drawStroke(Tone.userCharacter.targets[index].at(0).getInflatedSprite(), 'stroke');
+                    Tone.result = Tone.userCharacter.targets[index].at(0);
+                    Tone.canvas.drawStroke(Tone.result.getInflatedSprite(), 'stroke');
                 } else {
+                    Tone.result = Tone.userCharacter.targets[0].at(0);
                     Prompt.gradingButtons.select(1).collapse();
-                    Tone.canvas.drawStroke(Tone.userCharacter.targets[0].at(0).getInflatedSprite(), 'stroke');
+                    Tone.canvas.drawStroke(Tone.result.getInflatedSprite(), 'stroke');
                 }
             }
             this.handleCharacterComplete();
+        },
+        /**
+         * @method redraw
+         */
+        redraw: function() {
+            Tone.canvas.clear('background');
+            Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), skritter.user.getFontName(), 'background', 0.3);
+            if (Tone.result) {
+                Tone.canvas.clear('stroke');
+                Tone.canvas.drawStroke(Tone.result.getInflatedSprite(), 'stroke');
+                Tone.canvas.filterLayerColor('stroke', Prompt.gradeColorFilters[Prompt.gradingButtons.grade()]);
+            }
         },
         show: function() {
             skritter.timer.start();

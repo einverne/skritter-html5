@@ -154,7 +154,7 @@ define([
          * @returns {Container}
          */
         drawCharacterFromFont: function(character, font, layerName, alpha, color) {
-            var text = new createjs.Text(character, Canvas.size + 'px ' + font, 'black');
+            var text = new createjs.Text(character, skritter.settings.get('canvasSize') + 'px ' + font, 'black');
             if (alpha)
                 text.alpha = alpha;
             if (color)

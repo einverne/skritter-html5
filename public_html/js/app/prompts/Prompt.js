@@ -147,6 +147,7 @@ define([
             //manually resizes the info section to fill vertical mobile devices
             if (skritter.settings.get('appWidth') <= 601 && skritter.settings.get('orientation') === 'vertical') {
                 this.$('#info-container').height(skritter.settings.get('appHeight') - $('.navbar').height() - canvasSize - 8);
+                this.$('#info-container').width('');
             } else {
                 //manually resizes the info section to fill horizontal mobile devices
                 if (skritter.settings.get('appHeight') <= 601 && skritter.settings.get('appWidth') > 601) {
@@ -156,6 +157,8 @@ define([
                     this.$('#info-container').height('');
                 }
             }
+            //ISSUE #114: redraws the canvas on save and orientation changes
+            this.redraw();
         },
         /**
          * @method set
