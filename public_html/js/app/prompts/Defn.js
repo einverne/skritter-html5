@@ -52,6 +52,11 @@ define([
                 Prompt.vocabs[0].play();
             if (skritter.user.isChinese())
                 this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
+            if (Prompt.mnemonic) {
+                this.$('.prompt-mnemonic').text(Prompt.mnemonic.text + ' (' + Prompt.mnemonic.creator + ')');
+            } else {
+                this.$('.prompt-mnemonic').hide();
+            }
             this.$('#prompt-text .prompt-definition').text("What's the definition?");
             this.$('#prompt-text #tip').text("(Click to show answer)");
         },

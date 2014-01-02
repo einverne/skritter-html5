@@ -56,6 +56,11 @@ define([
             } else {
                 this.$('#prompt-sentence-row').hide();
             }
+            if (Prompt.mnemonic) {
+                this.$('.prompt-mnemonic').text(Prompt.mnemonic.text + ' (' + Prompt.mnemonic.creator + ')');
+            } else {
+                this.$('.prompt-mnemonic').hide();
+            }
             this.$('#prompt-text .prompt-reading').text("What's the reading?");
             this.$('#tip').text("(Click to show answer)");
         },

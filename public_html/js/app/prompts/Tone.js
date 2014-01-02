@@ -178,6 +178,11 @@ define([
             } else {
                 this.$('#prompt-sentence-row').hide();
             }
+            if (Prompt.mnemonic) {
+                this.$('.prompt-mnemonic').text(Prompt.mnemonic.text + ' (' + Prompt.mnemonic.creator + ')');
+            } else {
+                this.$('.prompt-mnemonic').hide();
+            }
             //ISSUE #74: redraws existing character when switching between pages
             if (Tone.userCharacter) {
                 Tone.canvas.drawCharacter(Tone.userCharacter.getCharacterSprite(), 'stroke');

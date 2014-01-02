@@ -297,6 +297,13 @@ body {
 #info-container .prompt-sentence{
     font-size: 24px;
 }
+#info-container #prompt-mnemonic-box {
+    border-left: 20px yellow solid;
+    padding: 10px 10px 10px 15px;
+}
+#info-container .prompt-mnemonic {
+    font-size: 18px;
+}
 @media (max-width: 992px) {
     #info-container {
         border: 2px #000000 solid;
@@ -343,6 +350,12 @@ body {
     }
     #info-container .prompt-sentence{
         font-size: 18px;
+    }
+    #info-container #prompt-mnemonic-box {
+        padding: 5px 5px 5px 15px;
+    }
+    #info-container .prompt-mnemonic {
+        font-size: 14px;
     }
 }
 

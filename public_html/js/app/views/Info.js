@@ -41,8 +41,8 @@ define([
 
             //contained characters
             var contained = _.uniq(Info.vocab.get('containedVocabIds'));
+            this.$('#contained-characters tbody').html('');
             if (contained.length > 1) {
-                this.$('#contained-characters tbody').html('');
                 for (var a in contained) {
                     var containedVocab = skritter.data.vocabs.findWhere({id: contained[a]});
                     var divA = "<tr id='" + containedVocab.get('id') + "' class='contained-row'>";
@@ -58,8 +58,8 @@ define([
 
             //decompositions
             var decomps = Info.vocab.getDecomps();
+            this.$('#decompositions tbody').html('');
             if (decomps && decomps.length > 0) {
-                this.$('#decompositions tbody').html('');
                 for (var c in decomps) {
                     var decomp = decomps[c];
                     var divB = "<tr class='decomp-item'>";
@@ -94,6 +94,16 @@ define([
             'click.Info #info-view .contained-row': 'navigateInfo',
             'click.Info #info-view #ban-button': 'toggleBanned',
             'click.Info #info-view #star-button': 'toggleStarred'
+        },
+        /**
+         * @method clear
+         * @returns {Backbone.View}
+         */
+        clear: function() {
+            this.$('#writing').html('');
+            this.$('#definition-reading').children().html('');
+            this.$('#sentence').children().html('');
+            return this;
         },
         /**
          * @method navigateInfo

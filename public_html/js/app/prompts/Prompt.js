@@ -35,6 +35,7 @@ define([
                 4: new createjs.ColorFilter(0, 0, 0, 1, 112, 218, 112, 1)
             };
             Prompt.item = null;
+            Prompt.mnemonic = null;
             Prompt.part = null;
             Prompt.position = 1;
             Prompt.reading = '';
@@ -165,6 +166,7 @@ define([
             Prompt.contained = item.getContained();
             Prompt.definition = vocabs[0].getDefinition();
             Prompt.item = item;
+            Prompt.mnemonic = vocabs[0].get('mnemonic');
             Prompt.part = item.get('part');
             Prompt.reading = vocabs[0].get('reading');
             Prompt.sentence = vocabs[0].getSentence();
