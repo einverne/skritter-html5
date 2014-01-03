@@ -26,13 +26,17 @@
 </div><!-- /.modal -->
 
 <!-- /MODAL: default -->
-<div class="modal fade modal-vertical-centered" id="input-range" tabindex="-1" role="dialog" aria-labelledby="input-range" aria-hidden="true">
+<div class="modal fade modal-vertical-centered" id="add-items" tabindex="-1" role="dialog" aria-labelledby="add-items" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="label-input-range"></h4>
+                <h4 class="modal-title" id="label-add-items"></h4>
             </div>
-            <div class="modal-body text-center"></div>
+            <div class="modal-body text-center">
+                <input id="quantity" type="number" name="quantity" min="1" max="40" value="1">
+                <button id="add-button" type="button" class="btn btn-sm btn-success" data-dismiss="modal">Add</button>
+                <button id="cancel-button" type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

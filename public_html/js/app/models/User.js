@@ -109,7 +109,6 @@ define([
                     method: 'POST',
                     cache: false,
                     params: {
-                        lang: this.getSetting('targetLang'),
                         limit: limit,
                         offset: offset
                     }
@@ -130,9 +129,8 @@ define([
                 //start fetching the new items as they are completed
                 function(result, callback) {
                     skritter.modal.setProgress(100, 'Getting Items');
-                    skritter.api.getBatchCombined(result.id, function(result) {
+                    skritter.api.getBatchCombined(result.id, null, function(result) {
                         console.log('added items', result);
-                    }, function() {
                         callback();
                     });
                 },

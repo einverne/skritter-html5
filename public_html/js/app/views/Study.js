@@ -56,8 +56,17 @@ define([
          * @method addItem
          */
         addItems: function() {
-            skritter.modal.show('progress').setTitle('Adding Items').setProgress(100);
-            skritter.user.addItems(5, skritter.modal.hide);
+            skritter.modal.show('add-items').setTitle('How many items would you like to add?');
+            this.listenToOnce(skritter.modal, 'addItemsClicked', function(quantity) {
+                skritter.modal.show('progress').setTitle('Adding Items').setProgress(100);
+                skritter.user.addItems(quantity, addComplete);
+            });
+            function addComplete() {
+                skritter.scheduler.loadFromDatabase(function() {
+                    skritter.modal.setProgress(100, 'Rescheduling');
+                    skritter.modal.hide();
+                });
+            }
         },
         /**
          * @method clearPrompt

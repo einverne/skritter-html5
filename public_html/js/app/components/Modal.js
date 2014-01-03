@@ -42,7 +42,8 @@ define([
          * @property {Object} events
          */
         events: {
-            'click.Modal #login #login-button': 'handleLogin'
+            'click.Modal #login #login-button': 'handleLogin',
+            'click.Model #add-items #add-button': 'triggerAddItemsClicked'
         },
         /**
          * @method handleLogin
@@ -153,6 +154,12 @@ define([
             this.$(Modal.element).children('.modal-content').show();
             this.reset();
             return this;
+        },
+        /**
+         * @method triggerButtonClicked
+         */
+        triggerAddItemsClicked: function() {
+            this.trigger('addItemsClicked', this.$('#add-items #quantity').val());
         }
     });
 

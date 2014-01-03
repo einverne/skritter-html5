@@ -139,6 +139,8 @@ define([
             return readiness;
         },
         /**
+         * Attempts to load all resources required to study a specific item.
+         * 
          * @method callback
          * @param {Function} callback
          */
