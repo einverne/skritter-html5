@@ -198,7 +198,7 @@ define([
                             element += "<div id='reading-" + i + "' class='prompt-tone-shown'>" + PinyinConverter.toTone(this.getPinyinAt(i).syllable + this.getPinyinAt(i).tone) + "</div>";
                         }
                     } else {
-                        element += "<div id='reading-" + i + "' class='hidden-reading'>show</div>";
+                        element += "<div id='reading-" + i + "' class='btn btn-default btn-xs hidden-reading'>show</div>";
                         break;
                     }
                 }
