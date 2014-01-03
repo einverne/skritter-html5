@@ -29,6 +29,7 @@ define([
             skritter.timer.setThinkingLimit(10);
             Tone.canvas = new Canvas();
             Tone.minStrokeDistance = 15;
+            Tone.result = null;
             Tone.userCharacter = null;
             this.listenTo(Tone.canvas, 'mousedown', this.handleInputDown);
             this.listenTo(Tone.canvas, 'mouseup', this.handleInputRecieved);

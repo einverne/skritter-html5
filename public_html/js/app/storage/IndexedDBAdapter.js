@@ -148,6 +148,7 @@ define([
         var items = [];
         var table = this.database.objectStore(tableName);
         keys = Array.isArray(keys) ? keys : [keys];
+        keys = _.remove(keys, undefined);
         getNext();
         function getNext() {
             if (position < keys.length) {

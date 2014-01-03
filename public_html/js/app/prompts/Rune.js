@@ -33,7 +33,6 @@ define([
             Rune.failedAttempts = 0;
             Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 15;
-            Rune.result = null;
             Rune.strokeCount = 0;
             Rune.teachingMode = false;
             Rune.userCharacter = null;
