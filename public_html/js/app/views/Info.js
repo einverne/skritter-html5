@@ -31,7 +31,6 @@ define([
             this.$('.writing').addClass(skritter.user.getTextStyle());
             this.$('#reading').text(PinyinConverter.toTone(Info.vocab.get('reading')));
             this.$('#definition').text(Info.vocab.getDefinition());
-            this.$('#mnemonic').text(Info.vocab.get('mnemonic'));
             if (Info.sentence) {
                 this.$('#sentence-writing').addClass(skritter.user.getTextStyle());
                 this.$('#sentence-writing').text(Info.sentence.noWhiteSpaces());

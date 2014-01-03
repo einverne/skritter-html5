@@ -329,13 +329,9 @@ define([
          */
         loadAllData: function(callback) {
             skritter.async.series([
-                skritter.async.apply(skritter.data.decomps.loadAll),
                 skritter.async.apply(skritter.data.params.loadAll),
                 skritter.async.apply(skritter.data.reviews.loadAll),
                 skritter.async.apply(skritter.data.srsconfigs.loadAll),
-                skritter.async.apply(skritter.data.sentences.loadAll),
-                skritter.async.apply(skritter.data.strokes.loadAll),
-                skritter.async.apply(skritter.data.vocabs.loadAll),
                 skritter.async.apply(skritter.scheduler.loadFromDatabase)
             ], function() {
                 callback();

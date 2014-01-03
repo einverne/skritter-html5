@@ -306,8 +306,8 @@ define([
             Rune.canvas.disableInput();
             Prompt.gradingButtons.select().collapse();
             this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            if (!this.isLast() && skritter.user.get('audio') && Prompt.contained[Prompt.position - 1] && Prompt.contained[Prompt.position - 1].getVocabs().length > 0)
-                Prompt.contained[Prompt.position - 1].getVocabs()[0].play();
+            if (skritter.user.get('audio') && !this.isLast() && Prompt.vocabs[0].getContainedVocabAt(Prompt.position))
+                Prompt.vocabs[0].getContainedVocabAt(Prompt.position).play();
             if (this.isLast()) {
                 this.$('.prompt-reading').removeClass('hidden-reading');
                 this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));

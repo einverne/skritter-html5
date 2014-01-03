@@ -138,36 +138,33 @@ define([
             });
         },
         /**
-         * @method loadItems
-         * @param {Array} ids
-         * @param {Number} limit
+         * @method loadItem
+         * @param {String} id
          * @param {Function} callback
-         * @returns {Backbone.Model}
+         * @returns {Backbone.Collection}
          */
-        loadItems: function(ids, limit, callback) {
-            if (ids) {
-                ids = Array.isArray(ids) ? ids : [ids];
-            } else {
-                ids = [];
-            }
-            if (limit)
-                ids = ids.slice(0, limit);
-            skritter.async.series([
+        loadItem: function(id, callback) {
+            skritter.async.waterfall([
                 function(callback) {
-                        skritter.storage.getItems('items', _.pluck(ids, 'id'), function(items) {
-                            skritter.data.items.add(_.remove(items, undefined), {silent: true, sort: false});
-                            callback();
-                        });
+                    skritter.storage.getItems('items', id, function(items) {
+                        callback(null, skritter.data.items.add(items, {merge: true, silent: true, sort: false})[0]);
+                    });
                 },
-                function(callback) {
-                    skritter.storage.getItems('items', skritter.data.items.getContainedIds(), function(items) {
-                        skritter.data.items.add(_.remove(items, undefined), {silent: true, sort: false});
-                        callback();
+                function(item, callback) {
+                    item.loadResources(function(item) {
+                        callback(null, item);
                     });
                 }
-            ], function() {
-                callback();
+            ], function(error, item) {
+                if (error) {
+                    callback(null);
+                } else if (!item.checkIntegrity()) {
+                    callback(null);
+                } else {
+                    callback(item);
+                }
             });
+            return this;
         }
     });
 

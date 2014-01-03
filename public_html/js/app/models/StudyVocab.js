@@ -112,6 +112,17 @@ define([
             });
         },
         /**
+         * @method getContainedVocabAt
+         * @param {Number} position
+         * @returns {Backbone.Model}
+         */
+        getContainedVocabAt: function(position) {
+            var vocabIds = this.get('containedVocabIds');
+            if (vocabIds)
+                return skritter.data.vocabs.findWhere({id: vocabIds[position - 1]});
+            return false;
+        },
+        /**
          * Returns an array of a single character vocab items decompositions. It can optionally return
          * duplicates if that is so desired.
          * 

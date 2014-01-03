@@ -309,7 +309,7 @@ body {
 #info-container .prompt-mnemonic {
     font-size: 18px;
 }
-@media (max-width: 992px) {
+@media (max-width: 990px) {
     #info-container {
         border: 2px #000000 solid;
         margin-top: 0;

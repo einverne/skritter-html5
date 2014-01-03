@@ -56,6 +56,15 @@ define([
             return true;
         },
         /**
+         * @method getCharacterCount
+         * @returns {Number}
+         */
+        getCharacterCount: function() {
+            if (this.get('vocabIds').length > 0)
+                return this.getVocabs()[0].getCharacterCount();
+            return 0;
+        },
+        /**
          * Returns the contained items for multi-character words. Data is stored for
          * the contained characters regardsless of whether they are being studied or not.
          * 
@@ -95,15 +104,6 @@ define([
             return items;
         },
         /**
-         * @method getCharacterCount
-         * @returns {Number}
-         */
-        getCharacterCount: function() {
-            if (this.get('vocabIds').length > 0)
-                return this.getVocabs()[0].getCharacterCount();
-            return 0;
-        },
-        /**
          * @method getReadiness
          * @param {Boolean} deprioritizeLongShots
          * @return {Number}
@@ -139,11 +139,64 @@ define([
             return readiness;
         },
         /**
-         * @method getVariations
-         * @returns {Array}
+         * @method callback
+         * @param {Function} callback
          */
-        getVariations: function() {
-            
+        loadResources: function(callback) {
+            var self = this;
+            var vocabIds = _.clone(this.get('vocabIds'));
+            if (vocabIds.length > 0) {
+                skritter.async.waterfall([
+                    //load the initial item vocabs
+                    function(callback) {
+                        skritter.storage.getItems('vocabs', vocabIds, function(vocabs) {
+                            callback(null, skritter.data.vocabs.add(vocabs, {merge: true, silent: true, sort: false}));
+                        });
+                    },
+                    //load the contained vocabs
+                    function(vocabs, callback) {
+                        var containedVocabIds = [];
+                        for (var i in vocabs)
+                            containedVocabIds = containedVocabIds.concat(vocabs[i].get('containedVocabIds'));
+                        skritter.storage.getItems('vocabs', _.uniq(containedVocabIds), function(containedVocabs) {
+                            skritter.data.vocabs.add(containedVocabs, {merge: true, silent: true, sort: false});
+                            callback(null, vocabs);
+                        });
+                    },
+                    //load the contained items
+                    function(vocabs, callback) {
+                        skritter.storage.getItems('items', self.getContainedIds(), function(items) {
+                            skritter.data.items.add(items, {merge: true, silent: true, sort: false});
+                            callback(null, vocabs);
+                        });
+                    },
+                    //load the decomps
+                    function(vocabs, callback) {
+                        skritter.storage.getItems('decomps', vocabs[0].getCharacters(), function(decomps) {
+                            skritter.data.decomps.add(decomps, {merge: true, silent: true, sort: false});
+                            callback(null, vocabs);
+                        });
+                    },
+                    //load the sentence
+                    function(vocabs, callback) {
+                        skritter.storage.getItems('sentences', vocabs[0].get('sentenceId'), function(sentence) {
+                            skritter.data.sentences.add(sentence, {merge: true, silent: true, sort: false});
+                            callback(null, vocabs);
+                        });
+                    },
+                    //load the stroke data
+                    function(vocabs, callback) {
+                        skritter.storage.getItems('strokes', vocabs[0].getCharacters(), function(strokes) {
+                            skritter.data.strokes.add(strokes, {merge: true, silent: true, sort: false});
+                            callback();
+                        });
+                    }
+                ], function() {
+                    callback(self);
+                });
+            } else {
+                callback(self);
+            }
         },
         /**
          * @method getVocabs

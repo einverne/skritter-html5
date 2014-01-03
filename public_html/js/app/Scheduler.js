@@ -154,9 +154,8 @@ define(function() {
         next();
         function next() {
             var item = items[position];
-            skritter.data.items.loadItems(item, false, function() {
-                item = skritter.data.items.findWhere({id: item.id});
-                if (item.checkIntegrity()) {
+            skritter.data.items.loadItem(item.id, function(item) {
+                if (item) {
                     callback(item);
                 } else {
                     position++;
