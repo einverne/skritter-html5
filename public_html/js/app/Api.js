@@ -115,7 +115,7 @@ define([
             var batch = data.Batch;
             var requests = batch.Requests;
             for (var i in requests) {
-                if (requests[i].response.statusCode === 200) {
+                if (requests[i].response && requests[i].response.statusCode === 200) {
                     _.merge(result, requests[i].response, merge);
                     responseSize += requests[i].responseSize;
                 }
@@ -376,19 +376,28 @@ define([
      * @param {Function} callback
      */
     Api.prototype.getProgressStats = function(request, callback) {
+        var self = this;
+        var retryCount = 0;
         request.bearer_token = this.token;
-        var promise = $.ajax({
-            url: this.root + '.' + this.domain + '/api/v' + this.version + '/progstats',
-            type: 'GET',
-            data: request
-        });
-        promise.done(function(data) {
-            callback(data.ProgressStats);
-        });
-        promise.fail(function(error) {
-            console.error(error);
-            callback(error);
-        });
+        getRequest();
+        function getRequest() {
+            var promise = $.ajax({
+                url: self.root + '.' + self.domain + '/api/v' + self.version + '/progstats',
+                type: 'GET',
+                data: request
+            });
+            promise.done(function(data) {
+                callback(data.ProgressStats);
+            });
+            promise.fail(function(error) {
+                retryCount++;
+                if (retryCount > 3) {
+                    getRequest();
+                } else {
+                    callback(error);
+                }
+            });
+        }      
     };
 
     /**
