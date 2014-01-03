@@ -78,6 +78,10 @@ define([
          * @method adminRecogEditorView
          */
         adminRecogEditorView: function() {
+            if (!skritter.user.isLoggedIn()) {
+                this.defaultRoute();
+                return;
+            }
             if (!Router.adminRecogEditorView) {
                 Router.adminRecogEditorView = new AdminRecogEditorView({el: $(skritter.settings.get('container'))}).render();
             } else {
@@ -99,6 +103,10 @@ define([
          * @param {String} vocabId
          */
         infoView: function(vocabId) {
+            if (!skritter.user.isLoggedIn()) {
+                this.defaultRoute();
+                return;
+            }
             if (!Router.infoView) {
                 Router.infoView = new InfoView({el: $(skritter.settings.get('container'))});
             } else {
@@ -113,6 +121,10 @@ define([
          * @param {String} sectionId
          */
         listsView: function(listId, sectionId) {
+            if (!skritter.user.isLoggedIn()) {
+                this.defaultRoute();
+                return;
+            }
             if (!Router.listsView) {
                 Router.listsView = new ListsView({el: $(skritter.settings.get('container'))});
             } else {
@@ -138,6 +150,10 @@ define([
          * @method optionsView
          */
         optionsView: function() {
+            if (!skritter.user.isLoggedIn()) {
+                this.defaultRoute();
+                return;
+            }
             if (!Router.optionsView) {
                 Router.optionsView = new OptionsView({el: $(skritter.settings.get('container'))}).render();
             } else {
@@ -148,6 +164,10 @@ define([
          * @method reviewsView
          */
         reviewsView: function() {
+            if (!skritter.user.isLoggedIn()) {
+                this.defaultRoute();
+                return;
+            }
             if (!Router.reviewsView) {
                 Router.reviewsView = new ReviewsView({el: $(skritter.settings.get('container'))}).render();
             } else {
@@ -158,6 +178,10 @@ define([
          * @method studyView
          */
         studyView: function() {
+            if (!skritter.user.isLoggedIn()) {
+                this.defaultRoute();
+                return;
+            }
             if (!Router.studyView) {
                 Router.studyView = new StudyView({el: $(skritter.settings.get('container'))}).render();
                 skritter.view.study = Router.studyView;
@@ -170,6 +194,10 @@ define([
          * @param {String} sort
          */
         vocabsView: function(sort) {
+            if (!skritter.user.isLoggedIn()) {
+                this.defaultRoute();
+                return;
+            }
             if (!Router.vocabsView) {
                 Router.vocabsView = new VocabsView({el: $(skritter.settings.get('container'))});
             } else {
