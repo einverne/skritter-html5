@@ -54,6 +54,7 @@ define([
             Tone.canvas.clear('hint');
             Tone.canvas.clear('overlay');
             Tone.canvas.clear('stroke');
+            Tone.canvas.setLayerAlpha('background', 1);
             Tone.userCharacter.reset();
             Tone.userTargets = [];
             return this;
@@ -72,6 +73,12 @@ define([
         handleHold: function() {
             this.clear();
             Tone.canvas.enableInput();
+        },
+        /**
+         * @method handleInputDown
+         */
+        handleInputDown: function() {
+            Tone.canvas.setLayerAlpha('background', 0.6);
         },
         /**
          * @method handleInputRecieved
@@ -188,7 +195,7 @@ define([
             skritter.timer.start();
             //tone prompts must display the character in the background
             Tone.canvas.clear('background');
-            Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), skritter.user.getFontName(), 'background', 0.3);
+            Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), skritter.user.getFontName(), 'background');
             //displays the prompt information based on the current position
             this.$('.prompt-writing').text(Prompt.writing);
             if (skritter.user.isChinese())
