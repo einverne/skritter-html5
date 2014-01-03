@@ -32,12 +32,6 @@ define([
          * @returns {Backbone.View}
          */
         render: function() {
-            // ISSUE #118: If user is not logged in, redirect to home page.
-            if (!skritter.user.isLoggedIn()) {
-                console.log('Must be logged in to study!');
-                skritter.router.navigate('', true);
-                return this;
-            }
             this.$el.html(templateStudy);
             this.$('#avatar').html(skritter.user.getAvatar('avatar'));
             this.$('#username').text(skritter.user.getSetting('name'));
