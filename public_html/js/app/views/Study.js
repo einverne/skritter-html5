@@ -56,14 +56,16 @@ define([
          * @method addItem
          */
         addItems: function() {
+            var self = this;
             skritter.modal.show('add-items').setTitle('How many items would you like to add?');
             this.listenToOnce(skritter.modal, 'addItemsClicked', function(quantity) {
                 skritter.modal.show('progress').setTitle('Adding Items').setProgress(100);
                 skritter.user.addItems(quantity, addComplete);
             });
             function addComplete() {
+                skritter.modal.setProgress(100, 'Rescheduling');
                 skritter.scheduler.loadFromDatabase(function() {
-                    skritter.modal.setProgress(100, 'Rescheduling');
+                    self.updateDueCount();
                     skritter.modal.hide();
                 });
             }

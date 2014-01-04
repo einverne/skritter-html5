@@ -173,6 +173,7 @@ define(function() {
         skritter.storage.getSchedule(function(schedule) {
             skritter.scheduler.schedule = schedule;
             skritter.scheduler.filter();
+            skritter.scheduler.sort();
             callback();
         });
     };
