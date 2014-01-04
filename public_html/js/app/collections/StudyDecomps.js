@@ -42,6 +42,7 @@ define([
          */
         insert: function(decomps, callback) {
             if (decomps) {
+                skritter.data.decomps.add(decomps, {merge: true, silent: true, sort: false});
                 skritter.storage.setItems('decomps', decomps, callback);
             } else {
                 callback();

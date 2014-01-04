@@ -54,7 +54,7 @@ define([
          * @method getActive
          * @returns {Array}
          */
-        getActive: function() { 
+        getActive: function() {
             var activeItems = [];
             var activeStudyParts = skritter.user.getActiveStudyParts();
             for (var i in this.models) {
@@ -121,6 +121,7 @@ define([
          */
         insert: function(items, callback) {
             if (items) {
+                skritter.data.items.add(items, {merge: true, silent: true, sort: false});
                 skritter.storage.setItems('items', items, callback);
             } else {
                 callback();
@@ -151,15 +152,16 @@ define([
                     });
                 },
                 function(item, callback) {
-                    item.loadResources(function(item) {
+                    skritter.storage.getItems('items', item.getContainedIds(), function(items) {
+                        skritter.data.items.add(items, {merge: true, silent: true, sort: false});
                         callback(null, item);
                     });
                 }
             ], function(error, item) {
                 if (error) {
-                    callback(null);
+                    callback(error);
                 } else if (!item.checkIntegrity()) {
-                    callback(null);
+                    callback(error);
                 } else {
                     callback(item);
                 }

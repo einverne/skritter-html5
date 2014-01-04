@@ -227,6 +227,9 @@ body {
     margin-bottom: 0;
 }
 @media (max-width:767px) {
+    .navbar .navbar-nav li a {
+        padding-left: 0;
+    }
     .navbar .navbar-collapse .navbar-nav > li {
         padding-left:15px!important;
     }

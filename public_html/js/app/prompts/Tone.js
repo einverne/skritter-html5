@@ -210,7 +210,7 @@ define([
             if (Prompt.sentence) {
                 this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             } else {
-                this.$('#prompt-sentence-row').hide();
+                this.$('.prompt-sentence').hide();
             }
             if (Prompt.mnemonic) {
                 this.$('.prompt-mnemonic').text(Prompt.mnemonic.text + ' (' + Prompt.mnemonic.creator + ')');

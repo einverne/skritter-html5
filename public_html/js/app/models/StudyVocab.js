@@ -249,6 +249,43 @@ define([
             return element;
         },
         /**
+         * @method loadResources
+         * @param {Function} callback
+         */
+        loadResources: function(callback) {
+            var characters = this.getCharacters();
+            var containedVocabIds = _.clone(this.get('containedVocabIds'));
+            var sentenceId = _.clone(this.get('sentenceId'));
+            skritter.async.series([
+               function(callback) {
+                    skritter.storage.getItems('decomps', characters, function(decomps) {
+                        skritter.data.decomps.add(decomps, {merge: true, silent: true, sort: false});
+                        callback();
+                    });
+               },
+               function(callback) {
+                    skritter.storage.getItems('sentences', sentenceId, function(sentence) {
+                        skritter.data.sentences.add(sentence, {merge: true, silent: true, sort: false});
+                        callback();
+                    });
+               },
+               function(callback) {
+                    skritter.storage.getItems('strokes', characters, function(strokes) {
+                        skritter.data.strokes.add(strokes, {merge: true, silent: true, sort: false});
+                        callback();
+                    });
+               },
+               function(callback) {
+                   skritter.storage.getItems('vocabs', containedVocabIds, function(containedVocabs) {
+                       skritter.data.vocabs.add(containedVocabs, {merge: true, silent: true, sort: false});
+                       callback();
+                   });
+               }
+            ], function() {
+                callback();
+            });
+        },
+        /**
          * @method play
          */
         play: function() {

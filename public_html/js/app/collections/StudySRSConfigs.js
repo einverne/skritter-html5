@@ -56,6 +56,7 @@ define([
          */
         insert: function(srsconfigs, callback) {
             if (srsconfigs) {
+                skritter.data.srsconfigs.add(srsconfigs, {merge: true, silent: true, sort: false});
                 skritter.storage.setItems('srsconfigs', srsconfigs, callback);
             } else {
                 callback();

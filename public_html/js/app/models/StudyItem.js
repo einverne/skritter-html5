@@ -172,26 +172,9 @@ define([
                             callback(null, vocabs);
                         });
                     },
-                    //load the decomps
+                    //load vocab resources (decomps, sentence, strokes)
                     function(vocabs, callback) {
-                        skritter.storage.getItems('decomps', vocabs[0].getCharacters(), function(decomps) {
-                            skritter.data.decomps.add(decomps, {merge: true, silent: true, sort: false});
-                            callback(null, vocabs);
-                        });
-                    },
-                    //load the sentence
-                    function(vocabs, callback) {
-                        skritter.storage.getItems('sentences', vocabs[0].get('sentenceId'), function(sentence) {
-                            skritter.data.sentences.add(sentence, {merge: true, silent: true, sort: false});
-                            callback(null, vocabs);
-                        });
-                    },
-                    //load the stroke data
-                    function(vocabs, callback) {
-                        skritter.storage.getItems('strokes', vocabs[0].getCharacters(), function(strokes) {
-                            skritter.data.strokes.add(strokes, {merge: true, silent: true, sort: false});
-                            callback();
-                        });
+                        vocabs[0].loadResources(callback);
                     }
                 ], function() {
                     callback(self);

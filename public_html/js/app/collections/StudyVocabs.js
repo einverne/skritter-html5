@@ -42,6 +42,7 @@ define([
          */
         insert: function(vocabs, callback) {
             if (vocabs) {
+                skritter.data.vocabs.add(vocabs, {merge: true, silent: true, sort: false});
                 skritter.storage.setItems('vocabs', vocabs, callback);
             } else {
                 callback();
