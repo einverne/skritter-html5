@@ -89,7 +89,7 @@ define([
          */
         hideReading: function() {
             this.$('.prompt-reading').addClass('hidden-reading');
-            this.$('.prompt-reading').text('show');
+            this.$('.prompt-reading').html("<button class='btn btn-default btn-xs hidden-reading'>show</button>");
         },
         /**
          * @method isFinished
