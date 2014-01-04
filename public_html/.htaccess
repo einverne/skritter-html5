@@ -1,10 +1,10 @@
 <IfModule mod_expires.c>
     ExpiresActive On
     <FilesMatch "\.(appcache)$">    
-        ExpiresDefault "access plus 1 seconds"
+        ExpiresDefault "access plus 1 second"
     </FilesMatch>
     <FilesMatch "\.(css|html|js)$">    
-        ExpiresDefault "access plus 1 hour"
+        ExpiresDefault "access plus 1 second"
     </FilesMatch>
     <FilesMatch "\.(eot|ico|otf|png|svg|ttf|woff)$">
         ExpiresDefault "access plus 1 month"
