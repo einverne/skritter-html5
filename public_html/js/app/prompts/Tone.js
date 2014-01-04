@@ -183,12 +183,14 @@ define([
          * @method redraw
          */
         redraw: function() {
-            Tone.canvas.clear('background');
-            Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), skritter.user.getFontName(), 'background', 0.3);
-            if (Tone.result) {
-                Tone.canvas.clear('stroke');
-                Tone.canvas.drawStroke(Tone.result.getInflatedSprite(), 'stroke');
-                Tone.canvas.filterLayerColor('stroke', Prompt.gradeColorFilters[Prompt.gradingButtons.grade()]);
+            if (this.$('#study-view').length !== 0) {
+                Tone.canvas.clear('background');
+                Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), skritter.user.getFontName(), 'background', 0.3);
+                if (Tone.result) {
+                    Tone.canvas.clear('stroke');
+                    Tone.canvas.drawStroke(Tone.result.getInflatedSprite(), 'stroke');
+                    Tone.canvas.filterLayerColor('stroke', Prompt.gradeColorFilters[Prompt.gradingButtons.grade()]);
+                }
             }
         },
         show: function() {

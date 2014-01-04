@@ -242,7 +242,7 @@ define([
          * @method redraw
          */
         redraw: function() {
-            if (Rune.userCharacter) {
+            if (Rune.userCharacter && this.$('#study-view').length !== 0) {
                 Rune.canvas.clear('hint');
                 Rune.canvas.clear('stroke');
                 Rune.canvas.drawStroke(Rune.userCharacter.getCharacterSprite(), 'stroke');
