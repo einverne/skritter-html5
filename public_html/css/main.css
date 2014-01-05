@@ -78,9 +78,6 @@ body {
     min-height: 50px;
     margin: 0 0 5px 0;
     opacity: 0.8;
-    padding: 15px 12%;
-    text-align:  center;
-    width: 14%;
 }
 #grading-buttons div:hover { opacity: 1.0; }
 #grading-buttons #grade1 { background-image: url('../images/grading/grade1.png'); }
@@ -116,6 +113,9 @@ body {
     #home-view #active-lists {
         margin-top: 40px;
     }
+    #grading-buttons div {
+        min-height: 40px;
+    }
 }
 @media (max-width:767px) {
     #home-view #overview {
@@ -123,6 +123,9 @@ body {
     }
     #home-view #introduction {
         text-align: center;
+    }
+    #grading-buttons div {
+        min-height: 30px;
     }
 }
 
