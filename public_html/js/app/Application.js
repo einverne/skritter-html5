@@ -129,7 +129,6 @@ define([
                         if (!skritter.user.getLastSync()) {
                             skritter.modal.show('progress').setTitle('Initial Download').setProgress('100');
                             skritter.user.sync(function() {
-                                document.location.reload(true);
                                 skritter.modal.hide();
                                 callback();
                             });

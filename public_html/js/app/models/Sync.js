@@ -13,7 +13,7 @@ define([
          * @property {Object} defaults
          */
         defaults: {
-            syncing: false
+            active: false
         },
         /**
          * @method full
@@ -21,11 +21,11 @@ define([
          */
         full: function(callback) {
             //stop new sync from starting if currently syncing
-            if (this.get('syncing')) {
+            if (this.isSyncing()) {
                 callback();
                 return;
             } else {
-                this.set('syncing', true);
+                this.set('active', true);
             }
             var self = this;
             var requests = [
@@ -60,7 +60,6 @@ define([
                 //make the initial batch request for changed items
                 function(callback) {
                     console.log('syncing from', skritter.moment(skritter.user.getLastSync() * 1000).format('YYYY[-]MM[-]DD h:mm:ss a'));
-                    skritter.modal.setProgress(100, 'Requesting Batch');
                     skritter.api.requestBatch(requests, function(batch) {
                         if (batch.status === 404) {
                             callback(batch, null);
@@ -128,7 +127,7 @@ define([
                     }
                 }
             ], function(error) {
-                self.set('syncing', false);
+                self.set('active', false);
                 if (error) {
                     callback(error);
                 } else {
@@ -139,6 +138,14 @@ define([
                     callback();
                 }
             });
+        },
+        /**
+         * @method isSyncing
+         */
+        isSyncing: function() {
+            if (this.get('active'))
+                return true;
+            return false;
         },
         /**
          * @method triggerComplete

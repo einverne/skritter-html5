@@ -20,9 +20,7 @@ define([
          * @method initialize
          */
         initialize: function() {
-            this.listenTo(skritter.sync, 'complete', function() {
-                this.$('#user-items-due').text(skritter.scheduler.getDueCount());
-            });
+            this.listenTo(skritter.sync, 'complete', this.updateDueCount);
         },
         /**
          * @method render
@@ -31,13 +29,10 @@ define([
         render: function() {
             if (skritter.user.isLoggedIn()) {
                 this.$el.html(templateLoggedIn);
-                skritter.scheduler.sort();
-                this.loadActiveLists();
                 this.$('#user-avatar').html(skritter.user.getAvatar('img-circle'));
                 this.$('.user-name').text(skritter.user.getSetting('name'));
-                this.$('#user-items-due').text(skritter.scheduler.getDueCount());
-                if (skritter.data.reviews.length > 0)
-                    this.$('#user-unsynced-reviews').text('(' + skritter.data.reviews.length + ')');
+                this.loadActiveLists();
+                this.updateDueCount();
             } else {
                 this.$el.html(templateLoggedOut);
             }
@@ -88,11 +83,13 @@ define([
          */
         handleSync: function() {
             var self = this;
-            skritter.modal.show('progress').setTitle('Syncing').setProgress('100');
-            skritter.user.sync(function() {
-                skritter.modal.hide();
-                self.render();
-            });
+            if (!skritter.sync.isSyncing()) {
+                skritter.modal.show('progress').setTitle('Syncing').setProgress('100');
+                skritter.user.sync(function() {
+                    skritter.modal.hide();
+                    self.render();
+                });
+            }                
         },
         /**
          * @method loadActiveLists
@@ -151,6 +148,17 @@ define([
             }, function() {
                 self.loadActiveLists();
             });
+        },
+        /**
+         * @method updateDueCount
+         */
+        updateDueCount: function() {
+            this.$('#user-items-due').text(skritter.scheduler.sort().getDueCount());
+            if (skritter.data.reviews.length > 0) {
+                this.$('#user-unsynced-reviews').text('(' + skritter.data.reviews.length + ')');
+            } else {
+                this.$('#user-unsynced-reviews').text('');
+            }
         }
     });
 

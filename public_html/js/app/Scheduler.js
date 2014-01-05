@@ -149,7 +149,7 @@ define(function() {
      * @param {Function} callback
      */
     Scheduler.prototype.getNext = function(callback) {
-        var items = this.sort();
+        var items = this.sort().schedule;
         var position = 0;
         next();
         function next() {
@@ -230,7 +230,7 @@ define(function() {
         var top = this.schedule.slice(0, 9);
         for (var i in top)
                 console.log(top[i].readiness, top[i].id);**/
-        return this.schedule;
+        return this;
     };
     
     /**

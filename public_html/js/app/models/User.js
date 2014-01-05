@@ -117,7 +117,6 @@ define([
             skritter.async.waterfall([
                 //request the new items using a batch request
                 function(callback) {
-                    skritter.modal.setProgress(100, 'Requesting Items');
                     skritter.api.requestBatch(requests, function(result) {
                         if (result.status === 404) {
                             callback(result, null);
@@ -137,7 +136,14 @@ define([
                 //run a fresh sync to get the new items and update
                 function(callback) {
                     self.set('addOffset', offset + 1);
-                    self.sync(callback);
+                    if (skritter.sync.isSyncing()) {
+                        self.listenToOnce(skritter.sync, 'complete', startSync);
+                    } else {
+                        startSync();
+                    }
+                    function startSync() {
+                        self.sync(callback);
+                    }
                 }
             ], function(error) {
                 if (error) {

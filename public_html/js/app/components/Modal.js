@@ -96,7 +96,9 @@ define([
          */
         reset: function() {
             this.$('#' + Modal.id + '.modal-body').html('');
+            this.$('.modal-body').show();
             this.$('#' + Modal.id + '.modal-header').html('');
+            this.$('.modal-header').show();
             this.$('#' + Modal.id + '.modal-progress-text').html('');
             this.$('#' + Modal.id + '.modal-title').html('');
             return this;
