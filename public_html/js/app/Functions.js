@@ -233,7 +233,31 @@ define(function() {
             string = value + '' + string;
         return string;
     };
-
+    
+    /**
+     * @method sortAlphabetically
+     * @param {Array} array
+     * @param {String} field
+     * @param {Boolean} descending
+     * @returns {Array}
+     */
+    var sortAlphabetically = function(array, field, descending) {
+        return array.sort(function(a, b) {
+            if (descending) {
+                if (a[field] > b[field])
+                    return -1;
+                if (a[field] < b[field])
+                    return 1;
+            } else {
+                if (a[field] < b[field])
+                    return -1;
+                if (a[field] > b[field])
+                    return 1;
+            }
+            return 0;
+        });
+    };
+    
     /**
      * Returns a Bootstrap alert of the given level containing the given text.
      * 
@@ -263,6 +287,7 @@ define(function() {
         isMobile: isMobile,
         maskCharacters: maskCharacters,
         pad: pad,
+        sortAlphabetically: sortAlphabetically,
         twbsAlertHTML: twbsAlertHTML
     };
 });

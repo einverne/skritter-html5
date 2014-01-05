@@ -1,17 +1,17 @@
 /**
  * @module Skritter
  * @submodule Views
+ * @param templateLists
  * @param templateList
  * @param templateSection
- * @param templateLists
  * @author Joshua McFarland
  */
 define([
+    'require.text!templates/lists.html',
     'require.text!templates/lists-list.html',
     'require.text!templates/lists-section.html',
-    'require.text!templates/lists.html',
     'backbone'
-], function(templateList, templateSection, templateLists) {
+], function(templateLists, templateList, templateSection) {
     /**
      * @class Lists
      */
@@ -20,7 +20,7 @@ define([
          * @method initialize
          */
         initialize: function() {
-            Lists.default = 'studying';
+            Lists.defaultSort = 'studying';
             Lists.listId = null;
             Lists.sectionId = null;
         },
@@ -48,47 +48,16 @@ define([
          * @property {Object} events
          */
         events: {
-            'click.Lists #lists-table tbody tr': 'handleListClicked',
-            'click.Lists #mylists-button': 'handleSortClicked',
-            'click.Lists #official-button': 'handleSortClicked',
-            'click.Lists #published-button': 'handleSortClicked',
-            'click.Lists #custom-button': 'handleSortClicked'
+            'click.Lists #lists-table tbody tr': 'selectList'
         },
         /**
-         * @method handleListClicked
-         * @param {Object} event
-         */
-        handleListClicked: function(event) {
-            skritter.router.navigate('lists/' + event.currentTarget.id, {trigger: true});
-        },
-        /**
-         * @method handleSortClicked
-         * @param {Object} event
-         */
-        handleSortClicked: function(event) {
-            switch (event.currentTarget.id) {
-                case 'mylists-button':
-                    this.loadLists('studying');
-                    break;
-                case 'official-button':
-                    this.loadLists('official');
-                    break;
-                case 'published-button':
-                    this.loadLists('published');
-                    break;
-                case 'custom-button':
-                    this.loadLists('custom');
-                    break;
-            }
-        },
-        /**
-         * @method loadList
+         * @method loadListSections
          * @param {String} listId
          */
         loadList: function(listId) {
             skritter.modal.show().setBody('Loading List').noHeader();
             skritter.api.getVocabList(listId, function(list) {
-                this.$('#title').text(list.name);
+                this.$('#name').text(list.name);
                 this.$('#description').text(list.description);
                 var div = '';
                 div += "<div class='panel-group' id='accordion'>";
@@ -118,8 +87,8 @@ define([
                     div += "</div>";
                 }
                 div += "</div>";
-                this.$('#sections').append(div);
-                this.$("#sections .collapse").collapse();
+                this.$('#list-sections').html(div);
+                this.$("#list-sections .collapse").collapse();
                 skritter.modal.hide();
             });
         },
@@ -128,29 +97,29 @@ define([
          * @param {String} sort
          */
         loadLists: function(sort) {
-            sort = (sort) ? sort : Lists.default;
+            sort = (sort) ? sort : Lists.defaultSort;
             skritter.modal.show().setBody('Loading Lists').noHeader();
-            skritter.api.getVocabLists(sort, function(lists) {
+            skritter.api.getVocabLists(sort, 'id,name,peopleStudying', function(lists) {
+                lists = skritter.fn.sortAlphabetically(lists, 'name');
                 this.$('#lists-table tbody').html('');
+                var div = '';
                 for (var i in lists) {
                     var list = lists[i];
-                    var div = '';
-                    div += "<tr id='" + list.id + "'>";
+                    div += "<tr id='" + list.id + "' class='cursor'>";
                     div += "<td>" + list.name + "</td>";
-                    div += "<td>" + list.description + "</td>";
+                    div += "<td>" + list.peopleStudying + "</td>";
                     div += "</tr>";
-                    this.$('#lists-table tbody').append(div);
                 }
+                this.$('#lists-table tbody').html(div);
                 skritter.modal.hide();
             });
         },
         /**
-         * @method loadSection
-         * @param {String} listId
-         * @param {String} sectionId
+         * @method selectList
+         * @param {Object} event
          */
-        loadSection: function(listId, sectionId) {
-            //TODO: add this functionality
+        selectList: function(event) {
+            skritter.router.navigate('lists/' + event.currentTarget.id, {trigger: true});
         },
         /**
          * @method set

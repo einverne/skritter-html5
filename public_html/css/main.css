@@ -39,9 +39,18 @@ body {
     margin-bottom: 25px;
     padding: 15px;
 }
+@media (max-width:1199px) {
+    .view .content {
+        margin-bottom: 10px;
+    }
+}
 @media (max-width:767px) {
     .view {
         padding-top: 40px;
+    }
+    .view .content {
+        border: none;
+        margin-bottom: 0;
     }
 }
 
@@ -163,6 +172,14 @@ body {
         padding: 20px 5% 0 5%;
     }
     #info-view #sentence {
+        text-align: center;
+    }
+}
+
+
+/*** LISTS.HTML ***/
+@media (max-width: 992px) {
+    #lists-view #categories {
         text-align: center;
     }
 }
