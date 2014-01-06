@@ -7,8 +7,6 @@ favicon.png
 icon-128x128.png
 icon-196x196.png
 index.html
-manifest.webapp
-package.json
 tests.html
 bootstrap/css/bootstrap-theme.css
 bootstrap/css/bootstrap-theme.min.css
@@ -29,6 +27,7 @@ fonts/lato/lato-bolditalic-webfont.eot
 fonts/lato/lato-italic-webfont.eot
 fonts/lato/lato-light-webfont.eot
 fonts/lato/lato-regular-webfont.eot
+templates/admin-recog-editor.html
 templates/grading-buttons.html
 templates/home-footer.html
 templates/home-logged-in.html
@@ -61,7 +60,6 @@ js/app/Router.js
 js/app/Scheduler.js
 js/app/Shortstraw.js
 js/app/Strokes.js
-js/app/Sync.js
 js/app/collections/CanvasCharacter.js
 js/app/collections/StudyDecomps.js
 js/app/collections/StudyItems.js
@@ -86,6 +84,7 @@ js/app/models/StudySRSConfig.js
 js/app/models/StudySentence.js
 js/app/models/StudyStroke.js
 js/app/models/StudyVocab.js
+js/app/models/Sync.js
 js/app/models/User.js
 js/app/prompts/Canvas.js
 js/app/prompts/Defn.js
@@ -101,6 +100,8 @@ js/app/views/Options.js
 js/app/views/Reviews.js
 js/app/views/Study.js
 js/app/views/Vocabs.js
+js/app/views/admin/RecogCanvas.js
+js/app/views/admin/RecogEditor.js
 js/libs/async.js
 js/libs/backbone-1.1.0.js
 js/libs/base64.js
@@ -128,6 +129,9 @@ images/grading/grade3.png
 images/grading/grade4.png
 images/skritter-logo.png
 images/textures/rice-paper1.png
+images/tutorials/android-chrome-cache1.png
+images/tutorials/android-chrome-cache2.png
+images/tutorials/android-chrome-cache3.png
 bootstrap/fonts/glyphicons-halflings-regular.svg
 fonts/Flat-UI-Icons.dev.svg
 fonts/Flat-UI-Icons.svg

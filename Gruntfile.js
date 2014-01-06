@@ -78,7 +78,7 @@ module.exports = function(grunt) {
                     preferOnline: false,
                     verbose: false,
                     timestamp: false,
-                    exclude: ['skritter.appcache']
+                    exclude: ['manifest.webapp', 'package.json', 'skritter.appcache', 'version.json']
                 },
                 src: [
                     "*.*",
@@ -101,7 +101,7 @@ module.exports = function(grunt) {
                     preferOnline: false,
                     verbose: false,
                     timestamp: true,
-                    exclude: ['skritter.appcache']
+                    exclude: ['manifest.webapp', 'package.json', 'skritter.appcache', 'version.json']
                 },
                 src: [
                     "*.*",
