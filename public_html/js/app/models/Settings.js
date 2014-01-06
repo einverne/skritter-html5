@@ -36,6 +36,29 @@ define([
             version: '@@version'
         },
         /**
+         * Checks the version against a non-cached version json file that isn't included in
+         * the appcache. The intended use is to warn people whose browsers are hard caching
+         * the application when a new version is available.
+         * 
+         * @method checkVersion
+         * @param {Function} callback
+         */
+        checkVersion: function(callback) {
+            var self = this;
+            var promise = $.getJSON('version.json');
+            var currentVersion = this.get('version');
+            promise.done(function(data) {
+                if (currentVersion === data.version) {
+                    callback(true, data);
+                } else {
+                    callback(false, currentVersion, data.version);
+                }
+            });
+            promise.fail(function() {
+                callback();
+            });
+        },
+        /**
          * @method handleResize
          */
         handleResize: function() {

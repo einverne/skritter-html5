@@ -121,23 +121,27 @@ module.exports = function(grunt) {
             'compiled-version': {
                 options: {
                     variables: {
-                        'version': '<%= pkg.version %>'
+                        'version': '<%= pkg.version %>',
+                        'date': new Date().toUTCString().substr(0, 25)
                     }
                 },
                 files: [
                     {src: 'Application.js', dest: 'build/www/js/app/', expand: true, cwd: 'build/www/js/app/'},
-                    {src: 'package.json', dest: 'build/www/', expand: true, cwd: 'build/www/'}
+                    {src: 'package.json', dest: 'build/www/', expand: true, cwd: 'build/www/'},
+                    {src: 'version.json', dest: 'build/www/', expand: true, cwd: 'build/www/'}
                 ]
             },
             'copy-version': {
                 options: {
                     variables: {
-                        'version': '<%= pkg.version %>'
+                        'version': '<%= pkg.version %>',
+                        'date': new Date().toUTCString().substr(0, 25)
                     }
                 },
                 files: [
                     {src: 'Settings.js', dest: 'build/www/js/app/model/', expand: true, cwd: 'build/www/js/app/model/'},
-                    {src: 'package.json', dest: 'build/www/', expand: true, cwd: 'build/www/'}
+                    {src: 'package.json', dest: 'build/www/', expand: true, cwd: 'build/www/'},
+                    {src: 'version.json', dest: 'build/www/', expand: true, cwd: 'build/www/'}
                 ]
             }
         },

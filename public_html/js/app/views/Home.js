@@ -36,6 +36,15 @@ define([
             } else {
                 this.$el.html(templateLoggedOut);
             }
+            skritter.settings.checkVersion(function(passed, current, server) {
+                if (!passed) {
+                    this.$('#notification').html(skritter.fn.twbsAlertHTML('info', "<strong>NEW VERSION!</strong> The latest version is " +
+                                server +
+                                ". <button id='reload' type='button' class='btn btn-xs btn-default'>Reload</button>" +
+                                " <a href='https://github.com/mcfarljw/skritter-html5/wiki/Clearing-the-Cache' target='_blank'><button type='button' class='btn btn-xs btn-default'>Help</button></a>"
+                    ));
+                }
+            });
             this.$el.append(templateFooter);
             return this;
         },
@@ -47,6 +56,7 @@ define([
             'click.Home #home-view #active-lists tbody tr': 'toggleList',
             'click.Home #home-view .login-button': 'handleLogin',
             'click.Home #home-view .logout-button': 'handleLogout',
+            'click.Home #home-view #reload': 'handleReload',
             'click.Home #home-view .sync-button': 'handleSync'
         },
         handleLogin: function() {
@@ -77,6 +87,12 @@ define([
                     break;
             }
             return false;
+        },
+        /**
+         * @method handleReload
+         */
+        handleReload: function() {
+            document.location.reload(true);
         },
         /**
          * @method handleSync
