@@ -104,9 +104,9 @@ define([
                 return false;
             } else {
                 if (skritter.user.isChinese()) {
-                    skritter.user.setSetting('chineseStudyParts', parts);
+                    skritter.user.set('filterChineseParts', parts);
                 } else {
-                    skritter.user.setSetting('japaneseStudyParts', parts);
+                    skritter.user.set('filterJapaneseParts', parts);
                 }
             }
             

@@ -79,6 +79,8 @@ define([
             autoSync: true,
             autoSyncThreshold: 10,
             expires_in: null,
+            filterChineseParts: ['defn', 'rdng', 'rune', 'tone'],
+            filterJapaneseParts: ['defn', 'rdng', 'rune'],
             lastLogin: null,
             lastSyncChinese: null,
             lastSyncJapanese: null,
@@ -203,8 +205,8 @@ define([
          */
         getActiveStudyParts: function() {
             if (this.isChinese())
-                return this.get('settings').chineseStudyParts;
-            return this.get('settings').japaneseStudyParts;
+                return this.get('filterChineseParts');
+            return this.get('filterJapaneseParts');
         },
         /**
          * @method getDatabaseId
@@ -391,13 +393,7 @@ define([
          * @param {Function} callback
          */
         save: function(callback) {
-            skritter.api.updateUser({
-                id: this.get('user_id'),
-                /*chineseStudyParts: this.getSetting('chineseStudyParts'),*/
-                hideReading: this.getSetting('hideReading'),
-                /*japaneseStudyParts: this.getSetting('japaneseStudyParts'),*/
-                squigs: this.getSetting('squigs')
-            }, function() {
+            skritter.api.updateUser(this.get('settings'), function() {
                 if (typeof callback === 'function')
                     callback();
             });
