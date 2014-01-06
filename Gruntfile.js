@@ -77,7 +77,7 @@ module.exports = function(grunt) {
                     network: ["*"],
                     preferOnline: false,
                     verbose: false,
-                    timestamp: false,
+                    timestamp: true,
                     exclude: ['manifest.webapp', 'package.json', 'skritter.appcache', 'version.json']
                 },
                 src: [

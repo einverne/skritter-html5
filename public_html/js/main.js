@@ -54,6 +54,18 @@ requirejs.config({
     waitSeconds: 30
 });
 
+/**
+ * Checks the application cache for updates then force reloads from the server
+ * if a new version is found. Even after the application cache is updated it doesn't
+ * update the existing files until after the next page reload.
+ */
+window.addEventListener('load', function() {
+    window.applicationCache.addEventListener('updateready', function() {
+        if (window.applicationCache.status === window.applicationCache.UPDATEREADY)
+            window.location.reload(true);
+    }, false);
+}, false);
+
 if (document.location.pathname.indexOf('tests.html') > -1) {
     /**
      * Loads the jasmine test cases.
