@@ -197,18 +197,18 @@ define([
             skritter.timer.start();
             //tone prompts must display the character in the background
             Tone.canvas.clear('background');
-            Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), skritter.user.getFontName(), 'background');
+            Tone.canvas.drawCharacterFromFont(Prompt.vocab.getCharacterAt(Prompt.position - 1), skritter.user.getFontName(), 'background');
             //displays the prompt information based on the current position
             this.$('.prompt-writing').text(Prompt.writing);
             if (skritter.user.isChinese())
-                this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
+                this.$('.prompt-style').text(Prompt.vocab.get('style'));
             if (skritter.user.getSetting('hideReading')) {
-                this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1), true);
+                this.$('.prompt-reading').html(Prompt.vocab.getReadingDisplayAt(Prompt.position - 1), true);
             } else {
-                this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position - 1));
+                this.$('.prompt-reading').html(Prompt.vocab.getReadingDisplayAt(Prompt.position - 1));
             }
             this.$('.prompt-definition').text(Prompt.definition);
-            this.$('#style').text(Prompt.vocabs[0].get('style'));
+            this.$('#style').text(Prompt.vocab.get('style'));
             if (Prompt.sentence) {
                 this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             } else {
@@ -225,18 +225,18 @@ define([
             } else {
                 Tone.userCharacter = new CanvasCharacter();
             }
-            Tone.userCharacter.targets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'tone');
+            Tone.userCharacter.targets = Prompt.vocab.getCanvasCharacters(Prompt.position - 1, 'tone');
             Tone.canvas.enableInput();
         },
         showAnswer: function() {
             skritter.timer.stop();
             Tone.canvas.disableInput();
             if (skritter.user.get('audio') && !this.isLast())
-                Prompt.vocabs[0].getContainedVocabAt(Prompt.position).play();
-            if (Prompt.vocabs[0].has('audio') && this.isLast() && skritter.user.get('audio'))
-                Prompt.vocabs[0].play();
+                Prompt.vocab.getContainedVocabAt(Prompt.position).play();
+            if (Prompt.vocab.has('audio') && this.isLast() && skritter.user.get('audio'))
+                Prompt.vocab.play();
             Prompt.gradingButtons.select().collapse();
-            this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.position));
+            this.$('.prompt-reading').html(Prompt.vocab.getReadingDisplayAt(Prompt.position));
         }
     });
 

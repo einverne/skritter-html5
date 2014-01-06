@@ -42,7 +42,7 @@ define([
             Prompt.reading = '';
             Prompt.results = [];
             Prompt.sentence = '';
-            Prompt.vocabs = null;
+            Prompt.vocab = null;
             Prompt.writing = '';
             this.listenTo(skritter.settings, 'resize', this.resize);
             this.listenTo(Prompt.gradingButtons, 'selected', this.handleGradeSelected);
@@ -118,7 +118,7 @@ define([
          * @returns {Boolean}
          */
         isLast: function() {
-            if (Prompt.position >= Prompt.vocabs[0].getCharacterCount())
+            if (Prompt.position >= Prompt.vocab.getCharacterCount())
                 return true;
             return false;
         },
@@ -168,17 +168,21 @@ define([
          * @returns {Backbone.View}
          */
         set: function(vocabs, item) {
-            console.log('PROMPT', vocabs[0].get('writing'), item, vocabs);
+            if (item) {
+                Prompt.vocab = vocabs[item.get('reviews') % vocabs.length];
+            } else {
+                Prompt.vocab = vocabs[0];
+            }
+            console.log('PROMPT', Prompt.vocab.get('writing'), item, vocabs);
             Prompt.contained = item.getContained();
-            Prompt.count = vocabs[0].getCharacterCount();
-            Prompt.definition = vocabs[0].getDefinition();
+            Prompt.count = Prompt.vocab.getCharacterCount();
+            Prompt.definition = Prompt.vocab.getDefinition();
             Prompt.item = item;
-            Prompt.mnemonic = vocabs[0].get('mnemonic');
+            Prompt.mnemonic = Prompt.vocab.get('mnemonic');
             Prompt.part = item.get('part');
-            Prompt.reading = vocabs[0].get('reading');
-            Prompt.sentence = vocabs[0].getSentence();
-            Prompt.vocabs = vocabs;
-            Prompt.writing = vocabs[0].get('writing');
+            Prompt.reading = Prompt.vocab.get('reading');
+            Prompt.sentence = Prompt.vocab.getSentence();
+            Prompt.writing = Prompt.vocab.get('writing');
             skritter.timer.reset();
             return this;
         },

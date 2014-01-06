@@ -254,11 +254,11 @@ define([
         show: function() {
             skritter.timer.start();
             //displays the prompt information based on the current position
-            this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position - 1));
-            if (Prompt.vocabs[0].has('audio') && this.isFirst() && skritter.user.get('audio') && !skritter.user.getSetting('hideReading'))
-                Prompt.vocabs[0].play();
+            this.$('.prompt-writing').html(Prompt.vocab.getWritingDisplayAt(Prompt.position - 1));
+            if (Prompt.vocab.has('audio') && this.isFirst() && skritter.user.get('audio') && !skritter.user.getSetting('hideReading'))
+                Prompt.vocab.play();
             if (skritter.user.isChinese()) {
-                var style = Prompt.vocabs[0].get('style').toUpperCase();
+                var style = Prompt.vocab.get('style').toUpperCase();
                 if (style === 'SIMP') {
                     this.$('.prompt-style').addClass('prompt-style-simp');
                     this.$('.prompt-style').text(style);
@@ -275,7 +275,7 @@ define([
                 this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             }
             this.$('.prompt-definition').text(Prompt.definition);
-            this.$('#style').text(Prompt.vocabs[0].get('style'));
+            this.$('#style').text(Prompt.vocab.get('style'));
             if (Prompt.sentence) {
                 this.$('.prompt-sentence').text(skritter.fn.maskCharacters(Prompt.sentence.noWhiteSpaces(), Prompt.writing, '__'));
             } else {
@@ -292,7 +292,7 @@ define([
             } else {
                 Rune.userCharacter = new CanvasCharacter();
             }
-            Rune.userCharacter.targets = Prompt.vocabs[0].getCanvasCharacters(Prompt.position - 1, 'rune');
+            Rune.userCharacter.targets = Prompt.vocab.getCanvasCharacters(Prompt.position - 1, 'rune');
             if (Rune.teachingMode) {
                 this.teach();
             }
@@ -305,14 +305,14 @@ define([
         showAnswer: function() {
             Rune.canvas.disableInput();
             Prompt.gradingButtons.select().collapse();
-            this.$('.prompt-writing').html(Prompt.vocabs[0].getWritingDisplayAt(Prompt.position));
-            if (skritter.user.get('audio') && !this.isLast() && Prompt.vocabs[0].getContainedVocabAt(Prompt.position))
-                Prompt.vocabs[0].getContainedVocabAt(Prompt.position).play();
+            this.$('.prompt-writing').html(Prompt.vocab.getWritingDisplayAt(Prompt.position));
+            if (skritter.user.get('audio') && !this.isLast() && Prompt.vocab.getContainedVocabAt(Prompt.position))
+                Prompt.vocab.getContainedVocabAt(Prompt.position).play();
             if (this.isLast()) {
                 this.$('.prompt-reading').removeClass('hidden-reading');
                 this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
-                if (Prompt.vocabs[0].has('audio') && this.isFirst() && skritter.user.get('audio') && skritter.user.getSetting('hideReading'))
-                    Prompt.vocabs[0].play();
+                if (Prompt.vocab.has('audio') && this.isFirst() && skritter.user.get('audio') && skritter.user.getSetting('hideReading'))
+                    Prompt.vocab.play();
                 if (Prompt.sentence)
                     this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             }

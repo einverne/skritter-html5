@@ -49,8 +49,8 @@ define([
             skritter.timer.start();
             this.$('.prompt-writing').text(Prompt.writing);
             if (skritter.user.isChinese())
-                this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
-            this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
+                this.$('.prompt-style').text(Prompt.vocab.get('style'));
+            this.$('.prompt-style').text(Prompt.vocab.get('style'));
             if (Prompt.sentence) {
                 this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             } else {
@@ -68,8 +68,8 @@ define([
             skritter.timer.stop();
             Prompt.finished = true;
             Prompt.gradingButtons.show();
-            if (Prompt.vocabs[0].has('audio') && this.isLast() && skritter.user.get('audio'))
-                Prompt.vocabs[0].play();
+            if (Prompt.vocab.has('audio') && this.isLast() && skritter.user.get('audio'))
+                Prompt.vocab.play();
             this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             this.$('.prompt-definition').text(Prompt.definition);
             this.$('#tip').hide();

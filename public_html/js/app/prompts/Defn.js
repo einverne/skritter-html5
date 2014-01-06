@@ -48,10 +48,10 @@ define([
         show: function() {
             skritter.timer.start();
             this.$('.prompt-writing').text(Prompt.writing);
-            if (Prompt.vocabs[0].has('audio') && this.isFirst() && skritter.user.get('audio'))
-                Prompt.vocabs[0].play();
+            if (Prompt.vocab.has('audio') && this.isFirst() && skritter.user.get('audio'))
+                Prompt.vocab.play();
             if (skritter.user.isChinese())
-                this.$('.prompt-style').text(Prompt.vocabs[0].get('style'));
+                this.$('.prompt-style').text(Prompt.vocab.get('style'));
             if (Prompt.mnemonic) {
                 this.$('.prompt-mnemonic').text(Prompt.mnemonic.text + ' (' + Prompt.mnemonic.creator + ')');
             } else {
