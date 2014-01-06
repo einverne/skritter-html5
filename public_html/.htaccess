@@ -3,7 +3,7 @@
     <FilesMatch "\.(appcache)$">    
         ExpiresDefault "access plus 1 second"
     </FilesMatch>
-    <FilesMatch "\.(css|html|js)$">    
+    <FilesMatch "\.(css|html|js|json)$">    
         ExpiresDefault "access plus 1 second"
     </FilesMatch>
     <FilesMatch "\.(eot|ico|otf|png|svg|ttf|woff)$">
