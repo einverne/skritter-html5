@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Mon Jan 06 2014 10:36:41 GMT-0700 (US Mountain Standard Time)
+# Time: Tue Jan 07 2014 00:19:13 GMT-0700 (US Mountain Standard Time)
 
 CACHE:
 index.html
@@ -16,11 +16,9 @@ bootstrap/css/bootstrap.min.css
 bootstrap/themes/flatly.css
 bootstrap/themes/yeti.css
 css/font-awesome.css
-css/font-flatui.css
 css/main.css
 tests/libs/jasmine.css
 bootstrap/fonts/glyphicons-halflings-regular.eot
-fonts/Flat-UI-Icons.eot
 fonts/fontawesome-webfont.eot
 fonts/lato/lato-black-webfont.eot
 fonts/lato/lato-bold-webfont.eot
@@ -44,6 +42,7 @@ templates/prompts-rdng.html
 templates/prompts-rune.html
 templates/prompts-tone.html
 templates/reviews.html
+templates/scratchpad.html
 templates/study.html
 templates/vocabs.html
 bootstrap/js/bootstrap.js
@@ -60,6 +59,7 @@ js/app/Recognizer.js
 js/app/Router.js
 js/app/Scheduler.js
 js/app/Shortstraw.js
+js/app/SimpTradMap.js
 js/app/Strokes.js
 js/app/collections/CanvasCharacter.js
 js/app/collections/StudyDecomps.js
@@ -99,6 +99,7 @@ js/app/views/Info.js
 js/app/views/Lists.js
 js/app/views/Options.js
 js/app/views/Reviews.js
+js/app/views/Scratchpad.js
 js/app/views/Study.js
 js/app/views/Vocabs.js
 js/app/views/admin/RecogCanvas.js
@@ -113,7 +114,6 @@ js/libs/jquery-2.0.3.js
 js/libs/jquery.hammer-1.0.5.js
 js/libs/jquery.indexeddb.js
 js/libs/lodash-2.4.1.js
-js/libs/lz-string-1.3.3.js
 js/libs/moment-2.4.0.js
 js/libs/require.text-2.0.10.js
 js/main.js
@@ -134,8 +134,6 @@ images/tutorials/android-chrome-cache1.png
 images/tutorials/android-chrome-cache2.png
 images/tutorials/android-chrome-cache3.png
 bootstrap/fonts/glyphicons-halflings-regular.svg
-fonts/Flat-UI-Icons.dev.svg
-fonts/Flat-UI-Icons.svg
 fonts/fontawesome-webfont.svg
 fonts/lato/lato-black-webfont.svg
 fonts/lato/lato-bold-webfont.svg
@@ -145,7 +143,6 @@ fonts/lato/lato-light-webfont.svg
 fonts/lato/lato-regular-webfont.svg
 images/skritter-logo.svg
 bootstrap/fonts/glyphicons-halflings-regular.woff
-fonts/Flat-UI-Icons.woff
 fonts/fontawesome-webfont.woff
 fonts/lato/lato-black-webfont.woff
 fonts/lato/lato-bold-webfont.woff
