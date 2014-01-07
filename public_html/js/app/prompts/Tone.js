@@ -207,7 +207,7 @@ define([
             } else {
                 this.$('.prompt-reading').html(Prompt.vocab.getReadingDisplayAt(Prompt.position - 1));
             }
-            this.$('.prompt-definition').text(Prompt.definition);
+            this.$('.prompt-definition').html(Prompt.definition);
             this.$('#style').text(Prompt.vocab.get('style'));
             if (Prompt.sentence) {
                 this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());

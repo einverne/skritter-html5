@@ -274,7 +274,7 @@ define([
             } else {
                 this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             }
-            this.$('.prompt-definition').text(Prompt.definition);
+            this.$('.prompt-definition').html(Prompt.definition);
             if (skritter.user.getSetting('showHeisig') && Prompt.vocab.has('heisigDefinition'))
                 this.$('.prompt-heisig').text(Prompt.vocab.get('heisigDefinition'));
             this.$('#style').text(Prompt.vocab.get('style'));

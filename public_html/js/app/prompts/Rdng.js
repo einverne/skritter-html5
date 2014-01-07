@@ -73,7 +73,7 @@ define([
             this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             if (skritter.user.getSetting('showHeisig') && Prompt.vocab.has('heisigDefinition'))
                 this.$('.prompt-heisig').text(Prompt.vocab.get('heisigDefinition'));
-            this.$('.prompt-definition').text(Prompt.definition);
+            this.$('.prompt-definition').html(Prompt.definition);
             this.$('#tip').hide();
         }
     });
