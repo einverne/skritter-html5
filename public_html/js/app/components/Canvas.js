@@ -456,6 +456,16 @@ define([
             return layers;
         },
         /**
+         * @method hideMessage
+         */
+        hideMessage: function() {
+            var layer = this.getLayer('feedback');
+            for (var i in layer.children)
+                createjs.Tween.get(layer.children[i]).to({y: -30}, 1000, createjs.Ease.bounceOut).call(function() {
+                    layer.removeChild(layer.children[i]);
+                });
+        },
+        /**
          * @method pulseStroke
          * @param {CreateJS.Shape} stroke
          * @param {String} layerName
@@ -464,7 +474,7 @@ define([
         pulseStroke: function(stroke, layerName) {
             var layer = this.getLayer(layerName);
             layer.addChild(stroke);
-            createjs.Tween.get(stroke, {loop: true}).to({alpha: 0.4}, 1000).wait(500).to({alpha:1}, 1000);
+            createjs.Tween.get(stroke, {loop: true}).to({alpha: 0.4}, 1000).wait(500).to({alpha: 1}, 1000);
             return layer;
         },
         /**
@@ -482,13 +492,17 @@ define([
         /**
          * @method showMessage
          * @param {String} text
+         * @param {Boolean} autoHide
+         * @param {Function} callback
          * @returns {Backbone.View}
          */
-        showMessage: function(text) {
+        showMessage: function(text, autoHide, callback) {
+            var self = this;
             var layer = this.getLayer('feedback');
             var message = new createjs.Container();
             var box = new createjs.Shape(new createjs.Graphics().beginFill('grey').drawRect(0, 0, Canvas.size, 30));
             var line = new createjs.Shape(new createjs.Graphics().beginStroke('black').moveTo(0, 30).lineTo(Canvas.size, 30));
+            message.name = 'message';
             message.y = -30;
             message.addChild(box);
             message.addChild(line);
@@ -496,8 +510,11 @@ define([
             text.x = (Canvas.size / 2) - (text.getMeasuredWidth() / 2);
             text.y = 2.5;
             message.addChild(text);
-            createjs.Tween.get(message).to({y: 0}, 200, createjs.Ease.sineOut).wait(2000).to({y: -30}, 1000, createjs.Ease.bounceOut).call(function() {
-                layer.removeChild(message);
+            createjs.Tween.get(message).to({y: 0}, 500, createjs.Ease.sineOut).wait(2000).call(function() {
+                if (autoHide)
+                    self.hideMessage();
+                if (typeof callback === 'function')
+                    callback();
             });
             layer.addChild(message);
             return this;

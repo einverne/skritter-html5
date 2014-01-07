@@ -51,6 +51,11 @@ define([
             return this;
         },
         /**
+         * @property {Object} events
+         */
+        events: {
+        },
+        /**
          * @method clear
          * @return {Backbone.View}
          */
@@ -64,6 +69,7 @@ define([
             Rune.canvas.setLayerAlpha('overlay', 1);
             Rune.canvas.uncacheLayer('overlay');
             Rune.failedAttempts = 0;
+            Rune.teachingMode = false;
             Rune.userCharacter.reset();
             Rune.userTargets = [];
             return this;
@@ -342,7 +348,7 @@ define([
                 this.clear();
                 Prompt.gradingButtons.grade(1);
                 Rune.teachingMode = false;
-                Rune.canvas.showMessage('Now you give it a try!');
+                Rune.canvas.showMessage('Once more from memory.', true);
             }
         }
     });
