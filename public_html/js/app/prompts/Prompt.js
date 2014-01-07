@@ -81,7 +81,7 @@ define([
                 this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             } else if (Prompt.part === 'tone') {
                 this.$('.prompt-reading').removeClass('hidden-reading');
-                this.$('.prompt-reading').html(Prompt.vocabs[0].getReadingDisplayAt(Prompt.count));
+                this.$('.prompt-reading').html(Prompt.vocab.getReadingDisplayAt(Prompt.count));
             }
         },
         /**
@@ -158,7 +158,7 @@ define([
                 }
             }
             //ISSUE #114: redraws the canvas on save and orientation changes
-            if (Prompt.part === 'rune' || Prompt.part === 'tone')
+            if (typeof this.redraw === 'function' && (Prompt.part === 'rune' || Prompt.part === 'tone'))
                 this.redraw();
         },
         /**

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Tue Jan 07 2014 00:19:13 GMT-0700 (US Mountain Standard Time)
+# Time: Tue Jan 07 2014 00:49:24 GMT-0700 (US Mountain Standard Time)
 
 CACHE:
 index.html
@@ -20,12 +20,6 @@ css/main.css
 tests/libs/jasmine.css
 bootstrap/fonts/glyphicons-halflings-regular.eot
 fonts/fontawesome-webfont.eot
-fonts/lato/lato-black-webfont.eot
-fonts/lato/lato-bold-webfont.eot
-fonts/lato/lato-bolditalic-webfont.eot
-fonts/lato/lato-italic-webfont.eot
-fonts/lato/lato-light-webfont.eot
-fonts/lato/lato-regular-webfont.eot
 templates/admin-recog-editor.html
 templates/grading-buttons.html
 templates/home-footer.html
@@ -135,21 +129,9 @@ images/tutorials/android-chrome-cache2.png
 images/tutorials/android-chrome-cache3.png
 bootstrap/fonts/glyphicons-halflings-regular.svg
 fonts/fontawesome-webfont.svg
-fonts/lato/lato-black-webfont.svg
-fonts/lato/lato-bold-webfont.svg
-fonts/lato/lato-bolditalic-webfont.svg
-fonts/lato/lato-italic-webfont.svg
-fonts/lato/lato-light-webfont.svg
-fonts/lato/lato-regular-webfont.svg
 images/skritter-logo.svg
 bootstrap/fonts/glyphicons-halflings-regular.woff
 fonts/fontawesome-webfont.woff
-fonts/lato/lato-black-webfont.woff
-fonts/lato/lato-bold-webfont.woff
-fonts/lato/lato-bolditalic-webfont.woff
-fonts/lato/lato-italic-webfont.woff
-fonts/lato/lato-light-webfont.woff
-fonts/lato/lato-regular-webfont.woff
 
 NETWORK:
 *

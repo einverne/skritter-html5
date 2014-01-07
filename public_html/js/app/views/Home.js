@@ -124,16 +124,18 @@ define([
                     var activeCount = 0;
                     for (var i in lists) {
                         var list = lists[i];
-                        if (list.studyingMode && (list.studyingMode === 'adding' || list.studyingMode === 'reviewing')) {
-                            div += "<tr id='list-" + list.id + "' class='cursor'>";
-                            div += "<td>" + list.name + "</td>";
-                            if (list.studyingMode === 'adding') {
-                                div += "<td>Adding</td>";
-                            } else {
-                                div += "<td>Paused</td>";
+                        if (list.studyingMode) {
+                            if (list.studyingMode === 'adding' || list.studyingMode === 'reviewing') {
+                                div += "<tr id='list-" + list.id + "' class='cursor'>";
+                                div += "<td>" + list.name + "</td>";
+                                if (list.studyingMode === 'adding') {
+                                    div += "<td>Adding</td>";
+                                } else {
+                                    div += "<td>Paused</td>";
+                                }
+                                div += "</tr>";
+                                activeCount++;
                             }
-                            div += "</tr>";
-                            activeCount++;
                         }
                     }
                     if (activeCount === 0)
