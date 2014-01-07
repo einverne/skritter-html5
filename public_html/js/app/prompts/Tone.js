@@ -183,9 +183,9 @@ define([
          * @method redraw
          */
         redraw: function() {
-            if (this.$('#study-view').length !== 0) {
+            if ($('#study-view').length !== 0 && Prompt.part === 'tone') {
                 Tone.canvas.clear('background');
-                Tone.canvas.drawCharacterFromFont(Prompt.vocabs[0].getCharacterAt(Prompt.position - 1), skritter.user.getFontName(), 'background', 0.3);
+                Tone.canvas.drawCharacterFromFont(Prompt.vocab.getCharacterAt(Prompt.position - 1), skritter.user.getFontName(), 'background', 0.3);
                 if (Tone.result) {
                     Tone.canvas.clear('stroke');
                     Tone.canvas.drawStroke(Tone.result.getInflatedSprite(), 'stroke');
