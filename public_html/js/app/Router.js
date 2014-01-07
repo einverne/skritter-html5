@@ -5,6 +5,7 @@
  * @param ListsView
  * @param OptionsView
  * @param ReviewsView
+ * @param ScratchpadView
  * @param StudyView
  * @param VocabsView
  * @param AdminRecogEditorView
@@ -16,11 +17,12 @@ define([
     'views/Lists',
     'views/Options',
     'views/Reviews',
+    'views/Scratchpad',
     'views/Study',
     'views/Vocabs',
     'views/admin/RecogEditor',
     'backbone'
-], function(HomeView, InfoView, ListsView, OptionsView, ReviewsView, StudyView, VocabsView, AdminRecogEditorView) {
+], function(HomeView, InfoView, ListsView, OptionsView, ReviewsView, ScratchpadView, StudyView, VocabsView, AdminRecogEditorView) {
     /**
      * @class Router
      */
@@ -53,6 +55,8 @@ define([
             'logout': 'handleLogout',
             'options': 'optionsView',
             'reviews': 'reviewsView',
+            'scratchpad/:lang': 'scratchpadView',
+            'scratchpad/:lang/:words': 'scratchpadView',
             'study': 'studyView',
             'vocabs': 'vocabsView',
             'vocabs/:filterBy': 'vocabsView',
@@ -188,6 +192,20 @@ define([
             } else {
                 Router.studyView.setElement($(skritter.settings.get('container'))).render();
             }
+        },
+        /**
+         * @method scratchpadView
+         * @param {String} lang
+         * @param {String} words
+         */
+        scratchpadView: function(lang, words) {
+            if (!Router.scratchpadView) {
+                Router.scratchpadView = new ScratchpadView({el: $(skritter.settings.get('container'))});
+            } else {
+                Router.scratchpadView.setElement($(skritter.settings.get('container')));
+            }
+            Router.scratchpadView.set(lang, words);
+            Router.scratchpadView.render();
         },
         /**
          * @method vocabsView

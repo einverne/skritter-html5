@@ -33,8 +33,6 @@ define([
          */
         render: function() {
             this.$el.html(templateStudy);
-            this.$('#avatar').html(skritter.user.getAvatar('avatar'));
-            this.$('#username').text(skritter.user.getSetting('name'));
             skritter.timer.setElement(this.$('#timer')).render();
             if (Study.current.prompt) {
                 this.loadPrompt();
@@ -133,20 +131,8 @@ define([
          * @method loadPrompt
          */
         loadPrompt: function() {
-            switch (Study.current.item.get('part')) {
-                case 'rune':
-                    Study.current.prompt.setElement(this.$('#prompt-container')).render();
-                    break;
-                case 'tone':
-                    Study.current.prompt.setElement(this.$('#prompt-container')).render();
-                    break;
-                case 'defn':
-                    Study.current.prompt.setElement(this.$('#prompt-container')).render();
-                    break;
-                case 'rdng':
-                    Study.current.prompt.setElement(this.$('#prompt-container')).render();
-                    break;
-            }
+            //load and render the current prompt into the dom
+            Study.current.prompt.setElement(this.$('#prompt-container')).render();
             //toggle the audio button display
             this.toggleAudioButton();
             //show the in-progess prompt

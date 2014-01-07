@@ -58,7 +58,45 @@ define([
             callback(error);
         });
     };
-
+    
+    /**
+     * Checks localStorage for an existing client access token or else it
+     * gets and then sets a new one.
+     * 
+     * @method authenticateClient
+     * @param {Function} callback
+     */
+    Api.prototype.authenticateClient = function(callback) {
+        var self = this;
+        var guest = JSON.parse(localStorage.getItem('guest'));
+        if (guest) {
+            this.token = guest.access_token;
+            callback();
+        } else {
+            var promise = $.ajax({
+                url: this.root + '.' + this.domain + '/api/v' + this.version + '/oauth2/token',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('AUTHORIZATION', self.credentials);
+                },
+                type: 'POST',
+                data: {
+                    suppress_response_codes: true,
+                    grant_type: 'client_credentials',
+                    client_id: this.clientId
+                }
+            });
+            promise.done(function(data) {
+                self.token = data.access_token;
+                localStorage.setItem('guest', JSON.stringify(data));
+                callback();
+            });
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        }
+    };
+    
     /**
      * @method checkBatch
      * @param {Number} batchId
@@ -594,6 +632,40 @@ define([
             type: 'GET',
             data: {
                 bearer_token: this.token
+            }
+        });
+        promise.done(function(data) {
+            callback(data);
+        });
+        promise.fail(function(error) {
+            console.error(error);
+            callback(error);
+        });
+    };
+    
+    /**
+     * @method getVocabs
+     * @param {String} lang
+     * @param {Array} ids
+     * @param {Function} callback
+     */
+    Api.prototype.getVocabs = function(lang, ids, callback) {
+        var self = this;
+        var promise = $.ajax({
+            url: this.root + '.' + this.domain + '/api/v' + this.version + '/vocabs',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('AUTHORIZATION', self.credentials);
+            },
+            type: 'GET',
+            data: {
+                bearer_token: self.token,
+                lang: lang,
+                ids: ids.join('|'),
+                include_strokes: 'true',
+                include_sentences: 'true',
+                include_heisigs: 'true',
+                include_top_mnemonics: 'true',
+                include_decomps: 'true'
             }
         });
         promise.done(function(data) {
