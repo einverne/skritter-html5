@@ -275,6 +275,8 @@ define([
                 this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
             }
             this.$('.prompt-definition').text(Prompt.definition);
+            if (skritter.user.getSetting('showHeisig') && Prompt.vocab.has('heisigDefinition'))
+                this.$('.prompt-heisig').text(Prompt.vocab.get('heisigDefinition'));
             this.$('#style').text(Prompt.vocab.get('style'));
             if (Prompt.sentence) {
                 this.$('.prompt-sentence').text(skritter.fn.maskCharacters(Prompt.sentence.noWhiteSpaces(), Prompt.writing, '__'));

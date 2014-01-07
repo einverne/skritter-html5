@@ -233,6 +233,8 @@ define([
             Tone.canvas.disableInput();
             if (skritter.user.get('audio') && !this.isLast())
                 Prompt.vocab.getContainedVocabAt(Prompt.position).play();
+            if (skritter.user.getSetting('showHeisig') && Prompt.vocab.has('heisigDefinition'))
+                this.$('.prompt-heisig').text(Prompt.vocab.get('heisigDefinition'));
             if (Prompt.vocab.has('audio') && this.isLast() && skritter.user.get('audio'))
                 Prompt.vocab.play();
             Prompt.gradingButtons.select().collapse();

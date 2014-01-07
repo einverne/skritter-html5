@@ -65,6 +65,8 @@ define([
             Prompt.finished = true;
             Prompt.gradingButtons.show();
             this.$('.prompt-reading').text(PinyinConverter.toTone(Prompt.reading));
+            if (skritter.user.getSetting('showHeisig') && Prompt.vocab.has('heisigDefinition'))
+                this.$('.prompt-heisig').text(Prompt.vocab.get('heisigDefinition'));
             this.$('#prompt-text .prompt-definition').text(Prompt.definition);
             if (Prompt.sentence) {
                 this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());

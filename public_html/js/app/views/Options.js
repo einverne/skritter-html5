@@ -60,6 +60,13 @@ define([
             } else {
                 this.$('#raw-squigs #off').addClass('active');
             }
+            
+            //heisig
+            if (skritter.user.getSetting('showHeisig')) {
+                this.$('#heisig-keywords #on').addClass('active');
+            } else {
+                this.$('#heisig-keywords #off').addClass('active');
+            }
         },
         navigateBack: function() {
             skritter.router.navigate('', {trigger: true});
@@ -124,11 +131,18 @@ define([
                 skritter.user.set('audio', false);
             }
             
-            //audio
+            //squigs
             if (this.$('#raw-squigs #on').hasClass('active')) {
                 skritter.user.setSetting('squigs', true);
             } else {
                 skritter.user.setSetting('squigs', false);
+            }
+            
+            //squigs
+            if (this.$('#heisig-keywords #on').hasClass('active')) {
+                skritter.user.setSetting('showHeisig', true);
+            } else {
+                skritter.user.setSetting('showHeisig', false);
             }
             
             skritter.user.cache();

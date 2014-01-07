@@ -316,6 +316,10 @@ body {
 #info-container .prompt-definition {
     font-size: 18px;
 }
+#info-container .prompt-heisig {
+    font-size: 16px;
+    font-weight: bold;
+}
 #info-container #prompt-sentence-box {
     border-left-color: orange;
     border-left-style: solid;
