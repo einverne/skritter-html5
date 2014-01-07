@@ -199,11 +199,11 @@ define([
          */
         toggleAudioButton: function() {
             if (Study.current.vocabs[0].has('audio')) {
-                this.$('#audio-button').removeClass('fa fa-volume-off');
-                this.$('#audio-button').addClass('fa fa-volume-up');
+                this.$('#audio-button span').removeClass('fa fa-volume-off');
+                this.$('#audio-button span').addClass('fa fa-volume-up');
             } else {
-                this.$('#audio-button').removeClass('fa fa-volume-up');
-                this.$('#audio-button').addClass('fa fa-volume-off');
+                this.$('#audio-button span').removeClass('fa fa-volume-up');
+                this.$('#audio-button span').addClass('fa fa-volume-off');
             }
         },
         /**
