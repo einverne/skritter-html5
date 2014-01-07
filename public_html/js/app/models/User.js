@@ -24,8 +24,7 @@ define([
     'collections/StudyStrokes',
     'collections/StudyVocabs',
     'models/Sync',
-    'backbone',
-    'lz-string'
+    'backbone'
 ], function(Scheduler, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs, Sync) {
     /**
      * @class User
@@ -56,8 +55,8 @@ define([
                     this.set(JSON.parse(localStorage.getItem(localStorage.getItem('activeUser'))));
                 } catch (error) {
                     if (error instanceof SyntaxError) {
-                        //TODO: remove this because using lzstring is being phased out for compatibility reasons
-                        this.set(JSON.parse(LZString.decompress(localStorage.getItem(localStorage.getItem('activeUser'))))).cache();
+                        localStorage.removeItem(localStorage.getItem('activeUser'));
+                        localStorage.removeItem('activeUser');
                     }
                 }
             }
