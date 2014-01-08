@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Wed Jan 08 2014 11:13:24 GMT-0700 (US Mountain Standard Time)
+# Time: Wed Jan 08 2014 14:34:24 GMT-0700 (US Mountain Standard Time)
 
 CACHE:
 index.html
@@ -27,7 +27,6 @@ templates/home-logged-in.html
 templates/home-logged-out.html
 templates/info.html
 templates/lists-list.html
-templates/lists-section.html
 templates/lists.html
 templates/modals.html
 templates/options.html

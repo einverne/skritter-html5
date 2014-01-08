@@ -461,9 +461,10 @@ define([
         hideMessage: function() {
             var layer = this.getLayer('feedback');
             for (var i in layer.children)
-                createjs.Tween.get(layer.children[i]).to({y: -30}, 1000, createjs.Ease.bounceOut).call(function() {
-                    layer.removeChild(layer.children[i]);
-                });
+                createjs.Tween.get(layer.children[i]).to({y: -30}, 1000, createjs.Ease.bounceOut).call(hideChild);
+            function hideChild() {
+                layer.removeChild(layer.children[i]);
+            }
         },
         /**
          * @method pulseStroke
