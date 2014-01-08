@@ -1,17 +1,17 @@
 /**
  * @module Skritter
  * @submodule Views
+ * @param PinyinConverter
  * @param templateLists
  * @param templateList
- * @param templateSection
  * @author Joshua McFarland
  */
 define([
+    'PinyinConverter',
     'require.text!templates/lists.html',
     'require.text!templates/lists-list.html',
-    'require.text!templates/lists-section.html',
     'backbone'
-], function(templateLists, templateList, templateSection) {
+], function(PinyinConverter, templateLists, templateList) {
     /**
      * @class Lists
      */
@@ -29,11 +29,7 @@ define([
          * @return {Backbone.View}
          */
         render: function() {
-            if (Lists.listId && Lists.sectionId) {
-                //render specific section of a list
-                this.$el.html(templateSection);
-                this.loadSection();
-            } else if (Lists.listId) {
+            if (Lists.listId) {
                 //render list information and section overview
                 this.$el.html(templateList);
                 this.loadList(Lists.listId);
@@ -48,7 +44,17 @@ define([
          * @property {Object} events
          */
         events: {
-            'click.Lists #lists-table tbody tr': 'selectList'
+            'click.Lists #lists-view #textbooks-button': 'handleSortSelected',
+            'click.Lists #lists-view .panel-section': 'loadSection',
+            'click.Lists #lists-view #lists-table tbody tr': 'selectList'
+        },
+        /**
+         * @method handleSortSelected
+         * @param {Object} event
+         */
+        handleSortSelected: function(event) {
+            this.loadLists('custom');
+            return false;
         },
         /**
          * @method loadListSections
@@ -67,28 +73,32 @@ define([
                     //panel heading
                     div += "<div class='panel-heading'>";
                     div += "<h4 class='panel-title'>";
-                    div += "<a data-toggle='collapse' data-parent='#accordion' href='#collapse" + a + "'>";
-                    div += section.name;
+                    div += "<a id='section-" + section.id + "' class='collapse-" + a + " panel-section' data-toggle='collapse' data-parent='#accordion' href=''>";
+                    div += section.name + "  <span class='fa fa-times pull-right'></span>  <span class='fa fa-pencil pull-right'></span>";
                     div += "</a>";
                     div += "</h4>";
                     div += "</div>";
                     //panel body
-                    div += "<div id='collapse" + a + "' class='panel-collapse collapse in'>";
+                    div += "<div id='collapse-" + a + "' class='panel-collapse collapse'>";
                     div += "<div class='panel-body'>";
                     //section rows
+                    div += "<table class='table table-hover'>";
+                    div += "<thead><th>Writing</th><th>Reading</th><th>Definition</th></thead>";
+                    div += "<tbody>";
                     for (var b in section.rows) {
                         var row = section.rows[b];
-                        div += "<h6>";
-                        div += row.vocabId;
-                        div += "</h6>";
+                        div += "<tr id='vocab-" + row.vocabId + "'><td class='writing'></td><td class='reading'></td><td class='definition'></td></tr>";
+                        if (row.vocabId !== row.tradVocabId)
+                            div += "<tr id='vocab-" + row.tradVocabId + "'><td class='writing'></td><td class='reading'></td><td class='definition'></td></tr>";
                     }
+                    div += "</tbody>";
+                    div += "</table>";
                     div += "</div>";
                     div += "</div>";
                     div += "</div>";
                 }
                 div += "</div>";
                 this.$('#list-sections').html(div);
-                this.$("#list-sections .collapse").collapse();
                 skritter.modal.hide();
             });
         },
@@ -113,6 +123,37 @@ define([
                 this.$('#lists-table tbody').html(div);
                 skritter.modal.hide();
             });
+        },
+        /**
+         * @method loadSection
+         * @param {Object} event
+         */
+        loadSection: function(event) {
+            var self = this;
+            var collapseId = event.currentTarget.classList[0].replace('collapse-', '');
+            var missingVocabIds = [];
+            this.$('#list-sections #collapse-' + collapseId + ' tbody tr').each(function(i, row) {
+                var vocabId = self.$(row)[0].id.replace('vocab-', '');
+                var vocab = skritter.data.vocabs.findWhere({id: vocabId});
+                if (vocab) {
+                    self.$('#vocab-' + vocabId + ' .writing').text(vocab.get('writing'));
+                    self.$('#vocab-' + vocabId + ' .reading').text(PinyinConverter.toTone(vocab.get('reading')));
+                    self.$('#vocab-' + vocabId + ' .definition').text(vocab.getDefinition());
+                } else {
+                    missingVocabIds.push(vocabId);
+                }
+            });
+            if (missingVocabIds.length > 0) {
+                skritter.api.getVocabs(missingVocabIds, function(data) {
+                    for (var i in data.Vocabs) {
+                        var vocab = data.Vocabs[i];
+                        self.$('#vocab-' + vocab.id + ' .writing').text(vocab.writing);
+                    }
+                    self.$('#list-sections #collapse-' + collapseId).collapse('toggle');
+                });
+            } else {
+                this.$('#list-sections #collapse-' + collapseId).collapse('toggle');
+            }
         },
         /**
          * @method selectList

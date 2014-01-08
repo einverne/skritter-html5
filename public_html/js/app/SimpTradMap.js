@@ -2691,7 +2691,26 @@ define(function() {
         return {rune: mappedRunes.join(''), variation: variation};
     };
     
+    /**
+     * @method getFromBase
+     * @param {String} simplifiedBase
+     * @returns {String}
+     */
+    var getFromBase = function(simplifiedBase) {
+        var splitBase = simplifiedBase.split('');
+        var baseRune = splitBase[1];
+        var baseVariation = splitBase[2];
+        var matchedRune = map[baseRune];
+        if (matchedRune) {
+            var matchedVariations = matchedRune.split('');
+            matchedRune = matchedVariations[baseVariation + 1];
+            return matchedRune;
+        }
+        return baseRune;
+    };
+    
     return {
+        getFromBase: getFromBase,
         getSimplifiedBase: getSimplifiedBase
     };
 });

@@ -645,11 +645,10 @@ define([
     
     /**
      * @method getVocabs
-     * @param {String} lang
      * @param {Array} ids
      * @param {Function} callback
      */
-    Api.prototype.getVocabs = function(lang, ids, callback) {
+    Api.prototype.getVocabs = function(ids, callback) {
         var self = this;
         var promise = $.ajax({
             url: this.root + '.' + this.domain + '/api/v' + this.version + '/vocabs',
@@ -659,7 +658,6 @@ define([
             type: 'GET',
             data: {
                 bearer_token: self.token,
-                lang: lang,
                 ids: ids.join('|'),
                 include_strokes: 'true',
                 include_sentences: 'true',

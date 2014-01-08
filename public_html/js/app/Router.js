@@ -51,7 +51,6 @@ define([
             'info/:vocabId': 'infoView',
             'lists': 'listsView',
             'lists/:listId': 'listsView',
-            'lists/:listId/:sectionId': 'listsView',
             'login': 'handleLogin',
             'logout': 'handleLogout',
             'options': 'optionsView',
@@ -126,9 +125,8 @@ define([
         /**
          * @method listsView
          * @param {String} listId
-         * @param {String} sectionId
          */
-        listsView: function(listId, sectionId) {
+        listsView: function(listId) {
             if (!skritter.user.isLoggedIn()) {
                 this.defaultRoute();
                 return;
@@ -138,7 +136,7 @@ define([
             } else {
                 Router.listsView.setElement($(skritter.settings.get('container')));
             }
-            Router.listsView.set(listId, sectionId);
+            Router.listsView.set(listId);
             Router.listsView.render();
         },
         /**
