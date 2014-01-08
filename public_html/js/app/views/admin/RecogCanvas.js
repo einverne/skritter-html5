@@ -28,6 +28,7 @@ define([
         render: function() {
             this.createLayer('grid');
             this.createLayer('stroke');
+            this.createLayer('param');
             this.createLayer('overlay');
             Canvas.prototype.render.call(this);
             return this;

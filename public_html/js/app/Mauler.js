@@ -13,9 +13,6 @@ define(function() {
      * @returns {Bitmap}
      */
     var tweak = function(bitmap, bitmapId) {
-        switch (bitmapId) {
-
-        }
         return bitmap;
     };
 

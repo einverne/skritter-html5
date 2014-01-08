@@ -47,6 +47,7 @@ define([
         routes: {
             '': 'homeView',
             'admin/recog/editor': 'adminRecogEditorView',
+            'admin/recog/editor/:id': 'adminRecogEditorView',
             'info/:vocabId': 'infoView',
             'lists': 'listsView',
             'lists/:listId': 'listsView',
@@ -80,17 +81,20 @@ define([
         },
         /**
          * @method adminRecogEditorView
+         * @param {Number} id
          */
-        adminRecogEditorView: function() {
+        adminRecogEditorView: function(id) {
             if (!skritter.user.isLoggedIn()) {
                 this.defaultRoute();
                 return;
             }
             if (!Router.adminRecogEditorView) {
-                Router.adminRecogEditorView = new AdminRecogEditorView({el: $(skritter.settings.get('container'))}).render();
+                Router.adminRecogEditorView = new AdminRecogEditorView({el: $(skritter.settings.get('container'))});
             } else {
-                Router.adminRecogEditorView.setElement($(skritter.settings.get('container'))).render();
+                Router.adminRecogEditorView.setElement($(skritter.settings.get('container')));
             }
+            Router.adminRecogEditorView.set(id);
+            Router.adminRecogEditorView.render();
         },
         /**
          * @method homeView
