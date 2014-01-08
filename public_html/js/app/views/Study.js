@@ -146,7 +146,8 @@ define([
          * @returns {Boolean}
          */
         navigateInfo: function() {
-            skritter.router.navigate('info/' + Study.current.vocabs[0].get('id'), {trigger: true});
+            if (Study.current.vocabs)
+                skritter.router.navigate('info/' + Study.current.vocabs[0].get('id'), {trigger: true});
             return false;
         },
         /**

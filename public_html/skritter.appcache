@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Tue Jan 07 2014 00:49:24 GMT-0700 (US Mountain Standard Time)
+# Time: Wed Jan 08 2014 11:13:24 GMT-0700 (US Mountain Standard Time)
 
 CACHE:
 index.html
@@ -108,7 +108,7 @@ js/libs/jquery-2.0.3.js
 js/libs/jquery.hammer-1.0.5.js
 js/libs/jquery.indexeddb.js
 js/libs/lodash-2.4.1.js
-js/libs/moment-2.4.0.js
+js/libs/moment-2.5.0.js
 js/libs/require.text-2.0.10.js
 js/main.js
 js/require-2.1.9.js

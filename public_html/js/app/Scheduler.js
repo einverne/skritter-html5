@@ -149,9 +149,13 @@ define(function() {
      * @param {Function} callback
      */
     Scheduler.prototype.getNext = function(callback) {
-        var items = this.sort().schedule;
         var position = 0;
-        next();
+        var items = this.sort().schedule;
+        if (items.length > 0) {
+            next();
+        } else {
+            callback();
+        }
         function next() {
             var item = items[position];
             skritter.data.items.loadItem(item.id, function(item) {

@@ -21,7 +21,7 @@ var paths = {
     'jquery.hammer': '../libs/jquery.hammer-1.0.5',
     'jquery.indexeddb': '../libs/jquery.indexeddb',
     lodash: '../libs/lodash-2.4.1',
-    moment: '../libs/moment-2.4.0',
+    moment: '../libs/moment-2.5.0',
     'require.text': '../libs/require.text-2.0.10'
 };
 
