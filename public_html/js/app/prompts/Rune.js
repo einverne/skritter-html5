@@ -97,6 +97,10 @@ define([
         handleDoubleTap: function() {
             if (!Prompt.finished) {
                 this.showTarget(0.3);
+                // ISSUE #132: Also flash next stroke when full-character hint is requested.
+                var nextStroke = Rune.userCharacter.getExpectedStroke();
+                if (nextStroke)
+                    Rune.canvas.drawPhantomStroke(nextStroke.getInflatedSprite('#87cefa'), 'hint');
                 Prompt.gradingButtons.select(1).collapse();
             }
         },
