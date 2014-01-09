@@ -72,7 +72,7 @@ define([
             var spriteContainer = new createjs.Container();
             spriteContainer.name = 'character';
             for (var i in this.models) {
-                if (i !== excludeStrokePosition)
+                if (i != (excludeStrokePosition - 1))
                     spriteContainer.addChild(this.models[i].getInflatedSprite().clone());
             }
             return spriteContainer;

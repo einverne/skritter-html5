@@ -334,8 +334,11 @@ define([
          * @param {Number} alpha
          */
         showTarget: function(alpha) {
+            console.log(Rune.userCharacter.getExpectedStroke().get('position'));
             if (!Prompt.finished)
-                Rune.canvas.drawCharacter(Rune.userCharacter.targets[Rune.userCharacter.getVariationIndex()].getCharacterSprite(), 'hint', alpha);
+                Rune.canvas.drawCharacter(Rune.userCharacter.targets[
+                    Rune.userCharacter.getVariationIndex()
+                ].getCharacterSprite(Rune.userCharacter.getExpectedStroke().get('position')), 'hint', alpha);
         },
         /**
          * @method teach
