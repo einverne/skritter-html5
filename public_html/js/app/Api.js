@@ -150,18 +150,22 @@ define([
             }
         });
         promise.done(function(data) {
-            var batch = data.Batch;
-            var requests = batch.Requests;
-            for (var i in requests) {
-                if (requests[i].response && requests[i].response.statusCode === 200) {
-                    _.merge(result, requests[i].response, merge);
-                    responseSize += requests[i].responseSize;
+            try {
+                var batch = data.Batch;
+                var requests = batch.Requests;
+                for (var i in requests) {
+                    if (requests[i].response && requests[i].response.statusCode === 200) {
+                        _.merge(result, requests[i].response, merge);
+                        responseSize += requests[i].responseSize;
+                    }
                 }
-            }
-            result.responseSize = responseSize;
-            if (batch && (batch.runningRequests > 0 || requests.length > 0)) {
-                callback(result);
-            } else {
+                result.responseSize = responseSize;
+                if (batch && (batch.runningRequests > 0 || requests.length > 0)) {
+                    callback(result);
+                } else {
+                    callback();
+                }
+            } catch (error) {
                 callback();
             }
         });

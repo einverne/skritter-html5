@@ -68,11 +68,12 @@ define([
          * @method getCharacterSprite
          * @returns {Container} A container of sprites contained in the character
          */
-        getCharacterSprite: function() {
+        getCharacterSprite: function(excludeStrokePosition) {
             var spriteContainer = new createjs.Container();
             spriteContainer.name = 'character';
             for (var i in this.models) {
-                spriteContainer.addChild(this.models[i].getInflatedSprite().clone());
+                if (i !== excludeStrokePosition)
+                    spriteContainer.addChild(this.models[i].getInflatedSprite().clone());
             }
             return spriteContainer;
         },
