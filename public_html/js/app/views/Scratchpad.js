@@ -1,6 +1,7 @@
 /**
  * @module Skritter
  * @param SimpTradMap
+ * @param StudyItems
  * @param StudyVocabs
  * @param Defn
  * @param Rdng
@@ -11,6 +12,7 @@
  */
 define([
     'SimpTradMap',
+    'collections/StudyItems',
     'collections/StudyVocabs',
     'prompts/Defn',
     'prompts/Rdng',
@@ -18,7 +20,7 @@ define([
     'prompts/Tone',
     'require.text!templates/scratchpad.html',
     'backbone'
-], function(SimpTradMap, StudyVocabs, Defn, Rdng, Rune, Tone, templateScratchpad) {
+], function(SimpTradMap, StudyItems, StudyVocabs, Defn, Rdng, Rune, Tone, templateScratchpad) {
     /**
      * @class Scratchpad
      */
@@ -27,10 +29,11 @@ define([
          * @method initialize
          */
         initialize: function() {
-            Scratchpad.current = {prompt: null, vocabs: null};
+            Scratchpad.current = {item: null, prompt: null, vocabs: null};
             Scratchpad.ids = [];
+            Scratchpad.items = new StudyItems();
             Scratchpad.lang = null;
-            Scratchpad.vocabs = null;
+            Scratchpad.vocabs = new StudyVocabs();
             Scratchpad.words = null;
         },
         /**
@@ -51,12 +54,15 @@ define([
                     }
                 },
                 function(callback) {
-                    skritter.api.getVocabs(Scratchpad.lang, Scratchpad.ids, function(result) {
+                    skritter.api.getVocabs(Scratchpad.ids, function(result) {
+                        console.log(skritter.data.params);
                         skritter.data.decomps.add(result.Decomps, {merge: true, silent: true, sort: false});
+                        skritter.data.params.loadAll();
                         skritter.data.sentences.add(result.Sentences, {merge: true, silent: true, sort: false});
                         skritter.data.strokes.add(result.Strokes, {merge: true, silent: true, sort: false});
-                        Scratchpad.vocabs = new StudyVocabs(result.Vocabs, {merge: true, silent: true, sort: false});
-                        console.log(Scratchpad.vocabs);
+                        var vocabs = skritter.data.vocabs.add(result.Vocabs, {merge: true, silent: true, sort: false});
+                        for (var i in vocabs)
+                            Scratchpad.items.add(vocabs[i].spawnVirtualItems(['rune']), {merge: true, silent: true, sort: false});
                         callback();
                     });
                 }
@@ -90,6 +96,7 @@ define([
          * @param {Object} results
          */
         handlePromptComplete: function(results) { 
+            console.log('prompt complete');
         },
         /**
          * @method loadPrompt
@@ -104,11 +111,12 @@ define([
          * @returns {Backbone.View}
          */
         nextPrompt: function() {
-            Scratchpad.current.vocabs = [Scratchpad.vocabs.at(0)];
+            Scratchpad.current.item = Scratchpad.items.at(0);
+            Scratchpad.current.vocabs = Scratchpad.current.item.getVocabs();
             Scratchpad.current.prompt = new Rune();
+            Scratchpad.current.prompt.set(Scratchpad.current.vocabs, Scratchpad.current.item);
             Scratchpad.current.prompt.setElement(this.$('#prompt-container')).render();
-            //set the prompt values and start listening for completion
-            Scratchpad.current.prompt.set(Scratchpad.current.vocabs);
+            Scratchpad.current.prompt.show();
             this.listenToOnce(Scratchpad.current.prompt, 'complete', this.handlePromptComplete);
             return this;
         },

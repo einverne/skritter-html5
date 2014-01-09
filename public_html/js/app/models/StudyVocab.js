@@ -4,14 +4,16 @@
  * @param PinyinConverter
  * @param CanvasCharacter
  * @param CanvasStroke
+ * @param StudyItem
  * @author Joshua McFarland
  */
 define([
     'PinyinConverter',
     'collections/CanvasCharacter',
     'models/CanvasStroke',
+    'models/StudyItem',
     'backbone'
-], function(PinyinConverter, CanvasCharacter, CanvasStroke) {
+], function(PinyinConverter, CanvasCharacter, CanvasStroke, StudyItem) {
     /**
      * @class StudyVocab
      */
@@ -43,9 +45,8 @@ define([
             if (part === 'rune') {
                 variations = skritter.data.strokes.findWhere({rune: rune}).get('strokes');
             } else {
-                tones = this.getPinyinAt(index).tone.split(',');
-                for (var t in tones)
-                {
+                tones = this.getPinyinAt(index).tone.split(',');                
+                for (var t in tones) {
                     var tone = 'tone' + tones[t].replace(' ', '');
                     variations.push(skritter.data.strokes.findWhere({rune: tone}).get('strokes'));
                 }
@@ -170,9 +171,8 @@ define([
          */
         getPinyinAt: function(index) {
             index = (index) ? index : 0;
-            var reading = _.clone(this.get('reading').toLowerCase());
+            var reading = _.clone(this.get('reading').toLowerCase()).replace("'", '');
             var syllable = _.clone(reading);
-            //TODO: figure out all variations of periods in reading prompts
             var tone = _.clone(reading).replace(' ... ', '');
             if (this.getCharacterCount() === 1) {
                 syllable = syllable.replace(/[0-9]+/g, '');
@@ -180,9 +180,16 @@ define([
                 return {syllable: syllable, tone: tone, reading: reading};
             }
             reading = reading.split(',');
-            syllable = syllable.split(/\d+/g);
+            syllable = _.without(syllable.split(/\d+/g), '');
             tone = _.without(tone.split(/[a-z]+/g), '');
             return {syllable: syllable[index], tone: tone[index]};
+        },
+        /**
+         * @method getReading
+         * @returns {String}
+         */
+        getReading: function() {
+            return PinyinConverter.toTone(this.get('reading'));
         },
         /**
          * @method getReadingDisplayAt
@@ -228,6 +235,15 @@ define([
         getSentence: function() {
             var sentence = skritter.data.sentences.findWhere({id: this.get('sentenceId')});
             return (sentence) ? sentence : '';
+        },
+        /**
+         * @method getTextStyle
+         * @returns {String}
+         */
+        getTextStyle: function() {
+            if (this.get('lang') === 'zh')
+                return 'chinese-text';
+            return 'japanese-text';
         },
         /**
          * @method getWritingDisplayAt
@@ -298,6 +314,28 @@ define([
                 skritter.assets.getAudio(this.get('audio').replace('/sounds?file=', ''));
         },
         /**
+         * @method spawnVirtualItems
+         * @param {Array} parts
+         * @returns {Backbone.Collection}
+         */
+        spawnVirtualItems: function(parts) {
+            if (this.get('lang') === 'zh') {
+                parts = (parts) ? parts : ['defn', 'rdng', 'rune', 'tone'];
+            } else {
+                parts = (parts) ? parts : ['defn', 'rdng', 'rune'];
+            }
+            var items = [];
+            var vocabId = this.get('id');
+            for (var i in parts)
+                items.push(new StudyItem({
+                    id: skritter.user.get('user_id') + '-' + vocabId + '-' + parts[i],
+                    part: parts[i],
+                    reviews: 0,
+                    vocabIds: [vocabId]
+                }));
+            return items;
+        },
+        /**
          * @method validate
          * @param {Object} attributes
          */
@@ -309,4 +347,4 @@ define([
     });
 
     return StudyVocab;
-});
+}); 

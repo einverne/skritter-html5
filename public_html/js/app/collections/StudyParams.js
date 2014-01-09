@@ -24,7 +24,8 @@ define([
          */
         loadAll: function(callback) {
             skritter.data.params.add(Params);
-            callback(null, Params);
+            if (typeof callback === 'function')
+                callback(null, Params);
         }
     });
 

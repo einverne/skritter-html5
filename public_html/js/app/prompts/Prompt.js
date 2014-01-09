@@ -52,8 +52,8 @@ define([
          */
         render: function() {
             Prompt.gradingButtons.setElement(this.$('#grading-container')).render();
-            this.$('.prompt-writing').addClass(skritter.user.getTextStyle());
-            this.$('.prompt-sentence').addClass(skritter.user.getTextStyle());
+            this.$('.prompt-writing').addClass(Prompt.vocab.getTextStyle());
+            this.$('.prompt-sentence').addClass(Prompt.vocab.getTextStyle());
             this.resize();
         },
         /**

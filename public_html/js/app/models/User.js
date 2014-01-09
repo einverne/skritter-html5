@@ -84,9 +84,9 @@ define([
             lastSyncChinese: null,
             lastSyncJapanese: null,
             refresh_token: null,
-            settings: null,
+            settings: {},
             token_type: null,
-            user_id: null
+            user_id: 'guest'
         },
         /**
          * @method cache

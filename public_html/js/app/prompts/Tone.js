@@ -238,7 +238,11 @@ define([
             if (Prompt.vocab.has('audio') && this.isLast() && skritter.user.get('audio'))
                 Prompt.vocab.play();
             Prompt.gradingButtons.select().collapse();
-            this.$('.prompt-reading').html(Prompt.vocab.getReadingDisplayAt(Prompt.position));
+            if (this.isLast()) {
+                this.$('.prompt-reading').html(Prompt.vocab.getReading());
+            } else {
+                this.$('.prompt-reading').html(Prompt.vocab.getReadingDisplayAt(Prompt.position));
+            }
         }
     });
 
