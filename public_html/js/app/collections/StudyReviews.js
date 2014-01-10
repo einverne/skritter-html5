@@ -86,12 +86,19 @@ define([
         /**
          * Posts the reviews to the server and then removes them from the local database.
          * 
-         * @method sync
+         * @method sync         
          * @param {Function} callback
+         * @param {Boolean} forceAll
          */
-        sync: function(callback) {
+        sync: function(callback, forceAll) {
             if (this.length > 0) {
-                skritter.api.postReviews(this.checkAll().toJSON(), function(reviews) {
+                var submitReviews;
+                if (forceAll) {
+                    submitReviews = this.checkAll().toJSON();
+                } else {
+                    submitReviews = this.checkAll().sort().slice(2, this.length);
+                }
+                skritter.api.postReviews(submitReviews, function(reviews) {
                     if (reviews) {
                         console.log('submitted reviews', reviews);
                         skritter.data.reviews.remove(reviews);
@@ -100,6 +107,7 @@ define([
                         callback(0);
                     }
                 });
+                callback(0);
             } else {
                 callback(0);
             }
