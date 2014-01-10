@@ -157,7 +157,9 @@ define([
             var definition = this.get('definitions')[skritter.user.getSetting('sourceLang')];
             if (typeof definition === 'undefined')
                 definition = this.get('definitions').en;
-            return definition.replace(/img:(http:\/\/\S+)/gi, '');
+            if (definition)
+                return definition.replace(/img:(http:\/\/\S+)/gi, '');
+            return '';
             //TODO: allow for definition images with proper css styling
             //.replace(/img:(http:\/\/\S+)/gi, '<img src="$1"/>')
             //.replace(/_([^ _][^_]*)_(?!\S{4})/gi, '<em>$1</em>')
