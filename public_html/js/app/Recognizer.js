@@ -73,7 +73,7 @@ define([
         }
 
         results = _.filter(results, 'result');
-
+        
         if (results.length > 0) {
             var matched = _.first(_.sortBy(results, 'result'));
             this.stroke.set('bitmapId', matched.bitmapId);
@@ -87,6 +87,7 @@ define([
             this.stroke.set('result', matched.result);
             this.stroke.set('scores', matched.scores);
             this.stroke.set('sprite', matched.sprite);
+            console.log(this.stroke);
             return this.stroke;
         }
 
@@ -127,9 +128,19 @@ define([
                     var reverseDeviations = _.cloneDeep(params[0].get('deviations')).reverse();
                     params.push(new StudyParam({
                         bitmapId: bitmapId,
+                        data: data,
+                        contains: params[0].get('contains'),
                         corners: reverseCorners,
                         deviations: reverseDeviations,
-                        feedback: 'backwards'
+                        feedback: 'backwards',
+                        id: id,
+                        param: param,
+                        part: part,
+                        position: position,
+                        variation: variation,
+                        rune: rune,
+                        sprite: sprite,
+                        stroke: stroke
                     }));
                 }
 

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Thu Jan 09 2014 23:01:27 GMT-0700 (US Mountain Standard Time)
+# Time: Sat Jan 11 2014 19:11:45 GMT-0700 (US Mountain Standard Time)
 
 CACHE:
 index.html
@@ -110,7 +110,7 @@ js/libs/lodash-2.4.1.js
 js/libs/moment-2.5.0.js
 js/libs/require.text-2.0.10.js
 js/main.js
-js/require-2.1.9.js
+js/require-2.1.9.min.js
 tests/libs/jasmine-html.js
 tests/libs/jasmine.js
 tests/specs/Functions.js
