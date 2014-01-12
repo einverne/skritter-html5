@@ -378,7 +378,7 @@ define([
         logout: function() {
             if (this.isLoggedIn()) {
                 skritter.modal.show().setBody('Logging Out').noHeader();
-                skritter.storage.deleteAllDatabases(function() {
+                skritter.storage.deleteDatabase(function() {
                     localStorage.removeItem('activeUser');
                     skritter.router.navigate('', {trigger: true, replace: true});
                     document.location.reload();

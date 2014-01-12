@@ -34,37 +34,6 @@ define([
     };
 
     /**
-     * @method deleteAllDatabases
-     * @param {Function} callback
-     * @returns {undefined}
-     */
-    IndexedDBAdapter.prototype.deleteAllDatabases = function(callback) {
-        var position = 0;
-        if (window.indexedDB.webkitGetDatabaseNames) {
-            var request = window.indexedDB.webkitGetDatabaseNames();
-            request.onsuccess = function(event) {
-                next();
-                function next() {
-                    var promise = $.indexedDB(event.target.result[position]).deleteDatabase();
-                    promise.done(function() {
-                        if (position < event.target.result.length) {
-                            position++;
-                            next();
-                        } else {
-                            callback();
-                        }
-                    });
-                    promise.fail(function(error) {
-                        console.error(error);
-                    });
-                }
-            };
-        } else {
-            callback();
-        }
-    };
-
-    /**
      * @method deleteDatabase
      * @param {Function} callback
      * @returns {undefined}
