@@ -73,10 +73,11 @@ define([
             }
         });
         promise.done(function(event) {
+            self.database = promise;
             if (event.objectStoreNames.length === 0) {
-                self.deleteAllDatabases(callback);
+                self.deleteDatabase();
+                skritter.user.setLastSync(0);
             } else {
-                self.database = promise;
                 callback();
             }
         });
