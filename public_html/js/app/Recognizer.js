@@ -87,7 +87,6 @@ define([
             this.stroke.set('result', matched.result);
             this.stroke.set('scores', matched.scores);
             this.stroke.set('sprite', matched.sprite);
-            console.log(this.stroke);
             return this.stroke;
         }
 
