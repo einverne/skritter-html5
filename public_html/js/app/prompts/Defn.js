@@ -32,14 +32,14 @@ define([
          */
         handleSwipeLeft: function() {
             if (Prompt.finished)
-                this.next();
+                Prompt.this.handleGradeSelected(Prompt.gradingButtons.grade());
         },
         /*
          * @method handleTap
          */
         handleTap: function() {
             if (Prompt.finished) {
-                this.next();
+                Prompt.this.handleGradeSelected(Prompt.gradingButtons.grade());
             } else {
                 this.showAnswer();
                 Prompt.gradingButtons.show();

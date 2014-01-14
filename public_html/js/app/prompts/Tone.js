@@ -37,9 +37,7 @@ define([
         render: function() {
             this.$el.html(templateTone);
             Tone.canvas.setElement(this.$('#canvas-container')).render();
-            this.$('#canvas-container').hammer().on('hold.Tone', _.bind(this.handleHold, this));
-            this.$('#canvas-container').hammer().on('swipeleft.Tone', _.bind(this.handleSwipeLeft, this));
-            this.$('#canvas-container').hammer().on('tap.Tone', _.bind(this.handleTap, this));
+            this.$('#canvas-container').hammer().on('hold.Tone', Prompt.this.handleHold);
             Prompt.prototype.render.call(this);
             return this;
         },
@@ -63,7 +61,6 @@ define([
          * @method handleCharacterComplete
          */
         handleCharacterComplete: function() {
-            Prompt.finished = true;
             Tone.canvas.filterLayerColor('stroke', Prompt.gradeColorFilters[Prompt.gradingButtons.grade()]);
             this.showAnswer();
         },
@@ -71,7 +68,7 @@ define([
          * @method handleHold
          */
         handleHold: function() {
-            this.clear();
+            Prompt.this.clear();
             Tone.canvas.enableInput();
         },
         /**
@@ -93,19 +90,21 @@ define([
          */
         handleSwipeLeft: function() {
             if (Prompt.finished)
-                this.next();
+                Prompt.this.handleGradeSelected(Prompt.gradingButtons.grade());
         },
         /**
          * @method handleTap
          */
         handleTap: function() {
             if (Prompt.finished)
-                this.next();
+                Prompt.this.handleGradeSelected(Prompt.gradingButtons.grade());
         },
         /**
          * @method next
          */
         next: function() {
+            //remove any listenered that might still be hanging around
+            this.$('#canvas-container').hammer().off('tap.Tone swipeLeft.Tone');
             //store the results for the item or subitem
             Prompt.results.push({
                 item: Prompt.contained[Prompt.position - 1],
@@ -230,6 +229,7 @@ define([
         },
         showAnswer: function() {
             skritter.timer.stop();
+            Prompt.finished = true;
             Tone.canvas.disableInput();
             if (skritter.user.get('audio') && !this.isLast())
                 Prompt.vocab.getContainedVocabAt(Prompt.position).play();
@@ -243,6 +243,10 @@ define([
             } else {
                 this.$('.prompt-reading').html(Prompt.vocab.getReadingDisplayAt(Prompt.position));
             }
+            window.setTimeout(function() {
+                Prompt.this.$('#canvas-container').hammer().one('tap.Tone', Prompt.this.handleTap);
+                Prompt.this.$('#canvas-container').hammer().one('swipeleft.Tone', Prompt.this.handleSwipeLeft);
+            }, 500);
         }
     });
 

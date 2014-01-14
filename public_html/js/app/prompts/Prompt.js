@@ -18,6 +18,7 @@ define([
          * @method initialize
          */
         initialize: function() {
+            Prompt.this = this;
             Prompt.contained = [];
             Prompt.count = 0;
             Prompt.definition = '';
@@ -68,9 +69,8 @@ define([
          */
         handleGradeSelected: function(selected) {
             Prompt.grade = selected;
-            if (Prompt.finished) {
+            if (Prompt.finished)
                 this.next();
-            }
         },
         /**
          * @method handleHiddenReadingClicked
@@ -126,6 +126,8 @@ define([
          * @method next
          */
         next: function() {
+            //remove any listenered that might still be hanging around
+            this.$('#prompt-text').hammer().off();
             //store the results for the item or subitem
             Prompt.results.push({
                 item: Prompt.contained[Prompt.position - 1],

@@ -45,8 +45,6 @@ define([
             Rune.canvas.setElement(this.$('#canvas-container')).render();
             this.$('#canvas-container').hammer().on('doubletap.Rune', _.bind(this.handleDoubleTap, this));
             this.$('#canvas-container').hammer().on('hold.Rune', _.bind(this.handleHold, this));
-            this.$('#canvas-container').hammer().on('swipeleft.Rune', _.bind(this.handleSwipeLeft, this));
-            this.$('#canvas-container').hammer().on('tap.Rune', _.bind(this.handleTap, this));
             Prompt.prototype.render.call(this);
             return this;
         },
@@ -83,8 +81,6 @@ define([
         handleCharacterComplete: function() {
             //stop the lap timer
             skritter.timer.stop();
-            //mark the prompt as finished while the answer is shown
-            Prompt.finished = true;
             //checks if we should snap or just glow the result
             if (skritter.user.getSetting('squigs')) {
                 Rune.canvas.setLayerAlpha('overlay', 0.3);
@@ -158,19 +154,21 @@ define([
          */
         handleSwipeLeft: function() {
             if (Prompt.finished)
-                this.next();
+                Prompt.this.handleGradeSelected(Prompt.gradingButtons.grade());
         },
         /**
          * @method handleTap
          */
         handleTap: function() {
             if (Prompt.finished)
-                this.next();
+                Prompt.this.handleGradeSelected(Prompt.gradingButtons.grade());
         },
         /**
          * @method next
          */
         next: function() {
+            //remove any listenered that might still be hanging around
+            this.$('#canvas-container').hammer().off('tap.Rune swipeLeft.Rune');
             //store the results for the item or subitem
             Prompt.results.push({
                 item: Prompt.contained[Prompt.position - 1],
@@ -316,6 +314,7 @@ define([
          */
         showAnswer: function() {
             Rune.canvas.disableInput();
+            Prompt.finished = true;
             Prompt.gradingButtons.select().collapse();
             this.$('.prompt-writing').html(Prompt.vocab.getWritingDisplayAt(Prompt.position));
             if (skritter.user.get('audio') && !this.isLast() && Prompt.vocab.getContainedVocabAt(Prompt.position))
@@ -328,6 +327,10 @@ define([
                 if (Prompt.sentence)
                     this.$('.prompt-sentence').text(Prompt.sentence.noWhiteSpaces());
             }
+            window.setTimeout(function() {
+                Prompt.this.$('#canvas-container').hammer().one('tap.Rune', Prompt.this.handleTap);
+                Prompt.this.$('#canvas-container').hammer().one('swipeleft.Rune', Prompt.this.handleSwipeLeft);
+            }, 500);
         },
         /**
          * @method showTarget
