@@ -427,7 +427,13 @@ define(function() {
             duration = (duration) ? duration : 500;
             var layer = this.getLayer(layerName);
             layer.addChildAt(fromShape, 0);
-            createjs.Tween.get(fromShape).to(toShape, duration, createjs.Ease.backOut).call(function() {
+            createjs.Tween.get(fromShape).to({
+                x: toShape.x,
+                y: toShape.y,
+                scaleX: toShape.scaleX,
+                scaleY: toShape.scaleY,
+                rotation: toShape.rotation
+            }, duration, createjs.Ease.backOut).call(function() {
                 if (typeof callback === 'function')
                     callback();
             });

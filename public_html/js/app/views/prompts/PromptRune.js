@@ -63,9 +63,8 @@ define([
          */
         handleCharacterComplete: function() {
             Prompt.dataItem.set('finished', true);
-            //TODO: figure out how to properly inject a color
             //checks if we should snap or just glow the result
-            if (skritter.user.getSetting('squigs')) {
+            if (skritter.user.getSetting('squigs'))
                 window.setTimeout(function() {
                     for (var i in Prompt.dataItem.get('character').models) {
                         var stroke = Prompt.dataItem.get('character').models[i];
@@ -75,9 +74,6 @@ define([
                     Rune.canvas.setLayerAlpha('stroke', 0.3);
                     Rune.canvas.injectLayer('background', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
                 }, 100);
-            } else {
-                Rune.canvas.injectLayer('stroke', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
-            }
             this.load();
         },
         /**
@@ -197,8 +193,10 @@ define([
                             Rune.canvas.drawShapePhantom('hint', Prompt.dataItem.get('character').getExpectedStroke().getInflatedSprite());
                     }
                     //ISSUE #63: show the grading buttons and grade color preemptively
-                    if (Prompt.dataItem.get('character').getStrokeCount(false) >= Prompt.dataItem.get('character').getTargetStrokeCount())
+                    if (Prompt.dataItem.get('character').getStrokeCount(false) >= Prompt.dataItem.get('character').getTargetStrokeCount()) {
+                        Rune.canvas.injectLayer('stroke', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
                         Prompt.gradingButtons.select().collapse();
+                    }
                 } else {
                     Rune.failedAttempts++;
                     //if failed too many times show a hint
