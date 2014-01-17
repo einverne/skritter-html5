@@ -32,6 +32,7 @@ define([
             Tone.leap = new LeapController();
             Tone.maxFailedAttempts = 3;
             Tone.minStrokeDistance = 10;
+            Tone.result = null;
             this.listenTo(Tone.canvas, 'input:down', this.handleInputDown);
             this.listenTo(Tone.canvas, 'input:up', this.handleInputUp);
         },
@@ -175,8 +176,6 @@ define([
                     //recognize a stroke based on user input and targets
                     var result = new Recognizer(Prompt.dataItem.get('character'), stroke, Prompt.dataItem.get('character').targets).recognize(ignoreCheck, enforceOrder);
                     //check if a result exists and that it's not a duplicate
-                    //store the result for resizing later if needed
-                    Tone.result = result;
                     if (result && !Prompt.dataItem.get('character').containsStroke(result)) {
                         //store the result for resizing later if needed
                         Tone.result = result;
@@ -195,8 +194,7 @@ define([
                         //fade incorrect strokes out
                         Tone.canvas.fadeShape('background', shape);
                         //select the first possible tone and display it as wrong
-                        Tone.canvas.tweenShape('stroke', result.getUserSprite(), result.getInflatedSprite());
-
+                        Tone.canvas.drawShape('stroke', Tone.result.getInflatedSprite());
                     }
                 }
             } else {
@@ -207,8 +205,8 @@ define([
                     Tone.result = Prompt.dataItem.get('character').targets[index].at(0);
                     Tone.canvas.drawShape('stroke', Tone.result.getInflatedSprite());
                 } else {
-                    Tone.result = Prompt.dataItem.get('character').targets[0].at(0);
                     Prompt.gradingButtons.select(1).collapse();
+                    Tone.result = Prompt.dataItem.get('character').targets[0].at(0);
                     Tone.canvas.drawShape('stroke', Tone.result.getInflatedSprite());
                 }
             }

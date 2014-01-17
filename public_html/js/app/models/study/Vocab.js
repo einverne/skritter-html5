@@ -34,12 +34,13 @@ define([
         getCanvasCharacters: function(index, part) {
             var characters = [];
             var variations = [];
+            var rune = this.getCharacters()[index - 1];
             if (part === 'tone') {
-                var tones = this.getReadingAt(position).tones;
+                var tones = this.getReadingAt(index).tones;
                 for (var i in tones)
                     variations.push(skritter.data.strokes.findWhere({rune: 'tone' + tones[i]}).get('strokes'));
             } else {
-                variations = skritter.data.strokes.findWhere({rune: this.getCharacters()[index - 1]}).get('strokes');
+                variations = skritter.data.strokes.findWhere({rune: rune}).get('strokes');
             }
             for (var v in variations) {
                 var character = new CanvasCharacter();
@@ -49,6 +50,7 @@ define([
                     var stroke = new CanvasStroke();
                     var bitmapId = parseInt(strokes[s][0], 10);
                     var params = skritter.data.params.findWhere({bitmapId: bitmapId});
+                    character.name = (part === 'rune') ? rune : 'tone' + tones[v];
                     stroke.set({
                         bitmapId: bitmapId,
                         data: strokes[s],
