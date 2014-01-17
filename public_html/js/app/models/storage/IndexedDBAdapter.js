@@ -8,6 +8,7 @@ define(function() {
          * @method initialize
          */
         initialize: function() {
+            IndexedDBAdapter.this = this;
             IndexedDBAdapter.database = null;
             IndexedDBAdapter.databaseName = null;
             IndexedDBAdapter.databaseVersion = 1;
@@ -64,9 +65,15 @@ define(function() {
                     }
                 }
             });
-            promise.done(function() {
+            promise.done(function(event) {
                 IndexedDBAdapter.database = promise;
-                callback();
+                if (event.objectStoreNames.length < 1) {
+                    IndexedDBAdapter.this.deleteDatabase(function() {
+                        IndexedDBAdapter.this.openDatabase(databaseName, callback);
+                    });
+                } else {
+                    callback();
+                }
             });
             promise.fail(function(error) {
                 console.error(databaseName, error);
