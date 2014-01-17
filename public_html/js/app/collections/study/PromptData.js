@@ -156,6 +156,9 @@ define([
             sentence: function() {
                 $('.prompt-sentence').hide();
             },
+            tip: function() {
+                $('#prompt-tip').hide();
+            },
             writing: function() {
                 $('.prompt-writing').hide();
             }
@@ -243,6 +246,10 @@ define([
                 } else {
                     PromptData.this.hide.sentence();
                 }
+            },
+            tip: function(text) {
+                $('.prompt-tip').html(text);
+                $('.prompt-tip').show();
             },
             writing: function() {
                 $('.prompt-writing').html(PromptData.this.vocab.get('writing'));

@@ -1,15 +1,19 @@
 /**
  * @module Skritter
  * @param templateStudy
+ * @param PromptDefn
+ * @param PromptRdng
  * @param PromptRune
  * @param PromptTone
  * @author Joshua McFarland
  */
 define([
     'require.text!templates/study.html',
+    'views/prompts/PromptDefn',
+    'views/prompts/PromptRdng',
     'views/prompts/PromptRune',
     'views/prompts/PromptTone'
-], function(templateStudy, PromptRune, PromptTone) {
+], function(templateStudy, PromptDefn, PromptRdng, PromptRune, PromptTone) {
     /**
      * @class Study
      */
@@ -29,7 +33,6 @@ define([
         render: function() {
             this.$el.html(templateStudy);
             //skritter.scheduler.filter({ids: ['mcfarljwtest1-zh-好好学习-0-rune']});
-            skritter.scheduler.filter({parts: ['rune', 'tone']});
             skritter.timer.setElement(this.$('#timer')).render();
             this.updateDueCount();
             if (Study.prompt) {
@@ -60,8 +63,10 @@ define([
                 skritter.scheduler.getNext(function(item) {
                     switch (item.get('part')) {
                         case 'defn':
+                            Study.prompt = new PromptDefn();
                             break;
                         case 'rdng':
+                            Study.prompt = new PromptRdng();
                             break;
                         case 'rune':
                             Study.prompt = new PromptRune();
