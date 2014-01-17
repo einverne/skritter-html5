@@ -1,31 +1,30 @@
 /**
  * @module Skritter
  * @submodule Model
+ * @param Decomps
+ * @param Items
+ * @param Params
+ * @param Reviews
  * @param Scheduler
- * @param StudyDecomps
- * @param StudyItems
- * @param StudyParams
- * @param StudyReviews
- * @param StudySRSConfigs
- * @param StudySentences
- * @param StudyStrokes
- * @param StudyVocabs
+ * @param Sentences
+ * @param SRSConfigs
+ * @param Strokes
  * @param Sync
+ * @param Vocabs
  * @author Joshua McFarland
  */
 define([
-    'Scheduler',
-    'collections/StudyDecomps',
-    'collections/StudyItems',
-    'collections/StudyParams',
-    'collections/StudyReviews',
-    'collections/StudySRSConfigs',
-    'collections/StudySentences',
-    'collections/StudyStrokes',
-    'collections/StudyVocabs',
+    'collections/study/Decomps',
+    'collections/study/Items',
+    'collections/study/Params',
+    'collections/study/Reviews',
+    'models/Scheduler',
+    'collections/study/Sentences',
+    'collections/study/SRSConfigs',
+    'collections/study/Strokes',
     'models/Sync',
-    'backbone'
-], function(Scheduler, StudyDecomps, StudyItems, StudyParams, StudyReviews, StudySRSConfigs, StudySentences, StudyStrokes, StudyVocabs, Sync) {
+    'collections/study/Vocabs'
+], function(Decomps, Items, Params, Reviews, Scheduler, Sentences, SRSConfigs, Strokes, Sync, Vocabs) {
     /**
      * @class User
      */
@@ -34,20 +33,17 @@ define([
          * @method initialize
          */
         initialize: function() {
-            //loads the sync model for the user
-            skritter.sync = new Sync();
-            //load the scheduler for faster scheduling
-            skritter.scheduler = new Scheduler();
+            User.this = this;
             //initializes all of the required data collections
             skritter.data = {
-                decomps: new StudyDecomps(),
-                items: new StudyItems(),
-                params: new StudyParams(),
-                reviews: new StudyReviews(),
-                srsconfigs: new StudySRSConfigs(),
-                sentences: new StudySentences(),
-                strokes: new StudyStrokes(),
-                vocabs: new StudyVocabs()
+                decomps: new Decomps(),
+                items: new Items(),
+                params: new Params(),
+                reviews: new Reviews(),
+                srsconfigs: new SRSConfigs(),
+                sentences: new Sentences(),
+                strokes: new Strokes(),
+                vocabs: new Vocabs()
             };
             //loads the user from localStorage if exists
             if (localStorage.getItem('activeUser')) {
@@ -60,10 +56,11 @@ define([
                     }
                 }
             }
-            //perform tasks based login status
+            //performs special loading tasks when user is logged in
             if (this.isLoggedIn()) {
-                //sets the api token required for calls
-                skritter.api.token = this.get('access_token');
+                skritter.api.set('token', this.get('access_token'));
+                skritter.scheduler = new Scheduler();
+                skritter.sync = new Sync();
             }
             //stores user settings to localStorage as they are changed
             this.on('change', this.cache);
@@ -73,8 +70,7 @@ define([
          */
         defaults: {
             access_token: null,
-            addOffset: 0,
-            audio: true,
+            audio: false,
             autoSync: true,
             autoSyncThreshold: 10,
             expires_in: null,
@@ -95,94 +91,23 @@ define([
             if (this.isLoggedIn())
                 localStorage.setItem(this.get('user_id'), JSON.stringify(this));
         },
-        /**
-         * @method addItems
-         * @param {Number} limit
-         * @param {Function} callback
-         */
-        addItems: function(limit, callback) {
-            var self = this;
-            var offset = this.get('addOffset');
-            limit = (limit) ? limit : 1;
-            var requests = [
-                {
-                    path: 'api/v' + skritter.api.version + '/items/add',
-                    method: 'POST',
-                    cache: false,
-                    params: {
-                        limit: limit,
-                        offset: offset
-                    }
-                }
-            ];
-            skritter.async.waterfall([
-                //request the new items using a batch request
-                function(callback) {
-                    skritter.api.requestBatch(requests, function(result) {
-                        if (result.status === 404) {
-                            callback(result, null);
-                        } else {
-                            callback(null, result);
-                        }
-                    });
-                },
-                //start fetching the new items as they are completed
-                function(result, callback) {
-                    skritter.modal.setProgress(100, 'Getting Items');
-                    skritter.api.getBatchCombined(result.id, null, function(result) {
-                        console.log('added items', result);
-                        callback();
-                    });
-                },
-                //run a fresh sync to get the new items and update
-                function(callback) {
-                    self.set('addOffset', offset + 1);
-                    if (skritter.sync.isSyncing()) {
-                        self.listenToOnce(skritter.sync, 'complete', startSync);
-                    } else {
-                        startSync();
-                    }
-                    function startSync() {
-                        self.sync(callback);
-                    }
-                }
-            ], function(error) {
-                if (error) {
-                    if (typeof callback === 'function')
-                        callback(error);
-                } else {
-                    if (typeof callback === 'function')
-                        callback();
-                }
-            });
-        },
-        /**
-         * @method checkReviewErrors
-         * @param {Number} offset
-         * @param {Function} callback
-         */
-        checkReviewErrors: function(callback, offset) {
-            offset = (offset && offset > -1) ? offset : this.getLastSync();
-            skritter.api.getReviewErrors(offset, function(errors) {
-                console.log('review errors', errors);
-                if (typeof callback === 'function')
-                    callback(errors);
-            });
-        },
-        /**
-         * Gets the current users properties and settings from the server then saves it.
-         * 
-         * @method fetch
-         * @param {Function} callback
-         */
         fetch: function(callback) {
-            var self = this;
-            if (this.isLoggedIn()) {
+            if (this.isLoggedIn())
                 skritter.api.getUser(this.get('user_id'), function(data) {
-                    self.set('settings', data);
+                    User.this.set('settings', data);
                     callback(data);
                 });
-            }
+        },
+        /**
+         * Returns an array of active parts based on the current language being studied.
+         * 
+         * @method getActiveParts
+         * @returns {Array}
+         */
+        getActiveParts: function() {
+            if (this.isChinese())
+                return this.get('filterChineseParts');
+            return this.get('filterJapaneseParts');
         },
         /**
          * Gets the users current avatar and returns it as an image tag using base64 data.
@@ -197,24 +122,6 @@ define([
             return "<img src='data:image/png;base64," + this.getSetting('avatar') + "' />";
         },
         /**
-         * Returns an array of active study parts based on the current language being studied.
-         * 
-         * @method getActiveStudyParts
-         * @returns {Array}
-         */
-        getActiveStudyParts: function() {
-            if (this.isChinese())
-                return this.get('filterChineseParts');
-            return this.get('filterJapaneseParts');
-        },
-        /**
-         * @method getDatabaseId
-         * @returns {undefined}
-         */
-        getDatabaseName: function() {
-            return this.get('user_id');
-        },
-        /**
          * Mainly used on tone prompts to determine which font to draw the character from, but
          * it returns the name of the font based on the current target language.
          * 
@@ -226,13 +133,6 @@ define([
                 return 'simkai';
             return 'kaisho';
         },
-        /**
-         * Returns the last sync based on the current active language. This is needed so we don't
-         * have to delete all of the data when switching languages.
-         * 
-         * @method getLastSync
-         * @returns {Number}
-         */
         getLastSync: function() {
             var lastSync = (this.isChinese()) ? this.get('lastSyncChinese') : this.get('lastSyncJapanese');
             if (lastSync)
@@ -314,54 +214,36 @@ define([
             return false;
         },
         /**
-         * Checks to see if the user is logged in by seeing if a token exists. This might not always work
-         * in situations where the token as expired.
-         * 
          * @method isLoggedIn
-         * @returns {Boolean} True or false pending the users login status
+         * @returns {Boolean}
          */
         isLoggedIn: function() {
             if (this.get('access_token'))
                 return true;
             return false;
         },
-        /**
-         * Loads all of the data for the current active user into memory. For small to medium size accounts this is
-         * fairly quick, but larger accounts might need to do loading in logical chunks.
-         * 
-         * @method loadAllData
-         * @param {Function} callback
-         */
-        loadAllData: function(callback) {
-            skritter.async.series([
-                skritter.async.apply(skritter.data.decomps.loadAll),
-                skritter.async.apply(skritter.data.params.loadAll),
-                skritter.async.apply(skritter.data.reviews.loadAll),
-                skritter.async.apply(skritter.data.srsconfigs.loadAll),
-                skritter.async.apply(skritter.data.sentences.loadAll),
-                skritter.async.apply(skritter.data.strokes.loadAll),
-                skritter.async.apply(skritter.data.vocabs.loadAll),
-                skritter.async.apply(skritter.scheduler.loadFromDatabase)
+        loadData: function(callback) {
+            skritter.modal.setTitle('Loading Data').setProgress('100', null);
+            async.series([
+                async.apply(skritter.data.decomps.loadAll),
+                async.apply(skritter.data.reviews.loadAll),
+                async.apply(skritter.scheduler.loadAll),
+                async.apply(skritter.data.sentences.loadAll),
+                async.apply(skritter.data.srsconfigs.loadAll),
+                async.apply(skritter.data.strokes.loadAll)
             ], function() {
                 callback();
             });
         },
-        /**
-         * @method login
-         * @param {String} username
-         * @param {String} password
-         * @param {Function} callback
-         */
         login: function(username, password, callback) {
-            var self = this;
             skritter.api.authenticateUser(username, password, function(result) {
                 if (result.statusCode === 200) {
-                    self.set(result);
-                    skritter.api.token = result.access_token;
-                    self.fetch(function() {
+                    User.this.set(result);
+                    skritter.api.set('token', result.access_token);
+                    User.this.fetch(function() {
                         skritter.storage.openDatabase(skritter.user.get('user_id'), function() {
                             localStorage.setItem('activeUser', result.user_id);
-                            self.set('lastLogin', skritter.fn.getUnixTime());
+                            User.this.set('lastLogin', skritter.fn.getUnixTime());
                             callback(result);
                         });
                     });
@@ -370,32 +252,14 @@ define([
                 }
             });
         },
-        /**
-         * Automatically logs the user out and returns them to home.
-         * 
-         * @method logout
-         */
         logout: function() {
             if (this.isLoggedIn()) {
                 skritter.modal.show().setBody('Logging Out').noHeader();
                 skritter.storage.deleteDatabase(function() {
                     localStorage.removeItem('activeUser');
-                    skritter.router.navigate('', {trigger: true, replace: true});
-                    document.location.reload();
+                    document.location.reload(true);
                 });
             }
-        },
-        /**
-         * Saves all of the user settings to the server using the api.
-         * 
-         * @method save
-         * @param {Function} callback
-         */
-        save: function(callback) {
-            skritter.api.updateUser(this.get('settings'), function() {
-                if (typeof callback === 'function')
-                    callback();
-            });
         },
         /**
          * @method setLastSync
@@ -431,10 +295,16 @@ define([
          * @returns {Backbone.Model}
          */
         sync: function(callback) {
-            skritter.sync.full(function(error) {
-                if (typeof callback === 'function')
-                    callback(error);
-            });
+            if (!skritter.sync.syncing()) {
+                skritter.sync.full(this.getLastSync(), function(error) {
+                    if (!error)
+                        User.this.setLastSync();
+                    if (typeof callback === 'function')
+                        callback(error);
+                });
+            } else {
+                callback();
+            }
         },
         /**
          * A shortcut method for removing user server settings.

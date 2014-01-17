@@ -97,7 +97,8 @@ define([
             var t = ms.decompose();
 
             sprite.setTransform(t.x, t.y, t.scaleX, t.scaleY, t.rotation, t.skewX, t.skewY);
-            var finalBounds = sprite.getTransformedBounds();          
+            var finalBounds = sprite.getTransformedBounds();   
+            sprite.name = 'stroke';
             sprite.x += finalBounds.width / 2 + data.x;
             sprite.y += finalBounds.height / 2 + data.y;
 
@@ -195,6 +196,7 @@ define([
         getUserSprite: function(color) {
             var sprite = this.getInflatedSprite(color);
             var rect = this.getRectangle();
+            sprite.name = 'stroke';
             sprite.x = rect.x;
             sprite.y = rect.y;
             return Mauler.tweak(sprite, this.get('bitmapId'));

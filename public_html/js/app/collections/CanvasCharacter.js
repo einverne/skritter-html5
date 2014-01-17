@@ -46,18 +46,15 @@ define([
                 var id = this.models[i].get('id');
                 var contains = this.models[i].getContainedStrokeIds();
                 //directly check for strokes position
-                if (strokeId === id) {
+                if (strokeId === id)
                     return true;
-                }
                 //checks for existing contained strokes
-                if (contains) {
+                if (contains)
                     for (i in contains) {
                         var contained = contains[i];
-                        if (_.contains(strokeContains, contained)) {
+                        if (_.contains(strokeContains, contained))
                             return true;
-                        }
                     }
-                }
             }
             return false;
         },
@@ -67,14 +64,16 @@ define([
          * 
          * @method getCharacterSprite
          * @param {Number} excludeStrokePosition
+         * @param {String} color
          * @returns {Container} A container of sprites contained in the character
          */
-        getCharacterSprite: function(excludeStrokePosition) {
+        getCharacterSprite: function(excludeStrokePosition, color) {
+            color = (color) ? color : '#000000';
             var spriteContainer = new createjs.Container();
             spriteContainer.name = 'character';
             for (var i = 0; i < this.models.length; i++) {
                 if (i !== (excludeStrokePosition - 1))
-                    spriteContainer.addChild(this.models[i].getInflatedSprite().clone());
+                    spriteContainer.addChild(this.models[i].getInflatedSprite(color).clone());
             }
             return spriteContainer;
         },

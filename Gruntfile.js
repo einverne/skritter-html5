@@ -3,49 +3,43 @@
  * @author Joshua McFarland
  */
 
-var paths = {
-    //directories
-    templates: '../../templates',
-    specs: '../../tests/specs/',
-    //libraries
-    async: '../libs/async',
-    backbone: '../libs/backbone-1.1.0',
-    base64: '../libs/base64',
-    bootstrap: '../../bootstrap/js/bootstrap',
-    'createjs.easel': '../libs/createjs.easel-NEXT.min',
-    'createjs.tween': '../libs/createjs.tween-NEXT.min',
-    'indexeddb.shim': '../libs/indexeddb.shim',
-    jasmine: '../../tests/libs/jasmine',
-    'jasmine-html': '../../tests/libs/jasmine-html',
-    jquery: '../libs/jquery-2.0.3',
-    'jquery.hammer': '../libs/jquery.hammer-1.0.5',
-    'jquery.indexeddb': '../libs/jquery.indexeddb',
-    lodash: '../libs/lodash-2.4.1',
-    moment: '../libs/moment-2.5.0',
-    'require.text': '../libs/require.text-2.0.10'
-};
-
-var shim = {
-    backbone: {
-        deps: ['jquery', 'lodash', 'require.text'],
-        exports: 'Backbone'
-    },
-    bootstrap: ['jquery'],
-    'jasmine-html': {
-        deps: ['jasmine', 'jquery'],
-        exports: 'jasmine'
-    },
-    jquery: {
-        exports: '$'
-    },
-    'jquery.hammer': ['jquery'],
-    'jquery.indexeddb': ['indexeddb.shim', 'jquery'],
-    lodash: {
-        exports: '_'
-    }
-};
-
 module.exports = function(grunt) {
+    
+    var paths = {
+        //directories
+        templates: '../../templates',
+        //libraries
+        async: '../libs/async',
+        backbone: '../libs/backbone-1.1.0.min',
+        base64: '../libs/base64',
+        bootstrap: '../../bootstrap/js/bootstrap.min',
+        'createjs.easel': '../libs/createjs.easel-NEXT.min',
+        'createjs.tween': '../libs/createjs.tween-NEXT.min',
+        'hammer': '../libs/hammer-1.0.6.min',
+        'indexeddb.shim': '../libs/indexeddb.shim',
+        jquery: '../libs/jquery-1.10.2.min',
+        'jquery.indexeddb': '../libs/jquery.indexeddb',
+        'leap': '../libs/leap.min',
+        lodash: '../libs/lodash-2.4.1.compat.min',
+        moment: '../libs/moment-2.5.0',
+        'require.text': '../libs/require.text-2.0.10'
+    };
+
+    var shim = {
+        backbone: {
+            deps: ['jquery', 'lodash', 'require.text'],
+            exports: 'Backbone'
+        },
+        bootstrap: ['jquery'],
+        jquery: {
+            exports: '$'
+        },
+        'jquery.indexeddb': ['indexeddb.shim', 'jquery'],
+        lodash: {
+            exports: '_'
+        }
+    };
+    
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {

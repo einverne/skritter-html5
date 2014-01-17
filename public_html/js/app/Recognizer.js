@@ -4,8 +4,7 @@
  * @author Joshua McFarland
  */
 define([
-    'models/StudyParam',
-    'lodash'
+    'models/study/Param'
 ], function(StudyParam) {
     /**
      * @class Recognizer
