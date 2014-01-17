@@ -61,10 +61,10 @@ define(function() {
                 last: now,
                 next: now + review.get('newInterval'),
                 interval: review.get('newInterval'),
-                previousInterval: this.get('interval'),
+                previousInterval: this.item().get('interval'),
                 previousSuccess: (grade > 1) ? true : false,
-                reviews: this.get('reviews') + 1,
-                successes: (grade > 1) ? this.get('successes') + 1 : this.get('successes')
+                reviews: this.item().get('reviews') + 1,
+                successes: (grade > 1) ? this.item().get('successes') + 1 : this.item().get('successes')
             });
         },
         updateReview: function(grade) {

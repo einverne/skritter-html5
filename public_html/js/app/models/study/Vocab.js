@@ -36,7 +36,6 @@ define([
             var variations = [];
             if (part === 'tone') {
                 var tones = this.getReadingAt(position).tones;
-                console.log(tones);
                 for (var i in tones)
                     variations.push(skritter.data.strokes.findWhere({rune: 'tone' + tones[i]}).get('strokes'));
             } else {
