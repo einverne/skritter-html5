@@ -32,9 +32,10 @@ define([
             var characters = [];
             var variations = [];
             if (part === 'tone') {
-                var tones = this.getReadingAt(position);
+                var tones = this.getReadingAt(position).tones;
+                console.log(tones);
                 for (var i in tones)
-                    variations.push(skritter.data.strokes.findWhere({rune: tones[i]}).get('strokes'));
+                    variations.push(skritter.data.strokes.findWhere({rune: 'tone' + tones[i]}).get('strokes'));
             } else {
                 variations = skritter.data.strokes.findWhere({rune: this.getCharacters()[index - 1]}).get('strokes');
             }
@@ -143,11 +144,13 @@ define([
             reading = this.get('reading').toLowerCase().replace(' ... ', '').replace("'", '');
             if (this.getCharacterCount() === 1) {
                 syllable = reading.replace(/[0-9]+/g, '').replace(/\s/g, '').split(',');
-                tones = reading.replace(/[a-z]+/g, '').replace(/\s/g, '').split(',');
+                tones = reading.replace(/[a-z]+/g, '').replace(/\s/g, '').split(',').map(function(tone) {
+                    return parseInt(tone, 10);
+                });
                 return {reading: reading, syllable: syllable, tones: tones};
             }
             syllable = _.without(reading.split(/[0-9]+/g), '')[position];
-            tones = _.without(reading.split(/[a-z]+/g), '')[position];
+            tones = parseInt(_.without(reading.split(/[a-z]+/g), '')[position], 10);
             return {reading: syllable + tones, syllable: syllable, tones: tones};
         },
         /**

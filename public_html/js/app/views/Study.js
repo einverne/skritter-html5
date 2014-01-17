@@ -2,12 +2,14 @@
  * @module Skritter
  * @param templateStudy
  * @param PromptRune
+ * @param PromptTone
  * @author Joshua McFarland
  */
 define([
     'require.text!templates/study.html',
-    'views/prompts/PromptRune'
-], function(templateStudy, PromptRune) {
+    'views/prompts/PromptRune',
+    'views/prompts/PromptTone'
+], function(templateStudy, PromptRune, PromptTone) {
     /**
      * @class Study
      */
@@ -27,7 +29,7 @@ define([
         render: function() {
             this.$el.html(templateStudy);
             //skritter.scheduler.filter({ids: ['mcfarljwtest1-zh-好好学习-0-rune']});
-            skritter.scheduler.filter({parts: ['rune']});
+            skritter.scheduler.filter({parts: ['tone']});
             skritter.timer.setElement(this.$('#timer')).render();
             this.updateDueCount();
             if (Study.prompt) {
@@ -65,6 +67,7 @@ define([
                             Study.prompt = new PromptRune();
                             break;
                         case 'tone':
+                            Study.prompt = new PromptTone();
                             break;
                     }
                     Study.prompt.set(item.getPromptData());
