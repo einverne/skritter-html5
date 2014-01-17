@@ -1,6 +1,9 @@
 /**
  * @module Skritter
  * @submodule Model
+ * @param CanvasCharacter
+ * @param CanvasStroke
+ * @param PinyinConverter
  * @author Joshua McFarland
  */
 define([
@@ -149,8 +152,10 @@ define([
                 });
                 return {reading: reading, syllable: syllable, tones: tones};
             }
-            syllable = _.without(reading.split(/[0-9]+/g), '')[position];
-            tones = parseInt(_.without(reading.split(/[a-z]+/g), '')[position], 10);
+            syllable = _.without(reading.split(/[0-9]+/g), '')[position].split('');
+            tones = _.without(reading.split(/[a-z]+/g), '')[position].split('').map(function(tone) {
+                return parseInt(tone, 10);
+            });;
             return {reading: syllable + tones, syllable: syllable, tones: tones};
         },
         /**
