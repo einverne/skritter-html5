@@ -323,12 +323,12 @@ define(function() {
                 if (color)
                     this.fillStyle = color;
             };
-            for (var i in layer.children) {
-                var child = layer.children[i];
+            for (var a in layer.children) {
+                var child = layer.children[a];
                 if (child.children && child.children.length > 0) {
-                    for (var i in child.children)
-                        if (!child.children[i].children)
-                            child.children[i].graphics.inject(inject);
+                    for (var b in child.children)
+                        if (!child.children[b].children)
+                            child.children[b].graphics.inject(inject);
                 } else if (!child.children) {
                     child.graphics.inject(inject);
                 }

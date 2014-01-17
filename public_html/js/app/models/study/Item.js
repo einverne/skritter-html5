@@ -51,6 +51,7 @@ define([
          */
         getPromptData: function() {
             var data = new PromptData();
+            var character = null;
             var containedItems = this.getContainedItems();
             var id = this.get('id');
             var now = skritter.fn.getUnixTime();
@@ -60,7 +61,7 @@ define([
             //generates data for defn, rdng and items without contained
             if (_.contains(['defn', 'rdng'], part) || containedItems.length === 0) {
                 if (_.contains(['rune', 'tone'], part)) {
-                    var character = new CanvasCharacter();
+                    character = new CanvasCharacter();
                     character.targets = vocab.getCanvasCharacters(1, part);
                 }
                 data.add({
@@ -82,7 +83,7 @@ define([
                 for (var i = 0; i < containedItems.length; i++) {
                     var item = containedItems[i];
                     if (i !== 0) {
-                        var character = new CanvasCharacter();
+                        character = new CanvasCharacter();
                         character.targets = vocab.getCanvasCharacters(i, part);
                     }
                     data.add({

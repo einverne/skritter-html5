@@ -176,7 +176,7 @@ define([
         isLast: function() {
             if (this.position >= this.getMaxPosition())
                 return true;
-            false;
+            return false;
         },
         /**
          * @method next
