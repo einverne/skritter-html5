@@ -3,6 +3,7 @@
  * @param templateRune
  * @param Canvas
  * @param CanvasStroke
+ * @param LeapController
  * @param Prompt
  * @param Recognizer
  * @author Joshua McFarland
@@ -11,9 +12,10 @@ define([
     'require.text!templates/prompt-rune.html',
     'views/prompts/Canvas',
     'models/CanvasStroke',
+    'models/LeapController',
     'views/prompts/Prompt',
     'Recognizer'
-], function(templateRune, Canvas, CanvasStroke, Prompt, Recognizer) {
+], function(templateRune, Canvas, CanvasStroke, LeapController, Prompt, Recognizer) {
     /**
      * @class PromptRune
      */
@@ -27,6 +29,7 @@ define([
             skritter.timer.setThinkingLimit(15);
             Rune.canvas = new Canvas();
             Rune.failedAttempts = 0;
+            Rune.leap = new LeapController();
             Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 10;
             this.listenTo(Rune.canvas, 'input:down', this.handleInputDown);
