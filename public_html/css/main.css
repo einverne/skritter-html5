@@ -154,6 +154,10 @@ body {
     padding: 0;
     position: relative;
 }
+#input-container #prompt-text {
+    height: 100%;
+    text-align: center;
+}
 #input-container .prompt-style {
     background: #ffffff;
     left: 0;
