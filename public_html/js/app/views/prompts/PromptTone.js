@@ -157,6 +157,7 @@ define([
                 Prompt.data.show.definition();
                 Prompt.data.show.reading();
                 Prompt.data.show.sentenceMasked();
+                Prompt.data.show.style();
                 Prompt.data.show.writingAt();
             }
         },

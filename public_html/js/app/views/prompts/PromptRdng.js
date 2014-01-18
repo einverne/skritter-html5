@@ -57,6 +57,7 @@ define([
                 Prompt.gradingButtons.show();
             } else {
                 skritter.timer.start();
+                Prompt.data.show.style();
                 Prompt.data.show.tip("What's the reading?");
                 Prompt.data.show.writing();
             }

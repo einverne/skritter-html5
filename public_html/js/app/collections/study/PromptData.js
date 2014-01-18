@@ -156,6 +156,9 @@ define([
             sentence: function() {
                 $('.prompt-sentence').hide();
             },
+            style: function() {
+                $('.prompt-style').hide();
+            },
             tip: function() {
                 $('#prompt-tip').hide();
             },
@@ -245,6 +248,20 @@ define([
                     $('.prompt-sentence').show();
                 } else {
                     PromptData.this.hide.sentence();
+                }
+            },
+            style: function() {
+                var style = PromptData.this.vocab.get('style');
+                if (style === 'simp') {
+                    $('.prompt-style').html(style.toUpperCase());
+                    $('.prompt-style').addClass('prompt-style-simp');
+                    $('.prompt-style').show();
+                } else if (style === 'trad') {
+                    $('.prompt-style').html(style.toUpperCase());
+                    $('.prompt-style').addClass('prompt-style-trad');
+                    $('.prompt-style').show();
+                } else {
+                    PromptData.this.hide.style();
                 }
             },
             tip: function(text) {

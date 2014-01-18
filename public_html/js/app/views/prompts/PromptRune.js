@@ -149,6 +149,7 @@ define([
                 Rune.canvas.enableInput();
                 Prompt.data.show.definition();
                 Prompt.data.show.reading();
+                Prompt.data.show.style();
                 Prompt.data.show.sentenceMasked();
                 Prompt.data.show.writingAt();
             }

@@ -57,6 +57,7 @@ define([
             } else {
                 skritter.timer.start();
                 Prompt.data.show.reading();
+                Prompt.data.show.style();
                 Prompt.data.show.tip("What's the definition?");
                 Prompt.data.show.writing();
             }

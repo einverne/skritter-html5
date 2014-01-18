@@ -154,6 +154,19 @@ body {
     padding: 0;
     position: relative;
 }
+#input-container .prompt-style {
+    background: #ffffff;
+    left: 0;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+}
+#input-container .prompt-style-simp {
+    color: blue;
+}
+#input-container .prompt-style-trad {
+    color: red;
+}
 @media (max-width: 992px) {
     #input-container {
         margin: 15px auto 0 auto;
