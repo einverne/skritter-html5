@@ -166,6 +166,22 @@ body {
     padding-top: 20%;
     text-align: center;
 }
+#input-container .prompt-nav-arrow {
+    cursor: pointer;
+    position: absolute;
+    top: 45%;
+    opacity: 0.5;
+    z-index: 1000;
+}
+#input-container .prompt-nav-arrow:hover {
+    opacity: 1.0;
+}
+#input-container #prompt-previous {
+    left: 15px;
+}
+#input-container #prompt-next {
+    right: 15px;
+}
 #input-container .prompt-style {
     background: #ffffff;
     left: 0;
@@ -205,23 +221,4 @@ body {
     background: #ffffff;
     margin-bottom: 25px;
     padding: 15px;
-}
-
-
-/*** VIEW: STUDY ***/
-#study-view .prompt-nav-arrow {
-    cursor: pointer;
-    position: absolute;
-    top: 45%;
-    opacity: 0.5;
-    z-index: 1000;
-}
-#study-view .prompt-nav-arrow:hover {
-    opacity: 1.0;
-}
-#study-view #previous-button {
-    left: 25px;
-}
-#study-view #next-button {
-    right: 25px;
 }

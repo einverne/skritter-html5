@@ -136,20 +136,20 @@ define([
          * @method load
          */
         load: function() {
-            console.log('PROMPT ITEM', Prompt.dataItem);
+            Prompt.prototype.load.call(this);
+            Prompt.data.show.definition();
+            Prompt.data.show.reading();
+            Prompt.data.show.style();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
                 Rune.canvas.disableInput();
-                Prompt.gradingButtons.select().collapse();
+                Prompt.gradingButtons.select(Prompt.dataItem.getGrade()).collapse();
                 if (Prompt.data.isLast())
                     Prompt.data.show.sentence();
                 Prompt.data.show.writingAt(1);
             } else {
                 skritter.timer.start();
                 Rune.canvas.enableInput();
-                Prompt.data.show.definition();
-                Prompt.data.show.reading();
-                Prompt.data.show.style();
                 Prompt.data.show.sentenceMasked();
                 Prompt.data.show.writingAt();
             }

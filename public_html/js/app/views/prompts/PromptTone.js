@@ -141,21 +141,21 @@ define([
          * @method load
          */
         load: function() {
-            console.log('PROMPT ITEM', Prompt.dataItem);
+            Prompt.prototype.load.call(this);
+            Tone.canvas.clear('background');
+            Tone.canvas.drawCharacterFromFont('background', Prompt.data.vocab.getCharacters()[Prompt.data.position - 1], Prompt.data.vocab.getFontName(), 1, '#000000');
+            Prompt.data.show.definition();
+            Prompt.data.show.style();
+            Prompt.data.show.writing();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
                 Tone.canvas.disableInput();
-                Prompt.gradingButtons.select().collapse();        
+                Prompt.gradingButtons.select(Prompt.dataItem.getGrade()).collapse();
                 Prompt.data.show.readingAt(0, true);
             } else {
                 skritter.timer.start();
                 Tone.canvas.enableInput();
-                Tone.canvas.clear('background');
-                Tone.canvas.drawCharacterFromFont('background', Prompt.data.vocab.getCharacters()[Prompt.data.position - 1], Prompt.data.vocab.getFontName(), 1, '#000000');
-                Prompt.data.show.definition();
                 Prompt.data.show.readingAt();
-                Prompt.data.show.style();
-                Prompt.data.show.writing();
             }
         },
         /**
@@ -187,6 +187,7 @@ define([
                     } else {
                         //store the result for resizing later if needed
                         Tone.result = Prompt.dataItem.get('character').targets[0].at(0);
+                        Prompt.dataItem.get('character').add(Tone.result);
                         //markes the incorrect answer as grade 1
                         Prompt.gradingButtons.select(1).collapse();
                         //fade incorrect strokes out
@@ -201,10 +202,12 @@ define([
                 if (index >= 0) {
                     Prompt.gradingButtons.select(3).collapse();
                     Tone.result = Prompt.dataItem.get('character').targets[index].at(0);
+                    Prompt.dataItem.get('character').add(Tone.result);
                     Tone.canvas.drawShape('stroke', Tone.result.getInflatedSprite());
                 } else {
                     Prompt.gradingButtons.select(1).collapse();
                     Tone.result = Prompt.dataItem.get('character').targets[0].at(0);
+                    Prompt.dataItem.get('character').add(Tone.result);
                     Tone.canvas.drawShape('stroke', Tone.result.getInflatedSprite());
                 }
             }

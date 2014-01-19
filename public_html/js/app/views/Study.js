@@ -47,8 +47,6 @@ define([
          * @property {Object} events
          */
         events: {
-            'click.Study #study-view #next-button': 'nextPrompt',
-            'click.Study #study-view #previous-button': 'previousPrompt'
         },
         handlePromptComplete: function(data) {
             console.log('prompt complete', data);

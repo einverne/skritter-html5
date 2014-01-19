@@ -46,6 +46,13 @@ define([
             this.resize();
             return this;
         },
+        /**
+         * @property {Object} events
+         */
+        events: {
+            'click.Prompt .prompt #prompt-previous': 'previous',
+            'click.Prompt .prompt #prompt-next': 'handleGradeSelected'
+        },
         data: function() {
             return Prompt.data;
         },
@@ -54,8 +61,24 @@ define([
          */
         handleGradeSelected: function() {
             Prompt.dataItem.setReview(Prompt.gradingButtons.grade(), skritter.timer.getReviewTime(), skritter.timer.getThinkingTime());
-            console.log(Prompt.dataItem);
+            console.log('GRADING', Prompt.dataItem.review());
             this.next();
+        },
+        /**
+         * @method load
+         */
+        load: function() {
+            console.log('PROMPT ITEM', Prompt.dataItem);
+            if (Prompt.data.isFirst()) {
+                this.$('#prompt-previous').hide();
+            } else {
+                this.$('#prompt-previous').show();
+            }
+            if (Prompt.dataItem.isFinished()) {
+                this.$('#prompt-next').show();
+            } else {
+                this.$('#prompt-next').hide();
+            }
         },
         /**
          * @method next

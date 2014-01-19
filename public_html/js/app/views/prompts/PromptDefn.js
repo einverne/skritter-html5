@@ -49,7 +49,11 @@ define([
          * @method load
          */
         load: function() {
-            console.log('PROMPT ITEM', Prompt.dataItem);
+            Prompt.prototype.load.call(this);
+            Prompt.data.show.reading();
+            Prompt.data.show.style();
+            Prompt.data.show.tip("What's the definition?");
+            Prompt.data.show.writing();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
                 Prompt.data.hide.tip();
@@ -57,10 +61,6 @@ define([
                 Prompt.gradingButtons.show();
             } else {
                 skritter.timer.start();
-                Prompt.data.show.reading();
-                Prompt.data.show.style();
-                Prompt.data.show.tip("What's the definition?");
-                Prompt.data.show.writing();
             }
         }
     });
