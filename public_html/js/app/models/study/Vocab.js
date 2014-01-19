@@ -84,8 +84,18 @@ define([
             var containedVocabIds = this.get('containedVocabIds');
             if (containedVocabIds) {
                 for (var i in containedVocabIds) {
-                    var containedItemId = skritter.user.get('user_id') + '-' + containedVocabIds[i] + '-' + part;
+                    var containedItemId = null;
+                    if (part === 'rune') {
+                        containedItemId = skritter.user.get('user_id') + '-' + containedVocabIds[i] + '-' + part;
+                    } else {
+                        containedItemId = skritter.user.get('user_id') + '-' + containedVocabIds[i] + '-' + part;
+                        containedItemId =  containedItemId.split('-');
+                        containedItemId[3] = '0';
+                        containedItemId = containedItemId.join('-');
+                    }
+                    console.log('containedId', containedItemId);
                     var containedItem = skritter.data.items.get(containedItemId);
+                    console.log('contained', containedItem);
                     if (containedItem)
                         containedItems.push(containedItem);
                 }
@@ -244,7 +254,16 @@ define([
             if (containedVocabIds) {
                 var containedItemIds = [];
                 for (var i in containedVocabIds)
-                    containedItemIds.push(skritter.user.get('user_id') + '-' + containedVocabIds[i] + '-' + part);
+                    if (part === 'rune') {
+                        containedItemIds.push(skritter.user.get('user_id') + '-' + containedVocabIds[i] + '-' + part);
+                    } else {
+                        var containedItemId = null;
+                        containedItemId = skritter.user.get('user_id') + '-' + containedVocabIds[i] + '-' + part;
+                        containedItemId = containedItemId.split('-');
+                        containedItemId[3] = '0';
+                        containedItemId = containedItemId.join('-');
+                        containedItemIds.push(containedItemId);
+                    }
                 skritter.storage.getItems('items', containedItemIds, function(items) {
                     callback(skritter.data.items.add(items, {merge: true, silent: true}));
                 });

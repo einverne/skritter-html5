@@ -160,7 +160,7 @@ define([
                 $('.prompt-style').hide();
             },
             tip: function() {
-                $('#prompt-tip').hide();
+                $('.prompt-tip').hide();
             },
             writing: function() {
                 $('.prompt-writing').hide();
