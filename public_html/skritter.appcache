@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Fri Jan 17 2014 00:05:05 GMT-0500 (Eastern Standard Time)
+# Time: Sat Jan 18 2014 22:36:44 GMT-0500 (Eastern Standard Time)
 
 CACHE:
 index.html
@@ -21,7 +21,10 @@ templates/grading-buttons.html
 templates/home-logged-in.html
 templates/home-logged-out.html
 templates/modals.html
+templates/prompt-defn.html
+templates/prompt-rdng.html
 templates/prompt-rune.html
+templates/prompt-tone.html
 templates/study.html
 bootstrap/js/bootstrap.js
 bootstrap/js/bootstrap.min.js
@@ -48,6 +51,7 @@ js/app/collections/study/Vocabs.js
 js/app/models/Api.js
 js/app/models/Assets.js
 js/app/models/CanvasStroke.js
+js/app/models/LeapController.js
 js/app/models/Scheduler.js
 js/app/models/Settings.js
 js/app/models/Sync.js
@@ -69,7 +73,10 @@ js/app/views/components/Timer.js
 js/app/views/prompts/Canvas.js
 js/app/views/prompts/GradingButtons.js
 js/app/views/prompts/Prompt.js
+js/app/views/prompts/PromptDefn.js
+js/app/views/prompts/PromptRdng.js
 js/app/views/prompts/PromptRune.js
+js/app/views/prompts/PromptTone.js
 js/libs/async.js
 js/libs/backbone-1.1.0.min.js
 js/libs/base64.js
