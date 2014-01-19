@@ -34,9 +34,10 @@ define([
         getCanvasCharacters: function(index, part) {
             var characters = [];
             var variations = [];
+            var tones = null;
             var rune = this.getCharacters()[index - 1];
             if (part === 'tone') {
-                var tones = this.getReadingAt(index).tones;
+                tones = this.getReadingAt(index).tones;
                 for (var i in tones)
                     variations.push(skritter.data.strokes.findWhere({rune: 'tone' + tones[i]}).get('strokes'));
             } else {
@@ -144,7 +145,7 @@ define([
          */
         getReadingAt: function(position) {
             var reading, syllable, tones;
-            position = (position) ? position - 1 : 0;
+            position = (position > 1) ? position - 1 : 0;
             reading = this.get('reading').toLowerCase().replace(' ... ', '').replace("'", '');
             if (this.getCharacterCount() === 1) {
                 syllable = reading.replace(/[0-9]+/g, '').replace(/\s/g, '').split(',');
@@ -153,42 +154,36 @@ define([
                 });
                 return {reading: reading, syllable: syllable, tones: tones};
             }
-            syllable = _.without(reading.split(/[0-9]+/g), '')[position].split('');
-            tones = _.without(reading.split(/[a-z]+/g), '')[position].split('').map(function(tone) {
+            syllable = _.without(reading.split(/[0-9]+/g), '')[position].split(',');
+            tones = _.without(reading.split(/[a-z]+/g), '')[position].split(',').map(function(tone) {
                 return parseInt(tone, 10);
-            });;
+            });
             return {reading: syllable + tones, syllable: syllable, tones: tones};
         },
         /**
          * @method getReadingHTML
          * @param {Number} position
+         * @param {Boolean} reveal
          * @param {Boolean} hidden
          * @returns {DOMElement}
          */
-        getReadingDisplay: function(position, hidden) {
-            position = (position) ? position - 1 : 0;
+        getReadingDisplay: function(position, reveal, hidden) {
             var element = '';
+            var characterCount = this.getCharacterCount();
             element += "<div class='prompt-reading-display'>";
-            for (var i = 0; i < this.getCharacterCount(); i++) {
+            for (var i = 1; i <= characterCount; i++) {
                 if (hidden) {
                     if (position > i) {
-                        if (this.getReadingAt(i).syllable.length > 1) {
-                            element += "<div id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</div>";
-                        } else {
-                            element += "<div id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).syllable + this.getReadingAt(i).tone) + "</div>";
-                        }
+                        element += "<div id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</div>";
                     } else {
                         element += "<div id='reading-" + i + "' class='btn btn-default btn-xs hidden-reading'>show</div>";
                         break;
                     }
-                    
                 } else {
                     if (position > i) {
-                        if (this.getReadingAt(i).syllable.length > 1) {
-                            element += "<div id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</div>";
-                        } else {
-                            element += "<div id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).syllable + this.getReadingAt(i).tone) + "</div>";
-                        }
+                        element += "<div id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</div>";
+                    } else if (position === i && reveal) {
+                        element += "<div id='reading-" + i + "' class='prompt-reading-hide'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</div>";
                     } else if (position === i) {
                         element += "<div id='reading-" + i + "' class='prompt-reading-hide'>" + this.getReadingAt(i).syllable + "</div>";
                     } else {

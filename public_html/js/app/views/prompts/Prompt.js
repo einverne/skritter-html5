@@ -41,6 +41,8 @@ define([
             Prompt.gradingButtons.setElement(this.$('#grading-container')).render();
             this.$('.prompt-writing').addClass(Prompt.data.vocab.getTextStyleClass());
             this.$('.prompt-sentence').addClass(Prompt.data.vocab.getTextStyleClass());
+            this.$('.font-size-normal').css({'font-size': skritter.settings.fontSize.normal()});
+            this.$('.font-size-large').css({'font-size': skritter.settings.fontSize.large()});
             this.resize();
             return this;
         },

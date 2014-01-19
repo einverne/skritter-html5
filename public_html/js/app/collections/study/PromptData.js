@@ -229,9 +229,9 @@ define([
                 $('.prompt-reading').html(PromptData.this.vocab.getReading());
                 $('.prompt-reading').show();
             },
-            readingAt: function(offset) {
+            readingAt: function(offset, reveal) {
                 offset = (offset) ? offset : 0;
-                $('.prompt-reading').html(PromptData.this.vocab.getReadingDisplay(PromptData.this.position + offset));
+                $('.prompt-reading').html(PromptData.this.vocab.getReadingDisplay(PromptData.this.position + offset, reveal));
                 $('.prompt-reading').show();
             },
             sentence: function() {

@@ -145,20 +145,17 @@ define([
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
                 Tone.canvas.disableInput();
-                Prompt.gradingButtons.select().collapse();
-                if (Prompt.data.isLast())
-                    Prompt.data.show.sentence();
-                Prompt.data.show.writingAt(1);
+                Prompt.gradingButtons.select().collapse();        
+                Prompt.data.show.readingAt(0, true);
             } else {
                 skritter.timer.start();
                 Tone.canvas.enableInput();
                 Tone.canvas.clear('background');
                 Tone.canvas.drawCharacterFromFont('background', Prompt.data.vocab.getCharacters()[Prompt.data.position - 1], Prompt.data.vocab.getFontName(), 1, '#000000');
                 Prompt.data.show.definition();
-                Prompt.data.show.reading();
-                Prompt.data.show.sentenceMasked();
+                Prompt.data.show.readingAt();
                 Prompt.data.show.style();
-                Prompt.data.show.writingAt();
+                Prompt.data.show.writing();
             }
         },
         /**

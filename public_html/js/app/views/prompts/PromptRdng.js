@@ -52,6 +52,7 @@ define([
             console.log('PROMPT ITEM', Prompt.dataItem);
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
+                Prompt.data.hide.tip();
                 Prompt.data.show.definition();
                 Prompt.data.show.reading();
                 Prompt.gradingButtons.show();
