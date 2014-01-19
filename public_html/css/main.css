@@ -9,7 +9,7 @@
 }
 
 
-/*** MAIN ***/
+/*** GENERAL ***/
 html, body {
     background-image: url('../images/textures/rice-paper1.png');
     background-repeat: repeat;
@@ -26,46 +26,15 @@ body {
 }
 .chinese-text {font-family: "simkai", "SimSun", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
 .cursor {cursor:pointer}
-.fa-navbar {font-size: 18px;}
 .japanese-text {font-family: "kaisho", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
-.link-button {cursor: pointer;}
-.view {
-    height: 100%;
-    padding-top: 60px;
-}
-.view .content {
-    border: 2px #e7e7e7 solid;
-    background: #ffffff;
-    margin-bottom: 25px;
-    padding: 15px;
-}
-@media (max-width:1199px) {
-    .view .content {
-        margin-bottom: 10px;
-    }
-}
-@media (max-width:767px) {
-    .view {
-        padding-top: 40px;
-    }
-    .view .content {
-        border: none;
-        margin-bottom: 0;
-    }
-}
 
 
-/*** ADMIN ***/
-#admin-recog-editor-view #prompt-canvas {
-    -moz-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
-    -webkit-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
-    box-shadow: 5px 5px 5px rgba(68,68,68,0.6);  
+/*** CANVAS ***/
+#input-container {
     background: #ffffff;
-    border-width: 2px;
-    border-style: solid;
-    border-color: black;
+    border: 2px #000000 solid;
     cursor: pointer;
-    margin: 50px auto;
+    margin: 45px auto 0 auto;
     padding: 0;
     position: relative;
 }
@@ -95,97 +64,19 @@ body {
 #grading-buttons #grade4 { background-image: url('../images/grading/grade4.png'); }
 
 
-/*** HOME.HTML ***/
-#home-view .feature-icon {
-    background: url('../images/feature-icons.png') no-repeat;
-    height: 50px;
-    left: 0;
-    margin-right: 5px;
-    top: 0;
-    width: 60px;
-}
-#home-view #active-lists .table-container {
-    max-height: 200px;
-    overflow-y: auto;
-}
-#home-view #features .media {
-    padding: 15px 0;
-}
-#home-view #features #brush { background-position: 0 -150px; }
-#home-view #features #plane { background-position: 0 -100px; }
-#home-view #features #book { background-position: 0 -50px; }
-#home-view #features #clock { background-position: 0 0; }
-#home-view #github-logo {
-    height: 108px;
-}
-@media (max-width: 992px) {
-    #home-view #active-lists {
-        margin-top: 40px;
-    }
-    #grading-buttons div {
-        min-height: 40px;
-    }
-}
-@media (max-width:767px) {
-    #home-view #overview {
-        text-align: center;
-    }
-    #home-view #introduction {
-        text-align: center;
-    }
-    #grading-buttons div {
-        min-height: 30px;
-    }
+/*** MODALS ***/
+.modal { overflow-y: hidden; }
+.model #slider { width: 100%; }
+.modal #error-message { padding-top: 20px; }
+.modal-vertical-centered {
+    outline: 0;
+    transform: translate(0, 20%) !important;
+    -ms-transform: translate(0, 20%) !important;
+    -webkit-transform: translate(0, 20%) !important;
 }
 
 
-/*** INFO.HTML ***/
-#info-view #writing {
-    font-size: 86px;
-    text-align: center;
-}
-#info-view #definition-reading {
-    padding: 40px 2% 0 2%;
-}
-#info-view #reading {
-    font-size: xx-large;
-}
-#info-view #definition {
-    font-size: x-large;
-}
-#info-view #mnemonic {
-    font-size: x-large;
-    padding-top: 20px;
-}
-#info-view #sentence {
-    font-size: x-large;
-    padding-top: 20px;
-}
-#info-view #contained-characters, #info-view #decompositions {
-    padding: 20px 15% 0 15%;
-}
-@media (max-width:767px) {
-    #info-view #definition-reading {
-        text-align: center;
-    }
-    #info-view #contained-characters, #info-view #decompositions {
-        padding: 20px 5% 0 5%;
-    }
-    #info-view #sentence {
-        text-align: center;
-    }
-}
-
-
-/*** LISTS.HTML ***/
-@media (max-width: 992px) {
-    #lists-view #categories {
-        text-align: center;
-    }
-}
-
-
-/*** LOGIN.HTML ***/
+/*** MODALS: LOGIN ***/
 .form-signin {
     max-width: 330px;
     padding: 15px;
@@ -222,174 +113,41 @@ body {
 }
 
 
-/*** MODALS.HTML ***/
-.modal { overflow-y: hidden; }
-.model #slider { width: 100%; }
-.modal #error-message { padding-top: 20px; }
-.modal-vertical-centered {
-    outline: 0;
-    transform: translate(0, 20%) !important;
-    -ms-transform: translate(0, 20%) !important;
-    -webkit-transform: translate(0, 20%) !important;
-}
-
-
-/*** NAVBAR ***/
-.navbar .navbar-nav {
-    margin: 0;
-}
-.navbar .navbar-nav li a {
-    padding-left: .75em;
-    padding-right: .75em;
-}
-.navbar .navbar-btn {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-@media (max-width:767px) {
-    .navbar .navbar-nav li a {
-        padding-left: 0;
-    }
-    .navbar .navbar-collapse .navbar-nav > li {
-        padding-left:15px!important;
-    }
-    .navbar .user-dropdown > .dropdown-menu {
-        border-top: 1px solid #e7e7e7;
-    }
-    .navbar .user-dropdown > .dropdown-menu > li {
-        padding-left:5px!important;
-    }
-}
-
-
 /*** PROMPT: INFO ***/
 #info-container {
     background: #ffffff;
-    margin-top: 45px;
-    overflow-y: auto;
-    border-bottom: 2px black solid;
-    border-top: 2px black solid;
-    border-left: 2px black solid;
+    border-bottom: 2px #000000 solid;
+    border-top: 2px #000000 solid;
+    border-left: 2px #000000 solid;
+    margin: 45px auto 0 auto;
+    padding: 15px;
 }
-#info-container .prompt-box {
-    border-left-width: 15px;
-    min-height: 60px;
-}
-#info-container #prompt-writing-box {
-    border-left-color: #008cba;
-    border-left-style: solid;
-    padding: 10px 10px 0 15px;
-}
-#info-container .prompt-writing {
-    font-size: 42px;
-}
-#info-container .prompt-rune-hidden {
-    border: 1px rgb(0, 140, 186) dashed;
+#info-container .prompt-writing-display div {
     float: left;
-    height: 40px;
-    margin-bottom: 2px;
-    margin-right: 2px;
-    width: 40px;
+    margin: 0 5px;
+    min-width: 25px;
 }
-#info-container .prompt-rune-shown {
+#info-container .prompt-writing-hide {
+    border-bottom: 1px #000000 solid;
+}
+#info-container .prompt-reading-display div {
     float: left;
-    margin-top: -10px;
+    margin: 0 5px;
+    min-width: 25px;
 }
-#info-container #prompt-reading-box {
-    border-left-color: #00ce46;
-    border-left-style: solid;    
-    padding: 15px 15px 0 15px;
+#info-container .prompt-reading-hide {
+    border-bottom: 1px #000000 solid;
 }
-#info-container .prompt-reading {
-    font-size: 18px;
-}
-#info-container .prompt-tone-shown {
-    float: left;
-    margin-top: 3px;
-    padding-right: 5px;
-}
-#info-container #prompt-definition-box {
-    border-left-color: #ff8300;
-    border-left-style: solid;
-    padding: 10px 10px 10px 15px;
-}
-#info-container .prompt-definition {
-    font-size: 18px;
-}
-#info-container .prompt-heisig {
-    font-size: 16px;
-    font-weight: bold;
-}
-#info-container #prompt-sentence-box {
-    border-left-color: orange;
-    border-left-style: solid;
-    padding: 10px 10px 10px 15px;
-}
-#info-container .prompt-sentence{
-    font-size: 24px;
-}
-#info-container #prompt-mnemonic-box {
-    border-left-color: yellow;
-    border-left-style: solid;
-    padding: 10px 10px 10px 15px;
-}
-#info-container .prompt-mnemonic {
-    font-size: 18px;
-}
-@media (max-width: 990px) {
+@media (max-width: 992px) {
     #info-container {
-        border: 2px #000000 solid;
-        margin-top: 0;
+        border-right: 2px #000000 solid;
+        margin: -15px 0 0 0;
     }
 }
 @media (max-width: 601px) {
     #info-container {
+        border: none;
         border-bottom: 2px #000000 solid;
-        border-left: none;
-        border-right: none;
-        border-top: none;
-    }
-    #info-container .prompt-box {
-        border-left-width: 10px;
-        min-height: 40px;
-    }
-    #info-container #prompt-writing-box {
-        padding: 0 7px 0 15px;
-    }
-    #info-container .prompt-writing {
-        font-size: 28px;   
-    }
-    #info-container .prompt-rune-hidden {
-        height: 30px;
-        margin-top: 7px;
-        width: 30px;
-    }
-    #info-container .prompt-rune-shown {
-        margin-top: 0;
-    }
-    #info-container #prompt-reading-box {
-        padding: 10px 10px 0 15px;
-    }
-    #info-container .prompt-reading {
-        font-size: 14px;
-    }
-    #info-container #prompt-definition-box {
-        padding: 5px 5px 5px 15px;
-    }
-    #info-container .prompt-definition {
-        font-size: 14px;
-    }
-    #info-container #prompt-sentence-box {
-        padding: 5px 5px 5px 15px;
-    }
-    #info-container .prompt-sentence{
-        font-size: 18px;
-    }
-    #info-container #prompt-mnemonic-box {
-        padding: 5px 5px 5px 15px;
-    }
-    #info-container .prompt-mnemonic {
-        font-size: 14px;
     }
 }
 
@@ -403,30 +161,22 @@ body {
     padding: 0;
     position: relative;
 }
+#input-container #prompt-text {
+    height: 100%;
+    text-align: center;
+}
 #input-container .prompt-style {
+    background: #ffffff;
     left: 0;
-    padding: 2px;
+    padding: 5px;
     position: absolute;
     top: 0;
 }
 #input-container .prompt-style-simp {
-    background: #ffffff;
-    color: green;
+    color: blue;
 }
 #input-container .prompt-style-trad {
-    background: #ffffff;
     color: red;
-}
-#input-container .prompt-writing {
-    font-size: 56px;
-}
-#input-container .prompt-definition {
-    padding: 0 10%;
-}
-#input-container #prompt-text {
-    height: 100%;
-    padding-top: 20%;
-    text-align: center;
 }
 @media (max-width: 992px) {
     #input-container {
@@ -438,34 +188,39 @@ body {
         box-shadow: none;
         border: none;
         margin: 0;
-        padding-bottom: 5px;
+        padding: 0;
         position: absolute;
     }
 }
 
 
-/*** PROMPT: HORIZONTAL ***/
-@media (max-height: 601px) and (min-width: 601px) {
-    html {
-        overflow-y: hidden;
-    }
-    .container {
-        width: 100%;
-    }
-    #info-container {
-        bottom: 0;
-        border-bottom: none;
-        border-left: none;
-        border-top: none;
-        position: absolute;
-        margin: 45px 0 0 0;
-        top: 0;
-    }
-    #input-container {
-        border: none;
-        right: 0;
-        margin: 45px 0 0 0;
-        position: absolute;
-        top: 0;
-    }
+/*** VIEW ***/
+.view {
+    height: 100%;
+    padding-top: 60px;
+}
+.view .content {
+    border: 2px #e7e7e7 solid;
+    background: #ffffff;
+    margin-bottom: 25px;
+    padding: 15px;
+}
+
+
+/*** VIEW: STUDY ***/
+#study-view .prompt-nav-arrow {
+    cursor: pointer;
+    position: absolute;
+    top: 45%;
+    opacity: 0.5;
+    z-index: 1000;
+}
+#study-view .prompt-nav-arrow:hover {
+    opacity: 1.0;
+}
+#study-view #previous-button {
+    left: 25px;
+}
+#study-view #next-button {
+    right: 25px;
 }

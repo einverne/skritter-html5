@@ -5,8 +5,7 @@
  * @author Joshua McFarland
  */
 define([
-    'Strokes',
-    'backbone'
+    'Strokes'
 ], function(Strokes) {
     /**
      * @class Assets
@@ -28,7 +27,7 @@ define([
          */
         getAudio: function(audioId) {
             if (Assets.audioPlayer.paused) {
-                Assets.audioPlayer.src = skritter.api.root + '.' + skritter.api.domain + '/sounds?file=' + audioId;
+                Assets.audioPlayer.src = skritter.api.baseUrl() + 'sounds?file=' + audioId;
                 Assets.audioPlayer.play();
             }
             return Assets.audioPlayer;

@@ -21,6 +21,16 @@ define(function() {
     };
     
     /**
+     * @method concatObjectArray
+     * @param {Array} objectArray1
+     * @param {Array} objectArray2
+     * @returns {Array}
+     */
+    var concatObjectArray = function(objectArray1, objectArray2) {
+        return Array.isArray(objectArray1) ? objectArray1.concat(objectArray2) : undefined;
+    };
+    
+    /**
      * @method extractCJK
      * @param {String} value
      * @returns {Array}
@@ -218,7 +228,7 @@ define(function() {
         }
         return text;
     };
-
+    
     /**
      * @method pad
      * @param {String} text The text requiring padding
@@ -274,6 +284,7 @@ define(function() {
 
     return {
         bytesToSize: bytesToSize,
+        concatObjectArray: concatObjectArray,
         extractCJK: extractCJK,
         getAngle: getAngle,
         getBoundingRectangle: getBoundingRectangle,

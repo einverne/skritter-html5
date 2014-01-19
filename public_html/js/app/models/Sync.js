@@ -2,9 +2,7 @@
  * @module Skritter
  * @author Joshua McFarland
  */
-define([
-    'backbone'
-], function() {
+define(function() {
     /**
      * @class Sync
      */
@@ -17,24 +15,20 @@ define([
         },
         /**
          * @method full
+         * @param {Number} offset
          * @param {Function} callback
          */
-        full: function(callback) {
-            //stop new sync from starting if currently syncing
-            if (this.isSyncing()) {
-                callback();
-                return;
-            } else {
-                this.set('active', true);
-            }
+        full: function(offset, callback) {
             var self = this;
+            var batchId = null;
+            this.set('active', true);
             var requests = [
                 {
-                    path: 'api/v' + skritter.api.version + '/items',
+                    path: 'api/v' + skritter.api.get('version') + '/items',
                     method: 'GET',
                     params: {
                         sort: 'changed',
-                        offset: skritter.user.getLastSync(),
+                        offset: offset,
                         include_vocabs: 'true',
                         include_strokes: 'true',
                         include_sentences: 'true',
@@ -45,68 +39,37 @@ define([
                     spawner: true
                 },
                 {
-                    path: 'api/v' + skritter.api.version + '/srsconfigs',
-                    method: 'GET',
-                    params: {
-                        bearer_token: this.token
-                    }
+                    path: 'api/v' + skritter.api.get('version') + '/srsconfigs',
+                    method: 'GET'
                 }
             ];
-            var started, completed;
-            var received = 0;
-            var sent = 0;
-            started = skritter.moment().format('YYYY-MM-DD hh:mm:ss');
-            skritter.async.waterfall([
-                //make the initial batch request for changed items
+            async.series([
                 function(callback) {
-                    console.log('syncing from', skritter.moment(skritter.user.getLastSync() * 1000).format('YYYY[-]MM[-]DD h:mm:ss a'));
                     skritter.api.requestBatch(requests, function(batch) {
-                        if (batch.status === 404) {
-                            callback(batch, null);
-                        } else {
-                            callback(null, batch);
-                        }
+                        batchId = batch.id;
+                        callback();
                     });
                 },
-                //download requested batch and then store it locally
-                function(batch, callback) {
-                    var size = 0;
-                    nextBatch();
-                    function nextBatch() {
-                        skritter.api.getBatch(batch.id, function(result) {
-                            if (result && _.contains([404, 408], result.status)) {
-                                window.setTimeout(function() {
-                                    nextBatch();
-                                }, 5000);
-                            } else if (result) {
-                                size += result.responseSize;
-                                if (result.Items)
-                                    received += result.Items.length;
-                                skritter.async.series([
-                                    function(callback) {
-                                        skritter.data.decomps.insert(result.Decomps, callback);
-                                    },
-                                    function(callback) {
-                                        skritter.data.items.insert(result.Items, callback);
-                                    },
-                                    function(callback) {
-                                        skritter.data.srsconfigs.insert(result.SRSConfigs, callback);
-                                    },
-                                    function(callback) {
-                                        skritter.data.sentences.insert(result.Sentences, callback);
-                                    },
-                                    function(callback) {
-                                        skritter.data.strokes.insert(result.Strokes, callback);
-                                    },
-                                    function(callback) {
-                                        skritter.data.vocabs.insert(result.Vocabs, callback);
-                                    }
+                function(callback) {
+                    var totalSize = 0;
+                    getNext();
+                    function getNext() {
+                        skritter.api.getBatch(batchId, function(result) {
+                            if (result) {
+                                async.series([
+                                    async.apply(skritter.data.decomps.insert, result.Decomps),
+                                    async.apply(skritter.data.items.insert, result.Items),
+                                    async.apply(skritter.data.srsconfigs.insert, result.SRSConfigs),
+                                    async.apply(skritter.data.sentences.insert, result.Sentences),
+                                    async.apply(skritter.data.strokes.insert, result.Strokes),
+                                    async.apply(skritter.data.vocabs.insert, result.Vocabs)
                                 ], function() {
-                                    if (size > 1024)
-                                        skritter.modal.setProgress(100, skritter.fn.bytesToSize(size));
+                                    totalSize += result.responseSize;
+                                    if (totalSize > 1024)
+                                        skritter.modal.setProgress(null, skritter.fn.bytesToSize(totalSize));
                                     window.setTimeout(function() {
-                                        nextBatch();
-                                    }, 1000);
+                                        getNext();
+                                    }, 2000);
                                 });
                             } else {
                                 callback();
@@ -114,35 +77,19 @@ define([
                         });
                     }
                 },
-                //post reviews to the server and remove them locally
                 function(callback) {
-                    if (skritter.data.reviews.length > 0 && skritter.user.getLastSync()) {
-                        skritter.modal.setProgress(100, 'Posting Reviews');
-                        skritter.data.reviews.sync(function(quantity) {
-                            sent = quantity;
-                            callback();
-                        });
-                    } else {
-                        callback();
-                    }
-                }
-            ], function(error) {
-                self.set('active', false);
-                if (error) {
-                    callback(error);
-                } else {
-                    completed = skritter.moment().format('YYYY-MM-DD hh:mm:ss');
-                    skritter.log.sync(started, completed, received, sent);
-                    skritter.user.setLastSync();
-                    self.triggerComplete();
                     callback();
                 }
+            ], function() {
+                self.set('active', false);
+                self.triggerComplete();
+                callback();
             });
         },
         /**
          * @method isSyncing
          */
-        isSyncing: function() {
+        syncing: function() {
             if (this.get('active'))
                 return true;
             return false;

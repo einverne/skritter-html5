@@ -1,45 +1,43 @@
 /**
  * @module Skritter
- * @class Application
- * @param Api
- * @param Functions
- * @param Log
- * @param Router
- * @param Modal
- * @param Timer
- * @param Assets
- * @param Settings
- * @param User
- * @param IndexedDBAdapter
- * @param async
- * @param moment
  * @author Joshua McFarland
  */
-
 define([
-    'Api',
-    'Functions',
-    'Log',
-    'Router',
-    'components/Modal',
-    'components/Timer',
+    'models/Api',
     'models/Assets',
+    'Functions',
+    'models/storage/IndexedDBAdapter',
+    'views/components/modal',
+    'Router',
     'models/Settings',
-    'models/User',
-    'storage/IndexedDBAdapter',
-    'async',
-    'moment',
-    'bootstrap'
-], function(Api, Functions, Log, Router, Modal, Timer, Assets, Settings, User, IndexedDBAdapter, async, moment) {
+    'views/components/Timer',
+    'models/User'
+], function(Api, Assets, Functions, IndexedDBAdapter, Modal, Router, Settings, Timer, User) {
     /**
-     * @method loadAssets
-     * @param {Function} callback
+     * Creates the global skritter namescape.
+     * @param skritter
      */
-    var loadAssets = function(callback) {
-        skritter.assets = new Assets();
-        callback();
+    window.skritter = (function(skritter) {
+        return skritter;
+    })(window.skritter || {});    
+    /**
+     * @method initialize
+     */
+    var initialize = function() {
+        async.series([
+            async.apply(loadApi),
+            async.apply(loadAssets),
+            async.apply(loadFunctions),
+            async.apply(loadModal),
+            async.apply(loadSettings),
+            async.apply(loadStorage),
+            async.apply(loadTimer),
+            async.apply(loadUser),
+            async.apply(loadRouter)
+        ], function() {
+            console.log('application initialized');
+        });
     };
-
     /**
      * @method loadApi
      * @param {Function} callback
@@ -48,7 +46,14 @@ define([
         skritter.api = new Api();
         callback();
     };
-
+    /**
+     * @method loadAssets
+     * @param {Function} callback
+     */
+    var loadAssets = function(callback) {
+        skritter.assets = new Assets();
+        callback();
+    };
     /**
      * @method loadFunctions
      * @param {Function} callback
@@ -57,16 +62,6 @@ define([
         skritter.fn = Functions;
         callback();
     };
-
-    /**
-     * @method loadLog
-     * @param {Function} callback
-     */
-    var loadLog = function(callback) {
-        skritter.log = new Log();
-        callback();
-    };
-
     /**
      * @method loadModal
      * @param {Function} callback
@@ -75,17 +70,14 @@ define([
         skritter.modal = new Modal().render();
         callback();
     };
-
     /**
      * @method loadRouter
      * @param {Function} callback
      */
     var loadRouter = function(callback) {
         skritter.router = Router.initialize();
-        if (typeof callback === 'function')
-            callback();
+        callback();
     };
-
     /**
      * @method loadSettings
      * @param {Function} callback
@@ -94,7 +86,6 @@ define([
         skritter.settings = new Settings();
         callback();
     };
-
     /**
      * @method loadStorage
      * @param {Function} callback
@@ -103,16 +94,14 @@ define([
         skritter.storage = new IndexedDBAdapter();
         callback();
     };
-
     /**
-     * @method loadTimer
+     * @method timer
      * @param {Function} callback
      */
     var loadTimer = function(callback) {
         skritter.timer = new Timer();
         callback();
     };
-
     /**
      * @method loadUser
      * @param {Function} callback
@@ -120,57 +109,33 @@ define([
     var loadUser = function(callback) {
         skritter.user = new User();
         if (skritter.user.isLoggedIn()) {
-            //don't display the loading account modal if initial download
-            if (skritter.user.getLastSync())
-                skritter.modal.show('progress').setTitle('Loading Account');
-            skritter.storage.openDatabase(skritter.user.get('user_id'), function() {
-                skritter.async.series([
-                    function(callback) {
-                        if (!skritter.user.getLastSync()) {
-                            skritter.modal.show('progress').setTitle('Initial Download').setProgress('100');
-                            skritter.user.sync(function() {
+            skritter.modal.show('progress');
+            async.series([
+                async.apply(skritter.storage.openDatabase, skritter.user.get('user_id')),
+                async.apply(skritter.user.loadData),
+                function(callback) {
+                    if (skritter.user.getLastSync() === 0) {
+                        skritter.modal.setTitle('Initial Download').setProgress('100', '');
+                        skritter.user.sync(function() {
+                            skritter.scheduler.loadAll(function() {
                                 skritter.modal.hide();
                                 callback();
                             });
-                        } else {
-                            skritter.user.sync();
-                            callback();
-                        }
-                    },
-                    skritter.async.apply(skritter.user.loadAllData),
-                    skritter.async.apply(skritter.settings.refreshDate)
-                ], function() {
-                    skritter.modal.hide();
-                    callback();
-                });
+                        });
+                    } else {
+                        skritter.modal.hide();
+                        skritter.user.sync();
+                        callback();
+                    }
+                }
+            ], function() {
+                callback();
             });
         } else {
             callback();
         }
     };
-
-    /**
-     * @method initialize
-     */
-    var initialize = function() {
-        skritter.async = async;
-        skritter.moment = moment;
-        skritter.async.series([
-            skritter.async.apply(loadApi),
-            skritter.async.apply(loadAssets),
-            skritter.async.apply(loadFunctions),
-            skritter.async.apply(loadLog),
-            skritter.async.apply(loadModal),
-            skritter.async.apply(loadSettings),
-            skritter.async.apply(loadStorage),
-            skritter.async.apply(loadTimer),
-            skritter.async.apply(loadUser)
-        ], function() {
-            console.log('application initialized');
-            loadRouter();
-        });
-    };
-
+    
     return {
         initialize: initialize
     };

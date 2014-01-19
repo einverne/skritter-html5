@@ -14,9 +14,9 @@ define([
          * @method initialize
          */
         initialize: function() {
-            Settings.self = this;
+            Settings.this = this;
             //triggers an event when the window is resized
-            $(window).resize(_.bind(this.handleResize, this));
+            $(window).resize(this.handleResize);
             //forces the window to resize onload
             this.handleResize();
         },
@@ -44,7 +44,6 @@ define([
          * @param {Function} callback
          */
         checkVersion: function(callback) {
-            var self = this;
             var promise = $.getJSON('version.json');
             var currentVersion = this.get('version');
             promise.done(function(data) {
@@ -59,32 +58,45 @@ define([
             });
         },
         /**
+         * Calculates various font sizes based on the canvas size and return a css ready pixel value.
+         * 
+         * @property {Object} fontSize
+         */
+        fontSize: {
+            large: function() {
+                return Math.round(Settings.this.get('canvasSize') * 0.1) + 'px';
+            },
+            normal: function() {
+                return Math.round(Settings.this.get('canvasSize') * 0.03) + 'px';
+            }
+        },
+        /**
          * @method handleResize
          */
         handleResize: function() {
             //sets the max boundaries of the application
-            this.set('appWidth', $('#skritter-container').width());
-            this.set('appHeight', $('#skritter-container').height());
+            Settings.this.set('appWidth', $('#skritter-container').width());
+            Settings.this.set('appHeight', $('#skritter-container').height());
             //sets the orientation of the application area
-            if (this.get('appWidth') > this.get('appHeight')) {
-                this.set('orientation', 'horizontal');
+            if (Settings.this.get('appWidth') > Settings.this.get('appHeight')) {
+                Settings.this.set('orientation', 'horizontal');
                 //sets max dimensions of the canvas element
-                var offsetHeight = this.get('appHeight') - 45;
-                if (offsetHeight > this.get('canvasMaxSize')) {
-                    this.set('canvasSize', this.get('canvasMaxSize'));
+                var offsetHeight = Settings.this.get('appHeight') - 45;
+                if (offsetHeight > Settings.this.get('canvasMaxSize')) {
+                    Settings.this.set('canvasSize', Settings.this.get('canvasMaxSize'));
                 } else {
-                    this.set('canvasSize', offsetHeight);
+                    Settings.this.set('canvasSize', offsetHeight);
                 }
             } else {
-                this.set('orientation', 'vertical');
+                Settings.this.set('orientation', 'vertical');
                 //sets max dimensions of the canvas element
-                if (this.get('appWidth') > this.get('canvasMaxSize')) {
-                    this.set('canvasSize', this.get('canvasMaxSize'));
+                if (Settings.this.get('appWidth') > Settings.this.get('canvasMaxSize')) {
+                    Settings.this.set('canvasSize', Settings.this.get('canvasMaxSize'));
                 } else {
-                    this.set('canvasSize', this.get('appWidth'));
+                    Settings.this.set('canvasSize', Settings.this.get('appWidth'));
                 }
             }
-            this.triggerResize();
+            Settings.this.triggerResize();
         },
         /**
          * @method refreshDate
@@ -93,9 +105,9 @@ define([
         refreshDate: function(callback) {
             skritter.api.getDateInfo(function(date) {
                 if (date.today) {
-                    Settings.self.set('date', date.today);
+                    Settings.this.set('date', date.today);
                 } else {
-                    Settings.self.set('date', skritter.moment().format('YYYY[-]MM[-]DD'));
+                    Settings.this.set('date', skritter.moment().format('YYYY[-]MM[-]DD'));
                 }
                 callback();
             });
@@ -104,9 +116,9 @@ define([
          * @method triggerResize
          */
         triggerResize: function() {
-            this.trigger('resize', {width:this.get('appWidth'), height:this.get('appHeight'), canvas:this.get('canvasSize')});
+            Settings.this.trigger('resize', {width: Settings.this.get('appWidth'), height: Settings.this.get('appHeight'), canvas: Settings.this.get('canvasSize')});
         }
     });
-    
+
     return Settings;
 });
