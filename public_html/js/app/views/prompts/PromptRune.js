@@ -44,7 +44,6 @@ define([
             Rune.canvas.setElement(this.$('#canvas-container')).render();
             hammer(this.$('#canvas-container')[0]).on('doubletap', this.handleDoubleTap);
             hammer(this.$('#canvas-container')[0]).on('hold', this.handleHold);
-            hammer(this.$('#canvas-container')[0]).on('tap', this.handleTap);
             Prompt.prototype.render.call(this);
             return this;
         },
@@ -147,7 +146,11 @@ define([
                 if (Prompt.data.isLast())
                     Prompt.data.show.sentence();
                 Prompt.data.show.writingAt(1);
+                window.setTimeout(function() {
+                    hammer(Prompt.this.$('#canvas-container')[0]).on('tap', Prompt.this.handleTap);
+                }, 500);
             } else {
+                hammer(Prompt.this.$('#canvas-container')[0]).off('tap', Prompt.this.handleTap);
                 skritter.timer.start();
                 Rune.canvas.enableInput();
                 Prompt.data.show.sentenceMasked();

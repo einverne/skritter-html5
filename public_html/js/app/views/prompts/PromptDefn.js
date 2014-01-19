@@ -40,8 +40,8 @@ define([
             if (Prompt.dataItem.isFinished()) {
                 Prompt.this.handleGradeSelected(Prompt.gradingButtons.grade());
             } else {
-                Prompt.dataItem.set('finished', true);
                 skritter.timer.stopThinking();
+                Prompt.dataItem.set('finished', true);
                 Prompt.this.load();
             }
         },

@@ -43,9 +43,7 @@ define([
         render: function() {
             this.$el.html(templateTone);
             Tone.canvas.setElement(this.$('#canvas-container')).render();
-            hammer(this.$('#canvas-container')[0]).on('doubletap', this.handleDoubleTap);
             hammer(this.$('#canvas-container')[0]).on('hold', this.handleHold);
-            hammer(this.$('#canvas-container')[0]).on('tap', this.handleTap);
             Prompt.prototype.render.call(this);
             return this;
         },
@@ -80,20 +78,6 @@ define([
                 Tone.canvas.injectLayer('stroke', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
             }
             this.load();
-        },
-        /**
-         * @method handleDoubleTap
-         */
-        handleDoubleTap: function() {
-            if (!Prompt.finished) {
-                Prompt.gradingButtons.select(1).collapse();
-                Tone.canvas.drawContainer('hint', Prompt.dataItem.get('character').targets[Prompt.dataItem.get('character').getVariationIndex()]
-                        .getCharacterSprite(Prompt.dataItem.get('character').getExpectedStroke().get('position'), 'grey'), 0.3);
-                // ISSUE #132: Also flash next stroke when full-character hint is requested.
-                var nextStroke = Prompt.dataItem.get('character').getExpectedStroke();
-                if (nextStroke)
-                    Tone.canvas.drawShape('hint', nextStroke.getInflatedSprite('#87cefa'));
-            }
         },
         /**
          * @method handleInputDown
@@ -152,7 +136,11 @@ define([
                 Tone.canvas.disableInput();
                 Prompt.gradingButtons.select(Prompt.dataItem.getGrade()).collapse();
                 Prompt.data.show.readingAt(0, true);
+                window.setTimeout(function() {
+                    hammer(Prompt.this.$('#canvas-container')[0]).on('tap', Prompt.this.handleTap);
+                }, 500);
             } else {
+                hammer(Prompt.this.$('#canvas-container')[0]).off('tap', Prompt.this.handleTap);
                 skritter.timer.start();
                 Tone.canvas.enableInput();
                 Prompt.data.show.readingAt();
