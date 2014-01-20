@@ -31,7 +31,7 @@ define([
                     divA += "<td class='reading'>" + containedVocab.getReading() + ": </td>";
                     divA += "<td class='definition'>" + containedVocab.getDefinition() + "</td>";
                     divA += "</tr>";
-                    this.$('#contained-characters tbody').append(divA);
+                    this.$('tbody').append(divA);
                 }
             } else {
                 this.$el.hide();

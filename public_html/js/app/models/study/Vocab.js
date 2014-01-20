@@ -279,7 +279,7 @@ define([
             var containedVocabIds = this.get('containedVocabIds');
             if (containedVocabIds) {
                 skritter.storage.getItems('vocabs', containedVocabIds, function(vocabs) {
-                    callback(skritter.data.items.add(vocabs, {merge: true, silent: true}));
+                    callback(skritter.data.vocabs.add(vocabs, {merge: true, silent: true}));
                 });
             } else {
                 callback([]);
