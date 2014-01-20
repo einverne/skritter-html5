@@ -4,8 +4,9 @@
  */
 define([
     'views/Home',
+    'views/Info',
     'views/Study'
-], function(Home, Study) {
+], function(Home, Info, Study) {
     /**
      * @class Router
      */
@@ -22,6 +23,7 @@ define([
          */
         routes: {
             '': 'showHome',
+            'info/:writing': 'showInfo',
             'study': 'showStudy'
         },
         /**
@@ -34,6 +36,19 @@ define([
                 Router.view.home.setElement($(skritter.settings.get('container')));
             }
             Router.view.home.render();
+        },
+        /**
+         * @method showInfo
+         * @param {String} writing
+         */
+        showInfo: function(writing) {
+            if (!Router.view.info) {
+                Router.view.info = new Info({el: $(skritter.settings.get('container'))});
+            } else {
+                Router.view.info.setElement($(skritter.settings.get('container')));
+            }
+            Router.view.info.set(writing);
+            Router.view.info.render();
         },
         /**
          * @method showStudy
