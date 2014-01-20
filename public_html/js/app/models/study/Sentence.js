@@ -3,7 +3,9 @@
  * @submodule Model
  * @author Joshua McFarland
  */
-define(function() {
+define([
+    'PinyinConverter'
+], function(PinyinConverter) {
     /**
      * @class Sentence
      */
@@ -29,6 +31,13 @@ define(function() {
             if (definition)
                 return definition;
             return null;
+        },
+        /**
+         * @method getReading
+         * @returns {String}
+         */
+        getReading: function() {
+            return PinyinConverter.toTone(this.get('reading'));
         },
         /**
          * @method getWriting

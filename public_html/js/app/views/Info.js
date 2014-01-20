@@ -15,7 +15,17 @@ define([
         },
         render: function() {
             this.$el.html(templateInfo);
-            console.log('INFO', Info.vocab);
+            
+            this.$('#writing').html(Info.vocab.get('writing'));
+            this.$('#reading').html(Info.vocab.getReading());
+            this.$('#definition').html(Info.vocab.getDefinition());
+            var sentence = Info.vocab.getSentence();
+            if (sentence) {
+                this.$('#sentence-writing').html(sentence.getWriting());
+                this.$('#sentence-reading').html(sentence.getReading());
+                this.$('#sentence-definition').html(sentence.getDefinition());
+            };
+            
             /*Info.containedTable.set();
             Info.containedTable.setElement(this.$('#contained')).render();*/
             return this;
