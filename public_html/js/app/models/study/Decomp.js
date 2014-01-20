@@ -3,7 +3,9 @@
  * @submodule Model
  * @author Joshua McFarland
  */
-define(function() {
+define([
+    'PinyinConverter'
+], function(PinyinConverter) {
     /**
      * @class Decomp
      */
@@ -21,6 +23,13 @@ define(function() {
                 if (typeof callback === 'function')
                     callback();
             });
+        },
+        /**
+         * @method getReading
+         * @returns {String}
+         */
+        getReading: function() {
+            return PinyinConverter.toTone(this.get('reading'));
         }
     });
     

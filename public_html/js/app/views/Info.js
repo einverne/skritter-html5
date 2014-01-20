@@ -1,17 +1,23 @@
 /**
  * @module Skritter
+ * @param ContainedTable
+ * @param DecompTable
+ * @param SimpTradMap
+ * @param templateInfo
  * @author Joshua McFarland
  */
 define([
     'views/components/ContainedTable',
+    'views/components/DecompTable',
     'SimpTradMap',
     'require.text!templates/info.html'
-], function(ContainedTable, SimpTradMap, templateInfo) {
+], function(ContainedTable, DecompTable, SimpTradMap, templateInfo) {
     var Info = Backbone.View.extend({
         initialize: function() {
             Info.this = this;
             Info.contained = [];
             Info.containedTable = new ContainedTable();
+            Info.decompTable = new DecompTable();
             Info.vocab = null;
         },
         render: function() {
@@ -27,6 +33,8 @@ define([
             };
             Info.containedTable.set(Info.contained);
             Info.containedTable.setElement(this.$('#contained')).render();
+            Info.decompTable.set(Info.vocab.getDecomps());
+            Info.decompTable.setElement(this.$('#decompositions')).render();
             return this;
         },
         load: function(lang, writing) {
