@@ -4,9 +4,9 @@
  */
 define([
     'views/Home',
-    'views/Info',
-    'views/Study'
-], function(Home, Info, Study) {
+    'views/Study',
+    'views/VocabsInfo'
+], function(Home, Study, VocabsInfo) {
     /**
      * @class Router
      */
@@ -23,7 +23,7 @@ define([
          */
         routes: {
             '': 'showHome',
-            'info/:lang/:writing': 'showInfo',
+            'vocabs/:lang/:writing': 'showVocabsInfo',
             'study': 'showStudy'
         },
         /**
@@ -38,19 +38,6 @@ define([
             Router.view.home.render();
         },
         /**
-         * @method showInfo
-         * @param {String} lang
-         * @param {String} writing
-         */
-        showInfo: function(lang, writing) {
-            if (!Router.view.info) {
-                Router.view.info = new Info({el: $(skritter.settings.get('container'))});
-            } else {
-                Router.view.info.setElement($(skritter.settings.get('container')));
-            }
-            Router.view.info.load(lang, writing);
-        },
-        /**
          * @method showStudy
          */
         showStudy: function() {
@@ -60,6 +47,19 @@ define([
                 Router.view.study.setElement($(skritter.settings.get('container')));
             }
             Router.view.study.render();
+        },
+        /**
+         * @method showVocabsInfo
+         * @param {String} lang
+         * @param {String} writing
+         */
+        showVocabsInfo: function(lang, writing) {
+            if (!Router.view.vocabsInfo) {
+                Router.view.vocabsInfo = new VocabsInfo({el: $(skritter.settings.get('container'))});
+            } else {
+                Router.view.vocabsInfo.setElement($(skritter.settings.get('container')));
+            }
+            Router.view.vocabsInfo.load(lang, writing);
         }
     });
 
