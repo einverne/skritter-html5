@@ -9,18 +9,23 @@ define([
 ], function(ContainedTable, SimpTradMap, templateInfo) {
     var Info = Backbone.View.extend({
         initialize: function() {
+            Info.this = this;
             Info.containedTable = new ContainedTable();
             Info.vocab = null;
         },
         render: function() {
             this.$el.html(templateInfo);
+            console.log('INFO', Info.vocab);
             /*Info.containedTable.set();
             Info.containedTable.setElement(this.$('#contained')).render();*/
             return this;
         },
-        set: function(writing) {
-            var vocabId = SimpTradMap.getVocabBase(writing, 'zh');
-            Info.vocab = skritter.data.vocabs.get(vocabId);
+        load: function(lang, writing) {
+            var vocabId = SimpTradMap.getVocabBase(writing, lang);
+            skritter.data.vocabs.load(vocabId, function(vocab) {
+                Info.vocab = vocab;
+                Info.this.render();
+            });
         }
     });
     

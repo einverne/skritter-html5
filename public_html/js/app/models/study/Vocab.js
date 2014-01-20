@@ -272,6 +272,20 @@ define([
             }
         },
         /**
+         * @method loadContainedVocabs
+         * @param {Function} callback
+         */
+        loadContainedVocabs: function(callback) {
+            var containedVocabIds = this.get('containedVocabIds');
+            if (containedVocabIds) {
+                skritter.storage.getItems('vocabs', containedVocabIds, function(vocabs) {
+                    callback(skritter.data.items.add(vocabs, {merge: true, silent: true}));
+                });
+            } else {
+                callback([]);
+            }
+        },
+        /**
          * @method play
          */
         play: function() {

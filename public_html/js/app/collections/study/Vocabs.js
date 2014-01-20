@@ -15,6 +15,7 @@ define([
          * @method initialize
          */
         initialize: function() {
+            Vocabs.this = this;
             this.on('change', function(vocab) {
                 vocab.cache();
             });
@@ -48,9 +49,9 @@ define([
             if (vocab) {
                 callback(vocab);
             } else {
-                skritter.storage.getItems('vocabs', id, _.bind(function(item) {
-                    callback(this.add(item, {merge: true, silent: true})[0]);
-                }, this));
+                skritter.storage.getItems('vocabs', id, function(item) {
+                    callback(Vocabs.this.add(item, {merge: true, silent: true})[0]);
+                });
             }
         },
         /**
