@@ -69,6 +69,7 @@ define([
          */
         load: function() {
             console.log('PROMPT ITEM', Prompt.dataItem);
+            Prompt.gradingButtons.grade(Prompt.dataItem.getGrade());
             if (Prompt.data.isFirst()) {
                 this.$('#prompt-previous').hide();
             } else {
