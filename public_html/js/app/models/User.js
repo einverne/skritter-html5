@@ -262,6 +262,17 @@ define([
             }
         },
         /**
+         * @method setActiveParts
+         * @param {Array} parts
+         */
+        setActiveParts: function(parts) {
+            if (skritter.user.isChinese()) {
+                this.set('filterChineseParts', parts);
+            } else {
+                this.set('filterJapaneseParts', parts);
+            }
+        },
+        /**
          * @method setLastSync
          * @param {Number} time
          * @returns {Number}
