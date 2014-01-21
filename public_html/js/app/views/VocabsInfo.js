@@ -30,7 +30,7 @@ define([
                 this.$('#sentence-writing').html(sentence.getWriting());
                 this.$('#sentence-reading').html(sentence.getReading());
                 this.$('#sentence-definition').html(sentence.getDefinition());
-            };
+            }
             VocabsInfo.containedTable.set(VocabsInfo.contained);
             VocabsInfo.containedTable.setElement(this.$('#contained')).render();
             VocabsInfo.decompTable.set(VocabsInfo.vocab.getDecomps());

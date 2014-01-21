@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Sat Jan 18 2014 22:36:44 GMT-0500 (Eastern Standard Time)
+# Time: Mon Jan 20 2014 22:58:25 GMT-0500 (Eastern Standard Time)
 
 CACHE:
 index.html
@@ -8,6 +8,8 @@ favicon.png
 icon-128x128.png
 icon-196x196.png
 index.html
+bootstrap/components/switch/css/bootstrap-switch.css
+bootstrap/components/switch/css/bootstrap-switch.min.css
 bootstrap/css/bootstrap-theme.css
 bootstrap/css/bootstrap-theme.min.css
 bootstrap/css/bootstrap.css
@@ -17,15 +19,21 @@ css/font-awesome.min.css
 css/main.css
 bootstrap/fonts/glyphicons-halflings-regular.eot
 fonts/fontawesome-webfont.eot
+templates/component-contained-table.html
+templates/component-decomp-table.html
 templates/grading-buttons.html
 templates/home-logged-in.html
 templates/home-logged-out.html
 templates/modals.html
+templates/options.html
 templates/prompt-defn.html
 templates/prompt-rdng.html
 templates/prompt-rune.html
 templates/prompt-tone.html
 templates/study.html
+templates/vocabs-info.html
+bootstrap/components/switch/js/bootstrap-switch.js
+bootstrap/components/switch/js/bootstrap-switch.min.js
 bootstrap/js/bootstrap.js
 bootstrap/js/bootstrap.min.js
 js/app/Application.js
@@ -37,6 +45,7 @@ js/app/PinyinConverter.js
 js/app/Recognizer.js
 js/app/Router.js
 js/app/Shortstraw.js
+js/app/SimpTradMap.js
 js/app/Strokes.js
 js/app/collections/CanvasCharacter.js
 js/app/collections/study/Decomps.js
@@ -67,7 +76,11 @@ js/app/models/study/Sentence.js
 js/app/models/study/Stroke.js
 js/app/models/study/Vocab.js
 js/app/views/Home.js
+js/app/views/Options.js
 js/app/views/Study.js
+js/app/views/VocabsInfo.js
+js/app/views/components/ContainedTable.js
+js/app/views/components/DecompTable.js
 js/app/views/components/Modal.js
 js/app/views/components/Timer.js
 js/app/views/prompts/Canvas.js
