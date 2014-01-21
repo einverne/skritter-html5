@@ -52,6 +52,7 @@ define([
          */
         clear: function() {
             Prompt.gradingButtons.hide(true);
+            Rune.canvas.setLayerAlpha('stroke', 1);
             Rune.canvas.clear('background');
             Rune.canvas.clear('hint');
             Rune.canvas.clear('stroke');
@@ -69,12 +70,11 @@ define([
                 window.setTimeout(function() {
                     for (var i in Prompt.dataItem.get('character').models) {
                         var stroke = Prompt.dataItem.get('character').models[i];
-                        console.log('stroke', stroke);
                         Rune.canvas.tweenShape('background', stroke.getUserSprite(), stroke.getInflatedSprite());
                     }
                     Rune.canvas.setLayerAlpha('stroke', 0.3);
                     Rune.canvas.injectLayer('background', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
-                }, 100);
+                }, 50);
             this.load();
         },
         /**
