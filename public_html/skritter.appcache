@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Mon Jan 20 2014 22:58:25 GMT-0500 (Eastern Standard Time)
+# Time: Tue Jan 21 2014 10:36:12 GMT-0500 (Eastern Standard Time)
 
 CACHE:
 index.html
@@ -30,6 +30,7 @@ templates/prompt-defn.html
 templates/prompt-rdng.html
 templates/prompt-rune.html
 templates/prompt-tone.html
+templates/reviews.html
 templates/study.html
 templates/vocabs-info.html
 bootstrap/components/switch/js/bootstrap-switch.js
@@ -77,6 +78,7 @@ js/app/models/study/Stroke.js
 js/app/models/study/Vocab.js
 js/app/views/Home.js
 js/app/views/Options.js
+js/app/views/Reviews.js
 js/app/views/Study.js
 js/app/views/VocabsInfo.js
 js/app/views/components/ContainedTable.js
@@ -100,6 +102,7 @@ js/libs/indexeddb.shim.js
 js/libs/jquery-1.10.2.min.js
 js/libs/jquery.indexeddb.js
 js/libs/jquery.touchswipe-1.6.5.min.js
+js/libs/keypress-1.0.9.min.js
 js/libs/leap.min.js
 js/libs/lodash-2.4.1.compat.min.js
 js/libs/moment-2.5.0.js

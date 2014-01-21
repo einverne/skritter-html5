@@ -42,9 +42,9 @@ define([
                     for (var i in tones)
                         variations.push(skritter.data.strokes.get('tone' + tones[i]).get('strokes'));
             } else {
-                var stroke = skritter.data.strokes.get(rune);
-                if (stroke)
-                    variations = stroke.get('strokes');
+                var strokeData = skritter.data.strokes.get(rune);
+                if (strokeData)
+                    variations = strokeData.get('strokes');
             }
             for (var v in variations) {
                 var character = new CanvasCharacter();
