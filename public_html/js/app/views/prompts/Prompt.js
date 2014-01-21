@@ -68,15 +68,12 @@ define([
         load: function() {
             console.log('PROMPT ITEM', Prompt.dataItem);
             Prompt.gradingButtons.grade(Prompt.dataItem.getGrade());
-            if (Prompt.data.isFirst()) {
-                this.$('#prompt-previous').hide();
-            } else {
-                this.$('#prompt-previous').show();
-            }
             if (Prompt.dataItem.isFinished()) {
                 this.$('#prompt-next').show();
+                this.$('#prompt-previous').show();
             } else {
                 this.$('#prompt-next').hide();
+                this.$('#prompt-previous').hide();
             }
         },
         /**
@@ -105,7 +102,7 @@ define([
                 this.redraw();
                 this.load();
             } else {
-                
+                this.triggerPrevious();
             }
         },
         /**
@@ -146,8 +143,15 @@ define([
          * @method triggerComplete
          */
         triggerComplete: function() {
+            console.log('PROMPT COMPLETE', Prompt.data);
             Prompt.data.save();
-            this.trigger('complete', Prompt.data);
+            this.trigger('complete');
+        },
+        /**
+         * @method triggerPrevious
+         */
+        triggerPrevious: function() {
+            this.trigger('previous');
         }
     });
     

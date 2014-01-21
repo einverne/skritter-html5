@@ -32,7 +32,7 @@ define([
          */
         render: function() {
             this.$el.html(templateStudy);
-            //skritter.scheduler.filter({ids: ['mcfarljwtest1-zh-好好学习-0-rune']});
+            skritter.scheduler.filter({ids: ['mcfarljwtest1-zh-他-0-rune']});
             //skritter.scheduler.filter({parts: ['rdng']});
             skritter.timer.setElement(this.$('#timer')).render();
             this.updateDueCount();
@@ -47,10 +47,14 @@ define([
          * @property {Object} events
          */
         events: {
+            'click.Study #study-view #audio-button': 'playAudio',
             'click.Study #study-view #info-button': 'navigateVocabsInfo'
         },
-        handlePromptComplete: function(data) {
-            console.log('prompt complete', data);
+        /**
+         * @method handlePromptComplete
+         */
+        handlePromptComplete: function() {
+            Study.history.push(Study.prompt);
             this.nextPrompt();
         },
         loadPrompt: function() {
@@ -67,7 +71,6 @@ define([
             event.preventDefault();
         },
         nextPrompt: function() {
-            console.log('NEXT');
             if (!Study.prompt || Study.prompt.data().isLast()) {
                 skritter.scheduler.getNext(function(item) {
                     switch (item.get('part')) {
@@ -86,20 +89,43 @@ define([
                     }
                     Study.prompt.set(item.getPromptData());
                     Study.this.listenToOnce(Study.prompt, 'complete', Study.this.handlePromptComplete);
+                    Study.this.listenToOnce(Study.prompt, 'previous', Study.this.previousPrompt);
+                    Study.this.toggleAudioButton();
                     Study.this.loadPrompt();
                 });
             } else {
                 Study.prompt.next();
             }
         },
+        /**
+         * @method playAudio
+         * @param {Object} event
+         */
+        playAudio: function(event) {
+            Study.prompt.data().vocab.play();
+            event.preventDefault();
+        },
         previousPrompt: function() {
-            console.log('PREVIOUS');
             if (Study.prompt)
-                if (Study.prompt.data().isFirst()) {
-                    console.log('no historic prompt');
+                if (Study.history.length > 0) {
+                    console.log('historic prompts exist');
+                    /*Study.prompt = Study.history[0];
+                    Study.this.loadPrompt();*/
                 } else {
-                    Study.prompt.previous();
+                    console.log('no historic prompt');
                 }
+        },
+        /**
+         * @method toggleAudioButton
+         */
+        toggleAudioButton: function() {
+            if (Study.prompt.data().vocab.has('audio')) {
+                this.$('#audio-button span').removeClass('fa fa-volume-off');
+                this.$('#audio-button span').addClass('fa fa-volume-up');
+            } else {
+                this.$('#audio-button span').removeClass('fa fa-volume-up');
+                this.$('#audio-button span').addClass('fa fa-volume-off');
+            }
         },
         updateDueCount: function() {
             this.$('#items-due').text(skritter.scheduler.getDueCount());

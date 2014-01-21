@@ -181,7 +181,7 @@ body {
     cursor: pointer;
     position: absolute;
     top: 45%;
-    opacity: 0.5;
+    opacity: 0.3;
     z-index: 1000;
 }
 #input-container .prompt-nav-arrow:hover {

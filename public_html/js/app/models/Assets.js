@@ -27,7 +27,7 @@ define([
          */
         getAudio: function(audioId) {
             if (Assets.audioPlayer.paused) {
-                Assets.audioPlayer.src = skritter.api.baseUrl() + 'sounds?file=' + audioId;
+                Assets.audioPlayer.src = skritter.api.get('root') + '.' + skritter.api.get('domain') + '/' + 'sounds?file=' + audioId;
                 Assets.audioPlayer.play();
             }
             return Assets.audioPlayer;
