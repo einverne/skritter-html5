@@ -38,10 +38,13 @@ define([
             var rune = this.getCharacters()[index - 1];
             if (part === 'tone') {
                 tones = this.getReadingAt(index).tones;
-                for (var i in tones)
-                    variations.push(skritter.data.strokes.findWhere({rune: 'tone' + tones[i]}).get('strokes'));
+                if (tones)
+                    for (var i in tones)
+                        variations.push(skritter.data.strokes.get('tone' + tones[i]).get('strokes'));
             } else {
-                variations = skritter.data.strokes.findWhere({rune: rune}).get('strokes');
+                var stroke = skritter.data.strokes.get(rune);
+                if (stroke)
+                    variations = stroke.get('strokes');
             }
             for (var v in variations) {
                 var character = new CanvasCharacter();
@@ -74,8 +77,10 @@ define([
         getCharacterCount: function() {
             return this.getCharacters().length;
         },
-        getCharacters: function() {
+        getCharacters: function(includeSpecial) {
             return this.get('writing').split('').filter(function(character) {
+                if (includeSpecial)
+                    return character;
                 return !skritter.fn.isKana(character);
             });
         },
@@ -225,17 +230,19 @@ define([
         getWritingDisplay: function(position) {
             position = (position) ? position - 1 : 0;
             var element = '';
-            var characters = this.getCharacters();
+            var characterPosition = 0;
+            var characters = this.getCharacters(true);
             element += "<div class='prompt-writing-display'>";
             for (var i = 0; i < characters.length; i++) {
                 if (skritter.fn.isKana(characters[i])) {
                     element += "<div id='writing-" + i + "' class='prompt-writing-show'>" + characters[i] + "</div>";
                 } else {
-                    if (position > i) {
+                    if (position > characterPosition) {
                         element += "<div id='writing-" + i + "' class='prompt-writing-show'>" + characters[i] + "</div>";
                     } else {
                         element += "<div id='writing-" + i + "' class='prompt-writing-hide'></div>";
                     }
+                    characterPosition++;
                 }
             }
             element += "</div>";
