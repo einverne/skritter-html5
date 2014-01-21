@@ -38,7 +38,8 @@ define([
          */
         events: {
             'click.Home #home-view .login-button': 'handleLoginClicked',
-            'click.Home #home-view .logout-button': 'handleLogoutClicked'
+            'click.Home #home-view .logout-button': 'handleLogoutClicked',
+            'click.Home #home-view .options-button': 'handleOptionsClicked'
         },
         handleLoginClicked: function(event) {
             skritter.modal.show('login');
@@ -46,6 +47,10 @@ define([
         },
         handleLogoutClicked: function(event) {
             skritter.user.logout();
+            event.preventDefault();
+        },
+        handleOptionsClicked: function(event) {
+            skritter.router.navigate('options', {trigger: true});
             event.preventDefault();
         }
     });

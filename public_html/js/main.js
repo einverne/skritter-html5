@@ -18,6 +18,7 @@ requirejs.config({
         backbone: '../libs/backbone-1.1.0.min',
         base64: '../libs/base64',
         bootstrap: '../../bootstrap/js/bootstrap.min',
+        'bootstrap.switch': '../../bootstrap/components/switch/js/bootstrap-switch.min',
         'createjs.easel': '../libs/createjs.easel-NEXT.min',
         'createjs.tween': '../libs/createjs.tween-NEXT.min',
         'hammer': '../libs/hammer-1.0.6.min',
@@ -35,6 +36,7 @@ requirejs.config({
             exports: 'Backbone'
         },
         bootstrap: ['jquery'],
+        'bootstrap.switch': ['jquery'],
         jquery: {
             exports: '$'
         },

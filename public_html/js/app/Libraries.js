@@ -12,6 +12,7 @@ define([
     'backbone',
     'base64',
     'bootstrap',
+    'bootstrap.switch',
     'createjs.easel',
     'createjs.tween',
     'indexeddb.shim',
