@@ -34,11 +34,17 @@ define([
             return this;
         },
         /**
+         * @method handleGradeSelected
+         */
+        handleGradeSelected: function() {
+            this.updateColor();
+        },
+        /**
          * @method handleTap
          */
         handleTap: function() {
             if (Prompt.dataItem.isFinished()) {
-                Prompt.this.handleGradeSelected(Prompt.gradingButtons.grade());
+                Prompt.this.next();
             } else {
                 skritter.timer.stopThinking();
                 Prompt.dataItem.set('finished', true);
@@ -55,6 +61,7 @@ define([
             Prompt.data.show.writing();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
+                this.updateColor();
                 Prompt.data.hide.tip();
                 Prompt.data.show.definition();
                 Prompt.data.show.reading();
@@ -62,6 +69,17 @@ define([
             } else {
                 skritter.timer.start();
             }
+        },
+        /**
+         * Updates the prompt color based on the current selected grade value.
+         * 
+         * @method updateColor
+         */
+        updateColor: function() {
+            Prompt.this.$('.prompt-reading').removeClass(function(index, css) {
+                return (css.match(/\bgrade\S+/g) || []).join(' ');
+            });
+            Prompt.this.$('.prompt-reading').addClass('grade' + Prompt.gradingButtons.grade());
         }
     });
 

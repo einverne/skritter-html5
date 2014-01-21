@@ -20,13 +20,13 @@ define([
             Prompt.gradingButtons = new GradingButtons();
             Prompt.gradeColorHex = {
                 1: '#e68e8e',
-                2: '#d95757',
+                2: '#efec10',
                 3: '#70da70',
                 4: '#4097d3'
             };
             Prompt.gradeColorFilters = {
                 1: new createjs.ColorFilter(0, 0, 0, 1, 230, 142, 142, 1),
-                2: new createjs.ColorFilter(0, 0, 0, 1, 217, 87, 87, 1),
+                2: new createjs.ColorFilter(0, 0, 0, 1, 239, 236, 16, 1),
                 3: new createjs.ColorFilter(0, 0, 0, 1, 112, 218, 112, 1),
                 4: new createjs.ColorFilter(0, 0, 0, 1, 112, 218, 112, 1)
             };
@@ -51,7 +51,7 @@ define([
          */
         events: {
             'click.Prompt .prompt #prompt-previous': 'previous',
-            'click.Prompt .prompt #prompt-next': 'handleGradeSelected'
+            'click.Prompt .prompt #prompt-next': 'next'
         },
         data: function() {
             return Prompt.data;
@@ -60,9 +60,7 @@ define([
          * @method handleGradeSelected
          */
         handleGradeSelected: function() {
-            Prompt.dataItem.setReview(Prompt.gradingButtons.grade(), skritter.timer.getReviewTime(), skritter.timer.getThinkingTime());
             console.log('GRADING', Prompt.dataItem.review());
-            this.next();
         },
         /**
          * @method load

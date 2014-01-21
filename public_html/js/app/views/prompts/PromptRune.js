@@ -61,7 +61,9 @@ define([
          * @method handleCharacterComplete
          */
         handleCharacterComplete: function() {
+            //sets the item as finished and initial review values
             Prompt.dataItem.set('finished', true);
+            Prompt.dataItem.setReview(Prompt.gradingButtons.grade(), skritter.timer.getReviewTime(), skritter.timer.getThinkingTime());
             //checks if we should snap or just glow the result
             if (skritter.user.getSetting('squigs'))
                 window.setTimeout(function() {
@@ -88,6 +90,14 @@ define([
                 if (nextStroke)
                     Rune.canvas.drawShape('hint', nextStroke.getInflatedSprite('#87cefa'));
             }
+        },
+        /**
+         * @method handleGradeSelected
+         * @param {Number} grade
+         */
+        handleGradeSelected: function(grade) {
+            Prompt.dataItem.review().set('score', Prompt.gradingButtons.grade());
+            Rune.canvas.injectLayer('stroke', Prompt.gradeColorHex[grade]);
         },
         /**
          * @method handleInputDown
@@ -123,13 +133,14 @@ define([
         handleHold: function() {
             Prompt.this.reset();
             Prompt.this.load();
+            Rune.canvas.enableInput();
         },
         /**
          * @method handleTap
          */
         handleTap: function() {
             if (Prompt.dataItem.isFinished())
-                Prompt.this.handleGradeSelected(Prompt.gradingButtons.grade());
+                Prompt.this.next();
         },
         /**
          * @method load

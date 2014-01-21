@@ -61,8 +61,9 @@ define([
          * @method handleCharacterComplete
          */
         handleCharacterComplete: function() {
+            //sets the item as finished and initial review values
             Prompt.dataItem.set('finished', true);
-            //TODO: figure out how to properly inject a color
+            Prompt.dataItem.setReview(Prompt.gradingButtons.grade(), skritter.timer.getReviewTime(), skritter.timer.getThinkingTime());
             //checks if we should snap or just glow the result
             if (skritter.user.getSetting('squigs')) {
                 window.setTimeout(function() {
@@ -78,6 +79,14 @@ define([
                 Tone.canvas.injectLayer('stroke', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
             }
             this.load();
+        },
+        /**
+         * @method handleGradeSelected
+         * @param {Number} grade
+         */
+        handleGradeSelected: function(grade) {
+            Prompt.dataItem.review().set('score', Prompt.gradingButtons.grade());
+            Tone.canvas.injectLayer('stroke', Prompt.gradeColorHex[grade]);
         },
         /**
          * @method handleInputDown
@@ -113,13 +122,14 @@ define([
         handleHold: function() {
             Prompt.this.reset();
             Prompt.this.load();
+            Tone.canvas.enableInput();
         },
         /**
          * @method handleTap
          */
         handleTap: function() {
             if (Prompt.dataItem.isFinished())
-                Prompt.this.handleGradeSelected(Prompt.gradingButtons.grade());
+                Prompt.this.next();
         },
         /**
          * @method load
@@ -216,7 +226,6 @@ define([
          */
         reset: function() {
             Prompt.dataItem.get('character').reset();
-            Prompt.dataItem.set('finished', false);
             this.clear();
         }
     });
