@@ -159,55 +159,62 @@ define(function() {
          * @param {Function} callback
          */
         getNext: function(callback) {
-            var item = this.sort().get('schedule')[0];
-            async.waterfall([
-                //load the base item
-                function(callback) {
-                    skritter.data.items.load(item.id, function(item) {
-                        callback(null, item);
-                    });
-                },
-                //load the associated vocab
-                function(item, callback) {
-                    skritter.data.vocabs.load(item.getVocabId(), function(vocab) {
-                        callback(null, item, vocab);
-                    });
-                },
-                //load contained items for rune and tone
-                function(item, vocab, callback) {
-                    var part = item.get('part');
-                    if (part === 'rune' || part === 'tone') {
-                        vocab.loadContainedItems(part, function(contained) {
-                            callback(null, item, vocab, contained);
-                        });
-                    } else {
-                        callback(null, item, vocab, []);
-                    }
-                },
-                //check for missing data and other possible errors
-                function(item, vocab, contained, callback) { 
-                    var error = null;
-                    if (item.get('part') === 'rune') {
-                        if (contained.length > 0) {
-                            var characters = vocab.getCharacters();
-                            for (var i in characters)
-                                if (!skritter.data.strokes.get(characters[i]))
-                                    error = 'Missing stroke data.';
-                        } else {
-                            if (!skritter.data.strokes.get(vocab.get('writing'))) {
-                                error = 'Missing stroke data.';
+            loadItem();
+            function loadItem() {
+                var item = Scheduler.this.sort().get('schedule')[0];
+                async.waterfall([
+                    //load the base item
+                    function(callback) {
+                        skritter.data.items.load(item.id, function(item) {
+                            if (item) {
+                                callback(null, item);
+                            } else {
+                                callback("Base item doesn't exist.", null, null, []);
                             }
+                        });
+                    },
+                    //load the associated vocab
+                    function(item, callback) {
+                        skritter.data.vocabs.load(item.getVocabId(), function(vocab) {
+                            if (item) {
+                                callback(null, item, vocab);
+                            } else {
+                                callback("Associated vocab doesn't exist.", null, null, []);
+                            }
+                        });
+                    },
+                    //load contained items for rune and tone
+                    function(item, vocab, callback) {
+                        var part = item.get('part');
+                        if (part === 'rune' || part === 'tone') {
+                            vocab.loadContainedItems(part, function(contained) {
+                                callback(null, item, vocab, contained);
+                            });
+                        } else {
+                            callback(null, item, vocab, []);
                         }
+                    },
+                    //check for missing data and other possible errors
+                    function(item, vocab, contained, callback) {
+                        var error = null;
+                        if (item.get('part') === 'rune') {
+                                var characters = vocab.getCharacters();
+                                for (var i in characters)
+                                    if (!skritter.data.strokes.get(characters[i]))
+                                        error = "Missing stroke data.";
+                        }
+                        callback(error, item, vocab, contained);
                     }
-                    callback(error, item, vocab, contained);
-                }
-            ], function(error, item, vocab, contained) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    callback(item, vocab, contained);
-                }
-            });
+                ], function(error, item, vocab, contained) {
+                    if (error) {
+                        console.log(error, item);
+                        Scheduler.this.remove(item.id);
+                        loadItem();
+                    } else {
+                        callback(item, vocab, contained);
+                    }
+                });
+            }
         },
         /**
          * @method loadAll
@@ -218,6 +225,17 @@ define(function() {
                 Scheduler.this.set('schedule', schedule).filter();
                 callback();
             });
+        },
+        /**
+         * @method remove
+         * @param {String} id
+         * @returns {Backbone.Model}
+         */
+        remove: function(id) {
+            var index = _.findIndex(this.get('schedule'), {id: id});
+            if (index > -1)
+                this.get('schedule').splice(index, 1);
+            return this;
         },
         /**
          * @method sort

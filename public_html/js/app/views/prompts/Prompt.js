@@ -76,13 +76,13 @@ define([
          * @method next
          */
         next: function() {
-            if (!Prompt.dataItem.isFinished())
-                skritter.timer.reset();
             if (Prompt.data.isLast()) {
                 this.triggerComplete();
             } else {
                 Prompt.data.next();
                 Prompt.dataItem = Prompt.data.getDataItem();
+                if (!Prompt.dataItem.isFinished())
+                    skritter.timer.reset();
                 this.clear();
                 this.redraw();
                 this.load();
@@ -133,6 +133,7 @@ define([
          */
         set: function(data) {
             console.log('PROMPT DATA', data);
+            skritter.timer.reset();
             Prompt.data = data;
             Prompt.dataItem = Prompt.data.getDataItem();
         },

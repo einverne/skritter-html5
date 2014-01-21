@@ -63,7 +63,7 @@ define([
             var finalGrade = 3;
             var contained = this.getContainedReviews();
             if (contained.length === 1) {
-                finalGrade = this.contained[0].get('score');
+                finalGrade = contained[0].get('score');
             } else {
                 var totalGrade = this.getTotalGrade();
                 var totalWrong = this.getTotalWrong();
@@ -207,7 +207,7 @@ define([
          * @returns {Backbone.Collection}
          */
         save: function() {
-            if (this.getMaxPosition() > 1)
+            if (this.get(0))
                 this.get(0).setReview(this.getFinalGrade(), this.getTotalReviewTime(), this.getTotalThinkingTime(), this.getStartTime());
             skritter.data.items.add(this.getContainedItems(true), {merge: true});
             skritter.data.reviews.add(this.getContainedReviews(true), {merge: true});
