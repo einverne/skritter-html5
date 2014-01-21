@@ -20,6 +20,7 @@ module.exports = function(grunt) {
         'indexeddb.shim': '../libs/indexeddb.shim',
         jquery: '../libs/jquery-1.10.2.min',
         'jquery.indexeddb': '../libs/jquery.indexeddb',
+        'keypress': '../libs/keypress-1.0.9.min',
         'leap': '../libs/leap.min',
         lodash: '../libs/lodash-2.4.1.compat.min',
         moment: '../libs/moment-2.5.0',

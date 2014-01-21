@@ -2,7 +2,7 @@
     "name": "skritter-html5",
     "appName": "Skritter HTML5",
     "description": "Learn to Write Chinese and Japanese Characters",
-    "version": "0.0.256",
+    "version": "0.0.257",
     "devDependencies": {
         "grunt": "~0.4.2",
         "grunt-contrib-clean": "~0.5.0",

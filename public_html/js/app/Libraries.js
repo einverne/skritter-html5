@@ -18,6 +18,7 @@ define([
     'indexeddb.shim',
     'jquery',
     'jquery.indexeddb',
+    'keypress',
     'leap',
     'lodash',
     'require.text'
