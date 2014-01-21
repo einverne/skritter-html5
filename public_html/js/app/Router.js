@@ -5,9 +5,10 @@
 define([
     'views/Home',
     'views/Options',
+    'views/Reviews',
     'views/Study',
     'views/VocabsInfo'
-], function(Home, Options, Study, VocabsInfo) {
+], function(Home, Options, Reviews, Study, VocabsInfo) {
     /**
      * @class Router
      */
@@ -26,6 +27,7 @@ define([
             '': 'showHome',
             'options': 'showOptions',
             'vocabs/:lang/:writing': 'showVocabsInfo',
+            'reviews': 'showReviews',
             'study': 'showStudy'
         },
         /**
@@ -49,6 +51,17 @@ define([
                 Router.view.options.setElement($(skritter.settings.get('container')));
             }
             Router.view.options.render();
+        },
+        /**
+         * @method showReviews
+         */
+        showReviews: function() {
+            if (!Router.view.reviews) {
+                Router.view.reviews = new Reviews({el: $(skritter.settings.get('container'))});
+            } else {
+                Router.view.reviews.setElement($(skritter.settings.get('container')));
+            }
+            Router.view.reviews.render();
         },
         /**
          * @method showStudy
