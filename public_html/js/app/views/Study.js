@@ -47,6 +47,7 @@ define([
          * @property {Object} events
          */
         events: {
+            'click.Study #study-view #info-button': 'navigateVocabsInfo'
         },
         handlePromptComplete: function(data) {
             console.log('prompt complete', data);
@@ -55,6 +56,15 @@ define([
         loadPrompt: function() {
             Study.prompt.setElement(this.$('#prompt-container'));
             Study.prompt.render().load();
+        },
+        /**
+         * @method navigateVocabsInfo
+         * @param {Object} event
+         */
+        navigateVocabsInfo: function(event) {
+            if (Study.prompt)
+                skritter.router.navigate('vocabs/' + Study.prompt.data().vocab.get('lang') + '/' + Study.prompt.data().vocab.get('writing'), {trigger: true});
+            event.preventDefault();
         },
         nextPrompt: function() {
             console.log('NEXT');
