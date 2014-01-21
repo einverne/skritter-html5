@@ -122,6 +122,9 @@ body {
     padding-left: 10px;
     padding-right: 10px;
 }
+.navbar .fa-navbar {
+    font-size: 18px;
+}
 
 
 /*** PROMPT: INFO ***/
