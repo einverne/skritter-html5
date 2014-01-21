@@ -68,13 +68,9 @@ define([
         load: function() {
             console.log('PROMPT ITEM', Prompt.dataItem);
             Prompt.gradingButtons.grade(Prompt.dataItem.getGrade());
-            if (Prompt.dataItem.isFinished()) {
-                this.$('#prompt-next').show();
-                this.$('#prompt-previous').show();
-            } else {
-                this.$('#prompt-next').hide();
-                this.$('#prompt-previous').hide();
-            }
+            //TODO: unhide these options for traversing
+            this.$('#prompt-next').hide();
+            this.$('#prompt-previous').hide();
         },
         /**
          * @method next
