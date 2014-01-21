@@ -58,7 +58,6 @@ define([
             var part = this.get('part');
             var vocab = this.getVocab();
             var wordGroup = id + '_' + now;
-            console.log('promptData contained', containedItems);
             //generates data for defn, rdng and items without contained
             if (_.contains(['defn', 'rdng'], part) || containedItems.length === 0) {
                 if (_.contains(['rune', 'tone'], part)) {

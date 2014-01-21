@@ -35,9 +35,8 @@ define([
         },
         /**
          * @method handleGradeSelected
-         * @param {Number} grade
          */
-        handleGradeSelected: function(grade) {
+        handleGradeSelected: function() {
             this.updateColor();
         },
         /**
@@ -48,7 +47,9 @@ define([
                 Prompt.this.next();
             } else {
                 skritter.timer.stopThinking();
+                //sets the item as finished and initial review values
                 Prompt.dataItem.set('finished', true);
+                Prompt.dataItem.setReview(Prompt.gradingButtons.grade(), skritter.timer.getReviewTime(), skritter.timer.getThinkingTime());
                 Prompt.this.load();
             }
         },

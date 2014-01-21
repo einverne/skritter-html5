@@ -32,7 +32,7 @@ define([
          */
         render: function() {
             this.$el.html(templateStudy);
-            skritter.scheduler.filter({ids: ['mcfarljwtest1-zh-他-0-rune']});
+            //skritter.scheduler.filter({ids: ['mcfarljwtest1-zh-他-0-rune']});
             //skritter.scheduler.filter({parts: ['rdng']});
             skritter.timer.setElement(this.$('#timer')).render();
             this.updateDueCount();

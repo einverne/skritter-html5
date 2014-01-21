@@ -60,20 +60,22 @@ define([
          * @method loadReviews
          */
         refresh: function() {
-            skritter.data.reviews.sort();
-            var reviews = skritter.data.reviews;
-            var div = '';
-            for (var i in reviews.models) {
-                var review = reviews.at(i);
-                div += (review.get('bearTime')) ? "<tr class='active'>" : '<tr>';
-                div += '<td>' + review.id + '</td>';
-                div += '<td>' + review.get('score') + '</td>';
-                div += '<td>' + review.get('bearTime') + '</td>';
-                div += '<td>' + review.get('reviewTime') + '</td>';
-                div += '<td>' + review.get('thinkingTime') + '</td>';
-                div += '</tr>';
-            }
-            this.$('#reviews-table tbody').html(div);
+            skritter.data.reviews.loadAll(function() {
+                var div = '';
+                skritter.data.reviews.sort();
+                var reviews = skritter.data.reviews;
+                for (var i in reviews.models) {
+                    var review = reviews.at(i);
+                    div += (review.get('bearTime')) ? "<tr class='active'>" : '<tr>';
+                    div += '<td>' + review.id + '</td>';
+                    div += '<td>' + review.get('score') + '</td>';
+                    div += '<td>' + review.get('bearTime') + '</td>';
+                    div += '<td>' + review.get('reviewTime') + '</td>';
+                    div += '<td>' + review.get('thinkingTime') + '</td>';
+                    div += '</tr>';
+                }
+                this.$('#reviews-table tbody').html(div);
+            });
         }
     });
     
