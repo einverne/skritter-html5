@@ -66,7 +66,20 @@ define([
                 var reviews = skritter.data.reviews;
                 for (var i in reviews.models) {
                     var review = reviews.at(i);
-                    div += (review.get('bearTime')) ? "<tr class='active'>" : '<tr>';
+                    switch (review.get('score')) {
+                        case 1:
+                            div += "<tr class='danger'>";
+                            break;
+                        case 2:
+                            div += "<tr class='warning'>";
+                            break;
+                        case 3:
+                            div += "<tr class='success'>";
+                            break;
+                        case 4:
+                            div += "<tr class='info'>";
+                            break;
+                    }
                     div += '<td>' + review.id + '</td>';
                     div += '<td>' + review.get('score') + '</td>';
                     div += '<td>' + review.get('bearTime') + '</td>';
