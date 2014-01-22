@@ -19,6 +19,7 @@ define([
         initialize: function() {
             //creates the namespace for accessing views directly
             Router.view = {};
+            skritter.view = Router.view;
         },
         /**
          * @property {Object} routes

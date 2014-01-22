@@ -36,11 +36,18 @@ define([
          * @method load
          */
         load: function() {
+            //parts
             var activeParts = skritter.user.getActiveParts();
             this.$('#parts-definition').bootstrapSwitch('setState', _.contains(activeParts, 'defn'));
             this.$('#parts-reading').bootstrapSwitch('setState', _.contains(activeParts, 'rdng'));
             this.$('#parts-tone').bootstrapSwitch('setState', _.contains(activeParts, 'tone'));
             this.$('#parts-writing').bootstrapSwitch('setState', _.contains(activeParts, 'rune'));
+            //audio
+            this.$('#audio').bootstrapSwitch('setState', skritter.user.get('audio'));
+            //hide-reading
+            this.$('#hide-reading').bootstrapSwitch('setState', skritter.user.getSetting('hideReading'));
+            //squigs
+            this.$('#squigs').bootstrapSwitch('setState', skritter.user.getSetting('squigs'));
         },
         /**
          * @method save
@@ -48,6 +55,7 @@ define([
          */
         save: function(event) {
             event.preventDefault();
+            //parts
             var activeParts = [];
             if (this.$('#parts-definition').bootstrapSwitch('state'))
                 activeParts.push('defn');
@@ -63,6 +71,12 @@ define([
             } else {
                 skritter.user.setActiveParts(activeParts);
             }
+            //audio
+            skritter.user.set('audio', this.$('#audio').bootstrapSwitch('state'));
+            //hide-reading
+            skritter.user.setSetting('hideReading', this.$('#hide-reading').bootstrapSwitch('state'));
+            //squigs
+            skritter.user.setSetting('squigs', this.$('#squigs').bootstrapSwitch('state'));
             //ISSUE #117: scheduler needs to be reloaded on options save
             skritter.scheduler.loadAll(function() {
                 if (skritter.view.study)

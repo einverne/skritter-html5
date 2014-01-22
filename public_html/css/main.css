@@ -127,6 +127,12 @@ body {
 }
 
 
+/*** OPTIONS ***/
+#options-view .control-label {
+    min-width: 100px;
+}
+
+
 /*** PROMPT: INFO ***/
 #info-container {
     background: #ffffff;
