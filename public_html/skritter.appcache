@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Tue Jan 21 2014 10:36:12 GMT-0500 (Eastern Standard Time)
+# Time: Wed Jan 22 2014 13:07:35 GMT-0500 (Eastern Standard Time)
 
 CACHE:
 index.html
@@ -21,6 +21,7 @@ bootstrap/fonts/glyphicons-halflings-regular.eot
 fonts/fontawesome-webfont.eot
 templates/component-contained-table.html
 templates/component-decomp-table.html
+templates/component-vocablists-table.html
 templates/grading-buttons.html
 templates/home-logged-in.html
 templates/home-logged-out.html
@@ -85,6 +86,7 @@ js/app/views/components/ContainedTable.js
 js/app/views/components/DecompTable.js
 js/app/views/components/Modal.js
 js/app/views/components/Timer.js
+js/app/views/components/VocabListsTable.js
 js/app/views/prompts/Canvas.js
 js/app/views/prompts/GradingButtons.js
 js/app/views/prompts/Prompt.js
