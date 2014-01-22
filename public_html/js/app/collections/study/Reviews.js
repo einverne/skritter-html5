@@ -31,7 +31,7 @@ define([
          * @param {Backbone.Model} review
          */
         comparator: function(review) {
-            return -review.get('submitTime');
+            return -review.get('id');
         },
         /**
          * @method loadAll

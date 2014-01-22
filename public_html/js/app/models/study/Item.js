@@ -57,7 +57,7 @@ define([
             var now = skritter.fn.getUnixTime();
             var part = this.get('part');
             var vocab = this.getVocab();
-            var wordGroup = id + '_' + now;
+            var wordGroup = now + '_' + id;
             //generates data for defn, rdng and items without contained
             if (_.contains(['defn', 'rdng'], part) || containedItems.length === 0) {
                 if (_.contains(['rune', 'tone'], part)) {
@@ -71,7 +71,7 @@ define([
                     item: this.clone(),
                     position: 1,
                     review: new Review({
-                        id: wordGroup + '_0',
+                        id: now + '_0_' + this.get('id'),
                         itemId: id,
                         bearTime: true,
                         wordGroup: wordGroup
@@ -80,14 +80,15 @@ define([
             } else {
                 //extract contained kana from japanese writing prompts
                 var filteredContainedItems = [];
-                for (var i = 0; i < containedItems.length; i++) {
-                    if (!containedItems[i].isKana())
-                        filteredContainedItems.push(containedItems[i]);
+                for (var k = 0; k < containedItems.length; k++) {
+                    if (!containedItems[k].isKana())
+                        filteredContainedItems.push(containedItems[k]);
                 }
                 //generates data for rune and tone items with contained
                 filteredContainedItems.unshift(this);
                 for (var i = 0; i < filteredContainedItems.length; i++) {
                     var item = filteredContainedItems[i];
+                    var itemId = item.get('id');
                     if (i !== 0) {
                         character = new CanvasCharacter();
                         character.targets = vocab.getCanvasCharacters(i, part);
@@ -95,11 +96,11 @@ define([
                     data.add({
                         character: character,
                         finished: false,
-                        id: item.get('id'),
+                        id: itemId,
                         item: item.clone(),
                         position: i,
                         review: new Review({
-                            id: wordGroup + '_' + i,
+                            id: now + '_' + i + '_' + itemId,
                             itemId: item.get('id'),
                             bearTime: (i === 0) ? true : false,
                             wordGroup: wordGroup
