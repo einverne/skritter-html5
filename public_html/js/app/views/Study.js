@@ -32,7 +32,7 @@ define([
          */
         render: function() {
             this.$el.html(templateStudy);
-            //skritter.scheduler.filter({ids: ['569995478-ja-お化け屋敷-0-rune']});
+            skritter.scheduler.filter({ids: ['mcfarljwtest3-ja-～ヶ月-0-rune']});
             //skritter.scheduler.filter({parts: ['rdng']});
             skritter.timer.setElement(this.$('#timer')).render();
             this.updateDueCount();
@@ -49,6 +49,14 @@ define([
         events: {
             'click.Study #study-view #audio-button': 'playAudio',
             'click.Study #study-view #info-button': 'navigateVocabsInfo'
+        },
+        /**
+         * @method clearPrompt
+         * @returns {Backbone.View}
+         */
+        clearPrompt: function() {
+            Study.current = null;
+            return this;
         },
         /**
          * @method handlePromptComplete

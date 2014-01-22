@@ -47,6 +47,7 @@ define([
          * @param {Object} event
          */
         save: function(event) {
+            event.preventDefault();
             var activeParts = [];
             if (this.$('#parts-definition').bootstrapSwitch('state'))
                 activeParts.push('defn');
@@ -58,11 +59,16 @@ define([
                 activeParts.push('rune');
             if (activeParts.length === 0) {
                 skritter.modal.show('confirm').noHeader().setBody('You need to select at least one part to study!');
-                event.preventDefault();
                 return false;
             } else {
                 skritter.user.setActiveParts(activeParts);
             }
+            //ISSUE #117: scheduler needs to be reloaded on options save
+            skritter.scheduler.loadAll(function() {
+                if (skritter.view.study)
+                    skritter.view.study.clearPrompt();
+                skritter.router.navigate('/', {trigger: true, replace: true});
+            });
         }
     });
     

@@ -98,9 +98,7 @@ define([
                         containedItemId[3] = '0';
                         containedItemId = containedItemId.join('-');
                     }
-                    console.log('containedId', containedItemId);
                     var containedItem = skritter.data.items.get(containedItemId);
-                    console.log('contained', containedItem);
                     if (containedItem)
                         containedItems.push(containedItem);
                 }
