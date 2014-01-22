@@ -8,10 +8,88 @@ define(function() {
      */
     var Sync = Backbone.Model.extend({
         /**
+         * @method initialize
+         */
+        initialize: function() {
+            Sync.this = this;
+        },
+        /**
          * @property {Object} defaults
          */
         defaults: {
-            active: false
+            active: false,
+            addOffset: 0
+        },
+        /**
+         * @method addItems
+         * @param {Number} offset
+         * @param {Number} limit
+         * @param {Function} callback
+         */
+        addItems: function(offset, limit, callback) {
+            var batchId = null;
+            var requests = [
+                {
+                    path: 'api/v' + skritter.api.get('version') + '/items/add',
+                    method: 'POST',
+                    cache: false,
+                    params: {
+                        limit: limit,
+                        offset: this.get('addOffset')
+                    }
+                }
+            ];
+            async.series([
+                //request the new items using a batch request
+                function(callback) {
+                    skritter.api.requestBatch(requests, function(batch) {
+                        batchId = batch.id;
+                        callback();
+                    });
+                },
+                //start fetching the new items as they are completed
+                function(callback) {
+                    skritter.modal.setProgress(100, 'Getting Items');
+                    getNext();
+                    function getNext() {
+                        skritter.api.getBatch(batchId, function(result) {
+                            if (result) {
+                                if (result.Items)
+                                    console.log('ADDED ITEMS', result.Items);
+                                window.setTimeout(function() {
+                                    getNext();
+                                }, 2000);
+                            } else {
+                                callback();
+                            }
+                        });
+                    }
+                },
+                //run a fresh sync to get the new items and update
+                function(callback) {
+                    Sync.this.set('addOffset', Sync.this.get('addOffset') + 1);
+                    if (Sync.this.syncing()) {
+                        Sync.this.listenToOnce(Sync.this, 'complete', startSync);
+                    } else {
+                        startSync();
+                    }
+                    function startSync() {
+                        Sync.this.full(offset, callback);
+                    }
+                },
+                //reload the scheduler data
+                function(callback) {
+                    skritter.scheduler.loadAll(callback);
+                }
+            ], function(error) {
+                if (error) {
+                    if (typeof callback === 'function')
+                        callback(error);
+                } else {
+                    if (typeof callback === 'function')
+                        callback();
+                }
+            });
         },
         /**
          * @method full
@@ -19,7 +97,6 @@ define(function() {
          * @param {Function} callback
          */
         full: function(offset, callback) {
-            var self = this;
             var batchId = null;
             this.set('active', true);
             var requests = [
@@ -81,8 +158,8 @@ define(function() {
                     callback();
                 }
             ], function() {
-                self.set('active', false);
-                self.triggerComplete();
+                Sync.this.set('active', false);
+                Sync.this.triggerComplete();
                 callback();
             });
         },

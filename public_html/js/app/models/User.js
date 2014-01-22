@@ -91,6 +91,19 @@ define([
             if (this.isLoggedIn())
                 localStorage.setItem(this.get('user_id'), JSON.stringify(this));
         },
+        /**
+         * @method addItems
+         * @param {Number} limit
+         * @param {Function} callback
+         */
+        addItems: function(limit, callback) {
+            limit = (limit) ? limit : 1;
+            skritter.sync.addItems(this.getLastSync(), limit, callback);
+        },
+        /**
+         * @method fetch
+         * @param {Function} callback
+         */
         fetch: function(callback) {
             if (this.isLoggedIn())
                 skritter.api.getUser(this.get('user_id'), function(data) {

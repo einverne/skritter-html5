@@ -3,6 +3,7 @@
  * @submodule Views
  * @param templateIn
  * @param templateOut
+ * @param VocabListsTable
  * @author Joshua McFarland
  */
 define([
@@ -18,6 +19,7 @@ define([
          * @method initialize
          */
         initialize: function() {
+            Home.this = this;
             Home.lists = new VocabListsTable();
         },
         /**
@@ -29,8 +31,9 @@ define([
                 this.$el.html(templateIn);
                 this.$('#user-avatar').html(skritter.user.getAvatar('img-circle'));
                 this.$('.user-name').text(skritter.user.getSetting('name'));
-                this.$('#user-items-due').text(skritter.scheduler.getDueCount());
                 Home.lists.setElement(this.$('#active-lists #table-container')).render().load();
+                this.listenTo(skritter.scheduler, 'change:schedule', this.updateDueCount);
+                this.updateDueCount();
             } else {
                 this.$el.html(templateOut);
             }
@@ -55,6 +58,9 @@ define([
         handleOptionsClicked: function(event) {
             skritter.router.navigate('options', {trigger: true});
             event.preventDefault();
+        },
+        updateDueCount: function() {
+            Home.this.$('#user-items-due').text(skritter.scheduler.getDueCount());
         }
     });
 
