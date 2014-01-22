@@ -125,13 +125,15 @@ body {
     padding-left: 10px;
     padding-right: 10px;
 }
+@media (max-width: 992px) {
+    .navbar .pull-right {
+        padding-right: 15px;
+    }
+}
 @media (max-width: 601px) {
     .navbar .navbar-text a {
         padding-left: 5px;
         padding-right: 5px;
-    }
-    .navbar .pull-right {
-        padding-right: 15px;
     }
 }
 
@@ -256,4 +258,31 @@ body {
     background: #ffffff;
     margin-bottom: 25px;
     padding: 15px;
+}
+
+
+/*** PROMPT: HORIZONTAL ***/
+@media (max-height: 601px) and (min-width: 601px) {
+    html {
+        overflow-y: hidden;
+    }
+    .container {
+        width: 100%;
+    }
+    #info-container {
+        bottom: 0;
+        border-bottom: none;
+        border-left: none;
+        border-top: none;
+        position: absolute;
+        margin: 45px 0 0 0;
+        top: 0;
+    }
+    #input-container {
+        border: none;
+        right: 0;
+        margin: 45px 0 0 0;
+        position: absolute;
+        top: 0;
+    }
 }

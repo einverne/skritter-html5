@@ -116,7 +116,12 @@ define([
          * @method triggerResize
          */
         triggerResize: function() {
-            Settings.this.trigger('resize', {width: Settings.this.get('appWidth'), height: Settings.this.get('appHeight'), canvas: Settings.this.get('canvasSize')});
+            Settings.this.trigger('resize', {
+                width: Settings.this.get('appWidth'),
+                height: Settings.this.get('appHeight'),
+                canvas: Settings.this.get('canvasSize'),
+                navbar: 45
+            });
         }
     });
 

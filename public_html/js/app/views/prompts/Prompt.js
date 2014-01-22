@@ -103,6 +103,13 @@ define([
             }
         },
         /**
+         * @method redraw
+         */
+        redraw: function() {
+            this.$('.font-size-normal').css({'font-size': skritter.settings.fontSize.normal()});
+            this.$('.font-size-large').css({'font-size': skritter.settings.fontSize.large()});
+        },
+        /**
          * @method resize
          * @param {Object} size
          */
@@ -111,21 +118,23 @@ define([
             size.width = (size.width) ? size.width : skritter.settings.get('appWidth');
             size.height = (size.height) ? size.height : skritter.settings.get('appHeight');
             size.canvas = (size.canvas) ? size.canvas : skritter.settings.get('canvasSize');
-            this.$('#input-container').width(size.canvas);
-            this.$('#input-container').height(size.canvas);
+            size.navbar = (size.navbar) ? size.navbar : Prompt.this.$('.navbar').height();
+            Prompt.this.$('#input-container').width(size.canvas);
+            Prompt.this.$('#input-container').height(size.canvas);
             //manually resizes the info section to fill vertical mobile devices
             if (size.width <= 601 && skritter.settings.get('orientation') === 'vertical') {
-                this.$('#info-container').height(size.height - $('.navbar').height() - size.canvas - 32);
-                this.$('#info-container').width('');
+                Prompt.this.$('#info-container').height(size.height - $('.navbar').height() - size.canvas - 32);
+                Prompt.this.$('#info-container').width('');
             } else {
                 //manually resizes the info section to fill horizontal mobile devices
                 if (size.height <= 601 && size.width > 601) {
-                    this.$('#info-container').height(size.canvas);
-                    this.$('#info-container').width(size.width - size.canvas - 32);
+                    Prompt.this.$('#info-container').height(size.canvas);
+                    Prompt.this.$('#info-container').width(size.width - size.canvas - 32);
                 } else {
-                    this.$('#info-container').height('');
+                    Prompt.this.$('#info-container').height('');
                 }
             }
+            Prompt.this.redraw();
         },
         /**          
          * @method set

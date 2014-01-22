@@ -51,7 +51,6 @@ define([
          * @method clear
          */
         clear: function() {
-            Prompt.gradingButtons.hide(true);
             Rune.canvas.setLayerAlpha('stroke', 1);
             Rune.canvas.clear('background');
             Rune.canvas.clear('hint');
@@ -230,6 +229,8 @@ define([
          * @method redraw
          */
         redraw: function() {
+            Prompt.prototype.redraw.call(this);
+            Prompt.this.clear();
             if (Prompt.dataItem.isFinished()) {
                 Rune.canvas.drawContainer('stroke', Prompt.dataItem.get('character').getCharacterSprite(null, Prompt.gradeColorHex[Prompt.dataItem.getGrade()]));
             } else {
@@ -240,6 +241,7 @@ define([
          * @method reset
          */
         reset: function() {
+            Prompt.gradingButtons.hide(true);
             Prompt.dataItem.get('character').reset();
             Prompt.dataItem.set('finished', false);
             this.clear();
