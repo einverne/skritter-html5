@@ -17,9 +17,15 @@ define([
          * @method initialize
          */
         initialize: function() {
-            //creates the namespace for accessing views directly
+            //creates the namespace for accessing views in this router
             Router.view = {};
-            skritter.view = Router.view;
+            //creates the namespace for accessing views directly
+            skritter.view = {};
+            //stop the timer when the view has moved from study
+            this.on('route', function(route) {
+                if (route !== 'showStudy')
+                    skritter.timer.stop();
+            });
         },
         /**
          * @property {Object} routes
@@ -37,6 +43,7 @@ define([
         showHome: function() {
             if (!Router.view.home) {
                 Router.view.home = new Home({el: $(skritter.settings.get('container'))});
+                skritter.view = Router.view;
             } else {
                 Router.view.home.setElement($(skritter.settings.get('container')));
             }
@@ -48,6 +55,7 @@ define([
         showOptions: function() {
             if (!Router.view.options) {
                 Router.view.options = new Options({el: $(skritter.settings.get('container'))});
+                skritter.view = Router.view;
             } else {
                 Router.view.options.setElement($(skritter.settings.get('container')));
             }
@@ -59,6 +67,7 @@ define([
         showReviews: function() {
             if (!Router.view.reviews) {
                 Router.view.reviews = new Reviews({el: $(skritter.settings.get('container'))});
+                skritter.view = Router.view;
             } else {
                 Router.view.reviews.setElement($(skritter.settings.get('container')));
             }
@@ -70,6 +79,7 @@ define([
         showStudy: function() {
             if (!Router.view.study) {
                 Router.view.study = new Study({el: $(skritter.settings.get('container'))});
+                skritter.view = Router.view;
             } else {
                 Router.view.study.setElement($(skritter.settings.get('container')));
             }
@@ -83,6 +93,7 @@ define([
         showVocabsInfo: function(lang, writing) {
             if (!Router.view.vocabsInfo) {
                 Router.view.vocabsInfo = new VocabsInfo({el: $(skritter.settings.get('container'))});
+                skritter.view = Router.view;
             } else {
                 Router.view.vocabsInfo.setElement($(skritter.settings.get('container')));
             }

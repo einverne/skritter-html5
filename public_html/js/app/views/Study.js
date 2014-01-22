@@ -55,7 +55,7 @@ define([
          * @returns {Backbone.View}
          */
         clearPrompt: function() {
-            Study.current = null;
+            Study.prompt = null;
             return this;
         },
         /**
