@@ -36,6 +36,7 @@ define([
                     'studyingMode': 'Status'
                 });
                 this.listenTo(skritter.scheduler, 'change:schedule', this.updateDueCount);
+                this.listenTo(skritter.sync, 'change:active', this.updateSyncStatus);
                 this.updateDueCount();
             } else {
                 this.$el.html(templateOut);
@@ -48,7 +49,8 @@ define([
         events: {
             'click.Home #home-view .login-button': 'handleLoginClicked',
             'click.Home #home-view .logout-button': 'handleLogoutClicked',
-            'click.Home #home-view .options-button': 'handleOptionsClicked'
+            'click.Home #home-view .options-button': 'handleOptionsClicked',
+            'click.Home #home-view .sync-button': 'handleSyncClicked'
         },
         handleLoginClicked: function(event) {
             skritter.modal.show('login');
@@ -62,8 +64,20 @@ define([
             skritter.router.navigate('options', {trigger: true});
             event.preventDefault();
         },
+        handleSyncClicked: function() {
+            skritter.user.sync();
+        },
         updateDueCount: function() {
             Home.this.$('#user-items-due').text(skritter.scheduler.getDueCount());
+        },
+        updateSyncStatus: function(sync) {
+            if (sync.get('active'))  {
+                Home.this.$('.sync-button').html('Syncing...');
+                Home.this.$('.sync-button').addClass('disabled');
+            } else {
+                Home.this.$('.sync-button').html('Sync');
+                Home.this.$('.sync-button').removeClass('disabled');
+            }
         }
     });
 
