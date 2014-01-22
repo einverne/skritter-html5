@@ -15,6 +15,9 @@ define(function() {
             token: null,
             version: 0
         },
+        /**
+         * @method authenticateGuest
+         */
         authenticateGuest: function() {
             var self = this;
             var guest = JSON.parse(localStorage.getItem('guest'));
@@ -45,6 +48,12 @@ define(function() {
                 });
             }
         },
+        /**
+         * @method authenticateUser
+         * @param {String} username
+         * @param {String} password
+         * @param {Function} callback
+         */
         authenticateUser: function(username, password, callback) {
             var self = this;
             var promise = $.ajax({
@@ -137,6 +146,56 @@ define(function() {
             };
             getBatch();
         },
+        /**
+         * Returns a high level list of lists available sorted by type. For longer sort groups
+         * it might be necessary to use pagination. Sort values include: published, custom,
+         * official and studying.
+         * 
+         * @method getVocabLists
+         * @param {String} sort
+         * @param {String} fields
+         * @param {Function} callback
+         */
+        getVocabLists: function(sort, fields, callback) {
+            var self = this;
+            var lists = [];
+            fields = (fields) ? fields : undefined;
+            var getNext = function(cursor) {
+                var promise = $.ajax({
+                    url: self.baseUrl() + 'vocablists',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('AUTHORIZATION', self.credentials());
+                    },
+                    type: 'GET',
+                    data: {
+                        bearer_token: self.get('token'),
+                        sort: sort,
+                        cursor: cursor,
+                        fields: fields
+                    }
+                });
+                promise.done(function(data) {
+                    lists = lists.concat(data.VocabLists);
+                    if (data.cursor) {
+                        setTimeout(function() {
+                            getNext(data.cursor);
+                        }, 500);
+                    } else {
+                        callback(lists, data.cursor);
+                    }
+                });
+                promise.fail(function(error) {
+                    console.error(error);
+                    callback(error);
+                });
+            };
+            getNext();
+        },
+        /**
+         * @method getUser
+         * @param {String} userId
+         * @param {Function} callback
+         */
         getUser: function(userId, callback) {
             var self = this;
             var tryCount = 0;
@@ -224,6 +283,29 @@ define(function() {
             });
             promise.done(function(data) {
                 callback(data.Batch);
+            });
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        },
+        /**
+         * @method updateVocabList
+         * @param {Object} list
+         * @param {Function} callback
+         */
+        updateVocabList: function(list, callback) {
+            var self = this;
+            var promise = $.ajax({
+                url: self.baseUrl() + 'vocablists/' + list.id + '?bearer_token=' + self.get('token'),
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('AUTHORIZATION', self.credentials());
+                },
+                type: 'PUT',
+                data: JSON.stringify(list)
+            });
+            promise.done(function(data) {
+                callback(data);
             });
             promise.fail(function(error) {
                 console.error(error);

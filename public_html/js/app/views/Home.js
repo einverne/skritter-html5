@@ -7,8 +7,9 @@
  */
 define([
     'require.text!templates/home-logged-in.html',
-    'require.text!templates/home-logged-out.html'
-], function(templateIn, templateOut) {
+    'require.text!templates/home-logged-out.html',
+    'views/components/VocabListsTable'
+], function(templateIn, templateOut, VocabListsTable) {
     /**
      * @class Home
      */
@@ -17,6 +18,7 @@ define([
          * @method initialize
          */
         initialize: function() {
+            Home.lists = new VocabListsTable();
         },
         /**
          * @method render
@@ -28,6 +30,7 @@ define([
                 this.$('#user-avatar').html(skritter.user.getAvatar('img-circle'));
                 this.$('.user-name').text(skritter.user.getSetting('name'));
                 this.$('#user-items-due').text(skritter.scheduler.getDueCount());
+                Home.lists.setElement(this.$('#active-lists #table-container')).render().load();
             } else {
                 this.$el.html(templateOut);
             }
