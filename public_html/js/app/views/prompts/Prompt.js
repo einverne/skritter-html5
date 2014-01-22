@@ -115,7 +115,7 @@ define([
             this.$('#input-container').height(size.canvas);
             //manually resizes the info section to fill vertical mobile devices
             if (size.width <= 601 && skritter.settings.get('orientation') === 'vertical') {
-                this.$('#info-container').height(size.height - $('.navbar').height() - size.canvas - 40);
+                this.$('#info-container').height(size.height - $('.navbar').height() - size.canvas - 32);
                 this.$('#info-container').width('');
             } else {
                 //manually resizes the info section to fill horizontal mobile devices

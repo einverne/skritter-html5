@@ -118,12 +118,21 @@ body {
 
 
 /*** NAVBAR ***/
+.navbar .fa-navbar {
+    font-size: 18px;
+}
 .navbar .navbar-text a {
     padding-left: 10px;
     padding-right: 10px;
 }
-.navbar .fa-navbar {
-    font-size: 18px;
+@media (max-width: 601px) {
+    .navbar .navbar-text a {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .navbar .pull-right {
+        padding-right: 15px;
+    }
 }
 
 
@@ -228,6 +237,12 @@ body {
         padding: 0;
         position: absolute;
     }
+}
+
+
+/*** STUDY ***/
+#study-view {
+    overflow: hidden;
 }
 
 
