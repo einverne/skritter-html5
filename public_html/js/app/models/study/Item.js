@@ -78,10 +78,16 @@ define([
                     })
                 });
             } else {
-                //generates data for rune and tone items with contained
-                containedItems.unshift(this);
+                //extract contained kana from japanese writing prompts
+                var filteredContainedItems = [];
                 for (var i = 0; i < containedItems.length; i++) {
-                    var item = containedItems[i];
+                    if (!containedItems[i].isKana())
+                        filteredContainedItems.push(containedItems[i]);
+                }
+                //generates data for rune and tone items with contained
+                filteredContainedItems.unshift(this);
+                for (var i = 0; i < filteredContainedItems.length; i++) {
+                    var item = filteredContainedItems[i];
                     if (i !== 0) {
                         character = new CanvasCharacter();
                         character.targets = vocab.getCanvasCharacters(i, part);
@@ -129,6 +135,21 @@ define([
             if (vocabIds.length > 0)
                 return vocabIds[this.get('reviews') % vocabIds.length];
             return null;
+        },
+        /**
+         * Returns true if the item is a single kana character. Since we don't currently support kana
+         * and writing prompts it needs to be excluded.
+         * 
+         * @method isKana
+         * @returns {Boolean}
+         */
+        isKana: function() {
+            if (this.get('lang') === 'ja') {
+                var writing = this.id.split('-')[2];
+                if (writing.split('').length === 1 && skritter.fn.isKana(writing))
+                    return true;
+            }
+            return false;
         }
     });
 
