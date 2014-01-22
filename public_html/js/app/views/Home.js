@@ -31,7 +31,10 @@ define([
                 this.$el.html(templateIn);
                 this.$('#user-avatar').html(skritter.user.getAvatar('img-circle'));
                 this.$('.user-name').text(skritter.user.getSetting('name'));
-                Home.lists.setElement(this.$('#active-lists #table-container')).render().load();
+                Home.lists.setElement(this.$('#active-lists #table-container')).load('studying', {
+                    'name': 'Name',
+                    'studyingMode': 'Status'
+                });
                 this.listenTo(skritter.scheduler, 'change:schedule', this.updateDueCount);
                 this.updateDueCount();
             } else {

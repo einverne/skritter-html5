@@ -38,32 +38,49 @@ define([
          * @param {String} fields
          */
         load: function(sort, fields) {
-            VocabListsTable.fields = (fields) ? fields : null;
+            VocabListsTable.fields = (fields) ? fields : [];
             VocabListsTable.sort = (sort) ? sort : 'studying';
+            this.render();
             this.loadLists();
         },
         loadLists: function(callback) {
-            skritter.api.getVocabLists('studying', 'id,name,studyingMode', function(lists) {
-                var div = '';
+            var fieldNames = ['id'];
+            for (var field in VocabListsTable.fields)
+                fieldNames.push(field);
+            skritter.api.getVocabLists(VocabListsTable.sort, _.uniq(fieldNames.join(',')), function(lists) {
+                var divHead = '';
+                var divBody = '';
                 VocabListsTable.this.$('#lists-message').hide();
                 VocabListsTable.this.$('.loader').show();
-                VocabListsTable.this.$('tbody').html(div);
+                VocabListsTable.this.$('thead').html(divHead);
+                VocabListsTable.this.$('tbody').html(divBody);
                 if (lists.status === 404) {
                     VocabListsTable.this.$('#lists-message').show().text("Unable to load lists due to being offline.");
                 } else if (lists.length > 0) {
                     var activeCount = 0;
-                    for (var i in lists) {
-                        var list = lists[i];
+                    //create the html for column header
+                    divHead += "<tr>";
+                    for (var a in VocabListsTable.fields)
+                        divHead += "<th>" + VocabListsTable.fields[a] + "</th>";
+                    divHead += "</tr>";
+                    //create the html for the table rows
+                    for (var b in lists) {
+                        var list = lists[b];
                         if (list.studyingMode) {
                             if (list.studyingMode === 'adding' || list.studyingMode === 'reviewing') {
-                                div += "<tr id='list-" + list.id + "' class='cursor'>";
-                                div += "<td>" + list.name + "</td>";
-                                if (list.studyingMode === 'adding') {
-                                    div += "<td class='vocablist-status'>Adding</td>";
-                                } else {
-                                    div += "<td class='vocablist-status'>Paused</td>";
+                                divBody += "<tr id='list-" + list.id + "' class='cursor'>";
+                                for (var c in VocabListsTable.fields) {
+                                    if (c === 'studyingMode') {
+                                        if (list.studyingMode === 'adding') {
+                                            divBody += "<td class='vocablist-studyingMode'>Adding</td>";
+                                        } else {
+                                            divBody += "<td class='vocablist-studyingMode'>Paused</td>";
+                                        }
+                                    } else {
+                                        divBody += "<td class='vocablist-field-" + c + "'>" + list[c] + "</td>";
+                                    }
                                 }
-                                div += "</tr>";
+                                divBody += "</tr>";
                                 activeCount++;
                             }
                         }
@@ -73,7 +90,8 @@ define([
                 } else {
                     VocabListsTable.this.$('#lists-message').show().text("You haven't added any lists yet!");
                 }
-                VocabListsTable.this.$('tbody').html(div);
+                VocabListsTable.this.$('thead').html(divHead);
+                VocabListsTable.this.$('tbody').html(divBody);
                 VocabListsTable.this.$('.loader').hide();
                 if (typeof callback === 'function')
                     callback(lists);
