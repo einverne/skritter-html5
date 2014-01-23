@@ -32,6 +32,7 @@ define([
             Rune.leap = new LeapController();
             Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 10;
+            Rune.teach = false;
             this.listenTo(Rune.canvas, 'input:down', this.handleInputDown);
             this.listenTo(Rune.canvas, 'input:up', this.handleInputUp);
         },
@@ -245,6 +246,22 @@ define([
             Prompt.dataItem.get('character').reset();
             Prompt.dataItem.set('finished', false);
             this.clear();
+        },
+        /**
+         * @method teach
+         */
+        teach: function() {
+            Rune.teach = true;
+            Rune.canvas.clear('overlay');
+            Prompt.gradingButtons.grade(1);
+            //if (Prompt.dataItem.get('character').getStrokeCount() === 0)
+            var nextStroke = Prompt.dataItem.get('character').getNextStroke(true);
+            if (nextStroke) {
+                Rune.canvas.drawShape('overlay', nextStroke.getInflatedSprite('#87cefa'), 1);
+            } else {
+                Rune.canvas.showMessage('Click to try it from memory.', false);
+                //TODO: reset the prompt for the user to try
+            }
         }
     });
 

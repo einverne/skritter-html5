@@ -40,6 +40,7 @@ define(function() {
             this.createLayer('background');
             this.createLayer('hint');
             this.createLayer('stroke');
+            this.createLayer('overlay');
             this.createLayer('feedback');
             this.createLayer('input');
             this.drawGrid('grid');
