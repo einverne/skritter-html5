@@ -50,7 +50,7 @@ define(function() {
                 submitTime: submitTime ? submitTime : now,
                 reviewTime: reviewTime,
                 thinkingTime: thinkingTime,
-                currentInterval: this.item().get('interval'),
+                currentInterval: (this.item().get('interval')) ? this.item().get('interval') : 0,
                 actualInterval: this.item().has('last') ? now - this.item().get('last') : 0,
                 newInterval: skritter.scheduler.getInterval(this.item(), grade),
                 previousInterval: this.item().has('previousInterval') ? this.item().get('previousInterval') : 0,
@@ -61,7 +61,7 @@ define(function() {
                 last: now,
                 next: now + review.get('newInterval'),
                 interval: review.get('newInterval'),
-                previousInterval: this.item().get('interval'),
+                previousInterval: review.get('currentInterval'),
                 previousSuccess: (grade > 1) ? true : false,
                 reviews: this.item().get('reviews') + 1,
                 successes: (grade > 1) ? this.item().get('successes') + 1 : this.item().get('successes')

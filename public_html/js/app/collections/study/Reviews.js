@@ -42,6 +42,22 @@ define([
                 skritter.data.reviews.add(reviews, {merge:true, silent: true});
                 callback();
             });
+        },
+        /**
+         * @method post
+         * @param {Function} callback
+         */
+        post: function(callback) {
+            if (this.length > 0) {
+                skritter.api.postReviews(this.toJSON(), function(reviews) {
+                    reviews = (reviews) ? reviews : [];
+                    console.log('POSTED REVIEWS', reviews);
+                    skritter.data.reviews.remove(reviews);
+                    callback(reviews.length)
+                });
+            } else {
+                callback(0);
+            }
         }
     });
 

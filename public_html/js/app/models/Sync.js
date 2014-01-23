@@ -155,7 +155,7 @@ define(function() {
                     }
                 },
                 function(callback) {
-                    callback();
+                    skritter.data.reviews.post(callback);
                 }
             ], function() {
                 Sync.this.set('active', false);
