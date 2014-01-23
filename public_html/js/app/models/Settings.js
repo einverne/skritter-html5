@@ -63,11 +63,13 @@ define([
          * @property {Object} fontSize
          */
         fontSize: {
-            large: function() {
-                return Math.round(Settings.this.get('canvasSize') * 0.1) + 'px';
+            large: function(offset) {
+                offset = (offset) ? offset : 0;
+                return Math.round((Settings.this.get('canvasSize') * 0.1) + offset) + 'px';
             },
-            normal: function() {
-                return Math.round(Settings.this.get('canvasSize') * 0.03) + 'px';
+            normal: function(offset) {
+                offset = (offset) ? offset : 0;
+                return Math.round((Settings.this.get('canvasSize') * 0.03) + offset) + 'px';
             }
         },
         /**
