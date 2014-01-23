@@ -148,15 +148,15 @@ define([
          */
         toggleAudioButton: function() {
             if (Study.prompt.data().vocab.has('audio')) {
-                this.$('#audio-button span').removeClass('fa fa-volume-off');
-                this.$('#audio-button span').addClass('fa fa-volume-up');
+                Study.this.$('#audio-button span').removeClass('fa fa-volume-off');
+                Study.this.$('#audio-button span').addClass('fa fa-volume-up');
             } else {
-                this.$('#audio-button span').removeClass('fa fa-volume-up');
-                this.$('#audio-button span').addClass('fa fa-volume-off');
+                Study.this.$('#audio-button span').removeClass('fa fa-volume-up');
+                Study.this.$('#audio-button span').addClass('fa fa-volume-off');
             }
         },
         updateDueCount: function() {
-            this.$('#items-due').text(skritter.scheduler.getDueCount());
+            Study.this.$('#items-due').text(skritter.scheduler.getDueCount());
         }
     });
     

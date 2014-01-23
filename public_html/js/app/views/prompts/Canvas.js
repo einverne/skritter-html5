@@ -9,12 +9,13 @@ define(function() {
     var Canvas = Backbone.View.extend({
         /**
          * @method initialize
+         * @param {Object} options
          */
-        initialize: function() {
+        initialize: function(options) {
             Canvas.this = this;
             Canvas.gridColor = 'grey';
             Canvas.gridLineWidth = 1;
-            Canvas.size = skritter.settings.get('canvasSize');
+            Canvas.size = (options && options.size) ? options.size : skritter.settings.get('canvasSize') ;
             Canvas.strokeColor = '#000000';
             Canvas.strokeSize = 12;
             Canvas.strokeCapStyle = 'round';
