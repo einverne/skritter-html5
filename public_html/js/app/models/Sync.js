@@ -68,7 +68,7 @@ define(function() {
                 //run a fresh sync to get the new items and update
                 function(callback) {
                     Sync.this.set('addOffset', Sync.this.get('addOffset') + 1);
-                    if (Sync.this.syncing()) {
+                    if (Sync.this.isSyncing()) {
                         Sync.this.listenToOnce(Sync.this, 'complete', startSync);
                     } else {
                         startSync();
@@ -166,7 +166,7 @@ define(function() {
         /**
          * @method isSyncing
          */
-        syncing: function() {
+        isSyncing: function() {
             if (this.get('active'))
                 return true;
             return false;

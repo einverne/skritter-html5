@@ -109,26 +109,27 @@ define([
     var loadUser = function(callback) {
         skritter.user = new User();
         if (skritter.user.isLoggedIn()) {
-            skritter.modal.show('progress');
+            skritter.modal.show('progress').setTitle('Loading Data').setProgress(100, '');
             async.series([
                 async.apply(skritter.storage.openDatabase, skritter.user.get('user_id')),
                 async.apply(skritter.user.loadData),
                 function(callback) {
                     if (skritter.user.getLastSync() === 0) {
-                        skritter.modal.setTitle('Initial Download').setProgress('100', '');
+                        skritter.modal.setTitle('Initial Download').setProgress(100, '');
                         skritter.user.sync(function() {
                             skritter.scheduler.loadAll(function() {
-                                skritter.modal.hide();
                                 callback();
                             });
                         });
                     } else {
-                        skritter.modal.hide();
                         skritter.user.sync();
                         callback();
                     }
                 }
             ], function() {
+                window.setTimeout(function() {
+                    skritter.modal.hide();
+                }, 500);
                 callback();
             });
         } else {

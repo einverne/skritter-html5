@@ -15,14 +15,14 @@ define([
          * @method initialze
          */
         initialize: function() {
-            var self = this;
+            Modal.this = this;
             Modal.element = null;
             Modal.id = null;
             Modal.options = null;
             this.$el.on('show.bs.modal', function() {
-                if (self.$el.children().hasClass('in')) {
-                    self.$el.children('.in').modal('hide').one('hidden.bs.modal', function() {
-                        self.$(Modal.element).modal(Modal.options);
+                if (Modal.this.$el.children().hasClass('in')) {
+                    Modal.this.$el.children('.in').modal('hide').one('hidden.bs.modal', function() {
+                        Modal.this.$(Modal.element).modal(Modal.options);
                     });
                     return false;
                 }
@@ -49,7 +49,7 @@ define([
          * @param {Object} event
          */
         handleLogin: function(event) {
-            var self = this;
+            event.preventDefault();
             var username = this.$(event.target.parentNode).children('#login-username').val();
             var password = this.$(event.target.parentNode).children('#login-password').val();
             this.show('default', function() {
@@ -57,12 +57,11 @@ define([
                     if (result.statusCode === 200) {
                         document.location.href = '';
                     } else {
-                        self.$('#login #error-message').html(skritter.fn.twbsAlertHTML('warning', result.message));
-                        self.show('login');
+                        Modal.this.$('#login #error-message').html(skritter.fn.twbsAlertHTML('warning', result.message));
+                        Modal.this.show('login');
                     }
                 });
             }).setBody('Logging In').noHeader();
-            return false;
         },
         /**
          * @method hide
@@ -146,9 +145,9 @@ define([
             options.remote = (options.remote) ? options.remote : false;
             Modal.id = id;
             Modal.options = options;
-            this.reset();
             Modal.element = this.$('#' + id).modal(options).one('shown.bs.modal', callback);
             this.$(Modal.element).children('.modal-content').show();
+            this.reset();
             return this;
         },
         /**

@@ -38,6 +38,7 @@ define([
                 this.listenTo(skritter.scheduler, 'change:schedule', this.updateDueCount);
                 this.listenTo(skritter.sync, 'change:active', this.updateSyncStatus);
                 this.updateDueCount();
+                this.updateSyncStatus();
             } else {
                 this.$el.html(templateOut);
             }
@@ -70,8 +71,8 @@ define([
         updateDueCount: function() {
             Home.this.$('#user-items-due').text(skritter.scheduler.getDueCount());
         },
-        updateSyncStatus: function(sync) {
-            if (sync.get('active'))  {
+        updateSyncStatus: function() {
+            if (skritter.sync.isSyncing())  {
                 Home.this.$('.sync-button').html('Syncing...');
                 Home.this.$('.sync-button').addClass('disabled');
             } else {

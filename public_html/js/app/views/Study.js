@@ -47,6 +47,7 @@ define([
          * @property {Object} events
          */
         events: {
+            'click.Study #study-view #add-button': 'handleAddClicked',
             'click.Study #study-view #audio-button': 'playAudio',
             'click.Study #study-view #info-button': 'navigateVocabsInfo'
         },
@@ -59,10 +60,29 @@ define([
             return this;
         },
         /**
+         * @method handleAddClicked
+         * @param {Object} event
+         */
+        handleAddClicked: function(event) {
+            event.preventDefault();
+            skritter.modal.show('add-items').setTitle('How many items would you like to add?');
+            this.listenToOnce(skritter.modal, 'addItemsClicked', function(quantity) {
+                skritter.modal.show('progress').setTitle('Adding Items').setProgress(100);
+                skritter.user.addItems(quantity, function() {
+                    skritter.modal.setProgress(100, 'Rescheduling');
+                    skritter.scheduler.loadAll(function() {
+                        Study.this.updateDueCount();
+                        skritter.modal.hide();
+                    });
+                });
+            });
+        },
+        /**
          * @method handlePromptComplete
          */
         handlePromptComplete: function() {
             Study.history.push(Study.prompt);
+            Study.this.updateDueCount();
             this.nextPrompt();
         },
         loadPrompt: function() {

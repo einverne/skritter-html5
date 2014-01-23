@@ -236,7 +236,6 @@ define([
             return false;
         },
         loadData: function(callback) {
-            skritter.modal.setTitle('Loading Data').setProgress('100', null);
             async.series([
                 async.apply(skritter.data.decomps.loadAll),
                 async.apply(skritter.data.reviews.loadAll),
@@ -319,7 +318,7 @@ define([
          * @returns {Backbone.Model}
          */
         sync: function(callback) {
-            if (!skritter.sync.syncing()) {
+            if (!skritter.sync.isSyncing()) {
                 skritter.sync.full(this.getLastSync(), function(error) {
                     if (!error)
                         User.this.setLastSync();
