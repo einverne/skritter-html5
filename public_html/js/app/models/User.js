@@ -326,7 +326,8 @@ define([
                         callback(error);
                 });
             } else {
-                callback();
+                if (typeof callback === 'function')
+                    callback();
             }
         },
         /**

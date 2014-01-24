@@ -30,6 +30,7 @@ define([
                 3: new createjs.ColorFilter(0, 0, 0, 1, 112, 218, 112, 1),
                 4: new createjs.ColorFilter(0, 0, 0, 1, 112, 218, 112, 1)
             };
+            Prompt.teachingMode = true;
             this.listenTo(skritter.settings, 'resize', this.resize);
             this.listenTo(Prompt.gradingButtons, 'selected', this.handleGradeSelected);
         },
@@ -82,9 +83,10 @@ define([
             } else {
                 Prompt.data.next();
                 Prompt.dataItem = Prompt.data.getDataItem();
-                if (!Prompt.dataItem.isFinished())
+                if (!Prompt.dataItem.isFinished()) {
                     skritter.timer.reset();
-                this.clear();
+                    this.reset();
+                }
                 this.redraw();
                 this.load();
             }

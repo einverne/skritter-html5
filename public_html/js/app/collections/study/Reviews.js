@@ -34,6 +34,16 @@ define([
             return -review.get('id');
         },
         /**
+         * @method includeContained
+         * @param {Boolean} includContained
+         * @returns {Number}
+         */
+        getCount: function(includContained) {
+            if (includContained)
+                return this.length;
+            return this.where({bearTime: true}).length;
+        },
+        /**
          * @method loadAll
          * @param {Callback} callback
          */
@@ -53,7 +63,7 @@ define([
                     reviews = (reviews) ? reviews : [];
                     console.log('POSTED REVIEWS', reviews);
                     skritter.data.reviews.remove(reviews);
-                    callback(reviews.length)
+                    callback(reviews.length);
                 });
             } else {
                 callback(0);

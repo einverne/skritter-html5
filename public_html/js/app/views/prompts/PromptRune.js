@@ -32,7 +32,7 @@ define([
             Rune.leap = new LeapController();
             Rune.maxFailedAttempts = 3;
             Rune.minStrokeDistance = 10;
-            Rune.teach = false;
+            Rune.teaching = false;
             this.listenTo(Rune.canvas, 'input:down', this.handleInputDown);
             this.listenTo(Rune.canvas, 'input:up', this.handleInputUp);
         },
@@ -124,7 +124,7 @@ define([
             //prevents multiple simultaneous strokes from firing the character complete event
             result.set('isTweening', false);
             //check if the character has been completed yet or not with enforced tween checks
-            if (Prompt.dataItem.get('character').getStrokeCount(true) >= Prompt.dataItem.get('character').getTargetStrokeCount())
+            if (Prompt.dataItem.get('character').getStrokeCount(true) >= Prompt.dataItem.get('character').getTargetStrokeCount() && !Rune.teaching)
                 this.handleCharacterComplete();
         },
         /**
@@ -141,6 +141,13 @@ define([
         handleTap: function() {
             if (Prompt.dataItem.isFinished())
                 Prompt.this.next();
+        },
+        /**
+         * @method handleTeachComplete
+         */
+        handleTeachComplete: function() {
+            hammer(Prompt.this.$('#canvas-container')[0]).off('tap', Prompt.this.handleTeachComplete);
+            Prompt.this.reset();
         },
         /**
          * @method load
@@ -166,6 +173,9 @@ define([
                 Rune.canvas.enableInput();
                 Prompt.data.show.sentenceMasked();
                 Prompt.data.show.writingAt();
+                if (Rune.teaching)
+                    this.teach();
+                    
             }
         },
         /**
@@ -208,10 +218,13 @@ define([
                             Rune.canvas.drawShapePhantom('hint', Prompt.dataItem.get('character').getExpectedStroke().getInflatedSprite());
                     }
                     //ISSUE #63: show the grading buttons and grade color preemptively
-                    if (Prompt.dataItem.get('character').getStrokeCount(false) >= Prompt.dataItem.get('character').getTargetStrokeCount()) {
+                    if (Prompt.dataItem.get('character').getStrokeCount(false) >= Prompt.dataItem.get('character').getTargetStrokeCount() && !Rune.teaching) {
                         Rune.canvas.injectLayer('stroke', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
                         Prompt.gradingButtons.select().collapse();
                     }
+                    //display the next stroke when teaching mode is enabled
+                    if (Rune.teaching)
+                        this.teach();
                 } else {
                     Rune.failedAttempts++;
                     //if failed too many times show a hint
@@ -251,16 +264,15 @@ define([
          * @method teach
          */
         teach: function() {
-            Rune.teach = true;
+            Rune.teaching = true;
             Rune.canvas.clear('overlay');
             Prompt.gradingButtons.grade(1);
-            //if (Prompt.dataItem.get('character').getStrokeCount() === 0)
             var nextStroke = Prompt.dataItem.get('character').getNextStroke(true);
             if (nextStroke) {
                 Rune.canvas.drawShape('overlay', nextStroke.getInflatedSprite('#87cefa'), 1);
             } else {
                 Rune.canvas.showMessage('Click to try it from memory.', false);
-                //TODO: reset the prompt for the user to try
+                hammer(Prompt.this.$('#canvas-container')[0]).on('tap', this.handleTeachComplete);
             }
         }
     });

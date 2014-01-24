@@ -52,6 +52,13 @@ define([
             'click.Study #study-view #info-button': 'navigateVocabsInfo'
         },
         /**
+         * @method checkAutoSync
+         */
+        checkAutoSync: function() {
+            if (skritter.user.get('autoSync') && (skritter.user.get('autoSyncThreshold') < skritter.data.reviews.getCount()))
+                skritter.user.sync();
+        },
+        /**
          * @method clearPrompt
          * @returns {Backbone.View}
          */
@@ -100,6 +107,7 @@ define([
         },
         nextPrompt: function() {
             if (!Study.prompt || Study.prompt.data().isLast()) {
+                this.checkAutoSync();
                 skritter.scheduler.getNext(function(item) {
                     switch (item.get('part')) {
                         case 'defn':
