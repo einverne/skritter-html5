@@ -150,6 +150,9 @@ define([
             mnemonic: function() {
                 $('.prompt-mnemonic').hide();
             },
+            question: function() {
+                $('.prompt-question').hide(100);
+            },
             reading: function() {
                 $('.prompt-reading').hide();
             },
@@ -224,6 +227,10 @@ define([
             mnemonic: function() {
                 $('.prompt-mnemonic').html(PromptData.this.vocab.get('mnemonic').text + ' (' + PromptData.this.vocab.get('mnemonic').creator + ')');
                 $('.prompt-mnemonic').show();
+            },
+            question: function(text) {
+                $('.prompt-question').html(text);
+                $('.prompt-question').show();
             },
             reading: function() {
                 $('.prompt-reading').html(PromptData.this.vocab.getReading());

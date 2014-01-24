@@ -161,8 +161,10 @@ define([
                 skritter.timer.stop();
                 Rune.canvas.disableInput();
                 Prompt.gradingButtons.select(Prompt.dataItem.getGrade()).collapse();
-                if (Prompt.data.isLast())
+                if (Prompt.data.isLast()) {
+                    Prompt.data.hide.question();
                     Prompt.data.show.sentence();
+                }
                 Prompt.data.show.writingAt(1);
                 window.setTimeout(function() {
                     hammer(Prompt.this.$('#canvas-container')[0]).on('tap', Prompt.this.handleTap);
@@ -171,6 +173,7 @@ define([
                 hammer(Prompt.this.$('#canvas-container')[0]).off('tap', Prompt.this.handleTap);
                 skritter.timer.start();
                 Rune.canvas.enableInput();
+                Prompt.data.show.question("How do you write it?");
                 Prompt.data.show.sentenceMasked();
                 Prompt.data.show.writingAt();
                 if (Rune.teaching)

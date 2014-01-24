@@ -59,17 +59,19 @@ define([
         load: function() {
             Prompt.prototype.load.call(this);
             Prompt.data.show.style();
-            Prompt.data.show.tip("What's the reading?");
             Prompt.data.show.writing();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
                 this.updateColor();
+                Prompt.data.hide.question();
                 Prompt.data.hide.tip();
                 Prompt.data.show.definition();
                 Prompt.data.show.reading();
                 Prompt.gradingButtons.show();
             } else {
                 skritter.timer.start();
+                Prompt.data.show.question("How do you say it?");
+                Prompt.data.show.tip("(Click to show the answer)");
             }
         },
         /**

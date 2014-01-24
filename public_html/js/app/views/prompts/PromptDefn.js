@@ -60,16 +60,18 @@ define([
             Prompt.prototype.load.call(this);
             Prompt.data.show.reading();
             Prompt.data.show.style();
-            Prompt.data.show.tip("What's the definition?");
             Prompt.data.show.writing();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
                 this.updateColor();
+                Prompt.data.hide.question();
                 Prompt.data.hide.tip();
                 Prompt.data.show.definition();
                 Prompt.gradingButtons.show();
             } else {
                 skritter.timer.start();
+                Prompt.data.show.question("What's the definition?");
+                Prompt.data.show.tip("(Click to show the answer)");
             }
         },
         /**
