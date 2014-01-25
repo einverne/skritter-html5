@@ -151,7 +151,15 @@ body {
     border-top: 2px #000000 solid;
     border-left: 2px #000000 solid;
     margin: 45px auto 0 auto;
-    padding: 15px;
+    padding: 10px;
+    text-align: center;
+}
+#info-container .prompt-question {
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+#info-container #prompt-writing-box {
+    width: 50%;
 }
 #info-container .prompt-writing-display div {
     float: left;
@@ -160,6 +168,10 @@ body {
 }
 #info-container .prompt-writing-hide {
     border-bottom: 1px #000000 solid;
+    padding-top: 50%;
+}
+#info-container #prompt-reading-box .prompt-reading {
+    padding-top: 50%;
 }
 #info-container .prompt-reading-display div {
     float: left;
@@ -168,6 +180,9 @@ body {
 }
 #info-container .prompt-reading-hide {
     border-bottom: 1px #000000 solid;
+}
+#info-container #prompt-definition-box {
+    clear: both;
 }
 @media (max-width: 992px) {
     #info-container {

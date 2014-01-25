@@ -144,7 +144,8 @@ define([
                 skritter.timer.stop();
                 Tone.canvas.disableInput();
                 Prompt.gradingButtons.select(Prompt.dataItem.getGrade()).collapse();
-                Prompt.data.hide.question();
+                if (Prompt.data.isLast())
+                    Prompt.data.hide.question();
                 Prompt.data.show.readingAt(0, true);
                 window.setTimeout(function() {
                     hammer(Prompt.this.$('#canvas-container')[0]).on('tap', Prompt.this.handleTap);
