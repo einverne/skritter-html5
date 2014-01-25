@@ -55,6 +55,7 @@ define([
             Tone.canvas.clear('hint');
             Tone.canvas.clear('stroke');
             Tone.canvas.clear('feedback');
+            Tone.canvas.setLayerAlpha('background', 1);
         },
         /**
          * @method handleCharacterComplete
@@ -95,6 +96,9 @@ define([
             skritter.timer.stopThinking();
             //fade hints when a new stroke is started
             Tone.canvas.fadeLayer('hint');
+            //fade the background character to emphasize tone stroke
+            if (!Prompt.dataItem.isFinished())
+                Tone.canvas.setLayerAlpha('background', 0.7);
         },
         /**
          * @method handleInputUp
