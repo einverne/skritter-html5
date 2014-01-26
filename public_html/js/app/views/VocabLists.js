@@ -24,10 +24,10 @@ define([
          */
         render: function() {
             this.$el.html(templateVocabLists);
-            VocabLists.lists.setElement(this.$('#table-container')).load('official', {
-                    'name': 'Name',
-                    'studyingMode': 'Status'
-                });
+            VocabLists.lists.setElement(this.$('#table-container')).load('studying', {
+                'name': 'Name',
+                'studyingMode': 'Status'
+            }, 'name');
             return this;
         },
         /**

@@ -32,7 +32,8 @@ define([
          * @property {Object} events
          */
         events: {
-            'click.VocabListsTable #vocablists-table-view tbody tr': 'toggleList'
+            'click.VocabListsTable #vocablists-table-view tbody .vocablist-field-name': 'selectList',
+            'click.VocabListsTable #vocablists-table-view tbody .vocablist-studyingMode': 'toggleListStatus'
         },
         /**
          * @method load
@@ -49,6 +50,10 @@ define([
             this.render();
             this.loadLists();
         },
+        /**
+         * @method loadLists
+         * @param {Function} callback
+         */
         loadLists: function(callback) {
             var fieldNames = ['id'];
             for (var field in VocabListsTable.fields)
@@ -75,7 +80,7 @@ define([
                     for (var b in lists) {
                         var list = lists[b];
                         if (list.studyingMode) {
-                            if (VocabListsTable.filterStatus && _.contains(VocabListsTable.filterStatus, list.studyingMode)) {
+                            if (!VocabListsTable.filterStatus || _.contains(VocabListsTable.filterStatus, list.studyingMode)) {
                                 divBody += "<tr id='list-" + list.id + "' class='cursor'>";
                                 for (var c in VocabListsTable.fields) {
                                     if (c === 'studyingMode') {
@@ -120,13 +125,22 @@ define([
             });
         },
         /**
-         * @method toggleList
-         * @param {type} event
-         * @returns {undefined}
+         * @method selectList
+         * @param {Object} event
          */
-        toggleList: function(event) {
-            var listId = event.currentTarget.id.replace('list-', '');
-            var status = (event.currentTarget.children[1].innerText === 'Adding') ? 'reviewing' : 'adding';
+        selectList: function(event) {
+            event.preventDefault();
+            var listId = event.currentTarget.parentElement.id.replace('list-', '');
+            skritter.router.navigate('vocabs/lists/' + listId, {trigger: true});
+        },
+        /**
+         * @method toggleListStatus
+         * @param {type} event
+         */
+        toggleListStatus: function(event) {
+            console.log(event);
+            var listId = event.currentTarget.parentElement.id.replace('list-', '');
+            var status = (event.currentTarget.parentElement.children[1].innerText === 'Adding') ? 'reviewing' : 'adding';
             VocabListsTable.this.$('.loader').show();
             VocabListsTable.this.$('tbody').html('');
             skritter.api.updateVocabList({
