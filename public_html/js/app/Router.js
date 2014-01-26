@@ -8,8 +8,9 @@ define([
     'views/Reviews',
     'views/Study',
     'views/VocabInfo',
+    'views/VocabList',
     'views/VocabLists'
-], function(Home, Options, Reviews, Study, VocabInfo, VocabLists) {
+], function(Home, Options, Reviews, Study, VocabInfo, VocabList, VocabLists) {
     /**
      * @class Router
      */
@@ -35,6 +36,7 @@ define([
             '': 'showHome',
             'options': 'showOptions',
             'vocabs/lists': 'showVocabLists',
+            'vocabs/lists/:id': 'showVocabList',
             'vocabs/:lang/:writing': 'showVocabInfo',
             'reviews': 'showReviews',
             'study': 'showStudy'
@@ -102,10 +104,22 @@ define([
             Router.view.vocabInfo.load(lang, writing);
         },
         /**
-         * @method showVocabLists
+         * @method showVocabList
          * @param {String} listId
          */
-        showVocabLists: function(listId) {
+        showVocabList: function(listId) {
+            if (!Router.view.vocabList) {
+                Router.view.vocabList = new VocabList({el: $(skritter.settings.get('container'))});
+                skritter.view = Router.view;
+            } else {
+                Router.view.vocabList.setElement($(skritter.settings.get('container')));
+            }
+            Router.view.vocabList.load(listId);
+        },
+        /**
+         * @method showVocabLists
+         */
+        showVocabLists: function() {
             if (!Router.view.vocabLists) {
                 Router.view.vocabLists = new VocabLists({el: $(skritter.settings.get('container'))});
                 skritter.view = Router.view;
