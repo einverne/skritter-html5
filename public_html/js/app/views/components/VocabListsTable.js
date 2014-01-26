@@ -18,6 +18,7 @@ define([
             VocabListsTable.fields = null;
             VocabListsTable.filterStatus = null;
             VocabListsTable.sort = 'studying';
+            VocabListsTable.sortByField = null;
         },
         /**
          * @method render
@@ -37,12 +38,14 @@ define([
          * @method load
          * @param {String} sort
          * @param {String} fields
+         * @param {String} sortByField
          * @param {Array} filterStatus
          */
-        load: function(sort, fields, filterStatus) {
+        load: function(sort, fields, sortByField, filterStatus) {
             VocabListsTable.fields = (fields) ? fields : [];
             VocabListsTable.filterStatus = (filterStatus) ? filterStatus : null;
             VocabListsTable.sort = (sort) ? sort : 'studying';
+            VocabListsTable.sortByField = (sortByField) ? sortByField : null;
             this.render();
             this.loadLists();
         },
@@ -61,6 +64,8 @@ define([
                     VocabListsTable.this.$('#lists-message').show().text("Unable to load lists due to being offline.");
                 } else if (lists.length > 0) {
                     var activeCount = 0;
+                    if (VocabListsTable.sortByField)
+                        lists = _.sortBy(lists, VocabListsTable.sortByField);
                     //create the html for column header
                     divHead += "<tr>";
                     for (var a in VocabListsTable.fields)
