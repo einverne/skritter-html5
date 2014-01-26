@@ -16,6 +16,7 @@ define([
         initialize: function() {
             VocabListsTable.this = this;
             VocabListsTable.fields = null;
+            VocabListsTable.filterStatus = null;
             VocabListsTable.sort = 'studying';
         },
         /**
@@ -36,9 +37,11 @@ define([
          * @method load
          * @param {String} sort
          * @param {String} fields
+         * @param {Array} filterStatus
          */
-        load: function(sort, fields) {
+        load: function(sort, fields, filterStatus) {
             VocabListsTable.fields = (fields) ? fields : [];
+            VocabListsTable.filterStatus = (filterStatus) ? filterStatus : null;
             VocabListsTable.sort = (sort) ? sort : 'studying';
             this.render();
             this.loadLists();
@@ -67,14 +70,28 @@ define([
                     for (var b in lists) {
                         var list = lists[b];
                         if (list.studyingMode) {
-                            if (list.studyingMode === 'adding' || list.studyingMode === 'reviewing') {
+                            if (VocabListsTable.filterStatus && _.contains(VocabListsTable.filterStatus, list.studyingMode)) {
                                 divBody += "<tr id='list-" + list.id + "' class='cursor'>";
                                 for (var c in VocabListsTable.fields) {
                                     if (c === 'studyingMode') {
+                                        switch (list.studyingMode) {
+                                            case 'adding':
+                                                divBody += "<td class='vocablist-studyingMode'>Adding</td>";
+                                                break;
+                                            case 'reviewing':
+                                                divBody += "<td class='vocablist-studyingMode'>Paused</td>";
+                                                break;
+                                            case 'finished':
+                                                divBody += "<td class='vocablist-studyingMode'>Finished</td>";
+                                                break;
+                                            case 'not studying':
+                                                divBody += "<td class='vocablist-studyingMode'>Not Studying</td>";
+                                                break;
+                                        }
                                         if (list.studyingMode === 'adding') {
-                                            divBody += "<td class='vocablist-studyingMode'>Adding</td>";
+                                            
                                         } else {
-                                            divBody += "<td class='vocablist-studyingMode'>Paused</td>";
+                                            
                                         }
                                     } else {
                                         divBody += "<td class='vocablist-field-" + c + "'>" + list[c] + "</td>";

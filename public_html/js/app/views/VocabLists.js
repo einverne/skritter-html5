@@ -1,11 +1,13 @@
 /**
  * @module Skritter
  * @param templateVocabLists
+ * @param VocabListsTable
  * @author Joshua McFarland
  */
 define([
-    'require.text!templates/vocabs-lists.html'
-], function(templateVocabLists) {
+    'require.text!templates/vocabs-lists.html',
+    'views/components/VocabListsTable'
+], function(templateVocabLists, VocabListsTable) {
     /**
      * @class VocabLists
      */
@@ -14,7 +16,7 @@ define([
          * @method initialize
          */
         initialize: function() {
-            
+            VocabLists.lists = new VocabListsTable();
         },
         /**
          * @method render
@@ -22,6 +24,10 @@ define([
          */
         render: function() {
             this.$el.html(templateVocabLists);
+            VocabLists.lists.setElement(this.$('#table-container')).load('official', {
+                    'name': 'Name',
+                    'studyingMode': 'Status'
+                });
             return this;
         },
         /**
