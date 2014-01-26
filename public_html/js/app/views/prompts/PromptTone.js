@@ -223,11 +223,10 @@ define([
         redraw: function() {
             Prompt.prototype.redraw.call(this);
             Prompt.this.clear();
+            Tone.canvas.drawCharacterFromFont('background', Prompt.data.vocab.getCharacters()[Prompt.data.position - 1], Prompt.data.vocab.getFontName(), 1, '#000000');
             if (Prompt.dataItem.isFinished()) {
-                Tone.canvas.drawCharacterFromFont('background', Prompt.data.vocab.getCharacters()[Prompt.data.position - 1], Prompt.data.vocab.getFontName(), 1, '#000000');
                 Tone.canvas.drawContainer('stroke', Prompt.dataItem.get('character').getCharacterSprite(null, Prompt.gradeColorHex[Prompt.dataItem.getGrade()]));
             } else {
-                Tone.canvas.drawCharacterFromFont('background', Prompt.data.vocab.getCharacters()[Prompt.data.position - 1], Prompt.data.vocab.getFontName(), 1, '#000000');
                 Tone.canvas.drawContainer('stroke', Prompt.dataItem.get('character').getCharacterSprite());
             }
         },

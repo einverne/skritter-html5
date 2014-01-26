@@ -187,20 +187,20 @@ define([
             for (var i = 1; i <= characterCount; i++) {
                 if (hidden) {
                     if (position > i) {
-                        element += "<div id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</div>";
+                        element += "<span id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</span>";
                     } else {
-                        element += "<div id='reading-" + i + "' class='btn btn-default btn-xs hidden-reading'>show</div>";
+                        element += "<span id='reading-" + i + "' class='btn btn-default btn-xs hidden-reading'>show</span>";
                         break;
                     }
                 } else {
                     if (position > i) {
-                        element += "<div id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</div>";
+                        element += "<span id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</span>";
                     } else if (position === i && reveal) {
-                        element += "<div id='reading-" + i + "' class='prompt-reading-hide'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</div>";
+                        element += "<span id='reading-" + i + "' class='prompt-reading-hide'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</span>";
                     } else if (position === i) {
-                        element += "<div id='reading-" + i + "' class='prompt-reading-hide'>" + this.getReadingAt(i).syllable + "</div>";
+                        element += "<span id='reading-" + i + "' class='prompt-reading-hide'>" + this.getReadingAt(i).syllable + "</span>";
                     } else {
-                        element += "<div id='reading-" + i + "' class='prompt-reading-show'>" + this.getReadingAt(i).syllable + "</div>";
+                        element += "<span id='reading-" + i + "' class='prompt-reading-show'>" + this.getReadingAt(i).syllable + "</span>";
                     }
                 }
             }
@@ -233,12 +233,12 @@ define([
             element += "<div class='prompt-writing-display'>";
             for (var i = 0; i < characters.length; i++) {
                 if (skritter.fn.isKana(characters[i])) {
-                    element += "<div id='writing-" + i + "' class='prompt-writing-show'>" + characters[i] + "</div>";
+                    element += "<span id='writing-" + i + "' class='prompt-writing-show'>" + characters[i] + "</span>";
                 } else {
                     if (position > characterPosition) {
-                        element += "<div id='writing-" + i + "' class='prompt-writing-show'>" + characters[i] + "</div>";
+                        element += "<span id='writing-" + i + "' class='prompt-writing-show'>" + characters[i] + "</span>";
                     } else {
-                        element += "<div id='writing-" + i + "' class='prompt-writing-hide'></div>";
+                        element += "<span class='prompt-underline'><span id='writing-" + i + "' class='prompt-writing-hide'>" + characters[i] + "</span></span>";
                     }
                     characterPosition++;
                 }

@@ -65,7 +65,7 @@ define([
         fontSize: {
             large: function(offset) {
                 offset = (offset) ? offset : 0;
-                return Math.round((Settings.this.get('canvasSize') * 0.1) + offset) + 'px';
+                return Math.round((Settings.this.get('canvasSize') * 0.07) + offset) + 'px';
             },
             normal: function(offset) {
                 offset = (offset) ? offset : 0;

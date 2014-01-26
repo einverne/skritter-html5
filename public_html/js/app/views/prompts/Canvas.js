@@ -119,6 +119,8 @@ define(function() {
             var text = new createjs.Text(character, skritter.settings.get('canvasSize') + 'px ' + font, color);
             text.alpha = (alpha) ? alpha : 1;
             layer.addChild(text);
+            if (layer.cacheCanvas)
+                layer.updateCache();
             return layer;
         },
         /**
@@ -390,6 +392,13 @@ define(function() {
             });
             layer.addChild(message);
             return this;
+        },
+        /**
+         * @method stage
+         * @returns {CreateJS.Stage}
+         */
+        stage: function() {
+            return Canvas.stage;
         },
         /**
          * @method tick
