@@ -7,7 +7,7 @@ define([
     'models/Assets',
     'Functions',
     'models/storage/IndexedDBAdapter',
-    'views/components/modal',
+    'views/components/Modal',
     'Router',
     'models/Settings',
     'views/components/Timer',
