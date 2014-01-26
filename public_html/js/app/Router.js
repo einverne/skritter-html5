@@ -7,8 +7,9 @@ define([
     'views/Options',
     'views/Reviews',
     'views/Study',
-    'views/VocabsInfo'
-], function(Home, Options, Reviews, Study, VocabsInfo) {
+    'views/VocabInfo',
+    'views/VocabLists'
+], function(Home, Options, Reviews, Study, VocabInfo, VocabLists) {
     /**
      * @class Router
      */
@@ -33,7 +34,8 @@ define([
         routes: {
             '': 'showHome',
             'options': 'showOptions',
-            'vocabs/:lang/:writing': 'showVocabsInfo',
+            'vocabs/lists': 'showVocabLists',
+            'vocabs/:lang/:writing': 'showVocabInfo',
             'reviews': 'showReviews',
             'study': 'showStudy'
         },
@@ -86,18 +88,31 @@ define([
             Router.view.study.render();
         },
         /**
-         * @method showVocabsInfo
+         * @method showVocabInfo
          * @param {String} lang
          * @param {String} writing
          */
-        showVocabsInfo: function(lang, writing) {
-            if (!Router.view.vocabsInfo) {
-                Router.view.vocabsInfo = new VocabsInfo({el: $(skritter.settings.get('container'))});
+        showVocabInfo: function(lang, writing) {
+            if (!Router.view.vocabInfo) {
+                Router.view.vocabInfo = new VocabInfo({el: $(skritter.settings.get('container'))});
                 skritter.view = Router.view;
             } else {
-                Router.view.vocabsInfo.setElement($(skritter.settings.get('container')));
+                Router.view.vocabInfo.setElement($(skritter.settings.get('container')));
             }
-            Router.view.vocabsInfo.load(lang, writing);
+            Router.view.vocabInfo.load(lang, writing);
+        },
+        /**
+         * @method showVocabLists
+         * @param {String} listId
+         */
+        showVocabLists: function(listId) {
+            if (!Router.view.vocabLists) {
+                Router.view.vocabLists = new VocabLists({el: $(skritter.settings.get('container'))});
+                skritter.view = Router.view;
+            } else {
+                Router.view.vocabLists.setElement($(skritter.settings.get('container')));
+            }
+            Router.view.vocabLists.render();
         }
     });
 
