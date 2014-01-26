@@ -31,6 +31,9 @@ define([
             });
         },
         /**
+         * Returns an array of items contained in multi-character items, but only for
+         * rune and tone prompts.
+         * 
          * @method getContainedItems
          * @returns {Array}
          */
@@ -41,6 +44,19 @@ define([
             if (vocab && _.contains(['rune', 'tone'], part))
                 return vocab.getContainedItems(part);
             return containedItems;
+        },
+        /**
+         * @method getRelatedItemIds
+         * @returns {Array}
+         */
+        getRelatedItemIds: function() {
+            var relatedItemIds = [];
+            var part = this.get('part');
+            var parts = ['defn', 'rdng', 'rune', 'tone'];
+            for (var i in parts)
+                if (parts[i] !== part)
+                    relatedItemIds.push(this.id.replace(part, parts[i]));
+            return relatedItemIds;
         },
         /**
          * Returns an object used to fuel the prompt view and stores data pertaining to it.

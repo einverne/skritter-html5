@@ -247,10 +247,8 @@ define(function() {
             //sort the schedule based on readiness value
             var sortedSchedule = _.sortBy(this.get('schedule'), function(item) {
                 if (item.held && item.held > now) {
-                    item.readiness = 1.01;
+                    item.readiness = 1.0 + (now / item.held) * 0.1;
                     return -item.readiness;
-                } else {
-                    delete item.held;
                 }
                 if (!item.last && (item.next - now) > 600) {
                     item.readiness = 0.2;
@@ -282,6 +280,7 @@ define(function() {
          * @returns {Backbone.Model}
          */
         update: function(item) {
+            var now = skritter.fn.getUnixTime();
             var id = item.get('id');
             var splitId = id.split('-');
             var condensedItem = {
@@ -294,8 +293,19 @@ define(function() {
                 style: item.get('style'),
                 vocabIds: item.get('vocabIds')
             };
+            //updates the the direct item
             var index = _.findIndex(this.get('schedule'), {id: id});
             this.get('schedule')[index] = condensedItem;
+            //updates indirect related items
+            var relatedItemIds = item.getRelatedItemIds();
+            for (var i in relatedItemIds) {
+                var relatedIndex = _.findIndex(this.get('schedule'), {id: relatedItemIds[i]});
+                if (relatedIndex > -1) {
+                    var relatedItem = this.get('schedule')[relatedIndex];
+                    relatedItem.held = now + 4 * 60 * 60;
+                    this.get('schedule')[index] = relatedItem;
+                }
+            }
             return this;
         }
     });
