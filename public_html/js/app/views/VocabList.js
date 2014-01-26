@@ -14,7 +14,9 @@ define([
          * @method initialize
          */
         initialize: function() {
+            VocabList.this = this;
             VocabList.id = null;
+            VocabList.list = null;
         },
         /**
          * @method render
@@ -22,6 +24,8 @@ define([
          */
         render: function() {
             this.$el.html(templateVocabList);
+            this.$('#list-name').html(VocabList.list.name);
+            this.$('#list-description').html(VocabList.list.description);
             return this;
         },
         /**
@@ -30,7 +34,10 @@ define([
          */
         load: function(listId) {
             VocabList.id = listId;
-            this.render();
+            skritter.api.getVocabList(listId, function(list) {
+                VocabList.list = list;
+                VocabList.this.render();
+            });
         }
     });
     

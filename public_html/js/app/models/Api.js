@@ -147,6 +147,33 @@ define(function() {
             getBatch();
         },
         /**
+         * Returns a single vocablist with section ids for further querying.
+         * 
+         * @method getVocabList
+         * @param {Number} id
+         * @param {Function} callback
+         */
+        getVocabList: function(id, callback) {
+            var self = this;
+            var promise = $.ajax({
+                url: self.baseUrl() + '/vocablists/' + id,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('AUTHORIZATION', self.credentials());
+                },
+                type: 'GET',
+                data: {
+                    bearer_token: self.get('token')
+                }
+            });
+            promise.done(function(data) {
+                callback(data.VocabList);
+            });
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        },
+        /**
          * Returns a high level list of lists available sorted by type. For longer sort groups
          * it might be necessary to use pagination. Sort values include: published, custom,
          * official and studying.
