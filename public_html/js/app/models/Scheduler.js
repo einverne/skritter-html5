@@ -242,10 +242,16 @@ define(function() {
          * @returns {Backbone.Model}
          */
         sort: function() {
-            console.log('SORTING');
             var now = skritter.fn.getUnixTime();
             var daysInSecond = 1 / 86400;
+            //sort the schedule based on readiness value
             var sortedSchedule = _.sortBy(this.get('schedule'), function(item) {
+                if (item.held && item.held > now) {
+                    item.readiness = 1.01;
+                    return -item.readiness;
+                } else {
+                    delete item.held;
+                }
                 if (!item.last && (item.next - now) > 600) {
                     item.readiness = 0.2;
                     return -item.readiness;
@@ -280,6 +286,7 @@ define(function() {
             var splitId = id.split('-');
             var condensedItem = {
                 base: splitId[1] + '-' + splitId[2] + '-' + splitId[3],
+                held: item.get('held'),
                 id: id,
                 last: item.get('last'),
                 next: item.get('next'),
