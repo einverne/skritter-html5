@@ -19,7 +19,7 @@ define(function() {
          */
         load: function(callback) {
             skritter.api.getVocabList(this.id, function(list) {
-                var list = VocabList.this.set(list);
+                list = VocabList.this.set(list);
                 if (typeof callback === 'function')
                     callback(list);
             });

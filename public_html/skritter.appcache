@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Wed Jan 22 2014 13:07:35 GMT-0500 (Eastern Standard Time)
+# Time: Mon Jan 27 2014 22:33:20 GMT-0500 (Eastern Standard Time)
 
 CACHE:
 index.html
@@ -21,7 +21,6 @@ bootstrap/fonts/glyphicons-halflings-regular.eot
 fonts/fontawesome-webfont.eot
 templates/component-contained-table.html
 templates/component-decomp-table.html
-templates/component-vocablists-table.html
 templates/grading-buttons.html
 templates/home-logged-in.html
 templates/home-logged-out.html
@@ -33,7 +32,12 @@ templates/prompt-rune.html
 templates/prompt-tone.html
 templates/reviews.html
 templates/study.html
-templates/vocabs-info.html
+templates/vocab-list-rows-table.html
+templates/vocab-list-section.html
+templates/vocab-list-sections-table.html
+templates/vocab-list.html
+templates/vocab-lists-table.html
+templates/vocab-lists.html
 bootstrap/components/switch/js/bootstrap-switch.js
 bootstrap/components/switch/js/bootstrap-switch.min.js
 bootstrap/js/bootstrap.js
@@ -50,6 +54,7 @@ js/app/Shortstraw.js
 js/app/SimpTradMap.js
 js/app/Strokes.js
 js/app/collections/CanvasCharacter.js
+js/app/collections/VocabLists.js
 js/app/collections/study/Decomps.js
 js/app/collections/study/Items.js
 js/app/collections/study/Params.js
@@ -67,6 +72,7 @@ js/app/models/Scheduler.js
 js/app/models/Settings.js
 js/app/models/Sync.js
 js/app/models/User.js
+js/app/models/VocabList.js
 js/app/models/storage/IndexedDBAdapter.js
 js/app/models/study/Decomp.js
 js/app/models/study/Item.js
@@ -81,12 +87,11 @@ js/app/views/Home.js
 js/app/views/Options.js
 js/app/views/Reviews.js
 js/app/views/Study.js
-js/app/views/VocabsInfo.js
+js/app/views/Vocabs.js
 js/app/views/components/ContainedTable.js
 js/app/views/components/DecompTable.js
 js/app/views/components/Modal.js
 js/app/views/components/Timer.js
-js/app/views/components/VocabListsTable.js
 js/app/views/prompts/Canvas.js
 js/app/views/prompts/GradingButtons.js
 js/app/views/prompts/Prompt.js
@@ -94,6 +99,13 @@ js/app/views/prompts/PromptDefn.js
 js/app/views/prompts/PromptRdng.js
 js/app/views/prompts/PromptRune.js
 js/app/views/prompts/PromptTone.js
+js/app/views/vocabs/VocabInfo.js
+js/app/views/vocabs/VocabList.js
+js/app/views/vocabs/VocabListRowsTable.js
+js/app/views/vocabs/VocabListSection.js
+js/app/views/vocabs/VocabListSectionsTable.js
+js/app/views/vocabs/VocabLists.js
+js/app/views/vocabs/VocabListsTable.js
 js/libs/async.js
 js/libs/backbone-1.1.0.min.js
 js/libs/base64.js
@@ -103,14 +115,13 @@ js/libs/hammer-1.0.6.min.js
 js/libs/indexeddb.shim.js
 js/libs/jquery-1.10.2.min.js
 js/libs/jquery.indexeddb.js
-js/libs/jquery.touchswipe-1.6.5.min.js
 js/libs/keypress-1.0.9.min.js
 js/libs/leap.min.js
 js/libs/lodash-2.4.1.compat.min.js
 js/libs/moment-2.5.0.js
 js/libs/require.text-2.0.10.js
 js/main.js
-js/require-2.1.9.min.js
+js/require-2.1.10.min.js
 fonts/FontAwesome.otf
 images/feature-icons.png
 images/github-logo.png
