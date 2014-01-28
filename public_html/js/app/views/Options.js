@@ -48,6 +48,8 @@ define([
             this.$('#hide-reading').bootstrapSwitch('setState', skritter.user.getSetting('hideReading'));
             //squigs
             this.$('#squigs').bootstrapSwitch('setState', skritter.user.getSetting('squigs'));
+            //heisig
+            this.$('#heisig').bootstrapSwitch('setState', skritter.user.getSetting('showHeisig'));
         },
         /**
          * @method save
@@ -77,6 +79,8 @@ define([
             skritter.user.setSetting('hideReading', this.$('#hide-reading').bootstrapSwitch('state'));
             //squigs
             skritter.user.setSetting('squigs', this.$('#squigs').bootstrapSwitch('state'));
+            //heisig
+            skritter.user.setSetting('showHeisig', this.$('#heisig').bootstrapSwitch('state'));
             //ISSUE #117: scheduler needs to be reloaded on options save
             skritter.scheduler.loadAll(function() {
                 if (skritter.view.study)
