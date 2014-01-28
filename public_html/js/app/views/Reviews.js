@@ -6,7 +6,7 @@ define([
     'require.text!templates/reviews.html'
 ], function(templateReviews) {
     /**
-     * @class Reviews
+     * @class ReviewsView
      */
     var Reviews = Backbone.View.extend({
         /**

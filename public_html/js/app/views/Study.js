@@ -15,7 +15,7 @@ define([
     'views/prompts/PromptTone'
 ], function(templateStudy, PromptDefn, PromptRdng, PromptRune, PromptTone) {
     /**
-     * @class Study
+     * @class StudyView
      */
     var Study = Backbone.View.extend({
         /**

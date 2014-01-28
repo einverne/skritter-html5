@@ -1,5 +1,13 @@
 /**
  * @module Skritter
+ * @param Home
+ * @param Options
+ * @param Reviews
+ * @param Study
+ * @param VocabInfo
+ * @param VocabList
+ * @param VocabListSection
+ * @param VocabLists
  * @author Joshua McFarland
  */
 define([
@@ -7,10 +15,11 @@ define([
     'views/Options',
     'views/Reviews',
     'views/Study',
-    'views/VocabInfo',
-    'views/VocabList',
-    'views/VocabLists'
-], function(Home, Options, Reviews, Study, VocabInfo, VocabList, VocabLists) {
+    'views/vocabs/VocabInfo',
+    'views/vocabs/VocabList',
+    'views/vocabs/VocabListSection',
+    'views/vocabs/VocabLists'
+], function(Home, Options, Reviews, Study, VocabInfo, VocabList, VocabListSection, VocabLists) {
     /**
      * @class Router
      */
@@ -35,10 +44,11 @@ define([
         routes: {
             '': 'showHome',
             'options': 'showOptions',
-            'vocabs/lists': 'showVocabLists',
-            'vocabs/lists/:id': 'showVocabList',
-            'vocabs/:lang/:writing': 'showVocabInfo',
-            'reviews': 'showReviews',
+            'vocab/list': 'showVocabLists',
+            'vocab/list/:id': 'showVocabList',
+            'vocab/list/:listId/:sectionId': 'showVocabListSection',
+            'vocab/:lang/:writing': 'showVocabInfo',
+            'review': 'showReviews',
             'study': 'showStudy'
         },
         /**
@@ -115,6 +125,20 @@ define([
                 Router.view.vocabList.setElement($(skritter.settings.get('container')));
             }
             Router.view.vocabList.load(listId);
+        },
+        /**
+         * @method showVocabListSection
+         * @param {String} listId
+         * @param {String} sectionId
+         */
+        showVocabListSection: function(listId, sectionId) {
+            if (!Router.view.vocabListSection) {
+                Router.view.vocabListSection = new VocabListSection({el: $(skritter.settings.get('container'))});
+                skritter.view = Router.view;
+            } else {
+                Router.view.vocabListSection.setElement($(skritter.settings.get('container')));
+            }
+            Router.view.vocabListSection.load(listId, sectionId);
         },
         /**
          * @method showVocabLists

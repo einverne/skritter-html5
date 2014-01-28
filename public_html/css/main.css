@@ -284,6 +284,7 @@ body {
         padding-top: 45px;
     }
     .view .content {
+        border-width: 1px;
         margin-bottom: 0;
     }
 }

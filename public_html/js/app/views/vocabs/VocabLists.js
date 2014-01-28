@@ -5,11 +5,11 @@
  * @author Joshua McFarland
  */
 define([
-    'require.text!templates/vocabs-lists.html',
-    'views/components/VocabListsTable'
+    'require.text!templates/vocab-lists.html',
+    'views/vocabs/VocabListsTable'
 ], function(templateVocabLists, VocabListsTable) {
     /**
-     * @class VocabLists
+     * @class VocabListsView
      */
     var VocabLists = Backbone.View.extend({
         /**
@@ -24,10 +24,10 @@ define([
          */
         render: function() {
             this.$el.html(templateVocabLists);
-            VocabLists.lists.setElement(this.$('#table-container')).load('studying', {
+            VocabLists.lists.setElement(this.$('#vocab-lists-table-container')).load('studying', {
                 'name': 'Name',
                 'studyingMode': 'Status'
-            }, 'name');
+            }).render();
             return this;
         },
         /**

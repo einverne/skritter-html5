@@ -9,10 +9,10 @@
 define([
     'require.text!templates/home-logged-in.html',
     'require.text!templates/home-logged-out.html',
-    'views/components/VocabListsTable'
+    'views/vocabs/VocabListsTable'
 ], function(templateIn, templateOut, VocabListsTable) {
     /**
-     * @class Home
+     * @class HomeView
      */
     var Home = Backbone.View.extend({
         /**
@@ -34,7 +34,7 @@ define([
                 Home.lists.setElement(this.$('#active-lists #table-container')).load('studying', {
                     'name': 'Name',
                     'studyingMode': 'Status'
-                }, 'status', ['adding', 'reviewing']);
+                }).render();
                 this.listenTo(skritter.scheduler, 'change:schedule', this.updateDueCount);
                 this.listenTo(skritter.sync, 'change:active', this.updateSyncStatus);
                 this.updateDueCount();

@@ -7,7 +7,7 @@ define([
     'require.text!templates/options.html'
 ], function(templateOptions) {
     /**
-     * @class Options
+     * @class OptionsView
      */
     var Options = Backbone.View.extend({
         /**

@@ -2702,13 +2702,13 @@ define(function() {
      * @returns {String}
      */
     var getWritingFromBase = function(simplifiedBase) {
-        var splitBase = simplifiedBase.split('');
+        var splitBase = simplifiedBase.split('-');
         var baseRune = splitBase[1];
         var baseVariation = splitBase[2];
         var matchedRune = map[baseRune];
         if (matchedRune) {
             var matchedVariations = matchedRune.split('');
-            matchedRune = matchedVariations[baseVariation + 1];
+            matchedRune = matchedVariations[baseVariation - 1];
             return matchedRune;
         }
         return baseRune;

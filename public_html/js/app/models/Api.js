@@ -174,6 +174,32 @@ define(function() {
             });
         },
         /**
+         * @method getVocabListSection
+         * @param {String} listId
+         * @param {String} sectionId
+         * @param {Function} callback
+         */
+        getVocabListSection: function(listId, sectionId, callback) {
+            var self = this;
+            var promise = $.ajax({
+                url: self.baseUrl() + '/vocablists/' + listId + '/sections/' + sectionId,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('AUTHORIZATION', self.credentials());
+                },
+                type: 'GET',
+                data: {
+                    bearer_token: self.get('token')
+                }
+            });
+            promise.done(function(data) {
+                callback(data);
+            });
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
+        },
+        /**
          * Returns a high level list of lists available sorted by type. For longer sort groups
          * it might be necessary to use pagination. Sort values include: published, custom,
          * official and studying.
@@ -217,6 +243,37 @@ define(function() {
                 });
             };
             getNext();
+        },
+        /**
+         * @method getVocabs
+         * @param {Array} ids
+         * @param {Function} callback
+         */
+        getVocabs: function(ids, callback) {
+            var self = this;
+            var promise = $.ajax({
+                url: self.baseUrl() + '/vocabs',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('AUTHORIZATION', self.credentials());
+                },
+                type: 'GET',
+                data: {
+                    bearer_token: self.get('token'),
+                    ids: ids.join('|'),
+                    include_strokes: 'true',
+                    include_sentences: 'true',
+                    include_heisigs: 'true',
+                    include_top_mnemonics: 'true',
+                    include_decomps: 'true'
+                }
+            });
+            promise.done(function(data) {
+                callback(data);
+            });
+            promise.fail(function(error) {
+                console.error(error);
+                callback(error);
+            });
         },
         /**
          * @method getUser

@@ -23,8 +23,9 @@ define([
     'collections/study/SRSConfigs',
     'collections/study/Strokes',
     'models/Sync',
-    'collections/study/Vocabs'
-], function(Decomps, Items, Params, Reviews, Scheduler, Sentences, SRSConfigs, Strokes, Sync, Vocabs) {
+    'collections/study/Vocabs',
+    'collections/VocabLists'
+], function(Decomps, Items, Params, Reviews, Scheduler, Sentences, SRSConfigs, Strokes, Sync, Vocabs, VocabLists) {
     /**
      * @class User
      */
@@ -45,6 +46,8 @@ define([
                 strokes: new Strokes(),
                 vocabs: new Vocabs()
             };
+            //initialize the user lists separate from study data
+            skritter.lists = new VocabLists();
             //loads the user from localStorage if exists
             if (localStorage.getItem('activeUser')) {
                 try {
