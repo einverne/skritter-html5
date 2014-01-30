@@ -306,7 +306,7 @@ body {
 #vocab-info-view table {
     font-size: medium;
 }
-#vocab-info-view #contained, #vocab-info-view decompositions {
+#vocab-info-view #contained, #vocab-info-view #decompositions {
     padding: 20px;
 }
 @media (max-width: 601px) {
