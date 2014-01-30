@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Wed Jan 29 2014 22:12:25 GMT-0500 (Eastern Standard Time)
+# Time: Thu Jan 30 2014 17:06:32 GMT-0600 (Central Standard Time)
 
 CACHE:
 index.html
@@ -116,15 +116,15 @@ js/libs/createjs.easel-NEXT.min.js
 js/libs/createjs.tween-NEXT.min.js
 js/libs/hammer-1.0.6.min.js
 js/libs/indexeddb.shim.js
-js/libs/jquery-1.10.2.min.js
+js/libs/jquery-1.11.0.min.js
 js/libs/jquery.indexeddb.js
 js/libs/keypress-1.0.9.min.js
 js/libs/leap.min.js
 js/libs/lodash-2.4.1.compat.min.js
 js/libs/moment-2.5.0.js
+js/libs/require-2.1.10.min.js
 js/libs/require.text-2.0.10.js
 js/main.js
-js/require-2.1.10.min.js
 tests/lib/jasmine-html.js
 tests/lib/jasmine.js
 tests/spec/Functions.js
