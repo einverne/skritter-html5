@@ -8,6 +8,7 @@ module.exports = function(grunt) {
     var paths = {
         //directories
         templates: '../../templates',
+        spec: '../../tests/spec/',
         //libraries
         async: '../libs/async',
         backbone: '../libs/backbone-1.1.0.min',
@@ -16,12 +17,14 @@ module.exports = function(grunt) {
         'bootstrap.switch': '../../bootstrap/components/switch/js/bootstrap-switch.min',
         'createjs.easel': '../libs/createjs.easel-NEXT.min',
         'createjs.tween': '../libs/createjs.tween-NEXT.min',
-        'hammer': '../libs/hammer-1.0.6.min',
+        hammer: '../libs/hammer-1.0.6.min',
         'indexeddb.shim': '../libs/indexeddb.shim',
+        jasmine: '../../tests/lib/jasmine',
+        'jasmine-html': '../../tests/lib/jasmine-html',
         jquery: '../libs/jquery-1.10.2.min',
         'jquery.indexeddb': '../libs/jquery.indexeddb',
-        'keypress': '../libs/keypress-1.0.9.min',
-        'leap': '../libs/leap.min',
+        keypress: '../libs/keypress-1.0.9.min',
+        leap: '../libs/leap.min',
         lodash: '../libs/lodash-2.4.1.compat.min',
         moment: '../libs/moment-2.5.0',
         'require.text': '../libs/require.text-2.0.10'
@@ -34,6 +37,10 @@ module.exports = function(grunt) {
         },
         bootstrap: ['jquery'],
         'bootstrap.switch': ['jquery'],
+        'jasmine-html': {
+            deps: ['jasmine', 'jquery'],
+            exports: 'jasmine'
+        },
         jquery: {
             exports: '$'
         },
@@ -155,7 +162,7 @@ module.exports = function(grunt) {
                             name: 'Application'
                         },
                         {
-                            name: 'Jasmine'
+                            name: 'Libraries'
                         }
                     ],
                     optimize: 'uglify2',
@@ -179,7 +186,7 @@ module.exports = function(grunt) {
                             name: 'Application'
                         },
                         {
-                            name: 'Jasmine'
+                            name: 'Libraries'
                         }
                     ],
                     optimize: 'none',

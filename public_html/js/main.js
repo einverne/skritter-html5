@@ -13,6 +13,7 @@ requirejs.config({
     paths: {
         //directories
         templates: '../../templates',
+        spec: '../../tests/spec/',
         //libraries
         async: '../libs/async',
         backbone: '../libs/backbone-1.1.0.min',
@@ -21,12 +22,14 @@ requirejs.config({
         'bootstrap.switch': '../../bootstrap/components/switch/js/bootstrap-switch.min',
         'createjs.easel': '../libs/createjs.easel-NEXT.min',
         'createjs.tween': '../libs/createjs.tween-NEXT.min',
-        'hammer': '../libs/hammer-1.0.6.min',
+        hammer: '../libs/hammer-1.0.6.min',
         'indexeddb.shim': '../libs/indexeddb.shim',
+        jasmine: '../../tests/lib/jasmine',
+        'jasmine-html': '../../tests/lib/jasmine-html',
         jquery: '../libs/jquery-1.10.2.min',
         'jquery.indexeddb': '../libs/jquery.indexeddb',
-        'keypress': '../libs/keypress-1.0.9.min',
-        'leap': '../libs/leap.min',
+        keypress: '../libs/keypress-1.0.9.min',
+        leap: '../libs/leap.min',
         lodash: '../libs/lodash-2.4.1.compat.min',
         moment: '../libs/moment-2.5.0',
         'require.text': '../libs/require.text-2.0.10'
@@ -38,6 +41,10 @@ requirejs.config({
         },
         bootstrap: ['jquery'],
         'bootstrap.switch': ['jquery'],
+        'jasmine-html': {
+            deps: ['jasmine', 'jquery'],
+            exports: 'jasmine'
+        },
         jquery: {
             exports: '$'
         },

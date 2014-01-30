@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Mon Jan 27 2014 22:33:20 GMT-0500 (Eastern Standard Time)
+# Time: Wed Jan 29 2014 22:12:25 GMT-0500 (Eastern Standard Time)
 
 CACHE:
 index.html
@@ -17,6 +17,7 @@ bootstrap/css/bootstrap.min.css
 bootstrap/themes/yeti.min.css
 css/font-awesome.min.css
 css/main.css
+tests/lib/jasmine.css
 bootstrap/fonts/glyphicons-halflings-regular.eot
 fonts/fontawesome-webfont.eot
 templates/component-contained-table.html
@@ -32,6 +33,7 @@ templates/prompt-rune.html
 templates/prompt-tone.html
 templates/reviews.html
 templates/study.html
+templates/vocab-info.html
 templates/vocab-list-rows-table.html
 templates/vocab-list-section.html
 templates/vocab-list-sections-table.html
@@ -87,6 +89,7 @@ js/app/views/Home.js
 js/app/views/Options.js
 js/app/views/Reviews.js
 js/app/views/Study.js
+js/app/views/Tests.js
 js/app/views/Vocabs.js
 js/app/views/components/ContainedTable.js
 js/app/views/components/DecompTable.js
@@ -122,6 +125,9 @@ js/libs/moment-2.5.0.js
 js/libs/require.text-2.0.10.js
 js/main.js
 js/require-2.1.10.min.js
+tests/lib/jasmine-html.js
+tests/lib/jasmine.js
+tests/spec/Functions.js
 fonts/FontAwesome.otf
 images/feature-icons.png
 images/github-logo.png

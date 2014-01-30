@@ -4,6 +4,7 @@
  * @param Options
  * @param Reviews
  * @param Study
+ * @param Tests
  * @param VocabInfo
  * @param VocabList
  * @param VocabListSection
@@ -15,11 +16,12 @@ define([
     'views/Options',
     'views/Reviews',
     'views/Study',
+    'views/Tests',
     'views/vocabs/VocabInfo',
     'views/vocabs/VocabList',
     'views/vocabs/VocabListSection',
     'views/vocabs/VocabLists'
-], function(Home, Options, Reviews, Study, VocabInfo, VocabList, VocabListSection, VocabLists) {
+], function(Home, Options, Reviews, Study, Tests, VocabInfo, VocabList, VocabListSection, VocabLists) {
     /**
      * @class Router
      */
@@ -49,7 +51,8 @@ define([
             'vocab/list/:listId/:sectionId': 'showVocabListSection',
             'vocab/:lang/:writing': 'showVocabInfo',
             'review': 'showReviews',
-            'study': 'showStudy'
+            'study': 'showStudy',
+            'tests': 'showTests'
         },
         /**
          * @method showHome
@@ -98,6 +101,18 @@ define([
                 Router.view.study.setElement($(skritter.settings.get('container')));
             }
             Router.view.study.render();
+        },
+        /**
+         * @method showTests
+         */
+        showTests: function() {
+            if (!Router.view.tests) {
+                Router.view.tests = new Tests({el: $(skritter.settings.get('container'))});
+                skritter.view = Router.view;
+            } else {
+                Router.view.tests.setElement($(skritter.settings.get('container')));
+            }
+            Router.view.tests.render();
         },
         /**
          * @method showVocabInfo
