@@ -299,6 +299,23 @@ body {
 }
 
 
+/*** VOCAB: INFO ***/
+#vocab-info-view #writing {
+    text-align: center;
+}
+#vocab-info-view table {
+    font-size: medium;
+}
+#vocab-info-view #contained, #vocab-info-view decompositions {
+    padding: 20px;
+}
+@media (max-width: 601px) {
+    #vocab-info-view #contained, #vocab-info-view decompositions {
+        padding: 0;
+    }
+}
+
+
 /*** PROMPT: HORIZONTAL ***/
 @media (max-height: 601px) and (min-width: 601px) {
     html {

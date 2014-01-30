@@ -26,7 +26,7 @@ define([
             if (DecompTable.decomps.length > 0) {
                 for (var i in DecompTable.decomps) {
                     var decomp = DecompTable.decomps[i];
-                    var divB = "<tr class='decomp-item'>";
+                    var divB = "<tr class='cursor decomp-item'>";
                     divB += "<td class='writing'>" + decomp.writing + "</td>";
                     divB += "<td class='reading'>" + decomp.reading+ "</td>";
                     divB += "<td class='definition'>" + decomp.definitions.en + "</td>";

@@ -26,7 +26,7 @@ define([
             if (ContainedTable.vocabs && ContainedTable.vocabs.length > 1) {
                 for (var i in ContainedTable.vocabs) {
                     var containedVocab = ContainedTable.vocabs[i];
-                    var divA = "<tr id='" + containedVocab.get('id') + "' class='contained-row'>";
+                    var divA = "<tr id='" + containedVocab.get('id') + "' class='contained-row cursor'>";
                     divA += "<td class='writing'>" + containedVocab.get('writing') + "</td>";
                     divA += "<td class='reading'>" + containedVocab.getReading() + ": </td>";
                     divA += "<td class='definition'>" + containedVocab.getDefinition() + "</td>";
