@@ -102,7 +102,7 @@ define([
          */
         navigateVocabsInfo: function(event) {
             if (Study.prompt)
-                skritter.router.navigate('vocabs/' + Study.prompt.data().vocab.get('lang') + '/' + Study.prompt.data().vocab.get('writing'), {trigger: true});
+                skritter.router.navigate('vocab/' + Study.prompt.data().vocab.get('lang') + '/' + Study.prompt.data().vocab.get('writing'), {trigger: true});
             event.preventDefault();
         },
         nextPrompt: function() {
