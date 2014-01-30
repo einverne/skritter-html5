@@ -26,7 +26,7 @@ requirejs.config({
         'indexeddb.shim': '../libs/indexeddb.shim',
         jasmine: '../../tests/lib/jasmine',
         'jasmine-html': '../../tests/lib/jasmine-html',
-        jquery: '../libs/jquery-1.10.2.min',
+        jquery: '../libs/jquery-1.11.0.min',
         'jquery.indexeddb': '../libs/jquery.indexeddb',
         keypress: '../libs/keypress-1.0.9.min',
         lodash: '../libs/lodash-2.4.1.compat.min',
