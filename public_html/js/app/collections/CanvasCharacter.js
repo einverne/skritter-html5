@@ -5,9 +5,7 @@
  * @author Joshua McFarland
  */
 define([
-    'models/CanvasStroke',
-    'backbone',
-    'createjs.easel'
+    'models/CanvasStroke'
 ], function(CanvasStroke) {
     /**
      * @class CanvasCharacter

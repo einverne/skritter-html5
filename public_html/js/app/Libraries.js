@@ -1,5 +1,9 @@
 /**
+ * These libraries need to be loaded after the vendor libraries are loaded or 
+ * need special handling to be loaded into the global window namespace.
+ * 
  * @module Skritter
+ * @class Libraries
  * @param async
  * @param hammer
  * @param moment
@@ -9,17 +13,6 @@ define([
     'async',
     'hammer',
     'moment',
-    'backbone',
-    'base64',
-    'bootstrap',
-    'bootstrap.switch',
-    'createjs.easel',
-    'createjs.tween',
-    'indexeddb.shim',
-    'jquery',
-    'jquery.indexeddb',
-    'keypress',
-    'lodash',
     'require.text'
 ], function(async, hammer, moment) {
     window.async = async;

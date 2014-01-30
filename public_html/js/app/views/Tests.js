@@ -1,11 +1,8 @@
 /**
  * @module Skritter
- * @param jasmine
  * @author Joshua McFarland
  */
-define([
-    'jasmine-html'
-], function(jasmine) {
+define(function() {
     /**
      * @class Tests
      */

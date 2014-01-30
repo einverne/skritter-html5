@@ -11,42 +11,9 @@ module.exports = function(grunt) {
         spec: '../../tests/spec/',
         //libraries
         async: '../libs/async',
-        backbone: '../libs/backbone-1.1.0.min',
-        base64: '../libs/base64',
-        bootstrap: '../../bootstrap/js/bootstrap.min',
-        'bootstrap.switch': '../../bootstrap/components/switch/js/bootstrap-switch.min',
-        'createjs.easel': '../libs/createjs.easel-NEXT.min',
-        'createjs.tween': '../libs/createjs.tween-NEXT.min',
         hammer: '../libs/hammer-1.0.6.min',
-        'indexeddb.shim': '../libs/indexeddb.shim',
-        jasmine: '../../tests/lib/jasmine',
-        'jasmine-html': '../../tests/lib/jasmine-html',
-        jquery: '../libs/jquery-1.11.0.min',
-        'jquery.indexeddb': '../libs/jquery.indexeddb',
-        keypress: '../libs/keypress-1.0.9.min',
-        lodash: '../libs/lodash-2.4.1.compat.min',
         moment: '../libs/moment-2.5.0',
         'require.text': '../libs/require.text-2.0.10'
-    };
-
-    var shim = {
-        backbone: {
-            deps: ['jquery', 'lodash', 'require.text'],
-            exports: 'Backbone'
-        },
-        bootstrap: ['jquery'],
-        'bootstrap.switch': ['jquery'],
-        'jasmine-html': {
-            deps: ['jasmine', 'jquery'],
-            exports: 'jasmine'
-        },
-        jquery: {
-            exports: '$'
-        },
-        'jquery.indexeddb': ['indexeddb.shim', 'jquery'],
-        lodash: {
-            exports: '_'
-        }
     };
     
     grunt.initConfig({
@@ -168,8 +135,7 @@ module.exports = function(grunt) {
                     optimizeCss: 'standard',
                     paths: paths,
                     preserveLicenseComments: false,
-                    removeCombined: true,
-                    shim: shim
+                    removeCombined: true
                 }
             },
             combined: {
@@ -192,8 +158,7 @@ module.exports = function(grunt) {
                     optimizeCss: 'standard',
                     paths: paths,
                     preserveLicenseComments: false,
-                    removeCombined: true,
-                    shim: shim
+                    removeCombined: true
                 }
             }
         },

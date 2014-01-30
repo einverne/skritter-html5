@@ -7,9 +7,7 @@
  */
 define([
     'Mauler',
-    'Shortstraw',
-    'backbone',
-    'createjs.easel'
+    'Shortstraw'
 ], function(Mauler, Shortstraw) {
     /**
      * @class CanvasStroke

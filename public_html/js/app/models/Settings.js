@@ -3,9 +3,7 @@
  * @submodule Model
  * @author Joshua McFarland
  */
-define([
-    'backbone'
-], function() {
+define(function() {
     /**
      * @class Settings
      */
