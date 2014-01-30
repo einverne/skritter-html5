@@ -49,6 +49,17 @@ define([
             VocabInfo.decompTable.setElement(this.$('#decompositions')).render();
             return this;
         },
+        events: {
+            'click.VocabInfo #vocab-info-view #back-button': 'handleBackClicked'
+        },
+        /**
+         * @method handleBackClicked
+         * @param {Object} event
+         */
+        handleBackClicked: function(event) {
+            event.preventDefault();
+            skritter.router.back();
+        },
         /**
          * @method load
          * @param {String} lang

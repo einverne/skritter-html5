@@ -55,6 +55,12 @@ define([
             'tests': 'showTests'
         },
         /**
+         * @method back
+         */
+        back: function() {
+            window.history.back();
+        },
+        /**
          * @method showHome
          */
         showHome: function() {
