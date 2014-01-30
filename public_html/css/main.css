@@ -14,7 +14,7 @@ html, body {
     background-image: url('../images/textures/rice-paper1.png');
     background-repeat: repeat;
     height: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 body {
     -webkit-touch-callout: none;
@@ -291,6 +291,7 @@ body {
 @media (max-width: 992px) {
     .view {
         padding-top: 45px;
+        overflow-y: auto;
     }
     .view .content {
         border-width: 1px;
