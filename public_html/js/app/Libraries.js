@@ -19,7 +19,6 @@ define([
     'jquery',
     'jquery.indexeddb',
     'keypress',
-    'leap',
     'lodash',
     'require.text'
 ], function(async, hammer, moment) {
