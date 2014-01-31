@@ -12,6 +12,17 @@ define([
     ];
 
     describe('Functions', function() {
+        describe('bytesToSize', function() {
+            it('should remain using B', function() {
+                expect(Functions.bytesToSize(1000)).toEqual('1000.00 B');
+            });
+            it('should convert to KB', function() {
+                expect(Functions.bytesToSize(1024)).toEqual('1.00 KB');
+            })
+            it('should convert to MB', function() {
+                expect(Functions.bytesToSize(1024*1024)).toEqual('1.00 MB');
+            });
+        });
         describe('getAngle', function() {
             var angle = Functions.getAngle(points);
             it('should be a number equal to or greater than 0', function() {
