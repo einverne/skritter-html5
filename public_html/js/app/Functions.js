@@ -125,6 +125,21 @@ define(function() {
     };
     
     /**
+     * @method getMySqlDateFormat
+     * @returns {String}
+     */
+    var getMySqlDateFormat = function() {
+        var date = new Date();
+        var dateString = date.getUTCFullYear() + '-' +
+                pad((date.getUTCMonth() + 1), '0', 2) + '-' +
+                pad(date.getUTCDate(), '0', 2) + ' ' +
+                pad(date.getUTCHours(), '0', 2) + ':' +
+                pad(date.getUTCMinutes(), '0', 2) + ':' +
+                pad(date.getUTCSeconds(), '0', 2);
+        return dateString;
+    };
+    
+    /**
      * @method getPressurizedStrokeSize
      * @param {Number} strokeSize
      * @param {Point} point1
@@ -290,6 +305,7 @@ define(function() {
         getBoundingRectangle: getBoundingRectangle,
         getDistance: getDistance,
         getLineDeviation: getLineDeviation,
+        getMySqlDateFormat: getMySqlDateFormat,
         getPressurizedStrokeSize: getPressurizedStrokeSize,
         getRandomInt: getRandomInt,
         getUnixTime: getUnixTime,
