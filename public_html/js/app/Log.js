@@ -36,15 +36,16 @@ define(function() {
      * @method user
      */
     Log.prototype.user = function () {
-        if (!skritter.user.getSetting('anonymous'))
-            skritter.user.setSetting('anonymous', false);
+        var settings = _.clone(skritter.user.get('settings'));
+        settings.created = skritter.fn.getMySqlDateFormat(settings.created);
+        settings.anonymous = (settings.anonymous) ? 1 : 0;        
         var promise = $.ajax({
             url: 'log/user.php',
             type: 'POST',
             dataType: 'json',
             data: {
                 key: Log.key,
-                settings: JSON.stringify(skritter.user.get('settings'))
+                settings: JSON.stringify(settings)
             }
         });
         promise.done(function(data) {

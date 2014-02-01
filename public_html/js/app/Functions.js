@@ -126,10 +126,11 @@ define(function() {
     
     /**
      * @method getMySqlDateFormat
+     * @param {Number} unixTime
      * @returns {String}
      */
-    var getMySqlDateFormat = function() {
-        var date = new Date();
+    var getMySqlDateFormat = function(unixTime) {
+        var date = (unixTime) ? new Date(unixTime * 1000) : new Date();
         var dateString = date.getUTCFullYear() + '-' +
                 pad((date.getUTCMonth() + 1), '0', 2) + '-' +
                 pad(date.getUTCDate(), '0', 2) + ' ' +
