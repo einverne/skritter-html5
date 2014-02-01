@@ -7,12 +7,13 @@ define([
     'models/Assets',
     'Functions',
     'models/storage/IndexedDBAdapter',
+    'log',
     'views/components/Modal',
     'Router',
     'models/Settings',
     'views/components/Timer',
     'models/User'
-], function(Api, Assets, Functions, IndexedDBAdapter, Modal, Router, Settings, Timer, User) {
+], function(Api, Assets, Functions, IndexedDBAdapter, Log, Modal, Router, Settings, Timer, User) {
     /**
      * Creates the global skritter namescape.
      * @param skritter
@@ -28,6 +29,7 @@ define([
             async.apply(loadApi),
             async.apply(loadAssets),
             async.apply(loadFunctions),
+            async.apply(loadLog),
             async.apply(loadModal),
             async.apply(loadSettings),
             async.apply(loadStorage),
@@ -60,6 +62,14 @@ define([
      */
     var loadFunctions = function(callback) {
         skritter.fn = Functions;
+        callback();
+    };
+    /**
+     * @method loadLog
+     * @param {Function} callback
+     */
+    var loadLog = function(callback) {
+        skritter.log = new Log();
         callback();
     };
     /**
