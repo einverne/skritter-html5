@@ -15,7 +15,8 @@ define(function() {
             Tests.htmlReporter = new jasmine.HtmlReporter();
             Tests.specs = [
                 'spec/Functions',
-                'spec/PinyinConverter'
+                'spec/PinyinConverter',
+                'spec/models/Assets'
             ];
         },
         /**
