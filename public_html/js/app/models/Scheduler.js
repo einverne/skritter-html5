@@ -187,15 +187,28 @@ define(function() {
                     function(item, vocab, callback) {
                         var part = item.get('part');
                         if (part === 'rune' || part === 'tone') {
-                            vocab.loadContainedItems(part, function(contained) {
-                                callback(null, item, vocab, contained);
+                            vocab.loadContainedItems(part, function(containedItems) {
+                                callback(null, item, vocab, containedItems);
                             });
                         } else {
                             callback(null, item, vocab, []);
                         }
                     },
+                    //load contained item vocabs
+                    function(item, vocab, containedItems, callback) {
+                        if (containedItems) {
+                            var containedVocabIds = [];
+                            for (var i in containedItems)
+                                containedVocabIds.push(containedItems[i].getVocabId());
+                            skritter.data.vocabs.load(containedVocabIds, function(containedVocabs) {
+                                callback(null, item, vocab, containedItems, containedVocabs);
+                            });
+                        } else {
+                            callback(null, item, vocab, containedItems);
+                        }
+                    },
                     //check for missing data and other possible errors
-                    function(item, vocab, contained, callback) {
+                    function(item, vocab, contained, containedVocabs, callback) {
                         var error = null;
                         if (item.get('part') === 'rune') {
                                 var characters = vocab.getCharacters();
@@ -205,13 +218,13 @@ define(function() {
                         }
                         callback(error, item, vocab, contained);
                     }
-                ], function(error, item, vocab, contained) {
+                ], function(error, item, vocab, containedItems, containedVocabs) {
                     if (error) {
                         console.log(error, item);
                         Scheduler.this.remove(item.id);
                         loadItem();
                     } else {
-                        callback(item, vocab, contained);
+                        callback(item, vocab, containedItems, containedVocabs);
                     }
                 });
             }

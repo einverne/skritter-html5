@@ -120,7 +120,8 @@ define([
                             itemId: item.get('id'),
                             bearTime: (i === 0) ? true : false,
                             wordGroup: wordGroup
-                        })
+                        }),
+                        vocab: item.getVocab()
                     });
                 }
             }
