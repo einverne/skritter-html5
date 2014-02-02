@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Sun Feb 02 2014 11:02:58 GMT-0600 (Central Standard Time)
+# Time: Sun Feb 02 2014 15:00:27 GMT-0600 (Central Standard Time)
 
 CACHE:
 index.html
@@ -133,6 +133,7 @@ tests/spec/PinyinConverter.js
 tests/spec/models/Api.js
 tests/spec/models/Assets.js
 tests/spec/models/study/Decomp.js
+tests/spec/views/Options.js
 fonts/FontAwesome.otf
 images/feature-icons.png
 images/github-logo.png
