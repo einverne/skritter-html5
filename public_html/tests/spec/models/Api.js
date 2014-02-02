@@ -14,4 +14,4 @@ define([
             expect(api.credentials()).toEqual('basic Y2xpZW50OjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3ODkwYWJjZA==');
         });
     });
-})
+});

@@ -17,7 +17,8 @@ define(function() {
                 'spec/Functions',
                 'spec/PinyinConverter',
                 'spec/models/Api',
-                'spec/models/Assets'
+                'spec/models/Assets',
+                'spec/models/study/Decomp',
             ];
         },
         /**
