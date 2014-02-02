@@ -161,6 +161,11 @@ define(function() {
         getNext: function(callback) {
             loadItem();
             function loadItem() {
+                //return nothing when no items have been loaded into the scheduler
+                if (Scheduler.this.getItemCount() === 0) {
+                    callback();
+                    return;
+                }
                 var item = Scheduler.this.sort().get('schedule')[0];
                 async.waterfall([
                     //load the base item
@@ -228,6 +233,13 @@ define(function() {
                     }
                 });
             }
+        },
+        /**
+         * @method getItemCount
+         * @returns {Number}
+         */
+        getItemCount: function() {
+            return this.get('schedule').length;
         },
         /**
          * @method loadAll

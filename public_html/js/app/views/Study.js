@@ -36,10 +36,15 @@ define([
             //skritter.scheduler.filter({parts: ['rdng']});
             skritter.timer.setElement(this.$('#timer')).render();
             this.updateDueCount();
-            if (Study.prompt) {
-                this.loadPrompt();
+            if (skritter.scheduler.getItemCount() === 0) {
+                console.log(skritter);
+                skritter.router.navigate('/', {trigger: true});
             } else {
-                this.nextPrompt();
+                if (Study.prompt) {
+                    this.loadPrompt();
+                } else {
+                    this.nextPrompt();
+                }
             }
             return this;
         },

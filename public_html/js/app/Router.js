@@ -177,12 +177,10 @@ define([
 
     /**
      * @method initialize
-     * @return {Router} Returns the application hashtag routing instance
      */
     var initialize = function() {
-        var router = new Router();
+        skritter.router = new Router();
         Backbone.history.start(skritter.fn.isLocal() ? {} : {pushState: true});
-        return router;
     };
 
     return {

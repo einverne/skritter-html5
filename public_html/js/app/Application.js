@@ -85,7 +85,7 @@ define([
      * @param {Function} callback
      */
     var loadRouter = function(callback) {
-        skritter.router = Router.initialize();
+        Router.initialize();
         callback();
     };
     /**
