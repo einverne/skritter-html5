@@ -68,6 +68,8 @@ define([
                 Prompt.data.hide.tip();
                 Prompt.data.show.definition();
                 Prompt.gradingButtons.show();
+                if (skritter.user.get('audio'))
+                    Prompt.data.vocab.play();
             } else {
                 skritter.timer.start();
                 Prompt.data.show.question("What's the definition?");

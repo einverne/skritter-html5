@@ -68,6 +68,8 @@ define([
                 Prompt.data.show.definition();
                 Prompt.data.show.reading();
                 Prompt.gradingButtons.show();
+                if (skritter.user.get('audio'))
+                    Prompt.data.vocab.play();
             } else {
                 skritter.timer.start();
                 Prompt.data.show.question("How do you say it?");

@@ -166,6 +166,8 @@ define([
                     Prompt.data.show.sentence();
                 }
                 Prompt.data.show.writingAt(1);
+                if (skritter.user.get('audio') && Prompt.dataItem.has('vocab'))
+                    Prompt.dataItem.get('vocab').play();
                 window.setTimeout(function() {
                     hammer(Prompt.this.$('#canvas-container')[0]).on('tap', Prompt.this.handleTap);
                 }, 500);
@@ -176,6 +178,8 @@ define([
                 Prompt.data.show.question("How do you write it?");
                 Prompt.data.show.sentenceMasked();
                 Prompt.data.show.writingAt();
+                if (skritter.user.get('audio') && Prompt.data.isFirst())
+                    Prompt.data.vocab.play();
                 if (Rune.teaching)
                     this.teach();
                     

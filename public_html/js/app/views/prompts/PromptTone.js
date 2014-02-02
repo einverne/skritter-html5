@@ -151,6 +151,11 @@ define([
                 if (Prompt.data.isLast())
                     Prompt.data.hide.question();
                 Prompt.data.show.readingAt(0, true);
+                if (skritter.user.get('audio') && Prompt.data.isLast()) {
+                    Prompt.data.vocab.play();
+                } else if (skritter.user.get('audio')) {
+                    Prompt.dataItem.get('vocab').play();
+                }
                 window.setTimeout(function() {
                     hammer(Prompt.this.$('#canvas-container')[0]).on('tap', Prompt.this.handleTap);
                 }, 500);
