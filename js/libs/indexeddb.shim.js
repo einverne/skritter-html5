@@ -1,7 +1,10 @@
+/*jshint globalstrict: true*/
+
 /**
  * An initialization file that checks for conditions, removes console.log and warn, etc
  */
 var idbModules = {};
+/*jshint globalstrict: true*/
 
 (function(idbModules) {
     /**
@@ -105,7 +108,7 @@ var idbModules = {};
     };
 }(idbModules));
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules){
     /**
      * Implementation of the Structured Cloning Algorithm.  Supports the
@@ -439,7 +442,7 @@ var idbModules = {};
     idbModules.Sca = Sca;
 }(idbModules));
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules){
     /**
      * Encodes the keys and values based on their types. This is required to maintain collations
@@ -497,7 +500,7 @@ var idbModules = {};
 }(idbModules));
 
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules, undefined){
 	// The event interface used for IndexedBD Actions.
 	var Event = function(type, debug){
@@ -516,7 +519,7 @@ var idbModules = {};
 }(idbModules));
 
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules){
 
     /**
@@ -541,7 +544,7 @@ var idbModules = {};
 }(idbModules));
 
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules, undefined){
     /**
      * The IndexedDB KeyRange object
@@ -577,7 +580,7 @@ var idbModules = {};
 }(idbModules));
 
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules, undefined){
     /**
      * The IndexedDB Cursor Object
@@ -688,16 +691,16 @@ var idbModules = {};
         var me = this,
             request = this.__idbObjectStore.transaction.__createRequest(function(){}); //Stub request
         idbModules.Sca.encode(valueToUpdate, function(encoded) {
-            this.__idbObjectStore.__pushToQueue(request, function(tx, args, success, error){
+            me.__idbObjectStore.transaction.__pushToQueue(request, function(tx, args, success, error){
                 me.__find(undefined, tx, function(key, value){
                     var sql = "UPDATE " + idbModules.util.quote(me.__idbObjectStore.name) + " SET value = ? WHERE key = ?";
                     idbModules.DEBUG && console.log(sql, encoded, key);
-                    tx.executeSql(sql, [idbModules.Sca.encode(encoded), idbModules.Key.encode(key)], function(tx, data){
+                    tx.executeSql(sql, [encoded, idbModules.Key.encode(key)], function(tx, data){
                         if (data.rowsAffected === 1) {
                             success(key);
                         }
                         else {
-                            error("No rowns with key found" + key);
+                            error("No rows with key found" + key);
                         }
                     }, function(tx, data){
                         error(data);
@@ -718,10 +721,12 @@ var idbModules = {};
                 idbModules.DEBUG && console.log(sql, key);
                 tx.executeSql(sql, [idbModules.Key.encode(key)], function(tx, data){
                     if (data.rowsAffected === 1) {
+                        // lower the offset or we will miss a row
+                        me.__offset--;
                         success(undefined);
                     }
                     else {
-                        error("No rowns with key found" + key);
+                        error("No rows with key found" + key);
                     }
                 }, function(tx, data){
                     error(data);
@@ -736,7 +741,7 @@ var idbModules = {};
 }(idbModules));
 
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules, undefined){
     /**
      * IDB Index
@@ -872,7 +877,7 @@ var idbModules = {};
 }(idbModules));
 
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules){
 
     /**
@@ -1030,7 +1035,7 @@ var idbModules = {};
         });
     };
     
-    IDBObjectStore.prototype.__insertData = function(tx, value, primaryKey, success, error){
+    IDBObjectStore.prototype.__insertData = function(tx, encoded, value, primaryKey, success, error){
         var paramMap = {};
         if (typeof primaryKey !== "undefined") {
             paramMap.key = idbModules.Key.encode(primaryKey);
@@ -1055,7 +1060,7 @@ var idbModules = {};
         // removing the trailing comma
         sqlStart.push("value )");
         sqlEnd.push("?)");
-        sqlValues.push(value);
+        sqlValues.push(encoded);
         
         var sql = sqlStart.join(" ") + sqlEnd.join(" ");
         
@@ -1073,7 +1078,7 @@ var idbModules = {};
         idbModules.Sca.encode(value, function(encoded) {
             me.transaction.__pushToQueue(request, function(tx, args, success, error){
                 me.__deriveKey(tx, value, key, function(primaryKey){
-                    me.__insertData(tx, encoded, primaryKey, success, error);
+                    me.__insertData(tx, encoded, value, primaryKey, success, error);
                 });
             });
         });
@@ -1090,7 +1095,7 @@ var idbModules = {};
                     var sql = "DELETE FROM " + idbModules.util.quote(me.name) + " where key = ?";
                     tx.executeSql(sql, [idbModules.Key.encode(primaryKey)], function(tx, data){
                         idbModules.DEBUG && console.log("Did the row with the", primaryKey, "exist? ", data.rowsAffected);
-                        me.__insertData(tx, encoded, primaryKey, success, error);
+                        me.__insertData(tx, encoded, value, primaryKey, success, error);
                     }, function(tx, err){
                         error(err);
                     });
@@ -1209,7 +1214,7 @@ var idbModules = {};
 }(idbModules));
 
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules){
 
     /**
@@ -1364,7 +1369,7 @@ var idbModules = {};
 }(idbModules));
 
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules){
 
     /**
@@ -1455,7 +1460,7 @@ var idbModules = {};
 }(idbModules));
 
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(idbModules){
     var DEFAULT_DB_SIZE = 4 * 1024 * 1024;
     if (!window.openDatabase) {
@@ -1630,7 +1635,7 @@ var idbModules = {};
 }(idbModules));
 
 /*jshint globalstrict: true*/
-'use strict';
+
 (function(window, idbModules){
     if (typeof window.openDatabase !== "undefined") {
         window.shimIndexedDB = idbModules.shimIndexedDB;

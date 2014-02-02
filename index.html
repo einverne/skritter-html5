@@ -2,13 +2,13 @@
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" manifest="skritter.appcache"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]--> <!--  manifest="skritter.appcache" -->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Skritter HTML5</title>
         <meta name="description" content="Learn to Write Chinese and Japanese Characters">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="mobile-web-app-capable" content="yes">
         
         <!-- icons -->
@@ -19,9 +19,10 @@
         <link rel="apple-touch-icon-precomposed" sizes="128x128" href="icon-128x128.png">
         
         <!-- stylesheets -->
-        <link rel="stylesheet" href="bootstrap/themes/yeti.css">
-        <link rel="stylesheet" href="css/font-awesome.css">
-        <link rel="stylesheet" href="css/font-flatui.css">
+        <link rel="stylesheet" href="tests/lib/jasmine.css">
+        <link rel="stylesheet" href="bootstrap/themes/yeti.min.css">
+        <link rel="stylesheet" href="bootstrap/components/switch/css/bootstrap-switch.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/main.css">
         
         <!-- errorception -->
@@ -49,6 +50,20 @@
     <body>
         <div id="modal-container"></div>
         <div id="skritter-container"></div>
-        <script data-main="js/main" src="js/require-2.1.9.js"></script>
+        <script src="js/libs/jquery-1.11.0.min.js"></script>
+        <script src="js/libs/jquery.indexeddb.js"></script>
+        <script src="js/libs/indexeddb.shim.js"></script>
+        <script src="js/libs/lodash-2.4.1.compat.min.js"></script>
+        <script src="js/libs/backbone-1.1.0.min.js"></script>
+        <script src="js/libs/createjs.easel-NEXT.min.js"></script>
+        <script src="js/libs/createjs.tween-NEXT.min.js"></script>
+        <script src="js/libs/base64.js"></script>
+        <script src="js/libs/keypress-1.0.9.min.js"></script>
+        <script src="js/libs/leap.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="bootstrap/components/switch/js/bootstrap-switch.min.js"></script>
+        <script src="tests/lib/jasmine.js"></script>
+        <script src="tests/lib/jasmine-html.js"></script>
+        <script data-main="js/main" src="js/libs/require-2.1.10.min.js"></script>
     </body>
 </html>

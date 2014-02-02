@@ -1,36 +1,32 @@
 <div id="home-view" class="view">
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
-            <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>-->
-            <a class="navbar-brand hidden-xs" href="#">Skritter</a>
-            <div class="navbar-right navbar-text cursor" data-toggle="dropdown" data-target=".user-dropdown">
-                <span class="user-name"></span> <b class="caret"></b>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Skritter</a>
+                <div class="navbar-text">   
+                    <ul class="navbar-nav list-inline">
+                        <li><a href="#study"><span class="fa fa-navbar fa-pencil"></span> Study</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="collapse navbar-collapse">
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li><a class="options-button" href="#options"><span class="fa fa-navbar fa-gear"></span> Options</a></li>
+                    <li><a class="logout-button" href=""><span class="fa fa-navbar fa-power-off"></span> Logout</a></li>
                 </ul>
             </div>
-            <ul class="nav navbar-nav navbar-user navbar-right">
-                <li class="dropdown user-dropdown">
-                    <ul class="dropdown-menu">
-                        <!--<li><a class="link-button" data-fragment="account"><i class="fa fa-user"></i> Account</a></li>-->
-                        <li><a class="link-button" data-fragment="options"><i class="fa fa-gear"></i> Options</a></li>
-                        <li class="divider"></li>
-                        <li><a class="link-button" data-fragment="logout"><i class="fa fa-power-off"></i> Log Out</a></li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </div>
-
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 content">
+        <div class="row content">
+            <div id="notification"></div>
+            <div class="col-md-6">
                 <div class="media">
                     <a class="pull-left" href="#">
                         <span id="user-avatar" class="media-object"></span>
@@ -38,13 +34,20 @@
                     <div class="media-body">
                         <h4 class="media-heading">Overview</h4>
                         <p><strong><span class="user-name"></span></strong>, you currently have <strong><span id="user-items-due"></span></strong> items ready to review.</p>
-                        <a class="btn btn-primary link-button" data-fragment="study" role="button">Study</a>
+                        <a class="btn btn-primary link-button" data-fragment="study" href="#study" role="button">Study</a>
                         <a class="btn btn-primary sync-button" role="button">
                             Sync <span id="user-unsynced-reviews"></span>
                         </a>
                     </div>
                 </div>
             </div>
+            <div id="active-lists" class="col-md-6">
+                <h4><span class="fa fa-edit"></span>My Lists (<a href="#vocab/list">Manage</a>)</h4>
+                <div id="table-container"></div>
+            </div>
+
+        </div>
+        <div class="row">
             <div class="col-md-6 content">
                 <div class="media">
                     <a class="pull-left" href="https://github.com/mcfarljw/skritter-html5">
@@ -56,6 +59,7 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6"></div>
         </div>
     </div>
 </div>

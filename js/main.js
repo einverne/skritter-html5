@@ -13,87 +13,20 @@ requirejs.config({
     paths: {
         //directories
         templates: '../../templates',
-        specs: '../../tests/specs/',
+        spec: '../../tests/spec/',
         //libraries
         async: '../libs/async',
-        backbone: '../libs/backbone-1.1.0',
-        base64: '../libs/base64',
-        bootstrap: '../../bootstrap/js/bootstrap',
-        'createjs.easel': '../libs/createjs.easel-NEXT.min',
-        'createjs.tween': '../libs/createjs.tween-NEXT.min',
-        'indexeddb.shim': '../libs/indexeddb.shim',
-        jasmine: '../../tests/libs/jasmine',
-        'jasmine-html': '../../tests/libs/jasmine-html',
-        jquery: '../libs/jquery-2.0.3',
-        'jquery.hammer': '../libs/jquery.hammer-1.0.5',
-        'jquery.indexeddb': '../libs/jquery.indexeddb',
-        lodash: '../libs/lodash-2.4.1',
-        'lz-string': '../libs/lz-string-1.3.3',
-        moment: '../libs/moment-2.4.0',
+        hammer: '../libs/hammer-1.0.6.min',
+        moment: '../libs/moment-2.5.0',
         'require.text': '../libs/require.text-2.0.10'
     },
-    shim: {
-        backbone: {
-            deps: ['jquery', 'lodash', 'require.text'],
-            exports: 'Backbone'
-        },
-        bootstrap: ['jquery'],
-        'jasmine-html': {
-            deps: ['jasmine', 'jquery'],
-            exports: 'jasmine'
-        },
-        jquery: {
-            exports: '$'
-        },
-        'jquery.hammer': ['jquery'],
-        'jquery.indexeddb': ['indexeddb.shim', 'jquery'],
-        lodash: {
-            exports: '_'
-        }
-    },
-    waitSeconds: 30
+    waitSeconds: 60
 });
 
-if (document.location.pathname.indexOf('tests.html') > -1) {
-    /**
-     * Loads the jasmine test cases.
-     */
-    requirejs(['Application', 'Jasmine'], function() {
-        var jasmineEnv = jasmine.getEnv();
-        jasmineEnv.updateInterval = 1000;
-        var htmlReporter = new jasmine.HtmlReporter();
-        jasmineEnv.addReporter(htmlReporter);
-        jasmineEnv.specFilter = function(spec) {
-            return htmlReporter.specFilter(spec);
-        };
-        var specs = [];
-        specs.push('specs/Functions');
-        $(document).ready(function() {
-            requirejs(specs, function() {
-                jasmineEnv.execute();
-            });
-        });
-    });
-} else {
-    /**
-     * Loads the application.
-     * 
-     * @param Application
-     */
+requirejs(['Libraries'], function() {
     requirejs(['Application'], function(Application) {
-        /**
-         * Creates the global Skritter namespace when the application first opened.
-         * @param skritter
-         */
-        window.skritter = (function(skritter) {
-            return skritter;
-        })(window.skritter || {});
-        /**
-         * Loads the application once the DOM has been fully loaded.
-         */
         $(document).ready(function() {
-            skritter.application = Application;
             Application.initialize();
         });
     });
-}
+});
