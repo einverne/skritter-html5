@@ -1,5 +1,15 @@
 /**
  * @module Skritter
+ * @param Api
+ * @param Assets
+ * @param Functions
+ * @param IndexedDBAdapter
+ * @param Log
+ * @param Modal
+ * @param Router
+ * @param Settings
+ * @param Timer
+ * @param User
  * @author Joshua McFarland
  */
 define([
@@ -37,7 +47,7 @@ define([
             async.apply(loadUser),
             async.apply(loadRouter)
         ], function() {
-            console.log('application initialized');
+            skritter.log.console('application initialized');
         });
     };
     /**

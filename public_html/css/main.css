@@ -280,6 +280,7 @@ body {
 /*** VIEW ***/
 .view {
     height: 100%;
+    overflow-y: auto;
     padding-top: 60px;
 }
 .view .content {
@@ -291,7 +292,6 @@ body {
 @media (max-width: 992px) {
     .view {
         padding-top: 45px;
-        overflow-y: auto;
     }
     .view .content {
         border-width: 1px;

@@ -16,7 +16,7 @@ define([
         initialize: function() {
             VocabListsTable.this = this;
             VocabListsTable.fieldNameMap = {};
-            VocabListsTable.lists = [];
+            VocabListsTable.lists = null;
             VocabListsTable.sortType = 'studying';
         },
         /**
