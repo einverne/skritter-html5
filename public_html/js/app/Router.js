@@ -47,6 +47,7 @@ define([
             '': 'showHome',
             'options': 'showOptions',
             'vocab/list': 'showVocabLists',
+            'vocab/list/sort/:sort': 'showVocabLists',
             'vocab/list/:id': 'showVocabList',
             'vocab/list/:listId/:sectionId': 'showVocabListSection',
             'vocab/:lang/:writing': 'showVocabInfo',
@@ -163,15 +164,16 @@ define([
         },
         /**
          * @method showVocabLists
+         * @param {String} sort
          */
-        showVocabLists: function() {
+        showVocabLists: function(sort) {
             if (!Router.view.vocabLists) {
                 Router.view.vocabLists = new VocabLists({el: $(skritter.settings.get('container'))});
                 skritter.view = Router.view;
             } else {
                 Router.view.vocabLists.setElement($(skritter.settings.get('container')));
             }
-            Router.view.vocabLists.render();
+            Router.view.vocabLists.load(sort);
         }
     });
 

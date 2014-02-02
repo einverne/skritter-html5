@@ -17,6 +17,7 @@ define([
          */
         initialize: function() {
             VocabLists.lists = new VocabListsTable();
+            VocabLists.sort = 'studying';
         },
         /**
          * @method render
@@ -24,7 +25,8 @@ define([
          */
         render: function() {
             this.$el.html(templateVocabLists);
-            VocabLists.lists.setElement(this.$('#vocab-lists-table-container')).load('studying', {
+            this.selectCategory();
+            VocabLists.lists.setElement(this.$('#vocab-lists-table-container')).load(VocabLists.sort, {
                 'name': 'Name',
                 'studyingMode': 'Status'
             }).render();
@@ -32,10 +34,18 @@ define([
         },
         /**
          * @method load
-         * @param {String} listId
+         * @param {String} sort
          */
-        load: function(listId) {
+        load: function(sort) {
+            VocabLists.sort = (sort) ? sort : 'studying';
             this.render();
+        },
+        /**
+         * @method selectCategory
+         */
+        selectCategory: function() {
+            this.$('#categories a').removeClass('active');
+            this.$('#' + VocabLists.sort + '-category').addClass('active');
         }
     });
     
