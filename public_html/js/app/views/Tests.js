@@ -16,6 +16,7 @@ define(function() {
             Tests.specs = [
                 'spec/Functions',
                 'spec/PinyinConverter',
+                'spec/models/Api',
                 'spec/models/Assets'
             ];
         },
