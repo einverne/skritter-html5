@@ -74,8 +74,7 @@ define([
             VocabListsTable.sortType = sortType;
             skritter.lists.load(sortType, fieldNameMap, function(lists) {
                 lists = lists.filter(function(list) {
-                    console.log(list);
-                    if (_.contains(filterStatus, list.get('studyingMode')))
+                    if (!filterStatus || _.contains(filterStatus, list.get('studyingMode')))
                         return true;
                 });
                 VocabListsTable.lists = lists;

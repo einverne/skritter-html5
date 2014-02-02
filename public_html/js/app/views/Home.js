@@ -34,7 +34,7 @@ define([
                 Home.lists.setElement(this.$('#active-lists #table-container')).load('studying', {
                     'name': 'Name',
                     'studyingMode': 'Status'
-                }, ['adding', 'reviewing']).render();
+                }, ['adding', 'reviewing']);
                 this.listenTo(skritter.scheduler, 'change:schedule', this.updateDueCount);
                 this.listenTo(skritter.sync, 'change:active', this.updateSyncStatus);
                 this.updateDueCount();
