@@ -37,7 +37,6 @@ define([
             skritter.timer.setElement(this.$('#timer')).render();
             this.updateDueCount();
             if (skritter.scheduler.getItemCount() === 0) {
-                console.log(skritter);
                 skritter.router.navigate('/', {trigger: true});
             } else {
                 if (Study.prompt) {

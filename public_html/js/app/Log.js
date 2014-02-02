@@ -33,6 +33,12 @@ define(function() {
         });
     };
     /**
+     * @method console
+     */
+    Log.prototype.console = function() {
+        console.log.apply(console, arguments);
+    };
+    /**
      * @method user
      */
     Log.prototype.user = function () {
