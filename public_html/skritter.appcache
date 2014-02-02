@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Thu Jan 30 2014 17:06:32 GMT-0600 (Central Standard Time)
+# Time: Sun Feb 02 2014 11:02:58 GMT-0600 (Central Standard Time)
 
 CACHE:
 index.html
@@ -47,6 +47,7 @@ bootstrap/js/bootstrap.min.js
 js/app/Application.js
 js/app/Functions.js
 js/app/Libraries.js
+js/app/Log.js
 js/app/Mauler.js
 js/app/ParamList.js
 js/app/PinyinConverter.js
@@ -128,6 +129,10 @@ js/main.js
 tests/lib/jasmine-html.js
 tests/lib/jasmine.js
 tests/spec/Functions.js
+tests/spec/PinyinConverter.js
+tests/spec/models/Api.js
+tests/spec/models/Assets.js
+tests/spec/models/study/Decomp.js
 fonts/FontAwesome.otf
 images/feature-icons.png
 images/github-logo.png
