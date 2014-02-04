@@ -123,9 +123,6 @@ define([
         handleStrokeDrawn: function(result) {
             //prevents multiple simultaneous strokes from firing the character complete event
             result.set('isTweening', false);
-            //check if the character has been completed yet or not with enforced tween checks
-            if (Prompt.dataItem.get('character').getStrokeCount(true) >= Prompt.dataItem.get('character').getTargetStrokeCount() && !Rune.teaching)
-                this.handleCharacterComplete();
         },
         /**
          * @method handleHold
@@ -228,6 +225,7 @@ define([
                     if (Prompt.dataItem.get('character').getStrokeCount(false) >= Prompt.dataItem.get('character').getTargetStrokeCount() && !Rune.teaching) {
                         Rune.canvas.injectLayer('stroke', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
                         Prompt.gradingButtons.select().collapse();
+                        this.handleCharacterComplete();
                     }
                     //display the next stroke when teaching mode is enabled
                     if (Rune.teaching)
