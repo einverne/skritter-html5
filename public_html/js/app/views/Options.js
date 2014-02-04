@@ -81,6 +81,8 @@ define([
             skritter.user.setSetting('squigs', this.$('#squigs').bootstrapSwitch('state'));
             //heisig
             skritter.user.setSetting('showHeisig', this.$('#heisig').bootstrapSwitch('state'));
+            //cache all of the user settings into localStorage
+            skritter.user.cache();
             //ISSUE #117: scheduler needs to be reloaded on options save
             skritter.scheduler.loadAll(function() {
                 if (skritter.view.study)

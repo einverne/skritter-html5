@@ -146,7 +146,11 @@ define([
                 Prompt.gradingButtons.select(Prompt.dataItem.getGrade()).collapse();
                 if (Prompt.data.isLast())
                     Prompt.data.hide.question();
-                Prompt.data.show.readingAt(0, true);
+                if (skritter.user.getSetting('hideReading')) {
+                    Prompt.data.show.readingAt(1, true, true);
+                } else {
+                    Prompt.data.show.readingAt(0, true, false);
+                }
                 if (skritter.user.get('audio') && Prompt.data.isLast()) {
                     Prompt.data.vocab.play();
                 } else if (skritter.user.get('audio')) {
@@ -160,7 +164,11 @@ define([
                 skritter.timer.start();
                 Tone.canvas.enableInput();
                 Prompt.data.show.question("Which tone is it?");
-                Prompt.data.show.readingAt();
+                if (skritter.user.getSetting('hideReading')) {
+                    Prompt.data.show.readingAt(0, false, true);
+                } else {
+                    Prompt.data.show.readingAt(0, false, false);
+                }
             }
         },
         /**

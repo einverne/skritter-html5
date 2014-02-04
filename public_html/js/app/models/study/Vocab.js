@@ -181,26 +181,28 @@ define([
          * @returns {DOMElement}
          */
         getReadingDisplay: function(position, reveal, hidden) {
+            position = (position) ? position - 1 : 0;
             var element = '';
             var characterCount = this.getCharacterCount();
             element += "<div class='prompt-reading-display'>";
-            for (var i = 1; i <= characterCount; i++) {
+            for (var i = 0; i < characterCount; i++) {
+                var readingPosition = i + 1;
                 if (hidden) {
                     if (position > i) {
-                        element += "<span id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</span>";
+                        element += "<span id='reading-" + i + "' class='prompt-reading-shown'>" + PinyinConverter.toTone(this.getReadingAt(readingPosition).reading) + "</span>";
                     } else {
-                        element += "<span id='reading-" + i + "' class='btn btn-default btn-xs hidden-reading'>show</span>";
+                        element += "<button id='reading-" + i + "' class='btn btn-primary btn-xs prompt-reading-show-button'>show</button>";
                         break;
                     }
                 } else {
                     if (position > i) {
-                        element += "<span id='reading-" + i + "' class='prompt-reading-show'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</span>";
+                        element += "<span id='reading-" + i + "' class='prompt-reading-shown'>" + PinyinConverter.toTone(this.getReadingAt(readingPosition).reading) + "</span>";
                     } else if (position === i && reveal) {
-                        element += "<span id='reading-" + i + "' class='prompt-reading-hide'>" + PinyinConverter.toTone(this.getReadingAt(i).reading) + "</span>";
+                        element += "<span id='reading-" + i + "' class='prompt-reading-hidden'>" + PinyinConverter.toTone(this.getReadingAt(readingPosition).reading) + "</span>";
                     } else if (position === i) {
-                        element += "<span id='reading-" + i + "' class='prompt-reading-hide'>" + this.getReadingAt(i).syllable + "</span>";
+                        element += "<span id='reading-" + i + "' class='prompt-reading-hidden'>" + this.getReadingAt(readingPosition).syllable + "</span>";
                     } else {
-                        element += "<span id='reading-" + i + "' class='prompt-reading-show'>" + this.getReadingAt(i).syllable + "</span>";
+                        element += "<span id='reading-" + i + "' class='prompt-reading-shown'>" + this.getReadingAt(readingPosition).syllable + "</span>";
                     }
                 }
             }

@@ -158,9 +158,6 @@ body {
     margin-bottom: 20px;
     margin-top: 0;
 }
-
-
-
 #info-container #prompt-writing-box {
     min-width: 50%;
 }
@@ -168,28 +165,28 @@ body {
     float: right;
     margin-right: 25px;
 }
-#info-container .prompt-writing-show {
+#info-container .prompt-writing-shown {
     visibility: visible;
 }
-#info-container .prompt-writing-hide {
+#info-container .prompt-writing-hidden {
     visibility: hidden;
 }
 #info-container .prompt-underline {
     border-bottom: 1px #000000 solid;
     margin: 0 5px;
 }
-
-
-
-#info-container #prompt-reading-box .prompt-reading {
-    padding-top: 50%;
+#info-container #prompt-reading-box {
+    margin-top: 3%;
 }
-#info-container .prompt-reading-display div {
+#info-container #prompt-reading-box .prompt-reading-show-button {
+    margin: 0 5px;
+}
+#info-container #prompt-reading-box .prompt-reading-display div {
     float: left;
     margin: 0 5px;
     min-width: 25px;
 }
-#info-container .prompt-reading-hide {
+#info-container .prompt-reading-hidden {
     border-bottom: 1px #000000 solid;
 }
 #info-container #prompt-definition-box {

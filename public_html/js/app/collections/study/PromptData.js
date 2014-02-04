@@ -232,13 +232,17 @@ define([
                 $('.prompt-question').html(text);
                 $('.prompt-question').show();
             },
-            reading: function() {
-                $('.prompt-reading').html(PromptData.this.vocab.getReading());
+            reading: function(hidden) {
+                if (hidden) {
+                    $('.prompt-reading').html("<button class='btn btn-primary btn-xs prompt-reading-show-button'>show</button>");
+                } else {
+                    $('.prompt-reading').html(PromptData.this.vocab.getReading());
+                }
                 $('.prompt-reading').show();
             },
-            readingAt: function(offset, reveal) {
+            readingAt: function(offset, reveal, hidden) {
                 offset = (offset) ? offset : 0;
-                $('.prompt-reading').html(PromptData.this.vocab.getReadingDisplay(PromptData.this.position + offset, reveal));
+                $('.prompt-reading').html(PromptData.this.vocab.getReadingDisplay(PromptData.this.position + offset, reveal, hidden));
                 $('.prompt-reading').show();
             },
             sentence: function() {

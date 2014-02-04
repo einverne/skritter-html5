@@ -152,7 +152,6 @@ define([
         load: function() {
             Prompt.prototype.load.call(this);
             Prompt.data.show.definition();
-            Prompt.data.show.reading();
             Prompt.data.show.style();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
@@ -160,6 +159,7 @@ define([
                 Prompt.gradingButtons.select(Prompt.dataItem.getGrade()).collapse();
                 if (Prompt.data.isLast()) {
                     Prompt.data.hide.question();
+                    Prompt.data.show.reading();
                     Prompt.data.show.sentence();
                 }
                 Prompt.data.show.writingAt(1);
@@ -173,6 +173,7 @@ define([
                 skritter.timer.start();
                 Rune.canvas.enableInput();
                 Prompt.data.show.question("How do you write it?");
+                Prompt.data.show.reading(skritter.user.getSetting('hideReading'));
                 Prompt.data.show.sentenceMasked();
                 Prompt.data.show.writingAt();
                 if (skritter.user.get('audio') && Prompt.data.isFirst())

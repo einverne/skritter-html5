@@ -50,7 +50,8 @@ define([
          */
         events: {
             'click.Prompt .prompt #prompt-previous': 'previous',
-            'click.Prompt .prompt #prompt-next': 'next'
+            'click.Prompt .prompt #prompt-next': 'next',
+            'click.Prompt .prompt .prompt-reading-show-button': 'showReading'
         },
         data: function() {
             return Prompt.data;
@@ -145,6 +146,14 @@ define([
             skritter.timer.reset();
             Prompt.data = data;
             Prompt.dataItem = Prompt.data.getDataItem();
+        },
+        /**
+         * @method showReading
+         * @param {Object} event
+         */
+        showReading: function(event) {
+            Prompt.data.show.reading();
+            event.preventDefault();
         },
         /**
          * @method triggerComplete
