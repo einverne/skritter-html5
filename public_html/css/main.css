@@ -46,7 +46,7 @@ body {
 
 /*** GRADING BUTTONS ***/
 #grading-buttons {
-    bottom: 0;
+    bottom: 5px;
     margin: 0;
     position: absolute;
     width: 100%;
