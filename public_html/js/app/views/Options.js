@@ -32,8 +32,8 @@ define([
                 audio: skritter.user.get('audio'),
                 hideReading: skritter.user.getSetting('hideReading'),
                 squigs: skritter.user.getSetting('squigs'),
-                heisig: skritter.user.getSetting('showHeisig'),
-            }
+                heisig: skritter.user.getSetting('showHeisig')
+            };
             this.$el.html(_.template(templateOptions, options));
             this.$('input').bootstrapSwitch();
             return this;
