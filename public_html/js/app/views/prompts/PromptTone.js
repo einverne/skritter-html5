@@ -66,15 +66,11 @@ define([
             Prompt.dataItem.setReview(Prompt.gradingButtons.grade(), skritter.timer.getReviewTime(), skritter.timer.getThinkingTime());
             //checks if we should snap or just glow the result
             if (skritter.user.getSetting('squigs')) {
-                window.setTimeout(function() {
-                    for (var i in Prompt.dataItem.get('character').models) {
-                        var stroke = Prompt.dataItem.get('character').models[i];
-                        console.log('stroke', stroke);
-                        Tone.canvas.tweenShape('background', stroke.getUserSprite(), stroke.getInflatedSprite());
-                    }
-                    Tone.canvas.setLayerAlpha('stroke', 0.3);
-                    Tone.canvas.injectLayer('background', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
-                }, 100);
+                for (var i in Prompt.dataItem.get('character').models) {
+                    var stroke = Prompt.dataItem.get('character').models[i];
+                    Tone.canvas.tweenShape('background', stroke.getUserSprite(), stroke.getInflatedSprite());
+                }
+                Tone.canvas.injectLayer('stroke', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
             } else {
                 Tone.canvas.injectLayer('stroke', Prompt.gradeColorHex[Prompt.gradingButtons.grade()]);
             }
