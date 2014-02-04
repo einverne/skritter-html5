@@ -21,9 +21,21 @@ define([
          * @returns {Backbone.View}
          */
         render: function() {
-            this.$el.html(templateOptions);
+            var activeParts = skritter.user.getActiveParts();
+            var options = {
+                parts: {
+                    definition: _.contains(activeParts, 'defn'),
+                    reading: _.contains(activeParts, 'rdng'),
+                    tone: _.contains(activeParts, 'tone'),
+                    writing: _.contains(activeParts, 'rune')
+                },
+                audio: skritter.user.get('audio'),
+                hideReading: skritter.user.getSetting('hideReading'),
+                squigs: skritter.user.getSetting('squigs'),
+                heisig: skritter.user.getSetting('showHeisig'),
+            }
+            this.$el.html(_.template(templateOptions, options));
             this.$('input').bootstrapSwitch();
-            this.load();
             return this;
         },
         /**
@@ -31,25 +43,6 @@ define([
          */
         events: {
             'click.Options #options-view #save-button': 'save'
-        },
-        /**
-         * @method load
-         */
-        load: function() {
-            //parts
-            var activeParts = skritter.user.getActiveParts();
-            this.$('#parts-definition').bootstrapSwitch('setState', _.contains(activeParts, 'defn'));
-            this.$('#parts-reading').bootstrapSwitch('setState', _.contains(activeParts, 'rdng'));
-            this.$('#parts-tone').bootstrapSwitch('setState', _.contains(activeParts, 'tone'));
-            this.$('#parts-writing').bootstrapSwitch('setState', _.contains(activeParts, 'rune'));
-            //audio
-            this.$('#audio').bootstrapSwitch('setState', skritter.user.get('audio'));
-            //hide-reading
-            this.$('#hide-reading').bootstrapSwitch('setState', skritter.user.getSetting('hideReading'));
-            //squigs
-            this.$('#squigs').bootstrapSwitch('setState', skritter.user.getSetting('squigs'));
-            //heisig
-            this.$('#heisig').bootstrapSwitch('setState', skritter.user.getSetting('showHeisig'));
         },
         /**
          * @method save
