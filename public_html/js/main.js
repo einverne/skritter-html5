@@ -23,6 +23,18 @@ requirejs.config({
     waitSeconds: 60
 });
 
+/**
+ * Checks the application cache for updates then force reloads from the server
+ * if a new version is found. Even after the application cache is updated it doesn't
+ * update the existing files until after the next page reload.
+ */
+window.addEventListener('load', function() {
+    window.applicationCache.addEventListener('updateready', function() {
+        if (window.applicationCache.status === window.applicationCache.UPDATEREADY)
+            window.location.reload(true);
+    }, false);
+}, false);
+
 requirejs(['Libraries'], function() {
     requirejs(['Application'], function(Application) {
         $(document).ready(function() {
