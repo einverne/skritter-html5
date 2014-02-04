@@ -125,7 +125,7 @@ define([
             Prompt.this.$('#input-container').height(size.canvas);
             //manually resizes the info section to fill vertical mobile devices
             if (size.width <= 601 && skritter.settings.get('orientation') === 'vertical') {
-                Prompt.this.$('#info-container').height(size.height - $('.navbar').height() - size.canvas - 32);
+                Prompt.this.$('#info-container').height(size.height - $('.navbar').height() - size.canvas);
                 Prompt.this.$('#info-container').width('');
             } else {
                 //manually resizes the info section to fill horizontal mobile devices
