@@ -52,7 +52,7 @@ define(function() {
                 }
             });
             promise.fail(function() {
-                callback();
+                callback(true);
             });
         },
         /**
