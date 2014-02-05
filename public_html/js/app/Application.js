@@ -8,6 +8,7 @@
  * @param Modal
  * @param Router
  * @param Settings
+ * @param SqlLiteAdapter
  * @param Timer
  * @param User
  * @author Joshua McFarland
@@ -21,9 +22,10 @@ define([
     'views/components/Modal',
     'Router',
     'models/Settings',
+    'models/storage/SqlLiteAdapter',
     'views/components/Timer',
     'models/User'
-], function(Api, Assets, Functions, IndexedDBAdapter, Log, Modal, Router, Settings, Timer, User) {
+], function(Api, Assets, Functions, IndexedDBAdapter, Log, Modal, Router, Settings, SqlLiteAdapter, Timer, User) {
     /**
      * Creates the global skritter namescape.
      * @param skritter
@@ -111,7 +113,11 @@ define([
      * @param {Function} callback
      */
     var loadStorage = function(callback) {
-        skritter.storage = new IndexedDBAdapter();
+        if (window.cordova) {
+            skritter.storage = new SqlLiteAdapter();
+        } else {
+            skritter.storage = new IndexedDBAdapter();
+        }
         callback();
     };
     /**

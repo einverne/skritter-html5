@@ -17,7 +17,6 @@ define(function() {
          * @method count
          * @param {String} tableName
          * @param {Function} callback
-         * @returns {undefined}
          */
         count: function(tableName, callback) {
             var promise = $.indexedDB(IndexedDBAdapter.databaseName).objectStore(tableName).count();
@@ -31,7 +30,6 @@ define(function() {
         /**
          * @method deleteDatabase
          * @param {Function} callback
-         * @returns {undefined}
          */
         deleteDatabase: function(callback) {
             var promise = IndexedDBAdapter.database.deleteDatabase();
@@ -47,7 +45,6 @@ define(function() {
          * @method openDatabase
          * @param {String} databaseName
          * @param {Function} callback
-         * @returns {undefined}
          */
         openDatabase: function(databaseName, callback) {
             IndexedDBAdapter.databaseName = databaseName;
@@ -83,7 +80,6 @@ define(function() {
          * @method getAll
          * @param {String} tableName
          * @param {Function} callback
-         * @returns {undefined}
          */
         getAll: function(tableName, callback) {
             var items = [];
@@ -104,7 +100,6 @@ define(function() {
          * @param {String} tableName
          * @param {Arrau} keys
          * @param {Function} callback
-         * @returns {undefined}
          */
         getItems: function(tableName, keys, callback) {
             var position = 0;
@@ -135,7 +130,6 @@ define(function() {
          * @param {String} tableName
          * @param {String} attribute
          * @param {String} value
-         * @param {Function} callback
          */
         getItemsWhere: function(tableName, attribute, value, callback) {
             var items = [];
@@ -185,7 +179,6 @@ define(function() {
          * @param {String} tableName
          * @param {Array} keys
          * @param {Function} callback
-         * @returns {undefined}
          */
         removeItems: function(tableName, keys, callback) {
             var position = 0;
@@ -213,7 +206,6 @@ define(function() {
          * @param {String} tableName
          * @param {Array} items
          * @param {Function} callback
-         * @returns {undefined}
          */
         setItems: function(tableName, items, callback) {
             var position = 0;
