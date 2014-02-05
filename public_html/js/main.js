@@ -36,9 +36,18 @@ window.addEventListener('load', function() {
 }, false);
 
 requirejs(['Libraries'], function() {
-    requirejs(['Application'], function(Application) {
-        $(document).ready(function() {
-            Application.initialize();
+    //checks for cordova and runs the application when ready
+    if (window.cordova) {
+        document.addEventListener('deviceready', run, false);
+    } else {
+        run();
+    }
+    //main run function that loads application specific files
+    function run() {
+        requirejs(['Application'], function(Application) {
+            $(document).ready(function() {
+                Application.initialize();
+            });
         });
-    });
+    }
 });
