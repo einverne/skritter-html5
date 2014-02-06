@@ -53,6 +53,7 @@ define([
         events: {
             'click.Study #study-view #add-button': 'handleAddClicked',
             'click.Study #study-view #audio-button': 'playAudio',
+            'click.Study #study-view .home-button': 'handleHomeClicked',
             'click.Study #study-view #info-button': 'navigateVocabsInfo'
         },
         /**
@@ -87,6 +88,14 @@ define([
                     });
                 });
             });
+        },
+        /**
+         * @method handleHomeClicked
+         * @param {Object} event
+         */
+        handleHomeClicked: function(event) {
+            skritter.router.navigate('/', {trigger: true});
+            event.preventDefault();
         },
         /**
          * @method handlePromptComplete
