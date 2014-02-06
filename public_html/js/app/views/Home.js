@@ -28,11 +28,9 @@ define([
          */
         render: function() {
             if (skritter.user.isLoggedIn()) {
-                var templateVars = {
-                    avatar: skritter.user.getAvatar('img-circle'),
-                    username: skritter.user.getSetting('name')
-                };
-                this.$el.html(_.template(templateIn, templateVars));
+                this.$el.html(templateIn);
+                this.$('#user-avatar').html(skritter.user.getAvatar('img-circle'));
+                this.$('.user-name').text(skritter.user.getSetting('name'));
                 Home.lists.setElement(this.$('#active-lists #table-container')).load('studying', {
                     'name': 'Name',
                     'studyingMode': 'Status'
