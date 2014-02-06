@@ -50,15 +50,24 @@ define([
             return this;
         },
         events: {
-            'click.VocabInfo #vocab-info-view #back-button': 'handleBackClicked'
+            'click.VocabInfo #vocab-info-view .back-button': 'handleBackClicked',
+            'click.VocabInfo #vocab-info-view .home-button': 'handleHomeClicked'
         },
         /**
          * @method handleBackClicked
          * @param {Object} event
          */
         handleBackClicked: function(event) {
-            event.preventDefault();
             skritter.router.back();
+            event.preventDefault();
+        },
+        /**
+         * @method handleHomeClicked
+         * @param {Object} event
+         */
+        handleHomeClicked: function(event) {
+            skritter.router.navigate('/', {trigger: true});
+            event.preventDefault();
         },
         /**
          * @method load

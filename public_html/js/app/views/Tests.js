@@ -19,7 +19,7 @@ define(function() {
                 'spec/models/Api',
                 'spec/models/Assets',
                 'spec/models/study/Decomp',
-                'spec/views/Options',
+                'spec/views/Options'
             ];
         },
         /**

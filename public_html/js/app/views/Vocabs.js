@@ -11,7 +11,6 @@ define(function() {
          * @method initialize
          */
         initialize: function() {
-            
         },
         /**
          * @method render
