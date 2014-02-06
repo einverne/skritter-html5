@@ -48,25 +48,69 @@ define([
          * @property {Object} events
          */
         events: {
+            'click.Home #home-view .home-button': 'handleHomeClicked',
             'click.Home #home-view .login-button': 'handleLoginClicked',
             'click.Home #home-view .logout-button': 'handleLogoutClicked',
             'click.Home #home-view .options-button': 'handleOptionsClicked',
+            'click.Home #home-view .vocab-lists-button': 'handleVocabListsClicked',
+            'click.Home #home-view .study-button': 'handleStudyClicked',
             'click.Home #home-view .sync-button': 'handleSyncClicked'
         },
+        /**
+         * @method handleHomeClicked
+         * @param {Object} event
+         */
+        handleHomeClicked: function(event) {
+            skritter.router.navigate('/', {trigger: true, replace: true});
+            event.preventDefault();
+        },
+        /**
+         * @method handleLoginClicked
+         * @param {Object} event
+         */
         handleLoginClicked: function(event) {
             skritter.modal.show('login');
             event.preventDefault();
         },
+        /**
+         * @method handleLogoutClicked
+         * @param {Object} event
+         */
         handleLogoutClicked: function(event) {
             skritter.user.logout();
             event.preventDefault();
         },
+        /**
+         * @method handleOptionsClicked
+         * @param {Object} event
+         */
         handleOptionsClicked: function(event) {
             skritter.router.navigate('options', {trigger: true});
             event.preventDefault();
         },
-        handleSyncClicked: function() {
+        /**
+         * @method handleVocabListsClicked
+         * @param {Object} event
+         */
+        handleVocabListsClicked: function(event) {
+            skritter.router.navigate('vocab/list', {trigger: true});
+            event.preventDefault();
+        },
+        /**
+         * @method handleStudyClicked
+         * @param {Object} event
+         */
+        handleStudyClicked: function(event) {
+            skritter.router.navigate('study', {trigger: true});
+            event.preventDefault();
+        },
+        /**
+         * @method handleSyncClicked
+         * @param {Object} event
+         */
+        handleSyncClicked: function(event) {
             skritter.user.sync();
+            event.preventDefault();
         },
         updateDueCount: function() {
             Home.this.$('#user-items-due').text(skritter.scheduler.getDueCount());
