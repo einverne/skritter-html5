@@ -30,7 +30,25 @@ define([
          * @property {Object} events
          */
         events: {
-            'click.Options #options-view #save-button': 'save'
+            'click.Options #options-view .cancel-button': 'handleCancelClicked',
+            'click.Home #home-view .home-button': 'handleHomeClicked',
+            'click.Options #options-view .save-button': 'save'
+        },
+        /**
+         * @method handleCancelClicked
+         * @param {Object} event
+         */
+        handleCancelClicked: function(event) {
+            skritter.router.navigate('/', {trigger: true});
+            event.preventDefault();
+        },
+        /**
+         * @method handleHomeClicked
+         * @param {Object} event
+         */
+        handleHomeClicked: function(event) {
+            skritter.router.navigate('/', {trigger: true});
+            event.preventDefault();
         },
         /**
          * @method load
@@ -56,7 +74,6 @@ define([
          * @param {Object} event
          */
         save: function(event) {
-            event.preventDefault();
             //parts
             var activeParts = [];
             if (this.$('#parts-definition').bootstrapSwitch('state'))
@@ -89,6 +106,7 @@ define([
                     skritter.view.study.clearPrompt();
                 skritter.router.navigate('/', {trigger: true, replace: true});
             });
+            event.preventDefault();
         }
     });
     
