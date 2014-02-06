@@ -31,7 +31,7 @@ define([
          */
         events: {
             'click.Options #options-view .cancel-button': 'handleCancelClicked',
-            'click.Home #home-view .home-button': 'handleHomeClicked',
+            'click.Home #options-view .home-button': 'handleHomeClicked',
             'click.Options #options-view .save-button': 'save'
         },
         /**

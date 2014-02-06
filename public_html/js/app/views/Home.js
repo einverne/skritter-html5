@@ -61,7 +61,7 @@ define([
          * @param {Object} event
          */
         handleHomeClicked: function(event) {
-            skritter.router.navigate('/', {trigger: true, replace: true});
+            skritter.router.navigate('/', {trigger: true});
             event.preventDefault();
         },
         /**

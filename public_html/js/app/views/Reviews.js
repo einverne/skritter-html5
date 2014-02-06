@@ -29,6 +29,7 @@ define([
          */
         events: {
             'click.Reviews #reviews-view #delete-all-button': 'handleDeleteAllClicked',
+            'click.Reviews #reviews-view .home-button': 'handleHomeClicked',
             'click.Reviews #reviews-view #refresh-button': 'handleRefreshClicked',
             'click.Reviews #reviews-view #sync-button': 'handleSyncClicked'
         },
@@ -39,6 +40,14 @@ define([
         handleDeleteAllClicked: function(event) {            
             skritter.data.reviews.remove(skritter.data.reviews.toJSON());           
             this.refresh();
+            event.preventDefault();
+        },
+        /**
+         * @method handleHomeClicked
+         * @param {Object} event
+         */
+        handleHomeClicked: function(event) {
+            skritter.router.navigate('/', {trigger: true, replace: true});
             event.preventDefault();
         },
         /**
