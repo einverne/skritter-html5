@@ -52,20 +52,17 @@ body {
     width: 100%;
 }
 #grading-buttons div {
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
     cursor: pointer;
     display: inline-block;
-    min-height: 50px;
-    margin: 0 0 5px 0;
     opacity: 0.8;
 }
+#grading-buttons div img {
+    display: block;
+    max-height: 10%;
+    min-height: 40px;
+    margin: 0 auto 5px 0;
+}
 #grading-buttons div:hover { opacity: 1.0; }
-#grading-buttons #grade1 { background-image: url('../images/grading/grade1.png'); }
-#grading-buttons #grade2 { background-image: url('../images/grading/grade2.png'); }
-#grading-buttons #grade3 { background-image: url('../images/grading/grade3.png'); }
-#grading-buttons #grade4 { background-image: url('../images/grading/grade4.png'); }
 
 
 /*** MODALS ***/
