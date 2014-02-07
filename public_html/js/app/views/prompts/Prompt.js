@@ -130,7 +130,7 @@ define([
                 //manually resizes the info section to fill horizontal mobile devices
                 if (size.height <= 601 && size.width > 601) {
                     Prompt.this.$('#info-container').height(size.canvas);
-                    Prompt.this.$('#info-container').width(size.width - size.canvas - 32);
+                    Prompt.this.$('#info-container').width(size.width - size.canvas - 22);
                 } else {
                     Prompt.this.$('#info-container').height('');
                 }
