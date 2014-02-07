@@ -240,7 +240,7 @@ define([
                     if (position > characterPosition) {
                         element += "<span id='writing-" + i + "' class='prompt-writing-show'>" + characters[i] + "</span>";
                     } else {
-                        element += "<span class='prompt-underline'><span id='writing-" + i + "' class='prompt-writing-hide'>" + characters[i] + "</span></span>";
+                        element += "<span class='prompt-underline'><span id='writing-" + i + "' class='prompt-writing-hidden'>" + characters[i] + "</span></span>";
                     }
                     characterPosition++;
                 }
