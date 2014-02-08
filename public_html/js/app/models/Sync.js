@@ -28,6 +28,7 @@ define(function() {
          */
         addItems: function(offset, limit, callback) {
             var batchId = null;
+            var addedItemCount = 0;
             var requests = [
                 {
                     path: 'api/v' + skritter.api.get('version') + '/items/add',
@@ -56,6 +57,7 @@ define(function() {
                             if (result) {
                                 if (result.Items)
                                     skritter.log.console('ADDED ITEMS', result.Items);
+                                addedItemCount + result.Items.length;
                                 window.setTimeout(function() {
                                     getNext();
                                 }, 2000);
@@ -87,7 +89,7 @@ define(function() {
                         callback(error);
                 } else {
                     if (typeof callback === 'function')
-                        callback();
+                        callback(addedItemCount);
                 }
             });
         },
