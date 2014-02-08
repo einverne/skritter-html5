@@ -12,14 +12,7 @@ define(function() {
          */
         initialize: function() {
             Scheduler.this = this;
-            this.on('change:schedule', this.sort);
-        },
-        /**
-         * @property {Object} defaults
-         */
-        defaults: {
-            history: [],
-            schedule: []
+            Scheduler.schedule = [];
         },
         /**
          * @method filter
@@ -30,7 +23,7 @@ define(function() {
             var parts = (attributes && attributes.parts) ? attributes.parts : skritter.user.getActiveParts();
             var styles = (attributes && attributes.styles) ? attributes.styles : skritter.user.getStyle();
             var ids = (attributes && attributes.ids) ? attributes.ids : null;
-            var filteredSchedule = this.get('schedule').filter(function(item) {
+            var filteredSchedule = Scheduler.schedule.filter(function(item) {
                 if (item.vocabIds.length === 0)
                     return false;
                 if (ids) {
@@ -44,7 +37,7 @@ define(function() {
                 }
                 return true;
             });
-            this.set('schedule', filteredSchedule, {silent: true});
+            Scheduler.schedule = filteredSchedule;
             return this;
         },
         /**
@@ -52,7 +45,7 @@ define(function() {
          * @returns {Array}
          */
         getDue: function() {
-            return this.get('schedule').filter(function(item) {
+            return Scheduler.schedule.filter(function(item) {
                 if (item.readiness >= 1.0)
                     return true;
                 return false;
@@ -155,6 +148,13 @@ define(function() {
             return newInterval;
         },
         /**
+         * @method getItemCount
+         * @returns {Number}
+         */
+        getItemCount: function() {
+            return Scheduler.schedule.length;
+        },
+        /**
          * @method getNext
          * @param {Function} callback
          */
@@ -166,7 +166,7 @@ define(function() {
                     callback();
                     return;
                 }
-                var item = Scheduler.this.sort().get('schedule')[0];
+                var item = Scheduler.schedule[0];
                 async.waterfall([
                     //load the base item
                     function(callback) {
@@ -235,19 +235,14 @@ define(function() {
             }
         },
         /**
-         * @method getItemCount
-         * @returns {Number}
-         */
-        getItemCount: function() {
-            return this.get('schedule').length;
-        },
-        /**
          * @method loadAll
          * @param {Function} callback
          */
         loadAll: function(callback) {
             skritter.storage.getSchedule(function(schedule) {
-                Scheduler.this.set('schedule', schedule).filter();
+                Scheduler.schedule = schedule;
+                Scheduler.this.filter();
+                Scheduler.this.sort();
                 callback();
             });
         },
@@ -259,7 +254,7 @@ define(function() {
         remove: function(id) {
             var index = _.findIndex(this.get('schedule'), {id: id});
             if (index > -1)
-                this.get('schedule').splice(index, 1);
+                Scheduler.schedule.splice(index, 1);
             return this;
         },
         /**
@@ -270,9 +265,9 @@ define(function() {
             var now = skritter.fn.getUnixTime();
             var daysInSecond = 1 / 86400;
             //sort the schedule based on readiness value
-            var sortedSchedule = _.sortBy(this.get('schedule'), function(item) {
+            var sortedSchedule = _.sortBy(Scheduler.schedule, function(item) {
                 if (item.held && item.held > now) {
-                    item.readiness = 1.0 + (now / item.held) * 0.1;
+                    item.readiness = 0.9 + (now / item.held) * 0.1;
                     return -item.readiness;
                 }
                 if (!item.last && (item.next - now) > 600) {
@@ -296,7 +291,7 @@ define(function() {
                 item.readiness = readiness;
                 return -item.readiness;
             });
-            this.set('schedule', sortedSchedule, {silent: true});
+            Scheduler.schedule = sortedSchedule;
             return this;
         },
         /**
@@ -319,18 +314,19 @@ define(function() {
                 vocabIds: item.get('vocabIds')
             };
             //updates the the direct item
-            var index = _.findIndex(this.get('schedule'), {id: id});
-            this.get('schedule')[index] = condensedItem;
+            var index = _.findIndex(Scheduler.schedule, {id: id});
+            Scheduler.schedule[index] = condensedItem;
             //updates indirect related items
             var relatedItemIds = item.getRelatedItemIds();
             for (var i in relatedItemIds) {
-                var relatedIndex = _.findIndex(this.get('schedule'), {id: relatedItemIds[i]});
+                var relatedIndex = _.findIndex(Scheduler.schedule, {id: relatedItemIds[i]});
                 if (relatedIndex > -1) {
-                    var relatedItem = this.get('schedule')[relatedIndex];
+                    var relatedItem = Scheduler.schedule[relatedIndex];
                     relatedItem.held = now + 4 * 60 * 60;
-                    this.get('schedule')[index] = relatedItem;
+                    Scheduler.schedule[index] = relatedItem;
                 }
             }
+            Scheduler.this.sort();
             return this;
         }
     });
