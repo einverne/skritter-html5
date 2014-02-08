@@ -157,11 +157,11 @@ define([
         previousPrompt: function() {
             if (Study.prompt)
                 if (Study.history.length > 0) {
-                    console.log('historic prompts exist');
+                    skritter.log.console('historic prompts exist');
                     /*Study.prompt = Study.history[0];
                     Study.this.loadPrompt();*/
                 } else {
-                    console.log('no historic prompt');
+                    skritter.log.console('no historic prompt');
                 }
         },
         /**

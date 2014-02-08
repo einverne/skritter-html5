@@ -42,7 +42,7 @@ define(function() {
                 var x = frame.pointables[0].tipPosition[0];
                 var y = frame.pointables[0].tipPosition[1];
                 var z = frame.pointables[0].tipPosition[2];
-                console.log('leap', x, y, z);
+                skritter.log.console('LEAP', x, y, z);
             }
         }
     });

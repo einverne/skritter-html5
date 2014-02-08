@@ -225,7 +225,7 @@ define(function() {
                     }
                 ], function(error, item, vocab, containedItems, containedVocabs) {
                     if (error) {
-                        console.log(error, item);
+                        skritter.log.console(error, item);
                         Scheduler.this.remove(item.id);
                         loadItem();
                     } else {

@@ -305,7 +305,7 @@ define(function() {
                         callback(error);
                     } else {
                         tryCount++;
-                        console.log('retrying to get user');
+                        skritter.log.console('RETRYING TO GET USER');
                         setTimeout(function() {
                             request();
                         }, 1000);

@@ -55,7 +55,7 @@ define(function() {
                         skritter.api.getBatch(batchId, function(result) {
                             if (result) {
                                 if (result.Items)
-                                    console.log('ADDED ITEMS', result.Items);
+                                    skritter.log.console('ADDED ITEMS', result.Items);
                                 window.setTimeout(function() {
                                     getNext();
                                 }, 2000);

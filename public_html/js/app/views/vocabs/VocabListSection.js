@@ -37,7 +37,7 @@ define([
         load: function(listId, sectionId, callback) {
             var list = skritter.lists.get(listId);
             if (list) {
-                console.log('list exists');
+                skritter.log.console('list exists');
                 VocabListSection.this.render();
             } else {
                 skritter.api.getVocabList(listId, function(list) {

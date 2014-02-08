@@ -60,13 +60,13 @@ define([
          * @method handleGradeSelected
          */
         handleGradeSelected: function() {
-            console.log('GRADING', Prompt.dataItem.review());
+            skritter.log.console('GRADING', Prompt.dataItem.review());
         },
         /**
          * @method load
          */
         load: function() {
-            console.log('PROMPT ITEM', Prompt.dataItem);
+            skritter.log.console('PROMPT ITEM', Prompt.dataItem);
             Prompt.gradingButtons.grade(Prompt.dataItem.getGrade());
             //TODO: unhide these options for traversing
             this.$('#prompt-next').hide();
@@ -142,7 +142,7 @@ define([
          * @param {Object} data
          */
         set: function(data) {
-            console.log('PROMPT DATA', data);
+            skritter.log.console('PROMPT DATA', data);
             skritter.timer.reset();
             Prompt.data = data;
             Prompt.dataItem = Prompt.data.getDataItem();
@@ -159,7 +159,7 @@ define([
          * @method triggerComplete
          */
         triggerComplete: function() {
-            console.log('PROMPT COMPLETE', Prompt.data);
+            skritter.log.console('PROMPT COMPLETE', Prompt.data);
             Prompt.data.save();
             this.trigger('complete');
         },

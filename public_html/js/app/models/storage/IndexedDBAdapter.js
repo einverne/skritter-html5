@@ -220,7 +220,7 @@ define(function() {
                         setNext();
                     });
                     promise.fail(function(error) {
-                        console.log('tableName: ' + error);
+                        skritter.log.console('tableName: ' + error);
                         console.error(tableName, items[position], error);
                     });
                 } else {

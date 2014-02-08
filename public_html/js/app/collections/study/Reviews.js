@@ -61,7 +61,7 @@ define([
             if (this.length > 0) {
                 skritter.api.postReviews(this.toJSON(), function(reviews) {
                     reviews = (reviews) ? reviews : [];
-                    console.log('POSTED REVIEWS', reviews);
+                    skritter.log.console('POSTED REVIEWS', reviews);
                     skritter.data.reviews.remove(reviews);
                     callback(reviews.length);
                 });
