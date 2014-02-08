@@ -32,6 +32,7 @@ define([
          */
         insert: function(items, callback) {
             if (items) {
+                skritter.data.reviews.removeByItemId(_.pluck(items, 'id'));
                 skritter.data.items.add(items, {merge: true, silent: true});
                 skritter.storage.setItems('items', items, callback);
             } else {

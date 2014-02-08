@@ -68,6 +68,22 @@ define([
             } else {
                 callback(0);
             }
+        },
+        /**
+         * Takes an array of itemIds and removes any associated reviews from the collection. It returns an
+         * array of models of the reviews that were removed.
+         * 
+         * @method removeByItemId
+         * @param {Array} itemIds
+         * @returns {Array}
+         */
+        removeByItemId: function(itemIds) {
+            var reviews = [];
+            for (var i=0; i < this.length; i++)
+                if (_.contains(itemIds, this.models[i].get('itemId')))
+                    reviews.push(this.models[i]);
+            this.remove(reviews);
+            return reviews;
         }
     });
 
