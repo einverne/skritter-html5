@@ -37,7 +37,8 @@ define([
          * @method handleGradeSelected
          */
         handleGradeSelected: function() {
-            this.updateColor();
+            //this.updateColor();
+            Prompt.this.next();
         },
         /**
          * @method handleTap
@@ -62,7 +63,7 @@ define([
             Prompt.data.show.writing();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
-                this.updateColor();
+                //this.updateColor();
                 Prompt.data.hide.question();
                 Prompt.data.hide.tip();
                 Prompt.data.show.definition();
