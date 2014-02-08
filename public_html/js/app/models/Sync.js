@@ -97,6 +97,7 @@ define(function() {
          * @param {Function} callback
          */
         full: function(offset, callback) {
+            offset = (offset) ? offset : 0;
             var batchId = null;
             this.set('active', true);
             var requests = [
@@ -122,6 +123,7 @@ define(function() {
             ];
             async.series([
                 function(callback) {
+                    skritter.log.console('SYNCING FROM', (offset === 0) ? 'THE BEGINNING OF TIME' : moment(offset * 1000).format('MMMM Do YYYY, h:mm:ss A'));
                     skritter.api.requestBatch(requests, function(batch) {
                         batchId = batch.id;
                         callback();
@@ -133,6 +135,7 @@ define(function() {
                     function getNext() {
                         skritter.api.getBatch(batchId, function(result) {
                             if (result) {
+                                skritter.log.console('SYNC RESULT', result);
                                 async.series([
                                     async.apply(skritter.data.decomps.insert, result.Decomps),
                                     async.apply(skritter.data.items.insert, result.Items),

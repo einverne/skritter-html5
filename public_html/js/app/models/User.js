@@ -11,6 +11,7 @@
  * @param Strokes
  * @param Sync
  * @param Vocabs
+ * @param VocabLists
  * @author Joshua McFarland
  */
 define([
@@ -84,6 +85,7 @@ define([
             lastSyncJapanese: null,
             refresh_token: null,
             settings: {},
+            showLog: false,
             token_type: null,
             user_id: 'guest'
         },

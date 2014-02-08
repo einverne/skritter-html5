@@ -49,7 +49,7 @@ define([
             async.apply(loadUser),
             async.apply(loadRouter)
         ], function() {
-            skritter.log.console('application initialized');
+            skritter.log.console('APPLICATION INITIALIZED');
         });
     };
     /**
