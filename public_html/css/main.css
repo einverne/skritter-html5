@@ -55,15 +55,15 @@ body {
     cursor: pointer;
     display: inline-block;
     opacity: 0.8;
+    position: relative;
 }
 #grading-buttons div img {
     display: block;
     max-height: 10%;
     min-height: 40px;
-    margin: 0 auto 5px 0;
+    margin: 0 auto 5px auto;
 }
 #grading-buttons div:hover { opacity: 1.0; }
-
 
 /*** MODALS ***/
 .modal { overflow-y: hidden; }
