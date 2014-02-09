@@ -7,7 +7,8 @@ define(function() {
      * @class Sync
      */
     var Sync = Backbone.Model.extend({
-        /**
+        /**    var Sync = Backbone.Model.extend({
+
          * @method initialize
          */
         initialize: function() {
@@ -57,7 +58,7 @@ define(function() {
                             if (result) {
                                 if (result.Items)
                                     skritter.log.console('ADDED ITEMS', result.Items);
-                                addedItemCount + result.Items.length;
+                                addedItemCount += result.Items.length;
                                 window.setTimeout(function() {
                                     getNext();
                                 }, 2000);

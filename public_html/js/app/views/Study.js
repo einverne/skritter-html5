@@ -23,7 +23,6 @@ define([
          */
         initialize: function() {
             Study.this = this;
-            Study.history = [];
             Study.prompt = null;
         },
         /**
@@ -101,7 +100,6 @@ define([
          * @method handlePromptComplete
          */
         handlePromptComplete: function() {
-            Study.history.push(Study.prompt);
             Study.this.updateDueCount();
             this.nextPrompt();
         },

@@ -51,7 +51,7 @@ define(function() {
          */
         openDatabase: function(databaseName, callback) {
             SqlLiteAdapter.database = window.sqlitePlugin.openDatabase(databaseName, '1.0', databaseName, -1);
-            SqlLiteAdapter.database.transaction(populate, error);
+            SqlLiteAdapter.database.transaction(populate, queryError);
             function populate(tx) {
                 var position = 0;
                 createNext();
@@ -62,15 +62,15 @@ define(function() {
                             var queryString = 'CREATE TABLE IF NOT EXISTS ';
                             queryString += name + ' (' + table.keys[0] + ' PRIMARY KEY,' + table.fields.join(',') + ')';
                             position++;
-                            tx.executeSql(queryString, [], createNext, error);
+                            tx.executeSql(queryString, [], createNext, queryError);
                         }
                     } else {
                         callback();
                     }
                 }
             }
-            function error(error) {
-                alert('ERROR: ' + JSON.stringify(error));
+            function queryError(error) {
+                alert('SQL ERROR: ' + JSON.stringify(error));
             }
         },
         /**
@@ -180,7 +180,7 @@ define(function() {
          * @param {Function} callback
          */
         setItems: function(tableName, items, callback) {
-            SqlLiteAdapter.database.transaction(populate, error);
+            SqlLiteAdapter.database.transaction(populate, queryError);
             function populate(tx) {
                 var position = 0;
                 var table = SqlLiteAdapter.tables[tableName];
@@ -201,15 +201,15 @@ define(function() {
                             values.push(value);
                         }
                         position++;
-                        tx.executeSql(queryString, values, setNext, error);
+                        tx.executeSql(queryString, values, setNext, queryError);
                     } else {
                         if (typeof callback === 'function')
                             callback();
                     }
                 }
             }
-            function error(error) {
-                console.error('ERROR: ' + JSON.stringify(error));
+            function queryError(error) {
+                console.error('SQL ERROR: ' + JSON.stringify(error));
             }
         }
     });
