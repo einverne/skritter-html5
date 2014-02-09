@@ -20,7 +20,7 @@ define(function() {
                 },
                 items: {
                     keys: ['id'],
-                    fields: ['part', 'vocabIds', 'style', 'timeStudied', 'next', 'last', 'interval', 'vocabListIds', 'sectionIds', 'reviews', 'successes', 'created', 'changed', 'previousSuccess', 'previousInterval']
+                    fields: ['lang', 'part', 'vocabIds', 'style', 'timeStudied', 'next', 'last', 'interval', 'vocabListIds', 'sectionIds', 'reviews', 'successes', 'created', 'changed', 'previousSuccess', 'previousInterval']
                 },
                 reviews: {
                     keys: ['id'],
@@ -45,52 +45,27 @@ define(function() {
             };
         },
         /**
-         * @method openDatabase
-         * @param {String} databaseName
-         * @param {Function} callback
-         */
-        openDatabase: function(databaseName, callback) {
-            SqlLiteAdapter.database = window.sqlitePlugin.openDatabase(databaseName, '1.0', databaseName, -1);
-            SqlLiteAdapter.database.transaction(populate, queryError);
-            function populate(tx) {
-                var position = 0;
-                createNext();
-                function createNext() {
-                    if (position < SqlLiteAdapter.tables.length) {
-                        for (var name in SqlLiteAdapter.tables) {
-                            var table = SqlLiteAdapter.tables[name];
-                            var queryString = 'CREATE TABLE IF NOT EXISTS ';
-                            queryString += name + ' (' + table.keys[0] + ' PRIMARY KEY,' + table.fields.join(',') + ')';
-                            position++;
-                            tx.executeSql(queryString, [], createNext, queryError);
-                        }
-                    } else {
-                        callback();
-                    }
-                }
-            }
-            function queryError(error) {
-                alert('SQL ERROR: ' + JSON.stringify(error));
-            }
-        },
-        /**
          * @method getAll
          * @param {String} tableName
          * @param {Function} callback
          */
-        getAll: function(tableName, callback) {
-            SqlLiteAdapter.database.transaction(populate, error, success);
-            function populate(tx) {
-                tx.executeSql('SELECT * FROM ' + tableName, [], querySuccess, error);
-                function querySuccess(tx, result) {
-                    callback(SqlLiteAdapter.this.parseResult(tableName, result));
+        getAll: function(tableName, callback) {           
+            var scheduledItems = [];
+            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            function transaction(t) {
+                t.executeSql('SELECT * FROM ' + tableName, [], querySuccess, queryError);
+                function querySuccess(t, result) {
+                    scheduledItems = SqlLiteAdapter.this.parseResult(tableName, result);
+                }
+                function queryError(error) {
+                    console.error('SQL ERROR', error);
                 }
             }
-            function error() {
-                console.error('ERROR: ' + JSON.stringify(error));
+            function transactionError(error) {
+                console.error('SQL ERROR', error);
             }
-            function success() {
-                callback();
+            function transactionSuccess() {
+                callback(scheduledItems);
             }
         },
         /**
@@ -100,14 +75,67 @@ define(function() {
          * @param {Function} callback
          */
         getItems: function(tableName, keys, callback) {
-            callback();
+            var items = [];
+            keys = Array.isArray(keys) ? keys : [keys];
+            keys = _.remove(keys, undefined);
+            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            function transaction(t) {
+                var valueString = '';
+                for (var i = 1; i <= keys.length; i++) {
+                    valueString += '?';
+                    if (i !== keys.length)
+                        valueString += ',';
+                }
+                t.executeSql('SELECT * FROM ' + tableName + ' WHERE id IN (' + valueString + ')', keys, querySuccess, queryError);
+                function querySuccess(t, result) {
+                    for (var i = 0; i < result.rows.length; i++)
+                        items.push(result.rows.item(i));
+                }
+                function queryError(error) {
+                    console.error('SQL ERROR', error);
+                }
+            }
+            function transactionError(error) {
+                console.error('SQL ERROR', error);
+            }
+            function transactionSuccess() {
+                callback(items);
+            }
         },
         /**
          * @method getSchedule
          * @param {Function} callback
          */
         getSchedule: function(callback) {
-            callback();
+            var scheduleItems = [];
+            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            function transaction(t) {
+                t.executeSql('SELECT id,last,next,part,style,vocabIds FROM items', [], querySuccess, queryError);
+                function querySuccess(t, result) {
+                    for (var i = 0; i < result.rows.length; i++) {
+                        var item = _.cloneDeep(result.rows.item(i));
+                        var splitId = item.id.split('-');
+                        scheduleItems.push({
+                            base: splitId[1] + '-' + splitId[2] + '-' + splitId[3],
+                            id: item.id,
+                            last: (item.last) ? item.last : 0,
+                            next: item.next,
+                            part: item.part,
+                            style: item.style,
+                            vocabIds: JSON.parse(item.vocabIds)
+                        });
+                    }
+                }
+                function queryError(error) {
+                    console.error('SQL ERROR', error);
+                }
+            }
+            function transactionError(error) {
+                console.error('SQL ERROR', error);
+            }
+            function transactionSuccess() {
+                callback(scheduleItems);
+            }
         },
         /**
          * @method getValueString
@@ -125,13 +153,36 @@ define(function() {
             return stringValue;
         },
         /**
+         * @method openDatabase
+         * @param {String} databaseName
+         * @param {Function} callback
+         */
+        openDatabase: function(databaseName, callback) {
+            SqlLiteAdapter.database = window.sqlitePlugin.openDatabase({name: databaseName});
+            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            function transaction(t) {
+                for (var name in SqlLiteAdapter.tables) {
+                    var table = SqlLiteAdapter.tables[name];
+                    var queryString = 'CREATE TABLE IF NOT EXISTS ';
+                    queryString += name + ' (' + table.keys[0] + ' PRIMARY KEY,' + table.fields.join(',') + ')';
+                    t.executeSql(queryString, []);
+                }
+            }
+            function transactionError(error) {
+                console.error('SQL ERROR', error);
+            }
+            function transactionSuccess() {
+                callback();
+            }
+        },
+        /**
          * @method parseResult
          * @param {String} tableName
-         * @param {Array} result
+         * @param {Object} result
          * @returns {Array}
          */
         parseResult: function(tableName, result) {
-            var parsedResults = [];
+            var parsedResult = [];
             for (var i = 0; i < result.rows.length; i++) {
                 var item = _.cloneDeep(result.rows.item(i));
                 //decomps
@@ -168,10 +219,9 @@ define(function() {
                         item.topMnemonic = JSON.parse(item.topMnemonic);
                     }
                 }
-                parsedResults.push(item);
+                parsedResult.push(item);
             }
-            alert('table: ' + tableName + ' results: ' + parsedResults.length);
-            return parsedResults;
+            return parsedResult;
         },
         /**
          * @method setItems
@@ -180,36 +230,38 @@ define(function() {
          * @param {Function} callback
          */
         setItems: function(tableName, items, callback) {
-            SqlLiteAdapter.database.transaction(populate, queryError);
-            function populate(tx) {
-                var position = 0;
+            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            function transaction(t) {
                 var table = SqlLiteAdapter.tables[tableName];
                 var queryString = 'INSERT OR REPLACE INTO ';
-                queryString += tableName + ' (' + table.keys.join(',') + ', ' + table.fields.join(',') + ')' + ' VALUES (' + SqlLiteAdapter.this.getValueString(table) + ')';
-                setNext();
-                function setNext() {
-                    if (position < items.length) {
-                        var item = items[position];
-                        var values = [];
-                        for (var b in table.fields) {
-                            var value = item[table.fields[b]];
-                            if (typeof value === 'undefined') {
-                                value = '';
-                            } else if (value.constructor === Array || value.constructor === Object) {
-                                value = JSON.stringify(value);
-                            }
-                            values.push(value);
+                queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + SqlLiteAdapter.this.getValueString(table) + ')';
+                var fields = SqlLiteAdapter.tables[tableName].keys.concat(SqlLiteAdapter.tables[tableName].fields);
+                for (var a in items) {
+                    var item = items[a];
+                    var values = [];
+                    for (var b in fields) {
+                        var value = item[fields[b]];
+                        if (typeof value === 'undefined') {
+                            value = '';
+                        } else if (value.constructor === Array || value.constructor === Object) {
+                            value = JSON.stringify(value);
                         }
-                        position++;
-                        tx.executeSql(queryString, values, setNext, queryError);
-                    } else {
-                        if (typeof callback === 'function')
-                            callback();
+                        values.push(value);
                     }
+                    t.executeSql(queryString, values, querySuccess, queryError);
+                }
+                function querySuccess() {
+                }
+                function queryError(error) {
+                    console.error('SQL ERROR', error);
                 }
             }
-            function queryError(error) {
-                console.error('SQL ERROR: ' + JSON.stringify(error));
+
+            function transactionError(error) {
+                console.error('SQL ERROR', error);
+            }
+            function transactionSuccess() {
+                callback();
             }
         }
     });
