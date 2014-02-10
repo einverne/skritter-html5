@@ -47,7 +47,7 @@ module.exports = function(grunt) {
                     preferOnline: false,
                     verbose: false,
                     timestamp: true,
-                    exclude: ['manifest.webapp', 'package.json', 'skritter.appcache', 'version.json']
+                    exclude: ['skritter.appcache', 'version.json']
                 },
                 src: [
                     "*.*",
@@ -70,7 +70,7 @@ module.exports = function(grunt) {
                     preferOnline: false,
                     verbose: false,
                     timestamp: true,
-                    exclude: ['manifest.webapp', 'package.json', 'skritter.appcache', 'version.json']
+                    exclude: ['skritter.appcache', 'version.json']
                 },
                 src: [
                     "*.*",
@@ -96,8 +96,7 @@ module.exports = function(grunt) {
                 },
                 files: [
                     {src: 'Application.js', dest: 'build/www/js/app/', expand: true, cwd: 'build/www/js/app/'},
-                    {src: 'package.json', dest: 'build/www/', expand: true, cwd: 'build/www/'},
-                    {src: 'version.json', dest: 'build/www/', expand: true, cwd: 'build/www/'}
+                    {src: 'manifest.json', dest: 'build/www/', expand: true, cwd: 'build/www/'}
                 ]
             },
             'copy-version': {
@@ -109,8 +108,7 @@ module.exports = function(grunt) {
                 },
                 files: [
                     {src: 'Settings.js', dest: 'build/www/js/app/model/', expand: true, cwd: 'build/www/js/app/model/'},
-                    {src: 'package.json', dest: 'build/www/', expand: true, cwd: 'build/www/'},
-                    {src: 'version.json', dest: 'build/www/', expand: true, cwd: 'build/www/'}
+                    {src: 'manifest.json', dest: 'build/www/', expand: true, cwd: 'build/www/'}
                 ]
             }
         },
