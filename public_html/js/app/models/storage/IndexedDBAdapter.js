@@ -130,6 +130,7 @@ define(function() {
          * @param {String} tableName
          * @param {String} attribute
          * @param {String} value
+         * @param {Function} callback
          */
         getItemsWhere: function(tableName, attribute, value, callback) {
             var items = [];

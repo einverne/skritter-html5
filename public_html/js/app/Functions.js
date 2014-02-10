@@ -188,7 +188,19 @@ define(function() {
         }
         return Math.round(date.getTime() / 1000);
     };
-
+    
+    /**
+     * @method getSqlValueString
+     * @param {Array} fieldArray
+     * @returns {String}
+     */
+    var getSqlValueString = function(fieldArray) {
+        var valueString = '';
+        for (var i = 1; i <= fieldArray.length; i++)
+            valueString += (i === fieldArray.length) ? '?' : '?,';
+        return valueString;
+    };
+    
     /**
      * Takes a the first character from a string and return whether it is a kana character.
      * 
@@ -310,6 +322,7 @@ define(function() {
         getPressurizedStrokeSize: getPressurizedStrokeSize,
         getRandomInt: getRandomInt,
         getUnixTime: getUnixTime,
+        getSqlValueString: getSqlValueString,
         isKana: isKana,
         isLocal: isLocal,
         isMobile: isMobile,

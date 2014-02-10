@@ -45,6 +45,47 @@ define(function() {
             };
         },
         /**
+         * @method count
+         * @param {String} tableName
+         * @param {Function} callback
+         */
+        count: function(tableName, callback) {
+            var rowCount = 0;
+            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            function transaction(t) {
+                t.executeSql('SELECT COUNT(*) rowCount FROM ' + tableName, [], querySuccess, queryError);
+                function querySuccess(t, result) {
+                    rowCount = result.rows.item(0).rowCount;
+                }
+                function queryError(error) {
+                    console.error('SQL ERROR', error);
+                }
+            }
+            function transactionError(error) {
+                console.error('SQL ERROR', error);
+            }
+            function transactionSuccess() {
+                callback(rowCount);
+            }
+        },
+        /**
+         * @method deleteDatabase
+         * @param {Function} callback
+         */
+        deleteDatabase: function(callback) {
+            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            function transaction(t) {
+                for (var name in SqlLiteAdapter.tables)
+                    t.executeSql('DROP TABLE IF EXISTS ' + name);
+            }
+            function transactionError(error) {
+                console.error('SQL ERROR', error);
+            }
+            function transactionSuccess() {
+                callback();
+            }
+        },
+        /**
          * @method getAll
          * @param {String} tableName
          * @param {Function} callback
@@ -80,16 +121,9 @@ define(function() {
             keys = _.remove(keys, undefined);
             SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                var valueString = '';
-                for (var i = 1; i <= keys.length; i++) {
-                    valueString += '?';
-                    if (i !== keys.length)
-                        valueString += ',';
-                }
-                t.executeSql('SELECT * FROM ' + tableName + ' WHERE id IN (' + valueString + ')', keys, querySuccess, queryError);
+                t.executeSql('SELECT * FROM ' + tableName + ' WHERE id IN (' + skritter.fn.getSqlValueString(keys) + ')', keys, querySuccess, queryError);
                 function querySuccess(t, result) {
-                    for (var i = 0; i < result.rows.length; i++)
-                        items.push(result.rows.item(i));
+                    items = SqlLiteAdapter.this.parseResult(tableName, result);
                 }
                 function queryError(error) {
                     console.error('SQL ERROR', error);
@@ -101,6 +135,46 @@ define(function() {
             function transactionSuccess() {
                 callback(items);
             }
+        },
+        /**
+         * @method getItemsWhere
+         * @param {String} tableName
+         * @param {String} attribute
+         * @param {String} value
+         * @param {Function} callback
+         */
+        getItemsWhere: function(tableName, attribute, value, callback) {
+            var item = null;
+            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            function transaction(t) {
+                t.executeSql('SELECT * FROM ' + tableName + ' WHERE ' + attribute + '=?', [value], querySuccess, queryError);
+                function querySuccess(t, result) {
+                    item = SqlLiteAdapter.this.parseResult(result);
+                    if (item.length === 1)
+                        item = item[0];
+                }
+                function queryError(error) {
+                    console.error('SQL ERROR', error);
+                }
+            }
+            function transactionError(error) {
+                console.error('SQL ERROR', error);
+            }
+            function transactionSuccess() {
+                callback(item);
+            }
+            /*var items = [];
+            var table = IndexedDBAdapter.database.objectStore(tableName);
+            var promise = table.each(function(item) {
+                if (item.value[attribute] === value)
+                    items.push(item.value);
+            });
+            promise.done(function() {
+                callback(items);
+            });
+            promise.fail(function(error) {
+                console.error(tableName, error);
+            });*/
         },
         /**
          * @method getSchedule
@@ -122,7 +196,7 @@ define(function() {
                             next: item.next,
                             part: item.part,
                             style: item.style,
-                            vocabIds: JSON.parse(item.vocabIds)
+                            vocabIds: item.vocabIds.split(',')
                         });
                     }
                 }
@@ -136,21 +210,6 @@ define(function() {
             function transactionSuccess() {
                 callback(scheduleItems);
             }
-        },
-        /**
-         * @method getValueString
-         * @param {Object} table
-         * @returns {String}
-         */
-        getValueString: function(table) {
-            var stringLength = table.keys.length + table.fields.length;
-            var stringValue = '';
-            for (var i = 1; i <= stringLength; i++) {
-                stringValue += '?';
-                if (i !== stringLength)
-                    stringValue += ',';
-            }
-            return stringValue;
         },
         /**
          * @method openDatabase
@@ -224,6 +283,26 @@ define(function() {
             return parsedResult;
         },
         /**
+         * @method removeItems
+         * @param {String} tableName
+         * @param {Array} keys
+         * @param {Function} callback
+         */
+        removeItems: function(tableName, keys, callback) {
+            keys = Array.isArray(keys) ? keys : [keys];
+            keys = _.remove(keys, undefined);
+            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            function transaction(t) {
+                t.executeSql('DELETE * FROM ' + tableName + ' WHERE id IN (' + skritter.fn.getSqlValueString(keys) + ')', keys);
+            }
+            function transactionError(error) {
+                console.error('SQL ERROR', error);
+            }
+            function transactionSuccess() {
+                callback();
+            }
+        },
+        /**
          * @method setItems
          * @param {String} tableName
          * @param {Array} items
@@ -234,7 +313,7 @@ define(function() {
             function transaction(t) {
                 var table = SqlLiteAdapter.tables[tableName];
                 var queryString = 'INSERT OR REPLACE INTO ';
-                queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + SqlLiteAdapter.this.getValueString(table) + ')';
+                queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + skritter.fn.getSqlValueString(table.names.concat(table.fields)) + ')';
                 var fields = SqlLiteAdapter.tables[tableName].keys.concat(SqlLiteAdapter.tables[tableName].fields);
                 for (var a in items) {
                     var item = items[a];

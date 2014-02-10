@@ -181,7 +181,7 @@ define(function() {
                     //load the associated vocab
                     function(item, callback) {
                         skritter.data.vocabs.load(item.getVocabId(), function(vocab) {
-                            if (item) {
+                            if (vocab) {
                                 callback(null, item, vocab);
                             } else {
                                 callback("Associated vocab doesn't exist.", null, null, []);
@@ -256,6 +256,13 @@ define(function() {
             if (index > -1)
                 Scheduler.schedule.splice(index, 1);
             return this;
+        },
+        /**
+         * @method schedule
+         * @returns {Array}
+         */
+        schedule: function() {
+            return Scheduler.schedule;
         },
         /**
          * @method sort
