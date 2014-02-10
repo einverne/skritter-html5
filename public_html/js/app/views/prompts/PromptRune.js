@@ -233,6 +233,8 @@ define([
                         this.teach();
                 } else {
                     Rune.failedAttempts++;
+                    //fade out the incorrect stroke
+                    Rune.canvas.fadeShape('background', shape);
                     //if failed too many times show a hint
                     if (Rune.failedAttempts > Rune.maxFailedAttempts) {
                         //ISSUE #64: display grading buttons immediately when failed
