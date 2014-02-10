@@ -95,8 +95,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: [
-                    {src: 'Application.js', dest: 'build/www/js/app/', expand: true, cwd: 'build/www/js/app/'},
-                    {src: 'manifest.json', dest: 'build/www/', expand: true, cwd: 'build/www/'}
+                    {src: 'Application.js', dest: 'build/www/js/app/', expand: true, cwd: 'build/www/js/app/'}
                 ]
             },
             'copy-version': {
@@ -107,8 +106,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: [
-                    {src: 'Settings.js', dest: 'build/www/js/app/model/', expand: true, cwd: 'build/www/js/app/model/'},
-                    {src: 'manifest.json', dest: 'build/www/', expand: true, cwd: 'build/www/'}
+                    {src: 'Settings.js', dest: 'build/www/js/app/model/', expand: true, cwd: 'build/www/js/app/model/'}
                 ]
             }
         },
