@@ -113,7 +113,7 @@ define([
      * @param {Function} callback
      */
     var loadStorage = function(callback) {
-        if (window.cordova) {
+        if (skritter.fn.isCordova()) {
             skritter.storage = new SqlLiteAdapter();
         } else {
             skritter.storage = new IndexedDBAdapter();

@@ -2,7 +2,7 @@
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]--> <!--  manifest="skritter.appcache" -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,27 +25,9 @@
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/main.css">
         
-        <!-- errorception -->
-        <script>
-            (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
-            c&&c.apply(this,a);};var b=function(){var c=e.createElement(rr),b=e.getElementsByTagName(rr)[0];
-            c.src="//beacon.errorception.com/"+s+".js";c.async=!0;b.parentNode.insertBefore(c,b);};
-            _.addEventListener?_.addEventListener("load",b,!1):_.attachEvent("onload",b);})
-            (window,document,"script","51e23f206fdb191b3e000110");
-        </script>
-        
-        <!-- google analytics -->
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-4642573-1']);
-            _gaq.push(['_trackPageview']);
-
-            (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
+        <!-- tracking scripts -->
+        <script src="js/tracking.js"></script>
+        <script src="http://192.168.1.50:8080/target/target-script-min.js#anonymous"></script>
     </head>
     <body>
         <div id="modal-container"></div>

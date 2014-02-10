@@ -313,8 +313,8 @@ define(function() {
             function transaction(t) {
                 var table = SqlLiteAdapter.tables[tableName];
                 var queryString = 'INSERT OR REPLACE INTO ';
-                queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + skritter.fn.getSqlValueString(table.names.concat(table.fields)) + ')';
-                var fields = SqlLiteAdapter.tables[tableName].keys.concat(SqlLiteAdapter.tables[tableName].fields);
+                queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + skritter.fn.getSqlValueString(table.keys.concat(table.fields)) + ')';
+                var fields = table.keys.concat(table.fields);
                 for (var a in items) {
                     var item = items[a];
                     var values = [];

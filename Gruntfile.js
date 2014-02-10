@@ -19,15 +19,28 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            'build': {
+            build: {
                 src: ['build/www/'],
+                options: {
+                    force: true
+                }
+            },
+            cordova: {
+                src: ['build/cordova/www/'],
                 options: {
                     force: true
                 }
             }
         },
         copy: {
-            'public_html': {
+            'public_html-cordova': {
+                files: [
+                    {expand: true, cwd: 'public_html/', src: [
+                            '**'
+                        ], dest: 'build/cordova/www/'}
+                ]
+            },
+            'public_html-www': {
                 files: [
                     {expand: true, cwd: 'public_html/', src: [
                             '**'
@@ -156,6 +169,41 @@ module.exports = function(grunt) {
                     preserveLicenseComments: false,
                     removeCombined: true
                 }
+            },
+            cordova: {
+                options: {
+                    appDir: "public_html/",
+                    baseUrl: "js/app/",
+                    dir: "build/cordova/www/",
+                    fileExclusionRegExp: /\.mp3$/,
+                    generateSourceMaps: false,
+                    keepBuildDir: false,
+                    modules: [
+                        {
+                            name: 'Application'
+                        },
+                        {
+                            name: 'Libraries'
+                        }
+                    ],
+                    optimize: 'none',
+                    optimizeCss: 'standard',
+                    paths: paths,
+                    preserveLicenseComments: false,
+                    removeCombined: true
+                }
+            }
+        },
+        shell: {
+            'cordova-android-build-run': {
+                command: [
+                    'cd build/cordova/',
+                    'cordova build android',
+                    'cordova run android'
+                ].join('&&'),
+                options: {
+                    stdout: true
+                }
             }
         },
         yuidoc: {
@@ -196,5 +244,6 @@ module.exports = function(grunt) {
     grunt.registerTask('hint', ['jshint']);
     grunt.registerTask('build-combined', ['jshint', 'clean:build', 'requirejs:combined', 'replace:compiled-version', 'manifest:optimized', 'yuidoc:www']);
     grunt.registerTask('build-optimized', ['jshint', 'clean:build', 'requirejs', 'replace:compiled-version', 'manifest:optimized', 'yuidoc:www']);
-    grunt.registerTask('build-copy', ['jshint', 'clean:build', 'copy:public_html', 'replace:copy-version', 'manifest:optimized', 'yuidoc:www']);
+    grunt.registerTask('build-copy', ['jshint', 'clean:build', 'copy:public_html-www', 'replace:copy-version', 'manifest:optimized', 'yuidoc:www']);
+    grunt.registerTask('build-cordova', ['jshint', 'clean:cordova', 'copy:public_html-cordova', 'shell:cordova-android-build-run']);
 };

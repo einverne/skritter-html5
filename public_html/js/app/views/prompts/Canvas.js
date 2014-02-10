@@ -221,10 +221,9 @@ define(function() {
                 var point = new createjs.Point(stage.mouseX, stage.mouseY);
                 var midPt = new createjs.Point(oldPt.x + point.x >> 1, oldPt.y + point.y >> 1);
                 marker.graphics
-                        .setStrokeStyle(skritter.fn.getPressurizedStrokeSize(point, oldPt), Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                        .setStrokeStyle((skritter.fn.isCordova()) ? 12 : skritter.fn.getPressurizedStrokeSize(point, oldPt), Canvas.strokeCapStyle, Canvas.strokeJointStyle)
                         .moveTo(midPt.x, midPt.y)
                         .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
-
                 oldPt.x = point.x;
                 oldPt.y = point.y;
                 oldMidPt.x = midPt.x;

@@ -202,6 +202,16 @@ define(function() {
     };
     
     /**
+     * @method isCordova
+     * @returns {Boolean}
+     */
+    var isCordova = function() {
+        if (window.cordova)
+            return true;
+        return false;
+    };
+    
+    /**
      * Takes a the first character from a string and return whether it is a kana character.
      * 
      * NOTE: It's also currently checking for the unicode tilde because those need to be filtered
@@ -323,6 +333,7 @@ define(function() {
         getRandomInt: getRandomInt,
         getUnixTime: getUnixTime,
         getSqlValueString: getSqlValueString,
+        isCordova: isCordova,
         isKana: isKana,
         isLocal: isLocal,
         isMobile: isMobile,
