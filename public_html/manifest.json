@@ -15,7 +15,9 @@
     },
     "offline_enabled": true,
     "permissions": [
+        "storage",
         "https://beta.skritter.cn/api/*",
-        "https://beta.skritter.com/api/*"
+        "https://beta.skritter.com/api/*",
+        "https://ssl.google-analytics.com/*"
     ]
 }
