@@ -240,9 +240,19 @@ body {
     position: absolute;
     top: 0;
 }
+#input-container #canvas-container {
+    position: relative;
+}
+#input-container #canvas-container #canvas-touch {
+    position: absolute;
+}
+#input-container #canvas-container #canvas-display {
+    position: absolute;
+}
 @media (max-width: 992px) {
     #input-container {
         margin: 15px auto 0 auto;
+        position: absolute;
     }
 }
 @media (max-width: 601px) {
@@ -251,7 +261,6 @@ body {
         border: none;
         margin: 0;
         padding: 0;
-        position: absolute;
     }
 }
 

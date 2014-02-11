@@ -24,10 +24,11 @@ define(function() {
             Canvas.textColor = '#000000';
             Canvas.textFont = 'Arial';
             Canvas.textSize = '12px';
-            Canvas.element = this._initElement();
-            Canvas.stage = this._initStage();
-            createjs.Touch.enable(Canvas.stage);
-            createjs.Ticker.addEventListener('tick', this.tick);
+            Canvas.touchElement = this._createTouchElement();
+            Canvas.touchStage = this._createTouchStage(Canvas.touchElement);
+            Canvas.element = this._createElement();
+            Canvas.stage = this._createStage(Canvas.element);
+            createjs.Ticker.addEventListener('tick', Canvas.stage);
             this.listenTo(skritter.settings, 'resize', this.resize);
         },
         /**
@@ -35,14 +36,15 @@ define(function() {
          * @returns {Backbone.View}
          */
         render: function() {
-            this.$el.html(Canvas.element);
+            this.$el.html('');
+            this.$el.append(Canvas.element);
+            this.$el.append(Canvas.touchElement);
             this.createLayer('grid');
             this.createLayer('background');
             this.createLayer('hint');
             this.createLayer('stroke');
             this.createLayer('overlay');
             this.createLayer('feedback');
-            this.createLayer('input');
             this.drawGrid('grid');
             return this;
         },
@@ -50,21 +52,36 @@ define(function() {
          * @method initElement
          * @returns {DOMElement}
          */
-        _initElement: function() {
+        _createElement: function() {
             var element = document.createElement('canvas');
-            element.setAttribute('id', 'prompt-canvas');
-            element.setAttribute('width', Canvas.size);
-            element.setAttribute('height', Canvas.size);
+            element.id = 'canvas-display';
+            element.width = Canvas.size;
+            element.height = Canvas.size;
             return element;
         },
         /**
          * @method initStage
          * @returns {Stage}
          */
-        _initStage: function() {
-            var stage = new createjs.Stage(Canvas.element);
-            stage.enableDOMEvents(true);
+        _createStage: function(element) {
+            var stage = new createjs.Stage(element);
             stage.autoClear = true;
+            stage.enableDOMEvents(false);
+            createjs.Ticker.setFPS(24);
+            return stage;
+        },
+        _createTouchElement: function() {
+            var element = document.createElement('canvas');
+            element.id = 'canvas-touch';
+            element.width = Canvas.size;
+            element.height = Canvas.size;
+            return element;
+        },
+        _createTouchStage: function(element) {
+            var stage = new createjs.Stage(element);
+            stage.autoClear = false;
+            stage.enableDOMEvents(true);
+            createjs.Touch.enable(stage);
             return stage;
         },
         /**
@@ -196,12 +213,12 @@ define(function() {
          * @method enableInput
          */
         enableInput: function() {
-            var layer = this.getLayer('input');
             var oldPt, oldMidPt, points;
-            var stage = Canvas.stage;
+            var stage = Canvas.touchStage;
             if (!stage.hasEventListener('stagemousedown')) {
                 var marker = new createjs.Shape();
-                layer.addChild(marker);
+                var shape = new createjs.Shape();
+                stage.addChild(marker);
                 stage.addEventListener('stagemousedown', down);
             }
             function down() {
@@ -209,19 +226,21 @@ define(function() {
                 oldPt = new createjs.Point(stage.mouseX, stage.mouseY);
                 Canvas.this.triggerInputDown(oldPt);
                 oldMidPt = oldPt;
-                if (skritter.user.getSetting('squigs')) {
-                    marker.graphics.beginStroke(Canvas.squigColor);
-                } else {
-                    marker.graphics.beginStroke(Canvas.strokeColor);
-                }
                 stage.addEventListener('stagemousemove', move);
                 stage.addEventListener('stagemouseup', up);
             }
             function move() {
                 var point = new createjs.Point(stage.mouseX, stage.mouseY);
                 var midPt = new createjs.Point(oldPt.x + point.x >> 1, oldPt.y + point.y >> 1);
-                marker.graphics
-                        .setStrokeStyle((skritter.fn.isCordova()) ? 12 : skritter.fn.getPressurizedStrokeSize(point, oldPt), Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                var strokeSize = (skritter.fn.isCordova()) ? 12 : skritter.fn.getPressurizedStrokeSize(point, oldPt);
+                marker.graphics.clear()
+                        .setStrokeStyle(strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                        .beginStroke(Canvas.strokeColor)
+                        .moveTo(midPt.x, midPt.y)
+                        .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+                shape.graphics
+                        .setStrokeStyle(strokeSize, Canvas.strokeCapStyle, Canvas.strokeJointStyle)
+                        .beginStroke(Canvas.strokeColor)
                         .moveTo(midPt.x, midPt.y)
                         .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
                 oldPt.x = point.x;
@@ -234,15 +253,17 @@ define(function() {
             function up(event) {
                 var x = event.rawX;
                 var y = event.rawY;
-                marker.graphics.endStroke();
                 if (x >= 0 && x < Canvas.size && y >= 0 && y < Canvas.size) {
-                    Canvas.this.triggerInputUp(points, marker.clone(true));
+                    Canvas.this.triggerInputUp(points, shape.clone(true));
                 } else {
-                    Canvas.this.fadeShape('background', marker.clone(true));
+                    Canvas.this.fadeShape('background', shape.clone(true));
                 }
                 stage.removeEventListener('stagemousemove', move);
                 stage.removeEventListener('stagemouseup', up);
+                shape.graphics.clear();
                 marker.graphics.clear();
+                stage.clear();
+                stage.update();
             }
         },
         /**
@@ -274,9 +295,9 @@ define(function() {
             var layer = this.getLayer(layerName);
             layer.addChild(shape);
             shape.cache(0, 0, Canvas.size, Canvas.size);
-            createjs.Tween.get(shape).to({alpha: 0}, 300, createjs.Ease.quadOut).call(function() {
-                shape.uncache();
-                layer.removeChild(shape);
+            createjs.Tween.get(shape).to({alpha: 0}, 300, createjs.Ease.linear).call(function(event) {
+                event.target.uncache();
+                layer.removeChild(event.target);
                 if (typeof callback === 'function')
                     callback();
             });
@@ -344,10 +365,10 @@ define(function() {
          */
         resize: function(event) {
             Canvas.size = event.canvas;
-            Canvas.element.setAttribute('width', Canvas.size);
-            Canvas.element.setAttribute('height', Canvas.size);
-            Canvas.this.$(Canvas.element).width(Canvas.size);
-            Canvas.this.$(Canvas.element).height(Canvas.size);
+            Canvas.element.width = Canvas.size;
+            Canvas.element.height = Canvas.size;
+            Canvas.touchElement.width = Canvas.size;
+            Canvas.touchElement.height = Canvas.size;
             Canvas.this.drawGrid('grid');
         },
         /**
@@ -398,12 +419,6 @@ define(function() {
          */
         stage: function() {
             return Canvas.stage;
-        },
-        /**
-         * @method tick
-         */
-        tick: function() {
-            Canvas.stage.update();
         },
         /**
          * Enables the view to fire events when the canvas has been touched.
