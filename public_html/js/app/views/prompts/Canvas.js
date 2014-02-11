@@ -49,7 +49,7 @@ define(function() {
             return this;
         },
         /**
-         * @method initElement
+         * @method _createElement
          * @returns {DOMElement}
          */
         _createElement: function() {
@@ -60,7 +60,8 @@ define(function() {
             return element;
         },
         /**
-         * @method initStage
+         * @method _createStage
+         * @param {DOMElement} element
          * @returns {Stage}
          */
         _createStage: function(element) {
@@ -70,6 +71,10 @@ define(function() {
             createjs.Ticker.setFPS(24);
             return stage;
         },
+        /**
+         * @method _createTouchElement
+         * @returns {DOMElement}
+         */
         _createTouchElement: function() {
             var element = document.createElement('canvas');
             element.id = 'canvas-touch';
@@ -77,6 +82,11 @@ define(function() {
             element.height = Canvas.size;
             return element;
         },
+        /**
+         * @method _createTouchStage
+         * @param {DOMElement} element
+         * @returns {Stage}
+         */
         _createTouchStage: function(element) {
             var stage = new createjs.Stage(element);
             stage.autoClear = false;
@@ -115,7 +125,7 @@ define(function() {
             return layer;
         },
         disableInput: function() {
-            Canvas.stage.removeAllEventListeners();
+            Canvas.touchStage.removeAllEventListeners();
         },
         /**
          * Draws the to the background using a font rather than assembling
