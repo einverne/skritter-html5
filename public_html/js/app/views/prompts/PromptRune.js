@@ -180,7 +180,6 @@ define([
                     Prompt.data.vocab.play();
                 if (Rune.teaching)
                     this.teach();
-                    
             }
         },
         /**

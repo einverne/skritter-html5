@@ -53,8 +53,23 @@ define([
             'click.Prompt .prompt #prompt-next': 'next',
             'click.Prompt .prompt .prompt-reading-show-button': 'showReading'
         },
+        /**
+         * @method data
+         * @return {Backbone.Collection}
+         */
         data: function() {
             return Prompt.data;
+        },
+        /**
+         * @property {Object} fontSize
+         */
+        fontSize: {
+            large: function() {
+                return Math.round(48) + 'px';
+            },
+            normal: function() {
+                return Math.round(16) + 'px';
+            }
         },
         /**
          * @method handleGradeSelected
@@ -107,8 +122,8 @@ define([
          * @method redraw
          */
         redraw: function() {
-            this.$('.font-size-normal').css({'font-size': skritter.settings.fontSize.normal()});
-            this.$('.font-size-large').css({'font-size': skritter.settings.fontSize.large()});
+            this.$('.font-size-normal').css({'font-size': this.fontSize.normal()});
+            this.$('.font-size-large').css({'font-size': this.fontSize.large()});
         },
         /**
          * @method resize

@@ -56,21 +56,6 @@ define(function() {
             });
         },
         /**
-         * Calculates various font sizes based on the canvas size and return a css ready pixel value.
-         * 
-         * @property {Object} fontSize
-         */
-        fontSize: {
-            large: function(offset) {
-                offset = (offset) ? offset : 0;
-                return Math.round((Settings.this.get('canvasSize') * 0.07) + offset) + 'px';
-            },
-            normal: function(offset) {
-                offset = (offset) ? offset : 0;
-                return Math.round((Settings.this.get('canvasSize') * 0.03) + offset) + 'px';
-            }
-        },
-        /**
          * @method handleResize
          */
         handleResize: function() {
