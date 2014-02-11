@@ -4,7 +4,7 @@
  */
 
 module.exports = function(grunt) {
-    
+
     var paths = {
         //directories
         templates: '../../templates',
@@ -15,36 +15,36 @@ module.exports = function(grunt) {
         moment: '../libs/moment-2.5.0',
         'require.text': '../libs/require.text-2.0.10'
     };
-    
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            build: {
-                src: ['build/www/'],
+            cordova: {
+                src: ['build/cordova/www/'],
                 options: {
                     force: true
                 }
             },
-            cordova: {
-                src: ['build/cordova/www/'],
+            web: {
+                src: ['build/web/'],
                 options: {
                     force: true
                 }
             }
         },
         copy: {
-            'public_html-cordova': {
+            cordova: {
                 files: [
                     {expand: true, cwd: 'public_html/', src: [
                             '**'
                         ], dest: 'build/cordova/www/'}
                 ]
             },
-            'public_html-www': {
+            web: {
                 files: [
                     {expand: true, cwd: 'public_html/', src: [
                             '**'
-                        ], dest: 'build/www/'}
+                        ], dest: 'build/web/'}
                 ]
             }
         },
@@ -54,53 +54,53 @@ module.exports = function(grunt) {
         manifest: {
             generate: {
                 options: {
-                    basePath: "public_html/",
-                    cache: ["index.html"],
-                    network: ["*"],
+                    basePath: 'public_html/',
+                    cache: ['index.html'],
+                    network: ['*'],
                     preferOnline: false,
                     verbose: false,
                     timestamp: true,
                     exclude: ['skritter.appcache', 'version.json']
                 },
                 src: [
-                    "*.*",
-                    "**/*.css",
-                    "**/*.eot",
-                    "**/*.html",
-                    "**/*.js",
-                    "**/*.otf",
-                    "**/*.png",
-                    "**/*.svg",
-                    "**/*.woff"
+                    '*.*',
+                    '**/*.css',
+                    '**/*.eot',
+                    '**/*.html',
+                    '**/*.js',
+                    '**/*.otf',
+                    '**/*.png',
+                    '**/*.svg',
+                    '**/*.woff'
                 ],
-                dest: "public_html/skritter.appcache"
+                dest: 'public_html/skritter.appcache'
             },
-            optimized: {
+            'web-combined': {
                 options: {
-                    basePath: "build/www/",
-                    cache: ["index.html"],
-                    network: ["*"],
+                    basePath: 'build/web/',
+                    cache: ['index.html'],
+                    network: ['*'],
                     preferOnline: false,
                     verbose: false,
                     timestamp: true,
                     exclude: ['skritter.appcache', 'version.json']
                 },
                 src: [
-                    "*.*",
-                    "**/*.css",
-                    "**/*.eot",
-                    "**/*.html",
-                    "**/*.js",
-                    "**/*.otf",
-                    "**/*.png",
-                    "**/*.svg",
-                    "**/*.woff"
+                    '*.*',
+                    '**/*.css',
+                    '**/*.eot',
+                    '**/*.html',
+                    '**/*.js',
+                    '**/*.otf',
+                    '**/*.png',
+                    '**/*.svg',
+                    '**/*.woff'
                 ],
-                dest: "build/www/skritter.appcache"
+                dest: 'build/web/skritter.appcache'
             }
         },
         replace: {
-            'compiled-version': {
+            'web-combined': {
                 options: {
                     variables: {
                         'version': '<%= pkg.version %>',
@@ -108,10 +108,10 @@ module.exports = function(grunt) {
                     }
                 },
                 files: [
-                    {src: 'Application.js', dest: 'build/www/js/app/', expand: true, cwd: 'build/www/js/app/'}
+                    {src: 'Application.js', dest: 'build/web/js/app/', expand: true, cwd: 'build/web/js/app/'}
                 ]
             },
-            'copy-version': {
+            'web-copied': {
                 options: {
                     variables: {
                         'version': '<%= pkg.version %>',
@@ -119,16 +119,39 @@ module.exports = function(grunt) {
                     }
                 },
                 files: [
-                    {src: 'Settings.js', dest: 'build/www/js/app/model/', expand: true, cwd: 'build/www/js/app/model/'}
+                    {src: 'Settings.js', dest: 'build/web/js/app/model/', expand: true, cwd: 'build/web/js/app/model/'}
                 ]
             }
         },
         requirejs: {
-            compile: {
+            'web-combined': {
                 options: {
-                    appDir: "public_html/",
-                    baseUrl: "js/app/",
-                    dir: "build/www/",
+                    appDir: 'public_html/',
+                    baseUrl: 'js/app/',
+                    dir: 'build/web/',
+                    fileExclusionRegExp: /\.mp3$/,
+                    generateSourceMaps: false,
+                    keepBuildDir: false,
+                    modules: [
+                        {
+                            name: 'Application'
+                        },
+                        {
+                            name: 'Libraries'
+                        }
+                    ],
+                    optimize: 'none',
+                    optimizeCss: 'standard',
+                    paths: paths,
+                    preserveLicenseComments: false,
+                    removeCombined: true
+                }
+            },
+            'web-optimized': {
+                options: {
+                    appDir: 'public_html/',
+                    baseUrl: 'js/app/',
+                    dir: 'build/web/',
                     fileExclusionRegExp: /\.mp3$/,
                     generateSourceMaps: true,
                     keepBuildDir: false,
@@ -146,56 +169,10 @@ module.exports = function(grunt) {
                     preserveLicenseComments: false,
                     removeCombined: true
                 }
-            },
-            combined: {
-                options: {
-                    appDir: "public_html/",
-                    baseUrl: "js/app/",
-                    dir: "build/www/",
-                    fileExclusionRegExp: /\.mp3$/,
-                    generateSourceMaps: false,
-                    keepBuildDir: false,
-                    modules: [
-                        {
-                            name: 'Application'
-                        },
-                        {
-                            name: 'Libraries'
-                        }
-                    ],
-                    optimize: 'none',
-                    optimizeCss: 'standard',
-                    paths: paths,
-                    preserveLicenseComments: false,
-                    removeCombined: true
-                }
-            },
-            cordova: {
-                options: {
-                    appDir: "public_html/",
-                    baseUrl: "js/app/",
-                    dir: "build/cordova/www/",
-                    fileExclusionRegExp: /\.mp3$/,
-                    generateSourceMaps: false,
-                    keepBuildDir: false,
-                    modules: [
-                        {
-                            name: 'Application'
-                        },
-                        {
-                            name: 'Libraries'
-                        }
-                    ],
-                    optimize: 'none',
-                    optimizeCss: 'standard',
-                    paths: paths,
-                    preserveLicenseComments: false,
-                    removeCombined: true
-                }
             }
         },
         shell: {
-            'cordova-android-build-run': {
+            'android-build-run': {
                 command: [
                     'cd build/cordova/',
                     'cordova build android',
@@ -207,23 +184,13 @@ module.exports = function(grunt) {
             }
         },
         yuidoc: {
-            compile: {
+            web: {
                 name: '<%= pkg.appName %>: Documentation',
                 description: '<%= pkg.description %>',
                 version: '<%= pkg.version %>',
                 options: {
                     paths: 'public_html/js/app',
-                    outdir: 'build/docs',
-                    themedir: 'yuidoc'
-                }
-            },
-            'www': {
-                name: '<%= pkg.appName %>: Documentation',
-                description: '<%= pkg.description %>',
-                version: '<%= pkg.version %>',
-                options: {
-                    paths: 'public_html/js/app',
-                    outdir: 'build/www/docs',
+                    outdir: 'build/web/docs',
                     themedir: 'yuidoc'
                 }
             }
@@ -239,11 +206,36 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-replace');
     grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask('appcache', ['manifest:generate']);
-    grunt.registerTask('docs', ['yuidoc']);
+    grunt.registerTask('appcache', ['manifest']);
     grunt.registerTask('hint', ['jshint']);
-    grunt.registerTask('build-combined', ['jshint', 'clean:build', 'requirejs:combined', 'replace:compiled-version', 'manifest:optimized', 'yuidoc:www']);
-    grunt.registerTask('build-optimized', ['jshint', 'clean:build', 'requirejs', 'replace:compiled-version', 'manifest:optimized', 'yuidoc:www']);
-    grunt.registerTask('build-copy', ['jshint', 'clean:build', 'copy:public_html-www', 'replace:copy-version', 'manifest:optimized', 'yuidoc:www']);
-    grunt.registerTask('build-cordova', ['jshint', 'clean:cordova', 'copy:public_html-cordova', 'shell:cordova-android-build-run']);
+    grunt.registerTask('build-android', [
+        'jshint',
+        'clean:cordova',
+        'copy:cordova',
+        'shell:android-build-run'
+    ]);
+    grunt.registerTask('build-web-combined', [
+        'jshint',
+        'clean:web',
+        'requirejs:web-combined',
+        'replace:web-combined',
+        'manifest:web-combined',
+        'yuidoc:web'
+    ]);
+    grunt.registerTask('build-web-copied', [
+        'jshint',
+        'clean:web',
+        'appcache',
+        'copy:web',
+        'replace:web-copied',
+        'yuidoc:web'
+    ]);
+    grunt.registerTask('build-web-optimized', [
+        'jshint',
+        'clean:web',
+        'requirejs:web-optimized',
+        'replace:web-combined',
+        'manifest:web-combined',
+        'yuidoc:web'
+    ]);
 };

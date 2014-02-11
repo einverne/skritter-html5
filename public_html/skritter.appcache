@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Mon Feb 10 2014 11:44:33 GMT-0500 (Eastern Standard Time)
+# Time: Tue Feb 11 2014 08:42:01 GMT-0500 (Eastern Standard Time)
 
 CACHE:
 index.html
@@ -10,7 +10,6 @@ icon-16x16.png
 icon-196x196.png
 index-cordova.html
 index.html
-manifest.json
 bootstrap/components/switch/css/bootstrap-switch.css
 bootstrap/components/switch/css/bootstrap-switch.min.css
 bootstrap/css/bootstrap-theme.css
@@ -114,20 +113,18 @@ js/app/views/vocabs/VocabListSection.js
 js/app/views/vocabs/VocabListSectionsTable.js
 js/app/views/vocabs/VocabLists.js
 js/app/views/vocabs/VocabListsTable.js
-js/background.js
 js/libs/async.js
 js/libs/backbone-1.1.0.min.js
 js/libs/base64.js
 js/libs/createjs.easel-NEXT.min.js
 js/libs/createjs.tween-NEXT.min.js
-js/libs/ga.min.js
 js/libs/hammer-1.0.6.min.js
 js/libs/indexeddb.shim.js
 js/libs/jquery-1.11.0.min.js
 js/libs/jquery.indexeddb.js
 js/libs/keypress-1.0.9.min.js
 js/libs/leap.min.js
-js/libs/lodash-2.4.1.min.js
+js/libs/lodash-2.4.1.compat.min.js
 js/libs/moment-2.5.0.js
 js/libs/require-2.1.10.min.js
 js/libs/require.text-2.0.10.js
