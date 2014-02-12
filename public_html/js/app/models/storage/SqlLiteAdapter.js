@@ -90,13 +90,13 @@ define(function() {
          * @param {String} tableName
          * @param {Function} callback
          */
-        getAll: function(tableName, callback) {           
-            var scheduledItems = [];
+        getAll: function(tableName, callback) {
+            var items = [];
             SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 t.executeSql('SELECT * FROM ' + tableName, [], querySuccess, queryError);
                 function querySuccess(t, result) {
-                    scheduledItems = SqlLiteAdapter.this.parseResult(tableName, result);
+                    items = SqlLiteAdapter.this.parseResult(result);
                 }
                 function queryError(error) {
                     console.error('SQL ERROR', error);
@@ -106,7 +106,7 @@ define(function() {
                 console.error('SQL ERROR', error);
             }
             function transactionSuccess() {
-                callback(scheduledItems);
+                callback(items);
             }
         },
         /**
@@ -118,12 +118,13 @@ define(function() {
         getItems: function(tableName, keys, callback) {
             var items = [];
             keys = Array.isArray(keys) ? keys : [keys];
-            keys = _.remove(keys, undefined);
+            for (var i in keys)
+                    keys[i] = JSON.stringify(keys[i]);
             SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 t.executeSql('SELECT * FROM ' + tableName + ' WHERE id IN (' + skritter.fn.getSqlValueString(keys) + ')', keys, querySuccess, queryError);
                 function querySuccess(t, result) {
-                    items = SqlLiteAdapter.this.parseResult(tableName, result);
+                    items = SqlLiteAdapter.this.parseResult(result);
                 }
                 function queryError(error) {
                     console.error('SQL ERROR', error);
@@ -147,7 +148,7 @@ define(function() {
             var item = null;
             SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                t.executeSql('SELECT * FROM ' + tableName + ' WHERE ' + attribute + '=?', [value], querySuccess, queryError);
+                t.executeSql('SELECT * FROM ' + tableName + ' WHERE ' + attribute + '=?', [JSON.stringify(value)], querySuccess, queryError);
                 function querySuccess(t, result) {
                     item = SqlLiteAdapter.this.parseResult(result);
                     if (item.length === 1)
@@ -163,18 +164,6 @@ define(function() {
             function transactionSuccess() {
                 callback(item);
             }
-            /*var items = [];
-            var table = IndexedDBAdapter.database.objectStore(tableName);
-            var promise = table.each(function(item) {
-                if (item.value[attribute] === value)
-                    items.push(item.value);
-            });
-            promise.done(function() {
-                callback(items);
-            });
-            promise.fail(function(error) {
-                console.error(tableName, error);
-            });*/
         },
         /**
          * @method getSchedule
@@ -186,8 +175,9 @@ define(function() {
             function transaction(t) {
                 t.executeSql('SELECT id,last,next,part,style,vocabIds FROM items', [], querySuccess, queryError);
                 function querySuccess(t, result) {
-                    for (var i = 0; i < result.rows.length; i++) {
-                        var item = _.cloneDeep(result.rows.item(i));
+                    var items = SqlLiteAdapter.this.parseResult(result);
+                    for (var i in items) {
+                        var item = items[i];
                         var splitId = item.id.split('-');
                         scheduleItems.push({
                             base: splitId[1] + '-' + splitId[2] + '-' + splitId[3],
@@ -196,7 +186,7 @@ define(function() {
                             next: item.next,
                             part: item.part,
                             style: item.style,
-                            vocabIds: JSON.parse(item.vocabIds)
+                            vocabIds: item.vocabIds
                         });
                     }
                 }
@@ -236,48 +226,16 @@ define(function() {
         },
         /**
          * @method parseResult
-         * @param {String} tableName
          * @param {Object} result
          * @returns {Array}
          */
-        parseResult: function(tableName, result) {
+        parseResult: function(result) {
             var parsedResult = [];
             for (var i = 0; i < result.rows.length; i++) {
                 var item = _.cloneDeep(result.rows.item(i));
-                //decomps
-                if (tableName === 'decomps') {
-                    item.Children = JSON.parse(item.Children);
-                }
-                //items
-                if (tableName === 'items') {
-                    item.vocabIds = JSON.parse(item.vocabIds);
-                    item.vocabListIds = JSON.parse(item.vocabListIds);
-                    item.sectionIds = JSON.parse(item.sectionIds);
-                }
-                //sentences
-                if (tableName === 'sentences') {
-                    item.containedVocabIds = JSON.parse(item.containedVocabIds);
-                    item.definitions = JSON.parse(item.definitions);
-                }
-                //srsconfigs
-                if (tableName === 'srsconfigs') {
-                    item.rightFactors = JSON.parse(item.rightFactors);
-                    item.wrongFactors = JSON.parse(item.wrongFactors);
-                }
-                //strokes
-                if (tableName === 'strokes') {
-                    item.strokes = JSON.parse(item.strokes);
-                }
-                //vocabs
-                if (tableName === 'vocabs') {
-                    item.containedVocabIds = JSON.parse(item.containedVocabIds);
-                    item.definitions = JSON.parse(item.definitions);
-                    if (item.topMnemonic === '') {
-                        delete item.topMnemonic;
-                    } else {
-                        item.topMnemonic = JSON.parse(item.topMnemonic);
-                    }
-                }
+                for (var key in item)
+                    if (item.hasOwnProperty(key))
+                        item[key] = JSON.parse(item[key]);
                 parsedResult.push(item);
             }
             return parsedResult;
@@ -290,7 +248,6 @@ define(function() {
          */
         removeItems: function(tableName, keys, callback) {
             keys = Array.isArray(keys) ? keys : [keys];
-            keys = _.remove(keys, undefined);
             SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 t.executeSql('DELETE * FROM ' + tableName + ' WHERE id IN (' + skritter.fn.getSqlValueString(keys) + ')', keys);
@@ -309,6 +266,7 @@ define(function() {
          * @param {Function} callback
          */
         setItems: function(tableName, items, callback) {
+            items = Array.isArray(items) ? items : [items];
             SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 var table = SqlLiteAdapter.tables[tableName];
@@ -321,11 +279,10 @@ define(function() {
                     for (var b in fields) {
                         var value = item[fields[b]];
                         if (typeof value === 'undefined') {
-                            value = '';
-                        } else if (value.constructor === Array || value.constructor === Object) {
-                            value = JSON.stringify(value);
+                            values.push('null');
+                        } else {
+                            values.push(JSON.stringify(value));
                         }
-                        values.push(value);
                     }
                     t.executeSql(queryString, values, querySuccess, queryError);
                 }
@@ -335,7 +292,6 @@ define(function() {
                     console.error('SQL ERROR', error);
                 }
             }
-
             function transactionError(error) {
                 console.error('SQL ERROR', error);
             }
