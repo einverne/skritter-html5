@@ -199,7 +199,7 @@ body {
         margin: -15px 0 0 0;
     }
 }
-@media (max-width: 601px) {
+@media (max-width: 767px) {
     #info-container {
         border: none;
         border-bottom: 2px #000000 solid;
@@ -259,11 +259,12 @@ body {
         position: absolute;
     }
 }
-@media (max-width: 601px) {
+@media (max-width: 600px) {
     #input-container {
         box-shadow: none;
         border: none;
-        margin: 0;
+        left: 0;
+        margin: 0 auto;
         padding: 0;
     }
 }
@@ -325,7 +326,7 @@ body {
 
 
 /*** PROMPT: HORIZONTAL ***/
-@media (max-height: 601px) and (min-width: 601px) {
+@media (max-height: 600px) and (min-width: 600px) {
     html {
         overflow-y: hidden;
     }
