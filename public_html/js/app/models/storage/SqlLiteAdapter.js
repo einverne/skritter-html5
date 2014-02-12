@@ -196,7 +196,7 @@ define(function() {
                             next: item.next,
                             part: item.part,
                             style: item.style,
-                            vocabIds: item.vocabIds.split(',')
+                            vocabIds: JSON.parse(item.vocabIds)
                         });
                     }
                 }
@@ -256,7 +256,7 @@ define(function() {
                 }
                 //sentences
                 if (tableName === 'sentences') {
-                    item.containedVocabIds = item.containedVocabIds.split(',');
+                    item.containedVocabIds = JSON.parse(item.containedVocabIds);
                     item.definitions = JSON.parse(item.definitions);
                 }
                 //srsconfigs
@@ -270,7 +270,7 @@ define(function() {
                 }
                 //vocabs
                 if (tableName === 'vocabs') {
-                    item.containedVocabIds = item.containedVocabIds.split(',');
+                    item.containedVocabIds = JSON.parse(item.containedVocabIds);
                     item.definitions = JSON.parse(item.definitions);
                     if (item.topMnemonic === '') {
                         delete item.topMnemonic;
