@@ -127,7 +127,10 @@ body {
         padding-right: 25px;
     }
 }
-@media (max-width: 601px) {
+@media (max-width: 767px) {
+    .navbar .navbar-text {
+        margin-left: 25px;
+    }
     .navbar .navbar-text a {
         padding-left: 5px;
         padding-right: 5px;
