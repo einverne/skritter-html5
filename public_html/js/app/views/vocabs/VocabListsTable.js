@@ -46,8 +46,20 @@ define([
                 for (var b in VocabListsTable.lists) {
                     var list = VocabListsTable.lists[b];
                     divBody += "<tr id='list-" + list.id + "' class='cursor'>";
-                    for (var field in VocabListsTable.fieldNameMap)
-                        divBody += "<td class='list-field-" + field + "'>" + list.get(field) + "</td>";
+                    for (var field in VocabListsTable.fieldNameMap) {
+                        var fieldValue = list.get(field);
+                        if (field === 'studyingMode') {
+                            if (fieldValue === 'not studying') {
+                                divBody += "<td class='list-field-" + field + "'><span class='fa fa-circle-o'></span></td>";
+                            } else if (fieldValue === 'finished') {
+                                divBody += "<td class='list-field-" + field + "'><span class='fa fa-circle'></span></td>";
+                            } else {
+                                divBody += "<td class='list-field-" + field + "'><span class='fa fa-dot-circle-o'></span></td>";
+                            }
+                        } else {
+                            divBody += "<td class='list-field-" + field + "'>" + fieldValue + "</td>";
+                        }
+                    }
                     divBody += "</tr>";
                 }
             }
