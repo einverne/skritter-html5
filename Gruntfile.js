@@ -20,6 +20,12 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         clean: {
             cordova: {
+                src: ['build/cordova/'],
+                options: {
+                    force: true
+                }
+            },
+            'cordova-www': {
                 src: ['build/cordova/www/'],
                 options: {
                     force: true
@@ -33,7 +39,14 @@ module.exports = function(grunt) {
             }
         },
         copy: {
-            cordova: {
+            'cordova-install': {
+                files: [
+                    {expand: true, cwd: 'cordova/', src: [
+                            '**'
+                        ], dest: 'build/cordova/'}
+                ]
+            },
+            'cordova-www': {
                 files: [
                     {expand: true, cwd: 'public_html/', src: [
                             '**'
@@ -100,6 +113,17 @@ module.exports = function(grunt) {
             }
         },
         replace: {
+            cordova: {
+                options: {
+                    variables: {
+                        'version': '<%= pkg.version %>',
+                        'date': new Date().toUTCString().substr(0, 25)
+                    }
+                },
+                files: [
+                    {src: 'config.xml', dest: 'build/cordova/', expand: true, cwd: 'build/cordova/'}
+                ]
+            },
             'web-combined': {
                 options: {
                     variables: {
@@ -181,6 +205,18 @@ module.exports = function(grunt) {
                 options: {
                     stdout: true
                 }
+            },
+            'android-install': {
+                command: [
+                    'cd build/',
+                    'cordova create cordova com.inkren.skritter Skritter',
+                    'cd cordova/',
+                    'cordova platforms add android',
+                    'cordova plugins add https://github.com/mcfarljw/Cordova-SQLitePlugin.git'
+                ].join('&&'),
+                options: {
+                    stdout: true
+                }
             }
         },
         yuidoc: {
@@ -210,8 +246,8 @@ module.exports = function(grunt) {
     grunt.registerTask('hint', ['jshint']);
     grunt.registerTask('build-android', [
         'jshint',
-        'clean:cordova',
-        'copy:cordova',
+        'clean:cordova-www',
+        'copy:cordova-www',
         'shell:android-build-run'
     ]);
     grunt.registerTask('build-web-combined', [
@@ -237,5 +273,11 @@ module.exports = function(grunt) {
         'replace:web-combined',
         'manifest:web-combined',
         'yuidoc:web'
+    ]);
+    grunt.registerTask('install-android', [
+        'clean:cordova',
+        'shell:android-install',
+        'copy:cordova-install',
+        'replace:cordova'
     ]);
 };

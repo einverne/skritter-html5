@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.inkren.skritter" version="@@version" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Skritter</name>
+    <description>
+        Learn to Write Chinese and Japanese Characters
+    </description>
+    <author email="josh@skritter.com" href="http://html5.skritter.com">
+        Joshua McFarland
+    </author>
+    <content src="index-cordova.html" />
+    <access origin="*" />
+</widget>
