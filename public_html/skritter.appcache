@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Tue Feb 11 2014 08:42:01 GMT-0500 (Eastern Standard Time)
+# Time: Fri Feb 14 2014 13:47:28 GMT-0500 (Eastern Standard Time)
 
 CACHE:
 index.html
@@ -36,11 +36,8 @@ templates/prompt-tone.html
 templates/reviews.html
 templates/study.html
 templates/vocab-info.html
-templates/vocab-list-rows-table.html
 templates/vocab-list-section.html
-templates/vocab-list-sections-table.html
 templates/vocab-list.html
-templates/vocab-lists-table.html
 templates/vocab-lists.html
 bootstrap/components/switch/js/bootstrap-switch.js
 bootstrap/components/switch/js/bootstrap-switch.min.js
@@ -59,7 +56,6 @@ js/app/Shortstraw.js
 js/app/SimpTradMap.js
 js/app/Strokes.js
 js/app/collections/CanvasCharacter.js
-js/app/collections/VocabLists.js
 js/app/collections/study/Decomps.js
 js/app/collections/study/Items.js
 js/app/collections/study/Params.js
@@ -68,6 +64,7 @@ js/app/collections/study/Reviews.js
 js/app/collections/study/SRSConfigs.js
 js/app/collections/study/Sentences.js
 js/app/collections/study/Strokes.js
+js/app/collections/study/VocabLists.js
 js/app/collections/study/Vocabs.js
 js/app/models/Api.js
 js/app/models/Assets.js
@@ -77,7 +74,6 @@ js/app/models/Scheduler.js
 js/app/models/Settings.js
 js/app/models/Sync.js
 js/app/models/User.js
-js/app/models/VocabList.js
 js/app/models/storage/IndexedDBAdapter.js
 js/app/models/storage/SqlLiteAdapter.js
 js/app/models/study/Decomp.js
@@ -89,6 +85,7 @@ js/app/models/study/SRSConfig.js
 js/app/models/study/Sentence.js
 js/app/models/study/Stroke.js
 js/app/models/study/Vocab.js
+js/app/models/study/VocabList.js
 js/app/views/Home.js
 js/app/views/Options.js
 js/app/views/Reviews.js
@@ -108,11 +105,8 @@ js/app/views/prompts/PromptRune.js
 js/app/views/prompts/PromptTone.js
 js/app/views/vocabs/VocabInfo.js
 js/app/views/vocabs/VocabList.js
-js/app/views/vocabs/VocabListRowsTable.js
 js/app/views/vocabs/VocabListSection.js
-js/app/views/vocabs/VocabListSectionsTable.js
 js/app/views/vocabs/VocabLists.js
-js/app/views/vocabs/VocabListsTable.js
 js/libs/async.js
 js/libs/backbone-1.1.0.min.js
 js/libs/base64.js
