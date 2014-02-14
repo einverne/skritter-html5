@@ -56,18 +56,18 @@ define([
         load: function() {
             //parts
             var activeParts = skritter.user.getActiveParts();
-            this.$('#parts-definition').bootstrapSwitch('setState', _.contains(activeParts, 'defn'));
-            this.$('#parts-reading').bootstrapSwitch('setState', _.contains(activeParts, 'rdng'));
-            this.$('#parts-tone').bootstrapSwitch('setState', _.contains(activeParts, 'tone'));
-            this.$('#parts-writing').bootstrapSwitch('setState', _.contains(activeParts, 'rune'));
+            this.$('#parts-definition').bootstrapSwitch('state', _.contains(activeParts, 'defn'));
+            this.$('#parts-reading').bootstrapSwitch('state', _.contains(activeParts, 'rdng'));
+            this.$('#parts-tone').bootstrapSwitch('state', _.contains(activeParts, 'tone'));
+            this.$('#parts-writing').bootstrapSwitch('state', _.contains(activeParts, 'rune'));
             //audio
-            this.$('#audio').bootstrapSwitch('setState', skritter.user.get('audio'));
+            this.$('#audio').bootstrapSwitch('state', skritter.user.get('audio'));
             //hide-reading
-            this.$('#hide-reading').bootstrapSwitch('setState', skritter.user.getSetting('hideReading'));
+            this.$('#hide-reading').bootstrapSwitch('state', skritter.user.getSetting('hideReading'));
             //squigs
-            this.$('#squigs').bootstrapSwitch('setState', skritter.user.getSetting('squigs'));
+            this.$('#squigs').bootstrapSwitch('state', skritter.user.getSetting('squigs'));
             //heisig
-            this.$('#heisig').bootstrapSwitch('setState', skritter.user.getSetting('showHeisig'));
+            this.$('#heisig').bootstrapSwitch('state', skritter.user.getSetting('showHeisig'));
         },
         /**
          * @method save
@@ -109,6 +109,6 @@ define([
             event.preventDefault();
         }
     });
-    
+
     return Options;
 });
