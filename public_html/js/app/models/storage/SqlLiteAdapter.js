@@ -41,6 +41,10 @@ define(function() {
                 vocabs: {
                     keys: ['id'],
                     fields: ['writing', 'reading', 'definitions', 'customDefinitions', 'lang', 'audio', 'rareKanji', 'toughness', 'toughnessString', 'mnemonic', 'starred', 'style', 'changed', 'bannedParts', 'containedVocabIds', 'heisigDefinition', 'sentenceId', 'topMnemonic']
+                },
+                vocablists: {
+                    keys: ['id'],
+                    fields: ['name', 'lang', 'shortName', 'description', 'categories', 'creator', 'changed', 'published', 'deleted', 'parent', 'sort', 'singleSect', 'tags', 'editors', 'public', 'peopleStudying', 'studyingMode', 'currentSection', 'currentIndex', 'sectionsSkipping', 'autoSectionMovement', 'sections']
                 }
             };
         },

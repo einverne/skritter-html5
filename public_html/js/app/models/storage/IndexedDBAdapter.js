@@ -59,6 +59,7 @@ define(function() {
                         transaction.createObjectStore('strokes', {keyPath: 'rune'});
                         transaction.createObjectStore('srsconfigs', {keyPath: 'part'});
                         transaction.createObjectStore('vocabs', {keyPath: 'id'});
+                        transaction.createObjectStore('vocablists', {keyPath: 'id'});
                     }
                 }
             });
