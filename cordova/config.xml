@@ -9,4 +9,5 @@
     </author>
     <content src="index-cordova.html" />
     <access origin="*" />
+	<preference name="Fullscreen" value="true" />
 </widget>

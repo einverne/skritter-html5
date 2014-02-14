@@ -217,6 +217,12 @@ module.exports = function(grunt) {
                 options: {
                     stdout: true
                 }
+            },
+            'kill-adb': {
+                command: 'Taskkill /F /IM adb.exe',
+                options: {
+                    stdout: true
+                }
             }
         },
         yuidoc: {
@@ -275,6 +281,7 @@ module.exports = function(grunt) {
         'yuidoc:web'
     ]);
     grunt.registerTask('install-android', [
+        'shell:kill-adb',
         'clean:cordova',
         'shell:android-install',
         'copy:cordova-install',
