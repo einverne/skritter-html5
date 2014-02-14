@@ -161,7 +161,18 @@ define(function() {
                     }
                 },
                 function(callback) {
-                    skritter.data.reviews.post(callback);
+                    if (offset === 0) {
+                        skritter.data.vocablists.fetchAll(callback);
+                    } else {
+                        callback();
+                    }
+                },
+                function(callback) {
+                    if (offset !== 0) {
+                        skritter.data.reviews.post(callback);
+                    } else {
+                        callback();
+                    }
                 }
             ], function() {
                 Sync.this.set('active', false);
