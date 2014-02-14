@@ -12,11 +12,21 @@ define([
     var VocabLists = Backbone.Collection.extend({
         initialize: function() {
             VocabLists.this = this;
+            VocabLists.sortByAttribute = null;
         },
         /**
          * @property {Backbone.Model} model
          */
         model: VocabList,
+        /**
+         * @method comparator
+         * @param {Backbone.Model} list
+         * @return {Backbone.Model}
+         */
+        comparator: function(list) {
+            if (VocabLists.sortByAttribute)
+                return list.get(VocabLists.sortByAttribute);
+        },
         /**
          * @method load
          * @param {String} sort
@@ -28,15 +38,42 @@ define([
             if (fieldNames.indexOf('id'))
                 fieldNames.push('id');
             skritter.api.getVocabLists(sort, fieldNames, function(lists) {
+                VocabLists.this.reset();
                 if (lists.status === 404) {
                     if (typeof callback === 'function')
                         callback();
                 } else {
-                    lists = VocabLists.this.add(lists, {merge: true});
+                    VocabLists.this.add(lists, {merge: true, sort: false});
                     if (typeof callback === 'function')
-                        callback(lists);
+                        callback(VocabLists.this);
                 }
             });
+        },
+        /**
+         * @method filterByAttribute
+         * @param {String} attribute
+         * @param {String} value
+         * @return {Backbone.Collection}
+         */
+        filterByAttribute: function(attribute, value) {
+            return new VocabLists(this.filter(function(list) {
+                if (Array.isArray(value)) {
+                    return _.contains(value, list.get(attribute));
+                } else {
+                    return list.get(attribute) === value;
+                }
+            }));
+        },
+        /**
+         * @method sortByAttribute
+         * @param {String} attribute
+         * @param {String} order
+         * @return {Backbone.Collection}
+         */
+        sortByAttribute: function(attribute, order) {
+            VocabLists.sortByAttribute = attribute;
+            VocabLists.this.sort();
+            return this;
         }
     });
     

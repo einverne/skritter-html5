@@ -16,8 +16,10 @@ define([
         initialize: function() {
             VocabListsTable.this = this;
             VocabListsTable.fieldNameMap = {};
+            VocabListsTable.filterByAttribute = null;
             VocabListsTable.lists = [];
             VocabListsTable.loading = false;
+            VocabListsTable.sortByAttribute = null;
             VocabListsTable.sortType = 'studying';
         },
         /**
@@ -28,6 +30,15 @@ define([
             this.$el.html(templateVocabListsTable);
             var divHead = '';
             var divBody = '';
+            var lists = (VocabListsTable.lists.length > 0) ? VocabListsTable.lists.clone() : VocabListsTable.lists;
+            if (VocabListsTable.filterByAttribute) {
+                var filterByAttribute = VocabListsTable.filterByAttribute;
+                lists = VocabListsTable.lists.filterByAttribute(filterByAttribute.attribute, filterByAttribute.value);
+            }
+            if (VocabListsTable.sortByAttribute) {
+                var sortByAttribute = VocabListsTable.sortByAttribute;
+                lists = lists.sortByAttribute(sortByAttribute.attribute, sortByAttribute.order);
+            }
             VocabListsTable.this.$('#message').text('');
             VocabListsTable.this.$('table thead').html(divHead);
             VocabListsTable.this.$('table tbody').html(divBody);
@@ -37,14 +48,14 @@ define([
                 divHead += "<th>" + VocabListsTable.fieldNameMap[a] + "</th>";
             divHead += "</tr>";
             //checks whether lists were returned and if any of them were active
-            if (!VocabListsTable.lists && !VocabListsTable.loading) {
+            if (!lists && !VocabListsTable.loading) {
                 VocabListsTable.this.$('#message').show().text("Unable to load lists due to being offline.");
-            } else if (VocabListsTable.lists && VocabListsTable.lists.length === 0 && !VocabListsTable.loading) {
+            } else if (lists && lists.length === 0 && !VocabListsTable.loading) {
                 VocabListsTable.this.$('#message').show().text("You haven't added any lists yet!");
             } else {
                 //generates the body section of the table
-                for (var b in VocabListsTable.lists) {
-                    var list = VocabListsTable.lists[b];
+                for (var b in lists.models) {
+                    var list = lists.at(b);
                     divBody += "<tr id='list-" + list.id + "' class='cursor'>";
                     for (var field in VocabListsTable.fieldNameMap) {
                         var fieldValue = list.get(field);
@@ -74,14 +85,26 @@ define([
             'click.VocabListsTable #vocab-lists-table .list-field-name': 'selectList'
         },
         /**
+         * @method filterByAttribute
+         * @param {String} attribute
+         * @param {String} value
+         * @returns {undefined}
+         */
+        filterByAttribute: function(attribute, value) {
+            VocabListsTable.filterByAttribute = {
+                attribute: attribute,
+                value: value
+            };
+            return this;
+        },
+        /**
          * @method load
          * @param {String} sortType
          * @param {Array} fieldNameMap
-         * @param {Array} filterStatus
          * @param {Function} callback
          * @returns {Backbone.View}
          */
-        load: function(sortType, fieldNameMap, filterStatus, callback) {
+        load: function(sortType, fieldNameMap, callback) {
             VocabListsTable.fieldNameMap = fieldNameMap;
             VocabListsTable.sortType = sortType;
             VocabListsTable.lists = [];
@@ -89,10 +112,6 @@ define([
             VocabListsTable.this.$('#loader').show();
             VocabListsTable.this.render();
             skritter.lists.load(sortType, fieldNameMap, function(lists) {
-                lists = lists.filter(function(list) {
-                    if (!filterStatus || _.contains(filterStatus, list.get('studyingMode')))
-                        return true;
-                });
                 VocabListsTable.lists = lists;
                 VocabListsTable.loading = false;
                 VocabListsTable.this.render();
@@ -110,6 +129,19 @@ define([
             var listId = event.currentTarget.parentElement.id.replace('list-', '');
             skritter.router.navigate('vocab/list/' + listId, {trigger: true});
             event.preventDefault();
+        },
+        /**
+         * @method sortByAttribute
+         * @param {String} attribute
+         * @param {String} order
+         * @returns {Backbone.View}
+         */
+        sortByAttribute: function(attribute, order) {
+            VocabListsTable.sortByAttribute = {
+                attribute: attribute,
+                order: order
+            };
+            return this;
         }
     });
 

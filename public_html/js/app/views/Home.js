@@ -20,7 +20,7 @@ define([
          */
         initialize: function() {
             Home.this = this;
-            Home.lists = new VocabListsTable();
+            Home.listsTable = new VocabListsTable();
         },
         /**
          * @method render
@@ -31,10 +31,10 @@ define([
                 this.$el.html(templateIn);
                 this.$('#user-avatar').html(skritter.user.getAvatar('img-circle'));
                 this.$('.user-name').text(skritter.user.getSetting('name'));
-                Home.lists.setElement(this.$('#active-lists #table-container')).load('studying', {
+                Home.listsTable.setElement(this.$('#active-lists #table-container')).load('studying', {
                     'name': 'Name',
                     'studyingMode': 'Status'
-                }, ['adding', 'reviewing']);
+                }).filterByAttribute('studyingMode', ['adding', 'reviewing']);
                 this.listenTo(skritter.scheduler, 'change:schedule', this.updateDueCount);
                 this.listenTo(skritter.sync, 'change:active', this.updateSyncStatus);
                 this.updateDueCount();
