@@ -47,7 +47,6 @@ define([
             '': 'showHome',
             'options': 'showOptions',
             'vocab/list': 'showVocabLists',
-            'vocab/list/sort/:sort': 'showVocabLists',
             'vocab/list/:id': 'showVocabList',
             'vocab/list/:listId/:sectionId': 'showVocabListSection',
             'vocab/:lang/:writing': 'showVocabInfo',
@@ -146,7 +145,7 @@ define([
             } else {
                 Router.view.vocabList.setElement($(skritter.settings.get('container')));
             }
-            Router.view.vocabList.load(listId);
+            Router.view.vocabList.load(listId).render();
         },
         /**
          * @method showVocabListSection
@@ -160,20 +159,19 @@ define([
             } else {
                 Router.view.vocabListSection.setElement($(skritter.settings.get('container')));
             }
-            Router.view.vocabListSection.load(listId, sectionId);
+            Router.view.vocabListSection.load(listId, sectionId).render();
         },
         /**
          * @method showVocabLists
-         * @param {String} sort
          */
-        showVocabLists: function(sort) {
+        showVocabLists: function() {
             if (!Router.view.vocabLists) {
                 Router.view.vocabLists = new VocabLists({el: $(skritter.settings.get('container'))});
                 skritter.view = Router.view;
             } else {
                 Router.view.vocabLists.setElement($(skritter.settings.get('container')));
             }
-            Router.view.vocabLists.load(sort);
+            Router.view.vocabLists.load().render();
         }
     });
 

@@ -25,7 +25,7 @@ define([
     'collections/study/Strokes',
     'models/Sync',
     'collections/study/Vocabs',
-    'collections/VocabLists'
+    'collections/study/VocabLists'
 ], function(Decomps, Items, Params, Reviews, Scheduler, Sentences, SRSConfigs, Strokes, Sync, Vocabs, VocabLists) {
     /**
      * @class User
@@ -45,10 +45,9 @@ define([
                 srsconfigs: new SRSConfigs(),
                 sentences: new Sentences(),
                 strokes: new Strokes(),
-                vocabs: new Vocabs()
+                vocabs: new Vocabs(),
+                vocablists: new VocabLists()
             };
-            //initialize the user lists separate from study data
-            skritter.lists = new VocabLists();
             //loads the user from localStorage if exists
             if (localStorage.getItem('activeUser')) {
                 try {
@@ -247,7 +246,8 @@ define([
                 async.apply(skritter.scheduler.loadAll),
                 async.apply(skritter.data.sentences.loadAll),
                 async.apply(skritter.data.srsconfigs.loadAll),
-                async.apply(skritter.data.strokes.loadAll)
+                async.apply(skritter.data.strokes.loadAll),
+                async.apply(skritter.data.vocablists.loadAll)
             ], function() {
                 callback();
             });

@@ -3,14 +3,12 @@
  * @submodule Views
  * @param templateIn
  * @param templateOut
- * @param VocabListsTable
  * @author Joshua McFarland
  */
 define([
     'require.text!templates/home-logged-in.html',
-    'require.text!templates/home-logged-out.html',
-    'views/vocabs/VocabListsTable'
-], function(templateIn, templateOut, VocabListsTable) {
+    'require.text!templates/home-logged-out.html'
+], function(templateIn, templateOut) {
     /**
      * @class HomeView
      */
@@ -20,7 +18,6 @@ define([
          */
         initialize: function() {
             Home.this = this;
-            Home.listsTable = new VocabListsTable();
         },
         /**
          * @method render
@@ -31,10 +28,15 @@ define([
                 this.$el.html(templateIn);
                 this.$('#user-avatar').html(skritter.user.getAvatar('img-circle'));
                 this.$('.user-name').text(skritter.user.getSetting('name'));
-                Home.listsTable.setElement(this.$('#active-lists #table-container')).load('studying', {
-                    'name': 'Name',
-                    'studyingMode': 'Status'
-                }).filterByAttribute('studyingMode', ['adding', 'reviewing']);
+                this.$('#active-lists #table-container').html(skritter.data.vocablists.filterByAttribute({
+                    attribute: 'studyingMode',
+                    value: ['adding', 'reviewing']
+                }).sortByAttribute({
+                    attribute: 'studyingMode'
+                }).getTable({
+                    name: 'Name',
+                    studyingMode: 'Status'
+                }));
                 this.listenTo(skritter.scheduler, 'change:schedule', this.updateDueCount);
                 this.listenTo(skritter.sync, 'change:active', this.updateSyncStatus);
                 this.updateDueCount();
@@ -52,9 +54,9 @@ define([
             'click.Home #home-view .login-button': 'handleLoginClicked',
             'click.Home #home-view .logout-button': 'handleLogoutClicked',
             'click.Home #home-view .options-button': 'handleOptionsClicked',
-            'click.Home #home-view .vocab-lists-button': 'handleVocabListsClicked',
             'click.Home #home-view .study-button': 'handleStudyClicked',
-            'click.Home #home-view .sync-button': 'handleSyncClicked'
+            'click.Home #home-view .sync-button': 'handleSyncClicked',
+            'click.Home #home-view .vocab-lists-button': 'handleVocabListsClicked'
         },
         /**
          * @method handleHomeClicked

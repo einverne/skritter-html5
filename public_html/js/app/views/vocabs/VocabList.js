@@ -1,13 +1,11 @@
 /**
  * @module Skritter
  * @param templateVocabList
- * @param VocabListSectionsTable
  * @author Joshua McFarland
  */
 define([
-    'require.text!templates/vocab-list.html',
-    'views/vocabs/VocabListSectionsTable'
-], function(templateVocabList, VocabListSectionsTable) {
+    'require.text!templates/vocab-list.html'
+], function(templateVocabList) {
     /**
      * @class VocabList
      */
@@ -17,8 +15,6 @@ define([
          */
         initialize: function() {
             VocabList.this = this;
-            VocabList.list = null;
-            VocabList.sections = new VocabListSectionsTable();
         },
         /**
          * @method render
@@ -26,26 +22,15 @@ define([
          */
         render: function() {
             this.$el.html(templateVocabList);
-            VocabList.sections.setElement(this.$('#vocab-list-sections-table-container')).set(VocabList.list);
             return this;
         },
         /**
-         * @method listId
+         * @method load
          * @param {String} listId
+         * @returns {Backbone.View}
          */
         load: function(listId) {
-            var list = skritter.lists.get(listId);
-            if (list) {
-                list.load(function(list) {
-                    VocabList.list = list;
-                    VocabList.this.render();
-                });
-            } else {
-                skritter.lists.add({id: listId}, {merge: true}).load(function(list) {
-                    VocabList.list = list;
-                    VocabList.this.render();
-                });
-            }
+            return this;
         }
     });
     

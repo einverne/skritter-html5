@@ -14,14 +14,13 @@ define(function() {
             VocabList.this = this;
         },
         /**
-         * @method load
+         * @method cache
          * @param {Function} callback
          */
-        load: function(callback) {
-            skritter.api.getVocabList(this.id, function(list) {
-                list = VocabList.this.set(list);
+        cache: function(callback) {
+            skritter.storage.setItems('vocablists', this.toJSON(), function() {
                 if (typeof callback === 'function')
-                    callback(list);
+                    callback();
             });
         }
     });
