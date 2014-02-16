@@ -58,7 +58,11 @@ define([
             var activeParts = skritter.user.getActiveParts();
             this.$('#parts-definition').bootstrapSwitch('state', _.contains(activeParts, 'defn'));
             this.$('#parts-reading').bootstrapSwitch('state', _.contains(activeParts, 'rdng'));
-            this.$('#parts-tone').bootstrapSwitch('state', _.contains(activeParts, 'tone'));
+            if (skritter.user.getSetting('targetLang') === 'ja') {
+                this.$('#parts-tone').closest('.form-group').hide();
+            } else {
+                this.$('#parts-tone').bootstrapSwitch('state', _.contains(activeParts, 'tone'));
+            }
             this.$('#parts-writing').bootstrapSwitch('state', _.contains(activeParts, 'rune'));
             //audio
             this.$('#audio').bootstrapSwitch('state', skritter.user.get('audio'));
