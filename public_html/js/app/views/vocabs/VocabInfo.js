@@ -50,8 +50,11 @@ define([
             return this;
         },
         events: {
+            'click.VocabInfo #vocab-info-view #audio-button': 'playAudio',
             'click.VocabInfo #vocab-info-view .back-button': 'handleBackClicked',
-            'click.VocabInfo #vocab-info-view .home-button': 'handleHomeClicked'
+            'click.VocabInfo #vocab-info-view #ban-button': 'handleBanClicked',
+            'click.VocabInfo #vocab-info-view .home-button': 'handleHomeClicked',
+            'click.VocabInfo #vocab-info-view #star-button': 'handleStarClicked'
         },
         /**
          * @method handleBackClicked
@@ -62,11 +65,27 @@ define([
             event.preventDefault();
         },
         /**
+         * @method handleBanClicked
+         * @param {Object} event
+         */
+        handleBanClicked: function(event) {
+            //TODO: requires specific api functionality to update
+            event.preventDefault();
+        },
+        /**
          * @method handleHomeClicked
          * @param {Object} event
          */
         handleHomeClicked: function(event) {
             skritter.router.navigate('/', {trigger: true});
+            event.preventDefault();
+        },
+        /**
+         * @method handleStarClicked
+         * @param {Object} event
+         */
+        handleStarClicked: function(event) {
+            //TODO: requires specific api functionality to update
             event.preventDefault();
         },
         /**
@@ -90,6 +109,14 @@ define([
                 if (typeof callback === 'function')
                     callback();
             });
+        },
+        /**
+         * @method playAudio
+         * @param {Object} event
+         */
+        playAudio: function(event) {
+            VocabInfo.vocab.play();
+            event.preventDefault();
         }
     });
     
