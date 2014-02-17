@@ -61,17 +61,6 @@ define([
             return Prompt.data;
         },
         /**
-         * @property {Object} fontSize
-         */
-        fontSize: {
-            large: function() {
-                return Math.round(48) + 'px';
-            },
-            normal: function() {
-                return Math.round(16) + 'px';
-            }
-        },
-        /**
          * @method handleGradeSelected
          */
         handleGradeSelected: function() {
@@ -122,8 +111,7 @@ define([
          * @method redraw
          */
         redraw: function() {
-            this.$('.font-size-normal').css({'font-size': this.fontSize.normal()});
-            this.$('.font-size-large').css({'font-size': this.fontSize.large()});
+            //used if redraw function is consistent across all prompts
         },
         /**
          * @method resize
