@@ -246,7 +246,6 @@ body {
 @media (max-width: 992px) {
     #input-container {
         margin: 15px auto 0 auto;
-        position: absolute;
     }
 }
 @media (max-width: 600px) {
