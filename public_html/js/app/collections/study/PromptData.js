@@ -150,9 +150,6 @@ define([
             mnemonic: function() {
                 $('.prompt-mnemonic').hide();
             },
-            question: function() {
-                $('.prompt-question').hide(100);
-            },
             reading: function() {
                 $('.prompt-reading').hide();
             },
@@ -225,12 +222,12 @@ define([
                 $('.prompt-definition').show();
             },
             mnemonic: function() {
-                $('.prompt-mnemonic').html(PromptData.this.vocab.get('mnemonic').text + ' (' + PromptData.this.vocab.get('mnemonic').creator + ')');
-                $('.prompt-mnemonic').show();
-            },
-            question: function(text) {
-                $('.prompt-question').html(text);
-                $('.prompt-question').show();
+                if (PromptData.this.vocab.get('mnemonic')) {
+                    $('.prompt-mnemonic').html(PromptData.this.vocab.get('mnemonic').text + ' (' + PromptData.this.vocab.get('mnemonic').creator + ')');
+                    $('.prompt-mnemonic').show();
+                } else {
+                    $('.prompt-mnemonic').parent().hide();
+                }
             },
             reading: function(hidden) {
                 if (hidden) {
@@ -250,7 +247,7 @@ define([
                     $('.prompt-sentence').html(PromptData.this.vocab.getSentence().getWriting());
                     $('.prompt-sentence').show();
                 } else {
-                    PromptData.this.hide.sentence();
+                    $('.prompt-sentence').parent().hide();
                 }
             },
             sentenceMasked: function() {

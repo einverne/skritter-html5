@@ -152,6 +152,7 @@ define([
         load: function() {
             Prompt.prototype.load.call(this);
             Prompt.data.show.definition();
+            Prompt.data.show.mnemonic();
             Prompt.data.show.style();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
