@@ -224,7 +224,16 @@ define([
                 if (text) {
                     $('.prompt-definition').html(text);
                 } else {
-                    $('.prompt-definition').html(PromptData.this.vocab.getDefinition());
+                    if (skritter.user.getSetting('showHeisig') && PromptData.this.vocab.get('heisigDefinition')) {
+                        var html = '';
+                        html += "<span class='heisig-keyword'>";
+                        html += PromptData.this.vocab.get('heisigDefinition');
+                        html += "</span>; ";
+                        html += PromptData.this.vocab.getDefinition();
+                        $('.prompt-definition').html(html);
+                    } else {
+                        $('.prompt-definition').html(PromptData.this.vocab.getDefinition());
+                    }
                 }
                 $('.prompt-definition').parent().show();
             },

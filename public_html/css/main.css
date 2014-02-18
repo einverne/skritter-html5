@@ -188,6 +188,9 @@ body {
     border-bottom: 1px #000000 solid;
     margin: 0 5px;
 }
+#info-container .heisig-keyword {
+    font-style: italic;
+}
 #info-container .prompt-sentence {
     font-size: 18px;
 }
