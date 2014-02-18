@@ -2717,6 +2717,7 @@ define(function() {
     return {
         getFromBase: getWritingFromBase,
         getSimplifiedBase: getSimplifiedBase,
-        getVocabBase: getVocabBase
+        getVocabBase: getVocabBase,
+        getWritingFromBase: getWritingFromBase
     };
 });
