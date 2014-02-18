@@ -333,6 +333,9 @@ body {
     padding-bottom: 30px;
     padding-top: 30px;
 }
+#vocab-info-view .heisig-keyword {
+    font-style: italic;
+}
 #vocab-info-view #sentence-writing {
     font-size: larger;
 }

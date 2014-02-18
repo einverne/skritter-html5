@@ -37,7 +37,7 @@ define([
             this.$('#sentence-writing').addClass(VocabInfo.vocab.getTextStyleClass());
             this.$('#writing').html(VocabInfo.vocab.get('writing'));
             this.$('#reading').html(VocabInfo.vocab.getReading());
-            this.$('#definition').html(VocabInfo.vocab.getDefinition());
+            this.$('#definition').html(VocabInfo.vocab.getDefinition(skritter.user.getSetting('showHeisig')));
             var sentence = VocabInfo.vocab.getSentence();
             if (sentence) {
                 this.$('#sentence-writing').html(sentence.getWriting());

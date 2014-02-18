@@ -123,7 +123,7 @@ define([
                 });
             }
         },
-        getDefinition: function() {
+        getDefinition: function(includeHeisig) {
             //TODO: allow for definition images with proper css styling
             //.replace(/img:(http:\/\/\S+)/gi, '<img src="$1"/>')
             //.replace(/_([^ _][^_]*)_(?!\S{4})/gi, '<em>$1</em>')
@@ -132,8 +132,14 @@ define([
             var definition = this.get('definitions')[skritter.user.getSetting('sourceLang')];
             if (typeof definition === undefined)
                 definition = this.get('definitions').en;
-            if (definition)
-                return definition.replace(/img:(http:\/\/\S+)/gi, '');
+            if (definition) {
+                definition =  definition.replace(/img:(http:\/\/\S+)/gi, '');
+                if (includeHeisig && this.get('heisigDefinition')) {
+                    return "<span class='heisig-keyword'>" + this.get('heisigDefinition') + "</span>; " + definition;
+                } else {
+                    return definition;
+                }
+            }
             return null;
         },
         /**
