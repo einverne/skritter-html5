@@ -24,6 +24,22 @@ body {
 #skritter-container {
     height: 100%;
 }
+.badge-part {
+    background: #999999;
+    border-radius: 5px;
+    color : #ffffff;
+    float: left;
+    margin-right: 5px;
+    padding: 2px;
+}
+.badge-part-active {
+    background: #333333;
+    border-radius: 5px;
+    color : #ffffff;
+    float: left;
+    margin-right: 5px;
+    padding: 2px;
+}
 .chinese-text {font-family: "simkai", "SimSun", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
 .cursor {cursor:pointer;}
 .grade1 {color: #e68e8e;}
@@ -150,12 +166,13 @@ body {
     border-bottom: 2px #000000 solid;
     border-top: 2px #000000 solid;
     border-left: 2px #000000 solid;
+    font-family: Arial, Arial Unicode, Lucida Sans Unicode;
     margin: 45px auto 0 auto;
     overflow-x: hidden;
     overflow-y: auto;
 }
-#info-container #prompt-writing-box {
-    min-width: 50%;
+#info-container .row {
+    padding-top: 7px;
 }
 #info-container .prompt-writing-shown {
     visibility: visible;
@@ -167,22 +184,8 @@ body {
     border-bottom: 1px #000000 solid;
     margin: 0 5px;
 }
-#info-container #prompt-reading-box {
-    margin-top: 3%;
-}
-#info-container #prompt-reading-box .prompt-reading-show-button {
-    margin: 0 5px;
-}
-#info-container #prompt-reading-box .prompt-reading-display div {
-    float: left;
-    margin: 0 5px;
-    min-width: 25px;
-}
-#info-container .prompt-reading-hidden {
-    border-bottom: 1px #000000 solid;
-}
-#info-container #prompt-definition-box {
-    clear: both;
+#info-container .prompt-sentence {
+    font-size: 18px;
 }
 @media (max-width: 992px) {
     #info-container { 
@@ -299,14 +302,28 @@ body {
 
 
 /*** VOCAB: INFO ***/
+#vocab-info-view .row {
+    font-family: Arial, Arial Unicode, Lucida Sans Unicode;
+    font-size: medium;
+}
 #vocab-info-view #writing {
     text-align: center;
 }
-#vocab-info-view table {
-    font-size: medium;
+#vocab-info-view #definition-reading {
+    padding-bottom: 30px;
+    padding-top: 30px;
 }
-#vocab-info-view #contained, #vocab-info-view #decompositions {
-    padding: 20px;
+#vocab-info-view #sentence-writing {
+    font-size: larger;
+}
+#vocab-info-view #sentence-reading {
+    font-weight: bold;
+}
+#vocab-info-view #contained-table, #vocab-info-view #decompositions-table {
+    padding: 14px;
+}
+#vocab-info-view #contained-table .writing, #vocab-info-view #decompositions-table .writing {
+    font-size: x-large;
 }
 @media (max-width: 601px) {
     #vocab-info-view #contained, #vocab-info-view decompositions {
@@ -327,6 +344,7 @@ body {
         bottom: 0;
         border-bottom: none;
         border-left: none;
+        border-right: 2px solid #333333;
         border-top: none;
         position: absolute;
         margin: 45px 0 0 0;

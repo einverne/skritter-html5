@@ -34,6 +34,7 @@ define([
         render: function() {
             this.$el.html(templateVocabInfo);
             this.$('#writing').addClass(VocabInfo.vocab.getTextStyleClass());
+            this.$('#sentence-writing').addClass(VocabInfo.vocab.getTextStyleClass());
             this.$('#writing').html(VocabInfo.vocab.get('writing'));
             this.$('#reading').html(VocabInfo.vocab.getReading());
             this.$('#definition').html(VocabInfo.vocab.getDefinition());

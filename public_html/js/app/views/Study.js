@@ -31,8 +31,8 @@ define([
          */
         render: function() {
             this.$el.html(templateStudy);
-            //skritter.scheduler.filter({ids: ['mcfarljwtest3-ja-～ヶ月-0-rune']});
-            //skritter.scheduler.filter({parts: ['rdng']});
+            //skritter.scheduler.filter({ids: ['mcfarljwtest2-zh-在这种情况下-1-rune']});
+            skritter.scheduler.filter({parts: ['rune']});
             skritter.timer.setElement(this.$('#timer')).render();
             this.updateDueCount();
             if (skritter.scheduler.getItemCount() === 0) {
