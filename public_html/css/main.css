@@ -242,6 +242,9 @@ body {
     position: absolute;
     top: 0;
 }
+#input-container .prompt-question {
+    font-weight: 500;
+}
 #input-container #canvas-container {
     position: relative;
 }
