@@ -18,7 +18,7 @@ define([
             this.id = null;
             this.item = null;
             this.position = 1;
-            this.vocab =  null;
+            this.vocab = null;
         },
         /**
          * @property {Backbone.Model} model
@@ -145,16 +145,19 @@ define([
          */
         hide: {
             definition: function() {
-                $('.prompt-definition').hide();
+                $('.prompt-definition').parent().hide();
             },
             mnemonic: function() {
-                $('.prompt-mnemonic').hide();
+                $('.prompt-mnemonic').parent().hide();
+            },
+            question: function() {
+                $('.prompt-question').hide(100);
             },
             reading: function() {
-                $('.prompt-reading').hide();
+                $('.prompt-reading').parent().hide();
             },
             sentence: function() {
-                $('.prompt-sentence').hide();
+                $('.prompt-sentence').parent().hide();
             },
             style: function() {
                 $('.prompt-style').hide();
@@ -163,7 +166,7 @@ define([
                 $('.prompt-tip').hide();
             },
             writing: function() {
-                $('.prompt-writing').hide();
+                $('.prompt-writing').parent().hide();
             }
         },
         /**
@@ -217,17 +220,25 @@ define([
          * @property {Object} show
          */
         show: {
-            definition: function() {
-                $('.prompt-definition').html(PromptData.this.vocab.getDefinition());
-                $('.prompt-definition').show();
+            definition: function(text) {
+                if (text) {
+                    $('.prompt-definition').html(text);
+                } else {
+                    $('.prompt-definition').html(PromptData.this.vocab.getDefinition());
+                }
+                $('.prompt-definition').parent().show();
             },
             mnemonic: function() {
                 if (PromptData.this.vocab.get('mnemonic')) {
                     $('.prompt-mnemonic').html(PromptData.this.vocab.get('mnemonic').text + ' (' + PromptData.this.vocab.get('mnemonic').creator + ')');
-                    $('.prompt-mnemonic').show();
+                    $('.prompt-mnemonic').parent().show();
                 } else {
-                    $('.prompt-mnemonic').parent().hide();
+                    PromptData.this.hide.mnemonic();
                 }
+            },
+            question: function(text) {
+                $('.prompt-question').html(text);
+                $('.prompt-question').show();
             },
             reading: function(hidden) {
                 if (hidden) {
@@ -235,25 +246,25 @@ define([
                 } else {
                     $('.prompt-reading').html(PromptData.this.vocab.getReading());
                 }
-                $('.prompt-reading').show();
+                $('.prompt-reading').parent().show();
             },
             readingAt: function(offset, reveal, hidden) {
                 offset = (offset) ? offset : 0;
                 $('.prompt-reading').html(PromptData.this.vocab.getReadingDisplay(PromptData.this.position + offset, reveal, hidden));
-                $('.prompt-reading').show();
+                $('.prompt-reading').parent().show();
             },
             sentence: function() {
                 if (PromptData.this.vocab.getSentence()) {
                     $('.prompt-sentence').html(PromptData.this.vocab.getSentence().getWriting());
-                    $('.prompt-sentence').show();
+                    $('.prompt-sentence').parent().show();
                 } else {
-                    $('.prompt-sentence').parent().hide();
+                    PromptData.this.hide.sentence();
                 }
             },
             sentenceMasked: function() {
                 if (PromptData.this.vocab.getSentence()) {
                     $('.prompt-sentence').html(skritter.fn.maskCharacters(PromptData.this.vocab.getSentence().getWriting(), PromptData.this.vocab.get('writing'), '__'));
-                    $('.prompt-sentence').show();
+                    $('.prompt-sentence').parent().show();
                 } else {
                     PromptData.this.hide.sentence();
                 }
@@ -263,11 +274,11 @@ define([
                 if (style === 'simp') {
                     $('.prompt-style').html(style.toUpperCase());
                     $('.prompt-style').addClass('prompt-style-simp');
-                    $('.prompt-style').show();
+                    $('.prompt-style').parent().show();
                 } else if (style === 'trad') {
                     $('.prompt-style').html(style.toUpperCase());
                     $('.prompt-style').addClass('prompt-style-trad');
-                    $('.prompt-style').show();
+                    $('.prompt-style').parent().show();
                 } else {
                     PromptData.this.hide.style();
                 }
@@ -278,15 +289,15 @@ define([
             },
             writing: function() {
                 $('.prompt-writing').html(PromptData.this.vocab.get('writing'));
-                $('.prompt-writing').show();
+                $('.prompt-writing').parent().show();
             },
             writingAt: function(offset) {
                 offset = (offset) ? offset : 0;
                 $('.prompt-writing').html(PromptData.this.vocab.getWritingDisplay(PromptData.this.position + offset));
-                $('.prompt-writing').show();
+                $('.prompt-writing').parent().show();
             }
         }
     });
-    
+
     return PromptData;
 }); 

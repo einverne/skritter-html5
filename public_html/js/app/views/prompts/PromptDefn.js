@@ -59,9 +59,12 @@ define([
          */
         load: function() {
             Prompt.prototype.load.call(this);
+            Prompt.data.hide.mnemonic();
+            Prompt.data.hide.sentence();
             Prompt.data.show.reading();
             Prompt.data.show.style();
             Prompt.data.show.writing();
+            $('#info-container .prompt-definition').parent().hide();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
                 //this.updateColor();
@@ -73,7 +76,7 @@ define([
                     Prompt.data.vocab.play();
             } else {
                 skritter.timer.start();
-                Prompt.data.show.question("What's the definition?");
+                Prompt.data.show.question("What is the definition?");
                 Prompt.data.show.tip("(Click to show the answer)");
             }
         },

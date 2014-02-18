@@ -59,21 +59,24 @@ define([
          */
         load: function() {
             Prompt.prototype.load.call(this);
+            Prompt.data.hide.definition();
+            Prompt.data.hide.mnemonic();
+            Prompt.data.hide.sentence();
             Prompt.data.show.style();
             Prompt.data.show.writing();
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
                 //this.updateColor();
-                Prompt.data.hide.question();
                 Prompt.data.hide.tip();
                 Prompt.data.show.definition();
+                Prompt.data.hide.question();
                 Prompt.data.show.reading();
                 Prompt.gradingButtons.show();
                 if (skritter.user.get('audio'))
                     Prompt.data.vocab.play();
             } else {
                 skritter.timer.start();
-                Prompt.data.show.question("How do you say it?");
+                Prompt.data.show.question("What is the reading?");
                 Prompt.data.show.tip("(Click to show the answer)");
             }
         },

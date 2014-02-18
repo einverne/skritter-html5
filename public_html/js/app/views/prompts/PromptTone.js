@@ -137,6 +137,8 @@ define([
             Prompt.prototype.load.call(this);
             Tone.canvas.clear('background');
             Tone.canvas.drawCharacterFromFont('background', Prompt.data.vocab.getCharacters()[Prompt.data.position - 1], Prompt.data.vocab.getFontName(), 1, '#000000');
+            Prompt.data.hide.mnemonic();
+            Prompt.data.hide.sentence();
             Prompt.data.show.definition();
             Prompt.data.show.style();
             Prompt.data.show.writing();
@@ -144,8 +146,6 @@ define([
                 skritter.timer.stop();
                 Tone.canvas.disableInput();
                 Prompt.gradingButtons.select(Prompt.dataItem.getGrade()).collapse();
-                if (Prompt.data.isLast())
-                    Prompt.data.hide.question();
                 if (skritter.user.getSetting('hideReading')) {
                     Prompt.data.show.readingAt(1, true, true);
                 } else {
@@ -163,7 +163,6 @@ define([
                 hammer(Prompt.this.$('#canvas-container')[0]).off('tap', Prompt.this.handleTap);
                 skritter.timer.start();
                 Tone.canvas.enableInput();
-                Prompt.data.show.question("Which tone is it?");
                 if (skritter.user.getSetting('hideReading')) {
                     Prompt.data.show.readingAt(0, false, true);
                 } else {
