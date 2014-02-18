@@ -79,6 +79,16 @@ body {
     min-height: 40px;
     margin: 0 auto 5px auto;
 }
+#grading-buttons .text {
+    color: white;
+    text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
+    position: absolute;
+    top: 40%;
+}
+#grading-buttons #grade1 .text { left: 30%; }
+#grading-buttons #grade2 .text { left: 35%; }
+#grading-buttons #grade3 .text { left: 35%; }
+#grading-buttons #grade4 .text { left: 35%; }
 #grading-buttons div:hover { opacity: 1.0; }
 
 /*** MODALS ***/
