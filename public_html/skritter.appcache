@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Time: Fri Feb 14 2014 13:47:28 GMT-0500 (Eastern Standard Time)
+# Time: Tue Feb 18 2014 17:37:01 GMT-0500 (Eastern Standard Time)
 
 CACHE:
 index.html
@@ -108,15 +108,16 @@ js/app/views/vocabs/VocabList.js
 js/app/views/vocabs/VocabListSection.js
 js/app/views/vocabs/VocabLists.js
 js/libs/async.js
-js/libs/backbone-1.1.0.min.js
+js/libs/backbone-1.1.1.min.js
 js/libs/base64.js
 js/libs/createjs.easel-NEXT.min.js
 js/libs/createjs.tween-NEXT.min.js
 js/libs/hammer-1.0.6.min.js
 js/libs/indexeddb.shim.js
 js/libs/jquery-1.11.0.min.js
+js/libs/jquery.fittext-1.2.js
 js/libs/jquery.indexeddb.js
-js/libs/keypress-1.0.9.min.js
+js/libs/keypress-2.0.1.min.js
 js/libs/leap.min.js
 js/libs/lodash-2.4.1.compat.min.js
 js/libs/moment-2.5.0.js
