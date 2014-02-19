@@ -49,17 +49,6 @@ body {
 .japanese-text {font-family: "kaisho", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
 
 
-/*** CANVAS ***/
-#input-container {
-    background: #ffffff;
-    border: 2px #000000 solid;
-    cursor: pointer;
-    margin: 45px auto 0 auto;
-    padding: 0;
-    position: relative;
-}
-
-
 /*** GRADING BUTTONS ***/
 #grading-buttons {
     bottom: 5px;
@@ -141,6 +130,9 @@ body {
 
 
 /*** NAVBAR ***/
+.navbar {
+    margin-bottom: 0;
+}
 .navbar .fa-navbar {
     font-size: 18px;
 }
@@ -172,13 +164,9 @@ body {
 
 /*** PROMPT: INFO ***/
 #info-container {
-    background: #ffffff;
-    border-bottom: 2px #000000 solid;
-    border-top: 2px #000000 solid;
-    border-left: 2px #000000 solid;
+    background-color: #ffffff;
     font-family: Arial, Arial Unicode, Lucida Sans Unicode;
-    margin: 45px auto 0 auto;
-    overflow-x: hidden;
+    margin-top: 1px;
     overflow-y: auto;
 }
 #info-container .row {
@@ -205,26 +193,17 @@ body {
 #info-container .prompt-sentence {
     font-size: 18px;
 }
-@media (max-width: 992px) {
-    #info-container { 
-        border-right: 2px #000000 solid;
-        margin: 0 auto 0 auto;
-    }
-}
-@media (max-width: 767px) {
+@media screen and (orientation: portrait) {
     #info-container {
-        border: none;
-        border-bottom: 2px #000000 solid;
+        border-bottom: 2px #000000 solid
     }
 }
-
 
 /*** PROMPT: INPUT ***/
 #input-container {
-    background: #ffffff;
-    border: 2px #000000 solid;
+    background-color: #ffffff;
     cursor: pointer;
-    margin: 45px auto 0 auto;
+    margin: 0;
     padding: 0;
     position: relative;
 }
@@ -267,11 +246,6 @@ body {
 }
 #input-container #canvas-container #canvas-display {
     position: absolute;
-}
-@media (max-width: 992px) {
-    #input-container {
-        margin: 15px auto 0 auto;
-    }
 }
 @media (max-width: 600px) {
     #input-container {
