@@ -186,6 +186,7 @@ body {
 }
 #info-container .prompt-writing {
     font-size: xx-large;
+    float: left;
     margin-top: -10px;
 }
 #info-container .prompt-writing-shown {
