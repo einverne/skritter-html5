@@ -127,9 +127,11 @@ define([
             Prompt.this.$('#input-container').height(size.canvas);
             //manually resizes the info section to fill vertical mobile devices
             if (skritter.settings.get('orientation') === 'vertical') {
-                Prompt.this.$('#info-container').height(size.height - $('.navbar').height() - size.canvas - 2);
+                Prompt.this.$('#info-container').height(size.height - size.canvas - 50);
+                Prompt.this.$('#info-container').width('');
             } else {
-                //TODO: handle horizontal css tweaks
+                Prompt.this.$('#info-container').height('');
+                Prompt.this.$('#info-container').width(size.width - size.canvas - 2);
             }
             Prompt.this.redraw();
         },

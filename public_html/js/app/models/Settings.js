@@ -60,8 +60,8 @@ define(function() {
          */
         handleResize: function() {
             //sets the max boundaries of the application
-            Settings.this.set('appWidth', $('#skritter-container').width());
-            Settings.this.set('appHeight', $('#skritter-container').height());
+            Settings.this.set('appWidth', $(window).width());
+            Settings.this.set('appHeight', $(window).height());
             //sets the orientation of the application area
             if (Settings.this.get('appWidth') > Settings.this.get('appHeight')) {
                 Settings.this.set('orientation', 'horizontal');

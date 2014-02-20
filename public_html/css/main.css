@@ -23,6 +23,38 @@ body {
 }
 
 
+/*** GRADING BUTTONS ***/
+#grading-buttons {
+    bottom: 5px;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+}
+#grading-buttons div {
+    cursor: pointer;
+    display: inline-block;
+    opacity: 0.8;
+    position: relative;
+}
+#grading-buttons div img {
+    display: block;
+    max-height: 10%;
+    min-height: 40px;
+    margin: 0 auto 5px auto;
+}
+#grading-buttons .text {
+    color: white;
+    text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
+    position: absolute;
+    top: 40%;
+}
+#grading-buttons #grade1 .text { left: 30%; }
+#grading-buttons #grade2 .text { left: 35%; }
+#grading-buttons #grade3 .text { left: 35%; }
+#grading-buttons #grade4 .text { left: 35%; }
+#grading-buttons div:hover { opacity: 1.0; }
+
+
 /*** MODALS ***/
 #modal-container .modal { overflow-y: hidden; }
 #modal-container .model #slider { width: 100%; }
@@ -104,6 +136,68 @@ body {
 /*** OPTIONS ***/
 #options-view .control-label {
     min-width: 100px;
+}
+
+
+/*** PROMPT: INFO ***/
+#info-container {
+    background-color: #ffffff;
+    font-family: Arial, Arial Unicode, Lucida Sans Unicode;
+    float: left;
+    margin-top: 1px;
+    overflow-y: auto;
+    position: relative;
+}
+#info-container .row { margin-top: 7px; }
+#info-container .part-badge {
+    background: #999999;
+    border-radius: 5px;
+    color : #ffffff;
+    float: left;
+    margin-right: 5px;
+    padding: 2px;
+}
+#info-container .part-badge.active { background: #333333; }
+#info-container .prompt-writing {
+    font-size: xx-large;
+    float: left;
+    margin-top: -10px;
+}
+#info-container .prompt-writing-shown { visibility: visible; }
+#info-container .prompt-writing-hidden { visibility: hidden; }
+#info-container .prompt-underline {
+    border-bottom: 1px #000000 solid;
+    margin: 0 5px;
+}
+@media screen and (orientation: portrait) {
+    #info-container {
+        border-bottom: 2px #000000 solid;
+    }
+}
+
+
+/*** PROMPT: INPUT ***/
+#input-container {
+    background-color: #ffffff;
+    cursor: pointer;
+    float: left;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+#input-container #canvas-container {
+    position: relative;
+}
+#input-container #canvas-container #canvas-touch {
+    position: absolute;
+}
+#input-container #canvas-container #canvas-display {
+    position: absolute;
+}
+@media screen and (orientation: portrait) {
+    #info-container {
+        width: 100%;
+    }
 }
 
 
