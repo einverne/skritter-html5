@@ -42,6 +42,8 @@ define([
             Prompt.gradingButtons.setElement(this.$('#grading-container')).render();
             this.$('.prompt-writing').addClass(Prompt.data.vocab.getTextStyleClass());
             this.$('.prompt-sentence').addClass(Prompt.data.vocab.getTextStyleClass());
+            hammer(this.$('#prompt-next')[0]).on('tap', this.next);
+            hammer(this.$('#prompt-previous')[0]).on('tap', this.previous);
             this.resize();
             return this;
         },
@@ -49,8 +51,6 @@ define([
          * @property {Object} events
          */
         events: {
-            'click.Prompt .prompt #prompt-previous': 'previous',
-            'click.Prompt .prompt #prompt-next': 'next',
             'click.Prompt .prompt .prompt-reading-show-button': 'showReading'
         },
         /**
