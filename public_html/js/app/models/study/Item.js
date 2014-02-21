@@ -115,18 +115,18 @@ define([
                         id: itemId,
                         item: item.clone(),
                         position: i,
+                        vocab: item.getVocab(),
                         review: new Review({
                             id: now + '_' + i + '_' + itemId,
                             itemId: item.get('id'),
                             bearTime: (i === 0) ? true : false,
                             wordGroup: wordGroup
-                        }),
-                        vocab: item.getVocab()
+                        })
                     });
                 }
             }
             //appends the vocab to the end of the object
-            data.id = id;
+            data.id = wordGroup;
             data.item = this;
             data.vocab = vocab;
             return data;

@@ -210,12 +210,12 @@ body {
     cursor: pointer;
     position: absolute;
     top: 45%;
-    opacity: 0.3;
+    opacity: 0.2;
     z-index: 1000;
 }
 #input-container .prompt-nav-arrow:hover { opacity: 1.0; }
-#input-container #prompt-previous { left: 15px; }
-#input-container #prompt-next { right: 15px; }
+#input-container #prompt-previous { left: 10px; }
+#input-container #prompt-next { right: 10px; }
 @media screen and (orientation: portrait) {
     #info-container { width: 100%; }
 }
