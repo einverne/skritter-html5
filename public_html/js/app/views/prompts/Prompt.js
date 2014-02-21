@@ -70,7 +70,7 @@ define([
          * @method load
          */
         load: function() {
-            skritter.log.console('PROMPT ITEM', Prompt.dataItem);
+            skritter.log.console('PROMPT ITEM', Prompt.data, Prompt.dataItem);
             Prompt.gradingButtons.grade(Prompt.dataItem.getGrade());
             //TODO: unhide these options for traversing
             this.$('#prompt-next').hide();
@@ -149,7 +149,6 @@ define([
          * @param {Object} data
          */
         set: function(data) {
-            skritter.log.console('PROMPT DATA', data);
             skritter.timer.reset();
             Prompt.data = data;
             Prompt.dataItem = Prompt.data.getDataItem();

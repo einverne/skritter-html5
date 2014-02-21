@@ -157,16 +157,27 @@ define(function() {
         /**
          * @method getNext
          * @param {Function} callback
+         * @param {String} id
          */
-        getNext: function(callback) {
+        getNext: function(callback, id) {
             loadItem();
             function loadItem() {
+                var item = null;
                 //return nothing when no items have been loaded into the scheduler
                 if (Scheduler.this.getItemCount() === 0) {
                     callback();
                     return;
+                } else {
+                    if (id) {
+                        item = _.find(Scheduler.schedule, {id: id});
+                        if (!item) {
+                            callback();
+                            return;
+                        }
+                    } else {
+                        item = Scheduler.schedule[0];
+                    }
                 }
-                var item = Scheduler.schedule[0];
                 async.waterfall([
                     //load the base item
                     function(callback) {
@@ -216,10 +227,10 @@ define(function() {
                     function(item, vocab, contained, containedVocabs, callback) {
                         var error = null;
                         if (item.get('part') === 'rune') {
-                                var characters = vocab.getCharacters();
-                                for (var i in characters)
-                                    if (!skritter.data.strokes.get(characters[i]))
-                                        error = "Missing stroke data.";
+                            var characters = vocab.getCharacters();
+                            for (var i in characters)
+                                if (!skritter.data.strokes.get(characters[i]))
+                                    error = "Missing stroke data.";
                         }
                         callback(error, item, vocab, contained);
                     }

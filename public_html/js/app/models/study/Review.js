@@ -18,6 +18,9 @@ define(function() {
                     callback();
             });
         },
+        /**
+         * @property {Object} defaults
+         */
         defaults: {
             score: 3,
             bearTime: false,
