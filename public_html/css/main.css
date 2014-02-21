@@ -188,6 +188,7 @@ body {
 
 /*** PROMPT: INPUT ***/
 #input-container {
+    -webkit-user-select: none;
     float: left;
     margin: 0;
     padding: 0;
