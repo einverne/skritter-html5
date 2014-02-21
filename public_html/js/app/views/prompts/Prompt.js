@@ -123,15 +123,24 @@ define([
             size.height = (size.height) ? size.height : skritter.settings.get('appHeight');
             size.canvas = (size.canvas) ? size.canvas : skritter.settings.get('canvasSize');
             size.navbar = (size.navbar) ? size.navbar : Prompt.this.$('.navbar').height();
-            Prompt.this.$('#input-container').width(size.canvas);
-            Prompt.this.$('#input-container').height(size.canvas);
+            Prompt.this.$('#canvas-holder').width(size.canvas);
+            Prompt.this.$('#canvas-holder').height(size.canvas);
             //manually resizes the info section to fill vertical mobile devices
-            if (skritter.settings.get('orientation') === 'vertical') {
+            if (skritter.settings.get('orientation') === 'portrait') {
                 Prompt.this.$('#info-container').height(size.height - size.canvas - 50);
                 Prompt.this.$('#info-container').width('');
+                Prompt.this.$('#input-container').width(size.width);
+                Prompt.this.$('#input-container').height(size.canvas);
             } else {
-                Prompt.this.$('#info-container').height('');
-                Prompt.this.$('#info-container').width(size.width - size.canvas - 2);
+                var calculatedWidth = size.width - size.canvas - 32;
+                if (calculatedWidth > 500) {
+                    Prompt.this.$('#info-container').width(500);
+                } else {
+                    Prompt.this.$('#info-container').width(calculatedWidth);
+                }
+                Prompt.this.$('#info-container').height(size.height - 50);
+                Prompt.this.$('#input-container').width('');
+                Prompt.this.$('#input-container').height(size.height - 50);
             }
             Prompt.this.redraw();
         },

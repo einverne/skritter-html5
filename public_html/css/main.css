@@ -21,6 +21,13 @@ body {
     background-repeat: repeat;
     padding-top: 45px;
 }
+.chinese-text {font-family: "simkai", "SimSun", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.cursor {cursor:pointer;}
+.grade1 {color: #e68e8e;}
+.grade2 {color: #efec10;}
+.grade3 {color: #70da70;}
+.grade4 {color: #4097d3;}
+.japanese-text {font-family: "kaisho", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
 
 
 /*** GRADING BUTTONS ***/
@@ -143,6 +150,7 @@ body {
 #info-container {
     background-color: #ffffff;
     font-family: Arial, Arial Unicode, Lucida Sans Unicode;
+    font-size: large;
     float: left;
     margin-top: 1px;
     overflow-y: auto;
@@ -154,8 +162,9 @@ body {
     border-radius: 5px;
     color : #ffffff;
     float: left;
+    font-size: smaller;
     margin-right: 5px;
-    padding: 2px;
+    padding: 2px 4px;
 }
 #info-container .part-badge.active { background: #333333; }
 #info-container .prompt-writing {
@@ -169,35 +178,45 @@ body {
     border-bottom: 1px #000000 solid;
     margin: 0 5px;
 }
+@media screen and (orientation: landscape) {
+    #info-container { border-right: 2px #000000 solid; }
+}
 @media screen and (orientation: portrait) {
-    #info-container {
-        border-bottom: 2px #000000 solid;
-    }
+    #info-container { border-bottom: 2px #000000 solid; }
 }
 
 
 /*** PROMPT: INPUT ***/
 #input-container {
-    background-color: #ffffff;
-    cursor: pointer;
     float: left;
     margin: 0;
     padding: 0;
     position: relative;
 }
-#input-container #canvas-container {
+#input-container #canvas-holder {
+    background-color: #ffffff;
+    cursor: pointer;
     position: relative;
 }
-#input-container #canvas-container #canvas-touch {
-    position: absolute;
+#input-container #prompt-text {
+    height: 100%;
+    padding-top: 20%;
+    text-align: center;
 }
-#input-container #canvas-container #canvas-display {
+#input-container #canvas-container #canvas-touch { position: absolute; }
+#input-container #canvas-container #canvas-display { position: absolute; }
+#input-container .prompt-nav-arrow {
+    cursor: pointer;
     position: absolute;
+    top: 45%;
+    opacity: 0.3;
+    z-index: 1000;
 }
+#input-container .prompt-nav-arrow:hover { opacity: 1.0; }
+#input-container #prompt-previous { left: 15px; }
+#input-container #prompt-next { right: 15px; }
 @media screen and (orientation: portrait) {
-    #info-container {
-        width: 100%;
-    }
+    #info-container { width: 100%; }
 }
 
 

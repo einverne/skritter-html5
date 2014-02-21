@@ -25,7 +25,7 @@ define(function() {
             appHeight: 0,
             appWidth: 0,
             date: null,
-            canvasMaxSize: 600,
+            canvasMaxSize: 1600,
             canvasSize: 600,
             container: '#skritter-container',
             orientation: null,
@@ -64,16 +64,15 @@ define(function() {
             Settings.this.set('appHeight', $(window).height());
             //sets the orientation of the application area
             if (Settings.this.get('appWidth') > Settings.this.get('appHeight')) {
-                Settings.this.set('orientation', 'horizontal');
+                Settings.this.set('orientation', 'landscape');
                 //sets max dimensions of the canvas element
-                var offsetHeight = Settings.this.get('appHeight') - 45;
-                if (offsetHeight > Settings.this.get('canvasMaxSize')) {
+                if (Settings.this.get('appHeight') - 50 > Settings.this.get('canvasMaxSize')) {
                     Settings.this.set('canvasSize', Settings.this.get('canvasMaxSize'));
                 } else {
-                    Settings.this.set('canvasSize', offsetHeight);
+                    Settings.this.set('canvasSize', Settings.this.get('appHeight') - 50);
                 }
             } else {
-                Settings.this.set('orientation', 'vertical');
+                Settings.this.set('orientation', 'portrait');
                 //sets max dimensions of the canvas element
                 if (Settings.this.get('appWidth') > Settings.this.get('canvasMaxSize')) {
                     Settings.this.set('canvasSize', Settings.this.get('canvasMaxSize'));
