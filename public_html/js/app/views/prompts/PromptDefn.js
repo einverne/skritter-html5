@@ -68,9 +68,10 @@ define([
             if (Prompt.dataItem.isFinished()) {
                 skritter.timer.stop();
                 //this.updateColor();
+                Prompt.data.show.mnemonic();
                 Prompt.data.hide.question();
                 Prompt.data.hide.tip();
-                Prompt.data.show.definition();
+                Prompt.data.show.sentence();
                 Prompt.gradingButtons.show();
                 if (skritter.user.get('audio'))
                     Prompt.data.vocab.play();
