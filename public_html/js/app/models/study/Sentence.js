@@ -1,11 +1,9 @@
 /**
  * @module Skritter
- * @submodule Model
+ * @submodule Models
  * @author Joshua McFarland
  */
-define([
-    'PinyinConverter'
-], function(PinyinConverter) {
+define(function() {
     /**
      * @class Sentence
      */
@@ -19,35 +17,6 @@ define([
                 if (typeof callback === 'function')
                     callback();
             });
-        },
-        /**
-         * @method getDefinition
-         * @returns {String}
-         */
-        getDefinition: function() {
-            var definition = this.get('definitions')[skritter.user.getSetting('sourceLang')];
-            if (typeof definition === 'undefined')
-                return this.get('definitions').en;
-            if (definition)
-                return definition;
-            return null;
-        },
-        /**
-         * @method getReading
-         * @returns {String}
-         */
-        getReading: function() {
-            return PinyinConverter.toTone(this.get('reading'));
-        },
-        /**
-         * @method getWriting
-         * @param {Booolean} whitespaces
-         * @returns {String}
-         */
-        getWriting: function(whitespaces) {
-            if (whitespaces)
-                return this.get('writing');
-            return this.get('writing').replace(/\s/g, '');
         }
     });
 

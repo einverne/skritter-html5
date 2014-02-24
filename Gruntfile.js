@@ -1,21 +1,35 @@
 /**
+ * @module Gruntfile
  * @param grunt
  * @author Joshua McFarland
  */
 
 module.exports = function(grunt) {
-
     var paths = {
         //directories
         templates: '../../templates',
-        spec: '../../tests/spec/',
+        specs: '../../tests/specs/',
         //libraries
         async: '../libs/async',
-        hammer: '../libs/hammer-1.0.6.min',
-        moment: '../libs/moment-2.5.0',
+        jasmine: '../../tests/libs/jasmine',
+        'jasmine-html': '../../tests/libs/jasmine-html',
+        'jasmine-boot': '../../tests/libs/boot',
+        moment: '../libs/moment-2.5.1.min',
         'require.text': '../libs/require.text-2.0.10'
     };
-
+    var shim = {
+        jasmine: {
+            exports: 'jasmine'
+        },
+        'jasmine-html': {
+            deps: ['jasmine'],
+            exports: 'jasmine'
+        },
+        'jasmine-boot': {
+            deps: ['jasmine', 'jasmine-html'],
+            exports: 'jasmine'
+        }
+    };
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
@@ -59,6 +73,14 @@ module.exports = function(grunt) {
                             '**'
                         ], dest: 'build/web/'}
                 ]
+            }
+        },
+        jasmine: {
+            pivotal: {
+                src: 'src/**/*.js',
+                options: {
+                    specs: 'public_html/tests/specs/*.js'
+                }
             }
         },
         jshint: {
@@ -168,7 +190,8 @@ module.exports = function(grunt) {
                     optimizeCss: 'standard',
                     paths: paths,
                     preserveLicenseComments: false,
-                    removeCombined: true
+                    removeCombined: true,
+                    shim: shim
                 }
             },
             'web-optimized': {
@@ -191,7 +214,8 @@ module.exports = function(grunt) {
                     optimizeCss: 'standard',
                     paths: paths,
                     preserveLicenseComments: false,
-                    removeCombined: true
+                    removeCombined: true,
+                    shim: shim
                 }
             }
         },
@@ -226,6 +250,16 @@ module.exports = function(grunt) {
             }
         },
         yuidoc: {
+            compile: {
+                name: '<%= pkg.appName %>: Documentation',
+                description: '<%= pkg.description %>',
+                version: '<%= pkg.version %>',
+                options: {
+                    paths: 'public_html/js/app',
+                    outdir: 'build/docs',
+                    themedir: 'yuidoc'
+                }
+            },
             web: {
                 name: '<%= pkg.appName %>: Documentation',
                 description: '<%= pkg.description %>',
@@ -249,6 +283,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-shell');
 
     grunt.registerTask('appcache', ['manifest']);
+    grunt.registerTask('docs', ['yuidoc:compile']);
     grunt.registerTask('hint', ['jshint']);
     grunt.registerTask('build-android', [
         'jshint',

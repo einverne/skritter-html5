@@ -71,8 +71,7 @@ define(function() {
         var corners = getCorners(resampled);
         var cornerPoints = [];
 
-        for (var i in corners)
-        {
+        for (var i = 0, len = corners.length; i < len; i++) {
             cornerPoints.push(resampled[corners[i]]);
         }
 
@@ -117,20 +116,17 @@ define(function() {
             var straws = [];
             var i;
 
-            for (i = w; i < points.length - w; i++)
-            {
+            for (i = w; i < points.length - w; i++) {
                 straws[i] = (self.distance(points[i - w], points[i + w]));
             }
 
             var t = self.median(straws) * MEDIAN_THRESHOLD;
 
-            for (i = w; i < points.length - w; i++)
-            {
+            for (i = w; i < points.length - w; i++) {
                 if (straws[i] < t) {
                     var localMin = Number.POSITIVE_INFINITY;
                     var localMinIndex = i;
-                    while (i < straws.length && straws[i] < t)
-                    {
+                    while (i < straws.length && straws[i] < t) {
                         if (straws[i] < localMin) {
                             localMin = straws[i];
                             localMinIndex = i;
@@ -149,11 +145,9 @@ define(function() {
             var go = false;
             var i, c1, c2;
 
-            while (!go)
-            {
+            while (!go) {
                 go = true;
-                for (i = 1; i < corners.length; i++)
-                {
+                for (i = 1; i < corners.length; i++) {
                     c1 = corners[i - 1];
                     c2 = corners[i];
                     if (!self.isLine(points, c1, c2)) {
@@ -167,8 +161,7 @@ define(function() {
                 }
             }
 
-            for (i = 1; i < corners.length - 1; i++)
-            {
+            for (i = 1; i < corners.length - 1; i++) {
                 c1 = corners[i - 1];
                 c2 = corners[i + 1];
                 if (self.isLine(points, c1, c2)) {
@@ -185,8 +178,7 @@ define(function() {
             var minValue = Number.POSITIVE_INFINITY;
             var minIndex;
 
-            for (var i = a + quarter; i < (b - quarter); i++)
-            {
+            for (var i = a + quarter; i < (b - quarter); i++) {
                 if (straws[i] < minValue) {
                     minValue = straws[i];
                     minIndex = i;
@@ -200,9 +192,8 @@ define(function() {
             var maxX = Number.NEGATIVE_INFINITY;
             var minY = Number.POSITIVE_INFINITY;
             var maxY = Number.NEGATIVE_INFINITY;
-
-            for (var i in points)
-            {
+            
+            for (var i = 0, len = points.length; i < len; i++) {
                 var p = points[i];
                 if (p.x < minX) {
                     minX = p.x;
@@ -219,7 +210,7 @@ define(function() {
             }
             return {x: minX, y: minY, w: maxX - minX, h: maxY - minY};
         }
-        
+
         return cornerPoints;
     }
 

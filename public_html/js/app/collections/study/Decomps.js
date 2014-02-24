@@ -1,6 +1,6 @@
 /**
  * @module Skritter
- * @submodule Collection
+ * @submodule Collections
  * @param Decomp
  * @author Joshua McFarland
  */
@@ -22,32 +22,7 @@ define([
         /**
          * @property {Backbone.Model} model
          */
-        model: Decomp,
-        /**
-         * @method insert
-         * @param {Array} decomps
-         * @param {Function} callback
-         * @returns {Backbone.Collection}
-         */
-        insert: function(decomps, callback) {
-            if (decomps) {
-                skritter.data.decomps.add(decomps, {merge: true, silent: true});
-                skritter.storage.setItems('decomps', decomps, callback);
-            } else {
-                callback();
-            }
-            return this;
-        },
-        /**
-         * @method loadAll
-         * @param {Callback} callback
-         */
-        loadAll: function(callback) {
-            skritter.storage.getAll('decomps', function(decomps) {
-                skritter.data.decomps.add(decomps, {merge:true, silent: true});
-                callback();
-            });
-        }
+        model: Decomp
     });
 
     return Decomps;

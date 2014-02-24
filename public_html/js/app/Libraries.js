@@ -5,18 +5,14 @@
  * @module Skritter
  * @class Libraries
  * @param async
- * @param hammer
  * @param moment
  * @author Joshua McFarland
  */
 define([
     'async',
-    'hammer',
     'moment',
     'require.text'
-], function(async, hammer, moment) {
+], function(async, moment) {
     window.async = async;
-    window.hammer = hammer;
     window.moment = moment;
-    return window;
 });

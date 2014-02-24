@@ -1,6 +1,6 @@
 /**
  * @module Skritter
- * @submodule Collection
+ * @submodule Collections
  * @param Sentence
  * @author Joshua McFarland
  */
@@ -22,32 +22,7 @@ define([
         /**
          * @property {Backbone.Model} model
          */
-        model: Sentence,
-        /**
-         * @method insert
-         * @param {Array} sentences
-         * @param {Function} callback
-         * @returns {Backbone.Collection}
-         */
-        insert: function(sentences, callback) {
-            if (sentences) {
-                skritter.data.sentences.add(sentences, {merge: true, silent: true});
-                skritter.storage.setItems('sentences', sentences, callback);
-            } else {
-                callback();
-            }
-            return this;
-        },
-        /**
-         * @method loadAll
-         * @param {Callback} callback
-         */
-        loadAll: function(callback) {
-            skritter.storage.getAll('sentences', function(sentences) {
-                skritter.data.sentences.add(sentences, {merge:true, silent: true});
-                callback();
-            });
-        }
+        model: Sentence
     });
 
     return Sentences;

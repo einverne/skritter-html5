@@ -1,5 +1,6 @@
 /**
  * @module Skritter
+ * @submodule Models
  * @author Joshua McFarland
  */
 define(function() {
@@ -7,12 +8,6 @@ define(function() {
      * @class VocabList
      */
     var VocabList = Backbone.Model.extend({
-        /**
-         * @method initialize
-         */
-        initialize: function() {
-            VocabList.this = this;
-        },
         /**
          * @method cache
          * @param {Function} callback

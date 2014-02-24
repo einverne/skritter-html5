@@ -8,6 +8,7 @@
     src: url('../fonts/simkai.ttf');
 }
 
+
 /*** GENERAL ***/
 html {
     min-height: 100%;
@@ -21,73 +22,48 @@ body {
     background-repeat: repeat;
     padding-top: 45px;
 }
-.chinese-text {font-family: "simkai", "SimSun", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
-.cursor {cursor:pointer;}
-.grade1 {color: #e68e8e;}
-.grade2 {color: #efec10;}
-.grade3 {color: #70da70;}
-.grade4 {color: #4097d3;}
-.japanese-text {font-family: "kaisho", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
-
-
-/*** GRADING BUTTONS ***/
-#grading-buttons {
-    bottom: 5px;
-    margin: 0;
-    position: absolute;
-    width: 100%;
+.chinese-text { font-family: "simkai", "Arial Unicode MS", sans-serif; }
+.content {
+    background-color: #ffffff;
+    padding: 15px;
 }
-#grading-buttons div {
-    cursor: pointer;
-    display: inline-block;
-    opacity: 0.8;
-    position: relative;
-}
-#grading-buttons div img {
-    display: block;
-    max-height: 10%;
-    min-height: 40px;
-    margin: 0 auto 5px auto;
-}
-#grading-buttons .text {
-    color: white;
-    text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
-    position: absolute;
-    top: 40%;
-}
-#grading-buttons #grade1 .text { left: 30%; }
-#grading-buttons #grade2 .text { left: 35%; }
-#grading-buttons #grade3 .text { left: 35%; }
-#grading-buttons #grade4 .text { left: 35%; }
-#grading-buttons div:hover { opacity: 1.0; }
+.cursor { cursor: pointer; }
+.grade1 { color: #e68e8e; }
+.grade2 { color: #efec10; }
+.grade3 { color: #70da70; }
+.grade4 { color: #4097d3; }
+.japanese-text { font-family: "kaisho", "Arial Unicode MS", sans-serif; }
 
 
 /*** MODALS ***/
-#modal-container .modal { overflow-y: hidden; }
-#modal-container .model #slider { width: 100%; }
-#modal-container .modal #error-message { padding-top: 20px; }
-#modal-container .modal-vertical-centered {
+#modals-container .modal { overflow-y: hidden; }
+#modals-container .vertical-centered {
     outline: 0;
     transform: translate(0, 20%) !important;
     -ms-transform: translate(0, 20%) !important;
     -webkit-transform: translate(0, 20%) !important;
 }
+#modals-container .modal-title-right {
+    float: right;
+    line-height: 1.42857143;
+    margin: 0;
+}
 
 
 /*** MODALS: LOGIN ***/
-#modal-container .form-signin {
+#modals-container .form-signin {
     max-width: 330px;
     padding: 15px;
     margin: 0 auto;
 }
-#modal-container .form-signin .form-signin-heading,
+#modals-container .form-signin .form-signin-heading,
 .form-signin .checkbox {
     margin-bottom: 10px;
 }
-#modal-container .form-signin .checkbox {
+#modals-container .form-signin .checkbox {
     font-weight: normal;
 }
-#modal-container .form-signin .form-control {
+#modals-container .form-signin .form-control {
     position: relative;
     font-size: 16px;
     height: auto;
@@ -96,15 +72,15 @@ body {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-#modal-container .form-signin .form-control:focus {
+#modals-container .form-signin .form-control:focus {
     z-index: 2;
 }
-#modal-container .form-signin input[type="text"] {
+#modals-container .form-signin input[type="text"] {
     margin-bottom: -1px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
-#modal-container .form-signin input[type="password"] {
+#modals-container .form-signin input[type="password"] {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -112,118 +88,11 @@ body {
 
 
 /*** NAVBAR ***/
-.navbar .fa-navbar {
-    font-size: 18px;
-}
 .navbar .navbar-text {
     margin-left: 0;
     margin-right: 0;
 }
 .navbar .navbar-text a {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 12px 15px;
     text-decoration: none;
-}
-@media (max-width: 991px) {
-    .navbar .pull-right {
-        padding-right: 25px;
-    }
-}
-@media (max-width: 767px) {
-    .navbar .navbar-text {
-        margin-left: 25px;
-    }
-    .navbar .navbar-text a {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-}
-
-
-/*** OPTIONS ***/
-#options-view .control-label {
-    min-width: 100px;
-}
-
-
-/*** PROMPT: INFO ***/
-#info-container {
-    background-color: #ffffff;
-    font-family: Arial, Arial Unicode, Lucida Sans Unicode;
-    font-size: large;
-    float: left;
-    margin-top: 1px;
-    overflow-y: auto;
-    position: relative;
-}
-#info-container .row { margin-top: 7px; }
-#info-container .part-badge {
-    background: #999999;
-    border-radius: 5px;
-    color : #ffffff;
-    float: left;
-    font-size: smaller;
-    margin-right: 5px;
-    padding: 2px 4px;
-}
-#info-container .part-badge.active { background: #333333; }
-#info-container .prompt-writing {
-    font-size: xx-large;
-    float: left;
-    margin-top: -10px;
-}
-#info-container .prompt-writing-shown { visibility: visible; }
-#info-container .prompt-writing-hidden { visibility: hidden; }
-#info-container .prompt-underline {
-    border-bottom: 1px #000000 solid;
-    margin: 0 5px;
-}
-@media screen and (orientation: landscape) {
-    #info-container { border-right: 2px #000000 solid; }
-}
-@media screen and (orientation: portrait) {
-    #info-container { border-bottom: 2px #000000 solid; }
-}
-
-
-/*** PROMPT: INPUT ***/
-#input-container {
-    -webkit-user-select: none;
-    float: left;
-    margin: 0;
-    padding: 0;
-    position: relative;
-}
-#input-container #canvas-holder {
-    background-color: #ffffff;
-    cursor: pointer;
-    position: relative;
-}
-#input-container #prompt-text {
-    height: 100%;
-    padding-top: 20%;
-    text-align: center;
-}
-#input-container #canvas-container #canvas-touch { position: absolute; }
-#input-container #canvas-container #canvas-display { position: absolute; }
-#input-container .prompt-nav-arrow {
-    cursor: pointer;
-    position: absolute;
-    top: 45%;
-    opacity: 0.2;
-    z-index: 1000;
-}
-#input-container .prompt-nav-arrow:hover { opacity: 1.0; }
-#input-container #prompt-previous { left: 10px; }
-#input-container #prompt-next { right: 10px; }
-@media screen and (orientation: portrait) {
-    #info-container { width: 100%; }
-}
-
-
-/*** VIEWS ***/
-.view .content {
-    border: 2px #e7e7e7 solid;
-    background: #ffffff;   
-    padding: 15px;
 }

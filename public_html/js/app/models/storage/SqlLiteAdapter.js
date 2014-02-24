@@ -126,7 +126,7 @@ define(function() {
                     keys[i] = JSON.stringify(keys[i]);
             SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                t.executeSql('SELECT * FROM ' + tableName + ' WHERE id IN (' + skritter.fn.getSqlValueString(keys) + ')', keys, querySuccess, queryError);
+                t.executeSql('SELECT * FROM ' + tableName + ' WHERE id IN (' + SqlLiteAdapter.this.getSqlValueString(keys) + ')', keys, querySuccess, queryError);
                 function querySuccess(t, result) {
                     items = SqlLiteAdapter.this.parseResult(result);
                 }
@@ -205,6 +205,12 @@ define(function() {
                 callback(scheduleItems);
             }
         },
+        getSqlValueString: function(fieldArray) {
+            var valueString = '';
+            for (var i = 1; i <= fieldArray.length; i++)
+                valueString += (i === fieldArray.length) ? '?' : '?,';
+            return valueString;
+        },
         /**
          * @method openDatabase
          * @param {String} databaseName
@@ -254,7 +260,7 @@ define(function() {
             keys = Array.isArray(keys) ? keys : [keys];
             SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                t.executeSql('DELETE * FROM ' + tableName + ' WHERE id IN (' + skritter.fn.getSqlValueString(keys) + ')', keys);
+                t.executeSql('DELETE * FROM ' + tableName + ' WHERE id IN (' + SqlLiteAdapter.this.getSqlValueString(keys) + ')', keys);
             }
             function transactionError(error) {
                 console.error('SQL ERROR', error);
@@ -270,36 +276,40 @@ define(function() {
          * @param {Function} callback
          */
         setItems: function(tableName, items, callback) {
-            items = Array.isArray(items) ? items : [items];
-            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
-            function transaction(t) {
-                var table = SqlLiteAdapter.tables[tableName];
-                var queryString = 'INSERT OR REPLACE INTO ';
-                queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + skritter.fn.getSqlValueString(table.keys.concat(table.fields)) + ')';
-                var fields = table.keys.concat(table.fields);
-                for (var a in items) {
-                    var item = items[a];
-                    var values = [];
-                    for (var b in fields) {
-                        var value = item[fields[b]];
-                        if (typeof value === 'undefined') {
-                            values.push('null');
-                        } else {
-                            values.push(JSON.stringify(value));
+            if (tableName && items) {
+                items = Array.isArray(items) ? items : [items];
+                SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+                function transaction(t) {
+                    var table = SqlLiteAdapter.tables[tableName];
+                    var queryString = 'INSERT OR REPLACE INTO ';
+                    queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + SqlLiteAdapter.this.getSqlValueString(table.keys.concat(table.fields)) + ')';
+                    var fields = table.keys.concat(table.fields);
+                    for (var a in items) {
+                        var item = items[a];
+                        var values = [];
+                        for (var b in fields) {
+                            var value = item[fields[b]];
+                            if (typeof value === 'undefined') {
+                                values.push('null');
+                            } else {
+                                values.push(JSON.stringify(value));
+                            }
                         }
+                        t.executeSql(queryString, values, querySuccess, queryError);
                     }
-                    t.executeSql(queryString, values, querySuccess, queryError);
+                    function querySuccess() {
+                    }
+                    function queryError(error) {
+                        console.error('SQL ERROR', error);
+                    }
                 }
-                function querySuccess() {
-                }
-                function queryError(error) {
+                function transactionError(error) {
                     console.error('SQL ERROR', error);
                 }
-            }
-            function transactionError(error) {
-                console.error('SQL ERROR', error);
-            }
-            function transactionSuccess() {
+                function transactionSuccess() {
+                    callback();
+                }
+            } else {
                 callback();
             }
         }

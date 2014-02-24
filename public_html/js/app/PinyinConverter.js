@@ -6,7 +6,6 @@
  * @author Joshua McFarland
  */
 define(function() {
-
     /**
      * The object that contains the direct mapping of pinyin using numbers to tone.
      * 
@@ -91,7 +90,6 @@ define(function() {
         'v4': 'ǜ',
         'v': 'ü'
     };
-
     /**
      * Uses regex to and loops through the string replacing all of the matching tones with numbers.
      * 
@@ -101,14 +99,12 @@ define(function() {
      */
     var number = function(text) {
         text = text.toLowerCase();
-        for (var key in mapping)
-        {
+        for (var key in mapping) {
             var expression = new RegExp(mapping[key], 'g');
             text = text.replace(expression, key);
         }
         return text;
     };
-    
     /**
      * Uses regex to and loops through the string replacing all of the matching numbers with tones.
      * 
@@ -118,8 +114,7 @@ define(function() {
      */
     var tone = function(text) {
         text = text.replace('5', '').toLowerCase();
-        for (var key in mapping)
-        {
+        for (var key in mapping) {
             var expression = new RegExp(key, 'g');
             text = text.replace(expression, mapping[key]);
         }

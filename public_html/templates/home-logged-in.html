@@ -1,65 +1,25 @@
-<div id="home-view" class="view">
+<div id="home-view" class="logged-out view">
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="home-button navbar-brand" href="#">Skritter</a>
-          <div class="navbar-text">   
-              <ul class="navbar-nav list-inline">
-                  <li><a class="study-button" href=""><span class="fa fa-navbar fa-pencil"></span> Study</a></li>
-              </ul>
-          </div>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a class="options-button" href="#"><span class="fa fa-navbar fa-gear"></span> Options</a></li>
-            <li><a class="logout-button" href="#"><span class="fa fa-navbar fa-power-off"></span> Logout</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-    <div class="container">
-        <div class="row content">
-            <div id="notification"></div>
-            <div class="col-md-6">
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <span id="user-avatar" class="media-object"></span>
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Overview</h4>
-                        <p><strong><span class="user-name"></span></strong>, you currently have <strong><span id="user-items-due"></span></strong> items ready to review.</p>
-                        <a class="btn btn-primary study-button" href="" role="button">Study</a>
-                        <a class="btn btn-primary sync-button" role="button">
-                            Sync <span id="user-unsynced-reviews"></span>
-                        </a>
-                    </div>
-                </div>
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="hidden-xs home-button navbar-brand" href="#">Skritter</a>  
+                <ul class="navbar-nav navbar-text list-inline">
+                    <li><a class="study-button" href="#"><span class="fa fa-pencil"></span> Study</a></li>
+                </ul>
             </div>
-            <div id="active-lists" class="col-md-6">
-                <h4><span class="fa fa-edit vocab-lists-button"></span>My Lists (<a href="#vocab/list">Manage</a>)</h4>
-                <div id="table-container"></div>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-6 content">
-                <div class="media">
-                    <a class="pull-left" href="https://github.com/mcfarljw/skritter-html5">
-                        <img id="github-logo" class="media-object" src="images/github-logo.png" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Help out on GitHub!</h4>
-                        <p><a href="https://github.com/mcfarljw/skritter-html5/issues"><strong>Click here</strong></a> to submit issues and even help contribute to the project.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6"></div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a class="options-button" href="#"><span class="fa fa-gear"></span> Options</a></li>
+                    <li><a class="logout-button" href="#"><span class="fa fa-power-off"></span> Logout</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
         </div>
     </div>
+    <div class="container"></div>
 </div>

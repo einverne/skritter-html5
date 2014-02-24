@@ -1,11 +1,10 @@
 /**
  * @module Skritter
- * @submodule Model
+ * @submodule Models
+ * @param PinyinConverter
  * @author Joshua McFarland
  */
-define([
-    'PinyinConverter'
-], function(PinyinConverter) {
+define(function() {
     /**
      * @class Decomp
      */
@@ -23,13 +22,6 @@ define([
                 if (typeof callback === 'function')
                     callback();
             });
-        },
-        /**
-         * @method getReading
-         * @returns {String}
-         */
-        getReading: function() {
-            return PinyinConverter.toTone(this.get('reading'));
         }
     });
     

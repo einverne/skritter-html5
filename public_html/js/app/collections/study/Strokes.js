@@ -1,6 +1,6 @@
 /**
  * @module Skritter
- * @submodule Collection
+ * @submodule Collections
  * @param Stroke
  * @author Joshua McFarland
  */
@@ -57,32 +57,7 @@ define([
         /**
          * @property {Stroke} model
          */
-        model: Stroke,
-        /**
-         * @method insert
-         * @param {Array} strokes
-         * @param {Function} callback
-         * @returns {Backbone.Collection}
-         */
-        insert: function(strokes, callback) {
-            if (strokes) {
-                skritter.data.strokes.add(strokes, {merge: true, silent: true});
-                skritter.storage.setItems('strokes', strokes, callback);
-            } else {
-                callback();
-            }
-            return this;
-        },
-        /**
-         * @method loadAll
-         * @param {Callback} callback
-         */
-        loadAll: function(callback) {
-            skritter.storage.getAll('strokes', function(strokes) {
-                skritter.data.strokes.add(strokes, {merge:true, silent: true});
-                callback();
-            });
-        }
+        model: Stroke
     });
 
     return Strokes;

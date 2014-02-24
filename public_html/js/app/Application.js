@@ -1,55 +1,48 @@
 /**
  * @module Skritter
  * @param Api
- * @param Assets
  * @param Functions
  * @param IndexedDBAdapter
  * @param Log
- * @param Modal
+ * @param Modals
+ * @param Params
  * @param Router
- * @param Settings
  * @param SqlLiteAdapter
- * @param Timer
  * @param User
  * @author Joshua McFarland
  */
 define([
     'models/Api',
-    'models/Assets',
     'Functions',
     'models/storage/IndexedDBAdapter',
-    'Log',
-    'views/components/Modal',
+    'models/Log',
+    'views/components/Modals',
+    'collections/study/Params',
     'Router',
-    'models/Settings',
     'models/storage/SqlLiteAdapter',
-    'views/components/Timer',
     'models/User'
-], function(Api, Assets, Functions, IndexedDBAdapter, Log, Modal, Router, Settings, SqlLiteAdapter, Timer, User) {
+], function(Api, Functions, IndexedDBAdapter, Log, Modals, Params, Router, SqlLiteAdapter, User) {
     /**
-     * Creates the global skritter namescape.
+     * Reserves the global skritter namespace if it doesn't already exist.
      * @param skritter
      */
     window.skritter = (function(skritter) {
         return skritter;
-    })(window.skritter || {});    
+    })(window.skritter || {});
     /**
      * @method initialize
      */
     var initialize = function() {
         async.series([
             async.apply(loadApi),
-            async.apply(loadAssets),
             async.apply(loadFunctions),
             async.apply(loadLog),
-            async.apply(loadModal),
-            async.apply(loadSettings),
+            async.apply(loadModals),
+            async.apply(loadParams),
             async.apply(loadStorage),
-            async.apply(loadTimer),
-            async.apply(loadUser),
-            async.apply(loadRouter)
+            async.apply(loadUser)
         ], function() {
-            skritter.log.console('APPLICATION INITIALIZED');
+            Router.initialize();
         });
     };
     /**
@@ -58,14 +51,6 @@ define([
      */
     var loadApi = function(callback) {
         skritter.api = new Api();
-        callback();
-    };
-    /**
-     * @method loadAssets
-     * @param {Function} callback
-     */
-    var loadAssets = function(callback) {
-        skritter.assets = new Assets();
         callback();
     };
     /**
@@ -81,31 +66,23 @@ define([
      * @param {Function} callback
      */
     var loadLog = function(callback) {
-        skritter.log = new Log();
+        window.log = new Log().console;
         callback();
     };
     /**
-     * @method loadModal
+     * @method loadModals
      * @param {Function} callback
      */
-    var loadModal = function(callback) {
-        skritter.modal = new Modal().render();
+    var loadModals = function(callback) {
+        skritter.modals = new Modals({el: $('#modals-container')}).render();
         callback();
     };
     /**
-     * @method loadRouter
+     * @method loadParams
      * @param {Function} callback
      */
-    var loadRouter = function(callback) {
-        Router.initialize();
-        callback();
-    };
-    /**
-     * @method loadSettings
-     * @param {Function} callback
-     */
-    var loadSettings = function(callback) {
-        skritter.settings = new Settings();
+    var loadParams = function(callback) {
+        skritter.params = new Params();
         callback();
     };
     /**
@@ -113,19 +90,11 @@ define([
      * @param {Function} callback
      */
     var loadStorage = function(callback) {
-        if (skritter.fn.isCordova()) {
+        if (window.cordova) {
             skritter.storage = new SqlLiteAdapter();
         } else {
             skritter.storage = new IndexedDBAdapter();
         }
-        callback();
-    };
-    /**
-     * @method timer
-     * @param {Function} callback
-     */
-    var loadTimer = function(callback) {
-        skritter.timer = new Timer();
         callback();
     };
     /**
@@ -135,34 +104,16 @@ define([
     var loadUser = function(callback) {
         skritter.user = new User();
         if (skritter.user.isLoggedIn()) {
-            skritter.modal.show('progress').setTitle('Loading Data').setProgress(100, '');
             async.series([
-                async.apply(skritter.storage.openDatabase, skritter.user.get('user_id')),
-                async.apply(skritter.user.loadData),
-                function(callback) {
-                    if (skritter.user.getLastSync() === 0) {
-                        skritter.modal.setTitle('Initial Download').setProgress(100, '');
-                        skritter.user.sync(function() {
-                            skritter.scheduler.loadAll(function() {
-                                callback();
-                            });
-                        });
-                    } else {
-                        skritter.user.sync();
-                        callback();
-                    }
-                }
+                async.apply(skritter.storage.openDatabase, skritter.user.get('user_id'))
             ], function() {
-                window.setTimeout(function() {
-                    skritter.modal.hide();
-                }, 500);
                 callback();
             });
         } else {
             callback();
         }
     };
-    
+
     return {
         initialize: initialize
     };

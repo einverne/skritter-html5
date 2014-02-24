@@ -1,6 +1,6 @@
 /**
  * @module Skritter
- * @submodule Model
+ * @submodule Models
  * @author Joshua McFarland
  */
 define(function() {
@@ -8,32 +8,6 @@ define(function() {
      * @class Param
      */
     var Param = Backbone.Model.extend({
-        /**
-         * @method getAngle
-         * @return {Number}
-         */
-        getAngle: function() {
-            return skritter.fn.getAngle(this.get('corners'));
-       },
-        /**
-         * @method getBitmap
-         * @return {Bitmap}
-         */
-        getBitmap: function() {
-            return new createjs.Bitmap(skritter.assets.getStroke(this.get('bitmapId')).src);
-        },
-        /**
-         * @method getLength
-         * @return {Number}
-         */
-        getLength: function() {
-            var length = 0;
-            for (var i = 0; i < this.get('corners').length - 1; i++)
-            {
-                length += skritter.fn.getDistance(this.get('corners')[i], this.get('corners')[i + 1]);
-            }
-            return length;
-        }
     });
 
     return Param;

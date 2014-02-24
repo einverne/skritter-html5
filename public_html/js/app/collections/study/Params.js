@@ -1,14 +1,14 @@
 /**
  * @module Skritter
- * @submodule Collection
- * @param ParamList
+ * @submodule Collections
  * @param Param
+ * @param ParamMap
  * @author Joshua McFarland
  */
 define([
-    'ParamList',
-    'models/study/Param'
-], function(ParamList, Param) {
+    'models/study/Param',
+    'ParamMap'
+], function(Param, ParamMap) {
     /**
      * @class Params
      */
@@ -17,7 +17,7 @@ define([
          * @method initialize
          */
         initialize: function() {
-            this.add(ParamList);
+            this.add(ParamMap);
         },
         /**
          * @property {Backbone.Model} model

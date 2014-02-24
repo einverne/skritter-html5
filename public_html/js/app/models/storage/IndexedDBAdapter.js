@@ -39,6 +39,8 @@ define(function() {
             });
             promise.fail(function(error) {
                 console.error(error);
+                if (typeof callback === 'function')
+                    callback();
             });
         },
         /**
@@ -210,25 +212,28 @@ define(function() {
          * @param {Function} callback
          */
         setItems: function(tableName, items, callback) {
-            var position = 0;
-            var table = IndexedDBAdapter.database.objectStore(tableName);
-            items = Array.isArray(items) ? items : [items];
-            setNext();
-            function setNext() {
-                if (position < items.length) {
-                    var promise = table.put(items[position]);
-                    promise.done(function() {
-                        position++;
-                        setNext();
-                    });
-                    promise.fail(function(error) {
-                        skritter.log.console('tableName: ' + error);
-                        console.error(tableName, items[position], error);
-                    });
-                } else {
-                    if (typeof callback === 'function')
-                        callback();
+            if (tableName && items) {
+                items = Array.isArray(items) ? items : [items];
+                var position = 0;
+                var table = IndexedDBAdapter.database.objectStore(tableName);
+                function setNext() {
+                    if (position < items.length) {
+                        var promise = table.put(items[position]);
+                        promise.done(function() {
+                            position++;
+                            setNext();
+                        });
+                        promise.fail(function(error) {
+                            console.error(tableName, items[position], error);
+                        });
+                    } else {
+                        if (typeof callback === 'function')
+                            callback();
+                    }
                 }
+                setNext();
+            } else {
+                callback();
             }
         }
     });
