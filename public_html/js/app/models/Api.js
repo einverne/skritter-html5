@@ -126,6 +126,7 @@ define(function() {
                             _.merge(result, requests[i].response, Api.this.concatObjectArray);
                             responseSize += requests[i].responseSize;
                         }
+                    result.downloadedRequests = requests.length;
                     result.totalRequests = batch.totalRequests;
                     result.responseSize = responseSize;
                     result.runningRequests = batch.runningRequests;

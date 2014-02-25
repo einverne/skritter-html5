@@ -56,6 +56,7 @@ define(function() {
          */
         start: function(callback, showModal) {
             var offset = this.get('last');
+            var downloadedRequests = 0;
             var responseSize = 0;
             Sync.syncing = true;
             log('SYNCING FROM', (offset === 0) ? 'THE BEGINNING OF TIME' : moment(offset * 1000).format('MMMM Do YYYY, h:mm:ss A'));
@@ -69,10 +70,11 @@ define(function() {
                 //downloads all of the changed data since the last sync
                 function(callback) {
                     skritter.user.data.fetchStudyData(offset, true, callback, function(result) {
+                        downloadedRequests += result.downloadedRequests;
                         responseSize += result.responseSize;
                         if (responseSize > 0)
                             skritter.modals
-                                    .progress(100 - ((result.runningRequests / result.totalRequests) * 100))
+                                    .progress((downloadedRequests / result.totalRequests) * 100)
                                     .set('.modal-title-right', 'Downloading (' + skritter.fn.bytesToSize(responseSize) + ')');
                     });
                 },
