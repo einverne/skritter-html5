@@ -4,16 +4,16 @@
  */
 define(function() {
     /**
-     * @class SqlLiteAdapter
+     * @class SQLiteAdapter
      */
-    var SqlLiteAdapter = Backbone.Model.extend({
+    var SQLiteAdapter = Backbone.Model.extend({
         /**
          * @method initialize
          */
         initialize: function() {
-            SqlLiteAdapter.this = this;
-            SqlLiteAdapter.database = null;
-            SqlLiteAdapter.tables = {
+            SQLiteAdapter.this = this;
+            SQLiteAdapter.database = null;
+            SQLiteAdapter.tables = {
                 decomps: {
                     keys: ['writing'],
                     fields: ['atomic', 'Children']
@@ -55,7 +55,7 @@ define(function() {
          */
         count: function(tableName, callback) {
             var rowCount = 0;
-            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 t.executeSql('SELECT COUNT(*) rowCount FROM ' + tableName, [], querySuccess, queryError);
                 function querySuccess(t, result) {
@@ -77,9 +77,9 @@ define(function() {
          * @param {Function} callback
          */
         deleteDatabase: function(callback) {
-            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                for (var name in SqlLiteAdapter.tables)
+                for (var name in SQLiteAdapter.tables)
                     t.executeSql('DROP TABLE IF EXISTS ' + name);
             }
             function transactionError(error) {
@@ -96,11 +96,11 @@ define(function() {
          */
         getAll: function(tableName, callback) {
             var items = [];
-            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 t.executeSql('SELECT * FROM ' + tableName, [], querySuccess, queryError);
                 function querySuccess(t, result) {
-                    items = SqlLiteAdapter.this.parseResult(result);
+                    items = SQLiteAdapter.this.parseResult(result);
                 }
                 function queryError(error) {
                     console.error('SQL ERROR', error);
@@ -124,11 +124,11 @@ define(function() {
             keys = Array.isArray(keys) ? keys : [keys];
             for (var i in keys)
                     keys[i] = JSON.stringify(keys[i]);
-            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                t.executeSql('SELECT * FROM ' + tableName + ' WHERE id IN (' + SqlLiteAdapter.this.getSqlValueString(keys) + ')', keys, querySuccess, queryError);
+                t.executeSql('SELECT * FROM ' + tableName + ' WHERE id IN (' + SQLiteAdapter.this.getSqlValueString(keys) + ')', keys, querySuccess, queryError);
                 function querySuccess(t, result) {
-                    items = SqlLiteAdapter.this.parseResult(result);
+                    items = SQLiteAdapter.this.parseResult(result);
                 }
                 function queryError(error) {
                     console.error('SQL ERROR', error);
@@ -150,11 +150,11 @@ define(function() {
          */
         getItemsWhere: function(tableName, attribute, value, callback) {
             var item = null;
-            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 t.executeSql('SELECT * FROM ' + tableName + ' WHERE ' + attribute + '=?', [JSON.stringify(value)], querySuccess, queryError);
                 function querySuccess(t, result) {
-                    item = SqlLiteAdapter.this.parseResult(result);
+                    item = SQLiteAdapter.this.parseResult(result);
                     if (item.length === 1)
                         item = item[0];
                 }
@@ -175,11 +175,11 @@ define(function() {
          */
         getSchedule: function(callback) {
             var scheduleItems = [];
-            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 t.executeSql('SELECT id,last,next,part,style,vocabIds FROM items', [], querySuccess, queryError);
                 function querySuccess(t, result) {
-                    var items = SqlLiteAdapter.this.parseResult(result);
+                    var items = SQLiteAdapter.this.parseResult(result);
                     for (var i in items) {
                         var item = items[i];
                         var splitId = item.id.split('-');
@@ -217,11 +217,11 @@ define(function() {
          * @param {Function} callback
          */
         openDatabase: function(databaseName, callback) {
-            SqlLiteAdapter.database = window.sqlitePlugin.openDatabase({name: databaseName});
-            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            SQLiteAdapter.database = window.sqlitePlugin.openDatabase({name: databaseName});
+            SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                for (var name in SqlLiteAdapter.tables) {
-                    var table = SqlLiteAdapter.tables[name];
+                for (var name in SQLiteAdapter.tables) {
+                    var table = SQLiteAdapter.tables[name];
                     var queryString = 'CREATE TABLE IF NOT EXISTS ';
                     queryString += name + ' (' + table.keys[0] + ' PRIMARY KEY,' + table.fields.join(',') + ')';
                     t.executeSql(queryString, []);
@@ -258,9 +258,9 @@ define(function() {
          */
         removeItems: function(tableName, keys, callback) {
             keys = Array.isArray(keys) ? keys : [keys];
-            SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+            SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                t.executeSql('DELETE * FROM ' + tableName + ' WHERE id IN (' + SqlLiteAdapter.this.getSqlValueString(keys) + ')', keys);
+                t.executeSql('DELETE * FROM ' + tableName + ' WHERE id IN (' + SQLiteAdapter.this.getSqlValueString(keys) + ')', keys);
             }
             function transactionError(error) {
                 console.error('SQL ERROR', error);
@@ -278,11 +278,11 @@ define(function() {
         setItems: function(tableName, items, callback) {
             if (tableName && items) {
                 items = Array.isArray(items) ? items : [items];
-                SqlLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
+                SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
                 function transaction(t) {
-                    var table = SqlLiteAdapter.tables[tableName];
+                    var table = SQLiteAdapter.tables[tableName];
                     var queryString = 'INSERT OR REPLACE INTO ';
-                    queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + SqlLiteAdapter.this.getSqlValueString(table.keys.concat(table.fields)) + ')';
+                    queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + SQLiteAdapter.this.getSqlValueString(table.keys.concat(table.fields)) + ')';
                     var fields = table.keys.concat(table.fields);
                     for (var a in items) {
                         var item = items[a];
@@ -312,8 +312,25 @@ define(function() {
             } else {
                 callback();
             }
+        },
+        /**
+         * @method updateItems
+         * @param {String} tableName
+         * @param {Array} items
+         * @param {Function} callback
+         */
+        updateItems: function(tableName, items, callback) {
+            var key = SQLiteAdapter.tables[tableName].keys[0];
+            this.getItems(tableName, _.pluck(items, key), function(oldItems) {
+                var criteria = {};
+                for (var i = 0, len = oldItems.length; i < len; i++) {
+                    criteria[key] = oldItems[i][key];
+                    _.merge(oldItems[i], _.find(items, criteria));
+                }
+                SQLiteAdapter.this.setItems(tableName, oldItems, callback);
+            });
         }
     });
 
-    return SqlLiteAdapter;
+    return SQLiteAdapter;
 });

@@ -19,9 +19,9 @@ define([
     'views/components/Modals',
     'collections/study/Params',
     'Router',
-    'models/storage/SqlLiteAdapter',
+    'models/storage/SQLiteAdapter',
     'models/User'
-], function(Api, Functions, IndexedDBAdapter, Log, Modals, Params, Router, SqlLiteAdapter, User) {
+], function(Api, Functions, IndexedDBAdapter, Log, Modals, Params, Router, SQLiteAdapter, User) {
     /**
      * Reserves the global skritter namespace if it doesn't already exist.
      * @param skritter
@@ -91,7 +91,7 @@ define([
      */
     var loadStorage = function(callback) {
         if (window.cordova) {
-            skritter.storage = new SqlLiteAdapter();
+            skritter.storage = new SQLiteAdapter();
         } else {
             skritter.storage = new IndexedDBAdapter();
         }
@@ -106,6 +106,7 @@ define([
         if (skritter.user.isLoggedIn()) {
             async.series([
                 async.apply(skritter.storage.openDatabase, skritter.user.get('user_id')),
+                async.apply(skritter.user.scheduler.load),
                 function(callback) {
                     if (skritter.user.sync.isFirst()) {
                         skritter.user.sync.start(callback, true);

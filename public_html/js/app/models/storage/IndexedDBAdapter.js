@@ -12,6 +12,16 @@ define(function() {
             IndexedDBAdapter.database = null;
             IndexedDBAdapter.databaseName = null;
             IndexedDBAdapter.databaseVersion = 1;
+            IndexedDBAdapter.keyPaths = {
+                decomps: 'writing',
+                items: 'id',
+                reviews: 'id',
+                sentences: 'id',
+                strokes: 'rune',
+                srsconfigs: 'part',
+                vocabs: 'id',
+                vocablists: 'id'
+            };
         },
         /**
          * @method count
@@ -54,14 +64,14 @@ define(function() {
                 version: IndexedDBAdapter.databaseVersion,
                 schema: {
                     1: function(transaction) {
-                        transaction.createObjectStore('decomps', {keyPath: 'writing'});
-                        transaction.createObjectStore('items', {keyPath: 'id'});
-                        transaction.createObjectStore('reviews', {keyPath: 'id'});
-                        transaction.createObjectStore('sentences', {keyPath: 'id'});
-                        transaction.createObjectStore('strokes', {keyPath: 'rune'});
-                        transaction.createObjectStore('srsconfigs', {keyPath: 'part'});
-                        transaction.createObjectStore('vocabs', {keyPath: 'id'});
-                        transaction.createObjectStore('vocablists', {keyPath: 'id'});
+                        transaction.createObjectStore('decomps', {keyPath: IndexedDBAdapter.keyPaths.decomps});
+                        transaction.createObjectStore('items', {keyPath: IndexedDBAdapter.keyPaths.items});
+                        transaction.createObjectStore('reviews', {keyPath: IndexedDBAdapter.keyPaths.reviews});
+                        transaction.createObjectStore('sentences', {keyPath: IndexedDBAdapter.keyPaths.sentences});
+                        transaction.createObjectStore('strokes', {keyPath: IndexedDBAdapter.keyPaths.strokes});
+                        transaction.createObjectStore('srsconfigs', {keyPath: IndexedDBAdapter.keyPaths.srsconfigs});
+                        transaction.createObjectStore('vocabs', {keyPath: IndexedDBAdapter.keyPaths.vocabs});
+                        transaction.createObjectStore('vocablists', {keyPath: IndexedDBAdapter.keyPaths.vocablists});
                     }
                 }
             });
@@ -235,6 +245,23 @@ define(function() {
             } else {
                 callback();
             }
+        },
+        /**
+         * @method updateItems
+         * @param {String} tableName
+         * @param {Array} items
+         * @param {Function} callback
+         */
+        updateItems: function(tableName, items, callback) {
+            var key = IndexedDBAdapter.keyPaths[tableName];
+            this.getItems(tableName, _.pluck(items, key), function(oldItems) {
+                var criteria = {};
+                for (var i = 0, len = oldItems.length; i < len; i++) {
+                    criteria[key] = oldItems[i][key];
+                    _.merge(oldItems[i], _.find(items, criteria));
+                }
+                IndexedDBAdapter.this.setItems(tableName, oldItems, callback);
+            });
         }
     });
 
