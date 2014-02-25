@@ -74,7 +74,7 @@ define(function() {
                         responseSize += result.responseSize;
                         if (responseSize > 0)
                             skritter.modals.set('.modal-title-right', 'Downloading (' + skritter.fn.bytesToSize(responseSize) + ')');
-                        if (result.totalRequests > 20)
+                        if (result.totalRequests > 10 && result.runningRequests === 0)
                             skritter.modals.progress((downloadedRequests / result.totalRequests) * 100);
                     });
                 },

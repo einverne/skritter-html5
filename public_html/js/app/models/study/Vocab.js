@@ -17,6 +17,18 @@ define(function() {
                 if (typeof callback === 'function')
                     callback();
             });
+        },
+        /**
+         * @method containedItemIds
+         * @param {String} part
+         * @returns {Array}
+         */
+        containedItemIds: function(part) {
+            var containedItemIds = [];
+            var containedVocabIds = this.get('containedVocabIds');
+            for (var i = 0, length = containedVocabIds.length; i < length; i++)
+                containedItemIds.push(skritter.user.id + '-' + containedVocabIds[i] + '-' + part);
+            return containedItemIds;
         }
     });
 

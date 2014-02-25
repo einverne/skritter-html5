@@ -226,7 +226,7 @@ define(function() {
                 items = Array.isArray(items) ? items : [items];
                 var position = 0;
                 var table = IndexedDBAdapter.database.objectStore(tableName);
-                function setNext() {
+                var setNext = function() {
                     if (position < items.length) {
                         var promise = table.put(items[position]);
                         promise.done(function() {
@@ -240,7 +240,7 @@ define(function() {
                         if (typeof callback === 'function')
                             callback();
                     }
-                }
+                };
                 setNext();
             } else {
                 callback();

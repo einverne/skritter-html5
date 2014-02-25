@@ -184,7 +184,7 @@ define(function() {
             //sort the schedule based on readiness value
             var sortedSchedule = _.sortBy(Scheduler.schedule, function(item) {
                 if (item.held && item.held > now) {
-                    item.readiness = 0.9 + (now / item.held) * 0.1;
+                    item.readiness = 0.5 + (now / item.held) * 0.1;
                     return -item.readiness;
                 }
                 if (!item.last && (item.next - now) > 600) {
@@ -192,7 +192,7 @@ define(function() {
                     return -item.readiness;
                 }
                 if (!item.last || (item.next - item.last) === 1) {
-                    item.readiness = 90019001;
+                    item.readiness = 99999999;
                     return -item.readiness;
                 }
                 var seenAgo = now - item.last;
@@ -210,6 +210,16 @@ define(function() {
             });
             Scheduler.schedule = sortedSchedule;
             return this;
+        },
+        /**
+         * @method update
+         * @param {Backbone.Model} item
+         * @param {Function} callback
+         * @returns {Backbone.Model}
+         */
+        update: function(item, callback) {
+            if (typeof callback === 'function')
+                callback();
         }
     });
 

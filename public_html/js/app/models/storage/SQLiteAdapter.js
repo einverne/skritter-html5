@@ -278,8 +278,7 @@ define(function() {
         setItems: function(tableName, items, callback) {
             if (tableName && items) {
                 items = Array.isArray(items) ? items : [items];
-                SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
-                function transaction(t) {
+                var transaction = function(t) {
                     var table = SQLiteAdapter.tables[tableName];
                     var queryString = 'INSERT OR REPLACE INTO ';
                     queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + SQLiteAdapter.this.getSqlValueString(table.keys.concat(table.fields)) + ')';
@@ -302,13 +301,14 @@ define(function() {
                     function queryError(error) {
                         console.error('SQL ERROR', error);
                     }
-                }
-                function transactionError(error) {
+                };
+                var transactionError = function(error) {
                     console.error('SQL ERROR', error);
-                }
-                function transactionSuccess() {
+                };
+                var transactionSuccess = function() {
                     callback();
-                }
+                };
+                SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             } else {
                 callback();
             }

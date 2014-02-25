@@ -6,7 +6,7 @@
  */
 define([
     'views/Home',
-    'views/tests'
+    'views/Tests'
 ], function(Home, Tests) {
     /**
      * @class Router
