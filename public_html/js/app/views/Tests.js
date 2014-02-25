@@ -29,7 +29,8 @@ define([
             this.$el.html(templateTests);
             require(['jasmine-boot'], function() {
                 require([
-                    'specs/Functions'
+                    'specs/Functions',
+                    'specs/Shortstraw'
                 ], function() {
                     window.runJasmine();
                 });
