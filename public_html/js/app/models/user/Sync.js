@@ -59,7 +59,7 @@ define(function() {
             var downloadedRequests = 0;
             var responseSize = 0;
             Sync.syncing = true;
-            log('SYNCING FROM', (offset === 0) ? 'THE BEGINNING OF TIME' : moment(offset * 1000).format('MMMM Do YYYY, h:mm:ss A'));
+            log('SYNCING FROM', (offset === 0) ? 'THE BEGINNING OF TIME' : moment(offset * 1000).format('YYYY-MM-DD H:mm:ss'));
             if (showModal)
                 skritter.modals.show('download')
                         .set('.modal-title', 'SYNC')
@@ -94,7 +94,7 @@ define(function() {
                     callback();
                 }
             ], function() {
-                log('FINISHED SYNCING', moment(skritter.fn.getUnixTime() * 1000).format('MMMM Do YYYY, h:mm:ss A'));
+                log('FINISHED SYNCING AT', moment(skritter.fn.getUnixTime() * 1000).format('YYYY-MM-DD H:mm:ss'));
                 Sync.this.set('last', skritter.fn.getUnixTime());
                 if (typeof callback === 'function')
                     callback();
