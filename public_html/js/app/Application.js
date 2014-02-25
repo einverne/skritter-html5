@@ -106,6 +106,12 @@ define([
         if (skritter.user.isLoggedIn()) {
             async.series([
                 async.apply(skritter.storage.openDatabase, skritter.user.get('user_id')),
+                function(callback) {
+                    skritter.modals.show('default', callback)
+                            .set('.modal-header', false)
+                            .set('.modal-body', 'LOADING', 'text-center')
+                            .set('.modal-footer', false);
+                },
                 async.apply(skritter.user.scheduler.load),
                 function(callback) {
                     if (skritter.user.sync.isFirst()) {
@@ -116,6 +122,7 @@ define([
                     }
                 }
             ], function() {
+                skritter.modals.hide();
                 callback();
             });
         } else {
