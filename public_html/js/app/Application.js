@@ -105,7 +105,15 @@ define([
         skritter.user = new User();
         if (skritter.user.isLoggedIn()) {
             async.series([
-                async.apply(skritter.storage.openDatabase, skritter.user.get('user_id'))
+                async.apply(skritter.storage.openDatabase, skritter.user.get('user_id')),
+                function(callback) {
+                    if (skritter.user.sync.isFirst()) {
+                        skritter.user.sync.start(callback, true);
+                    } else {
+                        skritter.user.sync.start();
+                        callback();
+                    }
+                }
             ], function() {
                 callback();
             });

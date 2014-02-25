@@ -31,6 +31,18 @@ define(function() {
             localStorage.setItem(skritter.user.id + '-sync', JSON.stringify(event.toJSON()));
         },
         /**
+         * Checks whether the user has synced before. This will generally be used to determine when to
+         * start the initial download as opposed to background syncing.
+         * 
+         * @method isFirst
+         * @returns {Boolean}
+         */
+        isFirst: function() {
+            if (this.get('last'))
+                return false;
+            return true;
+        },
+        /**
          * @method isSyncing
          * @returns {Boolean}
          */
@@ -70,7 +82,7 @@ define(function() {
                         skritter.modals
                                 .progress(100)
                                 .set('.modal-title-right', 'Downloading Lists');
-                        skritter.user.data.fetchVocabLists(0, callback);
+                        skritter.user.data.fetchVocabLists(callback);
                     } else {
                         callback();
                     }

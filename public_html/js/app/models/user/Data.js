@@ -105,10 +105,9 @@ define([
          * Downloads vocablists using the spawner that are directly stored in the database.
          * 
          * @method fetchVocabLists
-         * @param {Number} offset
          * @param {Function} callback
          */
-        fetchVocabLists: function(offset, callback) {
+        fetchVocabLists: function(callback) {
             var requests = [
                 {
                     path: 'api/v' + skritter.api.get('version') + '/vocablists',
