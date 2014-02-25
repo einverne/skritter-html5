@@ -73,9 +73,9 @@ define(function() {
                         downloadedRequests += result.downloadedRequests;
                         responseSize += result.responseSize;
                         if (responseSize > 0)
-                            skritter.modals
-                                    .progress((downloadedRequests / result.totalRequests) * 100)
-                                    .set('.modal-title-right', 'Downloading (' + skritter.fn.bytesToSize(responseSize) + ')');
+                            skritter.modals.set('.modal-title-right', 'Downloading (' + skritter.fn.bytesToSize(responseSize) + ')');
+                        if (result.totalRequests > 20)
+                            skritter.modals.progress((downloadedRequests / result.totalRequests) * 100);
                     });
                 },
                 //downloads vocablists if this is the users first sync

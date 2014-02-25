@@ -7,7 +7,7 @@
  * @param Modals
  * @param Params
  * @param Router
- * @param SqlLiteAdapter
+ * @param SQLiteAdapter
  * @param User
  * @author Joshua McFarland
  */
