@@ -36,6 +36,22 @@ define([
             this.vocabs = new Vocabs();
         },
         /**
+         * Master clear for all of the collections contained within the data model.
+         * 
+         * @method clear
+         * @returns {Backbone.Model}
+         */
+        clear: function() {
+            this.decomps.reset();
+            this.items.reset();
+            this.reviews.reset();
+            this.sentences.reset();
+            this.strokes.reset();
+            this.vocablists.reset();
+            this.vocabs.reset();
+            return this;
+        },
+        /**
          * Downloads all study data (including related resources) from the given offset. If the
          * offset isn't specified then it will perform a complete account download.
          * 
