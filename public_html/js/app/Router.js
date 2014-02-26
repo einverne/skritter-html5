@@ -1,13 +1,15 @@
 /**
  * @module Skritter
  * @param Home
+ * @param Study
  * @param Tests
  * @author Joshua McFarland
  */
 define([
     'views/Home',
+    'views/Study',
     'views/Tests'
-], function(Home, Tests) {
+], function(Home, Study, Tests) {
     /**
      * @class Router
      */
@@ -22,8 +24,9 @@ define([
          * @property {Object} routes
          */
         routes: {
-            '': 'showHome',
-            'tests': 'showTests'
+            '': 'showHomeView',
+            'study': 'showStudyView',
+            'tests': 'showTestsView'
         },
         /**
          * Shortcut method for traversing backwards through the windows history.
@@ -36,9 +39,9 @@ define([
         /**
          * Shows the homepage which either displays as logged in or out depending on the authentication status.
          * 
-         * @method showHome
+         * @method showHomeView
          */
-        showHome: function() {
+        showHomeView: function() {
             if (!Router.view.home) {
                 Router.view.home = new Home({el: $('#skritter-container')});
             } else {
@@ -47,11 +50,24 @@ define([
             Router.view.home.render();
         },
         /**
+         * Shows the the study view.
+         * 
+         * @method showStudyView
+         */
+        showStudyView: function() {
+            if (!Router.view.study) {
+                Router.view.study = new Study({el: $('#skritter-container')});
+            } else {
+                Router.view.study.setElement($('#skritter-container'));
+            }
+            Router.view.study.render();
+        },
+        /**
          * Runs and shows the results of the jasmine test cases.
          * 
-         * @method showHome
+         * @method showTestsView
          */
-        showTests: function() {
+        showTestsView: function() {
             if (!Router.view.tests) {
                 Router.view.tests = new Tests({el: $('#skritter-container')});
             } else {
