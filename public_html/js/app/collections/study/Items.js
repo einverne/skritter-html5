@@ -2,13 +2,11 @@
  * @module Skritter
  * @submodule Collections
  * @param Item
- * @param Vocabs
  * @author Joshua McFarland
  */
 define([
-    'models/study/Item',
-    'collections/study/Vocabs'
-], function(Item, Vocabs) {
+    'models/study/Item'
+], function(Item) {
     /**
      * @class Items
      */
