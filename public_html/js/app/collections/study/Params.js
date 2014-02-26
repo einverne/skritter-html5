@@ -2,12 +2,10 @@
  * @module Skritter
  * @submodule Collections
  * @param Param
- * @param ParamMap
  * @author Joshua McFarland
  */
 define([
-    'models/study/Param',
-    'ParamMap'
+    'models/study/Param'
 ], function(Param, ParamMap) {
     /**
      * @class Params
@@ -17,7 +15,7 @@ define([
          * @method initialize
          */
         initialize: function() {
-            this.add(ParamMap);
+            this.add(skritter.fn.params);
         },
         /**
          * @property {Backbone.Model} model

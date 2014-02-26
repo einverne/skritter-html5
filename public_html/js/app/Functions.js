@@ -5,11 +5,21 @@
  * @module Skritter
  * @class Functions
  * @param Bootstrap
+ * @param ParamMap
+ * @param PinyinConverter
+ * @param Shortstraw
+ * @param SimpTradMap
+ * @param StrokeMap
  * @author Joshua McFarland
  */
 define([
-    'Bootstrap'
-], function(Bootstrap) {
+    'functions/Bootstrap',
+    'functions/ParamMap',
+    'functions/PinyinConverter',
+    'functions/Shortstraw',
+    'functions/SimpTradMap',
+    'functions/StrokeMap'
+], function(Bootstrap, ParamMap, PinyinConverter, Shortstraw, SimpTradMap, StrokeMap) {
     /**
      * @property {Object} bootstrap
      */
@@ -71,13 +81,38 @@ define([
         var unixtime = new Date().getTime();
         return milliseconds ? unixtime : Math.round(unixtime / 1000);
     };
-
+    /**
+     * @property {Object} params
+     */
+    var params = ParamMap;
+    /**
+     * @property {Object} pinyin
+     */
+    var pinyin = PinyinConverter;
+    /**
+     * @property {Object} shortstraw
+     */
+    var shortstraw = new Shortstraw();
+    /**
+     * @property {Object} simptrad
+     */
+    var simptrad = SimpTradMap;
+    /**
+     * @property {Object} strokes
+     */
+    var strokes = StrokeMap;
+    
     return {
         bootstrap: bootstrap,
         bytesToSize: bytesToSize,
         getUnixTime: getUnixTime,
         isKana: isKana,
         isLocal: isLocal,
-        isNumber: isNumber
+        isNumber: isNumber,
+        params: params,
+        pinyin: pinyin,
+        shortstraw: shortstraw,
+        simptrad: simptrad,
+        strokes: strokes
     };
 });

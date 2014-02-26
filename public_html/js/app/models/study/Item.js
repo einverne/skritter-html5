@@ -1,12 +1,9 @@
 /**
  * @module Skritter
  * @submodule Models
- * @param SimpTradMap
  * @author Joshua McFarland
  */
-define([
-    'SimpTradMap'
-], function(SimpTradMap) {
+define(function() {
     /**
      * @class Item
      */

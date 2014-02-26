@@ -1,12 +1,9 @@
 /**
  * @module Skritter
  * @submodule Models
- * @param SimpTradMap
  * @author Joshua McFarland
  */
-define([
-    'SimpTradMap'
-], function(SimpTradMap) {
+define(function() {
     /**
      * @class Vocab
      */
@@ -31,7 +28,7 @@ define([
             for (var i = 0, length = containedVocabIds.length; i < length; i++) {
                 var vocabId = containedVocabIds[i];
                 if (this.get('lang') === 'zh') {
-                    characters.push(SimpTradMap.getWritingFromBase(vocabId));
+                    characters.push(skritter.fn.simptrad.getWritingFromBase(vocabId));
                 } else {
                     var character = vocabId.split('-')[1];
                     if (!skritter.fn.isKana(character))
