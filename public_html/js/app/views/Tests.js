@@ -19,7 +19,7 @@ define([
          * @method initialize
          */
         initialize: function() {
-            
+            Tests.this = this;
         },
         /**
          * @method render
@@ -30,7 +30,8 @@ define([
             require(['jasmine-boot'], function() {
                 require([
                     'specs/Functions',
-                    'specs/Shortstraw'
+                    'specs/functions/Shortstraw',
+                    'specs/functions/SimpTradMap'
                 ], function() {
                     window.runJasmine();
                 });

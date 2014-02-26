@@ -2632,13 +2632,33 @@ define(function() {
         "橹": "櫓",
         "诸": "諸"
     };
-    
     /**
-     * @method getSimplifiedBase
+     * Takes a single Chinese character vocab base (ex. zh-我们-1) and converts it to the proper writing.
+     * 
+     * @method fromBase
+     * @param {String} base
+     * @returns {String}
+     */
+    var fromBase = function(base) {
+        var splitBase = base.split('-');
+        var baseRune = splitBase[1];
+        var baseVariation = splitBase[2];
+        var matchedRune = map[baseRune];
+        if (matchedRune) {
+            var matchedVariations = matchedRune.split('');
+            matchedRune = matchedVariations[baseVariation - 1];
+            return matchedRune;
+        }
+        return baseRune;
+    };
+    /**
+     * Takes a Chinese word and creates a simplified base for it.
+     * 
+     * @method toBase
      * @param {String} word
      * @returns {String}
      */
-    var getSimplifiedBase = function(word) {
+    var toBase = function(word) {
         var mappedRunes = [];
         var multiple = false;
         var runes = word.split('');
@@ -2688,36 +2708,11 @@ define(function() {
                 }
             }
         }
-        return {rune: mappedRunes.join(''), variation: variation};
+        return 'zh-' + mappedRunes.join('') + '-' + variation;
     };
-    
-    var getVocabBase = function(word, lang) {
-        var base = getSimplifiedBase(word);
-        return lang + '-' + base.rune + '-' + base.variation;
-    };
-    
-    /**
-     * @method getWritingFromBase
-     * @param {String} simplifiedBase
-     * @returns {String}
-     */
-    var getWritingFromBase = function(simplifiedBase) {
-        var splitBase = simplifiedBase.split('-');
-        var baseRune = splitBase[1];
-        var baseVariation = splitBase[2];
-        var matchedRune = map[baseRune];
-        if (matchedRune) {
-            var matchedVariations = matchedRune.split('');
-            matchedRune = matchedVariations[baseVariation - 1];
-            return matchedRune;
-        }
-        return baseRune;
-    };
-    
+
     return {
-        getFromBase: getWritingFromBase,
-        getSimplifiedBase: getSimplifiedBase,
-        getVocabBase: getVocabBase,
-        getWritingFromBase: getWritingFromBase
+        fromBase: fromBase,
+        toBase: toBase
     };
 });
