@@ -174,7 +174,7 @@ define([
                         if (item.length > 0) {
                             callback(null, Items.this.add(item[0], {merge: true, silent: true}));
                         } else {
-                            callback("Initial item doesn't exist.");
+                            callback("Initial item is missing.");
                         }
                     });
                 },
@@ -184,15 +184,21 @@ define([
                         if (vocab.length > 0) {
                             callback(null, item, skritter.user.data.vocabs.add(vocab[0], {merge: true, silent: true}));
                         } else {
-                            callback("Initial vocab doesn't exist.");
+                            callback("Initial vocab is missing.", item);
                         }
                     });
                 },
                 //contained items
                 function(item, vocab, callback) {
                     if (_.contains(['rune', 'tone'], part)) {
-                        skritter.storage.getItems('items', vocab.containedItemIds(part), function(containedItems) {
-                            callback(null, item, vocab, Items.this.add(containedItems, {merge: true, silent: true}));
+                        var containedItemIds = vocab.containedItemIds(part);
+                        var containedItemCount = containedItemIds.length;
+                        skritter.storage.getItems('items', containedItemIds, function(containedItems) {
+                            if (containedItemCount === containedItems.length) {
+                                callback(null, item, vocab, Items.this.add(containedItems, {merge: true, silent: true}));
+                            } else {
+                                callback("One or more of the contained items is missing.", item);
+                            }
                         });
                     } else {
                         callback(null, item, vocab, []);
@@ -204,8 +210,13 @@ define([
                         var containedVocabIds = [];
                         for (var i = 0, length = containedItems.length; i < length; i++)
                             containedVocabIds.push(containedItems[i].vocabId());
+                        var containedVocabCount = containedVocabIds.length;
                         skritter.storage.getItems('vocabs', containedVocabIds, function(containedVocabs) {
-                            callback(null, item, vocab, containedItems, skritter.user.data.vocabs.add(containedVocabs, {merge: true, silent: true}));
+                            if (containedVocabCount === containedVocabs.length) {
+                                callback(null, item, vocab, containedItems, skritter.user.data.vocabs.add(containedVocabs, {merge: true, silent: true}));
+                            } else {
+                                callback("One or more of the contained vocabs is missing.", item);
+                            }
                         });
                     } else {
                         callback(null, item, vocab, containedItems, []);
@@ -215,7 +226,11 @@ define([
                 function(item, vocab, containedItems, containedVocabs, callback) {
                     if (vocab.has('sentenceId')) {
                         skritter.storage.getItems('sentences', vocab.get('sentenceId'), function(sentences) {
-                            callback(null, item, vocab, containedItems, containedVocabs, skritter.user.data.sentences.add(sentences, {merge: true, silent: true}));
+                            if (sentences.lengh === 1) {
+                                callback(null, item, vocab, containedItems, containedVocabs, skritter.user.data.sentences.add(sentences, {merge: true, silent: true}));
+                            } else {
+                                callback("Sentence is missing.", item);
+                            }
                         });
                     } else {
                         callback(null, item, vocab, containedItems, containedVocabs, null);
@@ -231,8 +246,13 @@ define([
                             for (var i = 0, length = containedVocabs.length; i < length; i++)
                                 writings.push(containedVocabs[i].get('writing'));
                         }
+                        var writingsCount = writings.length;
                         skritter.storage.getItems('strokes', writings, function(strokes) {
-                            callback(null, item, vocab, containedItems, containedVocabs, sentence, skritter.user.data.strokes.add(strokes, {merge: true, silent: true}));
+                            if (writingsCount === strokes.length) {
+                                callback(null, item, vocab, containedItems, containedVocabs, sentence, skritter.user.data.strokes.add(strokes, {merge: true, silent: true}));
+                            } else {
+                                callback("One or more of the strokes are missing.", item);
+                            }
                         });
                     } else {
                         callback(null, item, vocab, containedItems, containedVocabs, sentence, []);
@@ -240,10 +260,20 @@ define([
                 }
             ], function(error, item, vocab, containedItems, containedVocabs, sentence, strokes) {
                 if (error) {
-                    //TODO: handle callback if there happens to be an error
-                } else {
-                    log('LOADED ITEM', error, item, vocab, containedItems, containedVocabs, sentence, strokes);
+                    log('ITEM ERROR', item, error);
+                    if (item)
+                        item.set({
+                            flag: 'true',
+                            flagMessage: error
+                        });
                     callback();
+                } else {
+                    log('ITEM LOADED', error, item, vocab, containedItems, containedVocabs, sentence, strokes);
+                    if (item.has('flag')) {
+                        item.unset('flag');
+                        item.unset('flagMessage');
+                    }
+                    callback(item);
                 }
             });
         }
