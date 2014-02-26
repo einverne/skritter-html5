@@ -51,8 +51,8 @@ define(function() {
          */
         avatar: function(classes) {
             if (classes)
-                return "<img src='data:image/png;base64," + this.getSetting('avatar') + "' + class='" + classes + "' />";
-            return "<img src='data:image/png;base64," + this.getSetting('avatar') + "' />";
+                return "<img src='data:image/png;base64," + this.get('avatar') + "' + class='" + classes + "' />";
+            return "<img src='data:image/png;base64," + this.get('avatar') + "' />";
         },
         /**
          * @method fetch

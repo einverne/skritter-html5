@@ -27,6 +27,21 @@ define([
         return (bytes / Math.pow(1024, value)).toFixed(2) + ' ' + sizes[value];
     };
     /**
+     * Takes a the first character from a string and return whether it is a kana character.
+     * 
+     * NOTE: It's also currently checking for the unicode tilde because those need to be filtered
+     * out of Japanese writings as well. For Chinese it's also filtering out periods, but I don't
+     * think they are actually an issue when it comes to rune prompts.
+     * 
+     * @method isKana
+     * @param {String} character
+     * @returns {Boolean}
+     */
+    var isKana = function(character) {
+        var charCode = character.charCodeAt(0);
+        return (charCode > 12352 && charCode < 12438) || (charCode > 12449 && charCode < 12538) || charCode === 65374 || charCode === 46;
+    };
+    /**
      * Checks to see if one of the approved live server domains is being used or not.
      * 
      * @method isLocal
@@ -61,6 +76,7 @@ define([
         bootstrap: bootstrap,
         bytesToSize: bytesToSize,
         getUnixTime: getUnixTime,
+        isKana: isKana,
         isLocal: isLocal,
         isNumber: isNumber
     };

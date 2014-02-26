@@ -21,6 +21,14 @@ define([
                 expect(Functions.getUnixTime(true)).toBeGreaterThan(Functions.getUnixTime());
             });
         });
+        describe('isKana', function() {
+            it('should return false if not a kana character', function() {
+                expect(Functions.isKana('男')).toBe(false);
+            });
+            it('should return true if giving a kana character', function() {
+                expect(Functions.isKana('の')).toBe(true);
+            });
+        });
         describe('isLocal', function() {
             it('should return true if hostname is html5.skritter.com or html5.skritter.cn', function() {
                 expect(Functions.isLocal('html5.skritter.com')).toBe(false);

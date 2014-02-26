@@ -17,6 +17,7 @@ define([
          * @method initialize
          */
         initialize: function() {
+            Home.this = this;
         },
         /**
          * @method render
@@ -26,6 +27,9 @@ define([
             this.$el.html('');
             if (skritter.user.isLoggedIn()) {
                 this.$el.html(templateLoggedIn);
+                this.$('#user-avatar').html(skritter.user.settings.avatar('img-circle'));
+                this.$('#user-items-due').html(skritter.user.scheduler.dueCount());
+                this.$('#user-name').html(skritter.user.settings.get('name'));
             } else {
                 this.$el.html(templateLoggedOut);
             }
@@ -36,7 +40,9 @@ define([
          */
         events: {
             'click.Home #home-view .login-button': 'handleLoginButtonClicked',
-            'click.Home #home-view .logout-button': 'handleLogoutButtonClicked'
+            'click.Home #home-view .logout-button': 'handleLogoutButtonClicked',
+            'click.Home #home-view .study-button': 'handleStudyButtonClicked',
+            'click.Home #home-view .vocablists-button': 'handleVocabListsButtonClicked'
         },
         /**
          * @method handleLoginButtonClicked
@@ -52,6 +58,22 @@ define([
          */
         handleLogoutButtonClicked: function(event) {
             skritter.user.logout();
+            event.preventDefault();
+        },
+        /**
+         * @method handleStudyButtonClicked
+         * @param {Object} event
+         */
+        handleStudyButtonClicked: function(event) {
+            skritter.router.navigate('study', {trigger: true});
+            event.preventDefault();
+        },
+        /**
+         * @method handleStudyButtonClicked
+         * @param {Object} event
+         */
+        handleVocabListsButtonClicked: function(event) {
+            skritter.router.navigate('vocab/list', {trigger: true});
             event.preventDefault();
         }
     });

@@ -40,7 +40,7 @@ body {
 #modals-container .vertical-centered {
     position: fixed;
     outline: 0;
-    top: 33% !important;
+    top: 25% !important;
 }
 #modals-container .modal-title-right {
     float: right;

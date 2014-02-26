@@ -21,5 +21,33 @@
             </div><!--/.nav-collapse -->
         </div>
     </div>
-    <div class="container"></div>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6 content">
+                <div id="overview">
+                    <div class="media">
+                        <a class="pull-left" href="#">
+                            <span id="user-avatar" class="media-object"></span>
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">Overview</h4>
+                            <p><strong><span id="user-name"></span></strong>, you currently have <strong><span id="user-items-due"></span></strong> items ready to review.</p>
+                            <a class="btn btn-primary study-button" href="#" role="button">Study</a>
+                            <a class="btn btn-primary sync-button" href="#" role="button">
+                                Sync <span id="user-unsynced-reviews"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 content">
+                <div id="vocablists">
+                    <h4><span class="fa fa-edit vocab-lists-button"></span>My Lists (<a class="vocablists-button" href="#">Manage</a>)</h4>
+                    <div id="table-container"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
