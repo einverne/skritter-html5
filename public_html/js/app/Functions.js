@@ -49,7 +49,7 @@ define([
      */
     var isKana = function(character) {
         var charCode = character.charCodeAt(0);
-        return (charCode > 12352 && charCode < 12438) || (charCode > 12449 && charCode < 12538) || charCode === 65374 || charCode === 46;
+        return (charCode >= 12353 && charCode <= 12436) || (charCode >= 12449 && charCode <= 12539) || charCode === 65374;
     };
     /**
      * Checks to see if one of the approved live server domains is being used or not.
