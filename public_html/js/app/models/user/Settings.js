@@ -5,7 +5,7 @@
  */
 define(function() {
     /**
-     * @class Settings
+     * @class UserSettings
      */
     var Settings = Backbone.Model.extend({
         /**

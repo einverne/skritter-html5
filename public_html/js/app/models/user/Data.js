@@ -20,7 +20,7 @@ define([
     'collections/study/Vocabs'
 ], function(Decomps, Items, Reviews, Sentences, Strokes, VocabLists, Vocabs) {
     /**
-     * @class Data
+     * @class UserData
      */
     var Data = Backbone.Model.extend({
         /**

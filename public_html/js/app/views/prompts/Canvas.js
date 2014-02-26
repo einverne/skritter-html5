@@ -14,15 +14,20 @@ define(function() {
         initialize: function() {
             Canvas.this = this;
             Canvas.stage = {};
-            Canvas.size = 400;
+            Canvas.size = 600;
+            Canvas.gridColor = 'grey';
             Canvas.strokeSize = 12;
             Canvas.strokeCapStyle = 'round';
             Canvas.strokeColor = '#000000';
             Canvas.strokeJointStyle = 'round';
-
+            Canvas.squigColor = '#000000';
+            Canvas.textColor = '#000000';
+            Canvas.textFont = 'Arial';
+            Canvas.textSize = '12px';
             Canvas.container = this.createCanvasContainer();
             Canvas.stage.display = this.createDisplayStage();
             Canvas.stage.input = this.createInputStage();
+            this.createLayer('background');
             createjs.Ticker.addEventListener('tick', Canvas.stage.display);
             createjs.Touch.enable(Canvas.stage.input);
         },
@@ -34,8 +39,10 @@ define(function() {
             this.$el.html(Canvas.container);
             this.$(Canvas.container).append(Canvas.stage.display.canvas);
             this.$(Canvas.container).append(Canvas.stage.input.canvas);
-            this.createLayer('background');
-            this.enableInput();
+            Canvas.stage.display.removeAllChildren();
+            Canvas.stage.input.removeAllChildren();
+            this.updateAll();
+            this.drawGrid();
             return this;
         },
         /**
@@ -87,6 +94,45 @@ define(function() {
             layer.name = 'layer-' + name;
             Canvas.stage.display.addChild(layer);
             return layer;
+        },
+        /**
+         * Draws the to the background using a font rather than assembling
+         * the character strokes.
+         * 
+         * @method drawCharacterFromFont
+         * @param {String} layerName
+         * @param {String} character
+         * @param {String} font
+         * @param {Number} alpha
+         * @param {String} color
+         */
+        drawCharacterFromFont: function(layerName, character, font, alpha, color) {
+            var layer = this.getLayer(layerName);
+            color = (color) ? color : Canvas.textColor;
+            font = (font) ? font : Canvas.textFont;
+            var text = new createjs.Text(character, skritter.settings.get('canvasSize') + 'px ' + font, color);
+            text.alpha = (alpha) ? alpha : 1;
+            layer.addChild(text);
+            Canvas.stage.display.update();
+        },
+        /**
+         * @method drawGrid
+         * @param {String} color
+         */
+        drawGrid: function(color) {
+            color = (color) ? color : Canvas.gridColor;
+            if (!Canvas.stage.display.getChildByName('grid')) {
+                var grid = new createjs.Shape();
+                grid.name = 'grid';
+                grid.graphics.beginStroke(color).setStrokeStyle(Canvas.gridLineWidth, Canvas.strokeCapStyle, Canvas.strokeJointStyle);
+                grid.graphics.moveTo(Canvas.size / 2, 0).lineTo(Canvas.size / 2, Canvas.size);
+                grid.graphics.moveTo(0, Canvas.size / 2).lineTo(Canvas.size, Canvas.size / 2);
+                grid.graphics.moveTo(0, 0).lineTo(Canvas.size, Canvas.size);
+                grid.graphics.moveTo(Canvas.size, 0).lineTo(0, Canvas.size);
+                grid.graphics.endStroke();
+                Canvas.stage.display.addChildAt(grid, 0);
+                Canvas.stage.display.update();
+            }
         },
         /**
          * @method disableInput
@@ -179,17 +225,40 @@ define(function() {
             return Canvas.stage.display.getChildByName('layer-' + name);
         },
         /**
+         * @method injectLayerColor
+         * @param {String} layerName
+         * @param {String} color
+         */
+        injectLayerColor: function(layerName, color) {
+            var layer = this.getLayer(layerName);
+            var inject = function() {
+                if (color)
+                    this.fillStyle = color;
+            };
+            for (var a in layer.children) {
+                var child = layer.children[a];
+                if (child.children && child.children.length > 0) {
+                    for (var b in child.children)
+                        if (!child.children[b].children)
+                            child.children[b].graphics.inject(inject);
+                } else if (!child.children) {
+                    child.graphics.inject(inject);
+                }
+            }
+        },
+        /**
          * @method size
          * @param {Number} size
          */
         size: function(size) {
+            Canvas.size = size;
             Canvas.container.style.width = size + 'px';
             Canvas.container.style.height = size + 'px';
             Canvas.stage.display.canvas.width = size;
             Canvas.stage.display.canvas.height = size;
             Canvas.stage.input.canvas.width = size;
             Canvas.stage.input.canvas.height = size;
-            Canvas.size = size;
+            this.render();
         },
         /**
          * Enables the view to fire events when the canvas has been touched.
@@ -209,6 +278,39 @@ define(function() {
          */
         triggerInputUp: function(points, shape) {
             this.trigger('input:up', points, shape);
+        },
+        /**
+         * @method tweenShape
+         * @param {String} layerName
+         * @param {CreateJS.Shape} fromShape
+         * @param {CreateJS.Shape} toShape
+         * @param {Number} duration
+         * @param {Function} callback
+         */
+        tweenShape: function(layerName, fromShape, toShape, duration, callback) {
+            duration = (duration) ? duration : 500;
+            var layer = this.getLayer(layerName);
+            layer.addChildAt(fromShape, 0);
+            Canvas.stage.display.update();
+            createjs.Tween.get(fromShape).to({
+                x: toShape.x,
+                y: toShape.y,
+                scaleX: toShape.scaleX,
+                scaleY: toShape.scaleY,
+                rotation: toShape.rotation
+            }, duration, createjs.Ease.backOut).call(function() {
+                if (typeof callback === 'function')
+                    callback();
+            });
+        },
+        /**
+         * @method updateAll
+         */
+        updateAll: function() {
+            Canvas.stage.display.clear();
+            Canvas.stage.input.clear();
+            Canvas.stage.display.update();
+            Canvas.stage.input.update();
         }
     });
 

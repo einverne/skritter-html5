@@ -5,7 +5,7 @@
  */
 define(function() {
     /**
-     * @method Sync
+     * @method UserSync
      */
     var Sync = Backbone.Model.extend({
         /**

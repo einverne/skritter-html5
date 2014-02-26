@@ -5,7 +5,7 @@
  */
 define(function() {
     /**
-     * @class Scheduler
+     * @class UserScheduler
      */
     var Scheduler = Backbone.Model.extend({
         /**

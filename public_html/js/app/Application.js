@@ -19,9 +19,10 @@ define([
     'views/components/Modals',
     'collections/study/Params',
     'Router',
+    'models/Settings',
     'models/storage/SQLiteAdapter',
     'models/User'
-], function(Api, Functions, IndexedDBAdapter, Log, Modals, Params, Router, SQLiteAdapter, User) {
+], function(Api, Functions, IndexedDBAdapter, Log, Modals, Params, Router, Settings, SQLiteAdapter, User) {
     /**
      * Reserves the global skritter namespace if it doesn't already exist.
      * @param skritter
@@ -39,6 +40,7 @@ define([
             async.apply(loadLog),
             async.apply(loadModals),
             async.apply(loadParams),
+            async.apply(loadSettings),
             async.apply(loadStorage),
             async.apply(loadUser)
         ], function() {
@@ -86,6 +88,14 @@ define([
         callback();
     };
     /**
+     * @method loadSettings
+     * @param {Function} callback
+     */
+    var loadSettings = function(callback) {
+        skritter.settings = new Settings();
+        callback();
+    };
+    /**
      * @method loadStorage
      * @param {Function} callback
      */
@@ -129,7 +139,7 @@ define([
             callback();
         }
     };
-
+    
     return {
         initialize: initialize
     };
