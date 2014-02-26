@@ -47,7 +47,7 @@ define(function() {
          */
         containedItemIds: function(part) {
             var containedItemIds = [];
-            var containedVocabIds = this.get('containedVocabIds');
+            var containedVocabIds = this.has('containedVocabIds') ? this.get('containedVocabIds') : [];
             for (var i = 0, length = containedVocabIds.length; i < length; i++)
                 containedItemIds.push(skritter.user.id + '-' + containedVocabIds[i] + '-' + part);
             return containedItemIds;
