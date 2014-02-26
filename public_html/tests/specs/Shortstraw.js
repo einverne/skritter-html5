@@ -5,7 +5,7 @@
  * @author Joshua McFarland
  */
 define([
-    'Shortstraw'
+    'functions/Shortstraw'
 ], function(Shortstraw) {
     var shortstraw = new Shortstraw();
     var oneTurningPoint = [{"x": 128, "y": 78}, {"x": 128, "y": 79}, {"x": 135, "y": 79}, {"x": 189, "y": 79}, {"x": 252, "y": 79}, {"x": 296, "y": 79}, {"x": 331, "y": 79}, {"x": 346, "y": 79}, {"x": 358, "y": 79}, {"x": 367, "y": 79}, {"x": 372, "y": 79}, {"x": 373, "y": 81}, {"x": 373, "y": 88}, {"x": 373, "y": 99}, {"x": 371, "y": 114}, {"x": 368, "y": 132}, {"x": 363, "y": 152}, {"x": 362, "y": 163}, {"x": 362, "y": 166}, {"x": 362, "y": 166}];
