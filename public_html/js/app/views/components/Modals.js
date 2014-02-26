@@ -151,7 +151,8 @@ define([
             options.remote = (options.remote) ? options.remote : false;
             Modals.options = options;
             Modals.element = this.$('#' + id).modal(options).one('shown.bs.modal', function() {
-                callback();
+                if (typeof callback === 'function')
+                    callback();
             });
             this.reset();
             return this;
