@@ -9,6 +9,13 @@ define(function() {
      */
     var Review = Backbone.Model.extend({
         /**
+         * @property {Object} defaults
+         */
+        defaults: {
+            containedReviews: [],
+            prompt: null
+        },
+        /**
          * @method cache
          * @param {Function} callback
          */

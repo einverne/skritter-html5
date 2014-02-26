@@ -29,6 +29,8 @@ define([
             this.$el.html(templateTests);
             require(['jasmine-boot'], function() {
                 require([
+                    'specs/models/study/Item',
+                    'specs/models/study/Vocab',
                     'specs/Functions',
                     'specs/functions/Shortstraw',
                     'specs/functions/SimpTradMap'

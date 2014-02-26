@@ -25,24 +25,20 @@ define(function() {
         characters: function() {
             var characters = [];
             var containedVocabIds = this.has('containedVocabIds') ? this.get('containedVocabIds') : [];
-            for (var i = 0, length = containedVocabIds.length; i < length; i++) {
-                var vocabId = containedVocabIds[i];
-                if (this.get('lang') === 'zh') {
-                    characters.push(skritter.fn.simptrad.getWritingFromBase(vocabId));
-                } else {
-                    var character = vocabId.split('-')[1];
-                    if (!skritter.fn.isKana(character))
-                        characters.push(character);
-                }
+            if (this.has('containedVocabIds')) {
+                for (var i = 0, length = containedVocabIds.length; i < length; i++)
+                    if (this.get('lang') === 'zh') {
+                        characters.push(skritter.fn.simptrad.getWritingFromBase(containedVocabIds[i]));
+                    } else {
+                        characters.push(containedVocabIds[i].split('-')[1]);
+                    }
+            } else {
+                var splitWriting = this.get('writing').split('');
+                if (splitWriting.length === 1 && !skritter.fn.isKana(splitWriting[0]))
+                    characters.push(splitWriting[0]);
+                    
             }
             return characters;
-        },
-        /**
-         * @method characterCount
-         * @returns {Number}
-         */
-        characterCount: function() {
-            return this.characters().length;
         },
         /**
          * @method containedItemIds
@@ -55,6 +51,13 @@ define(function() {
             for (var i = 0, length = containedVocabIds.length; i < length; i++)
                 containedItemIds.push(skritter.user.id + '-' + containedVocabIds[i] + '-' + part);
             return containedItemIds;
+        },
+        /**
+         * @method count
+         * @returns {Number}
+         */
+        count: function() {
+            return this.characters().length;
         }
     });
 
