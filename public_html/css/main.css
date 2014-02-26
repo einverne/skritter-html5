@@ -95,3 +95,14 @@ body {
     padding: 12px 15px;
     text-decoration: none;
 }
+
+
+/*** PROMPT: CANVAS ***/
+.canvas-container {
+    background-color: #ffffff;
+    cursor: pointer;
+    position: relative;
+}
+.canvas-container #canvas-display, .canvas-container #canvas-input { position: absolute; }
+.canvas-container #canvas-display { }
+.canvas-container #input-display { z-index: 9999; }
