@@ -242,7 +242,7 @@ define([
                 function(item, vocab, containedItems, containedVocabs, callback) {
                     if (vocab.has('sentenceId')) {
                         skritter.storage.getItems('sentences', vocab.get('sentenceId'), function(sentences) {
-                            if (sentences.lengh === 1) {
+                            if (sentences.length === 1) {
                                 callback(null, item, vocab, containedItems, containedVocabs, skritter.user.data.sentences.add(sentences, {merge: true, silent: true}));
                             } else {
                                 callback("Sentence is missing.", item);

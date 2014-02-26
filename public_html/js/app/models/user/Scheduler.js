@@ -169,6 +169,25 @@ define(function() {
             });
         },
         /**
+         * @method next
+         * @param {function} callback
+         */
+        next: function(callback) {
+            var index = 0;
+            function load() {
+                skritter.user.data.loadItem(Scheduler.schedule[index].id, function(item) {
+                    if (item) {
+                        console.log(item);
+                        callback(item);
+                    } else {
+                        index++;
+                        load();
+                    }
+                });
+            }
+            load();
+        },
+        /**
          * @method schedule
          * @returns {Array}
          */
