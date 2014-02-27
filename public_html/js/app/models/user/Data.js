@@ -274,7 +274,7 @@ define([
                         callback(null, item, vocab, containedItems, containedVocabs, sentence, []);
                     }
                 }
-            ], function(error, item, vocab, containedItems, containedVocabs, sentence, strokes) {
+            ], function(error, item) {
                 if (error) {
                     log('ITEM ERROR', item, error);
                     if (item)
@@ -284,7 +284,6 @@ define([
                         });
                     callback();
                 } else {
-                    log('ITEM LOADED', error, item, vocab, containedItems, containedVocabs, sentence, strokes);
                     if (item.has('flag')) {
                         item.unset('flag');
                         item.unset('flagMessage');

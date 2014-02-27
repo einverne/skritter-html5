@@ -65,7 +65,7 @@ define(function() {
          */
         createCanvasContainer: function() {
             var element = document.createElement('div');
-            element.className = 'canvas-container';
+            element.className = 'canvas-holder';
             element.style.width = Canvas.size + 'px';
             element.style.height = Canvas.size + 'px';
             return element;

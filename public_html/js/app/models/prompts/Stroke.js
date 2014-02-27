@@ -5,10 +5,10 @@
  */
 define(function() {
     /**
-     * @class CanvasStroke
+     * @class PromptStroke
      */
-    var CanvasStroke = Backbone.Model.extend({
+    var Stroke = Backbone.Model.extend({
     });
 
-    return CanvasStroke;
+    return Stroke;
 });

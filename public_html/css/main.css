@@ -97,12 +97,23 @@ body {
 }
 
 
+/*** PROMPT ***/
+.prompt-container #info-container {
+    float: left;
+    width: 30%;
+}
+.prompt-container #input-container {
+    float: left;
+    width: 70%;
+}
+
+
 /*** PROMPT: CANVAS ***/
-.canvas-container {
+.canvas-holder {
     background-color: #ffffff;
     cursor: pointer;
     position: relative;
 }
-.canvas-container #canvas-display, .canvas-container #canvas-input { position: absolute; }
-.canvas-container #canvas-display { }
-.canvas-container #input-display { z-index: 9999; }
+.canvas-holder #canvas-display, .canvas-holder #canvas-input { position: absolute; }
+.canvas-holder #canvas-display { }
+.canvas-holder #input-display { z-index: 9999; }

@@ -177,7 +177,6 @@ define(function() {
             function load() {
                 skritter.user.data.loadItem(Scheduler.schedule[index].id, function(item) {
                     if (item) {
-                        console.log(item);
                         callback(item);
                     } else {
                         index++;

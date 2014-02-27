@@ -1,14 +1,14 @@
 /**
  * @module Skritter
  * @submodule Models
- * @param CanvasCharacter
- * @param CanvasStroke
+ * @param PromptCharacter
+ * @param PromptStroke
  * @author Joshua McFarland
  */
 define([
-    'collections/prompts/CanvasCharacter',
-    'models/prompts/CanvasStroke'
-], function(CanvasCharacter, CanvasStroke) {
+    'collections/prompts/Character',
+    'models/prompts/Stroke'
+], function(PromptCharacter, PromptStroke) {
     /**
      * @class Stroke
      */
@@ -36,13 +36,13 @@ define([
             var variations = this.get('strokes');
             var rune = this.get('rune');
             for (var a = 0, lengthA = variations.length; a < lengthA; a++) {
-                var character = new CanvasCharacter();
+                var character = new PromptCharacter();
                 var variation = variations[a];
                 var position = 1;
                 character.name = rune;
                 character.variation = a + 1;
                 for (var b = 0, lengthB = variation.length; b < lengthB; b++) {
-                    var stroke = new CanvasStroke();
+                    var stroke = new PromptStroke();
                     var data = variation[b];
                     var bitmapId = data[0];
                     var params = skritter.params.findWhere({bitmapId: bitmapId});
