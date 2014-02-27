@@ -23,6 +23,15 @@ define([
          */
         render: function() {
             return this;
+        },
+        /**
+         * @method set
+         * @param review
+         * @returns {Backbone.View}
+         */
+        set: function(review) {
+            console.log(review);
+            return this;
         }
     });
     

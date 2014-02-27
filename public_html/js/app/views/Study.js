@@ -18,7 +18,7 @@ define([
          */
         initialize: function() {
             Study.this = this;
-            Study.prompt = null;
+            Study.review = null;
         },
         /**
          * @method render
@@ -35,27 +35,28 @@ define([
             }
             return this;
         },
-        loadPrompt: function() {
-            Study.prompt.setElement(this.$('.prompt-container')).render();
+        loadPrompt: function(review) {
+            switch (review.item.get('part')) {
+                case 'defn':
+                    Study.prompt = new Defn();
+                    break;
+                case 'rdng':
+                    Study.prompt = new Rdng();
+                    break;
+                case 'rune':
+                    Study.prompt = new Rune();
+                    break;
+                case 'tone':
+                    Study.prompt = new Tone();
+                    break;
+            }
+            Study.prompt.setElement(this.$('.prompt-container'));
+            Study.prompt.set(review).render();
         },
         nextPrompt: function() {
             skritter.user.scheduler.next(function(item) {
-                switch (item.get('part')) {
-                    case 'defn':
-                        Study.prompt = new Defn();
-                        break;
-                    case 'rdng':
-                        Study.prompt = new Rdng();
-                        break;
-                    case 'rune':
-                        Study.prompt = new Rune();
-                        break;
-                    case 'tone':
-                        Study.prompt = new Tone();
-                        break;
-                }
-                console.log(Study.prompt);
-                Study.this.loadPrompt();
+                Study.review = item.createReview();
+                Study.this.loadPrompt(Study.review);
             });
         },
         previousPrompt: function() {

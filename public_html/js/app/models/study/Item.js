@@ -42,11 +42,12 @@ define([
             var containedItems = this.containedItems();
             var now = skritter.fn.getUnixTime();
             var part = this.get('part');
-            var vocab = this.vocab();
             var wordGroup = now + '_' + id;
             //base review
+            review.character = (part === 'rune' || 'tone') && this.stroke() ? this.stroke().canvasCharacters() : null;
+            review.item = this;
+            review.vocab = this.vocab();
             review.set({
-                character: (part === 'rune' || 'tone') && this.stroke() ? this.stroke().canvasCharacters() : null,
                 id: now + '_0_' + id,
                 itemId: id,
                 bearTime: true,
@@ -56,12 +57,14 @@ define([
             //contained reviews
             for (var i = 0, length = containedItems.length; i < length; i++) {
                 var containedReview = new Review();
-                var item = containedItems[i];
+                var containedItem = containedItems[i];
+                containedReview.character = (part === 'rune' || 'tone') && this.stroke() ? this.stroke().canvasCharacters() : null;
+                containedReview.item = containedItem;
+                containedReview.vocab = containedItem.vocab();
                 containedReview.set({
                     bearTime: false,
-                    character: (part === 'rune' || 'tone') && this.stroke() ? this.stroke().canvasCharacters() : null,
-                    id: item.id,
-                    itemId: item.id,
+                    id: containedItem.id,
+                    itemId: containedItem.id,
                     position: i + 1,
                     wordGroup: wordGroup
                 });
