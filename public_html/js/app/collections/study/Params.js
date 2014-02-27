@@ -6,7 +6,7 @@
  */
 define([
     'models/study/Param'
-], function(Param, ParamMap) {
+], function(Param) {
     /**
      * @class Params
      */

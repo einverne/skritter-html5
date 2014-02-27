@@ -1,18 +1,21 @@
 /**
  * @module Skritter
  * @param Api
+ * @param Assets
  * @param Functions
  * @param IndexedDBAdapter
  * @param Log
  * @param Modals
  * @param Params
  * @param Router
+ * @param Settings
  * @param SQLiteAdapter
  * @param User
  * @author Joshua McFarland
  */
 define([
     'models/Api',
+    'models/Assets',
     'Functions',
     'models/storage/IndexedDBAdapter',
     'models/Log',
@@ -22,7 +25,7 @@ define([
     'models/Settings',
     'models/storage/SQLiteAdapter',
     'models/User'
-], function(Api, Functions, IndexedDBAdapter, Log, Modals, Params, Router, Settings, SQLiteAdapter, User) {
+], function(Api, Assets, Functions, IndexedDBAdapter, Log, Modals, Params, Router, Settings, SQLiteAdapter, User) {
     /**
      * Reserves the global skritter namespace if it doesn't already exist.
      * @param skritter
@@ -36,6 +39,7 @@ define([
     var initialize = function() {
         async.series([
             async.apply(loadApi),
+            async.apply(loadAssets),
             async.apply(loadFunctions),
             async.apply(loadLog),
             async.apply(loadModals),
@@ -53,6 +57,14 @@ define([
      */
     var loadApi = function(callback) {
         skritter.api = new Api();
+        callback();
+    };
+    /**
+     * @method loadAssets
+     * @param {Function} callback
+     */
+    var loadAssets = function(callback) {
+        skritter.assets = new Assets();
         callback();
     };
     /**
@@ -117,20 +129,20 @@ define([
             async.series([
                 async.apply(skritter.storage.openDatabase, skritter.user.get('user_id')),
                 function(callback) {
-                    skritter.modals.show('default', callback)
-                            .set('.modal-header', false)
-                            .set('.modal-body', 'LOADING', 'text-center')
-                            .set('.modal-footer', false);
-                },
-                async.apply(skritter.user.scheduler.load),
-                function(callback) {
                     if (skritter.user.sync.isFirst()) {
                         skritter.user.sync.start(callback, true);
                     } else {
                         skritter.user.sync.start();
                         callback();
                     }
-                }
+                },
+                function(callback) {
+                    skritter.modals.show('default', callback)
+                            .set('.modal-header', false)
+                            .set('.modal-body', 'LOADING', 'text-center')
+                            .set('.modal-footer', false);
+                },
+                async.apply(skritter.user.scheduler.load)
             ], function() {
                 skritter.modals.hide();
                 callback();

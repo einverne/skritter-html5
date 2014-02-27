@@ -5,7 +5,7 @@
  * @author Joshua McFarland
  */
 define([
-    'models/study/CanvasStroke'
+    'models/prompts/CanvasStroke'
 ], function(CanvasStroke) {
     /**
      * @class CanvasCharacter

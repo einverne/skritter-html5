@@ -1,9 +1,14 @@
 /**
  * @module Skritter
  * @submodule Models
+ * @param CanvasCharacter
+ * @param CanvasStroke
  * @author Joshua McFarland
  */
-define(function() {
+define([
+    'collections/prompts/CanvasCharacter',
+    'models/prompts/CanvasStroke'
+], function(CanvasCharacter, CanvasStroke) {
     /**
      * @class Stroke
      */
@@ -21,6 +26,44 @@ define(function() {
                 if (typeof callback === 'function')
                     callback();
             });
+        },
+        /**
+         * @method canvasCharacters
+         * @returns {Backbone.Model}
+         */
+        canvasCharacters: function() {
+            var characters = [];
+            var variations = this.get('strokes');
+            var rune = this.get('rune');
+            for (var a = 0, lengthA = variations.length; a < lengthA; a++) {
+                var character = new CanvasCharacter();
+                var variation = variations[a];
+                var position = 1;
+                character.name = rune;
+                character.variation = a + 1;
+                for (var b = 0, lengthB = variation.length; b < lengthB; b++) {
+                    var stroke = new CanvasStroke();
+                    var data = variation[b];
+                    var bitmapId = data[0];
+                    var params = skritter.params.findWhere({bitmapId: bitmapId});
+                    character.add({
+                        bitmapId: bitmapId,
+                        data: data[0],
+                        id: position + '|' + bitmapId,
+                        position: position,
+                        shape: skritter.assets.stroke(bitmapId)
+                    });
+                    if (params.has('contains')) {
+                        stroke.set('contains', params.get('contains'));
+                        position += 2;
+                    } else {
+                        position += 1;
+                    }
+                    character.add(stroke);
+                }
+                characters.push(character);
+            }
+            return characters;
         }
     });
 
