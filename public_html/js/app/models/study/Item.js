@@ -38,6 +38,43 @@ define([
          */
         createReview: function() {
             var review = new Review();
+            var id = this.id;
+            var containedItems = this.containedItems();
+            var now = skritter.fn.getUnixTime();
+            var part = this.get('part');
+            var vocab = this.vocab();
+            var wordGroup = now + '_' + id;
+            //base review
+            review.set({
+                character: (part === 'rune' || 'tone') && this.stroke() ? this.stroke().canvasCharacters() : null,
+                id: now + '_0_' + id,
+                itemId: id,
+                bearTime: true,
+                position: 0,
+                wordGroup: wordGroup 
+            });
+            //contained reviews
+            for (var i = 0, length = containedItems.length; i < length; i++) {
+                var containedReview = new Review();
+                var item = containedItems[i];
+                containedReview.set({
+                    bearTime: false,
+                    character: (part === 'rune' || 'tone') && this.stroke() ? this.stroke().canvasCharacters() : null,
+                    id: item.id,
+                    itemId: item.id,
+                    position: i + 1,
+                    wordGroup: wordGroup
+                });
+                review.get('containedReviews').push(containedReview);
+            }
+            return review;
+        },
+        /**
+         * @method stroke
+         * @returns {Backbone.Model}
+         */
+        stroke: function() {
+            return skritter.user.data.strokes.get(this.vocab().get('writing'));
         },
         /**
          * @method vocab

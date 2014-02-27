@@ -13,7 +13,7 @@ define(function() {
          */
         defaults: {
             containedReviews: [],
-            prompt: null
+            finished: false
         },
         /**
          * @method cache
