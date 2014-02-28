@@ -17,6 +17,13 @@ define(function() {
                 if (typeof callback === 'function')
                     callback();
             });
+        },
+        /**
+         * @method reading
+         * @returns {String}
+         */
+        reading: function() {
+            return skritter.fn.pinyin.toTone(this.get('reading'));
         }
     });
 

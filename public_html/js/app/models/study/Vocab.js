@@ -28,7 +28,7 @@ define(function() {
             if (this.has('containedVocabIds')) {
                 for (var i = 0, length = containedVocabIds.length; i < length; i++)
                     if (this.get('lang') === 'zh') {
-                        characters.push(skritter.fn.simptrad.getWritingFromBase(containedVocabIds[i]));
+                        characters.push(skritter.fn.simptrad.fromBase(containedVocabIds[i]));
                     } else {
                         characters.push(containedVocabIds[i].split('-')[1]);
                     }
@@ -58,6 +58,58 @@ define(function() {
          */
         count: function() {
             return this.characters().length;
+        },
+        /**
+         * @method definition
+         * @returns {String}
+         */
+        definition: function() {
+            var definition;
+            if (this.get('definitions')[skritter.user.settings.get('sourceLang')]) {
+                definition = this.get('definitions')[skritter.user.settings.get('sourceLang')];
+            } else if (this.get('definitions')['en']) {
+                definition = this.get('definitions')['en'];
+            }
+            return definition;
+        },
+        /**
+         * @method pinyin
+         * @returns {String}
+         */
+        reading: function() {
+            return skritter.fn.pinyin.toTone(this.get('reading'));
+        },
+        /**
+         * @method sentence
+         * @returns {Object}
+         */
+        sentence: function() {
+            return this.has('sentenceId') ? skritter.user.data.sentences.findWhere({id: this.get('sentenceId')}) : undefined;
+        },
+        /**
+         * @method writing
+         * @param {Number} offset
+         * @returns {String}
+         */
+        writing: function(offset) {
+            var element = '';
+            var position = 1;
+            var actualCharacters = this.get('writing').split('');
+            var containedCharacters = this.characters();
+            for (var i = 0, length = actualCharacters.length; i < length; i++) {
+                var character = actualCharacters[i];
+                if (containedCharacters.indexOf(character) === -1) {
+                    element += "<span>" + character + "</span>";
+                } else {
+                    if (offset && position <= offset) {
+                        element += "<span id='writing-" + position + "' class='writing-hidden'>" +  character + "</span>";
+                    } else {
+                        element += "<span id='writing-" + position + "'>" +  character + "</span>";
+                    }
+                    position++;
+                }
+            }
+            return element;
         }
     });
 
