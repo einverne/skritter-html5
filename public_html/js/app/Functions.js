@@ -21,6 +21,18 @@ define([
     'functions/StrokeMap'
 ], function(Bootstrap, ParamMap, PinyinConverter, Shortstraw, SimpTradMap, StrokeMap) {
     /**
+     * Parses through and array attempting to convert each value to an int.
+     * 
+     * @method arrayToInt
+     * @param {Array} array
+     * @returns {Array}
+     */
+    var arrayToInt = function(array) {
+        return array.map(function(value) {
+            return parseInt(value, 10);
+        });
+    };
+    /**
      * @property {Object} bootstrap
      */
     var bootstrap = Bootstrap;
@@ -103,6 +115,7 @@ define([
     var strokes = StrokeMap;
     
     return {
+        arrayToInt: arrayToInt,
         bootstrap: bootstrap,
         bytesToSize: bytesToSize,
         getUnixTime: getUnixTime,

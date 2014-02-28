@@ -67,41 +67,35 @@ define(function() {
             var definition;
             if (this.get('definitions')[skritter.user.settings.get('sourceLang')]) {
                 definition = this.get('definitions')[skritter.user.settings.get('sourceLang')];
-            } else if (this.get('definitions')['en']) {
-                definition = this.get('definitions')['en'];
+            } else if (this.get('definitions').en) {
+                definition = this.get('definitions').en;
             }
             return definition;
         },
         /**
-         * @method pinyin
-         * @param {Number} offset
-         * @returns {Object}
+         * Returns an array of unique possible tone numbers in the order they appear in the
+         * reading string. Japanese will just return an empty array since it doesn't have tones.
+         * 
+         * @method tones
+         * @returns {Array}
          */
-        pinyin: function(offset) {
-            offset = offset ? offset - 1 : 0;
-            var pinyin;
-            var reading = 'fei1 ... bu4ke4';
-            //reading = "you4'er2''";
-            var reading = reading.match(/[a-z]+[0-9]+|\s\.\.\.\s|'/g);
-            var output = reading;
-            
-            console.log(output);
-            
-            /*if (skritter.user.settings.isChinese()) {
-                var reading = this.get('reading').replace(' ... ', '').replace("'", '');
-                var syllable = reading.match(/[a-z]+/g);
-                var tone = reading.match(/[0-9]+/g);
-                reading = skritter.fn.pinyin.toTone(reading);
-                if (reading.indexOf(',') === -1) {
-                    var splitReading = [];
-                    for (var i = 0, length = syllable.length; i < length; i++)
-                        splitReading.push(skritter.fn.pinyin.toTone(syllable[i] + tone[i]));
-                    pinyin = {reading: splitReading[offset], syllable: syllable[offset], tone: tone[offset]};
+        tones: function() {
+            var tones = [];
+            var reading = this.get('reading');
+            if (skritter.user.settings.isChinese()) {
+                var i = 0;
+                if (reading.indexOf(', ') === -1) {
+                    reading = reading.match(/[0-9]+/g);
+                    for (i = 0, length = reading.length; i < length; i++)
+                        tones.push([parseInt(reading[i], 10)]);
                 } else {
-                    pinyin = {reading: reading, syllable: syllable, tone: tone};
+                    reading = reading.split(', ');
+                    for (i = 0, length = reading.length; i < length; i++)
+                        tones.push([skritter.fn.arrayToInt(reading[i].match(/[0-9]+/g))]);
                 }
-            }*/
-            return pinyin;
+            }
+            console.log(tones);
+            return tones;
         },
         /**
          * @method reading
