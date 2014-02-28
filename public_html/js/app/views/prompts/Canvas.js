@@ -258,7 +258,7 @@ define(function() {
             Canvas.stage.display.canvas.height = size;
             Canvas.stage.input.canvas.width = size;
             Canvas.stage.input.canvas.height = size;
-            this.render();
+            return this;
         },
         /**
          * Enables the view to fire events when the canvas has been touched.

@@ -16,19 +16,38 @@ define([
          */
         initialize: function() {
             Prompt.this = this;
+            Prompt.gradingButton = new GradingButtons();
             Prompt.review = null;
+            this.listenTo(skritter.settings, 'resize', this.resize);
         },
         /**
          * @method render
          * @returns {Backbone.View}
          */
         render: function() {
+            this.resize();
             return this;
         },
         /**
          * @property {Object} hide
          */
-        hide: {  
+        hide: {
+            sentence: function() {
+                Prompt.this.$('.prompt-sentence').parent().show();
+            }
+        },
+        /**
+         * @method resize
+         * @param {Backbone.Model} settings
+         */
+        resize: function(settings) {
+            if (settings.orientation() === 'landscape') {
+                this.$('#info-container').width(settings.width() - this.$('#input-container').width());
+            } else {
+                this.$('#info-container').height(settings.height() - this.$('#input-container').height() - 2);
+                this.$('#info-container').width(settings.width());
+            }
+            
         },
         /**
          * @method set

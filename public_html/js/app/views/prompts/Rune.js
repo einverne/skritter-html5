@@ -28,8 +28,21 @@ define([
          */
         render: function() {
             this.$el.html(templateRune);
-            Rune.canvas.setElement(this.$('#canvas-container')).render();
+            Rune.canvas.setElement(this.$('#canvas-container'));
             Prompt.prototype.render.call(this);
+        },
+        /**
+         * @method resize
+         * @param {Backbone.Model} settings
+         */
+        resize: function(settings) {
+            settings = settings ? settings : skritter.settings;
+            if (settings.orientation() === 'landscape') {
+                Rune.canvas.size(settings.height()).render();
+            } else {
+                Rune.canvas.size(settings.width()).render();
+            }
+            Prompt.prototype.resize.call(this, settings);
         }
     });
     

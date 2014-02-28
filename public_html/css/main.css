@@ -10,8 +10,8 @@
 
 
 /*** GENERAL ***/
-html {
-    min-height: 100%;
+html, body {
+    height: 100%;
     position: relative;
 }
 body {
@@ -21,6 +21,9 @@ body {
     background-image: url('../images/textures/rice-paper1.png');
     background-repeat: repeat;
     padding-top: 45px;
+}
+#skritter-container {
+    height: 100%
 }
 .chinese-text { font-family: "simkai", "Arial Unicode MS", sans-serif; }
 .content {
@@ -100,11 +103,9 @@ body {
 /*** PROMPT ***/
 .prompt-container #info-container {
     float: left;
-    width: 30%;
 }
 .prompt-container #input-container {
     float: left;
-    width: 70%;
 }
 
 
@@ -117,3 +118,27 @@ body {
 .canvas-holder #canvas-display, .canvas-holder #canvas-input { position: absolute; }
 .canvas-holder #canvas-display { }
 .canvas-holder #input-display { z-index: 9999; }
+
+
+/*** PROMPT: INFO-CONTAINER ***/
+#info-container {
+    background-color: #ffffff;
+}
+#info-container .part-badge {
+    background: #999999;
+    border-radius: 5px;
+    color : #ffffff;
+    float: left;
+    font-size: smaller;
+    margin-right: 5px;
+    padding: 2px 4px;
+}
+#info-container .part-badge.active { background: #333333; }
+#info-container .row {
+    margin: 0;
+}
+@media screen and (orientation: portrait) {
+    #info-container {
+        border-bottom: 2px #000000 solid;
+    }
+}
