@@ -33,8 +33,20 @@ define([
          * @property {Object} hide
          */
         hide: {
+            definition: function() {
+                Prompt.this.$('.prompt-definition').parent().hide();
+            },
+            mnemonic: function() {
+                Prompt.this.$('.prompt-mnemonic').parent().hide();
+            },
+            reading: function() {
+                Prompt.this.$('.prompt-reading').parent().hide();
+            },
             sentence: function() {
-                Prompt.this.$('.prompt-sentence').parent().show();
+                Prompt.this.$('.prompt-sentence').parent().hide();
+            },
+            writing: function() {
+                Prompt.this.$('.prompt-writing').parent().hide();
             }
         },
         /**
@@ -58,6 +70,7 @@ define([
          * @returns {Backbone.View}
          */
         set: function(review) {
+            console.log('PROMPT', review);
             Prompt.review = review;
             return this;
         },
@@ -68,11 +81,19 @@ define([
             definition: function() {
                 Prompt.this.$('.prompt-definition').html(Prompt.review.vocab.definition());
             },
+            mnemonic: function() {
+                if (Prompt.review.vocab.has('mnemonic')) {
+                    Prompt.this.$('.prompt-mnemonic').html(Prompt.review.vocab.mnemonic());
+                    Prompt.this.$('.prompt-mnemonic').parent().show();
+                } else {
+                    Prompt.this.hide.mnemonic();
+                }
+            },
             reading: function(offset, mask) {
                 Prompt.this.$('.prompt-reading').html(Prompt.review.vocab.reading(offset, mask));
             },
             sentence: function() {
-                if (Prompt.review.vocab.sentence()) {
+                if (Prompt.review.vocab.has('sentenceId')) {
                     Prompt.this.$('.prompt-sentence').html(Prompt.review.vocab.sentence().get('writing'));
                 } else {
                     Prompt.this.$('.prompt-sentence').parent().show();

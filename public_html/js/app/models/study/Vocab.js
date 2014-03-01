@@ -73,6 +73,15 @@ define(function() {
             return definition;
         },
         /**
+         * @method mnemonic
+         * @returns {String}
+         */
+        mnemonic: function() {
+            var mnemonic = this.get('mnemonic');
+            if (mnemonic)
+                return mnemonic.text + ' (' + mnemonic.creator + ')';
+        },
+        /**
          * Returns an array of unique possible tone numbers in the order they appear in the
          * reading string. Japanese will just return an empty array since it doesn't have tones.
          * 

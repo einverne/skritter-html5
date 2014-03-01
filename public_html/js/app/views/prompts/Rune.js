@@ -46,7 +46,7 @@ define([
         },
         display: function() {
             this.show.writing();
-            this.show.reading(1, true);
+            this.show.reading();
             this.show.definition();
             this.show.sentence();
         }

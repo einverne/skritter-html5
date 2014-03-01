@@ -33,7 +33,7 @@ define([
         render: function() {
             this.$el.html(templateStudy);
             //skritter.user.scheduler.filter({ids: ['mcfarljwtest2-zh-幼儿-1-rune']});
-            skritter.user.scheduler.filter({parts: ['defn']});
+            skritter.user.scheduler.filter({parts: ['rune']});
             if (Study.prompt) {
                 this.loadPrompt();
             } else {
