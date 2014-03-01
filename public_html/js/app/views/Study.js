@@ -33,40 +33,49 @@ define([
         render: function() {
             this.$el.html(templateStudy);
             //skritter.user.scheduler.filter({ids: ['mcfarljwtest2-zh-幼儿-1-rune']});
-            skritter.user.scheduler.filter({parts: ['rune']});
-            if (Study.prompt) {
-                this.loadPrompt();
+            //skritter.user.scheduler.filter({parts: ['rune']});
+            if (Study.review) {
+                this.prompt.load(Study.review);
             } else {
-                this.nextPrompt();
+                this.prompt.next();
             }
             return this;
         },
-        loadPrompt: function(review) {
-            switch (review.item.get('part')) {
-                case 'defn':
-                    Study.prompt = new Defn();
-                    break;
-                case 'rdng':
-                    Study.prompt = new Rdng();
-                    break;
-                case 'rune':
-                    Study.prompt = new Rune();
-                    break;
-                case 'tone':
-                    Study.prompt = new Tone();
-                    break;
+        /**
+         * Contains functions that deal with prompts loading and navigation.
+         * 
+         * @property {Object} prompt
+         */
+        prompt: {
+            load: function(review) {
+                switch (review.item.get('part')) {
+                    case 'defn':
+                        Study.prompt = new Defn();
+                        break;
+                    case 'rdng':
+                        Study.prompt = new Rdng();
+                        break;
+                    case 'rune':
+                        Study.prompt = new Rune();
+                        break;
+                    case 'tone':
+                        Study.prompt = new Tone();
+                        break;
+                }
+                Study.prompt.setElement(Study.this.$('.prompt-container'));
+                Study.prompt.set(review).render();
+            },
+            next: function() {
+                skritter.user.scheduler.next(function(item) {
+                    Study.review = item.createReview();
+                    Study.this.prompt.load(Study.review);
+                });
+            },
+            previous: function() {
             }
-            Study.prompt.setElement(this.$('.prompt-container'));
-            Study.prompt.set(review).render();
         },
-        nextPrompt: function() {
-            skritter.user.scheduler.next(function(item) {
-                Study.review = item.createReview();
-                Study.this.loadPrompt(Study.review);
-            });
-        },
-        previousPrompt: function() {
-            
+        review: function() {
+            return Study.review;
         }
     });
     

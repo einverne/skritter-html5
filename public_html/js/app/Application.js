@@ -142,7 +142,8 @@ define([
                             .set('.modal-body', 'LOADING', 'text-center')
                             .set('.modal-footer', false);
                 },
-                async.apply(skritter.user.scheduler.load)
+                async.apply(skritter.user.scheduler.load),
+                async.apply(skritter.user.data.reviews.loadAll),
             ], function() {
                 skritter.modals.hide();
                 callback();
