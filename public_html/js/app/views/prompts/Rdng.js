@@ -1,34 +1,30 @@
 /**
  * @module Skritter
  * @submodule Views
- * @param templateRune
- * @param Canvas
+ * @param templateRdng
  * @param Prompt
  * @author Joshua McFarland
  */
 define([
-    'require.text!templates/prompt-rune.html',
-    'views/prompts/Canvas',
+    'require.text!templates/prompt-rdng.html',
     'views/prompts/Prompt'
-], function(templateRune, Canvas, Prompt) {
+], function(templateRdng, Prompt) {
     /**
-     * @class PromptRune
+     * @class PromptDefn
      */
-    var Rune = Prompt.extend({
+    var Rdng = Prompt.extend({
         /**
          * @method initialize
          */
         initialize: function() {
             Prompt.prototype.initialize.call(this);
-            Rune.canvas = new Canvas();
         },
         /**
          * @method render
          * @returns {Backbone.View}
          */
         render: function() {
-            this.$el.html(templateRune);
-            Rune.canvas.setElement(this.$('#canvas-container'));
+            this.$el.html(templateRdng);
             Prompt.prototype.render.call(this);
         },
         /**
@@ -38,9 +34,11 @@ define([
         resize: function(settings) {
             settings = settings ? settings : skritter.settings;
             if (settings.orientation() === 'landscape') {
-                Rune.canvas.size(settings.height()).render();
+                this.$('#input-container').height(settings.height());
+                this.$('#input-container').width(settings.height());
             } else {
-                Rune.canvas.size(settings.width()).render();
+                this.$('#input-container').height(settings.width());
+                this.$('#input-container').width(settings.width());
             }
             Prompt.prototype.resize.call(this, settings);
         },
@@ -52,5 +50,5 @@ define([
         }
     });
     
-    return Rune;
+    return Rdng;
 });

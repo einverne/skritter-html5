@@ -90,12 +90,12 @@ body {
 
 
 /*** NAVBAR ***/
+.navbar { font-size: 18px; }
 .navbar .navbar-text {
-    margin-left: 0;
-    margin-right: 0;
+    margin: 10px 0;
 }
 .navbar .navbar-text a {
-    padding: 12px 15px;
+    padding: 10px 15px;
     text-decoration: none;
 }
 
@@ -121,8 +121,10 @@ body {
 
 
 /*** PROMPT: INFO-CONTAINER ***/
-#info-container {
+#info-container { 
     background-color: #ffffff;
+    border-bottom: none;
+    border-right: 2px #000000 solid;
 }
 #info-container .part-badge {
     background: #999999;
@@ -130,15 +132,38 @@ body {
     color : #ffffff;
     float: left;
     font-size: smaller;
+    font-weight: normal;
     margin-right: 5px;
+    min-width: 20px;
     padding: 2px 4px;
+    text-align: center;
 }
 #info-container .part-badge.active { background: #333333; }
-#info-container .row {
-    margin: 0;
+#info-container .row { margin: 5px 0; }
+#info-container .writing-hidden {
+    border-bottom: 1px #000000 solid;
+    margin: 0 5px;
 }
+#info-container .writing-hidden span { visibility: hidden; }
+#info-container .reading-masked {
+    border-bottom: 1px #000000 solid;
+    margin: 0 5px;
+}
+#info-container .reading-hidden {
+    border-bottom: 1px #000000 solid;
+    margin: 0 5px;
+}
+#info-container .reading-hidden span { visibility: hidden; }
 @media screen and (orientation: portrait) {
-    #info-container {
+    #info-container { 
         border-bottom: 2px #000000 solid;
+        border-right: none;
     }
+}
+
+
+/*** PROMPT: INPUT-CONTAINER ***/
+#input-container { 
+    background-color: #ffffff;
+    cursor: pointer;
 }

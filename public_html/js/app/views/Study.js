@@ -2,13 +2,19 @@
  * @module Skritter
  * @submodule Views
  * @param templateStudy
+ * @param Defn
+ * @param Rdng
  * @param Rune
+ * @param Tone
  * @author Joshua McFarland
  */
 define([
     'require.text!templates/study.html',
-    'views/prompts/Rune'
-], function(templateStudy, Rune) {
+    'views/prompts/Defn',
+    'views/prompts/Rdng',
+    'views/prompts/Rune',
+    'views/prompts/Tone'
+], function(templateStudy, Defn, Rdng, Rune, Tone) {
     /**
      * @class Study
      */
@@ -26,8 +32,8 @@ define([
          */
         render: function() {
             this.$el.html(templateStudy);
-            skritter.user.scheduler.filter({ids: ['mcfarljwtest2-zh-幼儿-1-rune']});
-            //skritter.user.scheduler.filter({parts: ['rune']});
+            //skritter.user.scheduler.filter({ids: ['mcfarljwtest2-zh-幼儿-1-rune']});
+            skritter.user.scheduler.filter({parts: ['defn']});
             if (Study.prompt) {
                 this.loadPrompt();
             } else {

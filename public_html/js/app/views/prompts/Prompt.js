@@ -25,6 +25,7 @@ define([
          * @returns {Backbone.View}
          */
         render: function() {
+            this.display();
             this.resize();
             return this;
         },
@@ -42,10 +43,12 @@ define([
          */
         resize: function(settings) {
             if (settings.orientation() === 'landscape') {
-                this.$('#info-container').width(settings.width() - this.$('#input-container').width());
+                this.$('#info-container').width(settings.width() - this.$('#input-container').width() - 2);
+                this.$('#info-container').height(settings.height());
             } else {
-                this.$('#info-container').height(settings.height() - this.$('#input-container').height() - 2);
                 this.$('#info-container').width(settings.width());
+                this.$('#info-container').height(settings.height() - this.$('#input-container').height() - 2);
+
             }
             
         },
@@ -65,8 +68,8 @@ define([
             definition: function() {
                 Prompt.this.$('.prompt-definition').html(Prompt.review.vocab.definition());
             },
-            reading: function(offset) {
-                Prompt.this.$('.prompt-reading').html(Prompt.review.vocab.reading(offset));
+            reading: function(offset, mask) {
+                Prompt.this.$('.prompt-reading').html(Prompt.review.vocab.reading(offset, mask));
             },
             sentence: function() {
                 if (Prompt.review.vocab.sentence()) {

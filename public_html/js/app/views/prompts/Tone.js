@@ -1,34 +1,34 @@
 /**
  * @module Skritter
  * @submodule Views
- * @param templateRune
+ * @param templateTone
  * @param Canvas
  * @param Prompt
  * @author Joshua McFarland
  */
 define([
-    'require.text!templates/prompt-rune.html',
+    'require.text!templates/prompt-tone.html',
     'views/prompts/Canvas',
     'views/prompts/Prompt'
-], function(templateRune, Canvas, Prompt) {
+], function(templateTone, Canvas, Prompt) {
     /**
-     * @class PromptRune
+     * @class PromptTone
      */
-    var Rune = Prompt.extend({
+    var Tone = Prompt.extend({
         /**
          * @method initialize
          */
         initialize: function() {
             Prompt.prototype.initialize.call(this);
-            Rune.canvas = new Canvas();
+            Tone.canvas = new Canvas();
         },
         /**
          * @method render
          * @returns {Backbone.View}
          */
         render: function() {
-            this.$el.html(templateRune);
-            Rune.canvas.setElement(this.$('#canvas-container'));
+            this.$el.html(templateTone);
+            Tone.canvas.setElement(this.$('#canvas-container'));
             Prompt.prototype.render.call(this);
         },
         /**
@@ -38,19 +38,19 @@ define([
         resize: function(settings) {
             settings = settings ? settings : skritter.settings;
             if (settings.orientation() === 'landscape') {
-                Rune.canvas.size(settings.height()).render();
+                Tone.canvas.size(settings.height()).render();
             } else {
-                Rune.canvas.size(settings.width()).render();
+                Tone.canvas.size(settings.width()).render();
             }
             Prompt.prototype.resize.call(this, settings);
         },
         display: function() {
             this.show.writing();
-            this.show.reading(1, true);
+            this.show.reading(1);
             this.show.definition();
             this.show.sentence();
         }
     });
     
-    return Rune;
+    return Tone;
 });

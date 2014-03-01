@@ -41,7 +41,9 @@ define(function() {
             }
         },
         triggerResize: function() {
-            Settings.this.trigger('resize', Settings.this);
+            setTimeout(function() {
+                Settings.this.trigger('resize', Settings.this);
+            }, 500);
         },
         /**
          * @method width

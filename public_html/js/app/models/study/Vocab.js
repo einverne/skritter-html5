@@ -100,22 +100,27 @@ define(function() {
         /**
          * @method reading
          * @param {Number} offset
+         * @param {Boolean} mask
          * @returns {String}
          */
-        reading: function(offset) {            
+        reading: function(offset, mask) {            
             var element = '';
             var position = 1;
             var reading = this.get('reading');
             if (skritter.user.settings.isChinese()) {
                 reading = reading.indexOf(', ') === -1 ? [reading] : reading.split(', ');
                 for (var a = 0, lengthA = reading.length; a < lengthA; a++) {
-                    var pieces = reading[a].match(/[a-z]+[0-9]+|\s\.\.\.\s|'/g);
+                    var pieces = reading[a].match(/[a-z]+[0-9]+|\s\.\.\.\s|\'/g);
                     element += "<span id=reading-" + (a + 1) + "'>";
                     for (var b = 0, lengthB = pieces.length; b < lengthB; b++) {
                         var piece = pieces[b];
                         if (piece.indexOf(' ... ') === -1 && piece.indexOf("'") === -1) {
                             if (offset && position >= offset) {
-                                element += "<span class='position-" + position + " reading-hidden'>" + skritter.fn.pinyin.toTone(piece) + "</span>";
+                                if (mask) {
+                                    element += "<span class='position-" + position + " reading-masked'>" + piece.replace(/[0-9]/g, '') + "</span>";
+                                } else {
+                                    element += "<span class='position-" + position + " reading-hidden'><span>" + skritter.fn.pinyin.toTone(piece) + "</span></span>";
+                                }
                             } else {
                                 element += "<span class='position-" + position + "'>" + skritter.fn.pinyin.toTone(piece) + "</span>";
                             }
@@ -131,7 +136,6 @@ define(function() {
                 for (var i = 0, length = reading.length; i < length; i++)
                     element += "<span class='reading-kana'>" + reading[i] + "</span>";
             }
-            console.log(element);
             return element;
         },
         /**
@@ -157,7 +161,7 @@ define(function() {
                     element += "<span class='writing-filler'>" + character + "</span>";
                 } else {
                     if (offset && position >= offset) {
-                        element += "<span id='writing-" + position + "' class='writing-hidden'>" +  character + "</span>";
+                        element += "<span id='writing-" + position + "' class='writing-hidden'><span>" +  character + "</span></span>";
                     } else {
                         element += "<span id='writing-" + position + "'>" +  character + "</span>";
                     }

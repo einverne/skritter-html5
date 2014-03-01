@@ -121,12 +121,13 @@ define(function() {
          */
         getItems: function(tableName, keys, callback) {
             var items = [];
+            var column = SQLiteAdapter.tables[tableName].keys[0];
             keys = Array.isArray(keys) ? keys : [keys];
             for (var i in keys)
                     keys[i] = JSON.stringify(keys[i]);
             SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                t.executeSql('SELECT * FROM ' + tableName + ' WHERE id IN (' + SQLiteAdapter.this.getSqlValueString(keys) + ')', keys, querySuccess, queryError);
+                t.executeSql('SELECT * FROM ' + tableName + ' WHERE ' + column + ' IN (' + SQLiteAdapter.this.getSqlValueString(keys) + ')', keys, querySuccess, queryError);
                 function querySuccess(t, result) {
                     items = SQLiteAdapter.this.parseResult(result);
                 }
