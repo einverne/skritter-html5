@@ -24,7 +24,7 @@ define([
          */
         initialize: function() {
             Study.this = this;
-            Study.review = null;
+            this.review = null;
         },
         /**
          * @method render
@@ -33,7 +33,7 @@ define([
         render: function() {
             this.$el.html(templateStudy);
             //skritter.user.scheduler.filter({ids: ['mcfarljwtest2-zh-幼儿-1-rune']});
-            //skritter.user.scheduler.filter({parts: ['rune']});
+            skritter.user.scheduler.filter({parts: ['rune']});
             if (Study.review) {
                 this.prompt.load(Study.review);
             } else {
@@ -67,15 +67,13 @@ define([
             },
             next: function() {
                 skritter.user.scheduler.next(function(item) {
-                    Study.review = item.createReview();
-                    Study.this.prompt.load(Study.review);
+                    Study.this.review = item.createReview();
+                    Study.this.prompt.load(Study.this.review);
                 });
             },
             previous: function() {
+                //TODO: check for reviews that we can go back and edit
             }
-        },
-        review: function() {
-            return Study.review;
         }
     });
     

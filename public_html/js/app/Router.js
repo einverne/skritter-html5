@@ -18,7 +18,8 @@ define([
          * @method initialize
          */
         initialize: function() {
-            Router.view = {};
+            Router.this = this;
+            this.view = {};
         },
         /**
          * @property {Object} routes
@@ -42,12 +43,12 @@ define([
          * @method showHomeView
          */
         showHomeView: function() {
-            if (!Router.view.home) {
-                Router.view.home = new Home({el: $('#skritter-container')});
+            if (!this.view.home) {
+                this.view.home = new Home({el: $('#skritter-container')});
             } else {
-                Router.view.home.setElement($('#skritter-container'));
+                this.view.home.setElement($('#skritter-container'));
             }
-            Router.view.home.render();
+            this.view.home.render();
         },
         /**
          * Shows the the study view.
@@ -55,12 +56,12 @@ define([
          * @method showStudyView
          */
         showStudyView: function() {
-            if (!Router.view.study) {
-                Router.view.study = new Study({el: $('#skritter-container')});
+            if (!this.view.study) {
+                this.view.study = new Study({el: $('#skritter-container')});
             } else {
-                Router.view.study.setElement($('#skritter-container'));
+                this.view.study.setElement($('#skritter-container'));
             }
-            Router.view.study.render();
+            this.view.study.render();
         },
         /**
          * Runs and shows the results of the jasmine test cases.
@@ -68,21 +69,12 @@ define([
          * @method showTestsView
          */
         showTestsView: function() {
-            if (!Router.view.tests) {
-                Router.view.tests = new Tests({el: $('#skritter-container')});
+            if (!this.view.tests) {
+                this.view.tests = new Tests({el: $('#skritter-container')});
             } else {
-                Router.view.tests.setElement($('#skritter-container'));
+                this.view.tests.setElement($('#skritter-container'));
             }
-            Router.view.tests.render();
-        },
-        /**
-         * Access method for directly interacting with views via the router.
-         * 
-         * @method view
-         * @returns {Backbone.View}
-         */
-        view: function() {
-           return Router.view;
+            this.view.tests.render();
         }
     });
 

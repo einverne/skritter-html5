@@ -14,21 +14,21 @@ define(function() {
         initialize: function() {
             Scheduler.this = this;
             Scheduler.daysInSecond = 1 / 86400;
-            Scheduler.schedule = [];
+            this.schedule = [];
         },
         /**
          * @method count
          * @returns {Number}
          */
         count: function() {
-            return Scheduler.schedule.length;
+            return this.schedule.length;
         },
         /**
          * @method due
          * @returns {Array}
          */
         due: function() {
-            return Scheduler.schedule.filter(function(item) {
+            return this.schedule.filter(function(item) {
                 if (item.readiness >= 1.0)
                     return true;
                 return false;
@@ -50,7 +50,7 @@ define(function() {
             var parts = (attributes && attributes.parts) ? attributes.parts : skritter.user.settings.activeParts();
             var styles = (attributes && attributes.styles) ? attributes.styles : skritter.user.settings.style();
             var ids = (attributes && attributes.ids) ? attributes.ids : null;
-            var filteredSchedule = Scheduler.schedule.filter(function(item) {
+            var filteredSchedule = this.schedule.filter(function(item) {
                 if (item.vocabIds.length === 0)
                     return false;
                 if (ids) {
@@ -64,7 +64,7 @@ define(function() {
                 }
                 return true;
             });
-            Scheduler.schedule = filteredSchedule;
+            this.schedule = filteredSchedule;
             return this;
         },
         /**
@@ -162,7 +162,7 @@ define(function() {
          */
         load: function(callback) {
             skritter.storage.getSchedule(function(schedule) {
-                Scheduler.schedule = schedule;
+                Scheduler.this.schedule = schedule;
                 Scheduler.this.filter();
                 Scheduler.this.sort();
                 callback();
@@ -175,7 +175,7 @@ define(function() {
         next: function(callback) {
             var index = 0;
             function load() {
-                skritter.user.data.loadItem(Scheduler.schedule[index].id, function(item) {
+                skritter.user.data.loadItem(Scheduler.this.schedule[index].id, function(item) {
                     if (item) {
                         callback(item);
                     } else {
@@ -187,20 +187,13 @@ define(function() {
             load();
         },
         /**
-         * @method schedule
-         * @returns {Array}
-         */
-        schedule: function() {
-            return Scheduler.schedule;
-        },
-        /**
          * @method sort
          * @returns {Backbone.Model}
          */
         sort: function() {
             var now = skritter.fn.getUnixTime();
             //sort the schedule based on readiness value
-            var sortedSchedule = _.sortBy(Scheduler.schedule, function(item) {
+            var sortedSchedule = _.sortBy(this.schedule, function(item) {
                 if (item.held && item.held > now) {
                     item.readiness = 0.5 + (now / item.held) * 0.1;
                     return -item.readiness;
@@ -226,7 +219,7 @@ define(function() {
                 item.readiness = readiness;
                 return -item.readiness;
             });
-            Scheduler.schedule = sortedSchedule;
+            this.schedule = sortedSchedule;
             return this;
         },
         /**

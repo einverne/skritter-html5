@@ -143,7 +143,7 @@ define([
                             .set('.modal-footer', false);
                 },
                 async.apply(skritter.user.scheduler.load),
-                async.apply(skritter.user.data.reviews.loadAll),
+                async.apply(skritter.user.data.reviews.loadAll)
             ], function() {
                 skritter.modals.hide();
                 callback();

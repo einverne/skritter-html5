@@ -24,6 +24,25 @@ define(function() {
                 if (typeof callback === 'function')
                     callback();
             });
+        },
+        /**
+         * @method hasContained
+         * @returns {Boolean}
+         */
+        hasContained: function() {
+            if (this.get('containedReviews').length > 0)
+                return true;
+            return false;
+        },
+        /**
+         * @method max
+         * @returns {Number}
+         */
+        max: function() {
+            var containedLength = this.get('containedReviews').length;
+            if (containedLength > 0)
+                return containedLength;
+            return 1;
         }
     });
 
