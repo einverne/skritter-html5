@@ -9,6 +9,11 @@ define(function() {
      */
     var Review = Backbone.Model.extend({
         /**
+         * @method initialize
+         */
+        initialize: function() {
+        },
+        /**
          * @property {Object} defaults
          */
         defaults: {
@@ -45,18 +50,41 @@ define(function() {
          * 
          * @method contained
          * @param {Number} position
-         * @returns {}
+         * @returns {Object}
          */
         contained: function(position) {
-            var review = this.at(position);
-            return {
-                item: function() {
-                    return skritter.user.data.items.findWhere({id: review.itemId});
-                },
-                vocab: function() {
-                    return skritter.user.data.items.findWhere({id: review.itemId}).vocab();
-                }
-            };
+            var self = this;
+            var containedReview = this.at(position);
+            if (containedReview)
+                return {
+                    /**
+                     * @method contains().item
+                     * @returns {Backbone.Model}
+                     */
+                    item: function() {
+                        return skritter.user.data.items.findWhere({id: containedReview.itemId});
+                    },
+                    /**
+                     * @method contains().update
+                     * @param {String} attribute
+                     * @param {String} value
+                     * @returns {Backbone.Model}
+                     */
+                    update: function(attribute, value) {
+                        containedReview[attribute] = value;
+                        self.get('contained')[position] = containedReview;
+                        self.trigger('change', Review.this);
+                        return self;
+                    },
+                    /**
+                     * @method contains().vocab
+                     * @returns {Backbone.Model}
+                     */
+                    vocab: function() {
+                        return skritter.user.data.items.findWhere({id: containedReview.itemId}).vocab();
+                    }
+                };
+            return {};
         },
         /**
          * Gets and return the base items item data.
