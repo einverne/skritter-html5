@@ -33,7 +33,7 @@ define([
         render: function() {
             this.$el.html(templateStudy);
             //skritter.user.scheduler.filter({ids: ['mcfarljwtest2-zh-幼儿-1-rune']});
-            skritter.user.scheduler.filter({parts: ['rune']});
+            //skritter.user.scheduler.filter({parts: ['rune']});
             if (Study.review) {
                 this.prompt.load(Study.review);
             } else {
@@ -48,7 +48,7 @@ define([
          */
         prompt: {
             load: function(review) {
-                switch (review.item.get('part')) {
+                switch (review.item().get('part')) {
                     case 'defn':
                         Study.prompt = new Defn();
                         break;

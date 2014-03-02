@@ -41,34 +41,46 @@ define([
             var id = this.id;
             var containedItems = this.containedItems();
             var now = skritter.fn.getUnixTime();
-            var part = this.get('part');
-            var wordGroup = now + '_' + id;
+            var group = now + '_' + id;
             //base review
-            review.character = (part === 'rune' || 'tone') && this.stroke() ? this.stroke().canvasCharacters() : null;
-            review.item = this;
-            review.vocab = this.vocab();
             review.set({
-                id: now + '_0_' + id,
-                itemId: id,
-                bearTime: true,
-                position: 0,
-                wordGroup: wordGroup 
+                id: group,
+                position: 1,
+                part: this.get('part')
             });
+            var containedReview = {
+                itemId: id,
+                score: 3,
+                bearTime: true,
+                submitTime: now,
+                reviewTime: 0,
+                thinkingTime: 0,
+                currentInterval: this.get('interval'),
+                actualInterval: this.has('last') ? now - this.get('last') : undefined,
+                newInterval: null,
+                wordGroup: group,
+                previousInterval: this.get('previousInterval'),
+                previousSuccess: this.get('previousSuccess')
+            };
+            review.get('contained').push(containedReview);
             //contained reviews
             for (var i = 0, length = containedItems.length; i < length; i++) {
-                var containedReview = new Review();
                 var containedItem = containedItems[i];
-                containedReview.character = (part === 'rune' || 'tone') && this.stroke() ? this.stroke().canvasCharacters() : null;
-                containedReview.item = containedItem;
-                containedReview.vocab = containedItem.vocab();
-                containedReview.set({
-                    bearTime: false,
-                    id: containedItem.id,
+                containedReview = {
                     itemId: containedItem.id,
-                    position: i + 1,
-                    wordGroup: wordGroup
-                });
-                review.get('containedReviews').push(containedReview);
+                    score: 3,
+                    bearTime: false,
+                    submitTime: now,
+                    reviewTime: 0,
+                    thinkingTime: 0,
+                    currentInterval: containedItem.get('interval'),
+                    actualInterval: containedItem.has('last') ? now - containedItem.get('last') : undefined,
+                    newInterval: null,
+                    wordGroup: group,
+                    previousInterval: containedItem.get('previousInterval'),
+                    previousSuccess: containedItem.get('previousSuccess')
+                };
+                review.get('contained').push(containedReview);
             }
             return review;
         },

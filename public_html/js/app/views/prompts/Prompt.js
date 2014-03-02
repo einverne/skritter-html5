@@ -79,28 +79,28 @@ define([
          */
         show: {
             definition: function() {
-                Prompt.this.$('.prompt-definition').html(Prompt.review.vocab.definition());
+                Prompt.this.$('.prompt-definition').html(Prompt.review.vocab().definition());
             },
             mnemonic: function() {
-                if (Prompt.review.vocab.has('mnemonic')) {
-                    Prompt.this.$('.prompt-mnemonic').html(Prompt.review.vocab.mnemonic());
+                if (Prompt.review.vocab().has('mnemonic')) {
+                    Prompt.this.$('.prompt-mnemonic').html(Prompt.review.vocab().mnemonic());
                     Prompt.this.$('.prompt-mnemonic').parent().show();
                 } else {
                     Prompt.this.hide.mnemonic();
                 }
             },
             reading: function(offset, mask) {
-                Prompt.this.$('.prompt-reading').html(Prompt.review.vocab.reading(offset, mask));
+                Prompt.this.$('.prompt-reading').html(Prompt.review.vocab().reading(offset, mask));
             },
             sentence: function() {
-                if (Prompt.review.vocab.has('sentenceId')) {
-                    Prompt.this.$('.prompt-sentence').html(Prompt.review.vocab.sentence().get('writing'));
+                if (Prompt.review.vocab().has('sentenceId')) {
+                    Prompt.this.$('.prompt-sentence').html(Prompt.review.vocab().sentence().get('writing'));
                 } else {
                     Prompt.this.$('.prompt-sentence').parent().show();
                 }
             },
             writing: function(offset) {
-                Prompt.this.$('.prompt-writing').html(Prompt.review.vocab.writing(offset));
+                Prompt.this.$('.prompt-writing').html(Prompt.review.vocab().writing(offset));
             }
         }
     });

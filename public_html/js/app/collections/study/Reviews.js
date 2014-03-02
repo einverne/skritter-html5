@@ -19,14 +19,19 @@ define([
             this.on('add change', function(review) {
                 review.cache();
             });
-            this.on('remove', function(review) {
-                skritter.storage.removeItems('reviews', review.id);
-            });
         },
         /**
          * @property {Backbone.Model} model
          */
         model: Review,
+        /**
+         * @method comparator
+         * @param {Backbone.Model} review
+         * @returns {Backbone.Model}
+         */
+        comparator: function(review) {
+            return -review.id;
+        },
         /**
          * @method loadAll
          * @param {Function} callback
