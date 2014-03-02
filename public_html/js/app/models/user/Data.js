@@ -188,7 +188,7 @@ define([
                 function(callback) {
                     skritter.storage.getItems('items', itemId, function(item) {
                         if (item.length > 0) {
-                            callback(null, Items.this.add(item[0], {merge: true, silent: true}));
+                            callback(null, skritter.user.data.items.add(item[0], {merge: true, silent: true}));
                         } else {
                             callback("Initial item is missing.");
                         }

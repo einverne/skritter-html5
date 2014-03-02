@@ -43,10 +43,10 @@ define([
             Prompt.prototype.resize.call(this, settings);
         },
         display: function() {
-            this.show.writing();
-            this.show.reading(1, true);
-            this.show.definition();
-            this.show.sentence();
+            this.showWriting();
+            this.showReading();
+            this.showDefinition();
+            this.showSentence();
         }
     });
     

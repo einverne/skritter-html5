@@ -8,7 +8,6 @@ define(function() {
          * @method initialize
          */
         initialize: function() {
-            IndexedDBAdapter.this = this;
             IndexedDBAdapter.database = null;
             IndexedDBAdapter.databaseName = null;
             IndexedDBAdapter.databaseVersion = 1;
@@ -59,6 +58,7 @@ define(function() {
          * @param {Function} callback
          */
         openDatabase: function(databaseName, callback) {
+            var self = this;
             IndexedDBAdapter.databaseName = databaseName;
             var promise = $.indexedDB(IndexedDBAdapter.databaseName, {
                 version: IndexedDBAdapter.databaseVersion,
@@ -78,8 +78,8 @@ define(function() {
             promise.done(function(event) {
                 IndexedDBAdapter.database = promise;
                 if (event.objectStoreNames.length < 1) {
-                    IndexedDBAdapter.this.deleteDatabase(function() {
-                        IndexedDBAdapter.this.openDatabase(databaseName, callback);
+                    self.deleteDatabase(function() {
+                        self.openDatabase(databaseName, callback);
                     });
                 } else {
                     callback();
@@ -253,6 +253,7 @@ define(function() {
          * @param {Function} callback
          */
         updateItems: function(tableName, items, callback) {
+            var self = this;
             var key = IndexedDBAdapter.keyPaths[tableName];
             this.getItems(tableName, _.pluck(items, key), function(oldItems) {
                 var criteria = {};
@@ -260,7 +261,7 @@ define(function() {
                     criteria[key] = oldItems[i][key];
                     _.merge(oldItems[i], _.find(items, criteria));
                 }
-                IndexedDBAdapter.this.setItems(tableName, oldItems, callback);
+                self.setItems(tableName, oldItems, callback);
             });
         }
     });

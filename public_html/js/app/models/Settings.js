@@ -13,7 +13,7 @@ define(function() {
          */
         initialize: function() {
             Settings.this = this;
-            $(window).resize(this.triggerResize);
+            $(window).resize(_.bind(this.triggerResize, this));
         },
         /**
          * @property {Object} defaults
@@ -41,8 +41,9 @@ define(function() {
             }
         },
         triggerResize: function() {
+            var self = this;
             setTimeout(function() {
-                Settings.this.trigger('resize', Settings.this);
+                self.trigger('resize', self);
             }, 500);
         },
         /**

@@ -12,7 +12,6 @@ define(function() {
          * @method initialize
          */
         initialize: function() {
-            Canvas.this = this;
             Canvas.stage = {};
             Canvas.size = 600;
             Canvas.gridColor = 'grey';
@@ -157,6 +156,7 @@ define(function() {
          * @method enableInput
          */
         enableInput: function() {
+            var self = this;
             var stage = Canvas.stage.input;
             var oldPoint, oldMidPoint, points, marker, squig;
             if (!stage.hasEventListener('stagemousedown'))
@@ -192,8 +192,8 @@ define(function() {
                 stage.removeEventListener('stagemousemove', move);
                 stage.removeEventListener('stagemouseup', up);
                 if (event.rawX >= 0 && event.rawX < Canvas.size && event.rawY >= 0 && event.rawY < Canvas.size)
-                    Canvas.this.triggerInputUp(points, squig);
-                Canvas.this.fadeShape('background', squig);
+                    self.triggerInputUp(points, squig);
+                self.fadeShape('background', squig);
                 marker.graphics.clear();
                 stage.clear();
             }

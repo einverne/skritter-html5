@@ -1,7 +1,6 @@
 /**
  * @module Skritter
  * @submodule Models
- * @param PinyinConverter
  * @author Joshua McFarland
  */
 define(function() {

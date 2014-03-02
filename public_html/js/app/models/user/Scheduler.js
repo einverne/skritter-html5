@@ -12,7 +12,6 @@ define(function() {
          * @method initialize
          */
         initialize: function() {
-            Scheduler.this = this;
             Scheduler.daysInSecond = 1 / 86400;
             this.schedule = [];
         },
@@ -161,10 +160,11 @@ define(function() {
          * @param {Function} callback
          */
         load: function(callback) {
+            var self = this;
             skritter.storage.getSchedule(function(schedule) {
-                Scheduler.this.schedule = schedule;
-                Scheduler.this.filter();
-                Scheduler.this.sort();
+                self.schedule = schedule;
+                self.filter();
+                self.sort();
                 callback();
             });
         },
@@ -173,9 +173,10 @@ define(function() {
          * @param {function} callback
          */
         next: function(callback) {
+            var self = this;
             var index = 0;
             function load() {
-                skritter.user.data.loadItem(Scheduler.this.schedule[index].id, function(item) {
+                skritter.user.data.loadItem(self.schedule[index].id, function(item) {
                     if (item) {
                         callback(item);
                     } else {

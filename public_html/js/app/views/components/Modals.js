@@ -15,14 +15,14 @@ define([
          * @method initialize
          */
         initialize: function() {
-            Modals.this = this;
+            var self = this;
             Modals.element = null;
             Modals.id = null;
             Modals.options = null;
             this.$el.on('show.bs.modal', function(event) {
-                if (Modals.this.$el.children().hasClass('in')) {
-                    Modals.this.$el.children('.in').modal('hide').one('hidden.bs.modal', function() {
-                        Modals.this.$(Modals.element).modal(Modals.options);
+                if (self.$el.children().hasClass('in')) {
+                    self.$el.children('.in').modal('hide').one('hidden.bs.modal', function() {
+                        self.$(Modals.element).modal(Modals.options);
                     });
                     event.preventDefault();
                 }
@@ -72,8 +72,9 @@ define([
          * @param {Function} callback
          */
         hide: function(callback) {
+            var self = this;
             this.$(Modals.element).modal('hide').one('hidden.bs.modal', function() {
-                Modals.this.render();
+                self.render();
                 if (typeof callback === 'function')
                     callback();
             });

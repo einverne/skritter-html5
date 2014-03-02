@@ -12,7 +12,6 @@ define(function() {
          * @method initialize
          */
         initialize: function() {
-            Settings.this = this;
             //stores user settings to localStorage as they are changed
             this.on('change', this.cache);
         },
@@ -59,8 +58,9 @@ define(function() {
          * @param {Function} callback
          */
         fetch: function(callback) {
+            var self = this;
             skritter.api.getUser(this.get('id'), function(result) {
-                Settings.this.set(result);
+                self.set(result);
                 callback();
             });
         },

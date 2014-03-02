@@ -12,7 +12,6 @@ define(function() {
          * @method initialize
          */
         initialize: function() {
-            Sync.this = this;
             Sync.syncing = false;
             //stores user sync to localStorage when they are changed
             this.on('change', this.cache);
@@ -55,6 +54,7 @@ define(function() {
          * @param {Boolean} showModal
          */
         start: function(callback, showModal) {
+            var self = this;
             var offset = this.get('last');
             var downloadedRequests = 0;
             var responseSize = 0;
@@ -95,7 +95,7 @@ define(function() {
                 }
             ], function() {
                 log('FINISHED SYNCING AT', moment(skritter.fn.getUnixTime() * 1000).format('YYYY-MM-DD H:mm:ss'));
-                Sync.this.set('last', skritter.fn.getUnixTime());
+                self.set('last', skritter.fn.getUnixTime());
                 if (typeof callback === 'function')
                     callback();
                 skritter.modals.hide();

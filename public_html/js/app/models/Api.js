@@ -9,7 +9,6 @@ define(function() {
      */
     var Api = Backbone.Model.extend({
         initialize: function() {
-            Api.this = this;
             Api.clientId = 'mcfarljwapiclient';
             Api.clientSecret = 'e3872517fed90a820e441531548b8c';
             Api.root = 'https://www.skritter';
@@ -62,6 +61,7 @@ define(function() {
          * @param {Function} callback
          */
         checkBatch: function(batchId, detailed, callback) {
+            var self = this;
             detailed = detailed ? detailed : false;
             function request() {
                 var promise = $.ajax({
@@ -71,7 +71,7 @@ define(function() {
                     },
                     type: 'GET',
                     data: {
-                        bearer_token: Api.this.get('token'),
+                        bearer_token: self.get('token'),
                         detailed: detailed
                     }
                 });
@@ -105,6 +105,7 @@ define(function() {
          * @param {Function} callback
          */
         getBatch: function(batchId, callback) {
+            var self = this;
             function request() {
                 var promise = $.ajax({
                     url: Api.base + 'batch/' + batchId,
@@ -113,7 +114,7 @@ define(function() {
                     },
                     type: 'GET',
                     data: {
-                        bearer_token: Api.this.get('token')
+                        bearer_token: self.get('token')
                     }
                 });
                 promise.done(function(data) {
@@ -123,7 +124,7 @@ define(function() {
                     var result = {};
                     for (var i = 0, len = requests.length; i < len; i++)
                         if (requests[i].response) {
-                            _.merge(result, requests[i].response, Api.this.concatObjectArray);
+                            _.merge(result, requests[i].response, self.concatObjectArray);
                             responseSize += requests[i].responseSize;
                         }
                     result.downloadedRequests = requests.length;
@@ -147,6 +148,7 @@ define(function() {
          * @param {Function} callback
          */
         getUser: function(userId, callback) {
+            var self = this;
             function request() {
                 var promise = $.ajax({
                     url: Api.base + 'users/' + userId,
@@ -155,7 +157,7 @@ define(function() {
                     },
                     type: 'GET',
                     data: {
-                        bearer_token: Api.this.get('token'),
+                        bearer_token: self.get('token'),
                         detailed: true
                     }
                 });
@@ -177,9 +179,10 @@ define(function() {
          * @param {Function} callback
          */
         requestBatch: function(requests, callback) {
+            var self = this;
             function request() {
                 var promise = $.ajax({
-                    url: Api.base + 'batch?bearer_token=' + Api.this.get('token'),
+                    url: Api.base + 'batch?bearer_token=' + self.get('token'),
                     beforeSend: function(xhr) {
                         xhr.setRequestHeader('AUTHORIZATION', Api.credentials);
                     },

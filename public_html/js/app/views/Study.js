@@ -23,7 +23,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            Study.this = this;
             this.review = null;
         },
         /**
@@ -35,47 +34,51 @@ define([
             //skritter.user.scheduler.filter({ids: ['mcfarljwtest2-zh-幼儿-1-rune']});
             //skritter.user.scheduler.filter({parts: ['rune']});
             if (Study.review) {
-                this.prompt.load(Study.review);
+                this.loadPrompt(Study.review);
             } else {
-                this.prompt.next();
+                this.nextPrompt();
             }
             return this;
         },
         /**
-         * Contains functions that deal with prompts loading and navigation.
-         * 
-         * @property {Object} prompt
+         * @method loadPrompt
+         * @param {Backbone.Model} review
          */
-        prompt: {
-            load: function(review) {
-                switch (review.item().get('part')) {
-                    case 'defn':
-                        Study.prompt = new Defn();
-                        break;
-                    case 'rdng':
-                        Study.prompt = new Rdng();
-                        break;
-                    case 'rune':
-                        Study.prompt = new Rune();
-                        break;
-                    case 'tone':
-                        Study.prompt = new Tone();
-                        break;
-                }
-                Study.prompt.setElement(Study.this.$('.prompt-container'));
-                Study.prompt.set(review).render();
-            },
-            next: function() {
-                skritter.user.scheduler.next(function(item) {
-                    Study.this.review = item.createReview();
-                    Study.this.prompt.load(Study.this.review);
-                });
-            },
-            previous: function() {
-                //TODO: check for reviews that we can go back and edit
+        loadPrompt: function(review) {
+            switch (review.item().get('part')) {
+                case 'defn':
+                    Study.prompt = new Defn();
+                    break;
+                case 'rdng':
+                    Study.prompt = new Rdng();
+                    break;
+                case 'rune':
+                    Study.prompt = new Rune();
+                    break;
+                case 'tone':
+                    Study.prompt = new Tone();
+                    break;
             }
+            Study.prompt.setElement(this.$('.prompt-container'));
+            Study.prompt.set(review).render();
+        },
+        /**
+         * @method nextPrompt
+         */
+        nextPrompt: function() {
+            var self = this;
+            skritter.user.scheduler.next(function(item) {
+                self.review = item.createReview();
+                self.loadPrompt(self.review);
+            });
+        },
+        /**
+         * @method previousPrompt
+         */
+        previousPrompt: function() {
+            //TODO: check for reviews that we can go back and edit
         }
     });
-    
+
     return Study;
 });

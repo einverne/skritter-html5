@@ -21,7 +21,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            User.this = this;
             //loads generic models regardless of user status
             this.data = new Data();
             this.settings = new Settings();
@@ -81,11 +80,12 @@ define([
          * @param {Function} callback
          */
         login: function(username, password, callback) {
+            var self = this;
             skritter.api.authenticateUser(username, password, function(result) {
                 if (result.statusCode === 200) {
-                    User.this.set(result);
-                    User.this.settings.set('id', result.user_id);
-                    User.this.settings.fetch(function() {
+                    self.set(result);
+                    self.settings.set('id', result.user_id);
+                    self.settings.fetch(function() {
                         localStorage.setItem('active', result.user_id);
                         callback(result);
                     });
@@ -100,14 +100,15 @@ define([
          * @method logout
          */
         logout: function() {
+            var self = this;
             skritter.modals.show()
                     .set('.modal-header', false)
                     .set('.modal-body', 'LOGGING OUT', 'text-center')
                     .set('.modal-footer', false);
             skritter.storage.deleteDatabase(function() {
                 localStorage.removeItem('active');
-                localStorage.removeItem(User.this.id);
-                localStorage.removeItem(User.this.id + '-sync');
+                localStorage.removeItem(self.id);
+                localStorage.removeItem(self.id + '-sync');
                 document.location.reload(true);
             });
         }

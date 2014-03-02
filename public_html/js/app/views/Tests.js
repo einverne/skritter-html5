@@ -19,7 +19,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            Tests.this = this;
         },
         /**
          * @method render

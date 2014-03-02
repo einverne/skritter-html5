@@ -11,7 +11,6 @@ define(function() {
          * @method initialize
          */
         initialize: function() {
-            SQLiteAdapter.this = this;
             SQLiteAdapter.database = null;
             SQLiteAdapter.tables = {
                 decomps: {
@@ -95,12 +94,13 @@ define(function() {
          * @param {Function} callback
          */
         getAll: function(tableName, callback) {
+            var self = this;
             var items = [];
             SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 t.executeSql('SELECT * FROM ' + tableName, [], querySuccess, queryError);
                 function querySuccess(t, result) {
-                    items = SQLiteAdapter.this.parseResult(result);
+                    items = self.parseResult(result);
                 }
                 function queryError(error) {
                     console.error('SQL ERROR', error);
@@ -120,6 +120,7 @@ define(function() {
          * @param {Function} callback
          */
         getItems: function(tableName, keys, callback) {
+            var self = this;
             var items = [];
             var column = SQLiteAdapter.tables[tableName].keys[0];
             keys = Array.isArray(keys) ? keys : [keys];
@@ -127,9 +128,9 @@ define(function() {
                     keys[i] = JSON.stringify(keys[i]);
             SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                t.executeSql('SELECT * FROM ' + tableName + ' WHERE ' + column + ' IN (' + SQLiteAdapter.this.getSqlValueString(keys) + ')', keys, querySuccess, queryError);
+                t.executeSql('SELECT * FROM ' + tableName + ' WHERE ' + column + ' IN (' + self.getSqlValueString(keys) + ')', keys, querySuccess, queryError);
                 function querySuccess(t, result) {
-                    items = SQLiteAdapter.this.parseResult(result);
+                    items = self.parseResult(result);
                 }
                 function queryError(error) {
                     console.error('SQL ERROR', error);
@@ -150,12 +151,13 @@ define(function() {
          * @param {Function} callback
          */
         getItemsWhere: function(tableName, attribute, value, callback) {
+            var self = this;
             var item = null;
             SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 t.executeSql('SELECT * FROM ' + tableName + ' WHERE ' + attribute + '=?', [JSON.stringify(value)], querySuccess, queryError);
                 function querySuccess(t, result) {
-                    item = SQLiteAdapter.this.parseResult(result);
+                    item = self.parseResult(result);
                     if (item.length === 1)
                         item = item[0];
                 }
@@ -175,12 +177,13 @@ define(function() {
          * @param {Function} callback
          */
         getSchedule: function(callback) {
+            var self = this;
             var scheduleItems = [];
             SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
                 t.executeSql('SELECT id,last,next,part,style,vocabIds FROM items', [], querySuccess, queryError);
                 function querySuccess(t, result) {
-                    var items = SQLiteAdapter.this.parseResult(result);
+                    var items = self.parseResult(result);
                     for (var i in items) {
                         var item = items[i];
                         var splitId = item.id.split('-');
@@ -258,10 +261,11 @@ define(function() {
          * @param {Function} callback
          */
         removeItems: function(tableName, keys, callback) {
+            var self = this;
             keys = Array.isArray(keys) ? keys : [keys];
             SQLiteAdapter.database.transaction(transaction, transactionError, transactionSuccess);
             function transaction(t) {
-                t.executeSql('DELETE * FROM ' + tableName + ' WHERE id IN (' + SQLiteAdapter.this.getSqlValueString(keys) + ')', keys);
+                t.executeSql('DELETE * FROM ' + tableName + ' WHERE id IN (' + self.getSqlValueString(keys) + ')', keys);
             }
             function transactionError(error) {
                 console.error('SQL ERROR', error);
@@ -277,12 +281,13 @@ define(function() {
          * @param {Function} callback
          */
         setItems: function(tableName, items, callback) {
+            var self = this;
             if (tableName && items) {
                 items = Array.isArray(items) ? items : [items];
                 var transaction = function(t) {
                     var table = SQLiteAdapter.tables[tableName];
                     var queryString = 'INSERT OR REPLACE INTO ';
-                    queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + SQLiteAdapter.this.getSqlValueString(table.keys.concat(table.fields)) + ')';
+                    queryString += tableName + ' (' + table.keys.join(',') + ',' + table.fields.join(',') + ')' + ' VALUES (' + self.getSqlValueString(table.keys.concat(table.fields)) + ')';
                     var fields = table.keys.concat(table.fields);
                     for (var a in items) {
                         var item = items[a];
@@ -321,6 +326,7 @@ define(function() {
          * @param {Function} callback
          */
         updateItems: function(tableName, items, callback) {
+            var self = this;
             var key = SQLiteAdapter.tables[tableName].keys[0];
             this.getItems(tableName, _.pluck(items, key), function(oldItems) {
                 var criteria = {};
@@ -328,7 +334,7 @@ define(function() {
                     criteria[key] = oldItems[i][key];
                     _.merge(oldItems[i], _.find(items, criteria));
                 }
-                SQLiteAdapter.this.setItems(tableName, oldItems, callback);
+                self.setItems(tableName, oldItems, callback);
             });
         }
     });

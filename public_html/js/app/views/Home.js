@@ -17,7 +17,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            Home.this = this;
         },
         /**
          * @method render
