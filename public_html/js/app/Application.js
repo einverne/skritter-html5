@@ -127,7 +127,9 @@ define([
         skritter.user = new User();
         if (skritter.user.isLoggedIn()) {
             async.series([
-                async.apply(skritter.storage.openDatabase, skritter.user.get('user_id')),
+                function(callback) {
+                    skritter.storage.openDatabase(skritter.user.get('user_id'), callback);
+                },
                 function(callback) {
                     if (skritter.user.sync.isFirst()) {
                         skritter.user.sync.start(callback, true);
@@ -142,8 +144,12 @@ define([
                             .set('.modal-body', 'LOADING', 'text-center')
                             .set('.modal-footer', false);
                 },
-                async.apply(skritter.user.scheduler.load),
-                async.apply(skritter.user.data.reviews.loadAll)
+                function(callback) {
+                    skritter.user.scheduler.load(callback);
+                },
+                function(callback) {
+                    skritter.user.data.reviews.loadAll(callback);
+                }
             ], function() {
                 skritter.modals.hide();
                 callback();

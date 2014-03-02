@@ -15,7 +15,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            Reviews.this = this;
             this.on('add change', function(review) {
                 review.cache();
             });
@@ -37,8 +36,9 @@ define([
          * @param {Function} callback
          */
         loadAll: function(callback) {
+            var self = this;
             skritter.storage.getAll('reviews', function(reviews) {
-                Reviews.this.add(reviews, {merge: true, silent: true});
+                self.add(reviews, {merge: true, silent: true});
                 callback();
             });
         }

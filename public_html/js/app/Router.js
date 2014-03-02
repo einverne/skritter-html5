@@ -18,7 +18,6 @@ define([
          * @method initialize
          */
         initialize: function() {
-            Router.this = this;
             this.view = {};
         },
         /**
