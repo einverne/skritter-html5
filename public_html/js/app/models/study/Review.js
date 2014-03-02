@@ -78,6 +78,27 @@ define(function() {
             return containedLength;
         },
         /**
+         * @method totalGrade
+         * @returns {Number}
+         */
+        totalGrade: function() {
+            var totalGrade = 0;
+            for (var i = 0, length = this.get('contained').length; i < length; i++)
+                totalGrade += this.get('contained')[i].score;
+            return totalGrade;
+        },
+        /**
+         * @method totalWrong
+         * @returns {Number}
+         */
+        totalWrong: function() {
+            var totalWrong = 0;
+            for (var i = 0, length = this.get('contained').length; i < length; i++)
+                if (this.get('contained')[i].score < 2)
+                    totalWrong++;
+            return totalWrong;
+        },
+        /**
          * @method update
          * @param {Number} position
          * @param {String} attribute

@@ -149,6 +149,9 @@ define([
                 },
                 function(callback) {
                     skritter.user.data.reviews.loadAll(callback);
+                },
+                function(callback) {
+                    skritter.user.data.srsconfigs.loadAll(callback);
                 }
             ], function() {
                 skritter.modals.hide();

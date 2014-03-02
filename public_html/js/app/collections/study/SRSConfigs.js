@@ -22,7 +22,18 @@ define([
         /**
          * @property {Backbone.Model} model
          */
-        model: SRSConfig
+        model: SRSConfig,
+        /**
+         * @method loadAll
+         * @param {Function} callback
+         */
+        loadAll: function(callback) {
+            var self = this;
+            skritter.storage.getAll('srsconfigs', function(reviews) {
+                self.add(reviews, {merge: true, silent: true});
+                callback();
+            });
+        }
     });
 
     return SRSConfigs;

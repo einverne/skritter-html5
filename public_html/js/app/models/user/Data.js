@@ -5,6 +5,7 @@
  * @param Items
  * @param Reviews
  * @param Sentences
+ * @param SRSConfigs
  * @param Strokes
  * @param VocabLists
  * @param Vocabs
@@ -15,10 +16,11 @@ define([
     'collections/study/Items',
     'collections/study/Reviews',
     'collections/study/Sentences',
+    'collections/study/SRSConfigs',
     'collections/study/Strokes',
     'collections/study/VocabLists',
     'collections/study/Vocabs'
-], function(Decomps, Items, Reviews, Sentences, Strokes, VocabLists, Vocabs) {
+], function(Decomps, Items, Reviews, Sentences, SRSConfigs, Strokes, VocabLists, Vocabs) {
     /**
      * @class UserData
      */
@@ -31,6 +33,7 @@ define([
             this.items = new Items();
             this.reviews = new Reviews();
             this.sentences = new Sentences();
+            this.srsconfigs = new SRSConfigs();
             this.strokes = new Strokes();
             this.vocablists = new VocabLists();
             this.vocabs = new Vocabs();

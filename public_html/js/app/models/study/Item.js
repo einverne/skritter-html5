@@ -47,7 +47,7 @@ define([
                 id: group,
                 position: 1,
                 part: this.get('part')
-            });
+            }, {silent: true});
             var containedReview = {
                 itemId: id,
                 score: 3,

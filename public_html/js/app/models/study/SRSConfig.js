@@ -9,6 +9,10 @@ define(function() {
      */
     var SRSConfigs = Backbone.Model.extend({
         /**
+         * @property {String} idAttribute
+         */
+        idAttribute: 'part',
+        /**
          * @method cache
          * @param {Function} callback
          */

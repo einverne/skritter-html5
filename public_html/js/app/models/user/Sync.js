@@ -103,6 +103,6 @@ define(function() {
             });
         }
     });
-    
+
     return Sync;
 });
