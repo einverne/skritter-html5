@@ -32,6 +32,16 @@ define(function() {
             });
         },
         /**
+         * @method adjustPostion
+         * @param {Number} position
+         * @returns {Number}
+         */
+        adjustPostion: function(position) {
+            if (this.max() === 1)
+                return 0;
+            return position === 0 ? position : position;
+        },
+        /**
          * Gets the object at the specified position in the review. The item returned varies pending
          * the number of contained reviews in the array.
          * 
@@ -40,60 +50,19 @@ define(function() {
          * @returns {Object}
          */
         at: function(position) {
-            var maxLength = this.max();
-            if (maxLength === 1)
+            if (this.max() === 1)
                 return this.get('contained')[0];
             return this.get('contained')[position];
         },
         /**
-         * Allows for direct access to the item and vocab models from the specified contained item.
-         * 
-         * @method contained
-         * @param {Number} position
-         * @returns {Object}
-         */
-        contained: function(position) {
-            var self = this;
-            var containedReview = this.at(position);
-            if (containedReview)
-                return {
-                    /**
-                     * @method contains().item
-                     * @returns {Backbone.Model}
-                     */
-                    item: function() {
-                        return skritter.user.data.items.findWhere({id: containedReview.itemId});
-                    },
-                    /**
-                     * @method contains().update
-                     * @param {String} attribute
-                     * @param {String} value
-                     * @returns {Backbone.Model}
-                     */
-                    update: function(attribute, value) {
-                        containedReview[attribute] = value;
-                        self.get('contained')[position] = containedReview;
-                        self.trigger('change', Review.this);
-                        return self;
-                    },
-                    /**
-                     * @method contains().vocab
-                     * @returns {Backbone.Model}
-                     */
-                    vocab: function() {
-                        return skritter.user.data.items.findWhere({id: containedReview.itemId}).vocab();
-                    }
-                };
-            return {};
-        },
-        /**
-         * Gets and return the base items item data.
-         * 
          * @method item
+         * @param {Number} position
          * @returns {Backbone.Model}
          */
-        item: function() {
-            return skritter.user.data.items.findWhere({id: this.get('contained')[0].itemId});
+        item: function(position) {
+            position = position ? position : 0;
+            var containedReview = this.at(position);
+            return skritter.user.data.items.findWhere({id: containedReview.itemId});
         },
         /**
          * Returns the max number of position contained within the review. This varies pending
@@ -109,13 +78,27 @@ define(function() {
             return containedLength;
         },
         /**
-         * Gets and returns the base items vocab data.
-         * 
-         * @method vocab
+         * @method update
+         * @param {Number} position
+         * @param {String} attribute
+         * @param {String} value
          * @returns {Backbone.Model}
          */
-        vocab: function() {
-            return skritter.user.data.items.findWhere({id: this.get('contained')[0].itemId}).vocab();
+        update: function(position, attribute, value) {
+            var containedReview = this.at(position);
+            containedReview[attribute] = value;
+            this.get('contained')[this.adjustPostion(position)] = containedReview;
+            this.trigger('change', this);
+            return this;
+        },
+        /**
+         * @method vocab
+         * @param {Number} position
+         * @returns {Backbone.Model}
+         */
+        vocab: function(position) {
+            var containedItem = this.item(position);
+            return containedItem.vocab();
         }
     });
 

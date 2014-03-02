@@ -211,7 +211,7 @@ define([
                         var containedItemCount = containedItemIds.length;
                         skritter.storage.getItems('items', containedItemIds, function(containedItems) {
                             if (containedItemCount === containedItems.length) {
-                                callback(null, item, vocab, Items.this.add(containedItems, {merge: true, silent: true}));
+                                callback(null, item, vocab, skritter.user.data.items.add(containedItems, {merge: true, silent: true}));
                             } else {
                                 callback("One or more of the contained items is missing.", item);
                             }
