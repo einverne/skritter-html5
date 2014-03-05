@@ -203,7 +203,8 @@ module.exports = function(grunt) {
                     'cordova run android'
                 ].join('&&'),
                 options: {
-                    stdout: true
+                    stdout: true,
+                    stderr: true
                 }
             },
             'android-install': {
@@ -215,7 +216,8 @@ module.exports = function(grunt) {
                     'cordova plugins add https://github.com/mcfarljw/Cordova-SQLitePlugin.git'
                 ].join('&&'),
                 options: {
-                    stdout: true
+                    stdout: true,
+                    stderr: true
                 }
             },
             'kill-adb': {
