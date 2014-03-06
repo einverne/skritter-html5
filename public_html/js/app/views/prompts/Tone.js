@@ -46,7 +46,7 @@ define([
         },
         display: function() {
             this.showWriting();
-            this.showReading();
+            this.showReading(Prompt.review.get('position'));
             this.showDefinition();
             this.showSentence();
         }

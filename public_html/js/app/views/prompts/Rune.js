@@ -44,8 +44,11 @@ define([
             }
             Prompt.prototype.resize.call(this, settings);
         },
-        display: function() {
-            this.showWriting();
+        /**
+         * @method show
+         */
+        show: function() {
+            this.showWriting(Prompt.review.get('position'));
             this.showReading();
             this.showDefinition();
             this.showSentence();

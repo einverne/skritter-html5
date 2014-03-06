@@ -44,7 +44,6 @@ define([
         },
         display: function() {
             this.showWriting();
-            this.showReading();
             this.showDefinition();
             this.showSentence();
         }

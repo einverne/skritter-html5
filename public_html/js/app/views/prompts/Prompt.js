@@ -24,10 +24,10 @@ define([
          * @returns {Backbone.View}
          */
         render: function() {
-            this.display();
+            this.$('.navigation.left').hammer().on('tap', _.bind(this.back, this));
+            this.$('.navigation.right').hammer().on('tap', _.bind(this.forward, this));
+            this.show();
             this.resize();
-            this.$('.navigation.left').hammer().on('tap', this.back);
-            this.$('.navigation.right').hammer().on('tap', this.forward);
             return this;
         },
         /**
@@ -35,7 +35,13 @@ define([
          * @param {Object} event
          */
         back: function(event) {
-            skritter.router.view.study.previousPrompt();
+            var position = Prompt.review.get('position');
+            if (position === 1) {
+                skritter.router.view.study.previousPrompt();
+            } else {
+                Prompt.review.set('position', position - 1);
+                this.show();
+            }
             event.preventDefault();
         },
         /**
@@ -43,7 +49,13 @@ define([
          * @param {Object} event
          */
         forward: function(event) {
-            skritter.router.view.study.nextPrompt();
+            var position = Prompt.review.get('position');
+            if (position > Prompt.review.max()) {
+                skritter.router.view.study.nextPrompt();
+            } else {
+                Prompt.review.set('position', position + 1);
+                this.show();
+            }
             event.preventDefault();
         },
         /**
