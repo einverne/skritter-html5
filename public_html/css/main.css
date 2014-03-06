@@ -107,6 +107,16 @@ body {
 .prompt-container #input-container {
     float: left;
 }
+.prompt-container .navigation {
+    bottom: 0;
+    cursor: pointer;
+    opacity: 0.6;
+    position: absolute;
+    z-index: 9999;
+}
+.prompt-container .navigation:hover { opacity: 1; }
+.prompt-container .navigation.left { left: 5px; }
+.prompt-container .navigation.right { right: 5px; }
 
 
 /*** PROMPT: CANVAS ***/
@@ -117,7 +127,7 @@ body {
 }
 .canvas-holder #canvas-display, .canvas-holder #canvas-input { position: absolute; }
 .canvas-holder #canvas-display { }
-.canvas-holder #input-display { z-index: 9999; }
+.canvas-holder #input-display { z-index: 8888; }
 
 
 /*** PROMPT: INFO-CONTAINER ***/

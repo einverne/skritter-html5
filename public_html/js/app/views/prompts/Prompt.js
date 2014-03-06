@@ -26,7 +26,25 @@ define([
         render: function() {
             this.display();
             this.resize();
+            this.$('.navigation.left').hammer().on('tap', this.back);
+            this.$('.navigation.right').hammer().on('tap', this.forward);
             return this;
+        },
+        /**
+         * @method back
+         * @param {Object} event
+         */
+        back: function(event) {
+            skritter.router.view.study.previousPrompt();
+            event.preventDefault();
+        },
+        /**
+         * @method forward
+         * @param {Object} event
+         */
+        forward: function(event) {
+            skritter.router.view.study.nextPrompt();
+            event.preventDefault();
         },
         /**
          * @method hideDefinition
