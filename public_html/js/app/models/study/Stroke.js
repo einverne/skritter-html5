@@ -32,15 +32,16 @@ define([
          * @returns {Backbone.Model}
          */
         canvasCharacters: function() {
-            var characters = [];
+            var character = new PromptCharacter();
+            var targets = [];
             var variations = this.get('strokes');
             var rune = this.get('rune');
             for (var a = 0, lengthA = variations.length; a < lengthA; a++) {
-                var character = new PromptCharacter();
+                var target = new PromptCharacter();
                 var variation = variations[a];
                 var position = 1;
-                character.name = rune;
-                character.variation = a + 1;
+                target.name = rune;
+                target.variation = a + 1;
                 for (var b = 0, lengthB = variation.length; b < lengthB; b++) {
                     var stroke = new PromptStroke();
                     var data = variation[b];
@@ -59,11 +60,12 @@ define([
                     } else {
                         position += 1;
                     }
-                    character.add(stroke);
+                    target.add(stroke);
                 }
-                characters.push(character);
+                targets.push(target);
             }
-            return characters;
+            character.targets = targets;
+            return character;
         }
     });
 

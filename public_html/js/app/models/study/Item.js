@@ -84,7 +84,7 @@ define([
             if (part === 'rune' || part === 'tone') {
                 review.characters = [];
                 if (containedItems.length === 0) {
-                    review.characters.push(this.stroke().canvasCharacters());
+                    review.characters.push(this.stroke().canvasCharacter());
                 } else {
                     for (i = 0, length = containedItems.length; i < length; i++)
                         review.characters.push(containedItems[i].stroke().canvasCharacters());

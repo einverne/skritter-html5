@@ -39,7 +39,7 @@ define([
          * @param {CreateJS.Shape} shape
          */
         recognize: function(points, shape) {
-            Rune.canvas.drawShape('background', Prompt.review.characters[0][0].shape(Prompt.size));
+            Rune.canvas.drawShape('background', Prompt.review.characters[0].targets[0].shape(Prompt.size));
         },
         /**
          * @method resize
