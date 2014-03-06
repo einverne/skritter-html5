@@ -28,10 +28,10 @@ define([
             });
         },
         /**
-         * @method canvasCharacters
+         * @method canvasCharacter
          * @returns {Backbone.Model}
          */
-        canvasCharacters: function() {
+        canvasCharacter: function() {
             var character = new PromptCharacter();
             var targets = [];
             var variations = this.get('strokes');

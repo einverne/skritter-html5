@@ -87,7 +87,7 @@ define([
                     review.characters.push(this.stroke().canvasCharacter());
                 } else {
                     for (i = 0, length = containedItems.length; i < length; i++)
-                        review.characters.push(containedItems[i].stroke().canvasCharacters());
+                        review.characters.push(containedItems[i].stroke().canvasCharacter());
                 }
             }
             review.set({
