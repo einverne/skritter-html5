@@ -21,6 +21,7 @@ define([
         initialize: function() {
             Prompt.prototype.initialize.call(this);
             Rune.canvas = new Canvas();
+            this.listenTo(Rune.canvas, 'input:up', this.recognize);
         },
         /**
          * @method render
@@ -30,6 +31,15 @@ define([
             this.$el.html(templateRune);
             Rune.canvas.setElement(this.$('#canvas-container'));
             Prompt.prototype.render.call(this);
+            return this;
+        },
+        /**
+         * @method recognize
+         * @param {Array} points
+         * @param {CreateJS.Shape} shape
+         */
+        recognize: function(points, shape) {
+            Rune.canvas.drawShape('background', Prompt.review.characters[0][0].shape(Prompt.size));
         },
         /**
          * @method resize
@@ -38,9 +48,11 @@ define([
         resize: function(settings) {
             settings = settings ? settings : skritter.settings;
             if (settings.orientation() === 'landscape') {
-                Rune.canvas.size(settings.height()).render();
+                Prompt.size = settings.height();
+                Rune.canvas.resize(Prompt.size).render();
             } else {
-                Rune.canvas.size(settings.width()).render();
+                Prompt.size = settings.width();
+                Rune.canvas.resize(Prompt.size).render();
             }
             Prompt.prototype.resize.call(this, settings);
         },
@@ -48,6 +60,7 @@ define([
          * @method show
          */
         show: function() {
+            Rune.canvas.enableInput();
             this.showWriting(Prompt.review.get('position'));
             this.showReading();
             this.showDefinition();

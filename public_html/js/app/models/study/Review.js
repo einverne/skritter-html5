@@ -136,11 +136,9 @@ define(function() {
                     successes: (review.score > 1) ? item.get('successes') + 1 : item.get('successes')
                 });
             }
-            console.log(item);
             if (!skritter.user.data.reviews.get(this))
                 return skritter.user.data.reviews.add(this);
             this.cache();
-            return this;
             return this;
         },
         totalReviewTime: function() {

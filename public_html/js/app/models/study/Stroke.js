@@ -46,9 +46,9 @@ define([
                     var data = variation[b];
                     var bitmapId = data[0];
                     var params = skritter.params.findWhere({bitmapId: bitmapId});
-                    character.add({
+                    stroke.set({
                         bitmapId: bitmapId,
-                        data: data[0],
+                        data: data,
                         id: position + '|' + bitmapId,
                         position: position,
                         shape: skritter.assets.stroke(bitmapId)

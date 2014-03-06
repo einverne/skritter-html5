@@ -4,5 +4,13 @@
  * @author Joshua McFarland
  */
 define(function() {
+    /**
+     * @class Recognizer
+     */
+    function Recognizer() {
+        
+    }
     
+    
+    return Recognizer;
 });

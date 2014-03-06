@@ -7,6 +7,7 @@
  * @param Bootstrap
  * @param ParamMap
  * @param PinyinConverter
+ * @param Recognizer
  * @param Shortstraw
  * @param SimpTradMap
  * @param StrokeMap
@@ -16,10 +17,11 @@ define([
     'functions/Bootstrap',
     'functions/ParamMap',
     'functions/PinyinConverter',
+    'functions/Recognizer',
     'functions/Shortstraw',
     'functions/SimpTradMap',
     'functions/StrokeMap'
-], function(Bootstrap, ParamMap, PinyinConverter, Shortstraw, SimpTradMap, StrokeMap) {
+], function(Bootstrap, ParamMap, PinyinConverter, Recognizer, Shortstraw, SimpTradMap, StrokeMap) {
     /**
      * Parses through and array attempting to convert each value to an int.
      * 
@@ -102,6 +104,10 @@ define([
      */
     var pinyin = PinyinConverter;
     /**
+     * @property {Object} recognizer
+     */
+    var recognizer = new Recognizer();
+    /**
      * @property {Object} shortstraw
      */
     var shortstraw = new Shortstraw();
@@ -124,6 +130,7 @@ define([
         isNumber: isNumber,
         params: params,
         pinyin: pinyin,
+        recognizer: recognizer,
         shortstraw: shortstraw,
         simptrad: simptrad,
         strokes: strokes

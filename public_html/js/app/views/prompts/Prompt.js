@@ -15,6 +15,7 @@ define([
          * @method initialize
          */
         initialize: function() {
+            Prompt.size = 600;
             Prompt.gradingButton = new GradingButtons();
             Prompt.review = null;
             this.listenTo(skritter.settings, 'resize', this.resize);
@@ -28,7 +29,6 @@ define([
             this.$('.navigation.right').hammer().on('tap', _.bind(this.forward, this));
             this.show();
             this.resize();
-            return this;
         },
         /**
          * @method back
@@ -109,9 +109,7 @@ define([
             } else {
                 this.$('#info-container').width(settings.width());
                 this.$('#info-container').height(settings.height() - this.$('#input-container').height() - 2);
-
             }
-
         },
         /**
          * @method set

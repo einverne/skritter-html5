@@ -42,6 +42,7 @@ define([
             var containedItems = this.containedItems();
             var containedReviews = [];
             var now = skritter.fn.getUnixTime();
+            var part = this.get('part');
             var group = now + '_' + id;
             //base review
             var baseReview = {
@@ -78,6 +79,16 @@ define([
                     originalItem: containedItem.toJSON()
                 });
                     
+            }
+            //generate canvas characters for rune and tone prompts
+            if (part === 'rune' || part === 'tone') {
+                review.characters = [];
+                if (containedItems.length === 0) {
+                    review.characters.push(this.stroke().canvasCharacters());
+                } else {
+                    for (i = 0, length = containedItems.length; i < length; i++)
+                        review.characters.push(containedItems[i].stroke().canvasCharacters());
+                }
             }
             review.set({
                 id: group,

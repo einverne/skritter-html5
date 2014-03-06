@@ -24,6 +24,7 @@ define([
          */
         initialize: function() {
             this.index = -1;
+            this.prompt = null;
             this.review = null;
         },
         /**
@@ -35,7 +36,7 @@ define([
             skritter.user.scheduler.filter({ids: ['mcfarljwtest2-zh-幼儿-1-rune']});
             //skritter.user.scheduler.filter({parts: ['rune']});
             if (this.review) {
-                this.loadPrompt(Study.review);
+                this.loadPrompt(this.review);
             } else {
                 this.nextPrompt();
             }
@@ -46,22 +47,23 @@ define([
          * @param {Backbone.Model} review
          */
         loadPrompt: function(review) {
+            var prompt;
             switch (review.item().get('part')) {
                 case 'defn':
-                    Study.prompt = new Defn();
+                    prompt = new Defn();
                     break;
                 case 'rdng':
-                    Study.prompt = new Rdng();
+                    prompt = new Rdng();
                     break;
                 case 'rune':
-                    Study.prompt = new Rune();
+                    prompt = new Rune();
                     break;
                 case 'tone':
-                    Study.prompt = new Tone();
+                    prompt = new Tone();
                     break;
             }
-            Study.prompt.setElement(this.$('.prompt-container'));
-            Study.prompt.set(review).render();
+            prompt.setElement(this.$('.prompt-container'));
+            this.prompt = prompt.set(review).render();
         },
         /**
          * @method nextPrompt

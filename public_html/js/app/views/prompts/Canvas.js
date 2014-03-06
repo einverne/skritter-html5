@@ -26,7 +26,6 @@ define(function() {
             Canvas.container = this.createCanvasContainer();
             Canvas.stage.display = this.createDisplayStage();
             Canvas.stage.input = this.createInputStage();
-            this.createLayer('background');
             createjs.Ticker.addEventListener('tick', Canvas.stage.display);
             createjs.Touch.enable(Canvas.stage.input);
         },
@@ -40,6 +39,9 @@ define(function() {
             this.$(Canvas.container).append(Canvas.stage.input.canvas);
             Canvas.stage.display.removeAllChildren();
             Canvas.stage.input.removeAllChildren();
+            this.createLayer('background');
+            this.createLayer('display');
+            this.createLayer('hint');
             this.updateAll();
             this.drawGrid();
             return this;
@@ -250,7 +252,7 @@ define(function() {
          * @method size
          * @param {Number} size
          */
-        size: function(size) {
+        resize: function(size) {
             Canvas.size = size;
             Canvas.container.style.width = size + 'px';
             Canvas.container.style.height = size + 'px';
