@@ -15,7 +15,7 @@ define([
          * @method initialize
          */
         initialize: function() {
-            this.on('add change', function(review) {
+            this.on('add', function(review) {
                 review.cache();
             });
         },
@@ -30,6 +30,21 @@ define([
          */
         comparator: function(review) {
             return -review.id;
+        },
+        /**
+         * @method load
+         * @param {Number} position
+         * @param {Function} callback
+         */
+        load: function(position, callback) {
+            var review = this.at(position);
+            if (review) {
+                skritter.user.data.loadItem(review.get('base').itemId, function(item) {
+                    callback(review, item);
+                });
+            } else {
+                callback();
+            }
         },
         /**
          * @method loadAll

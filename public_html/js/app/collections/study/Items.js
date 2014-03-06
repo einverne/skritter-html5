@@ -16,6 +16,7 @@ define([
          */
         initialize: function() {
             this.on('change', function(item) {
+                skritter.user.scheduler.update(item);
                 item.cache();
             });
         },

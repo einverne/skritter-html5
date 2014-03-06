@@ -40,48 +40,53 @@ define([
             var review = new Review();
             var id = this.id;
             var containedItems = this.containedItems();
+            var containedReviews = [];
             var now = skritter.fn.getUnixTime();
             var group = now + '_' + id;
             //base review
-            review.set({
-                id: group,
-                position: 1,
-                part: this.get('part')
-            }, {silent: true});
-            var containedReview = {
+            var baseReview = {
                 itemId: id,
                 score: 3,
                 bearTime: true,
                 submitTime: now,
                 reviewTime: 0,
                 thinkingTime: 0,
-                currentInterval: this.get('interval'),
-                actualInterval: this.has('last') ? now - this.get('last') : undefined,
-                newInterval: null,
+                currentInterval: this.has('interval') ? this.get('interval') : 0,
+                actualInterval: this.has('last') ? now - this.get('last') : 0,
+                newInterval: undefined,
                 wordGroup: group,
-                previousInterval: this.get('previousInterval'),
-                previousSuccess: this.get('previousSuccess')
+                previousInterval: this.has('previousInterval') ? this.get('previousInterval') : 0,
+                previousSuccess: this.has('previousSuccess') ? this.get('previousSuccess') : 0,
+                originalItem: this.toJSON()
             };
-            review.get('contained').push(containedReview);
             //contained reviews
             for (var i = 0, length = containedItems.length; i < length; i++) {
                 var containedItem = containedItems[i];
-                containedReview = {
+                containedReviews.push({
                     itemId: containedItem.id,
                     score: 3,
                     bearTime: false,
                     submitTime: now,
                     reviewTime: 0,
                     thinkingTime: 0,
-                    currentInterval: containedItem.get('interval'),
-                    actualInterval: containedItem.has('last') ? now - containedItem.get('last') : undefined,
-                    newInterval: null,
+                    currentInterval: containedItem.has('interval') ? containedItem.get('interval') : 0,
+                    actualInterval: containedItem.has('last') ? now - containedItem.get('last') : 0,
+                    newInterval: undefined,
                     wordGroup: group,
-                    previousInterval: containedItem.get('previousInterval'),
-                    previousSuccess: containedItem.get('previousSuccess')
-                };
-                review.get('contained').push(containedReview);
+                    previousInterval: containedItem.has('previousInterval') ? containedItem.get('previousInterval') : 0,
+                    previousSuccess: containedItem.has('previousSuccess') ? containedItem.get('previousSuccess') : false,
+                    originalItem: containedItem.toJSON()
+                });
+                    
             }
+            review.set({
+                id: group,
+                base: baseReview,
+                contained: containedReviews,
+                position: 1,
+                part: this.get('part')
+            }, {silent: true, sort: false});
+            review.calculate();
             return review;
         },
         /**

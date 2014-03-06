@@ -17,6 +17,7 @@ define(function() {
          * @property {Object} defaults
          */
         defaults: {
+            base: {},
             contained: [],
             part: null,
             position: 1
@@ -32,27 +33,61 @@ define(function() {
             });
         },
         /**
-         * @method adjustPostion
-         * @param {Number} position
-         * @returns {Number}
+         * @method calculate;
+         * @returns {Backbone.Model}
          */
-        adjustPostion: function(position) {
-            if (this.max() === 1)
-                return 0;
-            return position === 0 ? position : position;
+        calculate: function() {
+            //updates all of the interval values based on the item and score
+            for (var i = 0, length = this.get('contained').length + 1; i < length; i++) {
+                var item = this.item(i);
+                var review;
+                if (i === 0) {
+                    review = this.get('base');
+                } else {
+                    review = this.get('contained')[i - 1];
+                }
+                review.newInterval = skritter.user.scheduler.interval(item, review.score);
+            }
+            //updates the final grade when contained items exist
+            this.get('base').score = this.finalGrade();
+            return this;
         },
         /**
-         * Gets the object at the specified position in the review. The item returned varies pending
-         * the number of contained reviews in the array.
-         * 
-         * @method at
-         * @param {Number} position
-         * @returns {Object}
+         * @method finalGrade
+         * @returns {Number}
          */
-        at: function(position) {
-            if (this.max() === 1)
-                return this.get('contained')[0];
-            return this.get('contained')[position];
+        finalGrade: function() {
+            var grade = 3;
+            var max = this.max();
+            if (!this.hasContained()) {
+                grade = this.get('base').score;
+            } else {
+                var totalGrade = 0;
+                var totalWrong = 0;
+                for (var i = 0, length = max; i < length; i++) {
+                    var contained = this.get('contained')[i];
+                    totalGrade += contained.score;
+                    if (contained.score === 1)
+                        totalWrong++;
+                }
+                if (max === 2 && totalWrong === 1) {
+                    grade = 1;
+                } else if (totalWrong > 1) {
+                    grade = 1;
+                } else {
+                    grade = Math.floor(totalGrade / max);
+                }
+            }
+            return grade;
+        },
+        /**
+         * @method hasContained
+         * @returns {Boolean}
+         */
+        hasContained: function() {
+            if (this.get('contained').length > 0)
+                return true;
+            return false;
         },
         /**
          * @method item
@@ -60,57 +95,59 @@ define(function() {
          * @returns {Backbone.Model}
          */
         item: function(position) {
-            position = position ? position : 0;
-            var containedReview = this.at(position);
-            return skritter.user.data.items.findWhere({id: containedReview.itemId});
+            if (position && this.hasContained())
+                return skritter.user.data.items.get(this.get('contained')[position - 1].itemId);
+            return skritter.user.data.items.get(this.get('base').itemId);
         },
         /**
-         * Returns the max number of position contained within the review. This varies pending
-         * the part and number of contained reviews.
-         * 
          * @method max
          * @returns {Number}
          */
         max: function() {
-            var containedLength = this.get('contained').length;
-            if (containedLength > 1)
-                return containedLength - 1;
-            return containedLength;
+            if (this.hasContained())
+                return this.get('contained').length;
+            return 1;
         },
         /**
-         * @method totalGrade
-         * @returns {Number}
-         */
-        totalGrade: function() {
-            var totalGrade = 0;
-            for (var i = 0, length = this.get('contained').length; i < length; i++)
-                totalGrade += this.get('contained')[i].score;
-            return totalGrade;
-        },
-        /**
-         * @method totalWrong
-         * @returns {Number}
-         */
-        totalWrong: function() {
-            var totalWrong = 0;
-            for (var i = 0, length = this.get('contained').length; i < length; i++)
-                if (this.get('contained')[i].score < 2)
-                    totalWrong++;
-            return totalWrong;
-        },
-        /**
-         * @method update
+         * @method position
          * @param {Number} position
-         * @param {String} attribute
-         * @param {String} value
+         * @returns {Object}
+         */
+        position: function(position) {
+            if (position !== 0 && this.hasContained())
+                return this.get('contained')[position - 1];
+            return this.get('base');
+        },
+        /**
+         * @method save
          * @returns {Backbone.Model}
          */
-        update: function(position, attribute, value) {
-            var containedReview = this.at(position);
-            containedReview[attribute] = value;
-            this.get('contained')[this.adjustPostion(position)] = containedReview;
-            this.trigger('change', this);
+        save: function() {
+            for (var i = 0, length = this.get('contained').length + 1; i < length; i++) {
+                var item = this.item(i);
+                var review = this.position(i);
+                item.set({
+                    changed: review.submitTime,
+                    last: review.submitTime,
+                    next: review.submitTime + review.newInterval,
+                    previousInterval: review.currentInterval,
+                    previousSuccess: (review.score > 1) ? true : false,
+                    reviews: item.get('reviews') + 1,
+                    successes: (review.score > 1) ? item.get('successes') + 1 : item.get('successes')
+                });
+            }
+            console.log(item);
+            if (!skritter.user.data.reviews.get(this))
+                return skritter.user.data.reviews.add(this);
+            this.cache();
             return this;
+            return this;
+        },
+        totalReviewTime: function() {
+            
+        },
+        totalThinkingTime: function() {
+            
         },
         /**
          * @method vocab
@@ -118,8 +155,7 @@ define(function() {
          * @returns {Backbone.Model}
          */
         vocab: function(position) {
-            var containedItem = this.item(position);
-            return containedItem.vocab();
+            return this.item(position).vocab();
         }
     });
 

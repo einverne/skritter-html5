@@ -16,14 +16,65 @@ define(function() {
             this.schedule = [];
         },
         /**
+         * @method count
+         * @returns {Number}
+         */
+        count: function() {
+            return this.schedule.length;
+        },
+        /**
+         * @method due
+         * @returns {Array}
+         */
+        due: function() {
+            return this.schedule.filter(function(item) {
+                if (item.readiness >= 1.0)
+                    return true;
+                return false;
+            });
+        },
+        /**
+         * @method dueCount
+         * @returns {Number}
+         */
+        dueCount: function() {
+            return this.due().length;
+        },
+        /**
+         * @method filter
+         * @param {Object} attributes
+         * @returns {Backbone.Model}
+         */
+        filter: function(attributes) {
+            var parts = (attributes && attributes.parts) ? attributes.parts : skritter.user.settings.activeParts();
+            var styles = (attributes && attributes.styles) ? attributes.styles : skritter.user.settings.style();
+            var ids = (attributes && attributes.ids) ? attributes.ids : null;
+            var filteredSchedule = this.schedule.filter(function(item) {
+                if (item.vocabIds.length === 0)
+                    return false;
+                if (ids) {
+                    if (!_.contains(ids, item.id))
+                        return false;
+                } else {
+                    if (!_.contains(parts, item.part))
+                        return false;
+                    if (styles.length > 0 && !_.contains(styles, item.style))
+                        return false;
+                }
+                return true;
+            });
+            this.schedule = filteredSchedule;
+            return this;
+        },
+        /**
          * Returns a calculated interval based on the grade and other details about the item.
          * 
-         * @method calculateInterval
+         * @method interval
          * @param {StudyItem} item
          * @param {Number} grade
          * @returns {Number}
          */
-        calculateInterval: function(item, grade) {
+        interval: function(item, grade) {
             var config = skritter.user.data.srsconfigs.get(item.get('part'));
             var newInterval;
             //return new items with randomized default config values
@@ -102,57 +153,6 @@ define(function() {
             return newInterval;
         },
         /**
-         * @method count
-         * @returns {Number}
-         */
-        count: function() {
-            return this.schedule.length;
-        },
-        /**
-         * @method due
-         * @returns {Array}
-         */
-        due: function() {
-            return this.schedule.filter(function(item) {
-                if (item.readiness >= 1.0)
-                    return true;
-                return false;
-            });
-        },
-        /**
-         * @method dueCount
-         * @returns {Number}
-         */
-        dueCount: function() {
-            return this.due().length;
-        },
-        /**
-         * @method filter
-         * @param {Object} attributes
-         * @returns {Backbone.Model}
-         */
-        filter: function(attributes) {
-            var parts = (attributes && attributes.parts) ? attributes.parts : skritter.user.settings.activeParts();
-            var styles = (attributes && attributes.styles) ? attributes.styles : skritter.user.settings.style();
-            var ids = (attributes && attributes.ids) ? attributes.ids : null;
-            var filteredSchedule = this.schedule.filter(function(item) {
-                if (item.vocabIds.length === 0)
-                    return false;
-                if (ids) {
-                    if (!_.contains(ids, item.id))
-                        return false;
-                } else {
-                    if (!_.contains(parts, item.part))
-                        return false;
-                    if (styles.length > 0 && !_.contains(styles, item.style))
-                        return false;
-                }
-                return true;
-            });
-            this.schedule = filteredSchedule;
-            return this;
-        },
-        /**
          * @method load
          * @param {Function} callback
          */
@@ -172,6 +172,7 @@ define(function() {
         next: function(callback) {
             var self = this;
             var index = 0;
+            this.sort();
             function load() {
                 skritter.user.data.loadItem(self.schedule[index].id, function(item) {
                     if (item) {
@@ -231,10 +232,23 @@ define(function() {
         /**
          * @method update
          * @param {Backbone.Model} item
-         * @param {Function} callback
          * @returns {Backbone.Model}
          */
-        update: function(item, callback) {
+        update: function(item) {
+            var splitId = item.get('id').split('-');
+            //creates a new schedule object based on the updated item
+            var updatedItem = {
+                id: item.get('id'),
+                base: splitId[1] + '-' + splitId[2] + '-' + splitId[3],
+                held: item.get('held'),
+                last: item.get('last'),
+                next: item.get('next'),
+                part: item.get('part'),
+                style: item.get('style'),
+                vocabIds: item.get('vocabIds')
+            };
+            //updates the item in the scheduler collection
+            this.schedule[_.findIndex(this.schedule, {id: updatedItem.id})] = updatedItem;
             if (typeof callback === 'function')
                 callback();
         }

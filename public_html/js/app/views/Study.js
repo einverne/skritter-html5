@@ -23,6 +23,7 @@ define([
          * @method initialize
          */
         initialize: function() {
+            this.index = -1;
             this.review = null;
         },
         /**
@@ -31,9 +32,9 @@ define([
          */
         render: function() {
             this.$el.html(templateStudy);
-            skritter.user.scheduler.filter({ids: ['mcfarljwtest2-zh-幼儿-1-rune']});
+            //skritter.user.scheduler.filter({ids: ['mcfarljwtest2-zh-幼儿-1-rune']});
             //skritter.user.scheduler.filter({parts: ['rune']});
-            if (Study.review) {
+            if (this.review) {
                 this.loadPrompt(Study.review);
             } else {
                 this.nextPrompt();
@@ -67,16 +68,35 @@ define([
          */
         nextPrompt: function() {
             var self = this;
-            skritter.user.scheduler.next(function(item) {
-                self.review = item.createReview();
-                self.loadPrompt(self.review);
-            });
+            this.index = this.index < 0 ? -1 : this.index - 1;
+            if (this.index === -1) {
+                if (this.review)
+                    this.review.save();
+                skritter.user.scheduler.next(function(item) {
+                    self.review = item.createReview();
+                    self.loadPrompt(self.review);
+                });
+            } else {
+                skritter.user.data.reviews.load(this.index, function(review) {
+                    self.review = review;
+                    self.loadPrompt(self.review);
+                });
+            }
         },
         /**
          * @method previousPrompt
          */
         previousPrompt: function() {
-            //TODO: check for reviews that we can go back and edit
+            var self = this;
+            skritter.user.data.reviews.load(this.index + 1, function(review) {
+                if (review) {
+                    self.review = review;
+                    self.loadPrompt(self.review);
+                    self.index++;
+                } else {
+                    console.log('UNABLE TO GO BACK!');
+                }
+            });
         }
     });
 
